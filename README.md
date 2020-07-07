@@ -2,6 +2,9 @@
 [![docs](https://readthedocs.org/projects/coax/badge/?version=latest)](https://coax.readthedocs.io/en/latest/)
 
 # coax
+
+[![coax](doc/_static/img/coax_logo.png)]()
+
 *Plug-n-Play Reinforcement Learning in Python with [OpenAI Gym](https://gym.openai.com/) and [JAX](https://jax.readthedocs.io/)*
 
 
