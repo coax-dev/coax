@@ -3,8 +3,6 @@
 
 # coax
 
-[![coax](doc/_static/img/coax_logo.png)]()
-
 *Plug-n-Play Reinforcement Learning in Python with [OpenAI Gym](https://gym.openai.com/) and [JAX](https://jax.readthedocs.io/)*
 
 
@@ -14,6 +12,8 @@ Create simple, reproducible RL solutions with JAX function approximators.
 
 
 ## Documentation
+
+[![coax](doc/_static/img/coax_logo.png)](https://coax.readthedocs.io/)
 
 For the full documentation, go to [coax.readthedocs.io](https://coax.readthedocs.io/).
 
