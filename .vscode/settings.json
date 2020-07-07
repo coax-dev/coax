@@ -1,0 +1,9 @@
+{
+    "python.envFile": "${workspaceFolder}/.vscode/debug.env",
+    "python.testing.pytestArgs": [
+        "coax"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.nosetestsEnabled": false,
+    "python.testing.pytestEnabled": true
+}

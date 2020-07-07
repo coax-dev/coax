@@ -1,0 +1,130 @@
+py:class
+	spinup.utils.logx.EpochLogger            utils/logger.html#spinup.utils.logx.EpochLogger
+	spinup.utils.logx.Logger                 utils/logger.html#spinup.utils.logx.Logger
+	spinup.utils.mpi_tf.MpiAdamOptimizer     utils/mpi.html#spinup.utils.mpi_tf.MpiAdamOptimizer
+	spinup.utils.run_utils.ExperimentGrid    utils/run_utils.html#spinup.utils.run_utils.ExperimentGrid
+py:function
+	spinup.ddpg_pytorch                      algorithms/ddpg.html#spinup.ddpg_pytorch
+	spinup.ddpg_tf1                          algorithms/ddpg.html#spinup.ddpg_tf1
+	spinup.ppo_pytorch                       algorithms/ppo.html#spinup.ppo_pytorch
+	spinup.ppo_tf1                           algorithms/ppo.html#spinup.ppo_tf1
+	spinup.sac_pytorch                       algorithms/sac.html#spinup.sac_pytorch
+	spinup.sac_tf1                           algorithms/sac.html#spinup.sac_tf1
+	spinup.td3_pytorch                       algorithms/td3.html#spinup.td3_pytorch
+	spinup.td3_tf1                           algorithms/td3.html#spinup.td3_tf1
+	spinup.trpo_tf1                          algorithms/trpo.html#spinup.trpo_tf1
+	spinup.utils.logx.restore_tf_graph       utils/logger.html#spinup.utils.logx.restore_tf_graph
+	spinup.utils.mpi_pytorch.mpi_avg_grads   utils/mpi.html#spinup.utils.mpi_pytorch.mpi_avg_grads
+	spinup.utils.mpi_pytorch.setup_pytorch_for_mpi utils/mpi.html#spinup.utils.mpi_pytorch.setup_pytorch_for_mpi
+	spinup.utils.mpi_pytorch.sync_params     utils/mpi.html#spinup.utils.mpi_pytorch.sync_params
+	spinup.utils.mpi_tf.sync_all_params      utils/mpi.html#spinup.utils.mpi_tf.sync_all_params
+	spinup.utils.mpi_tools.mpi_avg           utils/mpi.html#spinup.utils.mpi_tools.mpi_avg
+	spinup.utils.mpi_tools.mpi_fork          utils/mpi.html#spinup.utils.mpi_tools.mpi_fork
+	spinup.utils.mpi_tools.mpi_statistics_scalar utils/mpi.html#spinup.utils.mpi_tools.mpi_statistics_scalar
+	spinup.utils.mpi_tools.num_procs         utils/mpi.html#spinup.utils.mpi_tools.num_procs
+	spinup.utils.mpi_tools.proc_id           utils/mpi.html#spinup.utils.mpi_tools.proc_id
+	spinup.utils.run_utils.call_experiment   utils/run_utils.html#spinup.utils.run_utils.call_experiment
+	spinup.utils.run_utils.setup_logger_kwargs utils/run_utils.html#spinup.utils.run_utils.setup_logger_kwargs
+	spinup.vpg_pytorch                       algorithms/vpg.html#spinup.vpg_pytorch
+	spinup.vpg_tf1                           algorithms/vpg.html#spinup.vpg_tf1
+py:method
+	spinup.utils.logx.EpochLogger.get_stats  utils/logger.html#spinup.utils.logx.EpochLogger.get_stats
+	spinup.utils.logx.EpochLogger.log_tabular utils/logger.html#spinup.utils.logx.EpochLogger.log_tabular
+	spinup.utils.logx.EpochLogger.store      utils/logger.html#spinup.utils.logx.EpochLogger.store
+	spinup.utils.logx.Logger.__init__        utils/logger.html#spinup.utils.logx.Logger.__init__
+	spinup.utils.logx.Logger.dump_tabular    utils/logger.html#spinup.utils.logx.Logger.dump_tabular
+	spinup.utils.logx.Logger.log             utils/logger.html#spinup.utils.logx.Logger.log
+	spinup.utils.logx.Logger.log_tabular     utils/logger.html#spinup.utils.logx.Logger.log_tabular
+	spinup.utils.logx.Logger.save_config     utils/logger.html#spinup.utils.logx.Logger.save_config
+	spinup.utils.logx.Logger.save_state      utils/logger.html#spinup.utils.logx.Logger.save_state
+	spinup.utils.logx.Logger.setup_pytorch_saver utils/logger.html#spinup.utils.logx.Logger.setup_pytorch_saver
+	spinup.utils.logx.Logger.setup_tf_saver  utils/logger.html#spinup.utils.logx.Logger.setup_tf_saver
+	spinup.utils.mpi_tf.MpiAdamOptimizer.apply_gradients utils/mpi.html#spinup.utils.mpi_tf.MpiAdamOptimizer.apply_gradients
+	spinup.utils.mpi_tf.MpiAdamOptimizer.compute_gradients utils/mpi.html#spinup.utils.mpi_tf.MpiAdamOptimizer.compute_gradients
+	spinup.utils.run_utils.ExperimentGrid.add utils/run_utils.html#spinup.utils.run_utils.ExperimentGrid.add
+	spinup.utils.run_utils.ExperimentGrid.print utils/run_utils.html#spinup.utils.run_utils.ExperimentGrid.print
+	spinup.utils.run_utils.ExperimentGrid.run utils/run_utils.html#spinup.utils.run_utils.ExperimentGrid.run
+	spinup.utils.run_utils.ExperimentGrid.variant_name utils/run_utils.html#spinup.utils.run_utils.ExperimentGrid.variant_name
+	spinup.utils.run_utils.ExperimentGrid.variants utils/run_utils.html#spinup.utils.run_utils.ExperimentGrid.variants
+py:module
+	spinup.utils.mpi_pytorch                 utils/mpi.html#module-spinup.utils.mpi_pytorch
+	spinup.utils.mpi_tf                      utils/mpi.html#module-spinup.utils.mpi_tf
+	spinup.utils.mpi_tools                   utils/mpi.html#module-spinup.utils.mpi_tools
+std:cmdoption
+	--ac_kwargs                              user/running.html#cmdoption-act
+	--act                                    user/running.html#cmdoption-act
+	--count                                  user/plotting.html#cmdoption-count
+	--cpu                                    user/running.html#cmdoption-cpu
+	--data_dir                               user/running.html#cmdoption-data-dir
+	--datestamp                              user/running.html#cmdoption-datestamp
+	--deterministic                          user/saving_and_loading.html#cmdoption-d
+	--env                                    user/running.html#cmdoption-env
+	--env_name                               user/running.html#cmdoption-env
+	--episodes                               user/saving_and_loading.html#cmdoption-n
+	--exclude                                user/plotting.html#cmdoption-exclude
+	--exp_name                               user/running.html#cmdoption-exp-name
+	--hid                                    user/running.html#cmdoption-hid
+	--itr                                    user/saving_and_loading.html#cmdoption-i
+	--legend                                 user/plotting.html#cmdoption-l
+	--len                                    user/saving_and_loading.html#cmdoption-l
+	--norender                               user/saving_and_loading.html#cmdoption-nr
+	--num_cpu                                user/running.html#cmdoption-cpu
+	--select                                 user/plotting.html#cmdoption-select
+	--smooth                                 user/plotting.html#cmdoption-s
+	--value                                  user/plotting.html#cmdoption-y
+	--xaxis                                  user/plotting.html#cmdoption-x
+	-d                                       user/saving_and_loading.html#cmdoption-d
+	-i                                       user/saving_and_loading.html#cmdoption-i
+	-l                                       user/saving_and_loading.html#cmdoption-l
+	-n                                       user/saving_and_loading.html#cmdoption-n
+	-nr                                      user/saving_and_loading.html#cmdoption-nr
+	-s                                       user/plotting.html#cmdoption-s
+	-x                                       user/plotting.html#cmdoption-x
+	-y                                       user/plotting.html#cmdoption-y
+	default                                  user/saving_and_loading.html#cmdoption-i
+	logdir                                   user/plotting.html#cmdoption-arg-logdir
+std:doc
+	algorithms/ddpg                          Deep Deterministic Policy Gradient      : algorithms/ddpg.html
+	algorithms/ppo                           Proximal Policy Optimization            : algorithms/ppo.html
+	algorithms/sac                           Soft Actor-Critic                       : algorithms/sac.html
+	algorithms/td3                           Twin Delayed DDPG                       : algorithms/td3.html
+	algorithms/trpo                          Trust Region Policy Optimization        : algorithms/trpo.html
+	algorithms/vpg                           Vanilla Policy Gradient                 : algorithms/vpg.html
+	etc/acknowledgements                     Acknowledgements                        : etc/acknowledgements.html
+	etc/author                               About the Author                        : etc/author.html
+	index                                    Welcome to Spinning Up in Deep RL!      : index.html
+	spinningup/bench                         Benchmarks for Spinning Up Implementations: spinningup/bench.html
+	spinningup/bench_ddpg                    DDPG Head-to-Head                       : spinningup/bench_ddpg.html
+	spinningup/bench_ppo                     Proximal Policy Optimization Head-to-Head: spinningup/bench_ppo.html
+	spinningup/bench_sac                     SAC Head-to-Head                        : spinningup/bench_sac.html
+	spinningup/bench_td3                     TD3 Head-to-Head                        : spinningup/bench_td3.html
+	spinningup/bench_vpg                     Vanilla Policy Gradients Head-to-Head   : spinningup/bench_vpg.html
+	spinningup/exercise2_1_soln              Solution to Exercise 2.1                : spinningup/exercise2_1_soln.html
+	spinningup/exercise2_2_soln              Solution to Exercise 2.2                : spinningup/exercise2_2_soln.html
+	spinningup/exercises                     Exercises                               : spinningup/exercises.html
+	spinningup/extra_pg_proof1               Extra Material                          : spinningup/extra_pg_proof1.html
+	spinningup/extra_pg_proof2               Extra Material                          : spinningup/extra_pg_proof2.html
+	spinningup/extra_tf_pg_implementation    Extra Material: Tensorflow Policy Gradient Implementation Examples: spinningup/extra_tf_pg_implementation.html
+	spinningup/keypapers                     Key Papers in Deep RL                   : spinningup/keypapers.html
+	spinningup/rl_intro                      Part 1: Key Concepts in RL              : spinningup/rl_intro.html
+	spinningup/rl_intro2                     Part 2: Kinds of RL Algorithms          : spinningup/rl_intro2.html
+	spinningup/rl_intro3                     Part 3: Intro to Policy Optimization    : spinningup/rl_intro3.html
+	spinningup/rl_intro4                     Limitations and Frontiers               : spinningup/rl_intro4.html
+	spinningup/spinningup                    Spinning Up as a Deep RL Researcher     : spinningup/spinningup.html
+	user/algorithms                          Algorithms                              : user/algorithms.html
+	user/installation                        Installation                            : user/installation.html
+	user/introduction                        Introduction                            : user/introduction.html
+	user/plotting                            Plotting Results                        : user/plotting.html
+	user/running                             Running Experiments                     : user/running.html
+	user/saving_and_loading                  Experiment Outputs                      : user/saving_and_loading.html
+	utils/logger                             Logger                                  : utils/logger.html
+	utils/mpi                                MPI Tools                               : utils/mpi.html
+	utils/plotter                            Plotter                                 : utils/plotter.html
+	utils/run_utils                          Run Utils                               : utils/run_utils.html
+std:label
+	citations below.                         spinningup/rl_intro2.html#citations-below
+	details for pytorch saves below.         user/saving_and_loading.html#details-for-pytorch-saves-below
+	details for tensorflow saves below.      user/saving_and_loading.html#details-for-tensorflow-saves-below
+	genindex                                 Index                                   : genindex.html
+	modindex                                 Module Index                            : py-modindex.html
+	search                                   Search Page                             : search.html

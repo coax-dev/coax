@@ -1,0 +1,153 @@
+# ------------------------------------------------------------------------------------------------ #
+# MIT License                                                                                      #
+#                                                                                                  #
+# Copyright (c) 2020, Microsoft Corporation                                                        #
+#                                                                                                  #
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software    #
+# and associated documentation files (the "Software"), to deal in the Software without             #
+# restriction, including without limitation the rights to use, copy, modify, merge, publish,       #
+# distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the    #
+# Software is furnished to do so, subject to the following conditions:                             #
+#                                                                                                  #
+# The above copyright notice and this permission notice shall be included in all copies or         #
+# substantial portions of the Software.                                                            #
+#                                                                                                  #
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING    #
+# BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND       #
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,     #
+# DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,   #
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
+# ------------------------------------------------------------------------------------------------ #
+
+import jax
+import jax.numpy as jnp
+
+from ._base import PolicyRegularizer
+
+
+class KLDivRegularizer(PolicyRegularizer):
+    r"""
+
+    Policy regularization term based on the Kullback-Leibler divergence of the
+    policy relative to a given set of priors.
+
+    The regularization term is to be added to the loss function:
+
+    .. math::
+
+        \text{loss}(\theta; s,a)\ =\
+            -J(\theta; s,a)
+            + \beta\,KL[\pi_\text{prior}, \pi_\theta]
+
+    where :math:`J(\theta)` is the bare policy objective. Also, in order to
+    unclutter the notation we abbreviated :math:`\pi(.|s)` by :math:`\pi`.
+
+    Parameters
+    ----------
+    pi : Policy
+
+        The policy to be regularized.
+
+    beta : non-negative float
+
+        The coefficient that determines the strength of the overall
+        regularization term.
+
+    priors : pytree with ndarray leaves, optional
+
+        The distribution parameters that correspond to the priors. If left
+        unspecified, we'll use :attr:`proba_dist.default_priors`, see e.g.
+        :attr:`NormalDist.default_priors
+        <coax.proba_dists.NormalDist.default_priors>`.
+
+    """
+    def __init__(self, pi, beta=0.001, priors=None):
+        super().__init__(pi)
+        self.beta = beta
+        self.priors = priors
+
+        def get_batch_shape(shape):
+            # add batch axis to shape
+            if self.pi.action_space_is_discrete:
+                return (1, self.pi.num_actions)
+            return (1,) + tuple(shape)
+
+        if self.priors is None:
+            if self.pi.action_space_is_discrete:
+                shape = (1, self.pi.num_actions)
+            else:
+                shape = (1,) + self.pi.action_shape
+            self.priors = self.pi.proba_dist.default_priors(shape)
+
+        self._init_funcs()
+
+    def _init_funcs(self):
+
+        def apply_func(dist_params, priors, beta):
+            kl_div = self.pi.proba_dist.kl_divergence(priors, dist_params)
+            return beta * kl_div
+
+        def metrics(dist_params, priors, beta):
+            kl_div = self.pi.proba_dist.kl_divergence(priors, dist_params)
+            return {
+                'KLDivRegularizer/beta': beta,
+                'KLDivRegularizer/kl_div': jnp.mean(kl_div)}
+
+        self._apply_func = jax.jit(apply_func)
+        self._metrics_func = jax.jit(metrics)
+
+    @property
+    def hyperparams(self):
+        return {'beta': self.beta, 'priors': self.priors}
+
+    @property
+    def apply_func(self):
+        r"""
+
+        JIT-compiled function that returns the values for the regularization
+        term.
+
+        Parameters
+        ----------
+        dist_params : pytree with ndarray leaves
+
+            The distribution parameters of the (conditional) probability
+            distribution :math:`\pi(a|s)`.
+
+        beta : non-negative float
+
+            The coefficient that determines the strength of the overall
+            regularization term.
+
+        priors : pytree with ndarray leaves
+
+            The distribution parameters that correspond to the priors.
+
+        """
+        return self._apply_func
+
+    @property
+    def metrics_func(self):
+        r"""
+
+        JIT-compiled function that returns the performance metrics for the
+        regularization term.
+
+        Parameters
+        ----------
+        dist_params : pytree with ndarray leaves
+
+            The distribution parameters of the (conditional) probability
+            distribution :math:`\pi(a|s)`.
+
+        beta : non-negative float
+
+            The coefficient that determines the strength of the overall
+            regularization term.
+
+        priors : pytree with ndarray leaves
+
+            The distribution parameters that correspond to the priors.
+
+        """
+        return self._metrics_func

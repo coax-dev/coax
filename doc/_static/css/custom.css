@@ -1,0 +1,38 @@
+body a {
+  font-weight: bold;
+}
+
+.math {
+    text-align: left;
+}
+
+.eqno {
+    float: right;
+}
+
+div.ethical-rtd {
+  /* hide ads */
+  display: none;
+}
+
+.wy-nav-content {
+  background: #fff;
+}
+
+.rst-content dl:not(.docutils) dl dt strong {
+  padding-left: 6pt;
+  padding-right: 6pt;
+}
+
+.rst-content dl:not(.docutils) dl dt span {
+  color: #777;
+}
+
+.rst-content dl:not(.docutils) dl dt span.classifier {
+  padding-left: 6pt;
+  padding-right: 6pt;
+}
+
+.rst-content dl:not(.docutils) dl dt a.reference.internal span.xref.std.std-term {
+  color: #2980B9;
+}

@@ -1,0 +1,33 @@
+{
+	"folders":
+	[
+		{
+			"folder_exclude_patterns":
+			[
+				"__pycache__",
+				".hypothesis",
+				".pytest_cache",
+				"*.egg-info",
+				".ipynb_checkpoints",
+				".mypy_cache",
+				"build",
+				"dist"
+			],
+			"path": "."
+		}
+	],
+	"settings":
+	{
+		"SublimeLinter.linters.flake8.disable": false,
+		"SublimeLinter.linters.pylint.disable": true,
+		"SublimeLinter.linters.mypy.disable": true,
+		"debug.configurations":
+		[
+			{
+				"name": "python3",
+				"request": "launch",
+				"type": "python"
+			}
+		]
+	}
+}
