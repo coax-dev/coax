@@ -20,50 +20,15 @@ For the full documentation, go to [coax.readthedocs.io](https://coax.readthedocs
 
 ## Install
 
-Install using pip:
-```
-$ pip install -U coax
-```
-or install from a fresh clone
-```
-$ git clone https://github.com/microsoft/coax.git
-$ pip install -e ./coax
-```
+To install coax, have a look at the installation guide:
 
-N.B. **coax** requires the ``jax`` python package, but it doesn't have an
-explicit dependence on it. The reason is that your version of ``jax`` and
-``jaxlib`` will depend on your CUDA version.
+* https://coax.readthedocs.io/install.html
 
-### Option 1: Install default version of JAX
-To install the default version of ``jax`` and ``jaxlib`` you can run
-```
-$ pip install -U jax jaxlib
-```
+## Example: SARSA on CartPole
 
-### Option 2: Install specific version compatible with your CUDA installation
-To install a specific version that will be compatible with your CUDA
-installation, have a look at the versions listed at:
+To get started, have a look at the examples included in the documentation:
 
-    https://storage.googleapis.com/jax-releases/
-
-To install a specific version, note down (or copy-paste) the correct version
-numbers. For instance, at the time of writing, I'm running Python version 3.6
-and my CUDA version is 10.2, so I install this version:
-```
-$ wget https://storage.googleapis.com/jax-releases/cuda102/jaxlib-0.1.41-cp36-none-linux_x86_64.whl
-$ pip install jaxlib-0.1.41-cp36-none-linux_x86_64.whl
-$ pip install jax
-```
-
-**WARNING** Do not blindly copy-paste this. Either choose Option 1 or figure
-out what version is right for your system.
-
-## Examples
-
-To get started, check out the [notebooks](notebooks/) for examples. These are
-also included in the documentation:
-
-* https://coax.readthedocs.io/notebooks/
+* https://coax.readthedocs.io/
 
 Here's one of the examples from the notebooks, in which we solve the
 `CartPole-v0` environment with the SARSA algorithm, using a simple
