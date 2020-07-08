@@ -64,6 +64,7 @@ setup_kwargs = {
     'author_email': 'kristian.holsheimer@gmail.com',
     'url': 'https://coax.readthedocs.io',
     'license': 'MIT',
+    'python_requires': '~=3.6',
     'install_requires': get_install_requires('requirements.txt'),
     'extras_require': {
         'dev':  get_install_requires('requirements.dev.txt'),
@@ -76,7 +77,9 @@ setup_kwargs = {
         'License :: OSI Approved :: MIT License',
         'Natural Language :: English',
         'Operating System :: OS Independent',
-        'Programming Language :: Python',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
     ],
     'zip_safe': True,

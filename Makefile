@@ -47,7 +47,7 @@ wheel:
 	$(PYTHON_EXECUTABLE) setup.py bdist_wheel
 
 install:
-	$(PYTHON_EXECUTABLE) setup.py install
+	$(PYTHON_EXECUTABLE) -m pip install .
 
 upload: all
 	$(PYTHON_EXECUTABLE) -m twine upload dist/*
