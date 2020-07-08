@@ -19,6 +19,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+import os
+
+import pytest
 import gym
 
 from .._base.test_case import TestCase, MemoryProfiler
@@ -27,6 +30,7 @@ from ._misc import StrippedEnv, reload_recursive
 
 class TestMiscUtils(TestCase):
 
+    @pytest.mark.skipif(os.environ.get('CI') == 'true', reason="too unreliable for automation")
     def test_stripped_env_memory_footprint(self):
         reload_recursive(gym)
 
