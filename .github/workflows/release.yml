@@ -38,6 +38,24 @@ jobs:
         python -m pip install pytest
         python -m pytest -v coax
 
+  create-release:
+    name: Create release (draft)
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: ${{ github.ref }}
+          body: Release ${{ github.ref }}
+          draft: true
+          prerelease: false
+
   build-and-deploy:
     name: Build and deploy
     needs: test
