@@ -16,9 +16,17 @@ import re
 import os
 import sys
 
-# this adds the equivalent of "../../" to the python path
-PACKAGEDIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.insert(0, PACKAGEDIR)
+
+RE_VERSION = re.compile(r'^__version__ \= \'(\d+\.\d+\.\d+(?:-\w+)?)\'$', re.MULTILINE)
+PROJECTDIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, PROJECTDIR)
+
+
+def get_release():
+    with open(os.path.join(PROJECTDIR, 'coax', '__init__.py')) as f:
+        version = re.search(RE_VERSION, f.read())
+    assert version is not None, "can't parse __version__ from __init__.py"
+    return version.group(1)
 
 
 # -- Project information -----------------------------------------------------
@@ -26,15 +34,7 @@ sys.path.insert(0, PACKAGEDIR)
 project = 'coax'
 copyright = '2020, Microsoft Corporation'
 author = 'Kristian Holsheimer'
-
-
-with open(os.path.join(PACKAGEDIR, 'coax', '__init__.py')) as f:
-    version = re.search(r'__version__ \= \'(\d+\.\d+\.\d+)\'', f.read())
-    assert version is not None, "can't parse __version__ from __init__.py"
-    version = version.groups()[0]
-    assert len(version.split('.')) == 3, "bad version spec"
-    # majorminor = version.rsplit('.', 1)[0]
-    release = version
+release = get_release()
 
 
 # -- General configuration ---------------------------------------------------
