@@ -15,6 +15,9 @@ doc: notebooks flake8
 view_doc:
 	x-www-browser build/sphinx/html/index.html
 
+doc_autobuild:
+	$(PYTHON_EXECUTABLE) -m sphinx_autobuild --open-browser --watch coax -b html doc build/sphinx/html
+
 sync: intersphinx get_pylintrc
 
 intersphinx:
