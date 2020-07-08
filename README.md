@@ -1,4 +1,5 @@
-[![build](https://github.com/microsoft/coax/workflows/build/badge.svg)](https://github.com/microsoft/coax/actions?query=workflow%3Abuild)
+[![tests](https://github.com/microsoft/coax/workflows/tests/badge.svg)](https://github.com/microsoft/coax/actions?query=workflow%3Atests)
+[![pypi](https://badge.fury.io/py/coax.svg)](https://badge.fury.io/py/coax)
 [![docs](https://readthedocs.org/projects/coax/badge/?version=latest)](https://coax.readthedocs.io/en/latest/)
 
 # coax
