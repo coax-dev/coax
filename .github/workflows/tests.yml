@@ -9,7 +9,9 @@ on:
     - master
 
 jobs:
-  build:
+  test:
+    name: Run tests
+    runs-on: ${{ matrix.runs-on }}
     strategy:
       matrix:
         runs-on: [ubuntu-latest, macos-latest]
@@ -19,7 +21,6 @@ jobs:
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
-        runs-on: ${{ matrix.runs-on }}
         python-version: ${{ matrix.python-version }}
     - name: Install dependencies
       run: |
