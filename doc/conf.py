@@ -15,6 +15,9 @@
 import re
 import os
 import sys
+import logging
+
+logger = logging.getLogger(__file__)
 
 
 RE_VERSION = re.compile(r'^__version__ \= \'(\d+\.\d+\.\d+(?:-\w+)?)\'$', re.MULTILINE)
@@ -116,7 +119,6 @@ html_favicon = '_static/img/coax_favicon.png'
 # options for
 html_theme_options = {
     'canonical_url': '',
-    # 'analytics_id': 'UA-XXXXXXX-1',  #  Provided by Google in your dashboard
     'logo_only': False,
     'display_version': True,
     'prev_next_buttons_location': 'bottom',
@@ -128,6 +130,13 @@ html_theme_options = {
     'includehidden': True,
     'titles_only': False
 }
+
+# get google analytics tracking id from: https://analytics.google.com
+# add GA_TRACKING_ID env var to: https://readthedocs.org/dashboard/coax/environmentvariables/
+# format: GA_TRACKING_ID=UA-XXXXXXX-1
+if os.environ.get('GA_TRACKING_ID', '').startswith('UA-'):
+    html_theme_options['analytics_id'] = os.environ['GA_TRACKING_ID']
+    logger.info("added Google Analytics tracking ID to html_theme_options")
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
