@@ -7,7 +7,7 @@ from coax.core.policy_objectives import cross_entropy_objective
 
 class ConnectFourFuncApprox(coax.FuncApprox):
 
-    def body(self, S):
+    def body(self, S, is_training):
 
         layers = [
             hk.Conv2D(output_channels=20, kernel_shape=4, stride=1),

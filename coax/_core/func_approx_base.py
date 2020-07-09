@@ -188,7 +188,7 @@ class BaseFuncApprox(ABC, SpaceUtilsMixin, RandomStateMixin, LoggerMixin):
     # ----------------------------------------------------------------------------------------------
 
     @abstractmethod
-    def body(self, S):
+    def body(self, S, is_training):
         r"""
 
         .. note::

@@ -12,13 +12,13 @@ coax.enable_logging()
 
 
 class MyFuncApprox(coax.FuncApprox):
-    def body(self, S):
+    def body(self, S, is_training):
         # custom haiku function
         ...
 
 
 # define function approximator
-func = coax.MyFuncApprox(env)
+func = MyFuncApprox(env)
 pi = coax.Policy(func)
 q = coax.Q(func)
 

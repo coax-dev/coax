@@ -19,7 +19,7 @@ coax.enable_logging()
 
 class MLP(coax.FuncApprox):
     """ multi-layer perceptron with one hidden layer """
-    def body(self, S):
+    def body(self, S, is_training):
         return jnp.tanh(hk.Linear(4)(S))
 
 

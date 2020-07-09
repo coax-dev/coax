@@ -29,7 +29,7 @@ env = coax.wrappers.TrainMonitor(env)
 
 
 class Func(coax.FuncApprox):
-    def body(self, S):
+    def body(self, S, is_training):
         M = coax.utils.diff_transform_matrix(num_frames=3)
         seq = hk.Sequential([  # S.shape = [batch, num_stack, h, w]
             lambda x: jnp.dot(jnp.moveaxis(S / 255, 1, -1), M),  # [b, h, w, n]
