@@ -10,8 +10,7 @@ from ray.rllib.env.atari_wrappers import wrap_deepmind
 
 
 # set some environment variable
-os.environ['JAX_PLATFORM_NAME'] = \
-    os.environ.get('JAX_PLATFORM_NAME', 'gpu')        # tell JAX to use GPU
+os.environ.setdefault('JAX_PLATFORM_NAME', 'gpu')     # tell JAX to use GPU
 os.environ['XLA_PYTHON_CLIENT_MEM_FRACTION'] = '0.1'  # don't use all gpu mem
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'              # tell XLA to be quiet
 
