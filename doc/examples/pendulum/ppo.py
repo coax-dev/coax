@@ -48,7 +48,7 @@ class MLP(coax.FuncApprox):
     def optimizer(self):
         learning_rate = self.optimizer_kwargs.get('learning_rate', 1e-3)
         return optix.chain(
-            # optix.clip_by_global_norm(1.),
+            optix.clip_by_global_norm(1.),
             optix.adam(learning_rate),
         )
 
@@ -81,7 +81,7 @@ ppo_clip = coax.policy_objectives.PPOClip(pi, regularizer=policy_reg)
 
 
 # train
-while env.T < 3000000:
+while env.T < 1000000:
     s = env.reset()
 
     for t in range(env.spec.max_episode_steps):
@@ -98,8 +98,8 @@ while env.T < 3000000:
                 Adv = value_td.td_error(transition_batch)
 
                 metrics = {}
-                metrics.update(value_td.update(transition_batch))
                 metrics.update(ppo_clip.update(transition_batch, Adv))
+                metrics.update(value_td.update(transition_batch))
                 env.record_metrics(metrics)
 
             buffer.clear()
