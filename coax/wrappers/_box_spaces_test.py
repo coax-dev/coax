@@ -19,45 +19,44 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-r"""
+from itertools import combinations
 
-Wrappers
-========
+import gym
+import numpy as onp
 
-OpenAI gym provides a nice modular interface to extend existing environments
-using `environment wrappers
-<https://github.com/openai/gym/tree/master/gym/wrappers>`_. Here we list some
-wrappers that are used throughout the **coax** package.
-
-The most notable wrapper that you'll probably want to use is
-:class:`coax.wrappers.TrainMonitor`. It wraps the environment in a way that we
-can view our training logs easily. It uses both the standard :py:mod:`logging`
-module as well as tensorboard through the `tensorboardX
-<https://tensorboardx.readthedocs.io/>`_ package.
+from .._base.test_case import TestCase
+from ._box_spaces import BoxActionsToDiscrete
 
 
-Object Reference
-----------------
+class TestBoxActionsToDiscrete(TestCase):
+    def test_inverse(self):
+        num_bins = 100
 
-.. autosummary::
-    :nosignatures:
+        env = gym.make('BipedalWalker-v3')
+        env = BoxActionsToDiscrete(env, num_bins)
 
-    coax.wrappers.TrainMonitor
-    coax.wrappers.BoxActionsToReals
-    coax.wrappers.BoxActionsToDiscrete
-    coax.wrappers.MetaPolicyEnv
+        hi, lo = env.env.action_space.high, env.env.action_space.low
+        a_orig = env.env.action_space.sample()
 
+        # create discrete action
+        a_orig_rescaled = (a_orig - lo) / (hi - lo)
+        a_orig_flat = onp.ravel(a_orig_rescaled)
+        a_discrete = onp.asarray(num_bins * a_orig_flat, dtype='int8')
 
-"""
+        # reconstruct continuous action
+        a_reconstructed = env._discrete_to_box(a_discrete)
 
-from ._train_monitor import TrainMonitor
-from ._box_spaces import BoxActionsToReals, BoxActionsToDiscrete
-from ._meta_policy import MetaPolicyEnv
+        diff = onp.abs(a_reconstructed - a_orig) / (hi - lo)
+        print(diff)
+        self.assertTrue(onp.all(diff < 1 / num_bins))
 
+    def test_not_all_same(self):
+        env = gym.make('BipedalWalker-v3')
+        env = BoxActionsToDiscrete(env, num_bins=10, random_seed=13)
 
-__all__ = (
-    'BoxActionsToReals',
-    'BoxActionsToDiscrete',
-    'TrainMonitor',
-    'MetaPolicyEnv',
-)
+        a_discrete = onp.zeros(4)
+        a_box = env._discrete_to_box(a_discrete)
+        print(a_box)
+
+        for x, y in combinations(a_box, 2):
+            self.assertNotAlmostEqual(x, y)

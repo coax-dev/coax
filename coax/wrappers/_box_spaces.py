@@ -20,8 +20,7 @@
 # ------------------------------------------------------------------------------------------------ #
 
 import numpy as onp
-from gym import Wrapper
-from gym.spaces import Box
+import gym
 from scipy.special import expit as sigmoid
 
 from .._base.mixins import SpaceUtilsMixin, AddOrigToInfoDictMixin
@@ -29,10 +28,11 @@ from .._base.mixins import SpaceUtilsMixin, AddOrigToInfoDictMixin
 
 __all__ = (
     'BoxActionsToReals',
+    'BoxActionsToDiscrete',
 )
 
 
-class BoxActionsToReals(Wrapper, SpaceUtilsMixin, AddOrigToInfoDictMixin):
+class BoxActionsToReals(gym.Wrapper, SpaceUtilsMixin, AddOrigToInfoDictMixin):
     r"""
 
     This wrapper decompactifies a :class:`Box <gym.spaces.Box>` action space to the reals. This is
@@ -56,15 +56,9 @@ class BoxActionsToReals(Wrapper, SpaceUtilsMixin, AddOrigToInfoDictMixin):
             raise NotImplementedError("BoxActionsToReals is only implemented for Box action spaces")
 
         shape_flat = onp.prod(self.env.action_space.shape),
-        self.action_space = Box(
+        self.action_space = gym.spaces.Box(
             low=onp.full(shape_flat, -1e15, self.env.action_space.dtype),
             high=onp.full(shape_flat, 1e15, self.env.action_space.dtype))
-
-    def _compactify(self, action):
-        hi, lo = self.env.action_space.high, self.env.action_space.low
-        action = onp.clip(action, -1e15, 1e15)
-        action = onp.reshape(action, self.env.action_space.shape)
-        return lo + (hi - lo) * sigmoid(action)
 
     def step(self, a):
         assert self.action_space.contains(a)
@@ -72,3 +66,69 @@ class BoxActionsToReals(Wrapper, SpaceUtilsMixin, AddOrigToInfoDictMixin):
         s_next, r, done, info = super().step(self._a_orig)
         self._add_a_orig_to_info_dict(info)
         return s_next, r, done, info
+
+    def _compactify(self, action):
+        hi, lo = self.env.action_space.high, self.env.action_space.low
+        action = onp.clip(action, -1e15, 1e15)
+        action = onp.reshape(action, self.env.action_space.shape)
+        return lo + (hi - lo) * sigmoid(action)
+
+
+class BoxActionsToDiscrete(gym.Wrapper, SpaceUtilsMixin, AddOrigToInfoDictMixin):
+    r"""
+
+    This wrapper splits a :class:`Box <gym.spaces.Box>` action space into bins. The resulting action
+    space is either :class:`Discrete <gym.spaces.Discrete>` or :class:`MultiDiscrete
+    <gym.spaces.MultiDiscrete>`, depending on the shape of the original action space.
+
+    Parameters
+    ----------
+    num_bins : int or tuple of ints
+
+        The number of bins to use. A multi-dimenionsional box requires a tuple of num_bins instead
+        of a single integer.
+
+    random_seed : int, optional
+
+        Sets the random state to get reproducible results.
+
+    """
+    def __init__(self, env, num_bins, random_seed=None):
+        super().__init__(env)
+        if not self.action_space_is_box:
+            raise NotImplementedError(
+                "BoxActionsToDiscrete is only implemented for Box action spaces")
+        self._rnd = onp.random.RandomState(random_seed)
+        self._init_action_space(num_bins)  # also sets self._nvec and self._size
+
+    def step(self, a):
+        assert self.action_space.contains(a)
+        self._a_orig = self._discrete_to_box(a)
+        s_next, r, done, info = super().step(self._a_orig)
+        self._add_a_orig_to_info_dict(info)
+        return s_next, r, done, info
+
+    def _discrete_to_box(self, a_discrete):
+        hi, lo = self.env.action_space.high, self.env.action_space.low
+        a_flat = (a_discrete + self._rnd.rand(self._size)) / self._nvec
+        a_reshaped = onp.reshape(a_flat, self.env.action_space.shape)
+        a_rescaled = lo + a_reshaped * (hi - lo)
+        return a_rescaled
+
+    def _init_action_space(self, num_bins):
+        self._size = onp.prod(self.env.action_space.shape)
+        if isinstance(num_bins, int):
+            self._nvec = [num_bins] * self._size
+        elif isinstance(num_bins, tuple) and all(isinstance(i, int) for i in num_bins):
+            if len(num_bins) != self._size:
+                raise ValueError(
+                    "len(num_bins) must be equal to the number of non-trivial dimensions: "
+                    f"{self._size}")
+            self._nvec = onp.asarray(num_bins)
+        else:
+            raise TypeError("num_bins must an int or tuple of ints")
+
+        if self._size == 1:
+            self.action_space = gym.spaces.Discrete(self._nvec[0])
+        else:
+            self.action_space = gym.spaces.MultiDiscrete(self._nvec)
