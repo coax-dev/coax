@@ -311,7 +311,7 @@ class ExperienceReplayBuffer(
         n = (self.capacity + self.n,)
 
         # create cache attrs
-        self._s = onp.empty(n + s.shape, s.dtype)
+        self._s = onp.zeros(n + s.shape, s.dtype)
         self._a = onp.zeros(n + a.shape, a.dtype)
         self._r = onp.zeros(n + r.shape, r.dtype)
         self._d = onp.zeros(n, 'bool')

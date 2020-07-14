@@ -64,7 +64,7 @@ class EntropyRegularizer(PolicyRegularizer):
 
         def apply_func(dist_params, beta):
             entropy = self.pi.proba_dist.entropy(dist_params)
-            return beta * entropy
+            return -beta * entropy
 
         def metrics(dist_params, beta):
             entropy = self.pi.proba_dist.entropy(dist_params)
