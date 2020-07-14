@@ -19,6 +19,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+import jax
+import jax.numpy as jnp
+
 from .._base.mixins import RandomStateMixin
 from .._core.value_q import Q
 from ..value_transforms import ValueTransform
@@ -64,6 +67,8 @@ class BaseTD(RandomStateMixin):
 
         """
         grads, state, metrics = self.grads_and_metrics(transition_batch)
+        if any(jnp.any(jnp.isnan(g)) for g in jax.tree_leaves(grads)):
+            raise RuntimeError(f"found nan's in grads: {grads}")
         self.update_from_grads(grads, state)
         return metrics
 

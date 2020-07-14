@@ -179,6 +179,8 @@ class ValueTD:
 
         """
         grads, state, metrics = self.grads_and_metrics(transition_batch)
+        if any(jnp.any(jnp.isnan(g)) for g in jax.tree_leaves(grads)):
+            raise RuntimeError(f"found nan's in grads: {grads}")
         self.update_from_grads(grads, state)
         return metrics
 
