@@ -44,8 +44,9 @@ Object Reference
     coax.utils.enable_logging
     coax.utils.generate_gif
     coax.utils.get_env_attr
-    coax.utils.get_transition
+    coax.utils.get_grads_diagnostics
     coax.utils.get_magnitude_quantiles
+    coax.utils.get_transition
     coax.utils.has_env_attr
     coax.utils.idx
     coax.utils.is_policy
@@ -56,8 +57,9 @@ Object Reference
     coax.utils.reload_recursive
     coax.utils.render_episode
     coax.utils.single_to_batch
-    coax.utils.StrippedEnv
     coax.utils.strip_env_recursive
+    coax.utils.StrippedEnv
+    coax.utils.tree_ravel
 
 
 """
@@ -75,6 +77,8 @@ from ._array import (
     isscalar,
     merge_dicts,
     single_to_batch,
+    get_grads_diagnostics,
+    tree_ravel,
 )
 from ._misc import (
     docstring,
@@ -106,6 +110,7 @@ __all__ = (
     'generate_gif',
     'get_env_attr',
     'get_transition',
+    'get_grads_diagnostics',
     'get_magnitude_quantiles',
     'has_env_attr',
     'idx',
@@ -119,4 +124,5 @@ __all__ = (
     'single_to_batch',
     'StrippedEnv',
     'strip_env_recursive',
+    'tree_ravel',
 )

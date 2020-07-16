@@ -37,11 +37,13 @@ __all__ = (
     'clipped_logit',
     'diff_transform_matrix',
     'double_relu',
+    'get_grads_diagnostics',
     'get_magnitude_quantiles',
     'idx',
     'isscalar',
     'merge_dicts',
     'single_to_batch',
+    'tree_ravel',
 )
 
 
@@ -343,38 +345,83 @@ def double_relu(arr):
     return jnp.concatenate((-jax.nn.relu(-arr), jax.nn.relu(arr)), axis=-1)
 
 
+def _get_leaf_diagnostics(leaf, key_prefix):
+    # update this to add more grads diagnostics
+    return {
+        f'{key_prefix}max': jnp.max(jnp.abs(leaf)),
+        f'{key_prefix}norm': jnp.linalg.norm(jnp.ravel(leaf)),
+    }
+
+
+def get_grads_diagnostics(grads, key_prefix='', keep_tree_structure=False):
+    r"""
+
+    Given a :doc:`pytree <pytrees>` of grads, return a dict that contains the quantiles of the
+    magnitudes of each individual component.
+
+    This is meant to be a high-level diagnostic. It first extracts the leaves of the pytree, then
+    flattens each leaf and then it computes the element-wise magnitude. Then, it concatenates all
+    magnitudes into one long flat array. The quantiles are computed on this array.
+
+    Parameters
+    ----------
+    grads : a pytree with ndarray leaves
+
+        The gradients of some loss function with respect to the model parameters (weights).
+
+    key_prefix : str, optional
+
+        The prefix to add the output dict keys.
+
+    keep_tree_structure : bool, optional
+
+        Whether to keep the tree structure, i.e. to compute the grads diagnostics for each
+        individual leaf. If ``False`` (default), we only compute the global grads diagnostics.
+
+    Returns
+    -------
+    grads_diagnotics : dict<str, float>
+
+        A dict with structure ``{name: score}``.
+
+    """
+    if keep_tree_structure:
+        return jax.tree_map(lambda g: _get_leaf_diagnostics(g, key_prefix), grads)
+    return _get_leaf_diagnostics(tree_ravel(grads), key_prefix)
+
+
 def get_magnitude_quantiles(pytree, key_prefix=''):
     r"""
 
-    Given a :doc:`pytree <pytrees>`, return a dict that contains the quantiles
-    of the magnitudes of each individual component.
+    Given a :doc:`pytree <pytrees>`, return a dict that contains the quantiles of the magnitudes of
+    each individual component.
 
-    This is meant to be a high-level diagnostic. It first extracts the leaves
-    of the pytree, then flattens each leaf and then it computes the
-    element-wise magnitude. Then, it concatenates all magnitudes into one long
-    flat array. The quantiles are computed on this array.
+    This is meant to be a high-level diagnostic. It first extracts the leaves of the pytree, then
+    flattens each leaf and then it computes the element-wise magnitude. Then, it concatenates all
+    magnitudes into one long flat array. The quantiles are computed on this array.
 
     Parameters
     ----------
     pytree : a pytree with ndarray leaves
 
-        A typical example is a pytree of model params (weights) or gradients
-        with respect to such model params.
+        A typical example is a pytree of model params (weights) or gradients with respect to such
+        model params.
+
+    key_prefix : str, optional
+
+        The prefix to add the output dict keys.
 
     Returns
     -------
     magnitude_quantiles : dict
 
-        A dict with keys: ``['min', 'p25', 'p50', 'p75', 'max']``. The values
-        of the dict are non-negative floats that represent the magnitude
-        quantiles.
+        A dict with keys: ``['min', 'p25', 'p50', 'p75', 'max']``. The values of the dict are
+        non-negative floats that represent the magnitude quantiles.
 
     """
-    leaves = jax.tree_leaves(pytree)
-    magnitudes = jnp.concatenate([jnp.abs(jnp.ravel(g)) for g in leaves])
-    quantiles = jnp.quantile(magnitudes, jnp.linspace(0, 1, 5))
-    quantile_names = ('min', 'p25', 'p50', 'p75', 'max')
-    return dict(zip((key_prefix + k for k in quantile_names), quantiles))
+    quantiles = jnp.quantile(jnp.abs(tree_ravel(pytree)), jnp.array([0, 0.25, 0.5, 0.75, 1]))
+    quantile_names = (f'{key_prefix}{k}' for k in ('min', 'p25', 'p50', 'p75', 'max'))
+    return dict(zip(quantile_names, quantiles))
 
 
 def idx(arr, axis=0):
@@ -477,3 +524,25 @@ def single_to_batch(pytree):
 
     """
     return jax.tree_map(lambda arr: jnp.expand_dims(arr, axis=0), pytree)
+
+
+def tree_ravel(pytree):
+    r"""
+
+    Flatten and concatenate all leaves into a single flat ndarray.
+
+    Parameters
+    ----------
+    pytree : a pytree with ndarray leaves
+
+        A typical example is a pytree of model parameters (weights) or gradients with respect to
+        such model params.
+
+    Returns
+    -------
+    arr : ndarray with ndim=1
+
+        A single flat array.
+
+    """
+    return jnp.concatenate([jnp.ravel(leaf) for leaf in jax.tree_leaves(pytree)])

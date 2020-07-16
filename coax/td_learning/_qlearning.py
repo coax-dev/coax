@@ -23,7 +23,7 @@ import jax
 import jax.numpy as jnp
 import haiku as hk
 
-from ..utils import get_magnitude_quantiles
+from ..utils import get_grads_diagnostics
 from ._base import BaseTD
 
 
@@ -133,7 +133,7 @@ class QLearning(BaseTD):
                 f'{name}/rmse_targ': jnp.sqrt(jnp.mean(jnp.square(err_targ)))}
 
             # add some diagnostics of the gradients
-            metrics.update(get_magnitude_quantiles(grads, key_prefix=f'{name}/grads_'))
+            metrics.update(get_grads_diagnostics(grads, key_prefix=f'{name}/grads_'))
 
             return grads, state_new, metrics
 
