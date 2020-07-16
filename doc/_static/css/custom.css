@@ -10,9 +10,9 @@ body a {
     float: right;
 }
 
-div.ethical-rtd {
+.keep-us-sustainable {
   /* hide ads */
-  display: none;
+  display: none !important;
 }
 
 .wy-nav-content {
