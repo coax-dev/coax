@@ -20,7 +20,13 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
+    - name: Install system packages (macos-latest)
+      if: matrix.runs-on == 'macos-latest'
+      run: brew install swig
+    - name: Install system packages (ubuntu-latest)
+      if: matrix.runs-on == 'ubuntu-latest'
+      run: sudo apt-get install swig
+    - name: Install python packages
       run: |
         sudo apt-get install swig
         python -m pip install --upgrade pip
@@ -54,7 +60,7 @@ jobs:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
           body: Release ${{ github.ref }}
-          draft: true
+          draft: false
           prerelease: false
 
   build-and-deploy:
