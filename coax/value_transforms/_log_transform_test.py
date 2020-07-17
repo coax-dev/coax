@@ -26,6 +26,7 @@ from ._log_transform import LogTransform
 
 
 class TestLogTransform(TestCase):
+    decimal = 5
 
     def test_inverse(self):
         f = LogTransform(scale=7)
