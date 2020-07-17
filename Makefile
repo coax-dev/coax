@@ -64,7 +64,7 @@ test_cpu: flake8
 	JAX_PLATFORM_NAME=cpu $(PYTHON_EXECUTABLE) -m pytest coax -v
 
 test_gpu: flake8
-	JAX_PLATFORM_NAME=cpu $(PYTHON_EXECUTABLE) -m pytest coax -v
+	JAX_PLATFORM_NAME=gpu $(PYTHON_EXECUTABLE) -m pytest coax -v
 
 notebooks:
 	$(PYTHON_EXECUTABLE) ./doc/create_notebooks.py
