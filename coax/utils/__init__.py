@@ -54,6 +54,7 @@ Object Reference
     coax.utils.is_vfunction
     coax.utils.isscalar
     coax.utils.merge_dicts
+    coax.utils.OrnsteinUhlenbeckNoise
     coax.utils.reload_recursive
     coax.utils.render_episode
     coax.utils.single_to_batch
@@ -64,6 +65,9 @@ Object Reference
 
 """
 
+from ._action_noise import (
+    OrnsteinUhlenbeckNoise,
+)
 from ._array import (
     argmax,
     argmin,
@@ -119,6 +123,7 @@ __all__ = (
     'is_vfunction',
     'isscalar',
     'merge_dicts',
+    'OrnsteinUhlenbeckNoise',
     'reload_recursive',
     'render_episode',
     'single_to_batch',
