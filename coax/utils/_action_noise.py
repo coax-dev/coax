@@ -60,15 +60,15 @@ class OrnsteinUhlenbeckNoise(RandomStateMixin):
         The mean :math:`\mu` towards which the Ornstein-Uhlenbeck process should revert; must be
         broadcastable with the input actions.
 
-    theta : positive float or ndarray, optional
-
-        The (element-wise) dissipation rate :math:`\theta>0` of the Ornstein-Uhlenbeck process; must
-        be broadcastable with the input actions.
-
     sigma : positive float or ndarray, optional
 
         The spread of the noise :math:`\sigma>0` of the Ornstein-Uhlenbeck process; must be
         broadcastable with the input actions.
+
+    theta : positive float or ndarray, optional
+
+        The (element-wise) dissipation rate :math:`\theta>0` of the Ornstein-Uhlenbeck process; must
+        be broadcastable with the input actions.
 
     min_value : float or ndarray, optional
 
@@ -87,7 +87,7 @@ class OrnsteinUhlenbeckNoise(RandomStateMixin):
     """
 
     def __init__(
-            self, mu=0., theta=0.15, sigma=0.2, min_value=None, max_value=None, random_seed=None):
+            self, mu=0., sigma=1., theta=0.15, min_value=None, max_value=None, random_seed=None):
 
         self.mu = mu
         self.theta = theta
