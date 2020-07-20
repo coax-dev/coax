@@ -35,7 +35,7 @@ class DeterministicPG(PolicyObjective):
 
     .. math::
 
-        J(\theta; s,a)\ =\ q_\varphi(s, a_\theta(s))
+        J(\theta; s,a)\ =\ q_\text{targ}(s, a_\theta(s))
 
     Here :math:`a_\theta(s)` is the *mode* of the underlying conditional
     probability distribution :math:`\pi_\theta(.|s)`. See e.g. the :attr:`mode`
@@ -63,9 +63,9 @@ class DeterministicPG(PolicyObjective):
 
         The parametrized policy :math:`\pi_\theta(a|s)`.
 
-    q : Q
+    q_targ : Q
 
-        The parametrized state-action value function :math:`q_\varphi(s,a)`.
+        The target state-action value function :math:`q_\text{targ}(s,a)`.
 
     regularizer : PolicyRegularizer, optional
 
@@ -74,10 +74,10 @@ class DeterministicPG(PolicyObjective):
     """
     REQUIRES_PROPENSITIES = False
 
-    def __init__(self, pi, q, regularizer=None):
-        if not (isinstance(q, Q) and q.qtype == 1):
-            raise TypeError(f"q must be a type-I q-function, got: {type(q)}")
-        self.q = q
+    def __init__(self, pi, q_targ, regularizer=None):
+        if not (isinstance(q_targ, Q) and q_targ.qtype == 1):
+            raise TypeError(f"q must be a type-I q-function, got: {type(q_targ)}")
+        self.q_targ = q_targ
         super().__init__(pi, regularizer)
         self._init_funcs()
 
@@ -86,9 +86,9 @@ class DeterministicPG(PolicyObjective):
         def q_apply_func_type1(params_q, state_q, rng, S, X_a, is_training):
             """ type-I apply_func, except skipping the action_preprocessor """
             rngs = hk.PRNGSequence(rng)
-            body = self.q.func_approx.apply_funcs['body']
-            comb = self.q.func_approx.apply_funcs['state_action_combiner']
-            head = self.q.func_approx.apply_funcs['head_q1']
+            body = self.q_targ.func_approx.apply_funcs['body']
+            comb = self.q_targ.func_approx.apply_funcs['state_action_combiner']
+            head = self.q_targ.func_approx.apply_funcs['head_q1']
             state_new = state_q.copy()  # shallow copy
             X_s, state_new['body'] = body(
                 params_q['body'], state_q['body'], next(rngs), S, is_training)
@@ -190,7 +190,7 @@ class DeterministicPG(PolicyObjective):
 
         """
         return self.grads_and_metrics_func(
-            self.pi.params, self.q.params, self.pi.function_state, self.q.function_state,
+            self.pi.params, self.q_targ.params, self.pi.function_state, self.q_targ.function_state,
             self.pi.rng, transition_batch, **self.hyperparams)
 
     def update(self, transition_batch, Adv=None):
