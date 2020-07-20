@@ -114,4 +114,4 @@ class FuncApprox(BaseFuncApprox):
         return A
 
     def optimizer(self):
-        return optix.sgd(**self.optimizer_kwargs)
+        return optix.adam(**self.optimizer_kwargs)
