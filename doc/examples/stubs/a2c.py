@@ -29,7 +29,7 @@ value_td = coax.td_learning.ValueTD(v)
 
 
 # specify how to trace the transitions
-buffer = coax.ExperienceReplayBuffer(env, n=5, gamma=0.9, capacity=256)
+buffer = coax.experience_replay.SimpleReplayBuffer(env, n=5, gamma=0.9, capacity=256)
 
 
 for ep in range(100):

@@ -51,7 +51,7 @@ v = coax.V(func_v)
 v_targ = v.copy()
 
 # we'll use this to temporarily store our experience
-buffer = coax.ExperienceReplayBuffer(env, capacity=256, n=10, gamma=0.99)
+buffer = coax.experience_replay.SimpleReplayBuffer(env, capacity=256, n=10, gamma=0.99)
 
 # policy regularizer (avoid premature exploitation)
 kl_div = coax.policy_regularizers.KLDivRegularizer(pi, beta=0.001)

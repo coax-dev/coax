@@ -108,12 +108,9 @@ class TransitionSingle(BaseTransition):
         The log-propensity :math:`\log\pi(A_{t+1}|S_{t+1})`.
 
     """
-    __slots__ = (
-        's', 'a', 'logp', 'r', 'done', 'info', 's_next', 'a_next', 'logp_next')
+    __slots__ = ('s', 'a', 'logp', 'r', 'done', 'info', 's_next', 'a_next', 'logp_next')
 
-    def __init__(
-            self, s, a, logp, r, done, info=None,
-            s_next=None, a_next=None, logp_next=None):
+    def __init__(self, s, a, logp, r, done, info=None, s_next=None, a_next=None, logp_next=None):
         self.s = s
         self.a = a
         self.logp = logp
@@ -205,9 +202,7 @@ class TransitionBatch(BaseTransition):
     """
     __slots__ = ('S', 'A', 'logP', 'Rn', 'In', 'S_next', 'A_next', 'logP_next')
 
-    def __init__(
-            self, S, A, logP, Rn, In, S_next, A_next=None, logP_next=None):
-
+    def __init__(self, S, A, logP, Rn, In, S_next, A_next=None, logP_next=None):
         self.S = S
         self.A = A
         self.logP = logP

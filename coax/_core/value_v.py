@@ -27,7 +27,6 @@ from .._base.bases import BaseFunc
 from .._base.mixins import ParamMixin
 from ..value_losses import huber
 from ..utils import single_to_batch, batch_to_single
-from .episodic_cache import NStepCache
 
 
 __all__ = (
@@ -91,8 +90,6 @@ class V(BaseFunc, ParamMixin):
         self.n = int(n)
         self.bootstrap_with_params_copy = bool(bootstrap_with_params_copy)
         self.loss_function = loss_function or huber
-
-        self._cache = NStepCache(self.env, self.n, self.gamma)
         self._init_funcs()
 
     def __call__(self, s, use_params_copy=False):

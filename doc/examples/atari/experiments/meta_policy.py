@@ -56,7 +56,7 @@ class DQN1:
     qlearning = coax.td_learning.QLearning(q, q_targ)
 
     # replay buffer
-    buffer = coax.ExperienceReplayBuffer(env, capacity=1000000, gamma=0.99)
+    buffer = coax.experience_replay.SimpleReplayBuffer(env, capacity=1000000, gamma=0.99)
 
     # DQN exploration schedule (stepwise linear annealing)
     @staticmethod
@@ -84,7 +84,7 @@ class DQN2:
     qlearning = coax.td_learning.QLearning(q, q_targ)
 
     # replay buffer
-    buffer = coax.ExperienceReplayBuffer(env, capacity=1000000, gamma=0.99)
+    buffer = coax.experience_replay.SimpleReplayBuffer(env, capacity=1000000, gamma=0.99)
 
 
 class DDPG:
@@ -108,7 +108,7 @@ class DDPG:
     qlearning = coax.td_learning.QLearningMode(q, pi_targ, q_targ)
 
     # replay buffer
-    buffer = coax.ExperienceReplayBuffer(env, capacity=1000000, gamma=0.99)
+    buffer = coax.experience_replay.SimpleReplayBuffer(env, capacity=1000000, gamma=0.99)
 
 
 class PPO:
@@ -124,7 +124,7 @@ class PPO:
     v_targ = v.copy()
 
     # we'll use this to temporarily store our experience
-    buffer = coax.ExperienceReplayBuffer(env, capacity=256, n=10, gamma=0.99)
+    buffer = coax.experience_replay.SimpleReplayBuffer(env, capacity=256, n=10, gamma=0.99)
 
     # policy regularizer (avoid premature exploitation)
     kl = coax.policy_regularizers.KLDivRegularizer(pi, beta=0.001)
@@ -163,7 +163,7 @@ class META:  # based on DQN1
     qlearning = coax.td_learning.QLearning(q, q_targ)
 
     # replay buffer
-    buffer = coax.ExperienceReplayBuffer(env, capacity=10000, gamma=0.99)
+    buffer = coax.experience_replay.SimpleReplayBuffer(env, capacity=10000, gamma=0.99)
 
 
 while META.env.T < 3000000:

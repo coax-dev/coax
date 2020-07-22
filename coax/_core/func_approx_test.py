@@ -25,6 +25,7 @@ import jax
 import jax.numpy as jnp
 import numpy as onp
 import haiku as hk
+from jax.experimental import optix
 
 from .._base.test_case import TestCase
 from ..utils import get_transition
@@ -46,11 +47,14 @@ class MyFuncApprox(FuncApprox):
         X = jax.nn.relu(X)
         return X
 
+    def optimizer(self):
+        return optix.sgd(learning_rate=1.0)
+
 
 class TestFuncApprox(TestCase):
     def setUp(self):
         self.rngs = hk.PRNGSequence(13)
-        self.func = MyFuncApprox(self.env_discrete, learning_rate=1)
+        self.func = MyFuncApprox(self.env_discrete)
         for c in self.func.state:
             self.func.state[c]['params'] = \
                 jax.tree_map(jnp.zeros_like, self.func.state[c]['params'])

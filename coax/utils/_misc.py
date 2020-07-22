@@ -33,7 +33,7 @@ import gym
 import numpy as onp
 from PIL import Image
 
-from .._core.transition import TransitionSingle
+from ..reward_tracing import TransitionSingle
 
 
 __all__ = (
@@ -172,7 +172,7 @@ def get_transition(env, random_seed=None):
     transition : TransitionSingle
 
         A single transition. Note that this can be turned into a
-        :class:`TransitionBatch <coax.TransitionBatch>` (with batchsize 1) by:
+        :class:`TransitionBatch <coax.reward_tracing.TransitionBatch>` (with batchsize 1) by:
 
         .. code:: python
 

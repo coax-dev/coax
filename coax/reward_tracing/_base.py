@@ -19,79 +19,97 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-__version__ = '0.1.0-rc1'
+from abc import ABC, abstractmethod
 
+import jax
+import numpy as onp
 
-# expose specific classes and functions
-from ._core.func_approx import FuncApprox
-from ._core.value_v import V
-from ._core.value_q import Q
-from ._core.policy import Policy
-from ._core.policy_q import EpsilonGreedy, BoltzmannPolicy
-from ._core.policy_random import RandomPolicy
-from .utils import enable_logging
-
-# pre-load submodules
-from . import experience_replay
-from . import td_learning
-from . import policy_objectives
-from . import policy_regularizers
-from . import proba_dists
-from . import reward_tracing
-from . import utils
-from . import value_losses
-from . import wrappers
+from .._base.errors import InsufficientCacheError
+from .._base.mixins import SpaceUtilsMixin
 
 
 __all__ = (
-
-    # classes and functions
-    'FuncApprox',
-    'V',
-    'Q',
-    'Policy',
-    'EpsilonGreedy',
-    'BoltzmannPolicy',
-    'RandomPolicy',
-    'enable_logging',
-
-    # modules
-    'experience_replay',
-    'td_learning',
-    'policy_objectives',
-    'policy_regularizers',
-    'proba_dists',
-    'reward_tracing',
-    'utils',
-    'value_losses',
-    'wrappers',
+    'BaseShortTermCache',
 )
 
 
-# -----------------------------------------------------------------------------
-# register envs
-# -----------------------------------------------------------------------------
+class BaseShortTermCache(ABC, SpaceUtilsMixin):
+    def __init__(self, env):
+        self.env = env
 
-import gym
+    @abstractmethod
+    def reset(self):
+        r"""
+        Reset the cache to the initial state.
 
-if 'ConnectFour-v0' in gym.envs.registry.env_specs:
-    del gym.envs.registry.env_specs['ConnectFour-v0']
+        """
+        pass
 
-gym.envs.register(
-    id='ConnectFour-v0',
-    entry_point='coax.envs:ConnectFourEnv',
-)
+    @abstractmethod
+    def add(self, s, a, r, done, logp=0.0):
+        r"""
+        Add a transition to the experience cache.
 
+        Parameters
+        ----------
+        s : state observation
 
-if 'FrozenLakeNonSlippery-v0' in gym.envs.registry.env_specs:
-    del gym.envs.registry.env_specs['FrozenLakeNonSlippery-v0']
+            A single state observation.
 
-gym.envs.register(
-    id='FrozenLakeNonSlippery-v0',
-    entry_point='gym.envs.toy_text:FrozenLakeEnv',
-    kwargs={'map_name': '4x4', 'is_slippery': False},
-    max_episode_steps=20,
-    reward_threshold=0.99,
-)
+        a : action
 
-del gym
+            A single action.
+
+        r : float
+
+            A single observed reward.
+
+        done : bool
+
+            Whether the episode has finished.
+
+        logp : float, optional
+
+            The log-propensity :math:`\log\pi(a|s)`.
+
+        """
+        pass
+
+    @abstractmethod
+    def pop(self):
+        r"""
+        Pop a single transition from the cache.
+
+        Returns
+        -------
+        transition : TransitionBatch
+
+            A :class:`TransitionBatch <coax.reward_tracing.TransitionBatch>` object with
+            ``batch_size=1``.
+
+        """
+        pass
+
+    def flush(self):
+        r"""
+        Flush all transitions from the cache.
+
+        Returns
+        -------
+        transitions : TransitionBatch
+
+            A :class:`TransitionBatch <coax.reward_tracing.TransitionBatch>` object.
+
+        """
+        if not self:
+            raise InsufficientCacheError(
+                "cache needs to receive more transitions before it can be "
+                "flushed")
+
+        transitions = []
+
+        while self:
+            transitions.append(self.pop())
+
+        return jax.tree_multimap(
+            lambda *leaves: onp.concatenate(leaves, axis=0), *transitions)

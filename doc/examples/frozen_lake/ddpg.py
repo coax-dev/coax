@@ -32,7 +32,7 @@ pi_targ = pi.copy()
 
 
 # experience tracer
-cache = coax.NStepCache(env, n=1, gamma=0.9)
+cache = coax.reward_tracing.NStepCache(env, n=1, gamma=0.9)
 
 
 # updaters

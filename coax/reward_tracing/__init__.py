@@ -19,79 +19,62 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-__version__ = '0.1.0-rc1'
+r"""
+
+Reward Tracing
+==============
+
+The term **reward tracing** refers to the process of turning raw experience into
+:class:`TransitionBatch <coax.reward_tracing.TransitionBatch>` objects. These
+:class:`TransitionBatch <coax.reward_tracing.TransitionBatch>` objects are then used to learn, i.e.
+to update our function approximators.
+
+Reward tracing typically entails keeping some episodic cache in order to relate a state :math:`S_t`
+or state-action pair :math:`(S_t, A_t)` to a collection of objects that can be used to construct a
+target (feedback signal):
+
+.. math::
+
+    \left(R^{(n)}_t, I^{(n)}_t, S_{t+n}, A_{t+n}\right)
+
+where
+
+.. math::
+
+    R^{(n)}_t\ &=\ \sum_{k=0}^{n-1}\gamma^kR_{t+k} \\
+    I^{(n)}_t\ &=\ \left\{\begin{matrix}
+        0           & \text{if $S_{t+n}$ is a terminal state} \\
+        \gamma^n    & \text{otherwise}
+    \end{matrix}\right.
+
+For example, in :math:`n`-step SARSA target is constructed as:
+
+.. math::
+
+    G^{(n)}_t\ =\ R^{(n)}_t + I^{(n)}_t\,q(S_{t+n}, A_{t+n})
 
 
-# expose specific classes and functions
-from ._core.func_approx import FuncApprox
-from ._core.value_v import V
-from ._core.value_q import Q
-from ._core.policy import Policy
-from ._core.policy_q import EpsilonGreedy, BoltzmannPolicy
-from ._core.policy_random import RandomPolicy
-from .utils import enable_logging
 
-# pre-load submodules
-from . import experience_replay
-from . import td_learning
-from . import policy_objectives
-from . import policy_regularizers
-from . import proba_dists
-from . import reward_tracing
-from . import utils
-from . import value_losses
-from . import wrappers
+Object Reference
+----------------
 
+.. autosummary::
+    :nosignatures:
+
+    coax.reward_tracing.TransitionSingle
+    coax.reward_tracing.TransitionBatch
+    coax.reward_tracing.MonteCarloCache
+    coax.reward_tracing.NStepCache
+
+"""
+
+from ._transition import TransitionSingle, TransitionBatch
+from ._montecarlo import MonteCarloCache
+from ._nstep import NStepCache
 
 __all__ = (
-
-    # classes and functions
-    'FuncApprox',
-    'V',
-    'Q',
-    'Policy',
-    'EpsilonGreedy',
-    'BoltzmannPolicy',
-    'RandomPolicy',
-    'enable_logging',
-
-    # modules
-    'experience_replay',
-    'td_learning',
-    'policy_objectives',
-    'policy_regularizers',
-    'proba_dists',
-    'reward_tracing',
-    'utils',
-    'value_losses',
-    'wrappers',
+    'TransitionSingle',
+    'TransitionBatch',
+    'MonteCarloCache',
+    'NStepCache',
 )
-
-
-# -----------------------------------------------------------------------------
-# register envs
-# -----------------------------------------------------------------------------
-
-import gym
-
-if 'ConnectFour-v0' in gym.envs.registry.env_specs:
-    del gym.envs.registry.env_specs['ConnectFour-v0']
-
-gym.envs.register(
-    id='ConnectFour-v0',
-    entry_point='coax.envs:ConnectFourEnv',
-)
-
-
-if 'FrozenLakeNonSlippery-v0' in gym.envs.registry.env_specs:
-    del gym.envs.registry.env_specs['FrozenLakeNonSlippery-v0']
-
-gym.envs.register(
-    id='FrozenLakeNonSlippery-v0',
-    entry_point='gym.envs.toy_text:FrozenLakeEnv',
-    kwargs={'map_name': '4x4', 'is_slippery': False},
-    max_episode_steps=20,
-    reward_threshold=0.99,
-)
-
-del gym

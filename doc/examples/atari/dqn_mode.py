@@ -53,7 +53,7 @@ pi = coax.EpsilonGreedy(q, epsilon=1.)
 qlearning = coax.td_learning.QLearningMode(q, q_targ=q_targ, pi_targ=pi)
 
 # replay buffer
-buffer = coax.ExperienceReplayBuffer(env, capacity=1000000, n=1, gamma=0.99)
+buffer = coax.experience_replay.SimpleReplayBuffer(env, capacity=1000000, n=1, gamma=0.99)
 
 
 # DQN exploration schedule (stepwise linear annealing)

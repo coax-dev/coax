@@ -47,7 +47,8 @@ approximators.
     coax/policy_regularizers
     coax/value_losses
     coax/value_transforms
-    coax/experience_caching
+    coax/reward_tracing
+    coax/experience_replay
     coax/planning
 
 .. toctree::

@@ -19,79 +19,67 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-__version__ = '0.1.0-rc1'
+r"""
+
+Experience Replay
+=================
+
+This is where we keep our experience-replay buffer classes. Replay buffers are typically used as
+follows:
+
+.. code:: python
+
+    env = gym.make(...)
+
+    # function approximator
+    func = coax.FuncApprox(env)
+    q = coax.Q(func)
+    pi = coax.EpsilonGreedy(q, epsilon=0.1)
+
+    # updater
+    qlearning = coax.td_learning.QLearning()
+
+    # reward tracer and replay buffer
+    tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
+    buffer = coax.experience_replay.SimpleReplayBuffer(tracer, capacity=10000)
 
 
-# expose specific classes and functions
-from ._core.func_approx import FuncApprox
-from ._core.value_v import V
-from ._core.value_q import Q
-from ._core.policy import Policy
-from ._core.policy_q import EpsilonGreedy, BoltzmannPolicy
-from ._core.policy_random import RandomPolicy
-from .utils import enable_logging
+    s = env.reset()
 
-# pre-load submodules
-from . import experience_replay
-from . import td_learning
-from . import policy_objectives
-from . import policy_regularizers
-from . import proba_dists
-from . import reward_tracing
-from . import utils
-from . import value_losses
-from . import wrappers
+    for t in range(env.spec.max_episode_steps):
+        a = pi(s)
+        s_next, r, done, info = env.step(a)
+
+        # trace n-step rewards and add to replay buffer
+        tracer.add(s, a, r, done)
+        while tracer:
+            transition_batch = tracer.pop()  # batch_size = 1
+            buffer.add(transition_batch)
+
+        # sample random transitions from replay buffer
+        transition_batch = buffer.sample(batch_size=32)
+        qlearning.update(transition_batch)
+
+        if done:
+            break
+
+        s = s_next
+
+
+
+Object Reference
+----------------
+
+.. autosummary::
+    :nosignatures:
+
+    coax.experience_replay.SimpleReplayBuffer
+
+"""
+
+from ._simple import SimpleReplayBuffer
 
 
 __all__ = (
-
-    # classes and functions
-    'FuncApprox',
-    'V',
-    'Q',
-    'Policy',
-    'EpsilonGreedy',
-    'BoltzmannPolicy',
-    'RandomPolicy',
-    'enable_logging',
-
-    # modules
-    'experience_replay',
-    'td_learning',
-    'policy_objectives',
-    'policy_regularizers',
-    'proba_dists',
-    'reward_tracing',
-    'utils',
-    'value_losses',
-    'wrappers',
+    'SimpleReplayBuffer',
 )
-
-
-# -----------------------------------------------------------------------------
-# register envs
-# -----------------------------------------------------------------------------
-
-import gym
-
-if 'ConnectFour-v0' in gym.envs.registry.env_specs:
-    del gym.envs.registry.env_specs['ConnectFour-v0']
-
-gym.envs.register(
-    id='ConnectFour-v0',
-    entry_point='coax.envs:ConnectFourEnv',
-)
-
-
-if 'FrozenLakeNonSlippery-v0' in gym.envs.registry.env_specs:
-    del gym.envs.registry.env_specs['FrozenLakeNonSlippery-v0']
-
-gym.envs.register(
-    id='FrozenLakeNonSlippery-v0',
-    entry_point='gym.envs.toy_text:FrozenLakeEnv',
-    kwargs={'map_name': '4x4', 'is_slippery': False},
-    max_episode_steps=20,
-    reward_threshold=0.99,
-)
-
-del gym

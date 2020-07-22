@@ -53,7 +53,7 @@ pi = coax.BoltzmannPolicy(q, tau=0.015)  # <--- different from standard DQN
 qlearning = coax.td_learning.QLearning(q, q_targ)
 
 # replay buffer
-buffer = coax.ExperienceReplayBuffer(env, capacity=1000000, n=1, gamma=0.99)
+buffer = coax.experience_replay.SimpleReplayBuffer(env, capacity=1000000, n=1, gamma=0.99)
 
 
 # DQN exploration schedule (stepwise linear annealing)

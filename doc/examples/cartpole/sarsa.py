@@ -29,7 +29,7 @@ q = coax.Q(func)
 pi = coax.EpsilonGreedy(q, epsilon=0.1)
 
 # experience tracer
-cache = coax.NStepCache(env, n=1, gamma=0.9)
+cache = coax.reward_tracing.NStepCache(env, n=1, gamma=0.9)
 
 # updater
 sarsa = coax.td_learning.Sarsa(q)

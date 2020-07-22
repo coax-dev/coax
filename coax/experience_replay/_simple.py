@@ -27,16 +27,16 @@ from gym.wrappers.frame_stack import LazyFrames
 from .._base.mixins import (
     RandomStateMixin, SpaceUtilsMixin, SerializationMixin, LoggerMixin)
 from .._base.errors import InsufficientCacheError
-from .._core.transition import TransitionBatch
+from ..reward_tracing import TransitionBatch
 from ..utils import get_transition
 
 
 __all__ = (
-    'ExperienceReplayBuffer',
+    'SimpleReplayBuffer',
 )
 
 
-class ExperienceReplayBuffer(
+class SimpleReplayBuffer(
         RandomStateMixin, SpaceUtilsMixin, SerializationMixin, LoggerMixin):
     r"""
     A simple numpy implementation of an experience replay buffer. This is
@@ -154,7 +154,7 @@ class ExperienceReplayBuffer(
         -------
         transitions : TransitionBatch
 
-            A :class:`TransitionBatch <coax.TransitionBatch>` object.
+            A :class:`TransitionBatch <coax.reward_tracing.TransitionBatch>` object.
 
         """
         if not self._initialized or len(self) < batch_size:

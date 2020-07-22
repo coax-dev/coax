@@ -31,6 +31,7 @@ import jax
 import jax.numpy as jnp
 import numpy as onp
 import haiku as hk
+from jax.experimental import optix
 
 from ..wrappers import BoxActionsToReals
 
@@ -93,6 +94,9 @@ def DummyFuncApprox(env, learning_rate=1.):
                 hk.Linear(1), jax.nn.sigmoid,
             ))
             return seq(S)
+
+        def optimizer(self):
+            return optix.sgd(self.optimizer_kwargs.get('learning_rate', 1e-3))
 
     return cls(env, random_seed=(17 * env.random_seed), learning_rate=learning_rate)
 

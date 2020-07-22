@@ -25,14 +25,14 @@ from numpy.testing import assert_array_almost_equal
 from jax import numpy as jnp
 from jax.ops import index_update
 
-from .experience_replay import ExperienceReplayBuffer
+from ._simple import SimpleReplayBuffer
 
 
 class MockEnv:
     action_space = gym.spaces.Discrete(7)
 
 
-class TestExperienceReplayBuffer:
+class TestSimpleReplayBuffer:
     N = 7
     S = jnp.expand_dims(jnp.arange(N), axis=1)
     A = S[:, 0] % 100
@@ -43,7 +43,7 @@ class TestExperienceReplayBuffer:
 
     def test_add(self):
         # in this test method we don't do frame stacking
-        buffer = ExperienceReplayBuffer(MockEnv, capacity=17)
+        buffer = SimpleReplayBuffer(MockEnv, capacity=17)
         for i, (s, a, r, done) in enumerate(self.EPISODE, 1):
             buffer.add(s + 100, a, r + 100, done)
             assert len(buffer) == max(0, i - buffer.n)
@@ -83,7 +83,7 @@ class TestExperienceReplayBuffer:
 
     def test_sample(self):
         num_stack = 4
-        buffer = ExperienceReplayBuffer(
+        buffer = SimpleReplayBuffer(
             env=MockEnv, capacity=17, random_seed=7, n=2)
 
         for ep in (1, 2, 3):
@@ -159,7 +159,7 @@ class TestExperienceReplayBuffer:
 
     def test_shape(self):
         num_stack = 3
-        buffer = ExperienceReplayBuffer(
+        buffer = SimpleReplayBuffer(
             env=MockEnv, capacity=17, random_seed=5)
 
         for ep in (1, 2, 3):

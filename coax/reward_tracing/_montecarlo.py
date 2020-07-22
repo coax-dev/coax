@@ -19,79 +19,76 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-__version__ = '0.1.0-rc1'
-
-
-# expose specific classes and functions
-from ._core.func_approx import FuncApprox
-from ._core.value_v import V
-from ._core.value_q import Q
-from ._core.policy import Policy
-from ._core.policy_q import EpsilonGreedy, BoltzmannPolicy
-from ._core.policy_random import RandomPolicy
-from .utils import enable_logging
-
-# pre-load submodules
-from . import experience_replay
-from . import td_learning
-from . import policy_objectives
-from . import policy_regularizers
-from . import proba_dists
-from . import reward_tracing
-from . import utils
-from . import value_losses
-from . import wrappers
+from .._base.errors import InsufficientCacheError, EpisodeDoneError
+from ._base import BaseShortTermCache
+from ._transition import TransitionSingle
 
 
 __all__ = (
-
-    # classes and functions
-    'FuncApprox',
-    'V',
-    'Q',
-    'Policy',
-    'EpsilonGreedy',
-    'BoltzmannPolicy',
-    'RandomPolicy',
-    'enable_logging',
-
-    # modules
-    'experience_replay',
-    'td_learning',
-    'policy_objectives',
-    'policy_regularizers',
-    'proba_dists',
-    'reward_tracing',
-    'utils',
-    'value_losses',
-    'wrappers',
+    'MonteCarloCache',
 )
 
 
-# -----------------------------------------------------------------------------
-# register envs
-# -----------------------------------------------------------------------------
+class MonteCarloCache(BaseShortTermCache):
+    r"""
+    A short-term cache for episodic Monte Carlo sampling.
 
-import gym
+    Parameters
+    ----------
+    env : gym environment
 
-if 'ConnectFour-v0' in gym.envs.registry.env_specs:
-    del gym.envs.registry.env_specs['ConnectFour-v0']
+        The main gym environment. This is needed to determine ``num_actions``.
 
-gym.envs.register(
-    id='ConnectFour-v0',
-    entry_point='coax.envs:ConnectFourEnv',
-)
+    gamma : float between 0 and 1
 
+        The amount by which to discount future rewards.
 
-if 'FrozenLakeNonSlippery-v0' in gym.envs.registry.env_specs:
-    del gym.envs.registry.env_specs['FrozenLakeNonSlippery-v0']
+    """
+    def __init__(self, env, gamma):
+        super().__init__(env)
+        self.gamma = float(gamma)
+        self.reset()
 
-gym.envs.register(
-    id='FrozenLakeNonSlippery-v0',
-    entry_point='gym.envs.toy_text:FrozenLakeEnv',
-    kwargs={'map_name': '4x4', 'is_slippery': False},
-    max_episode_steps=20,
-    reward_threshold=0.99,
-)
+    def reset(self):
+        self._list = []
+        self._done = False
+        self._g = 0  # accumulator for return
 
-del gym
+    def add(self, s, a, r, done, logp=0.0):
+        if self._done and len(self):
+            raise EpisodeDoneError(
+                "please flush cache (or repeatedly pop) before appending new "
+                "transitions")
+
+        self._list.append((s, a, r, logp))
+        self._done = bool(done)
+        if done:
+            self._g = 0.  # init return
+
+    def __len__(self):
+        return len(self._list)
+
+    def __bool__(self):
+        return bool(len(self)) and self._done
+
+    def pop(self):
+        if not self:
+            if not len(self):
+                raise InsufficientCacheError(
+                    "cache needs to receive more transitions before it can be "
+                    "popped from")
+            else:
+                raise InsufficientCacheError(
+                    "cannot pop from cache before before receiving done=True")
+
+        # pop state-action (propensities) pair
+        s, a, r, logp = self._list.pop()
+
+        # update return
+        self._g = r + self.gamma * self._g
+
+        transition = TransitionSingle(
+            s=s, a=a, logp=logp, r=self._g, done=True,  # no bootstrapping
+            s_next=s, a_next=a, logp_next=logp)         # dummy values
+
+        return transition.to_batch(gamma=self.gamma)
