@@ -19,10 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-import jax
-import jax.numpy as jnp
-
-from .._base.mixins import RandomStateMixin
+import numpy as onp
 
 
 __all__ = (
@@ -30,7 +27,7 @@ __all__ = (
 )
 
 
-class OrnsteinUhlenbeckNoise(RandomStateMixin):
+class OrnsteinUhlenbeckNoise:
     r"""
 
     Add `Ornstein-Uhlenbeck <https://en.wikipedia.org/wiki/Ornstein-Uhlenbeck_process>`_ noise to
@@ -94,7 +91,8 @@ class OrnsteinUhlenbeckNoise(RandomStateMixin):
         self.sigma = sigma
         self.min_value = -1e15 if min_value is None else min_value
         self.max_value = 1e15 if max_value is None else max_value
-        self.random_seed = random_seed  # provides self.rng via RandomStateMixin
+        self.random_seed = random_seed
+        self.rnd = onp.random.RandomState(self.random_seed)
         self.reset()
 
     def reset(self):
@@ -123,11 +121,11 @@ class OrnsteinUhlenbeckNoise(RandomStateMixin):
             An action with noise added :math:`\widetilde{A}_t = A_t + X_t`.
 
         """
-        a = jnp.asarray(a)
+        a = onp.asarray(a)
         if self._noise is None:
-            self._noise = jnp.ones_like(a) * self.mu
+            self._noise = onp.ones_like(a) * self.mu
 
-        white_noise = jax.random.normal(self.rng, shape=jnp.shape(a), dtype=jnp.dtype(a))
+        white_noise = onp.asarray(self.rnd.randn(*a.shape), dtype=a.dtype)
         self._noise += self.theta * (self.mu - self._noise) + self.sigma * white_noise
-        self._noise = jnp.clip(self._noise, self.min_value, self.max_value)
+        self._noise = onp.clip(self._noise, self.min_value, self.max_value)
         return a + self._noise
