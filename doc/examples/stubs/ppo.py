@@ -52,7 +52,7 @@ for ep in range(100):
                 value_td.update(transition_batch)
 
             buffer.clear()
-            pi_behavior.smooth_update(pi, tau=0.1)
+            pi_behavior.soft_update(pi, tau=0.1)
 
         if done:
             break

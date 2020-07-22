@@ -86,8 +86,8 @@ while env.T < 3000000:
             buffer.clear()
 
             # sync target networks
-            pi_old.smooth_update(pi, tau=0.1)
-            v_targ.smooth_update(v, tau=0.1)
+            pi_old.soft_update(pi, tau=0.1)
+            v_targ.soft_update(v, tau=0.1)
 
         if done:
             break

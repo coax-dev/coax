@@ -61,8 +61,8 @@ for ep in range(250):
 
         # sync copies
         if env.T % 20 == 0:
-            q_targ.smooth_update(q, tau=0.5)
-            pi_targ.smooth_update(pi, tau=0.5)
+            q_targ.soft_update(q, tau=0.5)
+            pi_targ.soft_update(pi, tau=0.5)
 
         if done:
             break

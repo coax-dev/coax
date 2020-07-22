@@ -48,14 +48,14 @@ class TestV(TestCase):
         v = self.v(self.transition.s)
         self.assertAlmostEqual(v, 0.)
 
-    def test_smooth_update(self):
+    def test_soft_update(self):
         tau = 0.13
         v = self.v
         v_targ = v.copy()
         v.params = jax.tree_map(jnp.zeros_like, v.params)
         v_targ.params = jax.tree_map(jnp.ones_like, v.params)
         expected = jax.tree_map(lambda a: jnp.full_like(a, tau), v.params)
-        v.smooth_update(v_targ, tau=tau)
+        v.soft_update(v_targ, tau=tau)
         self.assertPytreeAlmostEqual(v.params, expected)
 
     def test_function_state(self):

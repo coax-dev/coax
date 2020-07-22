@@ -81,7 +81,7 @@ while env.T < 3000000:
             qlearning.update(buffer.sample(batch_size=256))
 
         if env.period('target_model_sync', T_period=10000):
-            q_targ.smooth_update(q, tau=1)
+            q_targ.soft_update(q, tau=1)
 
         if done:
             break

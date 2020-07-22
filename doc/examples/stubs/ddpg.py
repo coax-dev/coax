@@ -54,8 +54,8 @@ for ep in range(100):
 
         # periodically sync target models
         if ep % 10 == 0:
-            pi_targ.smooth_update(pi, tau=1.0)
-            q_targ.smooth_update(q, tau=1.0)
+            pi_targ.soft_update(pi, tau=1.0)
+            q_targ.soft_update(q, tau=1.0)
 
         if done:
             break

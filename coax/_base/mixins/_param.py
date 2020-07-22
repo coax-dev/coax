@@ -87,32 +87,30 @@ class ParamMixin:
         """
         return deepcopy(self)
 
-    def smooth_update(self, other, tau=1.0):
+    def soft_update(self, other, tau=1.0):
         r"""
 
-        Synchronize the current instance with ``other`` by exponential
-        smoothing.
+        Synchronize the current instance with ``other`` through exponential smoothing:
 
         .. math::
 
-            \theta\leftarrow
-                (1 - \tau)\,\theta + \tau\, \theta_\text{new}
+            \theta\ \leftarrow\ \theta + \tau\, (\theta_\text{new} - \theta)
 
         Parameters
         ----------
         other
 
-            A seperate copy of the current object. This object will hold the
-            new parameters :math:`\theta_\text{new}`.
+            A seperate copy of the current object. This object will hold the new parameters
+            :math:`\theta_\text{new}`.
 
         tau : float between 0 and 1, optional
 
-            If we set :math:`\tau=1` we do a hard update. If we pick a smaller
-            value, we do a smooth update.
+            If we set :math:`\tau=1` we do a hard update. If we pick a smaller value, we do a smooth
+            update.
 
         """
         if not isinstance(other, self.__class__):
             raise TypeError("'self' and 'other' must be of the same type")
 
-        self.params = self.func_approx._smooth_update_func(
+        self.params = self.func_approx._soft_update_func(
             self.params, other.params, tau)

@@ -524,15 +524,14 @@ class BaseFuncApprox(ABC, SpaceUtilsMixin, RandomStateMixin, LoggerMixin):
         new.env = self.env
         return new
 
-    def smooth_update(self, other, tau=1.0):
+    def soft_update(self, other, tau=1.0):
         r"""
 
-        Synchronize the current instance with ``other`` by exponential smoothing.
+        Synchronize the current instance with ``other`` through exponential smoothing:
 
         .. math::
 
-            \theta\leftarrow
-                \theta + \tau\, (\theta_\text{new} - \theta)
+            \theta\ \leftarrow\ \theta + \tau\, (\theta_\text{new} - \theta)
 
         Parameters
         ----------
@@ -551,7 +550,7 @@ class BaseFuncApprox(ABC, SpaceUtilsMixin, RandomStateMixin, LoggerMixin):
             raise TypeError("'self' and 'other' must be of the same type")
         with self._state_lock:
             for c in self.state:
-                self.state[c]['params'] = self._smooth_update_func(
+                self.state[c]['params'] = self._soft_update_func(
                     self.state[c]['params'], other.state[c]['params'], tau)
 
     # ----------------------------------------------------------------------------------------------
@@ -743,8 +742,8 @@ class BaseFuncApprox(ABC, SpaceUtilsMixin, RandomStateMixin, LoggerMixin):
             new_params = optix.apply_updates(params, updates)
             return new_params, new_opt_state
 
-        def smooth_update_func(old, new, tau):
+        def soft_update_func(old, new, tau):
             return jax.tree_multimap(lambda a, b: (1 - tau) * a + tau * b, old, new)
 
         self._update_func = jax.jit(update_func)
-        self._smooth_update_func = jax.jit(smooth_update_func)
+        self._soft_update_func = jax.jit(soft_update_func)

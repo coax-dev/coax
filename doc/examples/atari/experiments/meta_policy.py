@@ -189,7 +189,7 @@ while META.env.T < 3000000:
             DQN1.qlearning.update(DQN1.buffer.sample(batch_size=32))
 
         if META.env.T % 10000 == 0:
-            DQN1.q_targ.smooth_update(DQN1.q, tau=1)
+            DQN1.q_targ.soft_update(DQN1.q, tau=1)
 
         # -- DQN2 updates -----------------------------------------------------
         DQN2.buffer.add(s, a, r, done, logp)
@@ -198,7 +198,7 @@ while META.env.T < 3000000:
             DQN2.qlearning.update(DQN2.buffer.sample(batch_size=32))
 
         if META.env.T % 10000 == 0:
-            DQN2.q_targ.smooth_update(DQN2.q, tau=1)
+            DQN2.q_targ.soft_update(DQN2.q, tau=1)
 
         # -- DDPG updates -----------------------------------------------------
         DDPG.buffer.add(s, a, r, done, logp)
@@ -209,8 +209,8 @@ while META.env.T < 3000000:
             DDPG.qlearning.update(transition_batch)
 
         if META.env.T % 10000 == 0:
-            DDPG.pi_targ.smooth_update(DDPG.pi, tau=1)
-            DDPG.q_targ.smooth_update(DDPG.q, tau=1)
+            DDPG.pi_targ.soft_update(DDPG.pi, tau=1)
+            DDPG.q_targ.soft_update(DDPG.q, tau=1)
 
         # -- PPO updates ------------------------------------------------------
         PPO.buffer.add(s, a, r, done, logp)
@@ -225,8 +225,8 @@ while META.env.T < 3000000:
             PPO.buffer.clear()
 
             # sync target networks
-            PPO.pi_old.smooth_update(PPO.pi, tau=0.1)
-            PPO.v_targ.smooth_update(PPO.v, tau=0.1)
+            PPO.pi_old.soft_update(PPO.pi, tau=0.1)
+            PPO.v_targ.soft_update(PPO.v, tau=0.1)
 
         # -- META-policy updates ----------------------------------------------
         META.buffer.add(s, a_meta, r, done, logp_meta)
@@ -235,7 +235,7 @@ while META.env.T < 3000000:
             META.qlearning.update(META.buffer.sample(batch_size=32))
 
         if META.env.T % 10000 == 0:
-            META.q_targ.smooth_update(META.q, tau=1)
+            META.q_targ.soft_update(META.q, tau=1)
 
         # ---------------------------------------------------------------------
 
