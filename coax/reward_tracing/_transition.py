@@ -19,6 +19,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+from functools import partial
+
 import jax
 import numpy as onp
 import pandas as pd
@@ -211,6 +213,32 @@ class TransitionBatch(BaseTransition):
         self.S_next = S_next
         self.A_next = A_next
         self.logP_next = logP_next
+
+    @property
+    def batch_size(self):
+        return onp.shape(self.Rn)[0]
+
+    def to_singles(self):
+        r"""
+
+        Get an iterator of single transitions.
+
+        Returns
+        -------
+        transition_batches : iterator of TransitionBatch
+
+            An iterator of :class:`TransitionBatch <coax.reward_tracing.TransitionBatch>` objects
+            with ``batch_size=1``.
+
+            **Note:** The iterator walks through the individual transitions *in reverse order*.
+
+        """
+        def lookup(i, pytree):
+            s = slice(i, i + 1)  # ndim-preserving lookup
+            return jax.tree_map(lambda leaf: leaf[s], pytree)
+
+        for i in reversed(range(self.batch_size)):
+            yield TransitionBatch(*map(partial(lookup, i), self))
 
 
 jax.tree_util.register_pytree_node(
