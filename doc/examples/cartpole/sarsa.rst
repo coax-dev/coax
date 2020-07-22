@@ -6,6 +6,9 @@ In this notebook we solve the `CartPole-v0
 agent. Our function approximator is a multi-layer perceptron with one hidden
 layer.
 
+We chose not to use an experience-replay buffer, which makes training a little volatile. Feel free
+to add a replay buffer if you want to make the training more robust.
+
 If training is successful, this is what the result would look like:
 
 .. image:: /_static/img/cartpole.gif

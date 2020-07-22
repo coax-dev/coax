@@ -56,7 +56,8 @@ class DQN1:
     qlearning = coax.td_learning.QLearning(q, q_targ)
 
     # replay buffer
-    buffer = coax.experience_replay.SimpleReplayBuffer(env, capacity=1000000, gamma=0.99)
+    tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.99)
+    buffer = coax.experience_replay.SimpleReplayBuffer(capacity=1000000)
 
     # DQN exploration schedule (stepwise linear annealing)
     @staticmethod
@@ -84,7 +85,8 @@ class DQN2:
     qlearning = coax.td_learning.QLearning(q, q_targ)
 
     # replay buffer
-    buffer = coax.experience_replay.SimpleReplayBuffer(env, capacity=1000000, gamma=0.99)
+    tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.99)
+    buffer = coax.experience_replay.SimpleReplayBuffer(capacity=1000000)
 
 
 class DDPG:
@@ -108,7 +110,8 @@ class DDPG:
     qlearning = coax.td_learning.QLearningMode(q, pi_targ, q_targ)
 
     # replay buffer
-    buffer = coax.experience_replay.SimpleReplayBuffer(env, capacity=1000000, gamma=0.99)
+    tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.99)
+    buffer = coax.experience_replay.SimpleReplayBuffer(capacity=1000000)
 
 
 class PPO:
@@ -124,7 +127,8 @@ class PPO:
     v_targ = v.copy()
 
     # we'll use this to temporarily store our experience
-    buffer = coax.experience_replay.SimpleReplayBuffer(env, capacity=256, n=10, gamma=0.99)
+    tracer = coax.reward_tracing.NStepCache(n=5, gamma=0.99)
+    buffer = coax.experience_replay.SimpleReplayBuffer(capacity=256)
 
     # policy regularizer (avoid premature exploitation)
     kl = coax.policy_regularizers.KLDivRegularizer(pi, beta=0.001)
@@ -163,7 +167,8 @@ class META:  # based on DQN1
     qlearning = coax.td_learning.QLearning(q, q_targ)
 
     # replay buffer
-    buffer = coax.experience_replay.SimpleReplayBuffer(env, capacity=10000, gamma=0.99)
+    tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.99)
+    buffer = coax.experience_replay.SimpleReplayBuffer(capacity=10000)
 
 
 while META.env.T < 3000000:
@@ -183,7 +188,9 @@ while META.env.T < 3000000:
         DQN1.env.ep = DQN2.env.ep = DDPG.env.ep = PPO.env.ep = META.env.ep
 
         # -- DQN1 updates -----------------------------------------------------
-        DQN1.buffer.add(s, a, r, done, logp)
+        DQN1.tracer.add(s, a, r, done, logp)
+        while DQN1.tracer:
+            DQN1.buffer.add(DQN1.tracer.pop())
 
         if len(DQN1.buffer) > 50000:  # buffer warm-up
             DQN1.qlearning.update(DQN1.buffer.sample(batch_size=32))
@@ -192,7 +199,9 @@ while META.env.T < 3000000:
             DQN1.q_targ.soft_update(DQN1.q, tau=1)
 
         # -- DQN2 updates -----------------------------------------------------
-        DQN2.buffer.add(s, a, r, done, logp)
+        DQN2.tracer.add(s, a, r, done, logp)
+        while DQN2.tracer:
+            DQN2.buffer.add(DQN2.tracer.pop())
 
         if len(DQN2.buffer) > 50000:  # buffer warm-up
             DQN2.qlearning.update(DQN2.buffer.sample(batch_size=32))
@@ -201,7 +210,9 @@ while META.env.T < 3000000:
             DQN2.q_targ.soft_update(DQN2.q, tau=1)
 
         # -- DDPG updates -----------------------------------------------------
-        DDPG.buffer.add(s, a, r, done, logp)
+        DDPG.tracer.add(s, a, r, done, logp)
+        while DDPG.tracer:
+            DDPG.buffer.add(DDPG.tracer.pop())
 
         if len(DDPG.buffer) > 50000:  # buffer warm-up
             transition_batch = DDPG.buffer.sample(batch_size=32)
@@ -213,7 +224,9 @@ while META.env.T < 3000000:
             DDPG.q_targ.soft_update(DDPG.q, tau=1)
 
         # -- PPO updates ------------------------------------------------------
-        PPO.buffer.add(s, a, r, done, logp)
+        PPO.tracer.add(s, a, r, done, logp)
+        while PPO.tracer:
+            PPO.buffer.add(PPO.tracer.pop())
 
         if len(PPO.buffer) >= PPO.buffer.capacity:
             num_batches = int(4 * PPO.buffer.capacity / 32)
@@ -229,7 +242,9 @@ while META.env.T < 3000000:
             PPO.v_targ.soft_update(PPO.v, tau=0.1)
 
         # -- META-policy updates ----------------------------------------------
-        META.buffer.add(s, a_meta, r, done, logp_meta)
+        META.tracer.add(s, a, r, done, logp)
+        while META.tracer:
+            META.buffer.add(META.tracer.pop())
 
         if len(META.buffer) > 50000:  # buffer warm-up
             META.qlearning.update(META.buffer.sample(batch_size=32))

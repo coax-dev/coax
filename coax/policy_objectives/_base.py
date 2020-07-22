@@ -150,8 +150,8 @@ class PolicyObjective:
             warnings.warn(
                 f"In order for {self.__class__.__name__} to work properly, transition_batch.logP "
                 "should be non-zero. Please sample actions with their propensities: "
-                "a, logp = pi(s, return_logp=True) and then add logp to your experience tracer, "
-                "e.g. experience_replay_buffer.add(s, a, r, done, logp)")
+                "a, logp = pi(s, return_logp=True) and then add logp to your reward tracer, "
+                "e.g. nstep_tracer.add(s, a, r, done, logp)")
         return self.grad_and_metrics_func(
             self.pi.params, self.pi.function_state, self.pi.rng, transition_batch, Adv,
             **self.hyperparams)

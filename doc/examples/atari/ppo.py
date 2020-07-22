@@ -51,7 +51,8 @@ v = coax.V(func_v)
 v_targ = v.copy()
 
 # we'll use this to temporarily store our experience
-buffer = coax.experience_replay.SimpleReplayBuffer(env, capacity=256, n=10, gamma=0.99)
+tracer = coax.reward_tracing.NStepCache(n=5, gamma=0.99)
+buffer = coax.experience_replay.SimpleReplayBuffer(capacity=256)
 
 # policy regularizer (avoid premature exploitation)
 kl_div = coax.policy_regularizers.KLDivRegularizer(pi, beta=0.001)
@@ -69,8 +70,12 @@ while env.T < 3000000:
         a, logp = pi_old(s, return_logp=True)
         s_next, r, done, info = env.step(a)
 
-        buffer.add(s, a, r, done, logp)
+        # trace rewards and add transition to replay buffer
+        tracer.add(s, a, r, done, logp)
+        while tracer:
+            buffer.add(tracer.pop())
 
+        # learn
         if len(buffer) >= buffer.capacity:
             num_batches = int(4 * buffer.capacity / 32)  # 4 epochs per round
             for _ in range(num_batches):

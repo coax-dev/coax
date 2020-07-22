@@ -40,10 +40,6 @@ class NStepCache(BaseShortTermCache):
 
     Parameters
     ----------
-    env : gym environment
-
-        The main gym environment. This is needed to determine ``num_actions``.
-
     n : positive int
 
         The number of steps over which to bootstrap.
@@ -53,8 +49,7 @@ class NStepCache(BaseShortTermCache):
         The amount by which to discount future rewards.
 
     """
-    def __init__(self, env, n, gamma):
-        super().__init__(env)
+    def __init__(self, n, gamma):
         self.n = int(n)
         self.gamma = float(gamma)
         self.reset()
@@ -69,8 +64,7 @@ class NStepCache(BaseShortTermCache):
     def add(self, s, a, r, done, logp=0.0):
         if self._done and len(self):
             raise EpisodeDoneError(
-                "please flush cache (or repeatedly call popleft) before "
-                "appending new transitions")
+                "please flush cache (or repeatedly call popleft) before appending new transitions")
 
         self._deque_sap.append((s, a, logp))
         self._deque_r.append(r)
@@ -85,8 +79,7 @@ class NStepCache(BaseShortTermCache):
     def pop(self):
         if not self:
             raise InsufficientCacheError(
-                "cache needs to receive more transitions before it can be "
-                "popped from")
+                "cache needs to receive more transitions before it can be popped from")
 
         # pop state-action (propensities) pair
         s, a, logp = self._deque_sap.popleft()

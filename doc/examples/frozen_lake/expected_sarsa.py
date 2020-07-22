@@ -26,7 +26,7 @@ pi = coax.BoltzmannPolicy(q, tau=0.1)
 
 
 # experience tracer
-cache = coax.reward_tracing.NStepCache(env, n=1, gamma=0.9)
+cache = coax.reward_tracing.NStepCache(n=1, gamma=0.9)
 
 
 # updater

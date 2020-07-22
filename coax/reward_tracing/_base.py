@@ -25,7 +25,6 @@ import jax
 import numpy as onp
 
 from .._base.errors import InsufficientCacheError
-from .._base.mixins import SpaceUtilsMixin
 
 
 __all__ = (
@@ -33,9 +32,7 @@ __all__ = (
 )
 
 
-class BaseShortTermCache(ABC, SpaceUtilsMixin):
-    def __init__(self, env):
-        self.env = env
+class BaseShortTermCache(ABC):
 
     @abstractmethod
     def reset(self):
@@ -111,5 +108,4 @@ class BaseShortTermCache(ABC, SpaceUtilsMixin):
         while self:
             transitions.append(self.pop())
 
-        return jax.tree_multimap(
-            lambda *leaves: onp.concatenate(leaves, axis=0), *transitions)
+        return jax.tree_multimap(lambda *leaves: onp.concatenate(leaves, axis=0), *transitions)

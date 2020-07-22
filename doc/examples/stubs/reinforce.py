@@ -27,7 +27,7 @@ vanilla_pg = coax.policy_objectives.VanillaPG(pi)
 
 
 # specify how to trace the transitions
-cache = coax.reward_tracing.MonteCarloCache(env, gamma=0.9)
+cache = coax.reward_tracing.MonteCarloCache(gamma=0.9)
 
 
 for ep in range(100):

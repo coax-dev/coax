@@ -1,17 +1,14 @@
 import os
-from functools import partial
 
 import gym
 import jax
 import coax
 import haiku as hk
 import jax.numpy as jnp
-from jax.experimental import optix
 
 
 # set some env vars
-# os.environ['JAX_PLATFORM_NAME'] = 'cpu'     # tell JAX to use CPU
-os.environ['JAX_PLATFORM_NAME'] = 'gpu'     # tell JAX to use GPU
+os.environ.setdefault('JAX_PLATFORM_NAME', 'gpu')     # tell JAX to use GPU
 os.environ['XLA_PYTHON_CLIENT_MEM_FRACTION'] = '0.1'  # don't use all gpu mem
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'              # tell XLA to be quiet
 
@@ -28,48 +25,44 @@ env = coax.wrappers.BoxActionsToReals(env)
 env = coax.wrappers.TrainMonitor(env, tensorboard_dir)
 
 
-class MLP(coax.FuncApprox):
-    """ multi-layer perceptron with one hidden layer """
+class Func(coax.FuncApprox):
     def body(self, S, is_training):
+        return S  # trivial
+
+    def head_pi(self, S, is_training):
         seq = hk.Sequential((
-            coax.utils.double_relu,
-            hk.Linear(6),
-            partial(hk.BatchNorm(False, False, 0.95), is_training=is_training),
-            coax.utils.double_relu,
-            hk.Linear(6),
-            partial(hk.BatchNorm(False, False, 0.95), is_training=is_training),
-            coax.utils.double_relu,
+            hk.Linear(8), jax.nn.relu,
+            hk.Linear(8), jax.nn.relu,
+            hk.Linear(8), jax.nn.relu,
+            hk.Linear(jnp.prod(env.action_space.shape)),
+            hk.Reshape(env.action_space.shape),
         ))
-        return seq(S)
+        mu = seq(S)
+        return {'mu': mu, 'logvar': jnp.full_like(mu, -10)}  # (almost) deterministic
 
-    def state_action_combiner(self, X_s, X_a, is_training):
+    def state_action_combiner(self, S, A, is_training):
+        flatten = hk.Flatten()
+        return jnp.concatenate([flatten(S), jnp.tanh(flatten(A))], axis=1)
+
+    def head_q1(self, X_sa, is_training):
         seq = hk.Sequential((
-            coax.utils.double_relu,
-            hk.Linear(6),
-            partial(hk.BatchNorm(False, False, 0.95), is_training=is_training),
-            coax.utils.double_relu,
-            hk.Linear(6),
-            partial(hk.BatchNorm(False, False, 0.95), is_training=is_training),
-            coax.utils.double_relu,
+            hk.Linear(8), jax.nn.relu,
+            hk.Linear(8), jax.nn.relu,
+            hk.Linear(8), jax.nn.relu,
+            hk.Linear(1),
         ))
-        return jnp.concatenate((X_s, seq(X_a)), axis=1)
-
-    def head_pi(self, X_s, is_training):
-        mu = hk.Linear(self.action_shape_flat, w_init=jnp.zeros)(X_s)
-        logvar = jax.lax.stop_gradient(jnp.full_like(mu, fill_value=0.))  # DDPG can't learn var
-        return {'mu': mu, 'logvar': logvar}
-
-    def optimizer(self):
-        return optix.chain(
-            optix.clip_by_global_norm(1.),
-            optix.adam(learning_rate=self.optimizer_kwargs.get('learning_rate', 1e-3)),
-        )
+        return seq(X_sa)
 
 
-# define function approximators
-func = MLP(env, random_seed=13, learning_rate=1e-3)
+# main function approximators
+func = Func(env, learning_rate=1e-3)
 pi = coax.Policy(func)
 q = coax.Q(func)
+
+
+# target networks
+pi_targ = pi.copy()
+q_targ = q.copy()
 
 
 # target network
@@ -78,49 +71,54 @@ pi_targ = pi.copy()
 
 
 # experience tracer
-buffer = coax.ExperienceReplayBuffer(env, capacity=20000, n=5, gamma=0.9)
-
-
-# policy regularizer (avoid premature exploitation)
-kl_div = coax.policy_regularizers.KLDivRegularizer(pi, beta=0.001)
-
-
-# value transform
-log_transform = coax.value_transforms.LogTransform()
+tracer = coax.reward_tracing.NStepCache(n=5, gamma=0.99)
+buffer = coax.experience_replay.SimpleReplayBuffer(capacity=25000)
 
 
 # updaters
-qlearning = coax.td_learning.QLearningMode(q, pi_targ, q_targ, value_transform=log_transform)
-sarsa = coax.td_learning.Sarsa(q, q_targ, value_transform=log_transform)
-ddpg = coax.policy_objectives.DeterministicPG(pi, q, regularizer=kl_div)
+qlearning = coax.td_learning.QLearningMode(q, pi_targ, q_targ, loss_function=coax.value_losses.mse)
+determ_pg = coax.policy_objectives.DeterministicPG(pi, q_targ)
+
+
+# action noise
+noise = coax.utils.OrnsteinUhlenbeckNoise(mu=0., sigma=0.2, theta=0.15)
 
 
 # train
-for ep in range(1000):
+while env.T < 1000000:
     s = env.reset()
+    noise.reset()
+    noise.sigma *= 0.99  # slowly decrease noise scale
 
     for t in range(env.spec.max_episode_steps):
-        a, logp = pi(s, return_logp=True)
-        print(a, logp, pi.dist_params(s))
+        a = noise(pi(s))
+        # print(a, pi.dist_params(s))
         s_next, r, done, info = env.step(a)
 
-        # update
-        buffer.add(s, a, r, done, logp)
-        if len(buffer) >= 1000:
-            transition_batch = buffer.sample(batch_size=8)
-            ddpg.update(transition_batch)
-            sarsa.update(transition_batch)
-            # qlearning.update(transition_batch)
+        # trace rewards and add transition to replay buffer
+        tracer.add(s, a, r, done)
+        while tracer:
+            buffer.add(tracer.pop())
 
-        # sync target networks
-        if env.T % 1000 == 0:
-            q_targ.smooth_update(q, tau=0.1)
-            pi_targ.smooth_update(pi, tau=0.1)
+        # learn
+        if len(buffer) >= 5000:
+            transition_batch = buffer.sample(batch_size=1024)
+
+            metrics = {'OrnsteinUhlenbeckNoise/sigma': noise.sigma}
+            metrics.update(determ_pg.update(transition_batch))
+            metrics.update(qlearning.update(transition_batch))
+            env.record_metrics(metrics)
+
+            # sync target networks
+            q_targ.soft_update(q, tau=0.001)
+            pi_targ.soft_update(pi, tau=0.001)
 
         if done:
             break
 
         s = s_next
 
-
-coax.utils.render_episode(env, pi)
+    # generate an animated GIF to see what's going on
+    if env.period(name='generate_gif', T_period=10000) and env.T > 5000:
+        T = env.T - env.T % 10000
+        coax.utils.generate_gif(env=env, policy=pi.greedy, filepath=gifs_filepath.format(T))

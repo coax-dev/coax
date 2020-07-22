@@ -36,7 +36,7 @@ v = coax.V(func_v)
 pi = coax.Policy(func_pi)
 
 # experience tracer
-cache = coax.reward_tracing.NStepCache(env, n=1, gamma=0.9)
+tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.9)
 
 # updaters
 vanilla_pg = coax.policy_objectives.VanillaPG(pi)
@@ -55,11 +55,11 @@ for ep in range(1000):
         a = pi(s)
         s_next, r, done, info = env.step(a)
         if done and (t == env.spec.max_episode_steps - 1):
-            r = 1 / (1 - cache.gamma)
+            r = 1 / (1 - tracer.gamma)
 
-        cache.add(s, a, r, done)
-        while cache:
-            transition_batch = cache.pop()
+        tracer.add(s, a, r, done)
+        while tracer:
+            transition_batch = tracer.pop()
             # transition_batch.Rn = jnp.tanh(transition_batch.Rn)
             Adv = value_td.td_error(transition_batch)
             vanilla_pg.update(transition_batch, Adv)

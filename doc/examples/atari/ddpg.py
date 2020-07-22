@@ -58,8 +58,9 @@ kl_div = coax.policy_regularizers.KLDivRegularizer(pi, beta=0.001)
 determ_pg = coax.policy_objectives.DeterministicPG(pi, q, regularizer=kl_div)
 qlearning = coax.td_learning.QLearningMode(q, pi_targ, q_targ)
 
-# replay buffer
-buffer = coax.experience_replay.SimpleReplayBuffer(env, capacity=1000000, n=1, gamma=0.99)
+# reward tracer and replay buffer
+tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.99)
+buffer = coax.experience_replay.SimpleReplayBuffer(capacity=1000000)
 
 
 while env.T < 3000000:
@@ -69,8 +70,12 @@ while env.T < 3000000:
         a, logp = pi(s, return_logp=True)
         s_next, r, done, info = env.step(a)
 
-        buffer.add(s, a, r, done, logp)
+        # trace rewards and add transition to replay buffer
+        tracer.add(s, a, r, done, logp)
+        while tracer:
+            buffer.add(tracer.pop())
 
+        # learn
         if len(buffer) > 50000:  # buffer warm-up
             transition_batch = buffer.sample(batch_size=32)
 

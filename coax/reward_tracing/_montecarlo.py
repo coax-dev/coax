@@ -35,17 +35,12 @@ class MonteCarloCache(BaseShortTermCache):
 
     Parameters
     ----------
-    env : gym environment
-
-        The main gym environment. This is needed to determine ``num_actions``.
-
     gamma : float between 0 and 1
 
         The amount by which to discount future rewards.
 
     """
-    def __init__(self, env, gamma):
-        super().__init__(env)
+    def __init__(self, gamma):
         self.gamma = float(gamma)
         self.reset()
 
@@ -57,12 +52,11 @@ class MonteCarloCache(BaseShortTermCache):
     def add(self, s, a, r, done, logp=0.0):
         if self._done and len(self):
             raise EpisodeDoneError(
-                "please flush cache (or repeatedly pop) before appending new "
-                "transitions")
+                "please flush cache (or repeatedly pop) before appending new transitions")
 
         self._list.append((s, a, r, logp))
         self._done = bool(done)
-        if done:
+        if self._done:
             self._g = 0.  # init return
 
     def __len__(self):
@@ -75,8 +69,7 @@ class MonteCarloCache(BaseShortTermCache):
         if not self:
             if not len(self):
                 raise InsufficientCacheError(
-                    "cache needs to receive more transitions before it can be "
-                    "popped from")
+                    "cache needs to receive more transitions before it can be popped from")
             else:
                 raise InsufficientCacheError(
                     "cannot pop from cache before before receiving done=True")

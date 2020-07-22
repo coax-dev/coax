@@ -28,7 +28,7 @@ qlearning = coax.td_learning.QLearning(q)
 
 
 # specify how to trace the transitions
-cache = coax.reward_tracing.NStepCache(env, n=1, gamma=0.9)
+cache = coax.reward_tracing.NStepCache(n=1, gamma=0.9)
 
 
 for ep in range(100):

@@ -71,8 +71,7 @@ class NormalDist(ProbaDist):
                 quad = jnp.dot(jnp.square(x - mu), jnp.exp(-logvar))
             else:
                 assert x.ndim == mu.ndim == logvar.ndim == 2
-                quad = jnp.einsum(
-                    'ij,ij->i', jnp.square(x - mu), jnp.exp(-logvar))
+                quad = jnp.einsum('ij,ij->i', jnp.square(x - mu), jnp.exp(-logvar))
             return -0.5 * (n * log_2pi + log_det_var + quad)
 
         def entropy(dist_params):

@@ -29,7 +29,7 @@ q = coax.Q(func)
 pi = coax.EpsilonGreedy(q, epsilon=0.1)
 
 # experience tracer
-cache = coax.reward_tracing.NStepCache(env, n=1, gamma=0.9)
+tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.9)
 
 # updater
 sarsa = coax.td_learning.Sarsa(q)
@@ -50,11 +50,11 @@ for ep in range(1000):
         # extend last reward as asymptotic best-case return
         if t == env.spec.max_episode_steps - 1:
             assert done
-            r = 1 / (1 - cache.gamma)
+            r = 1 / (1 - tracer.gamma)
 
-        cache.add(s, a, r, done)
-        while cache:
-            transition_batch = cache.pop()
+        tracer.add(s, a, r, done)
+        while tracer:
+            transition_batch = tracer.pop()
             sarsa.update(transition_batch)
 
         if done:

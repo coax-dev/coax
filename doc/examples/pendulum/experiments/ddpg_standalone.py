@@ -1,3 +1,12 @@
+"""
+
+This script is a JAX port of the original Tensorflow-based script:
+
+    https://gist.github.com/heerad/1983d50c6657a55298b67e69a2ceeb44#file-ddpg-pendulum-v0-py
+
+
+"""
+
 import os
 import json
 import random
@@ -35,11 +44,10 @@ class hparams:
     train_every = 1         # number of steps to run the policy (and collect experience) before updating network weights
     replay_memory_capacity = int(1e5)   # capacity of experience replay memory
     minibatch_size = 1024   # size of minibatch from experience replay memory for updates
-    initial_noise_scale = 0.1   # scale of the exploration noise process (1.0 is the range of each action dimension)
-    noise_decay = 0.99      # decay rate (per episode) of the scale of the exploration noise process
+    noise_decay = 0.9999    # decay rate (per step) of the scale of the exploration noise process
     exploration_mu = 0.0    # mu parameter for the exploration noise process: dXt = theta*(mu-Xt)*dt + sigma*dWt
     exploration_theta = 0.15 # theta parameter for the exploration noise process: dXt = theta*(mu-Xt)*dt + sigma*dWt
-    exploration_sigma = 0.2 # sigma parameter for the exploration noise process: dXt = theta*(mu-Xt )*dt + sigma*dWt
+    exploration_sigma = 0.2  # sigma parameter for the exploration noise process: dXt = theta*(mu-Xt )*dt + sigma*dWt
 
     @classmethod
     def to_json(cls, dirpath):
@@ -51,13 +59,14 @@ class hparams:
 
 
 # filepaths etc
-experiment_id = 'ddpg_standalone'
+experiment_id, _ = os.path.splitext(__file__)
 tensorboard_dir = f"./data/tensorboard/{experiment_id}"
 coax.enable_logging(experiment_id)
 
 
 # the MDP
 env = gym.make('Pendulum-v0')
+env = coax.wrappers.BoxActionsToReals(env)
 env = coax.wrappers.TrainMonitor(env, tensorboard_dir)
 
 
@@ -91,7 +100,8 @@ def sample_from_memory(minibatch_size):
     R = onp.stack([t[2] for t in transitions], axis=0)
     D = onp.stack([t[3] for t in transitions], axis=0)
     S_next = onp.stack([t[4] for t in transitions], axis=0)
-    return S, A, R, D, S_next
+    In = hparams.gamma * (1 - D)
+    return coax.reward_tracing.TransitionBatch(S, A, None, R, In, S_next, None, None)
 
 
 ####################################################################################################
@@ -99,14 +109,14 @@ def sample_from_memory(minibatch_size):
 
 def pi(S, is_training):
     rng1, rng2, rng3 = hk.next_rng_keys(3)
-    shape, high, low = env.action_space.shape, env.action_space.high, env.action_space.low
+    shape = env.action_space.shape
     rate = hparams.dropout_actor * is_training
     seq = hk.Sequential((
         hk.Linear(hparams.h1_actor), jax.nn.relu, partial(hk.dropout, rng1, rate),
         hk.Linear(hparams.h2_actor), jax.nn.relu, partial(hk.dropout, rng2, rate),
         hk.Linear(hparams.h3_actor), jax.nn.relu, partial(hk.dropout, rng3, rate),
         hk.Linear(onp.prod(shape)), hk.Reshape(shape),
-        lambda x: low + (high - low) * jax.nn.sigmoid(x),  # compatify
+        # lambda x: low + (high - low) * jax.nn.sigmoid(x),  # disable: BoxActionsToReals
     ))
     return seq(S)  # batch of actions
 
@@ -121,7 +131,7 @@ def q(S, A, is_training):
         hk.Linear(1), jnp.ravel,
     ))
     flatten = hk.Flatten()
-    X_sa = jnp.concatenate([flatten(S), flatten(A)], axis=1)
+    X_sa = jnp.concatenate([flatten(S), jnp.tanh(flatten(A))], axis=1)
     return seq(X_sa)
 
 
@@ -156,17 +166,19 @@ def soft_update(target_params, primary_params, tau=1.0):
 ####################################################################################################
 # loss functions and optimizers
 
-def loss_q(params_q, target_params_q, target_params_pi, rng, S, A, R, D, S_next):
+def loss_q(params_q, target_params_q, target_params_pi, rng, transition_batch):
     rngs = hk.PRNGSequence(rng)
+    S, A, _, Rn, In, S_next, _, _ = transition_batch
     A_next = pi(target_params_pi, next(rngs), S_next, False)
     Q_next = q(target_params_q, next(rngs), S_next, A_next, False)
-    target = R + (1 - D) * hparams.gamma * Q_next
+    target = Rn + In * Q_next
     pred = q(params_q, next(rngs), S, A, True)
     return jnp.mean(jnp.square(pred - target))
 
 
-def loss_pi(params_pi, target_params_q, rng, S, A):
+def loss_pi(params_pi, target_params_q, rng, transition_batch):
     rngs = hk.PRNGSequence(rng)
+    S, A = transition_batch[:2]
     A = pi(params_pi, next(rngs), S, True)
     Q = q(target_params_q, next(rngs), S, A, False)
     return -jnp.mean(Q)  # flip sign
@@ -194,17 +206,17 @@ optimizer_q = optix.adam(hparams.lr_critic)
 optimizer_state_q = optimizer_q.init(params_q)
 
 
-def update(S, A, R, D, S_next):
+def update(transition_batch):
     """ high-level utility function for updating the actor-critic """
     global params_pi, optimizer_state_pi, params_q, optimizer_state_q
 
     # update the actor
-    loss_pi, grads_pi = loss_and_grad_pi(params_pi, target_params_q, next(rngs), S, A)
+    loss_pi, grads_pi = loss_and_grad_pi(params_pi, target_params_q, next(rngs), transition_batch)
     params_pi, optimizer_state_pi = update_fn(params_pi, grads_pi, optimizer_pi, optimizer_state_pi)
 
     # update the critic
-    loss_q, grads_q = \
-        loss_and_grad_q(params_q, target_params_q, target_params_pi, next(rngs), S, A, R, D, S_next)
+    loss_q, grads_q = loss_and_grad_q(
+        params_q, target_params_q, target_params_pi, next(rngs), transition_batch)
     params_q, optimizer_state_q = update_fn(params_q, grads_q, optimizer_q, optimizer_state_q)
 
     return {'pi/loss': loss_pi, 'q/loss': loss_q}
@@ -215,11 +227,13 @@ def update(S, A, R, D, S_next):
 
 def noise(a, ep):
     a = jnp.asarray(a)
-    shape, high, low = env.action_space.shape, env.action_space.high, env.action_space.low
+    shape = env.action_space.shape
     mu, sigma, theta = hparams.exploration_mu, hparams.exploration_sigma, hparams.exploration_theta
-    scale = (hparams.initial_noise_scale * hparams.noise_decay ** ep) * (high - low)
+    scale = hk.get_state('scale', shape=(), dtype=a.dtype, init=jnp.ones)
     noise = hk.get_state('noise', shape=a.shape, dtype=a.dtype, init=jnp.zeros)
+    scale = scale * hparams.noise_decay
     noise = theta * (mu - noise) + sigma * jax.random.normal(hk.next_rng_key(), shape)
+    hk.set_state('scale', scale)
     hk.set_state('noise', noise)
     return a + noise * scale
 
@@ -259,7 +273,7 @@ for _ in range(hparams.num_episodes):
 
         if len(replay_memory) >= max(hparams.minibatch_size, 5000):
             transition_batch = sample_from_memory(hparams.minibatch_size)
-            metrics = update(*transition_batch)
+            metrics = update(transition_batch)
             env.record_metrics(metrics)
 
             # update target networks

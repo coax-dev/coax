@@ -83,7 +83,7 @@ class TestNStepCache:
         return Rn_
 
     def test_append_done_twice(self):
-        cache = NStepCache(self.env, self.n, gamma=self.gamma)
+        cache = NStepCache(self.n, gamma=self.gamma)
         for i, (s, a, r, done) in enumerate(self.episode, 1):
             if i == 1:
                 cache.add(s, a, r, True)
@@ -92,7 +92,7 @@ class TestNStepCache:
                     cache.add(s, a, r, True)
 
     def test_append_done_one(self):
-        cache = NStepCache(self.env, self.n, gamma=self.gamma)
+        cache = NStepCache(self.n, gamma=self.gamma)
         for i, (s, a, r, done) in enumerate(self.episode, 1):
             if i == 1:
                 cache.add(s, a, r, True)
@@ -107,7 +107,7 @@ class TestNStepCache:
         assert_array_almost_equal(transitions.In, [0])
 
     def test_pop(self):
-        cache = NStepCache(self.env, self.n, gamma=self.gamma)
+        cache = NStepCache(self.n, gamma=self.gamma)
         for i, (s, a, r, done) in enumerate(self.episode, 1):
             cache.add(s, a, r, done)
             assert len(cache) == i
@@ -137,7 +137,7 @@ class TestNStepCache:
             i += 1
 
     def test_pop_eager(self):
-        cache = NStepCache(self.env, self.n, gamma=self.gamma)
+        cache = NStepCache(self.n, gamma=self.gamma)
         for i, (s, a, r, done) in enumerate(self.episode):
             cache.add(s, a, r, done)
             assert len(cache) == min(i + 1, self.n + 1)
@@ -183,7 +183,7 @@ class TestNStepCache:
             i += 1
 
     def test_flush(self):
-        cache = NStepCache(self.env, self.n, gamma=self.gamma)
+        cache = NStepCache(self.n, gamma=self.gamma)
         for i, (s, a, r, done) in enumerate(self.episode, 1):
             cache.add(s, a, r, done)
             assert len(cache) == i
@@ -203,7 +203,7 @@ class TestNStepCache:
             transitions.A_next[:-self.n], self.A[self.n:])
 
     def test_flush_eager(self):
-        cache = NStepCache(self.env, self.n, gamma=self.gamma)
+        cache = NStepCache(self.n, gamma=self.gamma)
         for i, (s, a, r, done) in enumerate(self.episode):
             cache.add(s, a, r, done)
             assert len(cache) == min(i + 1, self.n + 1)
@@ -245,7 +245,7 @@ class TestNStepCache:
             i += 1
 
     def test_flush_insufficient(self):
-        cache = NStepCache(self.env, self.n, gamma=self.gamma)
+        cache = NStepCache(self.n, gamma=self.gamma)
         for i, (s, a, r, done) in islice(enumerate(self.episode, 1), 4):
             cache.add(s, a, r, done)
 
@@ -253,7 +253,7 @@ class TestNStepCache:
             cache.flush()
 
     def test_flush_empty(self):
-        cache = NStepCache(self.env, self.n, gamma=self.gamma)
+        cache = NStepCache(self.n, gamma=self.gamma)
 
         with pytest.raises(InsufficientCacheError):
             cache.flush()

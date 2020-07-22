@@ -66,7 +66,7 @@ func = ConnectFourFuncApprox(env, learning_rate=0.001)
 pi = coax.Policy(func, policy_objective=cross_entropy_objective)
 v = coax.V(func, gamma=0.99, n=10, bootstrap_with_params_copy=True)
 ac = coax.TDActorCritic(pi, v)
-cache = coax.caching.MonteCarloCache(env, gamma=1)
+cache = coax.caching.MonteCarloCache(gamma=1)
 
 
 # state_id = '20400000000000000099'

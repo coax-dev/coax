@@ -49,11 +49,14 @@ q = coax.Q(func, qtype=2)
 q_targ = q.copy()
 pi = coax.BoltzmannPolicy(q, tau=0.015)  # <--- different from standard DQN
 
+
 # updater
 qlearning = coax.td_learning.QLearning(q, q_targ)
 
-# replay buffer
-buffer = coax.experience_replay.SimpleReplayBuffer(env, capacity=1000000, n=1, gamma=0.99)
+
+# reward tracer and replay buffer
+tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.99)
+buffer = coax.experience_replay.SimpleReplayBuffer(capacity=1000000)
 
 
 # DQN exploration schedule (stepwise linear annealing)
@@ -74,9 +77,13 @@ while env.T < 3000000:
         a = pi(s)
         s_next, r, done, info = env.step(a)
 
-        buffer.add(s, a, r, done)
+        # trace rewards and add transition to replay buffer
+        tracer.add(s, a, r, done)
+        while tracer:
+            buffer.add(tracer.pop())
 
-        if len(buffer) > 50000:  # buffer warm-up
+        # learn
+        if len(buffer) > 1000:  # buffer warm-up
             metrics = qlearning.update(buffer.sample(batch_size=32))
             env.record_metrics(metrics)
 
