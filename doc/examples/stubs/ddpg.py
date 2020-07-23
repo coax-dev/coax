@@ -34,7 +34,8 @@ qlearning = coax.td_learning.QLearningMode(q, pi_targ, q_targ)  # or use Sarsa
 
 
 # specify how to trace the transitions
-buffer = coax.experience_replay.SimpleReplayBuffer(env, n=1, gamma=0.9, capacity=1000000)
+tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.9)
+buffer = coax.experience_replay.SimpleReplayBuffer(capacity=1000000)
 
 
 for ep in range(100):
@@ -45,7 +46,9 @@ for ep in range(100):
         s_next, r, done, info = env.step(a)
 
         # add transition to buffer
-        buffer.add(s, a, r, done)
+        tracer.add(s, a, r, done)
+        while tracer:
+            buffer.add(tracer.pop())
 
         # update
         transition_batch = buffer.sample(batch_size=32)

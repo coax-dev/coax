@@ -29,7 +29,8 @@ value_td = coax.td_learning.ValueTD(v)
 
 
 # specify how to trace the transitions
-buffer = coax.experience_replay.SimpleReplayBuffer(env, n=5, gamma=0.9, capacity=256)
+tracer = coax.reward_tracing.NStepCache(n=5, gamma=0.9)
+buffer = coax.experience_replay.SimpleReplayBuffer(capacity=256)
 
 
 for ep in range(100):
@@ -42,7 +43,9 @@ for ep in range(100):
         # add transition to buffer
         # N.B. vanilla-pg doesn't use logp but we include it to make it easy to
         # swap in another policy updater that does require it, e.g. ppo-clip
-        buffer.add(s, a, r, done, logp)
+        tracer.add(s, a, r, done, logp)
+        while tracer:
+            buffer.add(tracer.pop())
 
         # update
         if len(buffer) == buffer.capacity:
