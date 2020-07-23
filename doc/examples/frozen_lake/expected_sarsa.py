@@ -26,7 +26,7 @@ pi = coax.BoltzmannPolicy(q, tau=0.1)
 
 
 # experience tracer
-cache = coax.reward_tracing.NStepCache(n=1, gamma=0.9)
+tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.9)
 
 
 # updater
@@ -46,9 +46,10 @@ for ep in range(500):
         if jnp.array_equal(s_next, s):
             r = -0.01
 
-        cache.add(s, a, r, done)
-        while cache:
-            transition_batch = cache.pop()
+        # update
+        tracer.add(s, a, r, done)
+        while tracer:
+            transition_batch = tracer.pop()
             esarsa.update(transition_batch)
 
         if done:

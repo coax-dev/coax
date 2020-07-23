@@ -16,15 +16,41 @@ Create simple, reproducible RL solutions with JAX function approximators.
 
 [![coax](doc/_static/img/coax_logo.png)](https://coax.readthedocs.io/)
 
-For the full documentation, including many examples, go to [coax.readthedocs.io](https://coax.readthedocs.io/).
+For the full documentation, including many examples, go to
+[coax.readthedocs.io](https://coax.readthedocs.io/).
 
 
 ## Install
 
-To install coax, have a look at the installation guide:
+Install using pip:
 
-* https://coax.readthedocs.io/install.html
+```
+$ pip install coax
+```
 
+or install from a fresh clone:
+
+```
+$ git clone https://github.com/microsoft/coax.git
+$ pip install -e ./coax
+```
+
+---
+**NOTE**
+
+**coax** requires the JAX python package, but it doesn't have an explicit dependence on it. The
+reason is that your version of `jax` and `jaxlib` will depend on your CUDA version. Check out
+the [Installation Guide](https://coax.readthedocs.io/examples/getting_started/install.html) to
+install `jax`.
+
+---
+
+
+## Getting Started
+
+Have a look at the
+[Getting Started](https://coax.readthedocs.io/examples/getting_started/index.html) page to train
+your first RL agent.
 
 
 ## Contributing
@@ -33,10 +59,12 @@ This project welcomes contributions and suggestions.  Most contributions require
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
 the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
+When you submit a pull request, a CLA bot will automatically determine whether you need to provide a
+CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
 provided by the bot. You will only need to do this once across all repos using our CLA.
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+This project has adopted the
+[Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more
+information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
+contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or
+comments.

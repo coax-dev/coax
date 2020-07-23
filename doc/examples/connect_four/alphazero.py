@@ -66,7 +66,7 @@ func = ConnectFourFuncApprox(env, learning_rate=0.001)
 pi = coax.Policy(func, policy_objective=cross_entropy_objective)
 v = coax.V(func, gamma=0.99, n=10, bootstrap_with_params_copy=True)
 ac = coax.TDActorCritic(pi, v)
-cache = coax.caching.MonteCarloCache(gamma=1)
+tracer = coax.caching.MonteCarloCache(gamma=1)
 
 
 # state_id = '20400000000000000099'
@@ -82,7 +82,7 @@ n.env.render()
 # n.search(n=28)
 # n.show(2)
 # s, pi, r, done = n.play(tau=0)
-# # cache.add(s, pi, r, done)
+# # tracer.add(s, pi, r, done)
 # n.env.render()
 
 
@@ -93,13 +93,13 @@ n.env.render()
 #         n.search(n=28)
 #         # n.show(2)
 #         s, pi, r, done = n.play(tau=0.)
-#         cache.add(s, pi, r, done)
+#         tracer.add(s, pi, r, done)
 #         n.env.render()
 
 #         if done:
 #             G = jnp.expand_dims(r, axis=0)
-#             while cache:
-#                 transition = cache.pop()
+#             while tracer:
+#                 transition = tracer.pop()
 #                 transition.Rn = G
 #                 ac.batch_update(transition)
 #                 G = -G  # flip sign for opponent

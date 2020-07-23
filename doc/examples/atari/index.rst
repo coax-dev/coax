@@ -1,5 +1,5 @@
-Atari 2600: Pong
-================
+Pong (Atari)
+============
 
 These notebooks solve the `Pong <https://gym.openai.com/envs/Pong-v0/>`_
 environment.

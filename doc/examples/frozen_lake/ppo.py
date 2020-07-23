@@ -32,7 +32,7 @@ v_targ = v.copy()   # target network
 
 
 # experience tracer
-cache = coax.reward_tracing.NStepCache(n=1, gamma=0.9)
+tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.9)
 
 
 # updaters
@@ -53,9 +53,9 @@ for ep in range(250):
             r = -0.01
 
         # update
-        cache.add(s, a, r, done, logp)
-        while cache:
-            transition_batch = cache.pop()
+        tracer.add(s, a, r, done, logp)
+        while tracer:
+            transition_batch = tracer.pop()
             Adv = value_td.td_error(transition_batch)
             ppo_clip.update(transition_batch, Adv)
             value_td.update(transition_batch)

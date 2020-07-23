@@ -1,7 +1,7 @@
 coax
 ====
 
-*Plug-n-play Reinforcement Learning in Python with OpenAI Gym and Google JAX*
+*Plug-n-play Reinforcement Learning in Python with OpenAI Gym and JAX*
 
 
 .. image:: /_static/img/cartpole.gif
@@ -12,6 +12,37 @@ coax
 Create simple, reproducible RL solutions with OpenAI gym environments and JAX-based function
 approximators.
 
+Install
+-------
+
+Install using pip:
+
+.. code:: bash
+
+    $ pip install coax
+
+or install from a fresh clone:
+
+.. code:: bash
+
+    $ git clone https://github.com/microsoft/coax.git
+    $ pip install -e ./coax
+
+
+.. note::
+
+    **coax** requires the JAX python package, but it doesn't have an explicit dependence on it. The
+    reason is that your version of ``jax`` and ``jaxlib`` will depend on your CUDA version. Check
+    out the :doc:`examples/getting_started/install` to install ``jax``.
+
+
+Getting Started
+---------------
+
+Have a look at the :doc:`Getting Started <examples/getting_started/index>` page to train your first
+RL agent.
+
+
 .. hidden tocs .....................................................................................
 
 .. toctree::
@@ -19,8 +50,9 @@ approximators.
     :maxdepth: 1
     :hidden:
 
-    examples/prerequisites/index
+    examples/getting_started/index
     examples/stubs/index
+    examples/linear_regression/index
     examples/atari/index
     examples/cartpole/index
     examples/frozen_lake/index
@@ -45,10 +77,10 @@ approximators.
     coax/td_learning
     coax/policy_objectives
     coax/policy_regularizers
-    coax/value_losses
-    coax/value_transforms
     coax/reward_tracing
     coax/experience_replay
+    coax/value_losses
+    coax/value_transforms
     coax/planning
 
 .. toctree::
@@ -65,43 +97,7 @@ approximators.
     :maxdepth: 1
     :hidden:
 
-    install
     design
     genindex
     release_notes
 
-....................................................................................................
-
-
-Install
--------
-
-Install using pip:
-
-.. code:: bash
-
-    $ pip install coax
-
-or install from a fresh clone:
-
-.. code:: bash
-
-    $ git clone https://github.com/microsoft/coax.git coax
-    $ pip install -e ./coax
-
-
-N.B. **coax** requires the `JAX <https://jax.readthedocs.io>`_ python package, but it doesn't have
-an explicit dependence on it. The reason is that your version of ``jax`` and ``jaxlib`` will depend
-on your CUDA version. Check out the :doc:`install` to install ``jax``.
-
-
-Example
--------
-
-The easiest way to get started is to read through some examples.
-
-Here's one of the examples from the notebooks, in which we solve the ``CartPole-v0`` environment
-with the SARSA algorithm, using a simple linear function approximator for our Q-function:
-
-
-.. literalinclude:: examples/cartpole/sarsa.py

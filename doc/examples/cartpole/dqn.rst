@@ -1,10 +1,9 @@
-Cartpole with SARSA
-===================
+Cartpole with DQN
+=================
 
-In this notebook we solve the `CartPole-v0
-<https://gym.openai.com/envs/CartPole-v0/>`_ environment using a simple SARSA
-agent. Our function approximator is a multi-layer perceptron with one hidden
-layer.
+In this notebook we solve the `CartPole <https://gym.openai.com/envs/CartPole-v0/>`_ environment
+using a simple :doc:`DQN </examples/stubs/dqn>` agent. Our function approximator is a multi-layer perceptron with one
+hidden layer.
 
 We chose not to use an experience-replay buffer, which makes training a little volatile. Feel free
 to add a replay buffer if you want to make the training more robust.
@@ -18,10 +17,10 @@ If training is successful, this is what the result would look like:
 
 ----
 
-:download:`sarsa.py`
+:download:`dqn.py`
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
     :alt: Open in Google Colab
-    :target: https://colab.research.google.com/github/microsoft/coax/blob/master/doc/_notebooks/cartpole/sarsa.ipynb
+    :target: https://colab.research.google.com/github/microsoft/coax/blob/master/doc/_notebooks/cartpole/dqn.ipynb
 
-.. literalinclude:: sarsa.py
+.. literalinclude:: dqn.py

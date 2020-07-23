@@ -28,7 +28,7 @@ sarsa = coax.td_learning.Sarsa(q)
 
 
 # specify how to trace the transitions
-cache = coax.reward_tracing.NStepCache(n=1, gamma=0.9)
+tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.9)
 
 
 for ep in range(100):
@@ -39,12 +39,12 @@ for ep in range(100):
         a = pi(s)
         s_next, r, done, info = env.step(a)
 
-        # add transition to cache
-        cache.add(s, a, r, done)
+        # trace rewards to create training data
+        tracer.add(s, a, r, done)
 
         # update
-        while cache:
-            transition_batch = cache.pop()
+        while tracer:
+            transition_batch = tracer.pop()
             sarsa.update(transition_batch)
 
         if done:

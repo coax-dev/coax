@@ -2,6 +2,7 @@
 
 import os
 import json
+import shutil
 from glob import glob
 from copy import deepcopy
 
@@ -54,7 +55,9 @@ for d_in in glob(os.path.join(PACKAGEDIR, 'doc', 'examples', '*')):
         continue
 
     d_out = d_in.replace('examples', '_notebooks')
-    os.makedirs(d_out, exist_ok=True)
+    if os.path.exists(d_out):
+        shutil.rmtree(d_out)
+    os.makedirs(d_out)
 
     for f_in in glob(f'{d_in}/*.py'):
         f_out = f_in.replace('examples', '_notebooks').replace('.py', '.ipynb')

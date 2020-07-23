@@ -27,7 +27,7 @@ vanilla_pg = coax.policy_objectives.VanillaPG(pi)
 
 
 # specify how to trace the transitions
-cache = coax.reward_tracing.MonteCarloCache(gamma=0.9)
+tracer = coax.reward_tracing.MonteCarloCache(gamma=0.9)
 
 
 for ep in range(100):
@@ -37,14 +37,14 @@ for ep in range(100):
         a, logp = pi(s, return_logp=True)
         s_next, r, done, info = env.step(a)
 
-        # add transition to cache
+        # trace rewards to create training data
         # N.B. vanilla-pg doesn't use logp but we include it to make it easy to
         # swap in another policy updater that does require it, e.g. ppo-clip
-        cache.add(s, a, r, done, logp)
+        tracer.add(s, a, r, done, logp)
 
         # update
-        while cache:
-            transition_batch = cache.pop()
+        while tracer:
+            transition_batch = tracer.pop()
             Gn = transition_batch.Rn  # 'Rn' is full return 'Gn' in MC-cache
             vanilla_pg.update(transition_batch, Adv=Gn)
 

@@ -88,12 +88,15 @@ reinforcement learning. Below we'll show an example of such a process (thoughts 
 
 .. code:: python
 
+    import jax.numpy as jnp
+    import haiku as hk
+
     class MLP(coax.FuncApprox):
         def body(self):
-            return stax.serial(Dense(4), Relu, Dense(4))
+            return jnp.tanh(hk.Linear(4))
 
     # a simple multi-layer perceptron
-    mlp = MLP(env, lr=0.01)
+    mlp = MLP(env, learning_rate=0.01)
 
     # which we use as our Q-function
     q = coax.Q(mlp, gamma=0.9)
@@ -107,7 +110,7 @@ reinforcement learning. Below we'll show an example of such a process (thoughts 
 .. code:: python
 
     # this is how we turn the rewards into a learning signal
-    cache = caox.NStepCache(env, n=1, gamma=0.9)
+    tracer = caox.NStepCache(n=1, gamma=0.9)
 
     # and this is how specify how to update our q-function
     qlearning = coax.td_learning.QLearning(q)
@@ -118,9 +121,12 @@ reinforcement learning. Below we'll show an example of such a process (thoughts 
         a = pi(s)
         s_next, r, done, info = env.step(a)
 
+        # trace rewards to create training data
+        tracer.add(s, a, r, done)
+
         # this is where the agent learns
-        while cache:
-            transition_batch = cache.pop()
+        while tracer:
+            transition_batch = tracer.pop()
             qlearning.update(transition_batch)
 
         if done:
@@ -144,9 +150,12 @@ reinforcement learning. Below we'll show an example of such a process (thoughts 
             a = pi(s)
             s_next, r, done, info = env.step(a)
 
+            # trace rewards to create training data
+            tracer.add(s, a, r, done)
+
             # this is where the agent learns
-            while cache:
-                transition_batch = cache.pop()
+            while tracer:
+                transition_batch = tracer.pop()
                 qlearning.update(transition_batch)
 
             if done:
@@ -169,8 +178,7 @@ reinforcement learning. Below we'll show an example of such a process (thoughts 
 
 .. code:: python
 
-    pi.epsilon = 0
-    coax.render_episode(env, pi)
+    coax.render_episode(env, pi.greedy)
 
 
 .. image:: /_static/img/cartpole.gif

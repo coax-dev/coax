@@ -32,7 +32,7 @@ pi_targ = pi.copy()
 
 
 # experience tracer
-cache = coax.reward_tracing.NStepCache(n=1, gamma=0.9)
+tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.9)
 
 
 # updaters
@@ -53,9 +53,9 @@ for ep in range(250):
             r = -0.01
 
         # update
-        cache.add(s, a, r, done)
-        while cache:
-            transition_batch = cache.pop()
+        tracer.add(s, a, r, done)
+        while tracer:
+            transition_batch = tracer.pop()
             ddpg.update(transition_batch)
             sarsa.update(transition_batch)
 

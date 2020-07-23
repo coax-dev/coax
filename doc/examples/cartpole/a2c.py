@@ -20,7 +20,11 @@ coax.enable_logging()
 class MLP(coax.FuncApprox):
     """ multi-layer perceptron with one hidden layer """
     def body(self, S, is_training):
-        return jnp.tanh(hk.Linear(4)(S))
+        seq = hk.Sequential((
+            lambda x: jnp.concatenate([x, jnp.square(x)], axis=-1),
+            hk.Linear(4), jnp.tanh,
+        ))
+        return seq(S)
 
     def optimizer(self):
         from jax.experimental import optix

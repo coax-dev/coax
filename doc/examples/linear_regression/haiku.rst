@@ -2,9 +2,8 @@ Linear Regression with Haiku
 ============================
 
 
-This notebook is a short introduction to `Haiku
-<https://dm-haiku.readthedocs.io/>`_. It is the notebook written in this
-tutorial:
+This notebook is a short introduction to `Haiku <https://dm-haiku.readthedocs.io/>`_. It is the
+notebook written in this tutorial:
 
 .. raw:: html
 
@@ -38,6 +37,6 @@ tutorial:
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
     :alt: Open in Google Colab
-    :target: https://colab.research.google.com/github/microsoft/coax/blob/master/doc/_notebooks/prerequisites/haiku.ipynb
+    :target: https://colab.research.google.com/github/microsoft/coax/blob/master/doc/_notebooks/linear_regression/haiku.ipynb
 
 .. literalinclude:: haiku.py

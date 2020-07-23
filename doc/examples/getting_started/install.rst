@@ -1,6 +1,9 @@
 Installation Guide
 ==================
 
+**Steps:** [ *install* | :doc:`jax <prereq_jax>` | :doc:`haiku <prereq_haiku>` | :doc:`q-learning <first_agent>` | :doc:`dqn <second_agent>` | :doc:`ppo <third_agent>` | :doc:`next_steps <next_steps>` ]
+
+
 In this guide you'll find out how to install the ``coax`` package.
 
 A guide to installing `JAX <https://jax.readthedocs.io>`_ is included as well.
@@ -30,9 +33,11 @@ or install from a fresh clone:
 Install jax
 -----------
 
+There are *three ways* to install JAX. If you're not sure which one to pick, just go for
+**Option 1**.
 
-Option 1: Install default version of JAX
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+**Option 1: Install default version of JAX**
 
 To install the default version of ``jax`` and ``jaxlib`` you can run
 
@@ -41,8 +46,7 @@ To install the default version of ``jax`` and ``jaxlib`` you can run
     $ pip install -U jax jaxlib
 
 
-Option 2: Install specific version compatible with your CUDA installation
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Option 2: Install specific version compatible with your CUDA installation**
 
 To install a specific version that will be compatible with your CUDA
 installation, have a look at the versions listed at:
@@ -66,8 +70,7 @@ N.B. ``jax`` will tell you if it requires a more recent version of
 ``jaxlib``.
 
 
-Option 3: Build from source
-~~~~~~~~~~~~~~~~~~~~~~~~~~~
+**Option 3: Build from source**
 
 To build ``jaxlib`` from source, you can follow the developer guide from the
 JAX docs:
