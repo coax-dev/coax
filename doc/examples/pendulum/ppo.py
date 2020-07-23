@@ -27,39 +27,18 @@ env = coax.wrappers.TrainMonitor(env, tensorboard_dir)
 
 class Func(coax.FuncApprox):
     def body(self, S, is_training):
-        return S
-
-    def head_pi(self, X_s, is_training):
-        mu = hk.Sequential((
-            hk.Linear(8), jax.nn.relu,
-            hk.Linear(8), jax.nn.relu,
-            hk.Linear(8), jax.nn.relu,
-            hk.Linear(jnp.prod(env.action_space.shape)),
-            hk.Reshape(env.action_space.shape),
-        ))
-        logvar = hk.Sequential((
-            hk.Linear(8), jax.nn.relu,
-            hk.Linear(8), jax.nn.relu,
-            hk.Linear(8), jax.nn.relu,
-            hk.Linear(jnp.prod(env.action_space.shape)),
-            hk.Reshape(env.action_space.shape),
-        ))
-        return {'mu': mu(X_s), 'logvar': logvar(X_s)}
-
-    def head_v(self, X_s, is_training):
         seq = hk.Sequential((
             hk.Linear(8), jax.nn.relu,
             hk.Linear(8), jax.nn.relu,
             hk.Linear(8), jax.nn.relu,
-            hk.Linear(1),
         ))
-        return seq(X_s)
+        return seq(S)
 
 
 # define function approximators
 func = Func(env, random_seed=13, learning_rate=1e-3)
 pi = coax.Policy(func)
-v = coax.V(func)
+v = coax.V(func.copy())
 
 
 # target network
@@ -67,15 +46,16 @@ pi_targ = pi.copy()
 
 
 # experience tracer
-tracer = coax.reward_tracing.NStepCache(n=5, gamma=0.99)
+tracer = coax.reward_tracing.NStepCache(n=5, gamma=0.9)
+buffer = coax.experience_replay.SimpleReplayBuffer(capacity=512)
 
 
 # policy regularizer (avoid premature exploitation)
-policy_reg = coax.policy_regularizers.EntropyRegularizer(pi, beta=1)
+policy_reg = coax.policy_regularizers.EntropyRegularizer(pi, beta=0.01)
 
 
 # updaters
-value_td = coax.td_learning.ValueTD(v, loss_function=coax.value_losses.mse)
+value_td = coax.td_learning.ValueTD(v, loss_function=coax.value_losses.huber)
 ppo_clip = coax.policy_objectives.PPOClip(pi, regularizer=policy_reg)
 
 
@@ -90,18 +70,24 @@ while env.T < 1000000:
 
         # trace rewards
         tracer.add(s, a, r, done, logp)
+        while tracer:
+            buffer.add(tracer.pop())
 
-        if done:
-            transition_batch = tracer.flush()
-            for _ in range(4):
+        # learn
+        if len(buffer) >= buffer.capacity:
+            for _ in range(int(4 * buffer.capacity / 32)):  # 4 epochs per round
+                transition_batch = buffer.sample(batch_size=32)
                 Adv = value_td.td_error(transition_batch)
+
                 metrics = {}
                 metrics.update(ppo_clip.update(transition_batch, Adv))
                 metrics.update(value_td.update(transition_batch))
                 env.record_metrics(metrics)
 
-            pi_targ.soft_update(pi, tau=0.001)
+            buffer.clear()
+            pi_targ.soft_update(pi, tau=0.1)
 
+        if done:
             break
 
         s = s_next
