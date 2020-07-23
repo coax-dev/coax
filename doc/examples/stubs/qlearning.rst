@@ -1,9 +1,8 @@
 Q-Learning
 ==========
 
-Q-learning is a very popular value-based control method. It computes the
-:math:`n`-step bootstrapped target as if it were evaluating a greedy policy,
-i.e.
+Q-learning is a very popular value-based control method. It computes the :math:`n`-step bootstrapped
+target as if it were evaluating a greedy policy, i.e.
 
 .. math::
 
@@ -20,8 +19,8 @@ where
     \end{matrix}\right.
 
 For more details, see section 6.5 of `Sutton & Barto
-<http://incompleteideas.net/book/the-book-2nd.html>`_. For the **coax**
-implementation, have a look at :class:`coax.td_learning.QLearning`.
+<http://incompleteideas.net/book/the-book-2nd.html>`_. For the **coax** implementation, have a look
+at :class:`coax.td_learning.QLearning`.
 
 
 ----

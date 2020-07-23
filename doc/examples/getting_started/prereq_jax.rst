@@ -39,7 +39,7 @@ from scratch.
 
 ----
 
-:download:`/examples/linear_regression/jax.py`
+:download:`jax.py </examples/linear_regression/jax.py>`
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
     :alt: Open in Google Colab

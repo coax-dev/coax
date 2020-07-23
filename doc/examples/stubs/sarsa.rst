@@ -1,8 +1,8 @@
 SARSA
 =====
 
-SARSA is probably the simplest value-based control method. The :math:`n`-step
-bootstrapped target is constructed as:
+SARSA is probably the simplest value-based control method. The :math:`n`-step bootstrapped target is
+constructed as:
 
 .. math::
 
@@ -19,8 +19,8 @@ where :math:`A_{t+n}` is sampled from experience and
     \end{matrix}\right.
 
 For more details, see section 6.4 of `Sutton & Barto
-<http://incompleteideas.net/book/the-book-2nd.html>`_. For the **coax**
-implementation, have a look at :class:`coax.td_learning.Sarsa`.
+<http://incompleteideas.net/book/the-book-2nd.html>`_. For the **coax** implementation, have a look
+at :class:`coax.td_learning.Sarsa`.
 
 
 ----

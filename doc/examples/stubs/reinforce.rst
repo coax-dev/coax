@@ -1,8 +1,8 @@
 REINFORCE
 =========
 
-In REINFORCE we don't rely on an external critic. Instead, we use the
-full Monte-Carlo return as our feedback signal.
+In REINFORCE we don't rely on an external critic. Instead, we use the full Monte-Carlo return as our
+feedback signal.
 
 The parametrized policy :math:`\pi_\theta(a|s)` is updated using the following
 policy gradients:

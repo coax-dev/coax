@@ -1,10 +1,10 @@
 Advantage Actor-Critic (A2C)
 ============================
 
-Advantage Actor-Critic (A2C) is probably the simplest actor-critic. Instead of
-using a q-function as its critic, it used the fact that the advantage function
-can be intepreted as the expectation value of the TD error. To see this, use
-the definition of the q-function to express the advantage function as:
+Advantage Actor-Critic (A2C) is probably the simplest actor-critic. Instead of using a q-function as
+its critic, it used the fact that the advantage function can be intepreted as the expectation value
+of the TD error. To see this, use the definition of the q-function to express the advantage function
+as:
 
 .. math::
 
@@ -27,8 +27,7 @@ where
         \gamma^n   & \text{otherwise}
     \end{matrix}\right.
 
-The parametrized policy :math:`\pi_\theta(a|s)` is updated using the following
-policy gradients:
+The parametrized policy :math:`\pi_\theta(a|s)` is updated using the following policy gradients:
 
 .. math::
 

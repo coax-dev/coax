@@ -35,7 +35,7 @@ linear regression model but this this time using Haiku instead of bare-metal JAX
 
 ----
 
-:download:`/examples/linear_regression/haiku.py`
+:download:`haiku.py </examples/linear_regression/haiku.py>`
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
     :alt: Open in Google Colab
