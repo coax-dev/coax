@@ -54,7 +54,7 @@ policy_reg = coax.policy_regularizers.EntropyRegularizer(pi, beta=0.01)
 
 
 # updaters
-value_td = coax.td_learning.ValueTD(v, loss_function=coax.value_losses.huber)
+value_td = coax.td_learning.ValueTD(v)
 ppo_clip = coax.policy_objectives.PPOClip(pi, regularizer=policy_reg)
 
 
@@ -64,7 +64,6 @@ while env.T < 1000000:
 
     for t in range(env.spec.max_episode_steps):
         a, logp = pi_targ(s, return_logp=True)
-        # print(a, logp, pi.dist_params(s))
         s_next, r, done, info = env.step(a)
 
         # trace rewards

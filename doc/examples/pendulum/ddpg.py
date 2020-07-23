@@ -92,7 +92,6 @@ while env.T < 1000000:
 
     for t in range(env.spec.max_episode_steps):
         a = noise(pi(s))
-        # print(a, pi.dist_params(s))
         s_next, r, done, info = env.step(a)
 
         # trace rewards and add transition to replay buffer
