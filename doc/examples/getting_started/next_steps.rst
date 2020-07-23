@@ -11,4 +11,10 @@ The best place to continue is to head over to the :doc:`/examples/index` page to
 other agents. For instance, you may be interested in training an agent for continuous action spaces.
 In which case, you'll like this example: :doc:`/examples/pendulum/ddpg`.
 
+
+.. image:: /_static/img/pendulum.gif
+    :alt: Successfully swinging up the pendulum.
+    :align: center
+
+
 *The world's your oyster!*
