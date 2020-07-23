@@ -4,7 +4,6 @@ import gym
 import jax
 import coax
 import haiku as hk
-import jax.numpy as jnp
 
 
 # set some env vars
@@ -14,7 +13,7 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'              # tell XLA to be quiet
 
 
 # filepaths etc
-tensorboard_dir = "./data/tensorboard/ppo_standard"
+tensorboard_dir = "./data/tensorboard/ppo"
 gifs_filepath = "./data/gifs/ppo/T{:08d}.gif"
 coax.enable_logging('ppo')
 
@@ -75,7 +74,7 @@ while env.T < 1000000:
 
         # learn
         if len(buffer) >= buffer.capacity:
-            for _ in range(int(4 * buffer.capacity / 32)):  # 4 epochs per round
+            for _ in range(int(4 * buffer.capacity / 32)):  # 4 passes per round
                 transition_batch = buffer.sample(batch_size=32)
                 Adv = value_td.td_error(transition_batch)
 
@@ -96,7 +95,3 @@ while env.T < 1000000:
     if env.period(name='generate_gif', T_period=10000) and env.T > 5000:
         T = env.T - env.T % 10000
         coax.utils.generate_gif(env=env, policy=pi.greedy, filepath=gifs_filepath.format(T))
-
-    # stop early
-    if env.ep > 100 and env.avg_G > -150:
-        break
