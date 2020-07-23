@@ -14,6 +14,7 @@ In which case, you'll like this example: :doc:`/examples/pendulum/ddpg`.
 
 .. image:: /_static/img/pendulum.gif
     :alt: Successfully swinging up the pendulum.
+    :width: 360px
     :align: center
 
 

@@ -11,6 +11,7 @@ After a few hundred episodes, this is what you can expect:
 
 .. image:: /_static/img/pendulum.gif
     :alt: Successfully swinging up the pendulum.
+    :width: 360px
     :align: center
 
 ----
