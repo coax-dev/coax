@@ -29,7 +29,7 @@ from ._core.value_q import Q
 from ._core.policy import Policy
 from ._core.policy_q import EpsilonGreedy, BoltzmannPolicy
 from ._core.policy_random import RandomPolicy
-from .utils import enable_logging
+from .utils import enable_logging, render_episode
 
 # pre-load submodules
 from . import experience_replay
@@ -54,6 +54,7 @@ __all__ = (
     'BoltzmannPolicy',
     'RandomPolicy',
     'enable_logging',
+    'render_episode',
 
     # modules
     'experience_replay',
