@@ -251,7 +251,7 @@ def reload_recursive(module, reload_external_modules=False):
     _reload(module, reload_external_modules, set(), logger)
 
 
-def render_episode(env, policy, step_delay_ms=0):
+def render_episode(env, policy=None, step_delay_ms=0):
     r"""
     Run a single episode with env.render() calls with each time step.
 
@@ -261,9 +261,10 @@ def render_episode(env, policy, step_delay_ms=0):
 
         A gym environment.
 
-    policy : callable
+    policy : callable, optional
 
-        A policy objects that is used to pick actions: ``a = policy(s)``.
+        A policy objects that is used to pick actions: ``a = policy(s)``. If left unspecified, we'll
+        just take random actions instead, i.e. ``a = env.action_space.sample()``.
 
     step_delay_ms : non-negative float
 
@@ -279,7 +280,7 @@ def render_episode(env, policy, step_delay_ms=0):
     env.render()
 
     for t in range(int(1e9)):
-        a = policy(s)
+        a = env.action_space.sample() if policy is None else policy(s)
         s_next, r, done, info = env.step(a)
 
         env.render()
