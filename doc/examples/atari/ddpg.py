@@ -59,7 +59,7 @@ determ_pg = coax.policy_objectives.DeterministicPG(pi, q, regularizer=kl_div)
 qlearning = coax.td_learning.QLearningMode(q, pi_targ, q_targ)
 
 # reward tracer and replay buffer
-tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.99)
+tracer = coax.reward_tracing.NStep(n=1, gamma=0.99)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=1000000)
 
 

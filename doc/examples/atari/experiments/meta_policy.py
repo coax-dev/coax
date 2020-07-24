@@ -56,7 +56,7 @@ class DQN1:
     qlearning = coax.td_learning.QLearning(q, q_targ)
 
     # replay buffer
-    tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.99)
+    tracer = coax.reward_tracing.NStep(n=1, gamma=0.99)
     buffer = coax.experience_replay.SimpleReplayBuffer(capacity=1000000)
 
     # DQN exploration schedule (stepwise linear annealing)
@@ -85,7 +85,7 @@ class DQN2:
     qlearning = coax.td_learning.QLearning(q, q_targ)
 
     # replay buffer
-    tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.99)
+    tracer = coax.reward_tracing.NStep(n=1, gamma=0.99)
     buffer = coax.experience_replay.SimpleReplayBuffer(capacity=1000000)
 
 
@@ -110,7 +110,7 @@ class DDPG:
     qlearning = coax.td_learning.QLearningMode(q, pi_targ, q_targ)
 
     # replay buffer
-    tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.99)
+    tracer = coax.reward_tracing.NStep(n=1, gamma=0.99)
     buffer = coax.experience_replay.SimpleReplayBuffer(capacity=1000000)
 
 
@@ -127,7 +127,7 @@ class PPO:
     v_targ = v.copy()
 
     # we'll use this to temporarily store our experience
-    tracer = coax.reward_tracing.NStepCache(n=5, gamma=0.99)
+    tracer = coax.reward_tracing.NStep(n=5, gamma=0.99)
     buffer = coax.experience_replay.SimpleReplayBuffer(capacity=256)
 
     # policy regularizer (avoid premature exploitation)
@@ -167,7 +167,7 @@ class META:  # based on DQN1
     qlearning = coax.td_learning.QLearning(q, q_targ)
 
     # replay buffer
-    tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.99)
+    tracer = coax.reward_tracing.NStep(n=1, gamma=0.99)
     buffer = coax.experience_replay.SimpleReplayBuffer(capacity=10000)
 
 

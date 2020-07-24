@@ -29,14 +29,14 @@ from numpy.testing import assert_array_almost_equal
 
 from .._base.errors import InsufficientCacheError
 from ..utils import check_array
-from ._montecarlo import MonteCarloCache
+from ._montecarlo import MonteCarlo
 
 
 class MockEnv:
     action_space = gym.spaces.Discrete(10)
 
 
-class TestMonteCarloCache:
+class TestMonteCarlo:
     env = MockEnv()
     gamma = 0.85
     S = jnp.array([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
@@ -66,7 +66,7 @@ class TestMonteCarloCache:
     episode = list(zip(S, A, R, D))
 
     def test_append_pop_too_soon(self):
-        cache = MonteCarloCache(self.gamma)
+        cache = MonteCarlo(self.gamma)
         for s, a, r, done in self.episode:
             cache.add(s, a, r, done)
             break
@@ -75,7 +75,7 @@ class TestMonteCarloCache:
             cache.pop()
 
     def test_append_pop_expected(self):
-        cache = MonteCarloCache(self.gamma)
+        cache = MonteCarlo(self.gamma)
         for i, (s, a, r, done) in enumerate(self.episode, 1):
             cache.add(s, a, r, done)
             assert len(cache) == i
@@ -99,7 +99,7 @@ class TestMonteCarloCache:
         assert not cache
 
     def test_append_flush_too_soon(self):
-        cache = MonteCarloCache(self.gamma)
+        cache = MonteCarlo(self.gamma)
         for i, (s, a, r, done) in islice(enumerate(self.episode, 1), 4):
             cache.add(s, a, r, done)
             assert len(cache) == i
@@ -108,7 +108,7 @@ class TestMonteCarloCache:
             cache.flush()
 
     def test_append_flush_expected(self):
-        cache = MonteCarloCache(self.gamma)
+        cache = MonteCarlo(self.gamma)
         for i, (s, a, r, done) in enumerate(self.episode, 1):
             cache.add(s, a, r, done)
             assert len(cache) == i

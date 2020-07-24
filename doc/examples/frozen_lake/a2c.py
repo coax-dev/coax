@@ -32,7 +32,7 @@ v_targ = v.copy()   # target network
 
 
 # experience tracer
-tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.9)
+tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
 
 
 # updaters

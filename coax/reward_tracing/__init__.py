@@ -63,18 +63,18 @@ Object Reference
 
     coax.reward_tracing.TransitionSingle
     coax.reward_tracing.TransitionBatch
-    coax.reward_tracing.MonteCarloCache
-    coax.reward_tracing.NStepCache
+    coax.reward_tracing.MonteCarlo
+    coax.reward_tracing.NStep
 
 """
 
 from ._transition import TransitionSingle, TransitionBatch
-from ._montecarlo import MonteCarloCache
-from ._nstep import NStepCache
+from ._montecarlo import MonteCarlo
+from ._nstep import NStep
 
 __all__ = (
     'TransitionSingle',
     'TransitionBatch',
-    'MonteCarloCache',
-    'NStepCache',
+    'MonteCarlo',
+    'NStep',
 )

@@ -55,7 +55,7 @@ qlearning = coax.td_learning.QLearning(q, q_targ)
 
 
 # reward tracer and replay buffer
-tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.99)
+tracer = coax.reward_tracing.NStep(n=1, gamma=0.99)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=50000)
 
 

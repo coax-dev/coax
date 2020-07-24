@@ -26,7 +26,7 @@ pi = coax.Policy(func)
 
 
 # experience tracer
-tracer = coax.reward_tracing.MonteCarloCache(gamma=0.9)
+tracer = coax.reward_tracing.MonteCarlo(gamma=0.9)
 
 
 # updater

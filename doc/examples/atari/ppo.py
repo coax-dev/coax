@@ -51,7 +51,7 @@ v = coax.V(func_v)
 v_targ = v.copy()
 
 # we'll use this to temporarily store our experience
-tracer = coax.reward_tracing.NStepCache(n=5, gamma=0.99)
+tracer = coax.reward_tracing.NStep(n=5, gamma=0.99)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=256)
 
 # policy regularizer (avoid premature exploitation)

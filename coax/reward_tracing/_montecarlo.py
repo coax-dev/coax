@@ -25,11 +25,11 @@ from ._transition import TransitionSingle
 
 
 __all__ = (
-    'MonteCarloCache',
+    'MonteCarlo',
 )
 
 
-class MonteCarloCache(BaseShortTermCache):
+class MonteCarlo(BaseShortTermCache):
     r"""
     A short-term cache for episodic Monte Carlo sampling.
 

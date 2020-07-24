@@ -30,11 +30,11 @@ from ._transition import TransitionSingle
 
 
 __all__ = (
-    'NStepCache',
+    'NStep',
 )
 
 
-class NStepCache(BaseShortTermCache):
+class NStep(BaseShortTermCache):
     r"""
     A short-term cache for :math:`n`-step bootstrapping.
 

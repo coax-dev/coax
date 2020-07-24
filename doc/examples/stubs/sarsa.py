@@ -28,7 +28,7 @@ sarsa = coax.td_learning.Sarsa(q)
 
 
 # specify how to trace the transitions
-tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.9)
+tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
 
 
 for ep in range(100):

@@ -27,7 +27,7 @@ pi = coax.EpsilonGreedy(q, epsilon=0.1)
 
 
 # experience tracer
-tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.9)
+tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
 
 
 # updater

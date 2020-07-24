@@ -40,7 +40,7 @@ v = coax.V(func_v)
 pi = coax.Policy(func_pi)
 
 # experience tracer
-tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.9)
+tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
 
 # updaters
 vanilla_pg = coax.policy_objectives.VanillaPG(pi)

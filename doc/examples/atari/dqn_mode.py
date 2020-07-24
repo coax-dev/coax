@@ -53,7 +53,7 @@ pi = coax.EpsilonGreedy(q, epsilon=1.)
 qlearning = coax.td_learning.QLearningMode(q, q_targ=q_targ, pi_targ=pi)
 
 # reward tracer and replay buffer
-tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.99)
+tracer = coax.reward_tracing.NStep(n=1, gamma=0.99)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=1000000)
 
 

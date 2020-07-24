@@ -30,7 +30,7 @@ value_td = coax.td_learning.ValueTD(v)
 
 
 # specify how to trace the transitions
-tracer = coax.reward_tracing.NStepCache(n=5, gamma=0.9)
+tracer = coax.reward_tracing.NStep(n=5, gamma=0.9)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=256)
 
 

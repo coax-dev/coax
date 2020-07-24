@@ -36,7 +36,7 @@ pi = coax.BoltzmannPolicy(q, tau=0.1)
 q_targ = q.copy()
 
 # experience tracer
-tracer = coax.reward_tracing.NStepCache(n=1, gamma=0.9)
+tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=100000)
 
 # updater
