@@ -2,7 +2,6 @@ import os
 import jax
 import jax.numpy as jnp
 import gym
-from gym.envs.toy_text.frozen_lake import UP, DOWN, LEFT, RIGHT
 
 import coax
 
@@ -12,7 +11,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # tell XLA to be quiet
 
 
 # the MDP
-actions = {LEFT: 'L', RIGHT: 'R', UP: 'U', DOWN: 'D'}
 env = gym.make('FrozenLakeNonSlippery-v0')
 env = coax.wrappers.TrainMonitor(env)
 
@@ -67,7 +65,7 @@ for t in range(env.spec.max_episode_steps):
     params = pi.dist_params(s)
     propensities = jax.nn.softmax(params['logits'])
     for i, p in enumerate(propensities):
-        print("  π({:s}|s) = {:.3f}".format(actions[i], p))
+        print("  π({:s}|s) = {:.3f}".format('LDRU'[i], p))
 
     a = pi.greedy(s)
     s, r, done, info = env.step(a)

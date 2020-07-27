@@ -1,10 +1,10 @@
 **Steps:** [ :doc:`install <install>` | :doc:`jax <prereq_jax>` | :doc:`haiku <prereq_haiku>` | :doc:`q-learning <first_agent>` | :doc:`dqn <second_agent>` | *ppo* | :doc:`next_steps <next_steps>` ]
 
-Your Third Agent: PPO on Pong
-=============================
+PPO on Pong
+===========
 
 
-This second example builds an even more sophisticated agent known as *PPO*
+In this example we build an even more sophisticated agent known as :doc:`PPO </examples/stubs/ppo>`
 (`paper <https://arxiv.org/abs/1707.06347>`_).
 
 

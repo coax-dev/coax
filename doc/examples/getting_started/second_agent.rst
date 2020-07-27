@@ -1,11 +1,11 @@
 **Steps:** [ :doc:`install <install>` | :doc:`jax <prereq_jax>` | :doc:`haiku <prereq_haiku>` | :doc:`q-learning <first_agent>` | *dqn* | :doc:`ppo <third_agent>` | :doc:`next_steps <next_steps>` ]
 
-Your Second Agent: DQN on CartPole
-==================================
+DQN on CartPole
+===============
 
 
-This second example builds a slightly more sophisticated agent known as *DQN*
-(`paper <https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf>`_).
+In this example we build a slightly more sophisticated agent known as
+:doc:`DQN </examples/stubs/dqn>` (`paper <https://www.cs.toronto.edu/~vmnih/docs/dqn.pdf>`_).
 
 
 .. image:: /_static/img/cartpole.gif

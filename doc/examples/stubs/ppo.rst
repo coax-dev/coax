@@ -16,7 +16,8 @@ probability ratio, defined as:
     \rho_\theta(s, a)\ =\ \frac{\pi_\theta(a|s)}{\pi_{\theta_\text{targ}}(a|s)}
 
 
-The parameters :math:`\theta_\text{targ}` are the weights of the behavior policy, which is to say :math:`A_t\sim\pi_{\theta_\text{targ}}(.|S_t)` in Eq. :eq:`off_policy_objective`.
+The parameters :math:`\theta_\text{targ}` are the weights of the behavior policy, which is to say
+:math:`A_t\sim\pi_{\theta_\text{targ}}(.|S_t)` in Eq. :eq:`off_policy_objective`.
 
 
 **Importance sampling and outliers**
@@ -30,7 +31,9 @@ that the probability ratios are unbounded from above, which often leads to *over
 
 **Mitigating overestimation and the PPO-clip objective**
 
-The Proximal Policy Optimization (PPO) algorithm mitigates to problem of *overestimation*, leaving underestimation uncorrected for. This mitigation is achieved by effectively clipping the probability ratio in a specific way.
+The Proximal Policy Optimization (PPO) algorithm mitigates the problem of *overestimation*, leaving
+underestimation uncorrected for. This mitigation is achieved by effectively clipping the probability
+ratio in a specific way.
 
 .. math::
     :label: ppo_clip_objective
@@ -48,14 +51,15 @@ where we introduced the clipped probability ratio:
 
 The clipped estimate :math:`\bar{\rho}_\theta(s,a)\,\mathcal{A}(s,a)` removes both overestimation
 and underestimation. Taking the minimal value between the unclipped and clipped estimates ensures
-that we don't to correct for *underestimation*. One reason is that underestimation is harmless, but
-a more improtant reason is that it provides a path towards higher values of the expected advantage.
-In other words, not correcting for underestimation ensures that our objective stays concave.
+that we don't correct for *underestimation*. One reason to do this is that underestimation is
+harmless, but a more important reason is that it provides a path towards higher values of the
+expected advantage. In other words, not correcting for underestimation ensures that our objective
+stays concave.
 
 
 **Off-policy data collection**
 
-A very nice property of the clipped surrogate objective it that it still allows for slightly more
+A very nice property of the clipped surrogate objective it that it allows for slightly more
 off-policy updates compared to the vanilla policy gradient. Moreover, it does this in a way that is
 compatible with our ordinary first-order optimization techniques.
 

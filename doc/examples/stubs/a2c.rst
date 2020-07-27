@@ -32,7 +32,7 @@ The parametrized policy :math:`\pi_\theta(a|s)` is updated using the following p
 .. math::
 
     g(\theta;S_t,A_t)\
-        &=\ \mathcal{A}(s,a)\,\nabla_\theta \log\pi_\theta(A_t|S_t) \\
+        &=\ \mathcal{A}(S_t,A_t)\,\nabla_\theta \log\pi_\theta(A_t|S_t) \\
         &\approx\ \left(G^{(n)}_t - v(S_t)\right)\,
             \nabla_\theta \log\pi_\theta(A_t|S_t)
 

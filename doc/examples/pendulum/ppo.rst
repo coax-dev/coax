@@ -7,12 +7,6 @@ approximator for the policy and q-function.
 
 This notebook periodically generates GIFs, so that we can inspect how the training is progressing.
 
-.. note::
-
-    Note that this agent is less robust than the DDPG agent. The reason is that we didn't do proper
-    hyperparameter search for this agent. If you find a better set of hyperparameters, please let us
-    know.
-
 After a few hundred episodes, this is what you can expect:
 
 .. image:: /_static/img/pendulum.gif

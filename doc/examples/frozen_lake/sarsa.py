@@ -1,7 +1,6 @@
 import os
 import jax.numpy as jnp
 import gym
-from gym.envs.toy_text.frozen_lake import UP, DOWN, LEFT, RIGHT
 
 import coax
 
@@ -11,7 +10,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # tell XLA to be quiet
 
 
 # the MDP
-actions = {LEFT: 'L', RIGHT: 'R', UP: 'U', DOWN: 'D'}
 env = gym.make('FrozenLakeNonSlippery-v0')
 env = coax.wrappers.TrainMonitor(env)
 
@@ -67,7 +65,7 @@ for t in range(env.spec.max_episode_steps):
 
     # print individual state-action values
     for i, q_ in enumerate(q(s)):
-        print("  q(s,{:s}) = {:.3f}".format(actions[i], q_))
+        print("  q(s,{:s}) = {:.3f}".format('LDRU'[i], q_))
 
     a = pi.greedy(s)
     s, r, done, info = env.step(a)
