@@ -1,9 +1,9 @@
 Pillow>=7.2.0
 gym>=0.17.2
-numpy>=1.19.0
-scipy>=1.5.0
+numpy>=1.19.1
+scipy>=1.5.2
 pandas>=1.0.5
 dm-haiku>=0.0.1
-tensorboard>=2.2.2
-tensorboardX>=2.0
+tensorboard>=2.3.0
+tensorboardX>=2.1
 ray>=0.8.6
