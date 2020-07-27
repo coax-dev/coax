@@ -53,7 +53,7 @@ class ProbaDist(ABC):
 
         Parameters
         ----------
-        params : pytree with ndarray leaves
+        dist_params : pytree with ndarray leaves
 
             A batch of distribution parameters.
 
@@ -79,7 +79,7 @@ class ProbaDist(ABC):
 
         Parameters
         ----------
-        params : pytree with ndarray leaves
+        dist_params : pytree with ndarray leaves
 
             A batch of distribution parameters.
 
@@ -100,7 +100,7 @@ class ProbaDist(ABC):
 
         Parameters
         ----------
-        params : pytree with ndarray leaves
+        dist_params : pytree with ndarray leaves
 
             A batch of distribution parameters of the form ``{'logits':
             ndarray}``.
@@ -132,7 +132,7 @@ class ProbaDist(ABC):
 
         Parameters
         ----------
-        params : pytree with ndarray leaves
+        dist_params : pytree with ndarray leaves
 
             A batch of distribution parameters of the form ``{'logits':
             ndarray}``.
@@ -159,11 +159,11 @@ class ProbaDist(ABC):
 
         Parameters
         ----------
-        params_p : pytree with ndarray leaves
+        dist_params_p : pytree with ndarray leaves
 
             The distribution parameters of the *base* distribution :math:`p`.
 
-        params_q : pytree with ndarray leaves
+        dist_params_q : pytree with ndarray leaves
 
             The distribution parameters of the *auxiliary* distribution
             :math:`q`.
@@ -185,11 +185,11 @@ class ProbaDist(ABC):
 
         Parameters
         ----------
-        params_p : pytree with ndarray leaves
+        dist_params_p : pytree with ndarray leaves
 
             The distribution parameters of the *base* distribution :math:`p`.
 
-        params_q : pytree with ndarray leaves
+        dist_params_q : pytree with ndarray leaves
 
             The distribution parameters of the *auxiliary* distribution
             :math:`q`.
@@ -212,7 +212,7 @@ class ProbaDist(ABC):
 
         Returns
         -------
-        params_prior : pytree with ndarray leaves
+        dist_params_prior : pytree with ndarray leaves
 
             The distribution parameters that represent the default priors.
 
