@@ -1,7 +1,7 @@
+**Steps:** [ :doc:`install <install>` | :doc:`jax <prereq_jax>` | :doc:`haiku <prereq_haiku>` | *q-learning* | :doc:`dqn <second_agent>` | :doc:`ppo <third_agent>` | :doc:`next_steps <next_steps>` ]
+
 Your First Agent: Q-Learning on FrozenLake
 ==========================================
-
-**Steps:** [ :doc:`install <install>` | :doc:`jax <prereq_jax>` | :doc:`haiku <prereq_haiku>` | *q-learning* | :doc:`dqn <second_agent>` | :doc:`ppo <third_agent>` | :doc:`next_steps <next_steps>` ]
 
 
 In this first reinforcement learning example we'll solve a simple grid world environment.
