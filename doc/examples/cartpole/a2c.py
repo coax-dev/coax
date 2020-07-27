@@ -3,7 +3,7 @@ import os
 import coax
 import gym
 import haiku as hk
-import jax.numpy as jnp
+import jax
 
 
 # set some env vars
@@ -21,21 +21,22 @@ class MLP(coax.FuncApprox):
     """ multi-layer perceptron with one hidden layer """
     def body(self, S, is_training):
         seq = hk.Sequential((
-            lambda x: jnp.concatenate([x, jnp.square(x)], axis=-1),
-            hk.Linear(4), jnp.tanh,
+            hk.Linear(8), jax.nn.relu,
+            hk.Linear(8), jax.nn.relu,
+            hk.Linear(8), jax.nn.relu,
         ))
         return seq(S)
 
     def optimizer(self):
         from jax.experimental import optix
         return optix.chain(
-            optix.apply_every(k=5),  # update in batches of size k
+            optix.apply_every(k=32),  # update in batches of size k
             optix.adam(**self.optimizer_kwargs))
 
 
 # value function and its derived policy
-func_v = MLP(env, random_seed=13, learning_rate=0.05)
-func_pi = MLP(env, random_seed=13, learning_rate=0.01)
+func_v = MLP(env, random_seed=13, learning_rate=0.005)
+func_pi = MLP(env, random_seed=13, learning_rate=0.001)
 v = coax.V(func_v)
 pi = coax.Policy(func_pi)
 
@@ -46,14 +47,10 @@ tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
 vanilla_pg = coax.policy_objectives.VanillaPG(pi)
 value_td = coax.td_learning.ValueTD(v)
 
-# used for early stopping
-num_successes = 0
-
 
 # train
 for ep in range(1000):
     s = env.reset()
-    pi.epsilon = 0.1 if ep < 10 else 0.01
 
     for t in range(env.spec.max_episode_steps):
         a = pi(s)
@@ -64,21 +61,20 @@ for ep in range(1000):
         tracer.add(s, a, r, done)
         while tracer:
             transition_batch = tracer.pop()
-            # transition_batch.Rn = jnp.tanh(transition_batch.Rn)
             Adv = value_td.td_error(transition_batch)
-            vanilla_pg.update(transition_batch, Adv)
-            value_td.update(transition_batch)
+
+            metrics = {}
+            metrics.update(vanilla_pg.update(transition_batch, Adv))
+            metrics.update(value_td.update(transition_batch))
+            env.record_metrics(metrics)
 
         if done:
-            if t == env.spec.max_episode_steps - 1:
-                num_successes += 1
-            else:
-                num_successes = 0
             break
 
         s = s_next
 
-    if num_successes == 10:
+    # early stopping
+    if env.avg_G > env.spec.reward_threshold:
         break
 
 

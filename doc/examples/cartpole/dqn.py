@@ -3,7 +3,7 @@ import os
 import coax
 import gym
 import haiku as hk
-import jax.numpy as jnp
+import jax
 
 
 # set some env vars
@@ -21,14 +21,15 @@ class MLP(coax.FuncApprox):
     """ multi-layer perceptron with one hidden layer """
     def body(self, S, is_training):
         seq = hk.Sequential((
-            lambda x: jnp.concatenate([x, jnp.square(x)], axis=-1),
-            hk.Linear(8), jnp.tanh,
+            hk.Linear(8), jax.nn.relu,
+            hk.Linear(8), jax.nn.relu,
+            hk.Linear(8), jax.nn.relu,
         ))
         return seq(S)
 
 
 # value function and its derived policy
-func = MLP(env, random_seed=13, learning_rate=0.01)
+func = MLP(env, random_seed=13, learning_rate=0.001)
 q = coax.Q(func)
 pi = coax.BoltzmannPolicy(q, tau=0.1)
 
