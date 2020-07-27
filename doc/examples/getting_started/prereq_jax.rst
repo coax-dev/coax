@@ -1,7 +1,7 @@
+**Steps:** [ :doc:`install <install>` | *jax* | :doc:`haiku <prereq_haiku>` | :doc:`q-learning <first_agent>` | :doc:`dqn <second_agent>` | :doc:`ppo <third_agent>` | :doc:`next_steps <next_steps>` ]
+
 Prerequisite: JAX
 =================
-
-**Steps:** [ :doc:`install <install>` | *jax* | :doc:`haiku <prereq_haiku>` | :doc:`q-learning <first_agent>` | :doc:`dqn <second_agent>` | :doc:`ppo <third_agent>` | :doc:`next_steps <next_steps>` ]
 
 
 The **coax** RL package is build on top of JAX, which is an alternative implementation of numpy that

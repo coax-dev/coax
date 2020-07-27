@@ -1,7 +1,7 @@
+**Steps:** [ :doc:`install <install>` | :doc:`jax <prereq_jax>` | *haiku* | :doc:`q-learning <first_agent>` | :doc:`dqn <second_agent>` | :doc:`ppo <third_agent>` | :doc:`next_steps <next_steps>` ]
+
 Prerequisite: Haiku
 ===================
-
-**Steps:** [ :doc:`install <install>` | :doc:`jax <prereq_jax>` | *haiku* | :doc:`q-learning <first_agent>` | :doc:`dqn <second_agent>` | :doc:`ppo <third_agent>` | :doc:`next_steps <next_steps>` ]
 
 
 In this example we continue the :doc:`introduction of JAX <prereq_jax>` by implementing the same

@@ -1,7 +1,7 @@
+**Steps:** [ :doc:`install <install>` | :doc:`jax <prereq_jax>` | :doc:`haiku <prereq_haiku>` | :doc:`q-learning <first_agent>` | *dqn* | :doc:`ppo <third_agent>` | :doc:`next_steps <next_steps>` ]
+
 Your Second Agent: DQN on CartPole
 ==================================
-
-**Steps:** [ :doc:`install <install>` | :doc:`jax <prereq_jax>` | :doc:`haiku <prereq_haiku>` | :doc:`q-learning <first_agent>` | *dqn* | :doc:`ppo <third_agent>` | :doc:`next_steps <next_steps>` ]
 
 
 This second example builds a slightly more sophisticated agent known as *DQN*
