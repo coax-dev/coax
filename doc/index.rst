@@ -97,6 +97,7 @@ RL agent.
     :maxdepth: 1
     :hidden:
 
+    Blog Post <blogpost>
     design
     genindex
     release_notes
