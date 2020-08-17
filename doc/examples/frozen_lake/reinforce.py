@@ -1,9 +1,12 @@
 import os
+
+import coax
 import jax
 import jax.numpy as jnp
 import gym
+import haiku as hk
+from jax.experimental import optix
 
-import coax
 
 # set some env vars
 os.environ['JAX_PLATFORM_NAME'] = 'cpu'   # tell JAX to use CPU
@@ -18,9 +21,14 @@ env = coax.wrappers.TrainMonitor(env)
 coax.enable_logging()
 
 
-# define function approximators
-func = coax.FuncApprox(env, learning_rate=0.5)
-pi = coax.Policy(func)
+def func_pi(S, is_training):
+    logits = hk.Linear(env.action_space.n, w_init=jnp.zeros)
+    S = hk.one_hot(S, env.observation_space.n)
+    return {'logits': logits(S)}
+
+
+# function approximators
+pi = coax.Policy(func_pi, env.observation_space, env.action_space)
 
 
 # experience tracer
@@ -28,7 +36,7 @@ tracer = coax.reward_tracing.MonteCarlo(gamma=0.9)
 
 
 # updater
-vanilla_pg = coax.policy_objectives.VanillaPG(pi)
+vanilla_pg = coax.policy_objectives.VanillaPG(pi, optimizer=optix.adam(0.01))
 
 
 # train

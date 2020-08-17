@@ -13,34 +13,28 @@ Create simple, reproducible RL solutions with OpenAI gym environments and JAX-ba
 approximators.
 
 Install
--------
+=======
 
-Install using pip:
+**coax** is built on top of JAX, but it doesn't have an explicit dependence on the ``jax``
+python package. The reason is that your version of ``jaxlib`` will depend on your CUDA version.
 
-.. code:: bash
+To install ``coax`` and ``jax`` together, please select the configuration that applies to your
+setup.
 
-    $ pip install coax
-
-or install from a fresh clone:
-
-.. code:: bash
-
-    $ git clone https://github.com/microsoft/coax.git
-    $ pip install -e ./coax
+.. raw:: html
+    :file: versions.html
 
 
-.. note::
+Alternatively, you may also choose build ``jaxlib`` from source by following
+`this guide <https://jax.readthedocs.io/en/latest/developer.html#building-from-source>`_.
 
-    **coax** requires the JAX python package, but it doesn't have an explicit dependence on it. The
-    reason is that your version of ``jax`` and ``jaxlib`` will depend on your CUDA version. Check
-    out the :doc:`examples/getting_started/install` to install ``jax``.
 
 
 Getting Started
 ---------------
 
-Have a look at the :doc:`Getting Started <examples/getting_started/index>` page to train your first
-RL agent.
+Have a look at the :doc:`Getting Started <examples/getting_started/install>` page to train your
+first RL agent.
 
 
 .. hidden tocs .....................................................................................
@@ -64,9 +58,8 @@ RL agent.
     :maxdepth: 1
     :hidden:
 
-    coax/func_approx
-    coax/policies
     coax/value_functions
+    coax/policies
     coax/proba_dists
 
 .. toctree::
@@ -81,13 +74,13 @@ RL agent.
     coax/experience_replay
     coax/value_losses
     coax/value_transforms
-    coax/planning
 
 .. toctree::
     :caption: Utilities
     :maxdepth: 1
     :hidden:
 
+    coax/decorators
     coax/wrappers
     coax/utils
     coax/envs
@@ -98,7 +91,6 @@ RL agent.
     :hidden:
 
     Blog Post <blogpost>
-    design
     genindex
     release_notes
 

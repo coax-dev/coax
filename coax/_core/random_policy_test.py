@@ -19,58 +19,62 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+from functools import partial
+
 import gym
-import numpy as onp
 import jax
-import jax.numpy as jnp
-from gym.wrappers.frame_stack import LazyFrames
+import haiku as hk
+import numpy as onp
+
+from .._base.test_case import TestCase
+from .random_policy import RandomPolicy
 
 
-class SpaceUtilsMixin:
-    r""" this mixin class holds all space-dependent utils """
-    @property
-    def action_space_is_box(self):
-        return isinstance(self.env.action_space, gym.spaces.Box)
+env = gym.make('FrozenLakeNonSlippery-v0')
 
-    @property
-    def action_space_is_discrete(self):
-        return isinstance(self.env.action_space, gym.spaces.Discrete)
 
-    @property
-    def action_shape(self):
-        assert hasattr(self, 'env') and hasattr(self.env, 'action_space')
-        if not hasattr(self, '_action_shape'):
-            action = self.env.action_space.sample()
-            self._action_shape = jax.tree_map(jnp.shape, action)
-        return self._action_shape
+def func_type2(S, is_training):
+    batch_norm = hk.BatchNorm(False, False, 0.99)
+    seq = hk.Sequential((
+        partial(jax.nn.one_hot, num_classes=env.observation_space.n),
+        hk.Flatten(),
+        hk.Linear(8), jax.nn.relu,
+        partial(hk.dropout, hk.next_rng_key(), 0.25 if is_training else 0.),
+        partial(batch_norm, is_training=is_training),
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(env.action_space.n),
+    ))
+    return seq(S)
 
-    @property
-    def action_shape_flat(self):
-        if not hasattr(self, '_action_shape_flat'):
-            self._action_shape_flat = int(onp.prod(self.action_shape))
-        return self._action_shape_flat
 
-    @property
-    def num_actions(self):
-        if not hasattr(self, '_num_actions'):
-            if not self.action_space_is_discrete:
-                raise AttributeError(
-                    "num_actions attribute is inaccessible; does the env "
-                    "have a Discrete action space?")
-            self._num_actions = self.env.action_space.n
-        return self._num_actions
+class TestRandomPolicy(TestCase):
+    def setUp(self):
+        self.env = gym.make('FrozenLakeNonSlippery-v0')
 
-    def _postprocess_action(self, a):
-        if self.action_space_is_discrete:
-            return int(a)
-        if self.action_space_is_box:
-            lo = self.env.action_space.low
-            hi = self.env.action_space.high
-            return onp.clip(a, lo, hi)
-        return a
+    def tearDown(self):
+        del self.env
 
-    @staticmethod
-    def _preprocess_state(s):
-        if isinstance(s, LazyFrames):
-            return onp.asanyarray(s)
-        return s
+    def test_call(self):
+        pi = RandomPolicy(self.env.action_space)
+        s = self.env.reset()
+        for t in range(self.env.spec.max_episode_steps):
+            a = pi(s)
+            s, r, done, info = self.env.step(a)
+            if done:
+                break
+
+    def test_greedy(self):
+        pi = RandomPolicy(self.env.action_space)
+        s = self.env.reset()
+        for t in range(self.env.spec.max_episode_steps):
+            a = pi.greedy(s)
+            s, r, done, info = self.env.step(a)
+            if done:
+                break
+
+    def test_dist_params(self):
+        pi = RandomPolicy(self.env.action_space)
+        s = self.env.observation_space.sample()
+        dist_params = pi.dist_params(s)
+        print(onp.exp(dist_params['logits']))
+        self.assertEqual(dist_params['logits'].shape, (self.env.action_space.n,))

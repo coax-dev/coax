@@ -1,9 +1,15 @@
 {
+    "[git-commit]": {"editor.rulers": [50]},
+    "[python]": {
+        "editor.rulers": [100],
+    },
     "python.envFile": "${workspaceFolder}/.vscode/debug.env",
     "python.testing.pytestArgs": [
         "coax"
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.nosetestsEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "python.linting.enabled": true,
+    "python.linting.flake8Enabled": true,
 }

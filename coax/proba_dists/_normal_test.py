@@ -19,29 +19,33 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+import gym
 import jax
 import haiku as hk
 
 from .._base.test_case import TestCase
 from ._normal import NormalDist
 
-rngs = hk.PRNGSequence(13)
-
 
 class TestNormalDist(TestCase):
     decimal = 5
 
+    def setUp(self):
+        self.rngs = hk.PRNGSequence(13)
+
+    def tearDown(self):
+        del self.rngs
+
     def test_kl_divergence(self):
-        dist = NormalDist()
+        dist = NormalDist(gym.spaces.Box(low=0, high=1, shape=(7,)))
         params_p = {
-            'mu': jax.random.normal(next(rngs), shape=(11, 3)),
-            'logvar': jax.random.normal(next(rngs), shape=(11, 3))}
+            'mu': jax.random.normal(next(self.rngs), shape=(3, 7)),
+            'logvar': jax.random.normal(next(self.rngs), shape=(3, 7))}
         params_q = {
-            'mu': jax.random.normal(next(rngs), shape=(11, 3)),
-            'logvar': jax.random.normal(next(rngs), shape=(11, 3))}
+            'mu': jax.random.normal(next(self.rngs), shape=(3, 7)),
+            'logvar': jax.random.normal(next(self.rngs), shape=(3, 7))}
         # params_q = {k: v + 0.001 for k, v in params_p.items()}
 
         kl_div_direct = dist.kl_divergence(params_p, params_q)
-        kl_div_from_ce = \
-            dist.cross_entropy(params_p, params_q) - dist.entropy(params_p)
+        kl_div_from_ce = dist.cross_entropy(params_p, params_q) - dist.entropy(params_p)
         self.assertArrayAlmostEqual(kl_div_direct, kl_div_from_ce)

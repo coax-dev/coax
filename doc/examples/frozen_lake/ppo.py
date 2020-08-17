@@ -1,9 +1,11 @@
 import os
+
+import coax
 import jax
 import jax.numpy as jnp
 import gym
-
-import coax
+import haiku as hk
+from jax.experimental import optix
 
 # set some env vars
 os.environ['JAX_PLATFORM_NAME'] = 'cpu'   # tell JAX to use CPU
@@ -18,10 +20,21 @@ env = coax.wrappers.TrainMonitor(env)
 coax.enable_logging()
 
 
-# define function approximators
-func = coax.FuncApprox(env, learning_rate=0.5)
-pi = coax.Policy(func)
-v = coax.V(func)
+def func_v(S, is_training):
+    value = hk.Sequential((hk.Linear(1, w_init=jnp.zeros), jnp.ravel))
+    S = hk.one_hot(S, env.observation_space.n)
+    return value(S)
+
+
+def func_pi(S, is_training):
+    logits = hk.Linear(env.action_space.n, w_init=jnp.zeros)
+    S = hk.one_hot(S, env.observation_space.n)
+    return {'logits': logits(S)}
+
+
+# function approximators
+pi = coax.Policy(func_pi, env.observation_space, env.action_space)
+v = coax.V(func_v, env.observation_space)
 
 
 # create copies
@@ -34,12 +47,12 @@ tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
 
 
 # updaters
-value_td = coax.td_learning.ValueTD(v, v_targ)
-ppo_clip = coax.policy_objectives.PPOClip(pi)
+simpletd = coax.td_learning.SimpleTD(v, v_targ, optimizer=optix.adam(0.02))
+ppo_clip = coax.policy_objectives.PPOClip(pi, optimizer=optix.adam(0.01))
 
 
 # train
-for ep in range(250):
+for ep in range(500):
     s = env.reset()
 
     for t in range(env.spec.max_episode_steps):
@@ -54,14 +67,13 @@ for ep in range(250):
         tracer.add(s, a, r, done, logp)
         while tracer:
             transition_batch = tracer.pop()
-            Adv = value_td.td_error(transition_batch)
+            Adv = simpletd.td_error(transition_batch)
             ppo_clip.update(transition_batch, Adv)
-            value_td.update(transition_batch)
+            simpletd.update(transition_batch)
 
-        # sync copies
-        if env.T % 20 == 0:
-            v_targ.soft_update(v, tau=0.5)
-            pi_old.soft_update(pi, tau=0.5)
+            # sync target networks
+            v_targ.soft_update(v, tau=0.01)
+            pi_old.soft_update(pi, tau=0.01)
 
         if done:
             break

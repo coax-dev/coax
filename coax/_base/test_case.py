@@ -31,14 +31,11 @@ import jax
 import jax.numpy as jnp
 import numpy as onp
 import haiku as hk
-from jax.experimental import optix
 
-from ..wrappers import BoxActionsToReals
 
 __all__ = (
     'DiscreteEnv',
     'BoxEnv',
-    'DummyFuncApprox',
     'TestCase',
     'MemoryProfiler',
 )
@@ -53,7 +50,7 @@ def DiscreteEnv(random_seed):
     action_space = gym.spaces.Discrete(3)
     action_space.seed(13 * random_seed)
     observation_space = gym.spaces.Box(
-        low=onp.float32(0), high=onp.float32(1), shape=(5,))
+        low=onp.float32(0), high=onp.float32(1), shape=(17, 19))
     observation_space.seed(11 * random_seed)
     reward_range = (-1., 1.)
     metadata = None
@@ -79,26 +76,6 @@ def BoxEnv(random_seed):
         low=onp.float32(0), high=onp.float32(1), shape=(3, 5))
     env['action_space'].seed(7 * random_seed)
     return MockEnv(**env)
-
-
-def DummyFuncApprox(env, learning_rate=1.):
-    from .._core.func_approx import FuncApprox  # avoid circular dependence
-
-    class cls(FuncApprox):
-        def body(self, S, is_training):
-            batch_norm = hk.BatchNorm(create_scale=True, create_offset=True, decay_rate=0.95)
-            batch_norm = partial(batch_norm, is_training=is_training)
-
-            seq = hk.Sequential((
-                hk.Linear(7), batch_norm, jnp.tanh,
-                hk.Linear(1), jax.nn.sigmoid,
-            ))
-            return seq(S)
-
-        def optimizer(self):
-            return optix.sgd(self.optimizer_kwargs.get('learning_rate', 1e-3))
-
-    return cls(env, random_seed=(17 * env.random_seed), learning_rate=learning_rate)
 
 
 class MemoryProfiler(AbstractContextManager):
@@ -136,15 +113,131 @@ class TestCase(unittest.TestCase):
         return DiscreteEnv(self.seed)
 
     @property
-    def env_box(self):
+    def env_boxspace(self):
         return BoxEnv(self.seed)
 
     @property
-    def env_box_decompactified(self):
-        return BoxActionsToReals(self.env_box)
+    def transitions_discrete(self):
+        from ..utils import safe_sample
+        from ..reward_tracing import TransitionBatch
+        return TransitionBatch(
+            S=onp.stack([
+                safe_sample(self.env_discrete.observation_space, seed=(self.seed * i * 1))
+                for i in range(1, 12)], axis=0),
+            A=onp.stack([
+                safe_sample(self.env_discrete.action_space, seed=(self.seed * i * 2))
+                for i in range(1, 12)], axis=0),
+            logP=onp.log(onp.random.RandomState(3).rand(11)),
+            Rn=onp.random.RandomState(5).randn(11),
+            In=onp.random.RandomState(7).randint(2, size=11) * 0.95,
+            S_next=onp.stack([
+                safe_sample(self.env_discrete.observation_space, seed=(self.seed * i * 11))
+                for i in range(1, 12)], axis=0),
+            A_next=onp.stack([
+                safe_sample(self.env_discrete.action_space, seed=(self.seed * i * 13))
+                for i in range(1, 12)], axis=0),
+            logP_next=onp.log(onp.random.RandomState(17).rand(11)),
+        )
+
+    @property
+    def transitions_boxspace(self):
+        from ..utils import safe_sample
+        from ..reward_tracing import TransitionBatch
+        return TransitionBatch(
+            S=onp.stack([
+                safe_sample(self.env_boxspace.observation_space, seed=(self.seed * i * 1))
+                for i in range(1, 12)], axis=0),
+            A=onp.stack([
+                safe_sample(self.env_boxspace.action_space, seed=(self.seed * i * 2))
+                for i in range(1, 12)], axis=0),
+            logP=onp.log(onp.random.RandomState(3).rand(11)),
+            Rn=onp.random.RandomState(5).randn(11),
+            In=onp.random.RandomState(7).randint(2, size=11) * 0.95,
+            S_next=onp.stack([
+                safe_sample(self.env_boxspace.observation_space, seed=(self.seed * i * 11))
+                for i in range(1, 12)], axis=0),
+            A_next=onp.stack([
+                safe_sample(self.env_boxspace.action_space, seed=(self.seed * i * 13))
+                for i in range(1, 12)], axis=0),
+            logP_next=onp.log(onp.random.RandomState(17).rand(11)),
+        )
+
+    @property
+    def func_pi_discrete(self):
+        def func(S, is_training):
+            flatten = hk.Flatten()
+            batch_norm = hk.BatchNorm(create_scale=True, create_offset=True, decay_rate=0.95)
+            batch_norm = partial(batch_norm, is_training=is_training)
+            seq = hk.Sequential((
+                hk.Linear(7),
+                batch_norm,
+                jnp.tanh,
+                hk.Linear(self.env_discrete.action_space.n),
+            ))
+            return {'logits': seq(flatten(S))}
+        return func
+
+    @property
+    def func_pi_boxspace(self):
+        def func(S, is_training):
+            flatten = hk.Flatten()
+            batch_norm_m = hk.BatchNorm(create_scale=True, create_offset=True, decay_rate=0.95)
+            batch_norm_v = hk.BatchNorm(create_scale=True, create_offset=True, decay_rate=0.95)
+            batch_norm_m = partial(batch_norm_m, is_training=is_training)
+            batch_norm_v = partial(batch_norm_v, is_training=is_training)
+            mu = hk.Sequential((
+                hk.Linear(7),
+                batch_norm_m,
+                jnp.tanh,
+                hk.Linear(3),
+                jnp.tanh,
+                hk.Linear(onp.prod(self.env_boxspace.action_space.shape)),
+                hk.Reshape(self.env_boxspace.action_space.shape),
+            ))
+            logvar = hk.Sequential((
+                hk.Linear(7), batch_norm_v, jnp.tanh,
+                hk.Linear(3), jnp.tanh,
+                hk.Linear(onp.prod(self.env_boxspace.action_space.shape)),
+                hk.Reshape(self.env_boxspace.action_space.shape),
+            ))
+            return {'mu': mu(flatten(S)), 'logvar': logvar(flatten(S))}
+        return func
+
+    @property
+    def func_q_type1(self):
+        def func(S, A, is_training):
+            flatten = hk.Flatten()
+            batch_norm = hk.BatchNorm(create_scale=True, create_offset=True, decay_rate=0.95)
+            batch_norm = partial(batch_norm, is_training=is_training)
+            seq = hk.Sequential((
+                hk.Linear(7), batch_norm, jnp.tanh,
+                hk.Linear(3), jnp.tanh,
+                hk.Linear(1), jnp.ravel,
+            ))
+            X = jnp.concatenate((flatten(S), flatten(A)), axis=-1)
+            return seq(X)
+        return func
+
+    @property
+    def func_q_type2(self):
+        def func(S, is_training):
+            flatten = hk.Flatten()
+            batch_norm = hk.BatchNorm(create_scale=True, create_offset=True, decay_rate=0.95)
+            batch_norm = partial(batch_norm, is_training=is_training)
+            seq = hk.Sequential((
+                hk.Linear(7), batch_norm, jnp.tanh,
+                hk.Linear(3), jnp.tanh,
+                hk.Linear(self.env_discrete.action_space.n),
+            ))
+            return seq(flatten(S))
+        return func
 
     def assertArrayAlmostEqual(self, x, y, decimal=None):
         decimal = decimal or self.decimal
+        x = onp.asanyarray(x)
+        y = onp.asanyarray(y)
+        x = (x - x.min()) / (x.max() - x.min() + 1e-16)
+        y = (y - y.min()) / (y.max() - y.min() + 1e-16)
         onp.testing.assert_array_almost_equal(x, y, decimal=decimal)
 
     def assertArrayNotEqual(self, x, y, margin=margin):

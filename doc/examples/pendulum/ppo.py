@@ -2,8 +2,11 @@ import os
 
 import gym
 import jax
+import jax.numpy as jnp
 import coax
 import haiku as hk
+from numpy import prod
+from jax.experimental import optix
 
 
 # set some env vars
@@ -15,29 +18,47 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'              # tell XLA to be quiet
 # filepaths etc
 tensorboard_dir = "./data/tensorboard/ppo"
 gifs_filepath = "./data/gifs/ppo/T{:08d}.gif"
-coax.enable_logging('ppo')
 
 
 # env with preprocessing
 env = gym.make('Pendulum-v0')  # AtariPreprocessing does frame skipping
-env = coax.wrappers.BoxActionsToReals(env)
+# env = coax.wrappers.BoxActionsToReals(env)
 env = coax.wrappers.TrainMonitor(env, tensorboard_dir)
 
 
-class Func(coax.FuncApprox):
-    def body(self, S, is_training):
-        seq = hk.Sequential((
-            hk.Linear(8), jax.nn.relu,
-            hk.Linear(8), jax.nn.relu,
-            hk.Linear(8), jax.nn.relu,
-        ))
-        return seq(S)
+def func_pi(S, is_training):
+    shared = hk.Sequential((
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(8), jax.nn.relu,
+    ))
+    mu = hk.Sequential((
+        shared,
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(prod(env.action_space.shape), w_init=jnp.zeros),
+        hk.Reshape(env.action_space.shape),
+    ))
+    logvar = hk.Sequential((
+        shared,
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(prod(env.action_space.shape), w_init=jnp.zeros),
+        hk.Reshape(env.action_space.shape),
+    ))
+    return {'mu': mu(S), 'logvar': logvar(S)}
+
+
+def func_v(S, is_training):
+    seq = hk.Sequential((
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(1, w_init=jnp.zeros), jnp.ravel
+    ))
+    return seq(S)
 
 
 # define function approximators
-func = Func(env, random_seed=13, learning_rate=1e-3)
-pi = coax.Policy(func)
-v = coax.V(func.copy())
+pi = coax.Policy(func_pi, env.observation_space, env.action_space)
+v = coax.V(func_v, env.observation_space)
 
 
 # target network
@@ -54,8 +75,8 @@ policy_reg = coax.policy_regularizers.EntropyRegularizer(pi, beta=0.01)
 
 
 # updaters
-value_td = coax.td_learning.ValueTD(v)
-ppo_clip = coax.policy_objectives.PPOClip(pi, regularizer=policy_reg)
+simpletd = coax.td_learning.SimpleTD(v, optimizer=optix.adam(1e-3))
+ppo_clip = coax.policy_objectives.PPOClip(pi, regularizer=policy_reg, optimizer=optix.adam(1e-4))
 
 
 # train
@@ -75,11 +96,11 @@ while env.T < 1000000:
         if len(buffer) >= buffer.capacity:
             for _ in range(int(4 * buffer.capacity / 32)):  # 4 passes per round
                 transition_batch = buffer.sample(batch_size=32)
-                Adv = value_td.td_error(transition_batch)
+                Adv = simpletd.td_error(transition_batch)
 
                 metrics = {}
                 metrics.update(ppo_clip.update(transition_batch, Adv))
-                metrics.update(value_td.update(transition_batch))
+                metrics.update(simpletd.update(transition_batch))
                 env.record_metrics(metrics)
 
             buffer.clear()

@@ -19,18 +19,19 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-from abc import ABC, abstractmethod
+import jax
+import haiku as hk
 
-from ._random_state import RandomStateMixin
+from ..utils import batch_to_single, single_to_batch
 
 __all__ = (
     'PolicyMixin',
 )
 
 
-class PolicyMixin(ABC, RandomStateMixin):
+class PolicyMixin:
+    """ Mix-in class for common functionality shared by policies. """
 
-    @abstractmethod
     def __call__(self, s, return_logp=False):
         r"""
 
@@ -54,16 +55,19 @@ class PolicyMixin(ABC, RandomStateMixin):
 
         logp : float, optional
 
-            The log-propensity :math:`\log\pi(a|s)`. This is only returned if
-            we set ``return_logp=True``.
+            The log-propensity :math:`\log\pi(a|s)`. This is only returned if we set
+            ``return_logp=True``.
 
         """
+        S = single_to_batch(s)
+        A, logP = self.sample_func(self.params, self.function_state, self.rng, S)
+        a = self.proba_dist.postprocess_variate(A)
+        return (a, batch_to_single(logP)) if return_logp else a
 
-    @abstractmethod
     def greedy(self, s):
         r"""
 
-        Get the action greedily :math:`a=\arg\max_a\pi(a|s)`..
+        Sample a greedy action :math:`a=\arg\max_a\pi(a|s)`.
 
         Parameters
         ----------
@@ -78,8 +82,11 @@ class PolicyMixin(ABC, RandomStateMixin):
             A single action :math:`a`.
 
         """
+        S = single_to_batch(s)
+        A = self.mode_func(self.params, self.function_state, self.rng, S)
+        a = self.proba_dist.postprocess_variate(A)
+        return a
 
-    @abstractmethod
     def dist_params(self, s):
         r"""
 
@@ -95,9 +102,51 @@ class PolicyMixin(ABC, RandomStateMixin):
         -------
         dist_params : Params
 
-            The distribution parameters of :math:`\pi(.|s)`. For instance, for
-            a categorical distribution this would be ``Params({'logits':
-            array([...])})``. For a normal distribution it is ``Params({'mu':
-            array([...]), 'logvar': array([...])})``
+            The distribution parameters of :math:`\pi(.|s)`.
 
         """
+        S = single_to_batch(s)
+        dist_params, _ = self.function(self.params, self.function_state, self.rng, S, False)
+        return batch_to_single(dist_params)
+
+    @property
+    def sample_func(self):
+        r"""
+
+        The function that is used for sampling *random* actions, defined as a JIT-compiled pure
+        function. This function may be called directly as:
+
+        .. code:: python
+
+            output = obj.sample_func(obj.params, obj.function_state, obj.rng, *inputs)
+
+        """
+        if not hasattr(self, '_sample_func'):
+            def func(params, state, rng, S):
+                rngs = hk.PRNGSequence(rng)
+                dist_params, _ = self.function(params, state, next(rngs), S, False)
+                A = self.proba_dist.sample(dist_params, next(rngs))
+                logP = self.proba_dist.log_proba(dist_params, A)
+                return A, logP
+            self._sample_func = jax.jit(func)
+        return self._sample_func
+
+    @property
+    def mode_func(self):
+        r"""
+
+        The function that is used for sampling *greedy* actions, defined as a JIT-compiled pure
+        function. This function may be called directly as:
+
+        .. code:: python
+
+            output = obj.mode_func(obj.params, obj.function_state, obj.rng, *inputs)
+
+        """
+        if not hasattr(self, '_mode_func'):
+            def func(params, state, rng, S):
+                dist_params, _ = self.function(params, state, rng, S, False)
+                A = self.proba_dist.mode(dist_params)
+                return A
+            self._mode_func = jax.jit(func)
+        return self._mode_func

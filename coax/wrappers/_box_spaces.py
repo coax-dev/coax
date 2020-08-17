@@ -19,11 +19,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-import numpy as onp
 import gym
+import numpy as onp
 from scipy.special import expit as sigmoid
 
-from .._base.mixins import SpaceUtilsMixin, AddOrigToInfoDictMixin
+from .._base.mixins import AddOrigToInfoDictMixin
 
 
 __all__ = (
@@ -32,7 +32,7 @@ __all__ = (
 )
 
 
-class BoxActionsToReals(gym.Wrapper, SpaceUtilsMixin, AddOrigToInfoDictMixin):
+class BoxActionsToReals(gym.Wrapper, AddOrigToInfoDictMixin):
     r"""
 
     This wrapper decompactifies a :class:`Box <gym.spaces.Box>` action space to the reals. This is
@@ -52,7 +52,7 @@ class BoxActionsToReals(gym.Wrapper, SpaceUtilsMixin, AddOrigToInfoDictMixin):
     """
     def __init__(self, env):
         super().__init__(env)
-        if not self.action_space_is_box:
+        if not isinstance(self.action_space, gym.spaces.Box):
             raise NotImplementedError("BoxActionsToReals is only implemented for Box action spaces")
 
         shape_flat = onp.prod(self.env.action_space.shape),
@@ -74,7 +74,7 @@ class BoxActionsToReals(gym.Wrapper, SpaceUtilsMixin, AddOrigToInfoDictMixin):
         return lo + (hi - lo) * sigmoid(action)
 
 
-class BoxActionsToDiscrete(gym.Wrapper, SpaceUtilsMixin, AddOrigToInfoDictMixin):
+class BoxActionsToDiscrete(gym.Wrapper, AddOrigToInfoDictMixin):
     r"""
 
     This wrapper splits a :class:`Box <gym.spaces.Box>` action space into bins. The resulting action
@@ -95,7 +95,7 @@ class BoxActionsToDiscrete(gym.Wrapper, SpaceUtilsMixin, AddOrigToInfoDictMixin)
     """
     def __init__(self, env, num_bins, random_seed=None):
         super().__init__(env)
-        if not self.action_space_is_box:
+        if not isinstance(self.action_space, gym.spaces.Box):
             raise NotImplementedError(
                 "BoxActionsToDiscrete is only implemented for Box action spaces")
         self._rnd = onp.random.RandomState(random_seed)

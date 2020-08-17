@@ -4,6 +4,9 @@ import coax
 import gym
 import haiku as hk
 import jax
+import jax.numpy as jnp
+from coax.value_losses import mse
+from jax.experimental import optix
 
 
 # set some env vars
@@ -14,38 +17,43 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # tell XLA to be quiet
 # the cart-pole MDP
 env = gym.make('CartPole-v0')
 env = coax.wrappers.TrainMonitor(env, 'data/tensorboard/a2c')
-coax.enable_logging()
 
 
-class MLP(coax.FuncApprox):
-    """ multi-layer perceptron with one hidden layer """
-    def body(self, S, is_training):
-        seq = hk.Sequential((
-            hk.Linear(8), jax.nn.relu,
-            hk.Linear(8), jax.nn.relu,
-            hk.Linear(8), jax.nn.relu,
-        ))
-        return seq(S)
+def func_pi(S, is_training):
+    logits = hk.Sequential((
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(env.action_space.n, w_init=jnp.zeros)
+    ))
+    return {'logits': logits(S)}
 
-    def optimizer(self):
-        from jax.experimental import optix
-        return optix.chain(
-            optix.apply_every(k=32),  # update in batches of size k
-            optix.adam(**self.optimizer_kwargs))
+
+def func_v(S, is_training):
+    value = hk.Sequential((
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(1, w_init=jnp.zeros), jnp.ravel
+    ))
+    return value(S)
+
+
+# these optimizers collect batches of grads before applying updates
+optimizer_v = optix.chain(optix.apply_every(k=32), optix.adam(0.002))
+optimizer_pi = optix.chain(optix.apply_every(k=32), optix.adam(0.001))
 
 
 # value function and its derived policy
-func_v = MLP(env, random_seed=13, learning_rate=0.005)
-func_pi = MLP(env, random_seed=13, learning_rate=0.001)
-v = coax.V(func_v)
-pi = coax.Policy(func_pi)
+v = coax.V(func_v, env.observation_space)
+pi = coax.Policy(func_pi, env.observation_space, env.action_space)
 
 # experience tracer
 tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
 
 # updaters
-vanilla_pg = coax.policy_objectives.VanillaPG(pi)
-value_td = coax.td_learning.ValueTD(v)
+vanillapg = coax.policy_objectives.VanillaPG(pi, optimizer=optimizer_pi)
+simple_td = coax.td_learning.SimpleTD(v, loss_function=mse, optimizer=optimizer_v)
 
 
 # train
@@ -61,11 +69,11 @@ for ep in range(1000):
         tracer.add(s, a, r, done)
         while tracer:
             transition_batch = tracer.pop()
-            Adv = value_td.td_error(transition_batch)
+            Adv = simple_td.td_error(transition_batch)
 
             metrics = {}
-            metrics.update(vanilla_pg.update(transition_batch, Adv))
-            metrics.update(value_td.update(transition_batch))
+            metrics.update(vanillapg.update(transition_batch, Adv))
+            metrics.update(simple_td.update(transition_batch))
             env.record_metrics(metrics)
 
         if done:

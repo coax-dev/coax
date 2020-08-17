@@ -57,6 +57,7 @@ Object Reference
     coax.utils.OrnsteinUhlenbeckNoise
     coax.utils.reload_recursive
     coax.utils.render_episode
+    coax.utils.safe_sample
     coax.utils.single_to_batch
     coax.utils.strip_env_recursive
     coax.utils.StrippedEnv
@@ -81,6 +82,7 @@ from ._array import (
     isscalar,
     merge_dicts,
     single_to_batch,
+    safe_sample,
     get_grads_diagnostics,
     tree_ravel,
 )
@@ -126,6 +128,7 @@ __all__ = (
     'OrnsteinUhlenbeckNoise',
     'reload_recursive',
     'render_episode',
+    'safe_sample',
     'single_to_batch',
     'StrippedEnv',
     'strip_env_recursive',

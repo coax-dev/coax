@@ -1,19 +1,19 @@
 #!/usr/bin/env python3
-# flake8: noqa
 import re
 import os
 import setuptools
 from collections import namedtuple
 
 PROJECTDIR = os.path.dirname(__file__)
-RE_VERSION = re.compile(r'^__version__ \= \'(?P<version>(?P<majorminor>\d+\.\d+)\.\d+(?:-\w+)?)\'$', re.MULTILINE)
+RE_VERSION = re.compile(
+    r'^__version__ \= \'(?P<version>(?P<majorminor>\d+\.\d+)\.\d+(?:\w+\d+)?)\'$', re.MULTILINE)
 DEV_STATUS = {
-    '0.1': 'Development Status :: 1 - Planning',          # v0.1 - skeleton
-    '0.2': 'Development Status :: 2 - Pre-Alpha',         # v0.2 - some basic functionality
-    '0.3': 'Development Status :: 3 - Alpha',             # v0.3 - most functionality
-    '0.4': 'Development Status :: 4 - Beta',              # v0.4 - most functionality + doc
-    '1.0': 'Development Status :: 5 - Production/Stable', # v1.0 - most functionality + doc + test
-    '2.0': 'Development Status :: 6 - Mature',            # v2.0 - new functionality?
+    '0.1': 'Development Status :: 1 - Planning',           # v0.1 - skeleton
+    '0.2': 'Development Status :: 2 - Pre-Alpha',          # v0.2 - some basic functionality
+    '0.3': 'Development Status :: 3 - Alpha',              # v0.3 - most functionality
+    '0.4': 'Development Status :: 4 - Beta',               # v0.4 - most functionality + doc
+    '1.0': 'Development Status :: 5 - Production/Stable',  # v1.0 - most functionality + doc + test
+    '2.0': 'Development Status :: 6 - Mature',             # v2.0 - new functionality?
 }
 
 VersionSpec = namedtuple('VersionSpec', 'version majorminor')
@@ -67,7 +67,7 @@ setup_kwargs = {
     'python_requires': '~=3.6',
     'install_requires': get_install_requires('requirements.txt'),
     'extras_require': {
-        'dev':  get_install_requires('requirements.dev.txt'),
+        'dev': get_install_requires('requirements.dev.txt'),
     },
     'classifiers': [
         DEV_STATUS[version_spec.majorminor],

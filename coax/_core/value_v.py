@@ -19,14 +19,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+from inspect import signature
+from collections import namedtuple
+
 import jax
 import jax.numpy as jnp
-import haiku as hk
+import numpy as onp
+from gym.spaces import Space
 
-from .._base.bases import BaseFunc
-from .._base.mixins import ParamMixin
-from ..value_losses import huber
-from ..utils import single_to_batch, batch_to_single
+from ..utils import single_to_batch, safe_sample
+from .base_func import BaseFunc, ExampleData, Inputs
 
 
 __all__ = (
@@ -34,65 +36,40 @@ __all__ = (
 )
 
 
-class V(BaseFunc, ParamMixin):
+Args = namedtuple('Args', ('S', 'is_training'))
+
+
+class V(BaseFunc):
     r"""
 
-    A state value function :math:`v(s)`.
+    A state value function :math:`v_\theta(s)`.
 
     Parameters
     ----------
-    func_approx : function approximator
+    func : function
 
-        This must be an instance of :class:`FuncApprox <coax.FuncApprox>` or a subclass thereof.
+        A Haiku-style function that specifies the forward pass. The function signature must be the
+        same as the example below.
 
-    gamma : float between 0 and 1, optional
+    observation_space : gym.Space
 
-        The future-discount factor :math:`\gamma\in[0,1]`.
+        The observation space of the environment. This is used to generate example input for
+        initializing ``func``. This is done after Haiku-transforming it, see also
+        :func:`haiku.transform_with_state`.
 
-    n : positive int, optional
+    random_seed : int, optional
 
-        The number of time steps over which to do :math:`n`-step bootstrapping.
-
-    bootstrap_with_params_copy : bool, optional
-
-        Whether to use a separate copy of the model weights (known as a *target network*) to
-        construct the bootstrapped TD-target.
-
-        If this is set to ``True`` you must remember to periodically call the
-        :func:`sync_params_copy` method.
-
-    loss_function : function, optional
-
-        The loss function that will be used to regress to the (bootstrapped) target. The loss
-        function is expected to be of the form:
-
-        .. math::
-
-            L(y_\text{true}, y_\text{pred})\in\mathbb{R}
-
-        Check out the :mod:`coax._core.losses` module for some predefined loss functions. If left
-        unspecified, this defaults to the :func:`Huber <coax._core.value_losses.Huber>` loss
-        function.
+        Seed for pseudo-random number generators.
 
     """
-    COMPONENTS = ('body', 'head_v')
+    def __init__(self, func, observation_space, random_seed=None):
+        super().__init__(
+            func=func,
+            observation_space=observation_space,
+            action_space=None,
+            random_seed=random_seed)
 
-    def __init__(
-            self,
-            func_approx,
-            gamma=0.9,
-            n=1,
-            bootstrap_with_params_copy=False,
-            loss_function=None):
-
-        super().__init__(func_approx)
-        self.gamma = float(gamma)
-        self.n = int(n)
-        self.bootstrap_with_params_copy = bool(bootstrap_with_params_copy)
-        self.loss_function = loss_function or huber
-        self._init_funcs()
-
-    def __call__(self, s, use_params_copy=False):
+    def __call__(self, s):
         r"""
 
         Evaluate the value function on a state observation :math:`s`.
@@ -103,120 +80,58 @@ class V(BaseFunc, ParamMixin):
 
             A single state observation :math:`s`.
 
-        use_params_copy : bool, optional
-
-            Whether to use the target network weights, i.e. the model weights contained in
-            :attr:`func_approx.params_copy <coax.FuncApprox.params_copy>` instead of
-            :attr:`func_approx.params <coax.FuncApprox.params>`.
-
-            If this is set to ``True`` you must remember to periodically call the
-            :func:`sync_params_copy` method.
-
         Returns
         -------
-        v : ndarray
+        v : ndarray, shape: ()
 
-            The output of the function-approximator's :attr:`func_approx.head_v
-            <coax.FuncApprox.head_v>`.
-
-        """
-        s = self.func_approx._preprocess_state(s)
-        v = self._apply_single_func(self.params, self.function_state, self.rng, s)
-        return v
-
-    def batch_eval(self, S, use_params_copy=False):
-        r"""
-
-        Evaluate the value function on a batch of state observations.
-
-        Parameters
-        ----------
-        S : ndarray
-
-            A batch of state observations :math:`s`.
-
-        use_params_copy : bool, optional
-
-            Whether to use the target network weights, i.e. the model weights contained in
-            :attr:`func_approx.params_copy <coax.FuncApprox.params_copy>` instead of
-            :attr:`func_approx.params <coax.FuncApprox.params>`.
-
-            If this is set to ``True`` you must remember to periodically call the
-            :func:`sync_params_copy` method.
-
-        Returns
-        -------
-        V : ndarray
-
-            The output of the function-approximator's :attr:`func_approx.head_v
-            <coax.FuncApprox.head_v>`.
+            The estimated expected value associated with the input state observation ``s``.
 
         """
-        V, _ = self.apply_func(self.params, self.function_state, self.rng, S, False)
-        return V
+        S = single_to_batch(s)
+        V, _ = self.function(self.params, self.function_state, self.rng, S, False)
+        return onp.asarray(V[0])
 
-    def _init_funcs(self):
+    @classmethod
+    def example_data(cls, observation_space, batch_size=1, random_seed=None):
 
-        def apply_func(params, state, rng, S, is_training):
-            rngs = hk.PRNGSequence(rng)
-            body = self.func_approx.apply_funcs['body']
-            head = self.func_approx.apply_funcs['head_v']
-            state_new = state.copy()  # shallow copy
-            X_s, state_new['body'] = \
-                body(params['body'], state['body'], next(rngs), S, is_training)
-            V, state_new['head_v'] = \
-                head(params['head_v'], state['head_v'], next(rngs), X_s, is_training)
-            return jnp.squeeze(V, axis=1), state_new
+        if not isinstance(observation_space, Space):
+            raise TypeError(
+                f"observation_space must be derived from gym.Space, got: {type(observation_space)}")
 
-        def apply_single_func(params, state, rng, s):
-            S = single_to_batch(s)
-            V, _ = apply_func(params, state, rng, S, is_training=False)
-            v = batch_to_single(V)
-            return v
+        rnd = onp.random.RandomState(random_seed)
 
-        self._apply_func = jax.jit(apply_func, static_argnums=4)
-        self._apply_single_func = jax.jit(apply_single_func)
+        # input: state observations
+        S = [safe_sample(observation_space, rnd) for _ in range(batch_size)]
+        S = jax.tree_multimap(lambda *x: jnp.stack(x, axis=0), *S)
 
-    @property
-    def apply_func(self):
-        r"""
+        return ExampleData(
+            inputs=Inputs(args=Args(S=S, is_training=True), static_argnums=(1,)),
+            output=jnp.asarray(rnd.randn(batch_size)),
+        )
 
-        JIT-compiled function responsible for the forward-pass through the underlying function
-        approximator. This function is used by the :attr:`batch_eval` and :attr:`__call__` methods.
+    def _check_signature(self, func):
+        if tuple(signature(func).parameters) != ('S', 'is_training'):
+            sig = ', '.join(signature(func).parameters)
+            raise TypeError(
+                f"func has bad signature; expected: func(S, is_training), got: func({sig})")
 
-        Parameters
-        ----------
-        params : pytree with ndarray leaves
+        # example inputs
+        return self.example_data(
+            observation_space=self.observation_space,
+            batch_size=1,
+            random_seed=self.random_seed,
+        )
 
-            The model parameters (weights) used by the underlying q-function.
+    def _check_output(self, actual, expected):
+        if not isinstance(actual, jnp.ndarray):
+            raise TypeError(
+                f"func has bad return type; expected jnp.ndarray, got {actual.__class__.__name__}")
 
-        state : pytree
+        if not jnp.issubdtype(actual.dtype, jnp.floating):
+            raise TypeError(
+                "func has bad return dtype; expected a subdtype of jnp.floating, "
+                f"got dtype={actual.dtype}")
 
-            The internal state of the forward-pass function. See :attr:`function_state` and
-            :func:`haiku.transform_with_state` for more details.
-
-        rng : PRNGKey
-
-            A key to seed JAX's pseudo-random number generator.
-
-        S : state observations
-
-            A batch of state observations.
-
-        is_training : bool
-
-            A flag that indicates whether we are in training mode.
-
-        Returns
-        -------
-        V : ndarray
-
-            A batch of state values :math:`v(s)`.
-
-        state : pytree
-
-            The internal state of the forward-pass function. See :attr:`function_state` and
-            :func:`haiku.transform_with_state` for more details.
-
-        """
-        return self._apply_func
+        if actual.shape != expected.shape:
+            raise TypeError(
+                f"func has bad return shape, expected: {expected.shape}, got: {actual.shape}")

@@ -24,19 +24,20 @@ import jax.numpy as jnp
 import haiku as hk
 
 from ..utils import get_grads_diagnostics
-from ._base import BaseTDLearningQ
+from ._base import BaseTDLearningV
 
 
-class Sarsa(BaseTDLearningQ):
+class SimpleTD(BaseTDLearningV):
     r"""
 
-    TD-learning with SARSA updates. The :math:`n`-step bootstrapped target is constructed as:
+    TD-learning for state value functions :math:`v(s)`. The :math:`n`-step bootstrapped target is
+    constructed as:
 
     .. math::
 
-        G^{(n)}_t\ =\ R^{(n)}_t + I^{(n)}_t\,q_\text{targ}(S_{t+n}, A_{t+n})
+        G^{(n)}_t\ =\ R^{(n)}_t + I^{(n)}_t\,v_\text{targ}(S_{t+n})
 
-    where :math:`A_{t+n}` is sampled from experience and
+    where
 
     .. math::
 
@@ -46,16 +47,17 @@ class Sarsa(BaseTDLearningQ):
             \gamma^n    & \text{otherwise}
         \end{matrix}\right.
 
+
     Parameters
     ----------
-    q : Q
+    v : V
 
-        The main q-function to update.
+        The main state value function to update.
 
-    q_targ : Q, optional
+    v_targ : V, optional
 
-        The q-function that is used for constructing the TD-target. If this is left unspecified, we
-        set ``q_targ = q`` internally.
+        The state value function that is used for constructing the TD-target. If this is left
+        unspecified, we set ``v_targ = v`` internally.
 
     optimizer : optix optimizer, optional
 
@@ -91,33 +93,31 @@ class Sarsa(BaseTDLearningQ):
     """
     def _init_funcs(self):
 
-        def target(params, state, rng, Rn, In, S_next, A_next):
+        def target(params, state, rng, Rn, In, S_next):
             f, f_inv = self.value_transform
-            Q_sa_next, _ = self.q_targ.function_type1(params, state, rng, S_next, A_next, False)
-            return f(Rn + In * f_inv(Q_sa_next))
+            V_next, _ = self.v_targ.function(params, state, rng, S_next, False)
+            return f(Rn + In * f_inv(V_next))
 
         def loss_func(params, target_params, state, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
-            S, A, _, Rn, In, S_next, A_next, _ = transition_batch
-            A = self.q.action_preprocessor(A)
-            A_next = self.q.action_preprocessor(A_next)
-            G = target(target_params, state, next(rngs), Rn, In, S_next, A_next)
-            Q, state_new = self.q.function_type1(params, state, next(rngs), S, A, True)
-            loss = self.loss_function(G, Q)
-            return loss, (loss, G, Q, S, A, state_new)
+            S, _, _, Rn, In, S_next, _, _ = transition_batch
+            G = target(target_params, state, next(rngs), Rn, In, S_next)
+            V, state_new = self.v.function(params, state, next(rngs), S, True)
+            loss = self.loss_function(G, V)
+            return loss, (loss, G, V, S, state_new)
 
         def grads_and_metrics_func(params, target_params, state, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
-            grads, (loss, G, Q, S, A, state_new) = \
+            grads, (loss, G, V, S, state_new) = \
                 jax.grad(loss_func, has_aux=True)(
                     params, target_params, state, next(rngs), transition_batch)
 
             # target-network estimate
-            Q_targ, _ = self.q_targ.function_type1(target_params, state, next(rngs), S, A, False)
+            V_targ, _ = self.v_targ.function(target_params, state, next(rngs), S, False)
 
             # residuals: estimate - better_estimate
-            err = Q - G
-            err_targ = Q_targ - Q
+            err = V - G
+            err_targ = V_targ - V
 
             name = self.__class__.__name__
             metrics = {
@@ -134,24 +134,10 @@ class Sarsa(BaseTDLearningQ):
 
         def td_error_func(params, target_params, state, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
-            S, A, _, Rn, In, S_next, A_next, _ = transition_batch
-            A = self.q.action_preprocessor(A)
-            A_next = self.q.action_preprocessor(A_next)
-            G = target(target_params, state, next(rngs), Rn, In, S_next, A_next)
-            Q, _ = self.q.function_type1(params, state, next(rngs), S, A, False)
-            return G - Q
+            S, _, _, Rn, In, S_next, _, _ = transition_batch
+            G = target(target_params, state, next(rngs), Rn, In, S_next)
+            V, _ = self.v.function(params, state, next(rngs), S, False)
+            return G - V
 
         self._grads_and_metrics_func = jax.jit(grads_and_metrics_func)
         self._td_error_func = jax.jit(td_error_func)
-
-    def grads_and_metrics(self, transition_batch):
-        if transition_batch.A_next is None:
-            raise ValueError(
-                "transition_batch.A_next cannot be None; it is required by the Sarsa updater")
-        return super().grads_and_metrics(transition_batch)
-
-    def td_error(self, transition_batch):
-        if transition_batch.A_next is None:
-            raise ValueError(
-                "transition_batch.A_next cannot be None; it is required by the Sarsa updater")
-        return super().td_error(transition_batch)

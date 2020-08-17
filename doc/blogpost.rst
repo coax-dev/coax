@@ -93,9 +93,21 @@ intuitive library based on Sonnet (a lightweight alternative to keras).
 Show me the code!
 -----------------
 
-Rather than walking through the entire **coax** API, here's an example of a simple q-learning agent.
-This code is fully functional (apart from the environment name, which we left out). What you'll see
-is that we designed **coax** to align with the underlying RL components, not agents.
+Let's look at a specific example so that we get a feel for how the **coax** API works. We'll
+implement a simple q-learning agent.
+
+We start by defining our q-function. In **coax**, this is done by specifying a forward-pass
+function:
+
+.. code:: python
+
+    import gym
+    import coax
+
+    env = gym.make('FrozenLakeNonSlippery-v0')
+    env = coax.wrappers.TrainMonitor(env)
+
+
 
 .. code:: python
 
@@ -103,32 +115,33 @@ is that we designed **coax** to align with the underlying RL components, not age
     import coax
     import jax.numpy as jnp
     import haiku as hk
+    from jax.experimental.optix import adam
 
 
     # pick environment
     env = gym.make(...)
-    env = coax.wrappers.TrainMonitor(env)
 
 
-    # show logs from TrainMonitor
-    coax.enable_logging()
+    def func(S, A, is_training):
+        """ forward pass with 3 hidden layers """
+        seq = hk.Sequential((
+            hk.Linear(8), jax.nn.relu,
+            hk.Linear(8), jax.nn.relu,
+            hk.Linear(8), jax.nn.relu,
+            hk.Linear(1, w_init=jnp.zeros), jnp.ravel
+        ))
+
+        X = jnp.concatenate((S, A), axis=-1)
+        return seq(X)
 
 
-    class MyFuncApprox(coax.FuncApprox):
-        def body(self, S, is_training):
-            # custom haiku function (one hidden layer)
-            seq = hk.Sequential((hk.Linear(7), jnp.tanh))
-            return seq(S)
-
-
-    # define function approximator
-    func = MyFuncApprox(env)
-    q = coax.Q(func)
+    # function approximator
+    q = coax.Q(func, env.observation_space, env.action_space)
     pi = coax.EpsilonGreedy(q, epsilon=0.1)
 
 
     # specify how to update q-function
-    qlearning = coax.td_learning.QLearning(q)
+    qlearning = coax.td_learning.QLearning(q, optimizer=adam(0.02))
 
 
     # specify how to trace the transitions

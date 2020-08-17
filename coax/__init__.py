@@ -19,20 +19,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-__version__ = '0.1.0-rc1'
+__version__ = '0.1.1rc1'
 
 
 # expose specific classes and functions
-from ._core.func_approx import FuncApprox
 from ._core.value_v import V
 from ._core.value_q import Q
 from ._core.policy import Policy
-from ._core.policy_q import EpsilonGreedy, BoltzmannPolicy
-from ._core.policy_random import RandomPolicy
-from .utils import enable_logging, render_episode
+from ._core.value_based_policy import EpsilonGreedy, BoltzmannPolicy
+from ._core.random_policy import RandomPolicy
+from .utils import safe_sample, render_episode
 
 # pre-load submodules
 from . import experience_replay
+from . import decorators
 from . import td_learning
 from . import policy_objectives
 from . import policy_regularizers
@@ -46,18 +46,18 @@ from . import wrappers
 __all__ = (
 
     # classes and functions
-    'FuncApprox',
     'V',
     'Q',
     'Policy',
     'EpsilonGreedy',
     'BoltzmannPolicy',
     'RandomPolicy',
-    'enable_logging',
+    'safe_sample',
     'render_episode',
 
     # modules
     'experience_replay',
+    'decorators',
     'td_learning',
     'policy_objectives',
     'policy_regularizers',

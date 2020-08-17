@@ -21,43 +21,53 @@
 
 from copy import deepcopy
 
-from .._base.test_case import TestCase, DummyFuncApprox
+import jax.numpy as jnp
+from jax.experimental.optix import sgd
+
+from .._base.test_case import TestCase
 from .._core.policy import Policy
-from ..utils import get_transition
+from ..utils import tree_ravel
 from ._ppo_clip import PPOClip
 
 
 class TestPPOClip(TestCase):
-    def setUp(self):
-        self.func = DummyFuncApprox(self.env_discrete, learning_rate=0.1)
-        self.transition_batch = get_transition(self.env_discrete).to_batch()
 
-    def test_update(self):
-        pi = Policy(self.func)
-        ppo = PPOClip(pi)
-        b1 = deepcopy(pi.func_approx.state['body']['params'])
-        h1 = deepcopy(pi.func_approx.state['head_pi']['params'])
-        o1 = deepcopy((
-            pi.func_approx.state['action_preprocessor']['params'],
-            pi.func_approx.state['state_action_combiner']['params'],
-            pi.func_approx.state['head_v']['params'],
-            pi.func_approx.state['head_q1']['params'],
-            pi.func_approx.state['head_q2']['params'],
-        ))
-        # default value head is a linear layer with zero-initialized weights,
-        # so we need not one but two updates to ensure that the body (which is
-        # upstream from value head) receives a non-trivial update too
-        ppo.update(self.transition_batch, Adv=self.transition_batch.Rn)
-        ppo.update(self.transition_batch, Adv=self.transition_batch.Rn)
-        b2 = pi.func_approx.state['body']['params']
-        h2 = pi.func_approx.state['head_pi']['params']
-        o2 = (
-            pi.func_approx.state['action_preprocessor']['params'],
-            pi.func_approx.state['state_action_combiner']['params'],
-            pi.func_approx.state['head_v']['params'],
-            pi.func_approx.state['head_q1']['params'],
-            pi.func_approx.state['head_q2']['params'],
-        )
-        self.assertPytreeNotEqual(b1, b2)
-        self.assertPytreeNotEqual(h1, h2)
-        self.assertPytreeAlmostEqual(o1, o2)
+    def test_update_discrete(self):
+        env = self.env_discrete
+        func = self.func_pi_discrete
+        transitions = self.transitions_discrete
+        print(transitions)
+
+        pi = Policy(func, env.observation_space, env.action_space)
+        updater = PPOClip(pi, optimizer=sgd(1.0))
+
+        params = deepcopy(pi.params)
+        function_state = deepcopy(pi.function_state)
+
+        grads, _, _ = updater.grads_and_metrics(transitions, Adv=transitions.Rn)
+        self.assertGreater(jnp.max(jnp.abs(tree_ravel(grads))), 0.)
+
+        updater.update(transitions, Adv=transitions.Rn)
+
+        self.assertPytreeNotEqual(function_state, pi.function_state)
+        self.assertPytreeNotEqual(params, pi.params)
+
+    def test_update_box(self):
+        env = self.env_boxspace
+        func = self.func_pi_boxspace
+        transitions = self.transitions_boxspace
+        print(transitions)
+
+        pi = Policy(func, env.observation_space, env.action_space)
+        updater = PPOClip(pi, optimizer=sgd(1.0))
+
+        params = deepcopy(pi.params)
+        function_state = deepcopy(pi.function_state)
+
+        grads, _, _ = updater.grads_and_metrics(transitions, Adv=transitions.Rn)
+        self.assertGreater(jnp.max(jnp.abs(tree_ravel(grads))), 0.)
+
+        updater.update(transitions, Adv=transitions.Rn)
+
+        self.assertPytreeNotEqual(function_state, pi.function_state)
+        self.assertPytreeNotEqual(params, pi.params)

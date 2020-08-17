@@ -20,62 +20,83 @@
 # ------------------------------------------------------------------------------------------------ #
 
 from copy import deepcopy
+from functools import partial
 
-from .._base.test_case import TestCase, DummyFuncApprox
+import jax
+import jax.numpy as jnp
+import haiku as hk
+from jax.experimental.optix import sgd
+
+from .._base.test_case import TestCase, DiscreteEnv
 from .._core.value_q import Q
 from ..utils import get_transition
 from ._sarsa import Sarsa
+
+env = DiscreteEnv(random_seed=13)
+
+
+def func_type1(S, A, is_training):
+    seq = hk.Sequential((
+        hk.Linear(8), jax.nn.relu,
+        partial(hk.dropout, hk.next_rng_key(), 0.25 if is_training else 0.),
+        partial(hk.BatchNorm(False, False, 0.99), is_training=is_training),
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(1), jnp.ravel,
+    ))
+    flatten = hk.Flatten()
+    X = jnp.concatenate((flatten(S), flatten(A)), axis=-1)
+    return seq(X)
+
+
+def func_type2(S, is_training):
+    seq = hk.Sequential((
+        hk.Flatten(),
+        hk.Linear(8), jax.nn.relu,
+        partial(hk.dropout, hk.next_rng_key(), 0.25 if is_training else 0.),
+        partial(hk.BatchNorm(False, False, 0.99), is_training=is_training),
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(env.action_space.n),
+    ))
+    return seq(S)
 
 
 class TestSarsa(TestCase):
 
     def setUp(self):
-        self.func = DummyFuncApprox(self.env_discrete)
+
         self.transition_batch = get_transition(self.env_discrete).to_batch()
 
+    def test_update_type1_discrete(self):
+        q = Q(func_type1, env.observation_space, env.action_space)
+        q_targ = q.copy()
+        updater = Sarsa(q, q_targ, optimizer=sgd(1.0))
+
+        params = deepcopy(q.params)
+        function_state = deepcopy(q.function_state)
+
+        updater.update(self.transition_batch)
+
+        self.assertPytreeNotEqual(params, q.params)
+        self.assertPytreeNotEqual(function_state, q.function_state)
+
+    def test_update_type2_discrete(self):
+        q = Q(func_type2, env.observation_space, env.action_space)
+        q_targ = q.copy()
+        updater = Sarsa(q, q_targ, optimizer=sgd(1.0))
+
+        params = deepcopy(q.params)
+        function_state = deepcopy(q.function_state)
+
+        updater.update(self.transition_batch)
+
+        self.assertPytreeNotEqual(params, q.params)
+        self.assertPytreeNotEqual(function_state, q.function_state)
+
     def test_update_without_anext(self):
-        q = Q(self.func, qtype=1)
+        q = Q(func_type1, env.observation_space, env.action_space)
         q_targ = q.copy()
         sarsa = Sarsa(q, q_targ)
         self.transition_batch.A_next = None
         msg = "transition_batch.A_next cannot be None; it is required by the Sarsa updater"
         with self.assertRaisesRegex(ValueError, msg):
             sarsa.update(self.transition_batch)
-
-    def test_update_type1_discrete(self):
-        q = Q(self.func, qtype=1)
-        q_targ = q.copy()
-        sarsa = Sarsa(q, q_targ)
-
-        b1 = deepcopy(q.func_approx.state['body']['params'])
-        h1 = deepcopy(q.func_approx.state['head_q1']['params'])
-
-        # default value head is a linear layer with zero-initialized weights, so we need not one but
-        # two updates to ensure that the body (which is upstream from value head) receives a
-        # non-trivial update too
-        sarsa.update(self.transition_batch)
-        sarsa.update(self.transition_batch)
-
-        b2 = deepcopy(q.func_approx.state['body']['params'])
-        h2 = deepcopy(q.func_approx.state['head_q1']['params'])
-        self.assertPytreeNotEqual(h1, h2)
-        self.assertPytreeNotEqual(b1, b2)
-
-    def test_update_type2_discrete(self):
-        q = Q(self.func, qtype=2)
-        q_targ = q.copy()
-        sarsa = Sarsa(q, q_targ)
-
-        b1 = deepcopy(q.func_approx.state['body']['params'])
-        h1 = deepcopy(q.func_approx.state['head_q2']['params'])
-
-        # default value head is a linear layer with zero-initialized weights, so we need not one but
-        # two updates to ensure that the body (which is upstream from value head) receives a
-        # non-trivial update too
-        sarsa.update(self.transition_batch)
-        sarsa.update(self.transition_batch)
-
-        b2 = deepcopy(q.func_approx.state['body']['params'])
-        h2 = deepcopy(q.func_approx.state['head_q2']['params'])
-        self.assertPytreeNotEqual(h1, h2)
-        self.assertPytreeNotEqual(b1, b2)

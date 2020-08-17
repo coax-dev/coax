@@ -5,6 +5,8 @@ import jax
 import coax
 import haiku as hk
 import jax.numpy as jnp
+from numpy import prod
+from jax.experimental import optix
 
 
 # set some env vars
@@ -16,53 +18,40 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'              # tell XLA to be quiet
 # filepaths etc
 tensorboard_dir = "./data/tensorboard/ddpg"
 gifs_filepath = "./data/gifs/ddpg/T{:08d}.gif"
-coax.enable_logging('ddpg')
 
 
 # env with preprocessing
 env = gym.make('Pendulum-v0')  # AtariPreprocessing does frame skipping
-env = coax.wrappers.BoxActionsToReals(env)
+# env = coax.wrappers.BoxActionsToReals(env)
 env = coax.wrappers.TrainMonitor(env, tensorboard_dir)
 
 
-class Func(coax.FuncApprox):
-    def body(self, S, is_training):
-        return S  # trivial
+def func_pi(S, is_training):
+    seq = hk.Sequential((
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(prod(env.action_space.shape), w_init=jnp.zeros),
+        hk.Reshape(env.action_space.shape),
+    ))
+    mu = seq(S)
+    return {'mu': mu, 'logvar': jnp.full_like(mu, -10)}  # (almost) deterministic
 
-    def head_pi(self, S, is_training):
-        seq = hk.Sequential((
-            hk.Linear(8), jax.nn.relu,
-            hk.Linear(8), jax.nn.relu,
-            hk.Linear(8), jax.nn.relu,
-            hk.Linear(jnp.prod(env.action_space.shape)),
-            hk.Reshape(env.action_space.shape),
-        ))
-        mu = seq(S)
-        return {'mu': mu, 'logvar': jnp.full_like(mu, -10)}  # (almost) deterministic
 
-    def state_action_combiner(self, S, A, is_training):
-        flatten = hk.Flatten()
-        return jnp.concatenate([flatten(S), jnp.tanh(flatten(A))], axis=1)
-
-    def head_q1(self, X_sa, is_training):
-        seq = hk.Sequential((
-            hk.Linear(8), jax.nn.relu,
-            hk.Linear(8), jax.nn.relu,
-            hk.Linear(8), jax.nn.relu,
-            hk.Linear(1),
-        ))
-        return seq(X_sa)
+def func_q(S, A, is_training):
+    seq = hk.Sequential((
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(1, w_init=jnp.zeros), jnp.ravel
+    ))
+    X = jnp.concatenate((S, A), axis=-1)
+    return seq(X)
 
 
 # main function approximators
-func = Func(env, learning_rate=1e-3)
-pi = coax.Policy(func)
-q = coax.Q(func)
-
-
-# target networks
-pi_targ = pi.copy()
-q_targ = q.copy()
+pi = coax.Policy(func_pi, env.observation_space, env.action_space)
+q = coax.Q(func_q, env.observation_space, env.action_space)
 
 
 # target network
@@ -71,13 +60,15 @@ pi_targ = pi.copy()
 
 
 # experience tracer
-tracer = coax.reward_tracing.NStep(n=5, gamma=0.99)
+tracer = coax.reward_tracing.NStep(n=5, gamma=0.9)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=25000)
 
 
 # updaters
-qlearning = coax.td_learning.QLearningMode(q, pi_targ, q_targ, loss_function=coax.value_losses.mse)
-determ_pg = coax.policy_objectives.DeterministicPG(pi, q_targ)
+qlearning = coax.td_learning.QLearningMode(q, pi_targ, q_targ,
+                                           loss_function=coax.value_losses.mse,
+                                           optimizer=optix.adam(1e-3))
+determ_pg = coax.policy_objectives.DeterministicPG(pi, q_targ, optimizer=optix.adam(1e-4))
 
 
 # action noise

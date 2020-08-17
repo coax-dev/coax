@@ -21,7 +21,9 @@
 
 from copy import deepcopy
 
-from .._base.test_case import TestCase, DummyFuncApprox
+from jax.experimental.optix import sgd
+
+from .._base.test_case import TestCase
 from .._core.value_q import Q
 from .._core.policy import Policy
 from ..utils import get_transition
@@ -31,33 +33,53 @@ from ._qlearningmode import QLearningMode
 class TestQLearningMode(TestCase):
 
     def setUp(self):
-        self.func = DummyFuncApprox(self.env_discrete)
-        self.transition_batch = get_transition(self.env_discrete).to_batch()
+        self.transition_discrete = get_transition(self.env_discrete).to_batch()
+        self.transition_boxspace = get_transition(self.env_boxspace).to_batch()
 
-    def test_update_type1_discrete(self):
-        q = Q(self.func, qtype=1)
-        pi_targ = Policy(self.func)
+    def test_update_discrete(self):
+        env = self.env_discrete
+        func_q = self.func_q_type1
+        func_pi = self.func_pi_discrete
+
+        q = Q(func_q, env.observation_space, env.action_space)
+        pi = Policy(func_pi, env.observation_space, env.action_space)
         q_targ = q.copy()
-        qlearning = QLearningMode(q, pi_targ, q_targ)
+        updater = QLearningMode(q, pi, q_targ, optimizer=sgd(1.0))
 
-        b1 = deepcopy(q.func_approx.state['body']['params'])
-        h1 = deepcopy(q.func_approx.state['head_q1']['params'])
+        params = deepcopy(q.params)
+        function_state = deepcopy(q.function_state)
 
-        # default value head is a linear layer with zero-initialized weights, so we need not one but
-        # two updates to ensure that the body (which is upstream from value head) receives a
-        # non-trivial update too
-        qlearning.update(self.transition_batch)
-        qlearning.update(self.transition_batch)
+        updater.update(self.transition_discrete)
 
-        b2 = deepcopy(q.func_approx.state['body']['params'])
-        h2 = deepcopy(q.func_approx.state['head_q1']['params'])
-        self.assertPytreeNotEqual(h1, h2)
-        self.assertPytreeNotEqual(b1, b2)
+        self.assertPytreeNotEqual(params, q.params)
+        self.assertPytreeNotEqual(function_state, q.function_state)
 
-    def test_update_type2_discrete(self):
-        q = Q(self.func, qtype=2)
-        pi_targ = Policy(self.func)
+    def test_update_boxspace(self):
+        env = self.env_boxspace
+        func_q = self.func_q_type1
+        func_pi = self.func_pi_boxspace
+
+        q = Q(func_q, env.observation_space, env.action_space)
+        pi = Policy(func_pi, env.observation_space, env.action_space)
+        q_targ = q.copy()
+        updater = QLearningMode(q, pi, q_targ, optimizer=sgd(1.0))
+
+        params = deepcopy(q.params)
+        function_state = deepcopy(q.function_state)
+
+        updater.update(self.transition_boxspace)
+
+        self.assertPytreeNotEqual(params, q.params)
+        self.assertPytreeNotEqual(function_state, q.function_state)
+
+    def test_update_type2(self):
+        env = self.env_discrete
+        func_q = self.func_q_type2
+        func_pi = self.func_pi_discrete
+
+        q = Q(func_q, env.observation_space, env.action_space)
+        pi = Policy(func_pi, env.observation_space, env.action_space)
         q_targ = q.copy()
 
-        with self.assertRaisesRegex(TypeError, "q must be a type-1 q-function, got type-2"):
-            QLearningMode(q, pi_targ, q_targ)
+        with self.assertRaisesRegex(TypeError, "q must be a type-1 q-function"):
+            QLearningMode(q, pi, q_targ)

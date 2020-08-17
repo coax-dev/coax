@@ -21,19 +21,13 @@
 
 from ._add_orig_to_info import AddOrigToInfoDictMixin
 from ._logger import LoggerMixin
-from ._param import ParamMixin
-from ._policy import PolicyMixin
 from ._random_state import RandomStateMixin
 from ._serialization import SerializationMixin
-from ._space_utils import SpaceUtilsMixin
 
 
 __all__ = (
     'AddOrigToInfoDictMixin',
     'LoggerMixin',
-    'ParamMixin',
-    'PolicyMixin',
     'RandomStateMixin',
     'SerializationMixin',
-    'SpaceUtilsMixin',
 )

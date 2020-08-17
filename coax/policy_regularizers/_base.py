@@ -26,8 +26,7 @@ class PolicyRegularizer:
     r"""
 
     Abstract base class for policy regularizers. Check out
-    :class:`coax.policy_regularizers.EntropyRegularizer` for a specific
-    example.
+    :class:`coax.policy_regularizers.EntropyRegularizer` for a specific example.
 
     Parameters
     ----------
@@ -47,45 +46,41 @@ class PolicyRegularizer:
         return {}
 
     @property
-    def apply_func(self):
+    def function(self):
         r"""
 
-        JIT-compiled function that returns the values for the regularization
-        term.
+        JIT-compiled function that returns the values for the regularization term.
 
         Parameters
         ----------
         dist_params : pytree with ndarray leaves
 
-            The distribution parameters of the (conditional) probability
-            distribution :math:`\pi(a|s)`.
+            The distribution parameters of the (conditional) probability distribution
+            :math:`\pi(a|s)`.
 
         \*\*hyperparams
 
-            Hyperparameters specific to the regularizer, see
-            :attr:`hyperparams`.
+            Hyperparameters specific to the regularizer, see :attr:`hyperparams`.
 
         """
-        return self._apply_func
+        return self._function
 
     @property
     def metrics_func(self):
         r"""
 
-        JIT-compiled function that returns the performance metrics for the
-        regularization term.
+        JIT-compiled function that returns the performance metrics for the regularization term.
 
         Parameters
         ----------
         dist_params : pytree with ndarray leaves
 
-            The distribution parameters of the (conditional) probability
-            distribution :math:`\pi(a|s)`.
+            The distribution parameters of the (conditional) probability distribution
+            :math:`\pi(a|s)`.
 
         \*\*hyperparams
 
-            Hyperparameters specific to the regularizer, see
-            :attr:`hyperparams`.
+            Hyperparameters specific to the regularizer, see :attr:`hyperparams`.
 
         """
         return self._metrics_func

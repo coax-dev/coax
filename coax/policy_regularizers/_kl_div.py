@@ -28,8 +28,8 @@ from ._base import PolicyRegularizer
 class KLDivRegularizer(PolicyRegularizer):
     r"""
 
-    Policy regularization term based on the Kullback-Leibler divergence of the
-    policy relative to a given set of priors.
+    Policy regularization term based on the Kullback-Leibler divergence of the policy relative to a
+    given set of priors.
 
     The regularization term is to be added to the loss function:
 
@@ -39,8 +39,8 @@ class KLDivRegularizer(PolicyRegularizer):
             -J(\theta; s,a)
             + \beta\,KL[\pi_\text{prior}, \pi_\theta]
 
-    where :math:`J(\theta)` is the bare policy objective. Also, in order to
-    unclutter the notation we abbreviated :math:`\pi(.|s)` by :math:`\pi`.
+    where :math:`J(\theta)` is the bare policy objective. Also, in order to unclutter the notation
+    we abbreviated :math:`\pi(.|s)` by :math:`\pi`.
 
     Parameters
     ----------
@@ -50,40 +50,21 @@ class KLDivRegularizer(PolicyRegularizer):
 
     beta : non-negative float
 
-        The coefficient that determines the strength of the overall
-        regularization term.
+        The coefficient that determines the strength of the overall regularization term.
 
     priors : pytree with ndarray leaves, optional
 
-        The distribution parameters that correspond to the priors. If left
-        unspecified, we'll use :attr:`proba_dist.default_priors`, see e.g.
-        :attr:`NormalDist.default_priors
+        The distribution parameters that correspond to the priors. If left unspecified, we'll use
+        :attr:`proba_dist.default_priors`, see e.g. :attr:`NormalDist.default_priors
         <coax.proba_dists.NormalDist.default_priors>`.
 
     """
     def __init__(self, pi, beta=0.001, priors=None):
         super().__init__(pi)
         self.beta = beta
-        self.priors = priors
+        self.priors = self.pi.proba_dist.default_priors if priors is None else priors
 
-        def get_batch_shape(shape):
-            # add batch axis to shape
-            if self.pi.action_space_is_discrete:
-                return (1, self.pi.num_actions)
-            return (1,) + tuple(shape)
-
-        if self.priors is None:
-            if self.pi.action_space_is_discrete:
-                shape = (1, self.pi.num_actions)
-            else:
-                shape = (1,) + self.pi.action_shape
-            self.priors = self.pi.proba_dist.default_priors(shape)
-
-        self._init_funcs()
-
-    def _init_funcs(self):
-
-        def apply_func(dist_params, priors, beta):
+        def function(dist_params, priors, beta):
             kl_div = self.pi.proba_dist.kl_divergence(priors, dist_params)
             return beta * kl_div
 
@@ -93,7 +74,7 @@ class KLDivRegularizer(PolicyRegularizer):
                 'KLDivRegularizer/beta': beta,
                 'KLDivRegularizer/kl_div': jnp.mean(kl_div)}
 
-        self._apply_func = jax.jit(apply_func)
+        self._function = jax.jit(function)
         self._metrics_func = jax.jit(metrics)
 
     @property
@@ -101,49 +82,45 @@ class KLDivRegularizer(PolicyRegularizer):
         return {'beta': self.beta, 'priors': self.priors}
 
     @property
-    def apply_func(self):
+    def function(self):
         r"""
 
-        JIT-compiled function that returns the values for the regularization
-        term.
+        JIT-compiled function that returns the values for the regularization term.
 
         Parameters
         ----------
         dist_params : pytree with ndarray leaves
 
-            The distribution parameters of the (conditional) probability
-            distribution :math:`\pi(a|s)`.
+            The distribution parameters of the (conditional) probability distribution
+            :math:`\pi(a|s)`.
 
         beta : non-negative float
 
-            The coefficient that determines the strength of the overall
-            regularization term.
+            The coefficient that determines the strength of the overall regularization term.
 
         priors : pytree with ndarray leaves
 
             The distribution parameters that correspond to the priors.
 
         """
-        return self._apply_func
+        return self._function
 
     @property
     def metrics_func(self):
         r"""
 
-        JIT-compiled function that returns the performance metrics for the
-        regularization term.
+        JIT-compiled function that returns the performance metrics for the regularization term.
 
         Parameters
         ----------
         dist_params : pytree with ndarray leaves
 
-            The distribution parameters of the (conditional) probability
-            distribution :math:`\pi(a|s)`.
+            The distribution parameters of the (conditional) probability distribution
+            :math:`\pi(a|s)`.
 
         beta : non-negative float
 
-            The coefficient that determines the strength of the overall
-            regularization term.
+            The coefficient that determines the strength of the overall regularization term.
 
         priors : pytree with ndarray leaves
 

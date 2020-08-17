@@ -19,11 +19,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-import jax.nn
-import jax.random
+from gym.spaces import Discrete
+import jax
 import jax.numpy as jnp
+import numpy as onp
 
-from ._base import ProbaDist
+from ._base import BaseProbaDist
 
 
 __all__ = (
@@ -31,46 +32,48 @@ __all__ = (
 )
 
 
-class CategoricalDist(ProbaDist):
+class CategoricalDist(BaseProbaDist):
     r"""
 
     A differentiable categorical distribution.
 
-    The input ``dist_params`` to each of the functions is expected to be of the
-    form:
+    The input ``dist_params`` to each of the functions is expected to be of the form:
 
     .. code:: python
 
         dist_params = {'logits': array([...])}
 
-    which represent the (conditional) distribution parameters. The ``logits``,
-    denoted :math:`z\in\mathbb{R}^n`, are related to the categorical
-    distribution parameters :math:`p\in\Delta^n` via a softmax:
+    which represent the (conditional) distribution parameters. The ``logits``, denoted
+    :math:`z\in\mathbb{R}^n`, are related to the categorical distribution parameters
+    :math:`p\in\Delta^n` via a softmax:
 
     .. math::
 
-        p_k\ =\ \text{softmax}_k(z_k)
-            \ =\ \frac{\text{e}^{z_k}}{\sum_{k'}\text{e}^{z_{k'}}}
+        p_k\ =\ \text{softmax}_k(z)\ =\ \frac{\text{e}^{z_k}}{\sum_j\text{e}^{z_j}}
 
 
     Parameters
     ----------
+    space : gym.spaces.Discrete
+
+        The gym-style space that specifies the domain of the distribution.
+
     gumbel_softmax_tau : positive float, optional
 
-        The parameter :math:`\tau` specifies the sharpness of the
-        Gumbel-softmax sampling (see :func:`sample` method below). A good value
-        for :math:`\tau` balances the trade-off between getting proper
-        deterministic variates (i.e. one-hot vectors) versus getting smooth
+        The parameter :math:`\tau` specifies the sharpness of the Gumbel-softmax sampling (see
+        :func:`sample` method below). A good value for :math:`\tau` balances the trade-off between
+        getting proper deterministic variates (i.e. one-hot vectors) versus getting smooth
         differentiable variates.
 
     """
-    __slots__ = ProbaDist.__slots__ + ('_gumbel_softmax_tau',)
+    __slots__ = (*BaseProbaDist.__slots__, '_gumbel_softmax_tau')
 
-    def __init__(self, gumbel_softmax_tau=0.2):
+    def __init__(self, space, gumbel_softmax_tau=0.2):
+        if not isinstance(space, Discrete):
+            raise TypeError(f"{self.__class__.__name__} can only be defined over Discrete spaces")
+
+        super().__init__(space)
         self._gumbel_softmax_tau = gumbel_softmax_tau
-        self._init_funcs()
-
-    def _init_funcs(self):
 
         def sample(dist_params, rng):
             logp = jax.nn.log_softmax(dist_params['logits'])
@@ -82,11 +85,11 @@ class CategoricalDist(ProbaDist):
             logp = jax.nn.log_softmax(dist_params['logits'])
             return jax.nn.softmax(logp / self.gumbel_softmax_tau)
 
-        def log_proba(dist_params, x):
-            logp = jax.nn.log_softmax(dist_params['logits'])
-            if jnp.issubdtype(x.dtype, jnp.integer):
-                x = jax.nn.one_hot(x, logp.shape[-1])
-            return jnp.einsum('ij,ij->i', x, logp)
+        def log_proba(dist_params, X):
+            Z = dist_params['logits']
+            assert X.ndim == 2 and X.shape[1] == self.space.n, f"unexpected X.shape: {X.shape}"
+            assert Z.ndim == 2 and Z.shape[1] == self.space.n, f"unexpected logits.shape: {Z.shape}"
+            return jnp.einsum('ij,ij->i', X, jax.nn.log_softmax(Z))
 
         def entropy(dist_params):
             logp = jax.nn.log_softmax(dist_params['logits'])
@@ -121,8 +124,8 @@ class CategoricalDist(ProbaDist):
     def sample(self):
         r"""
 
-        JIT-compiled function that generates differentiable variates using
-        Gumbel-softmax sampling. :math:`x\sim\text{Cat}(p)` is implemented as
+        JIT-compiled function that generates differentiable variates using Gumbel-softmax sampling.
+        :math:`x\sim\text{Cat}(p)` is implemented as
 
         .. math::
 
@@ -145,14 +148,13 @@ class CategoricalDist(ProbaDist):
         -------
         X : ndarray
 
-            A batch of variates :math:`x\sim\text{Cat}(p)`. In order to ensure
-            differentiability of the variates this is not an integer, but
-            instead an *almost* one-hot encoded version thereof.
+            A batch of variates :math:`x\sim\text{Cat}(p)`. In order to ensure differentiability of
+            the variates this is not an integer, but instead an *almost* one-hot encoded version
+            thereof.
 
-            For example, instead of sampling :math:`x=2` from a 4-class
-            categorical distribution, Gumbel-softmax will return a vector like
-            :math:`x=(0.05, 0.02, 0.86, 0.07)`. The latter representation can
-            be viewed as an *almost* one-hot encoded version of the former.
+            For example, instead of sampling :math:`x=2` from a 4-class categorical distribution,
+            Gumbel-softmax will return a vector like :math:`x=[0.05, 0.02, 0.86, 0.07]`. The latter
+            representation can be viewed as an *almost* one-hot encoded version of the former.
 
         """
         return self._sample_func
@@ -161,14 +163,12 @@ class CategoricalDist(ProbaDist):
     def mode(self):
         r"""
 
-        JIT-compiled functions that generates differentiable modes of the
-        distribution, for which we use a similar trick as in Gumbel-softmax
-        sampling:
+        JIT-compiled functions that generates differentiable modes of the distribution, for which we
+        use a similar trick as in Gumbel-softmax sampling:
 
         .. math::
 
-            \text{mode}_k\ =\ \text{softmax}_k\left(
-                \frac{\log p_k}{\tau} \right)
+            \text{mode}_k\ =\ \text{softmax}_k\left( \frac{\log p_k}{\tau} \right)
 
         Parameters
         ----------
@@ -180,14 +180,13 @@ class CategoricalDist(ProbaDist):
         -------
         X : ndarray
 
-            A batch of variates :math:`x\sim\text{Cat}(p)`. In order to ensure
-            differentiability of the variates this is not an integer, but
-            instead an *almost* one-hot encoded version thereof.
+            A batch of variates :math:`x\sim\text{Cat}(p)`. In order to ensure differentiability of
+            the variates this is not an integer, but instead an *almost* one-hot encoded version
+            thereof.
 
-            For example, instead of sampling :math:`x=2` from a 4-class
-            categorical distribution, Gumbel-softmax will return a vector like
-            :math:`x=(0.05, 0.02, 0.86, 0.07)`. The latter representation can
-            be viewed as an *almost* one-hot encoded version of the former.
+            For example, instead of sampling :math:`x=2` from a 4-class categorical distribution,
+            Gumbel-softmax will return a vector like :math:`x=(0.05, 0.02, 0.86, 0.07)`. The latter
+            representation can be viewed as an *almost* one-hot encoded version of the former.
 
         """
         return self._mode_func
@@ -206,8 +205,7 @@ class CategoricalDist(ProbaDist):
 
         X : ndarray
 
-            A batch of variates, e.g. a batch of actions :math:`a` collected
-            from experience.
+            A batch of variates, e.g. a batch of actions :math:`a` collected from experience.
 
         Returns
         -------
@@ -248,9 +246,8 @@ class CategoricalDist(ProbaDist):
     def cross_entropy(self):
         r"""
 
-        JIT-compiled function that computes the cross-entropy of a categorical
-        distribution :math:`q` relative to another categorical distribution
-        :math:`p`:
+        JIT-compiled function that computes the cross-entropy of a categorical distribution
+        :math:`q` relative to another categorical distribution :math:`p`:
 
         .. math::
 
@@ -264,8 +261,7 @@ class CategoricalDist(ProbaDist):
 
         dist_params_q : pytree with ndarray leaves
 
-            The distribution parameters of the *auxiliary* distribution
-            :math:`q`.
+            The distribution parameters of the *auxiliary* distribution :math:`q`.
 
         """
         return self._cross_entropy_func
@@ -274,9 +270,8 @@ class CategoricalDist(ProbaDist):
     def kl_divergence(self):
         r"""
 
-        JIT-compiled function that computes the Kullback-Leibler divergence of
-        a categorical distribution :math:`q` relative to another categorical
-        distribution :math:`p`:
+        JIT-compiled function that computes the Kullback-Leibler divergence of a categorical
+        distribution :math:`q` relative to another categorical distribution :math:`p`:
 
         .. math::
 
@@ -290,33 +285,26 @@ class CategoricalDist(ProbaDist):
 
         dist_params_q : pytree with ndarray leaves
 
-            The distribution parameters of the *auxiliary* distribution
-            :math:`q`.
+            The distribution parameters of the *auxiliary* distribution :math:`q`.
 
         """
         return self._kl_divergence_func
 
-    @staticmethod
-    def default_priors(shape):
-        r"""
+    @property
+    def default_priors(self):
+        return {'logits': jnp.zeros((1, self.space.n))}
 
-        The default distribution parameters:
+    def postprocess_variate(self, X, batch_mode=False):
+        assert X.ndim == 2
+        assert X.shape[1] == self.space.n
+        X = onp.argmax(X, axis=1)
+        x = X[0]
+        assert self.space.contains(x), \
+            f"{self.__class__.__name__}.postprocessor_variate failed for X: {X}"
+        return X if batch_mode else x
 
-        .. code::
-
-            {'logits': zeros(shape)}
-
-        Parameters
-        ----------
-        shape : tuple of ints
-
-            The shape of the distribution parameters.
-
-        Returns
-        -------
-        dist_params_prior : pytree with ndarray leaves
-
-            The distribution parameters that represent the default priors.
-
-        """
-        return {'logits': jnp.zeros(shape=shape)}
+    def preprocess_variate(self, X):
+        X = jnp.asarray(X)
+        assert X.ndim <= 1, f"unexpected X.shape: {X.shape}"
+        assert jnp.issubdtype(X.dtype, jnp.integer), f"expected an integer dtype, got {X.dtype}"
+        return jax.nn.one_hot(X, self.space.n).reshape(-1, self.space.n)

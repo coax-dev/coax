@@ -6,7 +6,7 @@
 # full list see the documentation:
 # http://www.sphinx-doc.org/en/master/config
 
-# -- Path setup --------------------------------------------------------------
+# -- Path setup ------------------------------------------------------------------------------------
 
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
@@ -20,7 +20,7 @@ import logging
 logger = logging.getLogger(__file__)
 
 
-RE_VERSION = re.compile(r'^__version__ \= \'(\d+\.\d+\.\d+(?:-\w+)?)\'$', re.MULTILINE)
+RE_VERSION = re.compile(r'^__version__ \= \'(\d+\.\d+\.\d+(?:\w+\d+)?)\'$', re.MULTILINE)
 PROJECTDIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, PROJECTDIR)
 
@@ -32,7 +32,7 @@ def get_release():
     return version.group(1)
 
 
-# -- Project information -----------------------------------------------------
+# -- Project information ---------------------------------------------------------------------------
 
 project = 'coax'
 copyright = '2020, Microsoft Corporation'
@@ -40,7 +40,7 @@ author = 'Kristian Holsheimer'
 release = get_release()
 
 
-# -- General configuration ---------------------------------------------------
+# -- General configuration -------------------------------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
 #
@@ -60,6 +60,7 @@ extensions = [
     'sphinx.ext.coverage',
     'sphinx.ext.viewcode',
     'sphinx_tabs.tabs',
+    'sphinx_copybutton',
 ]
 
 
@@ -101,7 +102,7 @@ exclude_patterns = [
 pygments_style = 'sphinx'
 
 
-# -- Options for HTML output -------------------------------------------------
+# -- Options for HTML output -----------------------------------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
@@ -163,13 +164,13 @@ html_js_files = [
     # 'js/custom.js',
 ]
 
-# -- Options for HTMLHelp output ---------------------------------------------
+# -- Options for HTMLHelp output -------------------------------------------------------------------
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'coaxdoc'
 
 
-# -- Options for LaTeX output ------------------------------------------------
+# -- Options for LaTeX output ----------------------------------------------------------------------
 
 latex_elements = {
     # The paper size ('letterpaper' or 'a4paper').
@@ -198,7 +199,7 @@ latex_documents = [
 ]
 
 
-# -- Options for manual page output ------------------------------------------
+# -- Options for manual page output ----------------------------------------------------------------
 
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
@@ -208,7 +209,7 @@ man_pages = [
 ]
 
 
-# -- Options for Texinfo output ----------------------------------------------
+# -- Options for Texinfo output --------------------------------------------------------------------
 
 # Grouping the document tree into Texinfo files. List of tuples
 # (source start file, target name, title, author,
@@ -220,7 +221,7 @@ texinfo_documents = [
 ]
 
 
-# -- Options for Epub output -------------------------------------------------
+# -- Options for Epub output -----------------------------------------------------------------------
 
 # Bibliographic Dublin Core info.
 epub_title = project
@@ -238,32 +239,32 @@ epub_title = project
 epub_exclude_files = ['search.html']
 
 
-# -- Options for nbsphinx extension ------------------------------------------
+# -- Options for nbsphinx extension ----------------------------------------------------------------
 
 # don't evaluate any cells in ipython notebooks
 nbsphinx_execute = 'never'
 
 
-# -- Options for intersphinx extension ---------------------------------------
+# -- Options for intersphinx extension -------------------------------------------------------------
 
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', ('_intersphinx/python3.inv',)),
-    'numpy': ('https://docs.scipy.org/doc/numpy/', ('_intersphinx/numpy.inv',)),  # noqa: E501
-    'sklearn': ('https://scikit-learn.org/stable/', ('_intersphinx/sklearn.inv',)),  # noqa: E501
-    'jax': ('https://jax.readthedocs.io/en/latest/', ('_intersphinx/jax.inv',)),  # noqa: E501
-    'haiku': ('https://dm-haiku.readthedocs.io/en/latest/', ('_intersphinx/haiku.inv',)),  # noqa: E501
-    'rllib': ('https://rllib.readthedocs.io/en/latest/', ('_intersphinx/rllib.inv',)),  # noqa: E501
-    'spinup': ('https://spinningup.openai.com/en/latest/', ('_intersphinx/spinup.inv',)),  # noqa: E501
+    'numpy': ('https://docs.scipy.org/doc/numpy/', ('_intersphinx/numpy.inv',)),
+    'sklearn': ('https://scikit-learn.org/stable/', ('_intersphinx/sklearn.inv',)),
+    'jax': ('https://jax.readthedocs.io/en/latest/', ('_intersphinx/jax.inv',)),
+    'haiku': ('https://dm-haiku.readthedocs.io/en/latest/', ('_intersphinx/haiku.inv',)),
+    'rllib': ('https://rllib.readthedocs.io/en/latest/', ('_intersphinx/rllib.inv',)),
+    'spinup': ('https://spinningup.openai.com/en/latest/', ('_intersphinx/spinup.inv',)),
 }
 
-# -- Options for todo extension ----------------------------------------------
+# -- Options for todo extension --------------------------------------------------------------------
 
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = True
 
 
-# -- Options for napolean extension ------------------------------------------
+# -- Options for napolean extension ----------------------------------------------------------------
 
 # Defaults:
 # napoleon_google_docstring = True
@@ -281,3 +282,27 @@ todo_include_todos = True
 # Overrides:
 napoleon_use_rtype = False
 napoleon_use_ivar = True
+
+
+# -- Options for napolean extension ----------------------------------------------------------------
+
+# this strips common prefixes from the code before it's copied
+copybutton_prompt_text = r">>> |\.\.\. |\$ |In \[\d*\]: | {2,5}\.\.\.: | {5,8}: "
+copybutton_prompt_is_regexp = True
+
+
+# -- Automatically update jaxlib version number ----------------------------------------------------
+
+try:
+    from jaxlib import __version__
+    with open('versions.html') as f:
+        filecontent = f.read()
+    filecontent_new = re.sub(
+        r'var jaxlibVersion = \'\d+\.\d+\.\d+\';  // this is automatically updated from conf\.py',
+        f"var jaxlibVersion = '{__version__}';  // this is automatically updated from conf.py",
+        filecontent)
+    if filecontent_new != filecontent:
+        with open('versions.html', 'w') as f:
+            f.write(filecontent_new)
+except ImportError:
+    pass

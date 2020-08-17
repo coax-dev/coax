@@ -41,7 +41,7 @@ Object Reference
 
 """
 
-from ._base import ProbaDist
+from ._composite import ProbaDist
 from ._categorical import CategoricalDist
 from ._normal import NormalDist
 

@@ -26,7 +26,7 @@ TD Learning
 
 This is a collection of objects that are used to update value functions via
 *Temporal Difference* (TD) learning. A state value function :class:`coax.V` is
-using :class:`coax.td_learning.ValueTD`. To update a state-action value
+using :class:`coax.td_learning.SimpleTD`. To update a state-action value
 function :class:`coax.Q`, there are multiple options available. The difference
 between the options are the manner in which the TD-target is constructed.
 
@@ -37,7 +37,7 @@ Object Reference
 .. autosummary::
     :nosignatures:
 
-    coax.td_learning.ValueTD
+    coax.td_learning.SimpleTD
     coax.td_learning.Sarsa
     coax.td_learning.ExpectedSarsa
     coax.td_learning.QLearning
@@ -47,7 +47,7 @@ Object Reference
 
 """
 
-from ._value_td import ValueTD
+from ._simple_td import SimpleTD
 from ._sarsa import Sarsa
 from ._expectedsarsa import ExpectedSarsa
 from ._qlearning import QLearning
@@ -56,7 +56,7 @@ from ._doubleqlearning import DoubleQLearning
 
 
 __all__ = (
-    'ValueTD',
+    'SimpleTD',
     'Sarsa',
     'ExpectedSarsa',
     'QLearning',

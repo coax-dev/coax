@@ -19,52 +19,62 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-import numpy as onp
+from copy import deepcopy
+from functools import partial
 
-from .._base.mixins import PolicyMixin
-from ..utils import docstring
+import jax
+import jax.numpy as jnp
+import haiku as hk
+from jax.experimental.optix import sgd
+
+from .._base.test_case import TestCase, DiscreteEnv
+from .._core.value_v import V
+from ..utils import get_transition
+from ._simple_td import SimpleTD
+
+env = DiscreteEnv(random_seed=13)
 
 
-__all__ = (
-    'RandomPolicy',
-)
+def func(S, is_training):
+    seq = hk.Sequential((
+        hk.Flatten(),
+        hk.Linear(8), jax.nn.relu,
+        partial(hk.dropout, hk.next_rng_key(), 0.25 if is_training else 0.),
+        partial(hk.BatchNorm(False, False, 0.99), is_training=is_training),
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(1), jnp.ravel,
+    ))
+    return seq(S)
 
 
-class RandomPolicy:
-    r"""
+class TestSimpleTD(TestCase):
 
-    A simple random policy.
+    def setUp(self):
 
-    Parameters
-    ----------
-    env : gym environment
+        self.transition_batch = get_transition(self.env_discrete).to_batch()
 
-        A gym-style environment.
+    def test_update_type1_discrete(self):
+        v = V(func, env.observation_space)
+        v_targ = v.copy()
+        updater = SimpleTD(v, v_targ, optimizer=sgd(1.0))
 
-    random_seed : int, optional
+        params = deepcopy(v.params)
+        function_state = deepcopy(v.function_state)
 
-        Sets the random state to get reproducible results.
+        updater.update(self.transition_batch)
 
-    """
-    def __init__(self, env, random_seed=None):
-        self.env = env
-        self.random_seed = random_seed
-        self.env.action_space.seed(random_seed)
+        self.assertPytreeNotEqual(params, v.params)
+        self.assertPytreeNotEqual(function_state, v.function_state)
 
-    @docstring(PolicyMixin.__call__)
-    def __call__(self, s, return_logp=False):
-        if return_logp:
-            if self.action_space_is_discrete:
-                logp = -onp.log(self.num_actions)
-            elif self.action_space_is_box:
-                sizes = self.env.action_space.high - self.env.action_space.low
-                logp = -onp.sum(onp.log(sizes))  # log(prod(1/sizes))
-            else:
-                raise NotImplementedError(
-                    "the log-propensity of a 'uniform' distribution over a "
-                    f"{self.env.action_space} is not yet implemented; "
-                    "please submit a feature request")
-        a = self.env.action_space.sample()
-        return (a, logp) if return_logp else a
+    def test_update_type2_discrete(self):
+        v = V(func, env.observation_space)
+        v_targ = v.copy()
+        updater = SimpleTD(v, v_targ, optimizer=sgd(1.0))
 
-    __call__.__doc__ = PolicyMixin.__call__.__doc__
+        params = deepcopy(v.params)
+        function_state = deepcopy(v.function_state)
+
+        updater.update(self.transition_batch)
+
+        self.assertPytreeNotEqual(params, v.params)
+        self.assertPytreeNotEqual(function_state, v.function_state)

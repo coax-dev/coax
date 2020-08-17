@@ -1,0 +1,181 @@
+<style>
+.version.matrix {
+  width: 100%;
+}
+.version.options {
+  column-fill: balance;
+  column-gap: 0;
+  text-align: center;
+}
+.version.options.os {
+  column-count: 2;
+}
+.version.options.python {
+  column-count: 3;
+}
+.version.options.cuda {
+  column-count: 4;
+}
+.version.title {
+  width: 25%;
+  padding: 10px 10px 10px 0px;
+}
+.version.option {
+  background: #E3E3E3;
+  padding: 10px 5px 10px 5px;
+  margin: 0px 1px;
+}
+.version.option:hover {
+  color: #FFF;
+  background: #7DC9EC;
+}
+.version.option.selected {
+  color: #FFF;
+  background: #00A2EC;
+}
+.version.option.unavailable {
+  color: #D6D6D6;
+  background: #E3E3E3;
+}
+</style>
+
+<p>
+<table class="version matrix">
+<tbody>
+  <tr>
+    <td class="version title os">OS:</td>
+    <td class="version options os">
+      <!-- if you add a row here, make sure to update 'column-count' in css rule above -->
+      <div id="macosx_10_9" class="version option os">Mac</div>
+      <div id="manylinux2010" class="version option os selected">Linux</div>
+    </td>
+  </tr>
+  <tr>
+    <td class="version title python">Python version:</td>
+    <td class="version options python">
+      <!-- if you add a row here, make sure to update 'column-count' in css rule above -->
+      <div id="cp36" class="version option python">3.6</div>
+      <div id="cp37" class="version option python">3.7</div>
+      <div id="cp38" class="version option python selected">3.8</div>
+    </td>
+  </tr>
+  <tr>
+    <td class="version title cuda">CUDA version:</td>
+    <td class="version options cuda">
+      <!-- if you add a row here, make sure to update 'column-count' in css rule above -->
+      <div id="nocuda"  class="version option cuda selected">none</div>
+      <div id="cuda100" class="version option cuda">10.0</div>
+      <div id="cuda101" class="version option cuda">10.1</div>
+      <div id="cuda102" class="version option cuda">10.2</div>
+    </td>
+  </tr>
+</tbody>
+</table>
+</p>
+
+Command to run:
+<div class="highlight-bash notranslate">
+  <div class="highlight">
+    <pre id="codecell0">
+      <span></span>$ pip install --upgrade jaxlib jax coax
+    </pre>
+  </div>
+</div>
+
+<script>
+// removes from global namespace
+(function() {
+
+    // init form
+    var osVersions = document.getElementsByClassName('version option os')
+    var pythonVersions = document.getElementsByClassName('version option python')
+    var cudaVersions = document.getElementsByClassName('version option cuda')
+
+    function selectOption(e) {
+        if (e.target.classList.contains('selected')) {
+            return;
+        }
+
+        // update selection
+        var options = document.getElementsByClassName(e.target.className);
+        for (var i=0, len=options.length; i<len; i++) {
+            options[i].classList.remove('selected')
+        }
+        e.target.classList.add('selected');
+
+        // select 'nocuda' if 'macos' is selected
+        if (document.getElementById('macosx_10_9').classList.contains('selected') ) {
+            for (var i=0, len=cudaVersions.length; i<len; i++) {
+                if (cudaVersions[i].id === 'nocuda') {
+                    cudaVersions[i].classList.add('selected');
+                } else {
+                    cudaVersions[i].classList.remove('selected');
+                    cudaVersions[i].classList.add('unavailable');
+                }
+            }
+        } else {
+            // make cuda versions available again if 'linux' is selected
+            for (var i=0, len=cudaVersions.length; i<len; i++) {
+                cudaVersions[i].classList.remove('unavailable');
+            }
+        }
+
+        // update the codecell with the installation command
+        updateCommand();
+    }
+
+    function updateCommand() {
+        var codecellName = 'codecell0';
+        var jaxlibVersion = '0.1.52';  // this is automatically updated from conf.py
+
+        // get the selected os version
+        var osVersion = null;
+        for (var i=0, len=osVersions.length; i<len; i++) {
+            if (osVersions[i].classList.contains('selected')) {
+                osVersion = osVersions[i].id;
+                break;
+            }
+        }
+
+        // get the selected python version
+        var pythonVersion = null;
+        for (var i=0, len=pythonVersions.length; i<len; i++) {
+            if (pythonVersions[i].classList.contains('selected')) {
+                pythonVersion = pythonVersions[i].id;
+                break;
+            }
+        }
+
+        // get the selected cuda version
+        var cudaVersion = null;
+        for (var i=0, len=cudaVersions.length; i<len; i++) {
+            if (cudaVersions[i].classList.contains('selected')) {
+                cudaVersion = cudaVersions[i].id;
+                break;
+            }
+        }
+
+        var command = document.getElementById(codecellName);
+        if (cudaVersion === 'nocuda') {
+            command.innerHTML = "$ pip install --upgrade jaxlib jax coax";
+        } else {
+            command.innerHTML = `$ wget https://storage.googleapis.com/jax-releases/${cudaVersion}/jaxlib-${jaxlibVersion}-${pythonVersion}-none-${osVersion}_x86_64.whl
+$ pip install jaxlib-${jaxlibVersion}-${pythonVersion}-none-${osVersion}_x86_64.whl
+$ pip install --upgrade jax coax`
+        }
+    }
+
+    // init
+    for (var i=0, len=osVersions.length; i<len; i++) {
+        osVersions[i].onclick = selectOption;
+    }
+    for (var i=0, len=pythonVersions.length; i<len; i++) {
+        pythonVersions[i].onclick = selectOption;
+    }
+    for (var i=0, len=cudaVersions.length; i<len; i++) {
+        cudaVersions[i].onclick = selectOption;
+    }
+    updateCommand();
+
+}());
+</script>

@@ -27,11 +27,13 @@ from tempfile import TemporaryDirectory
 from zipfile import ZipFile
 from typing import Mapping
 
+import gym
 import numpy as np
 import tensorboardX
 from gym import Wrapper
 
-from .._base.mixins import SpaceUtilsMixin, LoggerMixin, SerializationMixin
+from .._base.mixins import LoggerMixin, SerializationMixin
+from ..utils import enable_logging
 
 
 __all__ = (
@@ -39,7 +41,7 @@ __all__ = (
 )
 
 
-class TrainMonitor(Wrapper, SpaceUtilsMixin, LoggerMixin, SerializationMixin):
+class TrainMonitor(Wrapper, LoggerMixin, SerializationMixin):
     r"""
     Environment wrapper for monitoring the training process.
 
@@ -84,6 +86,9 @@ class TrainMonitor(Wrapper, SpaceUtilsMixin, LoggerMixin, SerializationMixin):
             x_\text{avg}\ &\leftarrow\ x_\text{avg}
                 + \frac{x_\text{obs} - x_\text{avg}}{n}
 
+    \*\*logger_kwargs
+
+        Keyword arguments to pass on to :func:`coax.utils.enable_logging`.
 
     Attributes
     ----------
@@ -119,13 +124,15 @@ class TrainMonitor(Wrapper, SpaceUtilsMixin, LoggerMixin, SerializationMixin):
             tensorboard_dir=None,
             tensorboard_write_all=False,
             log_all_metrics=False,
-            smoothing=10):
+            smoothing=10,
+            **logger_kwargs):
 
         super().__init__(env)
         self.log_all_metrics = log_all_metrics
         self.tensorboard_write_all = tensorboard_write_all
         self.smoothing = float(smoothing)
         self.reset_global()
+        enable_logging(**logger_kwargs)
         self._init_tensorboard(tensorboard_dir)
 
     def reset_global(self):
@@ -300,8 +307,8 @@ class TrainMonitor(Wrapper, SpaceUtilsMixin, LoggerMixin, SerializationMixin):
                 self.tensorboard.add_scalar(
                     str(name), float(metric), global_step=self.T)
             if self._ep_actions:
-                if self.action_space_is_discrete:
-                    bins = np.arange(self.num_actions + 1)
+                if isinstance(self.action_space, gym.spaces.Discrete):
+                    bins = np.arange(self.action_space.n + 1)
                 else:
                     bins = 'auto'  # see also: np.histogram_bin_edges.__doc__
                 self.tensorboard.add_histogram(

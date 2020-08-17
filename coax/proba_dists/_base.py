@@ -21,16 +21,21 @@
 
 from abc import ABC, abstractmethod
 
+import gym
+import jax
 
-class ProbaDist(ABC):
+from ..utils import batch_to_single
+
+
+class BaseProbaDist(ABC):
     r"""
 
     Abstract base class for probability distributions. Check out
-    :class:`coax.proba_dists.CategoricalDist` for a specific
-    example.
+    :class:`coax.proba_dists.CategoricalDist` for a specific example.
 
     """
     __slots__ = (
+        '_space',
         '_sample_func',
         '_mode_func',
         '_log_proba_func',
@@ -40,9 +45,19 @@ class ProbaDist(ABC):
         '_default_priors_func',
     )
 
+    def __init__(self, space):
+        if not isinstance(space, gym.Space):
+            raise TypeError("space must be derived from gym.Space")
+        self._space = space
+
+    @property
+    def space(self):
+        r""" The gym-style space that specifies the domain of the distribution. """
+        return self._space
+
     @property
     def hyperparams(self):
-        r""" Hyperparameters specific to this probability distribution. """
+        r""" The distribution hyperparameters. """
         return {}
 
     @property
@@ -74,8 +89,7 @@ class ProbaDist(ABC):
     def mode(self):
         r"""
 
-        JIT-compiled functions that generates differentiable modes of the
-        distribution.
+        JIT-compiled functions that generates differentiable modes of the distribution.
 
         Parameters
         ----------
@@ -102,13 +116,11 @@ class ProbaDist(ABC):
         ----------
         dist_params : pytree with ndarray leaves
 
-            A batch of distribution parameters of the form ``{'logits':
-            ndarray}``.
+            A batch of distribution parameters.
 
         X : ndarray
 
-            A batch of variates, e.g. a batch of actions :math:`a` collected
-            from experience.
+            A batch of variates, e.g. a batch of actions :math:`a` collected from experience.
 
         Returns
         -------
@@ -134,8 +146,7 @@ class ProbaDist(ABC):
         ----------
         dist_params : pytree with ndarray leaves
 
-            A batch of distribution parameters of the form ``{'logits':
-            ndarray}``.
+            A batch of distribution parameters.
 
         Returns
         -------
@@ -150,8 +161,8 @@ class ProbaDist(ABC):
     def cross_entropy(self):
         r"""
 
-        JIT-compiled function that computes the cross-entropy of a distribution
-        :math:`q` relative to another categorical distribution :math:`p`:
+        JIT-compiled function that computes the cross-entropy of a distribution :math:`q` relative
+        to another categorical distribution :math:`p`:
 
         .. math::
 
@@ -165,8 +176,7 @@ class ProbaDist(ABC):
 
         dist_params_q : pytree with ndarray leaves
 
-            The distribution parameters of the *auxiliary* distribution
-            :math:`q`.
+            The distribution parameters of the *auxiliary* distribution :math:`q`.
 
         """
         return self._cross_entropy_func
@@ -175,9 +185,8 @@ class ProbaDist(ABC):
     def kl_divergence(self):
         r"""
 
-        JIT-compiled function that computes the Kullback-Leibler divergence of
-        a categorical distribution :math:`q` relative to another distribution
-        :math:`p`:
+        JIT-compiled function that computes the Kullback-Leibler divergence of a categorical
+        distribution :math:`q` relative to another distribution :math:`p`:
 
         .. math::
 
@@ -191,30 +200,75 @@ class ProbaDist(ABC):
 
         dist_params_q : pytree with ndarray leaves
 
-            The distribution parameters of the *auxiliary* distribution
-            :math:`q`.
+            The distribution parameters of the *auxiliary* distribution :math:`q`.
 
         """
         return self._kl_divergence_func
 
-    @staticmethod
+    @property
+    def dist_params_structure(self):
+        r""" The tree structure of the distribution parameters. """
+        return jax.tree_structure(self.default_priors)
+
+    @property
     @abstractmethod
-    def default_priors(shape):
+    def default_priors(self):
+        r""" The default distribution parameters. """
+        pass
+
+    def postprocess_variate(self, X, batch_mode=False):
         r"""
 
-        The default distribution parameters.
+        The post-processor specific to variates drawn from this ditribution.
+
+        This method provides the interface between differentiable, batched variates, i.e. outputs
+        of :func:`sample` and :func:`mode` and the provided gym space.
 
         Parameters
         ----------
-        shape : tuple of ints
+        X : raw variates
 
-            The shape of the distribution parameters.
+            A batch of **raw** clean variates, i.e. same format as the outputs of :func:`sample`
+            and :func:`mode`.
+
+        batch_mode : bool, optional
+
+            Whether to return a batch or a single instance.
 
         Returns
         -------
-        dist_params_prior : pytree with ndarray leaves
+        x or X : clean variate
 
-            The distribution parameters that represent the default priors.
+            A single clean variate or a batch thereof (if ``batch_mode=True``). A variate is called
+            **clean** if it is an instance of the gym-style :attr:`space`, i.e. it satisfies
+            :code:`x in self.space`.
 
         """
-        pass
+        # N.B. this post-processor is essentially a no-op
+        x = batch_to_single(X)
+        assert self.space.contains(x), \
+            f"{self.__class__.__name__}.postprocessor_variate failed for X: {X}"
+        return X if batch_mode else x
+
+    def preprocess_variate(self, X):
+        r"""
+
+        The pre-processor to ensure that an instance of the :attr:`space` is processed into the same
+        structure as variates drawn from this ditribution, i.e. outputs of :func:`sample` and
+        :func:`mode`.
+
+        Parameters
+        ----------
+        X : clean variates
+
+            A batch of clean variates, i.e. instances of the gym-style :attr:`space`.
+
+        Returns
+        -------
+        X : raw variates
+
+            A batch of **raw** clean variates, i.e. same format as the outputs of :func:`sample`
+            and :func:`mode`.
+
+        """
+        return X

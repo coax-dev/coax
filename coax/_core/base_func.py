@@ -1,0 +1,162 @@
+# ------------------------------------------------------------------------------------------------ #
+# MIT License                                                                                      #
+#                                                                                                  #
+# Copyright (c) 2020, Microsoft Corporation                                                        #
+#                                                                                                  #
+# Permission is hereby granted, free of charge, to any person obtaining a copy of this software    #
+# and associated documentation files (the "Software"), to deal in the Software without             #
+# restriction, including without limitation the rights to use, copy, modify, merge, publish,       #
+# distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the    #
+# Software is furnished to do so, subject to the following conditions:                             #
+#                                                                                                  #
+# The above copyright notice and this permission notice shall be included in all copies or         #
+# substantial portions of the Software.                                                            #
+#                                                                                                  #
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING    #
+# BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND       #
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,     #
+# DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,   #
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
+# ------------------------------------------------------------------------------------------------ #
+
+from abc import ABC, abstractmethod
+from copy import deepcopy
+from collections import namedtuple
+
+import jax
+import haiku as hk
+from gym.spaces import Space
+
+from .._base.mixins import RandomStateMixin
+
+
+ExampleData = namedtuple('ExampleData', ('inputs', 'output'))
+Inputs = namedtuple('Inputs', ('args', 'static_argnums'))
+
+
+class BaseFunc(ABC, RandomStateMixin):
+    """ Abstract base class for function approximators: coax.V, coax.Q, coax.Policy """
+
+    def __init__(self, func, observation_space, action_space=None, random_seed=None):
+
+        if not isinstance(observation_space, Space):
+            raise TypeError(
+                f"observation_space must be derived from gym.Space, got: {type(observation_space)}")
+        self.observation_space = observation_space
+
+        if action_space is not None:
+            if not isinstance(action_space, Space):
+                raise TypeError(
+                    f"action_space must be derived from gym.Space, got: {type(action_space)}")
+            self.action_space = action_space
+
+        self.random_seed = random_seed
+
+        # Haiku-transform the provided func
+        example_data = self._check_signature(func)
+        static_argnums = tuple(i + 3 for i in example_data.inputs.static_argnums)
+        transformed = hk.transform_with_state(func)
+        self._function = jax.jit(transformed.apply, static_argnums=static_argnums)
+
+        # init function params and state
+        self._params, self._function_state = transformed.init(self.rng, *example_data.inputs.args)
+
+        # check if output has the expected shape etc.
+        output, _ = \
+            self._function(self.params, self.function_state, self.rng, *example_data.inputs.args)
+        self._check_output(output, example_data.output)
+
+        def soft_update_func(old, new, tau):
+            return jax.tree_multimap(lambda a, b: (1 - tau) * a + tau * b, old, new)
+
+        self._soft_update_func = jax.jit(soft_update_func)
+
+    def soft_update(self, other, tau):
+        r""" Synchronize the current instance with ``other`` through exponential smoothing:
+
+        .. math::
+
+            \theta\ \leftarrow\ \theta + \tau\, (\theta_\text{new} - \theta)
+
+        Parameters
+        ----------
+        other
+
+            A seperate copy of the current object. This object will hold the new parameters
+            :math:`\theta_\text{new}`.
+
+        tau : float between 0 and 1, optional
+
+            If we set :math:`\tau=1` we do a hard update. If we pick a smaller value, we do a smooth
+            update.
+
+        """
+        if not isinstance(other, self.__class__):
+            raise TypeError("'self' and 'other' must be of the same type")
+
+        self.params = self._soft_update_func(self.params, other.params, tau)
+
+    def copy(self):
+        """ Create a deep copy.
+
+        Returns
+        -------
+        copy
+
+            A deep copy of the current instance.
+
+        """
+        return deepcopy(self)
+
+    @property
+    def params(self):
+        """ The parameters (weights) of the function approximator. """
+        return self._params
+
+    @params.setter
+    def params(self, new_params):
+        if jax.tree_structure(new_params) != jax.tree_structure(self._params):
+            raise TypeError("new params must have the same structure as old params")
+        self._params = new_params
+
+    @property
+    def function(self):
+        r"""
+
+        The function approximator itself, defined as a JIT-compiled pure function. This function may
+        be called directly as:
+
+        .. code:: python
+
+            output, function_state = obj.function(obj.params, obj.function_state, obj.rng, *inputs)
+
+        """
+        return self._function
+
+    @property
+    def function_state(self):
+        """ The state of the function approximator, see :func:`haiku.transform_with_state`. """
+        return self._function_state
+
+    @function_state.setter
+    def function_state(self, new_function_state):
+        if jax.tree_structure(new_function_state) != jax.tree_structure(self._function_state):
+            raise TypeError("new function_state must have the same structure as old function_state")
+        self._function_state = new_function_state
+
+    @abstractmethod
+    def _check_signature(self, func):
+        """ Check if func has expected input signature; returns example_data; raises TypeError """
+
+    @abstractmethod
+    def _check_output(self, actual, expected):
+        """ Check if func has expected output signature; raises TypeError """
+
+    @abstractmethod
+    def example_data(self, *args, **kwargs):
+        r"""
+
+        A small utility function that generates example input and output data. These may be useful
+        for writing and debugging your own custom function approximators.
+
+        """

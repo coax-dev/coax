@@ -5,7 +5,7 @@ import jax
 import coax
 import haiku as hk
 import jax.numpy as jnp
-from jax.experimental import optix
+from jax.experimental.optix import adam
 from ray.rllib.env.atari_wrappers import wrap_deepmind
 
 
@@ -18,7 +18,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'              # tell XLA to be quiet
 # filepaths etc
 tensorboard_dir = "./data/tensorboard/dqn_mode"
 gifs_filepath = "./data/gifs/dqn_mode/T{:08d}.gif"
-coax.enable_logging('dqn_mode')
 
 
 # env with preprocessing
@@ -27,49 +26,40 @@ env = wrap_deepmind(env)
 env = coax.wrappers.TrainMonitor(env, tensorboard_dir=tensorboard_dir)
 
 
-class Func(coax.FuncApprox):
-    def body(self, S, is_training):
-        M = coax.utils.diff_transform_matrix(num_frames=S.shape[-1])
-        seq = hk.Sequential([  # S.shape = [batch, h, w, num_stack]
-            lambda x: jnp.dot(S / 255, M),  # [b, h, w, n]
-            hk.Conv2D(16, kernel_shape=8, stride=4), jax.nn.relu,
-            hk.Conv2D(32, kernel_shape=4, stride=2), jax.nn.relu,
-            hk.Flatten(),
-            hk.Linear(256), jax.nn.relu,
-        ])
-        return seq(S)
+def func(S, A, is_training):
+    """ type-1 q-function: (s,a) -> q(s,a) """
+    M = coax.utils.diff_transform_matrix(num_frames=S.shape[-1])
+    body = hk.Sequential((  # S.shape = [batch, h, w, num_stack]
+        lambda x: jnp.dot(x / 255, M),  # [b, h, w, n]
+        hk.Conv2D(16, kernel_shape=8, stride=4), jax.nn.relu,
+        hk.Conv2D(32, kernel_shape=4, stride=2), jax.nn.relu,
+        hk.Flatten(),
+    ))
+    head = hk.Sequential((
+        hk.Linear(256), jax.nn.relu,
+        hk.Linear(1, w_init=jnp.zeros), jnp.ravel
+    ))
+    assert A.ndim == 2 and A.shape[1] == env.action_space.n, "actions must be one-hot encoded"
+    return head(jax.vmap(jnp.kron)(body(S), A))
 
-    def optimizer(self):
-        return optix.adam(learning_rate=0.00025)
 
+# function approximator
+q = coax.Q(func, env.observation_space, env.action_space)
+pi = coax.BoltzmannPolicy(q, temperature=0.015)  # <--- different from standard DQN
 
-# function approximators
-func = Func(env)
-q = coax.Q(func, qtype=1)
+# target network
 q_targ = q.copy()
-pi = coax.EpsilonGreedy(q, epsilon=1.)
 
 # updater
-qlearning = coax.td_learning.QLearningMode(q, q_targ=q_targ, pi_targ=pi)
+qlearning = coax.td_learning.QLearningMode(q, pi, q_targ, optimizer=adam(3e-4))
 
 # reward tracer and replay buffer
 tracer = coax.reward_tracing.NStep(n=1, gamma=0.99)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=1000000)
 
 
-# DQN exploration schedule (stepwise linear annealing)
-def epsilon(T):
-    M = 1000000
-    if T < M:
-        return 1 - 0.9 * T / M
-    if T < 2 * M:
-        return 0.1 - 0.09 * (T - M) / M
-    return 0.01
-
-
 while env.T < 3000000:
     s = env.reset()
-    pi.epsilon = epsilon(env.T)
 
     for t in range(env.spec.max_episode_steps):
         a = pi(s)
@@ -85,7 +75,7 @@ while env.T < 3000000:
             metrics = qlearning.update(buffer.sample(batch_size=32))
             env.record_metrics(metrics)
 
-        if env.period('target_model_sync', T_period=10000):
+        if env.T % 10000 == 0:
             q_targ.soft_update(q, tau=1)
 
         if done:

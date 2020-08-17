@@ -23,12 +23,13 @@ import jax
 import jax.numpy as jnp
 import haiku as hk
 
-from .._base.mixins import PolicyMixin
+from .._core.base_policy import PolicyMixin
+from .._core.value_q import Q
 from ..utils import get_grads_diagnostics
-from ._base import BaseTD
+from ._base import BaseTDLearningQ
 
 
-class QLearningMode(BaseTD):
+class QLearningMode(BaseTDLearningQ):
     r"""
 
     An alternative to :class:`coax.td_learning.QLearning` that also works for continuous action
@@ -69,6 +70,11 @@ class QLearningMode(BaseTD):
         The q-function that is used for constructing the TD-target. If this is left unspecified, we
         set ``q_targ = q`` internally.
 
+    optimizer : optix optimizer, optional
+
+        An optix-style optimizer. The default optimizer is :func:`optix.adam(1e-3)
+        <jax.experimental.optix.adam>`.
+
     loss_function : callable, optional
 
         The loss function that will be used to regress to the (bootstrapped) target. The loss
@@ -96,42 +102,28 @@ class QLearningMode(BaseTD):
         passing ``value_transform=(func, inverse_func)`` works just as well.
 
     """
-    def __init__(self, q, pi_targ, q_targ=None, loss_function=None, value_transform=None):
+    def __init__(
+            self, q, pi_targ, q_targ=None, optimizer=None,
+            loss_function=None, value_transform=None):
 
-        super().__init__(
-            q=q, q_targ=q_targ, loss_function=loss_function, value_transform=value_transform)
-
-        if q.qtype == 2:
-            raise TypeError("q must be a type-1 q-function, got type-2")
+        if not (isinstance(q, Q) and q.qtype == 1):
+            raise TypeError("q must be a type-1 q-function")
         if not isinstance(pi_targ, PolicyMixin):
             raise TypeError(f"pi_targ must be a Policy, got: {type(pi_targ)}")
 
         self.pi_targ = pi_targ
-        self._init_funcs()
+        super().__init__(
+            q=q, q_targ=q_targ, optimizer=optimizer,
+            loss_function=loss_function, value_transform=value_transform)
 
     def _init_funcs(self):
 
-        def q_apply_func_type1(θ, state_q, rng, S, X_a, is_training):
-            """ type-I apply_func, except skipping the action_preprocessor """
-            rngs = hk.PRNGSequence(rng)
-            body = self.q.func_approx.apply_funcs['body']
-            comb = self.q.func_approx.apply_funcs['state_action_combiner']
-            head = self.q.func_approx.apply_funcs['head_q1']
-            state_q_new = state_q.copy()
-            X_s, state_q_new['body'] = body(θ['body'], state_q['body'], next(rngs), S, is_training)
-            X_sa, state_q_new['state_action_combiner'] = comb(
-                θ['state_action_combiner'], state_q['state_action_combiner'], next(rngs),
-                X_s, X_a, is_training)
-            Q_sa, state_q_new['head_q1'] = head(
-                θ['head_q1'], state_q['head_q1'], next(rngs), X_sa, is_training)
-            return jnp.squeeze(Q_sa, axis=1), state_q_new
-
         def target(θ_targ, θ_pi, state_q, state_pi, rng, Rn, In, S_next):
             rngs = hk.PRNGSequence(rng)
-            dist_params, _ = self.pi_targ.apply_func(
-                θ_pi, state_pi, next(rngs), S_next, False, **self.pi_targ.hyperparams)
-            X_a_next = self.pi_targ.proba_dist.mode(dist_params)
-            Q_next, _ = q_apply_func_type1(θ_targ, state_q, next(rngs), S_next, X_a_next, False)
+            dist_params, _ = self.pi_targ.function(θ_pi, state_pi, next(rngs), S_next, False)
+            A_next = self.pi_targ.proba_dist.mode(dist_params)  # greedy action
+            Q_next, _ = \
+                self.q_targ.function_type1(θ_targ, state_q, next(rngs), S_next, A_next, False)
             assert Q_next.ndim == 1
             f, f_inv = self.value_transform
             return f(Rn + In * f_inv(Q_next))
@@ -139,8 +131,9 @@ class QLearningMode(BaseTD):
         def loss_func(θ, θ_targ, θ_pi, state_q, state_pi, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
             S, A, _, Rn, In, S_next, _, _ = transition_batch
+            A = self.q.action_preprocessor(A)
             G = target(θ_targ, θ_pi, state_q, state_pi, next(rngs), Rn, In, S_next)
-            Q, state_q_new = self.q.apply_func_type1(θ, state_q, next(rngs), S, A, True)
+            Q, state_q_new = self.q.function_type1(θ, state_q, next(rngs), S, A, True)
             loss = self.loss_function(G, Q)
             return loss, (loss, G, Q, S, A, state_q_new)
 
@@ -151,7 +144,7 @@ class QLearningMode(BaseTD):
                     θ, θ_targ, θ_pi, state_q, state_pi, next(rngs), transition_batch)
 
             # target-network estimate
-            Q_targ, _ = self.q_targ.apply_func_type1(θ_targ, state_q, next(rngs), S, A, False)
+            Q_targ, _ = self.q_targ.function_type1(θ_targ, state_q, next(rngs), S, A, False)
 
             # residuals: estimate - better_estimate
             err = Q - G
@@ -173,8 +166,9 @@ class QLearningMode(BaseTD):
         def td_error_func(θ, θ_targ, θ_pi, state_q, state_pi, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
             S, A, _, Rn, In, S_next, _, _ = transition_batch
+            A = self.q.action_preprocessor(A)
             G = target(θ_targ, θ_pi, state_q, state_pi, next(rngs), Rn, In, S_next)
-            Q, _ = self.q.apply_func_type1(θ, state_q, next(rngs), S, A, False)
+            Q, _ = self.q.function_type1(θ, state_q, next(rngs), S, A, False)
             return G - Q
 
         self._grads_and_metrics_func = jax.jit(grads_and_metrics_func)

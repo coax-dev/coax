@@ -47,22 +47,14 @@ class EntropyRegularizer(PolicyRegularizer):
 
     beta : non-negative float
 
-        The coefficient that determines the strength of the overall
-        regularization term.
+        The coefficient that determines the strength of the overall regularization term.
 
     """
     def __init__(self, pi, beta=0.001):
         super().__init__(pi)
         self.beta = beta
-        self._init_funcs()
 
-    @property
-    def hyperparams(self):
-        return {'beta': self.beta}
-
-    def _init_funcs(self):
-
-        def apply_func(dist_params, beta):
+        def function(dist_params, beta):
             entropy = self.pi.proba_dist.entropy(dist_params)
             return -beta * entropy
 
@@ -72,11 +64,15 @@ class EntropyRegularizer(PolicyRegularizer):
                 'EntropyRegularizer/beta': beta,
                 'EntropyRegularizer/entropy': jnp.mean(entropy)}
 
-        self._apply_func = jax.jit(apply_func)
+        self._function = jax.jit(function)
         self._metrics_func = jax.jit(metrics)
 
     @property
-    def apply_func(self):
+    def hyperparams(self):
+        return {'beta': self.beta}
+
+    @property
+    def function(self):
         r"""
 
         JIT-compiled function that returns the values for the regularization
@@ -86,35 +82,32 @@ class EntropyRegularizer(PolicyRegularizer):
         ----------
         dist_params : pytree with ndarray leaves
 
-            The distribution parameters of the (conditional) probability
-            distribution :math:`\pi(a|s)`.
+            The distribution parameters of the (conditional) probability distribution
+            :math:`\pi(a|s)`.
 
         beta : non-negative float
 
-            The coefficient that determines the strength of the overall
-            regularization term.
+            The coefficient that determines the strength of the overall regularization term.
 
         """
-        return self._apply_func
+        return self._function
 
     @property
     def metrics_func(self):
         r"""
 
-        JIT-compiled function that returns the performance metrics for the
-        regularization term.
+        JIT-compiled function that returns the performance metrics for the regularization term.
 
         Parameters
         ----------
         dist_params : pytree with ndarray leaves
 
-            The distribution parameters of the (conditional) probability
-            distribution :math:`\pi(a|s)`.
+            The distribution parameters of the (conditional) probability distribution
+            :math:`\pi(a|s)`.
 
         beta : non-negative float
 
-            The coefficient that determines the strength of the overall
-            regularization term.
+            The coefficient that determines the strength of the overall regularization term.
 
         """
         return self._metrics_func

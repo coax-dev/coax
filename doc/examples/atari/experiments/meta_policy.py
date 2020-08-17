@@ -134,7 +134,7 @@ class PPO:
     kl = coax.policy_regularizers.KLDivRegularizer(pi, beta=0.001)
 
     # updaters
-    value_td = coax.td_learning.ValueTD(v, v_targ)
+    simple_td = coax.td_learning.SimpleTD(v, v_targ)
     ppo_clip = coax.policy_objectives.PPOClip(pi, regularizer=kl)
 
 
@@ -232,9 +232,9 @@ while META.env.T < 3000000:
             num_batches = int(4 * PPO.buffer.capacity / 32)
             for _ in range(num_batches):
                 transition_batch = PPO.buffer.sample(32)
-                Adv = PPO.value_td.td_error(transition_batch)
+                Adv = PPO.simple_td.td_error(transition_batch)
                 PPO.ppo_clip.update(transition_batch, Adv)
-                PPO.value_td.update(transition_batch)
+                PPO.simple_td.update(transition_batch)
             PPO.buffer.clear()
 
             # sync target networks

@@ -22,28 +22,17 @@ For the full documentation, including many examples, go to
 
 ## Install
 
-Install using pip:
+**coax** is built on top of JAX, but it doesn't have an explicit dependence on the `jax` python
+package. The reason is that your version of `jaxlib` will depend on your CUDA version. To install
+without CUDA, simply run:
+
+```bash
+$ pip install jaxlib jax coax --upgrade
 
 ```
-$ pip install coax
-```
 
-or install from a fresh clone:
-
-```
-$ git clone https://github.com/microsoft/coax.git
-$ pip install -e ./coax
-```
-
----
-**NOTE**
-
-**coax** requires the JAX python package, but it doesn't have an explicit dependence on it. The
-reason is that your version of `jax` and `jaxlib` will depend on your CUDA version. Check out
-the [Installation Guide](https://coax.readthedocs.io/examples/getting_started/install.html) to
-install `jax`.
-
----
+If you do require CUDA support, please check out the
+[Installation Guide](https://coax.readthedocs.io/examples/getting_started/install.html).
 
 
 ## Getting Started

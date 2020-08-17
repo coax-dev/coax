@@ -25,7 +25,7 @@ pi = coax.Policy(func)
 
 # specify how to update policy and value function
 vanilla_pg = coax.policy_objectives.VanillaPG(pi)
-value_td = coax.td_learning.ValueTD(v)
+simple_td = coax.td_learning.SimpleTD(v)
 
 
 # specify how to trace the transitions
@@ -51,9 +51,9 @@ for ep in range(100):
         if len(buffer) == buffer.capacity:
             for _ in range(4 * buffer.capacity // 32):  # ~4 passes
                 transition_batch = buffer.sample(batch_size=32)
-                td_error = value_td.td_error(transition_batch)
+                td_error = simple_td.td_error(transition_batch)
                 vanilla_pg.update(transition_batch, Adv=td_error)
-                value_td.update(transition_batch)
+                simple_td.update(transition_batch)
 
             buffer.clear()
 

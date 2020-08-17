@@ -92,9 +92,7 @@ def docstring(obj):
     return decorator
 
 
-def enable_logging(
-        name=None, level=logging.INFO, output_filepath=None,
-        output_level=None):
+def enable_logging(name=None, level=logging.INFO, output_filepath=None, output_level=None):
     r"""
 
     Enable logging output.
@@ -496,14 +494,14 @@ def is_qfunction(obj, qtype=None):
 
     qtype : 1 or 2, optional
 
-        Check for specific Q-function type, i.e. type-I or type-II. See :class:`coax.Q` for more
+        Check for specific Q-function type, i.e. type-1 or type-2. See :class:`coax.Q` for more
         details.
 
     Returns
     -------
     bool
 
-        Whether ``obj`` is a (type-I/II) Q-function.
+        Whether ``obj`` is a Q-function and (optionally) whether it specifically has qtype 1 or 2.
 
     """
     # import at runtime to avoid circular dependence
@@ -587,10 +585,8 @@ class StrippedEnv:
 
     A version of an environment that both is static and respects the gym API.
 
-    This is useful for creating pickleable environments that have a
-    significantly reduced memory footprint. These may be used to construct
-    :doc:`function approximators </coax/func_approx>`, which rely on an
-    environment to instantiate an object with the correct input/output shapes.
+    This is useful for creating pickleable environments that have a significantly reduced memory
+    footprint.
 
     Parameters
     ----------
@@ -600,10 +596,9 @@ class StrippedEnv:
 
     random_seed : int, optional
 
-        The StrippedEnv creates a :class:`coax.TransitionSingle` to store
-        its information internally. In order to generate this transition,
-        we do some random sampling from the provided spaces. This
-        `random_seed` set the seed for the pseudo-random number generators.
+        The StrippedEnv creates a :class:`coax.TransitionSingle` to store its information
+        internally. In order to generate this transition, we do some random sampling from the
+        provided spaces. This `random_seed` set the seed for the pseudo-random number generators.
 
     """
     __slots__ = (
@@ -653,8 +648,7 @@ class StrippedEnv:
 
         spec : EnvSpec, optional
 
-            The environment's EnvSpec. See the :mod:`gym.envs.register` module
-            form more details.
+            The environment's EnvSpec. See the :mod:`gym.envs.register` module form more details.
 
         metadata : dict, optional
 
@@ -662,10 +656,10 @@ class StrippedEnv:
 
         random_seed : int, optional
 
-            The StrippedEnv creates a :class:`coax.TransitionSingle` to store
-            its information internally. In order to generate this transition,
-            we do some random sampling from the provided spaces. This
-            `random_seed` set the seed for the pseudo-random number generators.
+            The StrippedEnv creates a :class:`coax.TransitionSingle` to store its information
+            internally. In order to generate this transition, we do some random sampling from the
+            provided spaces. This `random_seed` set the seed for the pseudo-random number
+            generators.
 
         """
         if reward_range is None:
@@ -738,8 +732,8 @@ class StrippedEnv:
 def strip_env_recursive(obj, depth=3):
     """
 
-    Find all references to environments in an object and replace them by their
-    stripped versions (using :class:`coax.utils.StrippedEnv`):
+    Find all references to environments in an object and replace them by their stripped versions
+    (using :class:`coax.utils.StrippedEnv`):
 
     .. code::
 
@@ -749,9 +743,8 @@ def strip_env_recursive(obj, depth=3):
     ----------
     obj : FuncApprox or container object
 
-        This could be either a :class:`FuncApprox` (or subclass thereof) or
-        a container object that contains a :class:`FuncApprox` as one of its
-        attributes.
+        This could be either a :class:`FuncApprox` (or subclass thereof) or a container object that
+        contains a :class:`FuncApprox` as one of its attributes.
 
     depth : non-negative int, optional
 

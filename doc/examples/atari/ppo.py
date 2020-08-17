@@ -5,7 +5,7 @@ import jax
 import coax
 import haiku as hk
 import jax.numpy as jnp
-from jax.experimental import optix
+from jax.experimental.optix import adam
 from ray.rllib.env.atari_wrappers import wrap_deepmind
 
 
@@ -18,7 +18,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'              # tell XLA to be quiet
 # filepaths etc
 tensorboard_dir = "./data/tensorboard/ppo"
 gifs_filepath = "./data/gifs/ppo/T{:08d}.gif"
-coax.enable_logging('ppo')
 
 
 # env with preprocessing
@@ -27,39 +26,53 @@ env = wrap_deepmind(env)
 env = coax.wrappers.TrainMonitor(env, tensorboard_dir=tensorboard_dir)
 
 
-class Func(coax.FuncApprox):
-    def body(self, S, is_training):
-        M = coax.utils.diff_transform_matrix(num_frames=S.shape[-1])
-        seq = hk.Sequential([  # S.shape = [batch, h, w, num_stack]
-            lambda x: jnp.dot(S / 255, M),  # [b, h, w, n]
-            hk.Conv2D(16, kernel_shape=8, stride=4), jax.nn.relu,
-            hk.Conv2D(32, kernel_shape=4, stride=2), jax.nn.relu,
-            hk.Flatten(),
-            hk.Linear(256), jax.nn.relu,
-        ])
-        return seq(S)
-
-    def optimizer(self):
-        return optix.adam(learning_rate=0.00025)
+def shared(S, is_training):
+    M = coax.utils.diff_transform_matrix(num_frames=S.shape[-1])
+    seq = hk.Sequential([  # S.shape = [batch, h, w, num_stack]
+        lambda x: jnp.dot(x / 255, M),  # [b, h, w, n]
+        hk.Conv2D(16, kernel_shape=8, stride=4), jax.nn.relu,
+        hk.Conv2D(32, kernel_shape=4, stride=2), jax.nn.relu,
+        hk.Flatten(),
+    ])
+    return seq(S)
 
 
-# function approximators (using two separate function approximators)
-func_pi, func_v = Func(env), Func(env)
-pi = coax.Policy(func_pi)
-pi_old = pi.copy()
-v = coax.V(func_v)
+def func_pi(S, is_training):
+    logits = hk.Sequential((
+        hk.Linear(256), jax.nn.relu,
+        hk.Linear(env.action_space.n, w_init=jnp.zeros),
+    ))
+    X = shared(S, is_training)
+    return {'logits': logits(X)}
+
+
+def func_v(S, is_training):
+    value = hk.Sequential((
+        hk.Linear(256), jax.nn.relu,
+        hk.Linear(1, w_init=jnp.zeros), jnp.ravel
+    ))
+    X = shared(S, is_training)
+    return value(X)
+
+
+# function approximators
+pi = coax.Policy(func_pi, env.observation_space, env.action_space)
+v = coax.V(func_v, env.observation_space)
+
+# target networks
+pi_behavior = pi.copy()
 v_targ = v.copy()
-
-# we'll use this to temporarily store our experience
-tracer = coax.reward_tracing.NStep(n=5, gamma=0.99)
-buffer = coax.experience_replay.SimpleReplayBuffer(capacity=256)
 
 # policy regularizer (avoid premature exploitation)
 kl_div = coax.policy_regularizers.KLDivRegularizer(pi, beta=0.001)
 
 # updaters
-value_td = coax.td_learning.ValueTD(v, v_targ)
-ppo_clip = coax.policy_objectives.PPOClip(pi, regularizer=kl_div)
+simpletd = coax.td_learning.SimpleTD(v, v_targ, optimizer=adam(3e-4))
+ppo_clip = coax.policy_objectives.PPOClip(pi, regularizer=kl_div, optimizer=adam(3e-4))
+
+# reward tracer and replay buffer
+tracer = coax.reward_tracing.NStep(n=5, gamma=0.99)
+buffer = coax.experience_replay.SimpleReplayBuffer(capacity=256)
 
 
 # run episodes
@@ -67,7 +80,7 @@ while env.T < 3000000:
     s = env.reset()
 
     for t in range(env.spec.max_episode_steps):
-        a, logp = pi_old(s, return_logp=True)
+        a, logp = pi_behavior(s, return_logp=True)
         s_next, r, done, info = env.step(a)
 
         # trace rewards and add transition to replay buffer
@@ -80,18 +93,14 @@ while env.T < 3000000:
             num_batches = int(4 * buffer.capacity / 32)  # 4 epochs per round
             for _ in range(num_batches):
                 transition_batch = buffer.sample(32)
-
-                Adv = value_td.td_error(transition_batch)
-                metrics_pi = ppo_clip.update(transition_batch, Adv)
-                metrics_v = value_td.update(transition_batch)
-
-                metrics = coax.utils.merge_dicts(metrics_pi, metrics_v)
-                env.record_metrics(metrics)
+                Adv = simpletd.td_error(transition_batch)
+                env.record_metrics(ppo_clip.update(transition_batch, Adv))
+                env.record_metrics(simpletd.update(transition_batch))
 
             buffer.clear()
 
             # sync target networks
-            pi_old.soft_update(pi, tau=0.1)
+            pi_behavior.soft_update(pi, tau=0.1)
             v_targ.soft_update(v, tau=0.1)
 
         if done:

@@ -58,6 +58,11 @@ class PPOClip(PolicyObjective):
 
         The parametrized policy :math:`\pi_\theta(a|s)`.
 
+    optimizer : optix optimizer, optional
+
+        An optix-style optimizer. The default optimizer is :func:`optix.adam(1e-3)
+        <jax.experimental.optix.adam>`.
+
     regularizer : PolicyRegularizer, optional
 
         A policy regularizer, see :mod:`coax.policy_regularizers`.
@@ -70,9 +75,9 @@ class PPOClip(PolicyObjective):
     """
     REQUIRES_PROPENSITIES = True
 
-    def __init__(self, pi, regularizer=None, epsilon=0.2):
+    def __init__(self, pi, optimizer=None, regularizer=None, epsilon=0.2):
 
-        super().__init__(pi, regularizer)
+        super().__init__(pi=pi, optimizer=optimizer, regularizer=regularizer)
         self.epsilon = epsilon
         self._init_funcs()
 
@@ -89,11 +94,11 @@ class PPOClip(PolicyObjective):
 
             # get distribution params from function approximator
             S, A, logP = transition_batch[:3]
-            dist_params, state_new = self.pi.apply_func(params, state, next(rngs), S, True)
+            dist_params, state_new = self.pi.function(params, state, next(rngs), S, True)
 
             # compute ppo-clip objective
-            X_a = self.pi.action_preprocessor_func(params, next(rngs), A)
-            log_pi = self.pi.proba_dist.log_proba(dist_params, X_a)
+            A_raw = self.pi.proba_dist.preprocess_variate(A)
+            log_pi = self.pi.proba_dist.log_proba(dist_params, A_raw)
             ratio = jnp.exp(log_pi - logP)  # logP is log(π_old)
             ratio_clip = jnp.clip(ratio, 1 - epsilon, 1 + epsilon)
             objective = jnp.minimum(Adv * ratio, Adv * ratio_clip)
@@ -116,7 +121,7 @@ class PPOClip(PolicyObjective):
 
             # add regularization term
             if self.regularizer is not None:
-                loss = loss + jnp.mean(self.regularizer.apply_func(dist_params, **reg_hparams))
+                loss = loss + jnp.mean(self.regularizer.function(dist_params, **reg_hparams))
 
             # also pass auxiliary data to avoid multiple forward passes
             return loss, (loss, loss_bare, dist_params, log_pi, state_new)

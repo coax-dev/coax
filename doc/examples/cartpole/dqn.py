@@ -4,6 +4,9 @@ import coax
 import gym
 import haiku as hk
 import jax
+import jax.numpy as jnp
+from coax.value_losses import mse
+from jax.experimental.optix import adam
 
 
 # set some env vars
@@ -13,25 +16,23 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # tell XLA to be quiet
 
 # the cart-pole MDP
 env = gym.make('CartPole-v0')
-env = coax.wrappers.TrainMonitor(env, 'data/tensorboard/sarsa', log_all_metrics=True)
-coax.enable_logging()
+env = coax.wrappers.TrainMonitor(env, 'data/tensorboard/dqn')
 
 
-class MLP(coax.FuncApprox):
-    """ multi-layer perceptron with one hidden layer """
-    def body(self, S, is_training):
-        seq = hk.Sequential((
-            hk.Linear(8), jax.nn.relu,
-            hk.Linear(8), jax.nn.relu,
-            hk.Linear(8), jax.nn.relu,
-        ))
-        return seq(S)
+def func(S, is_training):
+    """ type-2 q-function: s -> q(s,.) """
+    seq = hk.Sequential((
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(8), jax.nn.relu,
+        hk.Linear(env.action_space.n, w_init=jnp.zeros)
+    ))
+    return seq(S)
 
 
 # value function and its derived policy
-func = MLP(env, random_seed=13, learning_rate=0.001)
-q = coax.Q(func)
-pi = coax.BoltzmannPolicy(q, tau=0.1)
+q = coax.Q(func, env.observation_space, env.action_space)
+pi = coax.BoltzmannPolicy(q, temperature=0.1)
 
 # target network
 q_targ = q.copy()
@@ -41,7 +42,7 @@ tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=100000)
 
 # updater
-qlearning = coax.td_learning.QLearning(q, q_targ, loss_function=coax.value_losses.mse)
+qlearning = coax.td_learning.QLearning(q, q_targ, loss_function=mse, optimizer=adam(0.001))
 
 # used for early stopping
 num_successes = 0
@@ -87,4 +88,4 @@ for ep in range(1000):
 
 
 # run env one more time to render
-coax.utils.generate_gif(env, pi.greedy, filepath="data/qlearning.gif", duration=25)
+coax.utils.generate_gif(env, pi.greedy, filepath="data/dqn.gif", duration=25)

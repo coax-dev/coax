@@ -1,8 +1,11 @@
 import os
-import jax.numpy as jnp
-import gym
 
 import coax
+import gym
+import jax.numpy as jnp
+import haiku as hk
+from jax.experimental import optix
+
 
 # set some env vars
 os.environ['JAX_PLATFORM_NAME'] = 'cpu'   # tell JAX to use CPU
@@ -17,10 +20,16 @@ env = coax.wrappers.TrainMonitor(env)
 coax.enable_logging()
 
 
-# define function approximators
-func = coax.FuncApprox(env, learning_rate=0.2)
-q = coax.Q(func)
-pi = coax.BoltzmannPolicy(q, tau=0.1)
+def func(S, A, is_training):
+    value = hk.Sequential((hk.Flatten(), hk.Linear(1, w_init=jnp.zeros), jnp.ravel))
+    S = hk.one_hot(S, env.observation_space.n)
+    X = jnp.kron(S, A)  # A is already one-hot encoded
+    return value(X)
+
+
+# function approximator
+q = coax.Q(func, env.observation_space, env.action_space)
+pi = coax.BoltzmannPolicy(q, temperature=0.15)
 
 
 # experience tracer
@@ -28,12 +37,11 @@ tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
 
 
 # updater
-esarsa = coax.td_learning.ExpectedSarsa(q, pi)
+esarsa = coax.td_learning.ExpectedSarsa(q, pi, optimizer=optix.adam(0.02))
 
 
 # train
 for ep in range(500):
-    pi.epsilon = max(0.1, 1 - env.ep / 400)
     s = env.reset()
 
     for t in range(env.spec.max_episode_steps):
