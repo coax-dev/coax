@@ -45,7 +45,7 @@ jobs:
         python -m pytest -v coax
 
   create-release:
-    name: Create release (draft)
+    name: Create release
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -60,7 +60,7 @@ jobs:
           release_name: ${{ github.ref }}
           body: Release ${{ github.ref }}
           draft: false
-          prerelease: false
+          prerelease: ${{ contains(github.ref, 'rc') }}
 
   build-and-deploy:
     name: Build and deploy
