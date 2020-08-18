@@ -46,8 +46,8 @@
     <td class="version title os">OS:</td>
     <td class="version options os">
       <!-- if you add a row here, make sure to update 'column-count' in css rule above -->
-      <div id="macosx_10_9" class="version option os">Mac</div>
-      <div id="manylinux2010" class="version option os selected">Linux</div>
+      <div id="macosx_10_9_x86_64" class="version option os">Mac</div>
+      <div id="manylinux2010_x86_64" class="version option os selected">Linux</div>
     </td>
   </tr>
   <tr>
@@ -104,7 +104,7 @@ Command to run:
         e.target.classList.add('selected');
 
         // select 'nocuda' if 'macos' is selected
-        if (document.getElementById('macosx_10_9').classList.contains('selected') ) {
+        if (document.getElementById('macosx_10_9_x86_64').classList.contains('selected') ) {
             for (var i=0, len=cudaVersions.length; i<len; i++) {
                 if (cudaVersions[i].id === 'nocuda') {
                     cudaVersions[i].classList.add('selected');
@@ -159,8 +159,8 @@ Command to run:
         if (cudaVersion === 'nocuda') {
             command.innerHTML = "$ pip install --upgrade jaxlib jax coax";
         } else {
-            command.innerHTML = `$ wget https://storage.googleapis.com/jax-releases/${cudaVersion}/jaxlib-${jaxlibVersion}-${pythonVersion}-none-${osVersion}_x86_64.whl
-$ pip install jaxlib-${jaxlibVersion}-${pythonVersion}-none-${osVersion}_x86_64.whl
+            command.innerHTML = `$ wget https://storage.googleapis.com/jax-releases/${cudaVersion}/jaxlib-${jaxlibVersion}-${pythonVersion}-none-${osVersion}.whl
+$ pip install jaxlib-${jaxlibVersion}-${pythonVersion}-none-${osVersion}.whl
 $ pip install --upgrade jax coax`
         }
     }
