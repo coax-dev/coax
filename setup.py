@@ -88,7 +88,7 @@ setup_kwargs = {
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
     ],
     'zip_safe': True,
-    'packages': setuptools.find_packages(exclude=['test_*.py', '*_test.py']),
+    'packages': setuptools.find_packages(),
 }
 
 

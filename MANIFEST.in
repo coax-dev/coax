@@ -1,0 +1,2 @@
+global-exclude *_test.py
+global-exclude data/
