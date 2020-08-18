@@ -67,10 +67,10 @@ class DeterministicPG(PolicyObjective):
 
         The target state-action value function :math:`q_\text{targ}(s,a)`.
 
-    optimizer : optix optimizer, optional
+    optimizer : optax optimizer, optional
 
-        An optix-style optimizer. The default optimizer is :func:`optix.adam(1e-3)
-        <jax.experimental.optix.adam>`.
+        An optax-style optimizer. The default optimizer is :func:`optax.adam(1e-3)
+        <optax.adam>`.
 
     regularizer : PolicyRegularizer, optional
 

@@ -5,8 +5,8 @@ import gym
 import haiku as hk
 import jax
 import jax.numpy as jnp
+import optax
 from coax.value_losses import mse
-from jax.experimental import optix
 
 
 # set some env vars
@@ -40,8 +40,8 @@ def func_v(S, is_training):
 
 
 # these optimizers collect batches of grads before applying updates
-optimizer_v = optix.chain(optix.apply_every(k=32), optix.adam(0.002))
-optimizer_pi = optix.chain(optix.apply_every(k=32), optix.adam(0.001))
+optimizer_v = optax.chain(optax.apply_every(k=32), optax.adam(0.002))
+optimizer_pi = optax.chain(optax.apply_every(k=32), optax.adam(0.001))
 
 
 # value function and its derived policy

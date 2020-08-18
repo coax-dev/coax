@@ -25,7 +25,7 @@ from functools import partial
 import jax
 import jax.numpy as jnp
 import haiku as hk
-from jax.experimental.optix import sgd
+from optax import sgd
 
 from .._base.test_case import TestCase, DiscreteEnv
 from .._core.value_q import Q

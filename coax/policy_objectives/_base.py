@@ -23,7 +23,7 @@ import warnings
 
 import jax
 import jax.numpy as jnp
-from jax.experimental import optix
+import optax
 
 from .._core.policy import Policy
 from ..policy_regularizers import PolicyRegularizer
@@ -58,13 +58,13 @@ class PolicyObjective:
         self._regularizer = regularizer
 
         # optimizer
-        self._optimizer = optix.adam(1e-3) if optimizer is None else optimizer
+        self._optimizer = optax.adam(1e-3) if optimizer is None else optimizer
         self._optimizer_state = self.optimizer.init(self._pi.params)
 
         # construct jitted param update function
         def apply_grads_func(opt, opt_state, params, grads):
             updates, new_opt_state = opt.update(grads, opt_state)
-            new_params = optix.apply_updates(params, updates)
+            new_params = optax.apply_updates(params, updates)
             return new_opt_state, new_params
 
         self._apply_grads_func = jax.jit(apply_grads_func, static_argnums=0)

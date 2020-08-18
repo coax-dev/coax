@@ -6,7 +6,7 @@ import jax.numpy as jnp
 import coax
 import haiku as hk
 from numpy import prod
-from jax.experimental import optix
+import optax
 
 
 # set some env vars
@@ -75,8 +75,8 @@ policy_reg = coax.policy_regularizers.EntropyRegularizer(pi, beta=0.01)
 
 
 # updaters
-simpletd = coax.td_learning.SimpleTD(v, optimizer=optix.adam(1e-3))
-ppo_clip = coax.policy_objectives.PPOClip(pi, regularizer=policy_reg, optimizer=optix.adam(1e-4))
+simpletd = coax.td_learning.SimpleTD(v, optimizer=optax.adam(1e-3))
+ppo_clip = coax.policy_objectives.PPOClip(pi, regularizer=policy_reg, optimizer=optax.adam(1e-4))
 
 
 # train

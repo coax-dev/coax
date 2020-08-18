@@ -22,7 +22,7 @@
 from copy import deepcopy
 
 import jax.numpy as jnp
-from jax.experimental.optix import sgd
+from optax import sgd
 
 from .._base.test_case import TestCase
 from .._core.policy import Policy

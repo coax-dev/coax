@@ -1,5 +1,8 @@
 import gym
 import coax
+import optax
+import haiku as hk
+import jax.numpy as jnp
 
 
 # pick environment
@@ -7,20 +10,21 @@ env = gym.make(...)
 env = coax.wrappers.TrainMonitor(env)
 
 
-# show logs from TrainMonitor
-coax.enable_logging()
+def func_pi(S, is_training):
+    # custom haiku function (for continuous actions in this example)
+    mu = hk.Sequential([...])(S)  # mu.shape: (batch_size, *action_space.shape)
+    return {'mu': mu, 'logvar': jnp.full_like(mu, -10)}  # deterministic policy
 
 
-class MyFuncApprox(coax.FuncApprox):
-    def body(self, S, is_training):
-        # custom haiku function
-        ...
+def func_q(S, A, is_training):
+    # custom haiku function
+    value = hk.Sequential([...])
+    return value(S)  # output shape: (batch_size,)
 
 
 # define function approximator
-func = MyFuncApprox(env)
-pi = coax.Policy(func)
-q = coax.Q(func)
+pi = coax.Policy(func_pi, env.observation_space, env.action_space)
+q = coax.Q(func_q, env.observation_space, env.action_space)
 
 
 # target networks
@@ -29,8 +33,8 @@ q_targ = q.copy()
 
 
 # specify how to update policy and value function
-determ_pg = coax.policy_objectives.DeterministicPG(pi, q)
-qlearning = coax.td_learning.QLearningMode(q, pi_targ, q_targ)  # or use Sarsa
+determ_pg = coax.policy_objectives.DeterministicPG(pi, q, optimizer=optax.adam(0.001))
+qlearning = coax.td_learning.QLearningMode(q, pi_targ, q_targ, optimizer=optax.adam(0.002))
 
 
 # specify how to trace the transitions
@@ -38,11 +42,17 @@ tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=1000000)
 
 
+# action noise
+noise = coax.utils.OrnsteinUhlenbeckNoise(mu=0., sigma=0.2, theta=0.15)
+
+
 for ep in range(100):
     s = env.reset()
+    noise.reset()
+    noise.sigma *= 0.99  # slowly decrease noise scale
 
     for t in range(env.spec.max_episode_steps):
-        a = pi(s)
+        a = noise(pi(s))
         s_next, r, done, info = env.step(a)
 
         # add transition to buffer

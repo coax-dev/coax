@@ -1,5 +1,7 @@
 import gym
 import coax
+import optax
+import haiku as hk
 
 
 # pick environment
@@ -7,26 +9,30 @@ env = gym.make(...)
 env = coax.wrappers.TrainMonitor(env)
 
 
-# show logs from TrainMonitor
-coax.enable_logging()
+def func_v(S, is_training):
+    # custom haiku function
+    value = hk.Sequential([...])
+    return value(S)  # output shape: (batch_size,)
 
 
-class MyFuncApprox(coax.FuncApprox):
-    def body(self, S, is_training):
-        # custom haiku function
-        ...
+def func_pi(S, is_training):
+    # custom haiku function (for discrete actions in this example)
+    logits = hk.Sequential([...])
+    return {'logits': logits(S)}  # logits shape: (batch_size, num_actions)
 
 
-# define function approximator
-func = MyFuncApprox(env)
-v = coax.V(func)
-pi = coax.Policy(func)
+# function approximators
+v = coax.V(func_v, env.observation_space)
+pi = coax.Policy(func_pi, env.observation_space, env.action_space)
+
+
+# slow-moving avg of pi
 pi_behavior = pi.copy()
 
 
 # specify how to update policy and value function
-ppo_clip = coax.policy_objectives.PPOClip(pi)
-simple_td = coax.td_learning.SimpleTD(v)
+ppo_clip = coax.policy_objectives.PPOClip(pi, optimizer=optax.adam(0.001))
+simpletd = coax.td_learning.SimpleTD(v, optimizer=optax.adam(0.001))
 
 
 # specify how to trace the transitions
@@ -50,9 +56,9 @@ for ep in range(100):
         if len(buffer) == buffer.capacity:
             for _ in range(4 * buffer.capacity // 32):  # ~4 passes
                 transition_batch = buffer.sample(batch_size=32)
-                td_error = simple_td.td_error(transition_batch)
+                td_error = simpletd.td_error(transition_batch)
                 ppo_clip.update(transition_batch, Adv=td_error)
-                simple_td.update(transition_batch)
+                simpletd.update(transition_batch)
 
             buffer.clear()
             pi_behavior.soft_update(pi, tau=0.1)

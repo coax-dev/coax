@@ -5,7 +5,7 @@ import jax
 import jax.numpy as jnp
 import gym
 import haiku as hk
-from jax.experimental import optix
+import optax
 
 
 # set some env vars
@@ -36,7 +36,7 @@ tracer = coax.reward_tracing.MonteCarlo(gamma=0.9)
 
 
 # updater
-vanilla_pg = coax.policy_objectives.VanillaPG(pi, optimizer=optix.adam(0.01))
+vanilla_pg = coax.policy_objectives.VanillaPG(pi, optimizer=optax.adam(0.01))
 
 
 # train

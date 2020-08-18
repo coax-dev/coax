@@ -6,7 +6,7 @@ import coax
 import haiku as hk
 import jax.numpy as jnp
 from numpy import prod
-from jax.experimental import optix
+import optax
 
 
 # set some env vars
@@ -67,8 +67,8 @@ buffer = coax.experience_replay.SimpleReplayBuffer(capacity=25000)
 # updaters
 qlearning = coax.td_learning.QLearningMode(q, pi_targ, q_targ,
                                            loss_function=coax.value_losses.mse,
-                                           optimizer=optix.adam(1e-3))
-determ_pg = coax.policy_objectives.DeterministicPG(pi, q_targ, optimizer=optix.adam(1e-4))
+                                           optimizer=optax.adam(1e-3))
+determ_pg = coax.policy_objectives.DeterministicPG(pi, q_targ, optimizer=optax.adam(1e-4))
 
 
 # action noise

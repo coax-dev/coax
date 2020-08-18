@@ -20,7 +20,7 @@ import jax
 import jax.numpy as jnp
 import haiku as hk
 import coax
-from jax.experimental import optix
+import optax
 
 
 class hparams:
@@ -187,7 +187,7 @@ def loss_pi(params_pi, target_params_q, rng, transition_batch):
 @partial(jax.jit, static_argnums=2)
 def update_fn(params, grads, optimizer, optimizer_state):
     updates, new_optimizer_state = optimizer.update(grads, optimizer_state)
-    new_params = optix.apply_updates(params, updates)
+    new_params = optax.apply_updates(params, updates)
     return new_params, new_optimizer_state
 
 
@@ -197,12 +197,12 @@ loss_and_grad_q = jax.jit(jax.value_and_grad(loss_q))
 
 
 # actor optimizer
-optimizer_pi = optix.adam(hparams.lr_actor)
+optimizer_pi = optax.adam(hparams.lr_actor)
 optimizer_state_pi = optimizer_pi.init(params_pi)
 
 
 # critic optimizer
-optimizer_q = optix.adam(hparams.lr_critic)
+optimizer_q = optax.adam(hparams.lr_critic)
 optimizer_state_q = optimizer_q.init(params_q)
 
 

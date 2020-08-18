@@ -8,7 +8,7 @@ import jax
 import coax
 import haiku as hk
 import jax.numpy as jnp
-from jax.experimental import optix
+import optax
 
 
 # set some env vars
@@ -41,7 +41,7 @@ class Func(coax.FuncApprox):
         return seq(S)
 
     def optimizer(self):
-        return optix.adam(learning_rate=0.00025)
+        return optax.adam(learning_rate=0.00025)
 
 
 # function approximators

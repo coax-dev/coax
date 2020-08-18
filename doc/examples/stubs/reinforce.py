@@ -1,5 +1,7 @@
 import gym
 import coax
+import optax
+import haiku as hk
 
 
 # pick environment
@@ -7,23 +9,18 @@ env = gym.make(...)
 env = coax.wrappers.TrainMonitor(env)
 
 
-# show logs from TrainMonitor
-coax.enable_logging()
+def func_pi(S, is_training):
+    # custom haiku function (for discrete actions in this example)
+    logits = hk.Sequential([...])
+    return {'logits': logits(S)}  # logits shape: (batch_size, num_actions)
 
 
-class MyFuncApprox(coax.FuncApprox):
-    def body(self, S, is_training):
-        # custom haiku function
-        ...
-
-
-# define function approximator
-func = MyFuncApprox(env)
-pi = coax.Policy(func)
+# function approximator
+pi = coax.Policy(func_pi, env.observation_space, env.action_space)
 
 
 # specify how to update policy and value function
-vanilla_pg = coax.policy_objectives.VanillaPG(pi)
+vanilla_pg = coax.policy_objectives.VanillaPG(pi, optimizer=optax.adam(0.001))
 
 
 # specify how to trace the transitions

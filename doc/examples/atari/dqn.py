@@ -5,7 +5,7 @@ import jax
 import coax
 import haiku as hk
 import jax.numpy as jnp
-from jax.experimental.optix import adam
+from optax import adam
 from ray.rllib.env.atari_wrappers import wrap_deepmind
 
 

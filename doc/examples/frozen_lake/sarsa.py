@@ -4,7 +4,7 @@ import coax
 import gym
 import jax.numpy as jnp
 import haiku as hk
-from jax.experimental import optix
+import optax
 
 
 # set some env vars
@@ -37,7 +37,7 @@ tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
 
 
 # updater
-sarsa = coax.td_learning.Sarsa(q, optimizer=optix.adam(0.02))
+sarsa = coax.td_learning.Sarsa(q, optimizer=optax.adam(0.02))
 
 
 # train

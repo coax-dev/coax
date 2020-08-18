@@ -57,10 +57,10 @@ class Sarsa(BaseTDLearningQ):
         The q-function that is used for constructing the TD-target. If this is left unspecified, we
         set ``q_targ = q`` internally.
 
-    optimizer : optix optimizer, optional
+    optimizer : optax optimizer, optional
 
-        An optix-style optimizer. The default optimizer is :func:`optix.adam(1e-3)
-        <jax.experimental.optix.adam>`.
+        An optax-style optimizer. The default optimizer is :func:`optax.adam(1e-3)
+        <optax.adam>`.
 
     loss_function : callable, optional
 

@@ -5,7 +5,7 @@ import jax
 import jax.numpy as jnp
 import gym
 import haiku as hk
-from jax.experimental import optix
+import optax
 
 # set some env vars
 os.environ['JAX_PLATFORM_NAME'] = 'cpu'   # tell JAX to use CPU
@@ -47,8 +47,8 @@ tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
 
 
 # updaters
-simpletd = coax.td_learning.SimpleTD(v, v_targ, optimizer=optix.adam(0.02))
-ppo_clip = coax.policy_objectives.PPOClip(pi, optimizer=optix.adam(0.01))
+simpletd = coax.td_learning.SimpleTD(v, v_targ, optimizer=optax.adam(0.02))
+ppo_clip = coax.policy_objectives.PPOClip(pi, optimizer=optax.adam(0.01))
 
 
 # train

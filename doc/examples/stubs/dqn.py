@@ -1,5 +1,9 @@
 import gym
 import coax
+import optax
+import haiku as hk
+import jax
+import jax.numpy as jnp
 
 
 # pick environment
@@ -7,25 +11,31 @@ env = gym.make(...)
 env = coax.wrappers.TrainMonitor(env)
 
 
-# show logs from TrainMonitor
-coax.enable_logging()
+def func_type1(S, A, is_training):
+    # custom haiku function: s,a -> q(s,a)
+    value = hk.Sequential([...])
+    X = jax.vmap(jnp.kron)(S, A)  # or jnp.concatenate((S, A), axis=-1) or whatever you like
+    return value(X)  # output shape: (batch_size,)
 
 
-class MyFuncApprox(coax.FuncApprox):
-    def body(self, S, is_training):
-        # custom haiku function
-        ...
+def func_type2(S, is_training):
+    # custom haiku function: s -> q(s,.)
+    value = hk.Sequential([...])
+    return value(S)  # output shape: (batch_size, num_actions)
 
 
-# define function approximator
-func = MyFuncApprox(env)
-q = coax.Q(func)
-q_targ = q.copy()
+# function approximator
+func = ...  # func_type1 or func_type2
+q = coax.Q(func, env.observation_space, env.action_space)
 pi = coax.EpsilonGreedy(q, epsilon=0.1)
 
 
+# target network
+q_targ = q.copy()
+
+
 # specify how to update q-function
-qlearning = coax.td_learning.QLearning(q, q_targ)
+qlearning = coax.td_learning.QLearning(q, q_targ, optimizer=optax.adam(0.001))
 
 
 # specify how to trace the transitions

@@ -21,7 +21,7 @@
 
 from copy import deepcopy
 
-from jax.experimental.optix import sgd
+from optax import sgd
 
 from .._base.test_case import TestCase
 from .._core.value_q import Q

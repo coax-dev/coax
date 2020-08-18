@@ -6,7 +6,7 @@ import haiku as hk
 import jax
 import jax.numpy as jnp
 from coax.value_losses import mse
-from jax.experimental.optix import adam
+from optax import adam
 
 
 # set some env vars
