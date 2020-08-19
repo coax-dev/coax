@@ -2,6 +2,12 @@
 coax: A Modular RL Package
 ==========================
 
+.. image:: /_static/img/coax_logo.png
+    :alt: coax logo
+    :scale: 100%
+    :align: center
+
+
 *This is a draft of a blog post to be published on the MSR blog*
 
 
