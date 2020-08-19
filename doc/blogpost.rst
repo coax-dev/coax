@@ -103,6 +103,7 @@ function:
 
     import gym
     import coax
+    import haiku as hk
 
     env = gym.make('FrozenLakeNonSlippery-v0')
     env = coax.wrappers.TrainMonitor(env)
