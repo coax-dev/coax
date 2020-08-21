@@ -1,9 +1,8 @@
 Atari 2600: Pong with PPO
 =========================
 
-In this notebook we solve the `PongDeterministic-v4 <https://gym.openai.com/envs/Pong-v0/>`_
-environment using a TD actor-critic algorithm with :class:`PPO <coax.policy_objectives.PPOClip>`
-policy updates.
+In this notebook we solve the `Pong <https://gym.openai.com/envs/Pong-v0/>`_ environment using a TD
+actor-critic algorithm with :class:`PPO <coax.policy_objectives.PPOClip>` policy updates.
 
 We use convolutional neural nets (without pooling) as our function approximator for the state value
 function :math:`v(s)` and policy :math:`\pi(a|s)`.

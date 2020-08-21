@@ -1,9 +1,9 @@
 Atari 2600: Pong with DQN (with Boltzmann policy)
 =================================================
 
-In this notebook we solve the `PongDeterministic-v4 <https://gym.openai.com/envs/Pong-v0/>`_
-environment using the classic :doc:`DQN </examples/stubs/dqn>` agent. We'll use a convolutional
-neural net (without pooling) as our function approximator for the q-function.
+In this notebook we solve the `Pong <https://gym.openai.com/envs/Pong-v0/>`_ environment using the
+classic :doc:`DQN </examples/stubs/dqn>` agent. We'll use a convolutional neural net (without
+pooling) as our function approximator for the q-function.
 
 This notebook is different from the regular implementation in that it uses a **Boltzmann policy**
 instead of an epsilon-greedy policy to ensure sufficient exploration.

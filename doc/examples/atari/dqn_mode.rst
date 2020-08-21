@@ -1,9 +1,9 @@
 Atari 2600: Pong with DQN (mode-based q-learning)
 =================================================
 
-In this notebook we solve the `PongDeterministic-v4 <https://gym.openai.com/envs/Pong-v0/>`_
-environment using the classic :doc:`DQN </examples/stubs/dqn>` agent. We'll use a convolutional
-neural net (without pooling) as our function approximator for the q-function.
+In this notebook we solve the `Pong <https://gym.openai.com/envs/Pong-v0/>`_ environment using the
+classic :doc:`DQN </examples/stubs/dqn>` agent. We'll use a convolutional neural net (without
+pooling) as our function approximator for the q-function.
 
 This version differs from the standard DQN version in that it uses mode-based :class:`QLearningMode
 <coax.td_learning.QLearningMode>` updater class instead of the default :class:`QLearning
