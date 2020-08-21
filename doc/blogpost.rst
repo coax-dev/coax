@@ -1,4 +1,3 @@
-==========================
 coax: A Modular RL Package
 ==========================
 
@@ -18,6 +17,12 @@ RL concepts, not agents
 The primary thing that sets **coax** apart from other packages is that is designed to align with the
 core RL concepts, not with the high-level concept of an agent. This makes **coax** more modular and
 user-friendly for RL researchers and practitioners.
+
+**Under the hood.**
+Coax is based on the JAX project, which offers an alternative implementation of
+numpy combined with automatic differentiation and hardware acceleration. It’s awesome and it’s fast.
+As our neural network library we use is Haiku, which is an intuitive library based on Sonnet (a
+lightweight alternative to keras).
 
 
 You're in control
