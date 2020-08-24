@@ -4,25 +4,28 @@ coax: A Modular RL Package
 *This is a draft of a blog post to be published on the MSR blog*
 
 
-.. image:: /_static/img/coax_logo.png
+.. image:: /_static/img/coax_logo.svg
     :alt: coax logo
     :align: center
 
-Create simple, reproducible RL solutions with OpenAI Gym environments and JAX-based function
-approximators.
+We are thrilled to announce a new open source project named **coax**, which is a modular
+Reinforcement Learning (RL) python package for solving OpenAI Gym environments with JAX-based
+function approximators.
+
 
 RL concepts, not agents
 -----------------------
 
-The primary thing that sets **coax** apart from other packages is that is designed to align with the
-core RL concepts, not with the high-level concept of an agent. This makes **coax** more modular and
+The primary thing that sets coax apart from other packages is that is designed to align with the
+core RL concepts, not with the high-level concept of an agent. This makes coax more modular and
 user-friendly for RL researchers and practitioners.
 
-**Under the hood.**
-Coax is based on the JAX project, which offers an alternative implementation of
-numpy combined with automatic differentiation and hardware acceleration. It’s awesome and it’s fast.
-As our neural network library we use is Haiku, which is an intuitive library based on Sonnet (a
-lightweight alternative to keras).
+**Under the hood.** Coax is based on the `JAX <https://jax.readthedocs.io/>`_ project, which offers
+an alternative implementation of numpy combined with automatic differentiation and hardware
+acceleration. It’s awesome and it’s fast. As our neural network library we use is `Haiku
+<https://dm-haiku.readthedocs.io/>`_, which is an intuitive library based on Sonnet (a lightweight
+alternative to keras). Finally, coax uses `optax <https://github.com/deepmind/optax>`_, which is a
+powerful, flexible library that makes it easy to create your own custom optimizers.
 
 
 You're in control
@@ -30,15 +33,15 @@ You're in control
 
 Other RL frameworks often hide structure that you (the RL practitioner) are interested in. Most
 notably, the **neural network architecture** of the function approximators is often hidden from you.
-In **coax**, the network architecture takes center stage. You are in charge of defining their own
+In coax, the network architecture takes center stage. You are in charge of defining their own
 forward-pass function.
 
 Another bit of structure that other RL frameworks hide from you is the main **training loop**. This
-makes it hard to take an algorithm from paper to code. The design of **coax** is agnostic of the
+makes it hard to take an algorithm from paper to code. The design of coax is agnostic of the
 details of your training loop. You decide how and when you update your function approximators.
 
 To illustrate these points, we include the full working example that trains a simple Q-learning
-agent in **coax** below.
+agent in coax below.
 
 
 Example
@@ -58,7 +61,7 @@ environment, in which the agent must learn to navigate from the start state **S*
 | H | F | F | G |
 +---+---+---+---+
 
-We start by defining our q-function. In **coax**, this is done by specifying a forward-pass
+We start by defining our q-function. In coax, this is done by specifying a forward-pass
 function:
 
 .. code:: python
@@ -203,7 +206,7 @@ this works in practice.
     # [TrainMonitor|INFO] ep: 498, T: 4,117,   G: 1,   avg_G: 1,   t: 6,   dt: 2.571ms
     # [TrainMonitor|INFO] ep: 499, T: 4,124,   G: 1,   avg_G: 1,   t: 6,   dt: 2.611ms
 
-To see more examples, head over to the documentation pages for a gentle introduction to the **coax**
+To see more examples, head over to the documentation pages for a gentle introduction to the coax
 RL package:
 
 - https://coax.readthedocs.io

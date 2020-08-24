@@ -9,7 +9,8 @@
 
 ![cartpole.gif](doc/_static/img/cartpole.gif)
 
-Create simple, reproducible RL solutions with JAX function approximators.
+Coax is a modular Reinforcement Learning (RL) python package for solving OpenAI Gym environments
+with JAX-based function approximators.
 
 
 ## Documentation

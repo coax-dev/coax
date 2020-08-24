@@ -9,13 +9,13 @@ coax
     :align: center
 
 
-Create simple, reproducible RL solutions with OpenAI gym environments and JAX-based function
-approximators.
+Coax is a modular Reinforcement Learning (RL) python package for solving OpenAI Gym environments
+with JAX-based function approximators.
 
 Install
 =======
 
-**coax** is built on top of JAX, but it doesn't have an explicit dependence on the ``jax``
+Coax is built on top of JAX, but it doesn't have an explicit dependence on the ``jax``
 python package. The reason is that your version of ``jaxlib`` will depend on your CUDA version.
 
 To install ``coax`` and ``jax`` together, please select the configuration that applies to your
@@ -32,8 +32,8 @@ Alternatively, you could build ``jaxlib`` from source by following
 RL concepts, not agents
 -----------------------
 
-The primary thing that sets **coax** apart from other packages is that is designed to align with the
-core RL concepts, not with the high-level concept of an agent. This makes **coax** more modular and
+The primary thing that sets coax apart from other packages is that is designed to align with the
+core RL concepts, not with the high-level concept of an agent. This makes coax more modular and
 user-friendly for RL researchers and practitioners.
 
 
@@ -42,15 +42,15 @@ You're in control
 
 Other RL frameworks often hide structure that you (the RL practitioner) are interested in. Most
 notably, the **neural network architecture** of the function approximators is often hidden from you.
-In **coax**, the network architecture takes center stage. You are in charge of defining their own
+In coax, the network architecture takes center stage. You are in charge of defining their own
 forward-pass function.
 
 Another bit of structure that other RL frameworks hide from you is the main **training loop**. This
-makes it hard to take an algorithm from paper to code. The design of **coax** is agnostic of the
+makes it hard to take an algorithm from paper to code. The design of coax is agnostic of the
 details of your training loop. You decide how and when you update your function approximators.
 
 To illustrate these points, we include the full working example that trains a simple Q-learning
-agent in **coax** below.
+agent in coax below.
 
 
 Example
@@ -70,7 +70,7 @@ environment, in which the agent must learn to navigate from the start state **S*
 | H | F | F | G |
 +---+---+---+---+
 
-We start by defining our q-function. In **coax**, this is done by specifying a forward-pass
+We start by defining our q-function. In coax, this is done by specifying a forward-pass
 function:
 
 .. code:: python
