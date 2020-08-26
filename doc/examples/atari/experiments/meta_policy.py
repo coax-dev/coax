@@ -17,7 +17,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'              # tell XLA to be quiet
 
 # filepaths etc
 gifs_filepath = "data/gifs/meta/T{:08d}.gif"
-coax.enable_logging('meta')
 
 
 # env with preprocessing

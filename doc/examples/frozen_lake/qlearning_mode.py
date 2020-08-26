@@ -16,9 +16,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # tell XLA to be quiet
 env = gym.make('FrozenLakeNonSlippery-v0')
 env = coax.wrappers.TrainMonitor(env)
 
-# show logs from TrainMonitor
-coax.enable_logging()
-
 
 def func(S, A, is_training):
     value = hk.Sequential((hk.Flatten(), hk.Linear(1, w_init=jnp.zeros), jnp.ravel))

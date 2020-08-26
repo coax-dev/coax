@@ -17,10 +17,6 @@ os.environ['XLA_PYTHON_CLIENT_MEM_FRACTION'] = '0.1'  # don't use all gpu mem
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'              # tell XLA to be quiet
 
 
-# filepaths etc
-coax.enable_logging()
-
-
 # env with preprocessing
 env = gym.make('PongNoFrameskip-v4')  # AtariPreprocessing does frame skipping
 env = gym.wrappers.AtariPreprocessing(env, terminal_on_life_loss=True)

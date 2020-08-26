@@ -61,17 +61,13 @@ class hparams:
 # filepaths etc
 experiment_id, _ = os.path.splitext(__file__)
 tensorboard_dir = f"./data/tensorboard/{experiment_id}"
-coax.enable_logging(experiment_id)
+coax.utils.enable_logging(experiment_id)
 
 
 # the MDP
 env = gym.make('Pendulum-v0')
 env = coax.wrappers.BoxActionsToReals(env)
 env = coax.wrappers.TrainMonitor(env, tensorboard_dir)
-
-
-# show logs
-coax.enable_logging(experiment_id)
 
 
 # store hparams to disk, just in case it gets lost
