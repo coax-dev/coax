@@ -42,7 +42,7 @@ Object Reference
     coax.td_learning.ExpectedSarsa
     coax.td_learning.QLearning
     coax.td_learning.DoubleQLearning
-
+    coax.td_learning.ClippedDoubleQLearning
 
 """
 
@@ -51,6 +51,7 @@ from ._sarsa import Sarsa
 from ._expectedsarsa import ExpectedSarsa
 from ._qlearning import QLearning
 from ._doubleqlearning import DoubleQLearning
+from ._clippeddoubleqlearning import ClippedDoubleQLearning
 
 
 __all__ = (
@@ -59,4 +60,5 @@ __all__ = (
     'ExpectedSarsa',
     'QLearning',
     'DoubleQLearning',
+    'ClippedDoubleQLearning',
 )

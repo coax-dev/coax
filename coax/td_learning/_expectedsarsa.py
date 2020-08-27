@@ -92,7 +92,7 @@ class ExpectedSarsa(BaseTDLearningQWithTargetPolicy):
         .. math::
 
             G^{(n)}_t\ \mapsto\ f\left(G^{(n)}_t\right)\ =\
-                f\left(R^{(n)}_t + I^{(n)}_t\,f^{-1}\left(v(S_{t+n})\right)\right)
+                f\left(R^{(n)}_t + I^{(n)}_t\,f^{-1}\left(q(S_{t+n}, A_{t+n})\right)\right)
 
         where :math:`f` and :math:`f^{-1}` are given by ``value_transform.transform_func`` and
         ``value_transform.inverse_func``, respectively. See :mod:`coax.td_learning` for examples of

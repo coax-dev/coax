@@ -30,7 +30,7 @@ from ._base import BaseTDLearningQWithTargetPolicy
 class DoubleQLearning(BaseTDLearningQWithTargetPolicy):
     r"""
 
-    TD-learning with `Double-DQN style double q-learning <https://arxiv.org/abs/1509.06461>`_
+    TD-learning with `Double-DQN <https://arxiv.org/abs/1509.06461>`_ style double q-learning
     updates, in which the target network is only used in selecting the would-be next action. The
     :math:`n`-step bootstrapped target is thus constructed as:
 
@@ -89,7 +89,7 @@ class DoubleQLearning(BaseTDLearningQWithTargetPolicy):
         .. math::
 
             G^{(n)}_t\ \mapsto\ f\left(G^{(n)}_t\right)\ =\
-                f\left(R^{(n)}_t + I^{(n)}_t\,f^{-1}\left(v(S_{t+n})\right)\right)
+                f\left(R^{(n)}_t + I^{(n)}_t\,f^{-1}\left(q(S_{t+n}, A_{t+n})\right)\right)
 
         where :math:`f` and :math:`f^{-1}` are given by ``value_transform.transform_func`` and
         ``value_transform.inverse_func``, respectively. See :mod:`coax.td_learning` for examples of

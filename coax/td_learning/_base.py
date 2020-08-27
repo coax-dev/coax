@@ -281,7 +281,7 @@ class BaseTDLearningQ(BaseTDLearning):
     def __init__(self, q, q_targ=None, optimizer=None, loss_function=None, value_transform=None):
         if not isinstance(q, Q):
             raise TypeError(f"q must be a coax.Q, got: {type(q)}")
-        if not isinstance(q_targ, (Q, type(None))):
+        if not isinstance(q_targ, (Q, type(None), list, tuple)):
             raise TypeError(f"q_targ must be a coax.Q or None, got: {type(q_targ)}")
 
         super().__init__(
