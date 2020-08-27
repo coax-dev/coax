@@ -24,8 +24,10 @@ import warnings
 import jax
 import jax.numpy as jnp
 import optax
+import haiku as hk
 
 from .._core.policy import Policy
+from ..utils import get_grads_diagnostics
 from ..policy_regularizers import PolicyRegularizer
 
 
@@ -48,7 +50,7 @@ class PolicyObjective:
     """
     REQUIRES_PROPENSITIES = None
 
-    def __init__(self, pi, optimizer, regularizer):
+    def __init__(self, pi, optimizer=None, regularizer=None):
         if not isinstance(pi, Policy):
             raise TypeError(f"pi must be a Policy, got: {type(pi)}")
         if not isinstance(regularizer, (PolicyRegularizer, type(None))):
@@ -61,14 +63,50 @@ class PolicyObjective:
         self._optimizer = optax.adam(1e-3) if optimizer is None else optimizer
         self._optimizer_state = self.optimizer.init(self._pi.params)
 
-        # construct jitted param update function
+        def loss_func(params, state, hyperparams, rng, transition_batch, Adv):
+            objective, (dist_params, log_pi, state_new) = \
+                self.objective_func(params, state, hyperparams, rng, transition_batch, Adv)
+
+            # flip sign to turn objective into loss
+            loss = loss_bare = -objective
+
+            # add regularization term
+            if self.regularizer is not None:
+                hparams = hyperparams['regularizer']
+                loss = loss + jnp.mean(self.regularizer.function(dist_params, **hparams))
+
+            # also pass auxiliary data to avoid multiple forward passes
+            return loss, (loss, loss_bare, dist_params, log_pi, state_new)
+
+        def grads_and_metrics_func(params, state, hyperparams, rng, transition_batch, Adv):
+            grads_func = jax.grad(loss_func, has_aux=True)
+            grads, (loss, loss_bare, dist_params, log_pi, state_new) = \
+                grads_func(params, state, hyperparams, rng, transition_batch, Adv)
+
+            name = self.__class__.__name__
+            metrics = {f'{name}/loss': loss, f'{name}/loss_bare': loss_bare}
+
+            # add sampled KL-divergence of the current policy relative to the behavior policy
+            logP = transition_batch.logP  # log-propensities recorded from behavior policy
+            metrics[f'{name}/kl_div_old'] = jnp.mean(jnp.exp(logP) * (logP - log_pi))
+
+            # add some diagnostics of the gradients
+            metrics.update(get_grads_diagnostics(grads, key_prefix=f'{name}/grads_'))
+
+            # add regularization metrics
+            if self.regularizer is not None:
+                hparams = hyperparams['regularizer']
+                metrics.update(self.regularizer.metrics_func(dist_params, **hparams))
+
+            return grads, state_new, metrics
+
         def apply_grads_func(opt, opt_state, params, grads):
             updates, new_opt_state = opt.update(grads, opt_state)
             new_params = optax.apply_updates(params, updates)
             return new_opt_state, new_params
 
+        self._grad_and_metrics_func = jax.jit(grads_and_metrics_func)
         self._apply_grads_func = jax.jit(apply_grads_func, static_argnums=0)
-        self._init_funcs()  # implemented downstream
 
     @property
     def pi(self):
@@ -92,7 +130,8 @@ class PolicyObjective:
 
     @property
     def hyperparams(self):
-        return getattr(self.regularizer, 'hyperparams', {})
+        return hk.data_structures.to_immutable_dict({
+            'regularizer': getattr(self.regularizer, 'hyperparams', {})})
 
     def update(self, transition_batch, Adv):
         r"""
@@ -185,61 +224,6 @@ class PolicyObjective:
                 "should be non-zero. Please sample actions with their propensities: "
                 "a, logp = pi(s, return_logp=True) and then add logp to your reward tracer, "
                 "e.g. nstep_tracer.add(s, a, r, done, logp)")
-        return self.grad_and_metrics_func(
-            self._pi.params, self._pi.function_state, self._pi.rng, transition_batch, Adv,
-            **self.hyperparams)
-
-    @property
-    def grad_and_metrics_func(self):
-        r"""
-
-        JIT-compiled function responsible for computing the gradients, along with the updated
-        internal state of the forward-pass function and some performance metrics. This function is
-        used by the :attr:`update` method.
-
-        Parameters
-        ----------
-        params : pytree with ndarray leaves
-
-            The model parameters (weights) used by the underlying policy.
-
-        function_state : pytree
-
-            The internal state of the forward-pass function. See :attr:`Policy.function_state
-            <coax.Policy.function_state>` and :func:`haiku.transform_with_state` for more details.
-
-        rng : PRNGKey
-
-            A key to seed JAX's pseudo-random number generator.
-
-        transition_batch : TransitionBatch
-
-            A batch of transitions. Note that ``transition_batch.logP`` cannot
-            be ``None``, as it is required by the PPO-clip objective.
-
-        Adv : ndarray
-
-            A batch of advantages :math:`\mathcal{A}(s,a)=q(s,a)-v(s)`.
-
-        \*\*hyperparams
-
-            Hyperparameters specific to the objective, see :attr:`hyperparams`.
-
-        Returns
-        -------
-        grads : pytree with ndarray leaves
-
-            A batch of gradients.
-
-        function_state : pytree
-
-            The internal state of the forward-pass function. See :attr:`Policy.function_state
-            <coax.Policy.function_state>` and :func:`haiku.transform_with_state` for more details.
-
-        metrics : dict of scalar ndarrays
-
-            The structure of the metrics dict is ``{name: score}``.
-
-
-        """
-        return self._grad_and_metrics_func
+        return self._grad_and_metrics_func(
+            self._pi.params, self._pi.function_state, self.hyperparams, self._pi.rng,
+            transition_batch, Adv)

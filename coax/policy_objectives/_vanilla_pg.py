@@ -19,11 +19,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-import jax
 import jax.numpy as jnp
 import haiku as hk
 
-from ..utils import get_grads_diagnostics
 from ._base import PolicyObjective
 
 
@@ -56,64 +54,21 @@ class VanillaPG(PolicyObjective):
     """
     REQUIRES_PROPENSITIES = False
 
-    def __init__(self, pi, optimizer=None, regularizer=None):
-        super().__init__(pi=pi, optimizer=optimizer, regularizer=regularizer)
-        self._init_funcs()
+    def objective_func(self, params, state, hyperparams, rng, transition_batch, Adv):
+        rngs = hk.PRNGSequence(rng)
 
-    def _init_funcs(self):
+        # get distribution params from function approximator
+        S, A = transition_batch[:2]
+        dist_params, state_new = self.pi.function(params, state, next(rngs), S, True)
 
-        def objective_func(params, state, rng, transition_batch, Adv):
-            rngs = hk.PRNGSequence(rng)
+        # compute REINFORCE-style objective
+        A_raw = self.pi.proba_dist.preprocess_variate(A)
+        log_pi = self.pi.proba_dist.log_proba(dist_params, A_raw)
 
-            # get distribution params from function approximator
-            S, A = transition_batch[:2]
-            dist_params, state_new = self.pi.function(params, state, next(rngs), S, True)
+        # some consistency checks
+        assert Adv.ndim == 1
+        assert log_pi.ndim == 1
+        objective = jnp.dot(Adv, log_pi)
 
-            # compute REINFORCE-style objective
-            A_raw = self.pi.proba_dist.preprocess_variate(A)
-            log_pi = self.pi.proba_dist.log_proba(dist_params, A_raw)
-
-            # some consistency checks
-            assert Adv.ndim == 1
-            assert log_pi.ndim == 1
-            objective = jnp.dot(Adv, log_pi)
-
-            # also pass auxiliary data to avoid multiple forward passes
-            return objective, (dist_params, log_pi, state_new)
-
-        def loss_func(params, state, rng, transition_batch, Adv, **reg_hparams):
-            objective, (dist_params, log_pi, state_new) = \
-                objective_func(params, state, rng, transition_batch, Adv)
-
-            # flip sign to turn objective into loss
-            loss = loss_bare = -objective
-
-            # add regularization term
-            if self.regularizer is not None:
-                loss = loss + jnp.mean(self.regularizer.function(dist_params, **reg_hparams))
-
-            # also pass auxiliary data to avoid multiple forward passes
-            return loss, (loss, loss_bare, dist_params, log_pi, state_new)
-
-        def grads_and_metrics_func(params, state, rng, transition_batch, Adv, **reg_hparams):
-            grads, (loss, loss_bare, dist_params, log_pi, state_new) = \
-                jax.grad(loss_func, has_aux=True)(
-                    params, state, rng, transition_batch, Adv, **reg_hparams)
-
-            name = self.__class__.__name__
-            metrics = {f'{name}/loss': loss, f'{name}/loss_bare': loss_bare}
-
-            # add sampled KL-divergence of the current policy relative to the behavior policy
-            logP = transition_batch.logP  # log-propensities recorded from behavior policy
-            metrics[f'{name}/kl_div_old'] = jnp.mean(jnp.exp(logP) * (logP - log_pi))
-
-            # add some diagnostics of the gradients
-            metrics.update(get_grads_diagnostics(grads, key_prefix=f'{name}/grads_'))
-
-            # add regularization metrics
-            if self.regularizer is not None:
-                metrics.update(self.regularizer.metrics_func(dist_params, **reg_hparams))
-
-            return grads, state_new, metrics
-
-        self._grad_and_metrics_func = jax.jit(grads_and_metrics_func)
+        # also pass auxiliary data to avoid multiple forward passes
+        return objective, (dist_params, log_pi, state_new)
