@@ -30,8 +30,8 @@ from ._base import BaseTDLearningQWithTargetPolicy
 class DoubleQLearning(BaseTDLearningQWithTargetPolicy):
     r"""
 
-    TD-learning with `target-style double q-learning <https://arxiv.org/abs/1509.06461>`_ updates,
-    in which the target network is only used in selecting the would-be next action. The
+    TD-learning with `Double-DQN style double q-learning <https://arxiv.org/abs/1509.06461>`_
+    updates, in which the target network is only used in selecting the would-be next action. The
     :math:`n`-step bootstrapped target is thus constructed as:
 
     .. math::

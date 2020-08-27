@@ -19,11 +19,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-import jax
 import jax.numpy as jnp
 import haiku as hk
 
-from ..utils import get_grads_diagnostics
 from ._base import PolicyObjective
 
 
