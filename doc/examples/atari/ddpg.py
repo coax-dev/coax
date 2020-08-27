@@ -68,7 +68,7 @@ q_targ = q.copy()
 kl_div = coax.policy_regularizers.KLDivRegularizer(pi, beta=0.001)
 
 # updaters
-qlearning = coax.td_learning.QLearningMode(q, pi_targ, q_targ, optimizer=adam(3e-4))
+qlearning = coax.td_learning.QLearning(q, pi_targ, q_targ, optimizer=adam(3e-4))
 determ_pg = coax.policy_objectives.DeterministicPG(pi, q, regularizer=kl_div, optimizer=adam(3e-4))
 
 # reward tracer and replay buffer

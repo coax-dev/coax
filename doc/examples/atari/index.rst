@@ -11,6 +11,5 @@ environment.
     DQN (standard) <dqn>
     DQN (type-I q-function) <dqn_type1>
     DQN (Boltzmann policy) <dqn_boltzmann>
-    DQN (mode-based q-learning) <dqn_mode>
     DDPG <ddpg>
     PPO <ppo>

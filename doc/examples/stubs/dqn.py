@@ -35,7 +35,7 @@ q_targ = q.copy()
 
 
 # specify how to update q-function
-qlearning = coax.td_learning.QLearning(q, q_targ, optimizer=optax.adam(0.001))
+qlearning = coax.td_learning.QLearning(q, q_targ=q_targ, optimizer=optax.adam(0.001))
 
 
 # specify how to trace the transitions

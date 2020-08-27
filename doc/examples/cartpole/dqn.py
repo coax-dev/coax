@@ -42,7 +42,7 @@ tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=100000)
 
 # updater
-qlearning = coax.td_learning.QLearning(q, q_targ, loss_function=mse, optimizer=adam(0.001))
+qlearning = coax.td_learning.QLearning(q, q_targ=q_targ, loss_function=mse, optimizer=adam(0.001))
 
 # used for early stopping
 num_successes = 0

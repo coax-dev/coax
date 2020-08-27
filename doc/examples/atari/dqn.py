@@ -48,7 +48,7 @@ pi = coax.EpsilonGreedy(q, epsilon=1.)
 q_targ = q.copy()
 
 # updater
-qlearning = coax.td_learning.QLearning(q, q_targ, optimizer=adam(3e-4))
+qlearning = coax.td_learning.QLearning(q, q_targ=q_targ, optimizer=adam(3e-4))
 
 # reward tracer and replay buffer
 tracer = coax.reward_tracing.NStep(n=1, gamma=0.99)

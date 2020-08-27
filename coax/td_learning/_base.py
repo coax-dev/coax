@@ -19,13 +19,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+from abc import ABC, abstractmethod
+
 import jax
 import jax.numpy as jnp
+import haiku as hk
 import optax
 
 from .._base.mixins import RandomStateMixin
+from .._core.base_policy import PolicyMixin
 from .._core.value_v import V
 from .._core.value_q import Q
+from ..utils import get_grads_diagnostics
 from ..value_transforms import ValueTransform
 from ..value_losses import huber
 
@@ -36,7 +41,7 @@ __all__ = (
 )
 
 
-class BaseTDLearning(RandomStateMixin):
+class BaseTDLearning(ABC, RandomStateMixin):
     def __init__(self, f, f_targ=None, optimizer=None, loss_function=None, value_transform=None):
 
         self._f = f
@@ -51,14 +56,19 @@ class BaseTDLearning(RandomStateMixin):
         self._optimizer = optax.adam(1e-3) if optimizer is None else optimizer
         self._optimizer_state = self.optimizer.init(self._f.params)
 
-        # construct jitted param update function
-        def apply_grads_func(opt, opt_state, params, grads):
-            updates, new_opt_state = opt.update(grads, opt_state)
-            new_params = optax.apply_updates(params, updates)
-            return new_opt_state, new_params
+    @abstractmethod
+    def target_func(self, target_params, target_state, rng, transition_batch):
+        pass
 
-        self._apply_grads_func = jax.jit(apply_grads_func, static_argnums=0)
-        self._init_funcs()  # implemented downstream
+    @property
+    @abstractmethod
+    def target_params(self):
+        pass
+
+    @property
+    @abstractmethod
+    def target_function_state(self):
+        pass
 
     @property
     def hyperparams(self):
@@ -141,9 +151,9 @@ class BaseTDLearning(RandomStateMixin):
             The structure of the metrics dict is ``{name: score}``.
 
         """
-        return self.grads_and_metrics_func(
-            self._f.params, self._f_targ.params, self._f.function_state, self._f.rng,
-            transition_batch)
+        return self._grads_and_metrics_func(
+            self._f.params, self.target_params, self._f.function_state, self.target_function_state,
+            self._f.rng, transition_batch)
 
     def td_error(self, transition_batch):
         r"""
@@ -163,100 +173,9 @@ class BaseTDLearning(RandomStateMixin):
             A batch of TD-errors.
 
         """
-        return self.td_error_func(
-            self._f.params, self._f_targ.params, self._f.function_state, self._f.rng,
-            transition_batch)
-
-    @property
-    def grads_and_metrics_func(self):
-        r"""
-
-        JIT-compiled function responsible for computing the gradients, along with the updated
-        internal state of the forward-pass function and some performance metrics. This function is
-        used by the :attr:`update` method.
-
-        Parameters
-        ----------
-        params : pytree with ndarray leaves
-
-            The model parameters (weights) used by the underlying q-function.
-
-        target_params : pytree with ndarray leaves
-
-            The model parameters (weights) used by the underlying q-function. This is used to
-            construct the bootstrapped TD-target.
-
-        function_state : pytree
-
-            The internal state of the forward-pass function. See :attr:`Q.function_state
-            <coax.Q.function_state>` and :func:`haiku.transform_with_state` for more details.
-
-        rng : PRNGKey
-
-            A key to seed JAX's pseudo-random number generator.
-
-        transition_batch : TransitionBatch
-
-            A batch of transitions.
-
-        Returns
-        -------
-        grads : pytree with ndarray leaves
-
-            A pytree with the same structure as the input ``params``.
-
-        function_state : pytree
-
-            The internal state of the forward-pass function. See :attr:`Q.function_state
-            <coax.Q.function_state>` and :func:`haiku.transform_with_state` for more details.
-
-        metrics : dict of scalar ndarrays
-
-            The structure of the metrics dict is ``{name: score}``.
-
-        """
-        return self._grads_and_metrics_func
-
-    @property
-    def td_error_func(self):
-        r"""
-
-        JIT-compiled function responsible for computing the TD-error. This function is used by the
-        :attr:`td_error` method.
-
-        Parameters
-        ----------
-        params : pytree with ndarray leaves
-
-            The model parameters (weights) used by the underlying
-            q-function.
-
-        target_params : pytree with ndarray leaves
-
-            The model parameters (weights) used by the underlying
-            q-function. This is used to construct the bootstrapped TD-target.
-
-        function_state : pytree
-
-            The internal state of the forward-pass function. See :attr:`Q.function_state
-            <coax.Q.function_state>` and :func:`haiku.transform_with_state` for more details.
-
-        rng : PRNGKey
-
-            A key to seed JAX's pseudo-random number generator.
-
-        transition_batch : TransitionBatch
-
-            A batch of transitions.
-
-        Returns
-        -------
-        td_errors : ndarray, shape: [batch_size]
-
-            A batch of TD-errors.
-
-        """
-        return self._td_error_func
+        return self._td_error_func(
+            self._f.params, self.target_params, self._f.function_state, self.target_function_state,
+            self._f.rng, transition_batch)
 
     @property
     def optimizer(self):
@@ -285,6 +204,58 @@ class BaseTDLearningV(BaseTDLearning):
             loss_function=loss_function,
             value_transform=value_transform)
 
+        def loss_func(params, target_params, state, target_state, rng, transition_batch):
+            rngs = hk.PRNGSequence(rng)
+            S = transition_batch.S
+            G = self.target_func(target_params, target_state, next(rngs), transition_batch)
+            V, state_new = self.v.function(params, state, next(rngs), S, True)
+            loss = self.loss_function(G, V)
+            return loss, (loss, G, V, S, state_new)
+
+        def grads_and_metrics_func(
+                params, target_params, state, target_state, rng, transition_batch):
+
+            rngs = hk.PRNGSequence(rng)
+            grads, (loss, G, V, S, state_new) = jax.grad(loss_func, has_aux=True)(
+                params, target_params, state, target_state, next(rngs), transition_batch)
+
+            # target-network estimate
+            V_targ, _ = self.v_targ.function(target_params['v_targ'], state, next(rngs), S, False)
+
+            # residuals: estimate - better_estimate
+            err = V - G
+            err_targ = V_targ - V
+
+            name = self.__class__.__name__
+            metrics = {
+                f'{name}/loss': loss,
+                f'{name}/bias': jnp.mean(err),
+                f'{name}/rmse': jnp.sqrt(jnp.mean(jnp.square(err))),
+                f'{name}/bias_targ': jnp.mean(err_targ),
+                f'{name}/rmse_targ': jnp.sqrt(jnp.mean(jnp.square(err_targ)))}
+
+            # add some diagnostics of the gradients
+            metrics.update(get_grads_diagnostics(grads, key_prefix=f'{name}/grads_'))
+
+            return grads, state_new, metrics
+
+        def td_error_func(params, target_params, state, target_state, rng, transition_batch):
+            rngs = hk.PRNGSequence(rng)
+            S = transition_batch.S
+            G = self.target_func(target_params, target_state, next(rngs), transition_batch)
+            V, _ = self.v.function(params, state, next(rngs), S, False)
+            dL_dV = jax.grad(self.loss_function, argnums=1)
+            return -dL_dV(G, V)
+
+        def apply_grads_func(opt, opt_state, params, grads):
+            updates, new_opt_state = opt.update(grads, opt_state)
+            new_params = optax.apply_updates(params, updates)
+            return new_opt_state, new_params
+
+        self._apply_grads_func = jax.jit(apply_grads_func, static_argnums=0)
+        self._grads_and_metrics_func = jax.jit(grads_and_metrics_func)
+        self._td_error_func = jax.jit(td_error_func)
+
     @property
     def v(self):
         return self._f
@@ -292,6 +263,18 @@ class BaseTDLearningV(BaseTDLearning):
     @property
     def v_targ(self):
         return self._f_targ
+
+    @property
+    def target_params(self):
+        return hk.data_structures.to_immutable_dict({
+            'v': self.v.params,
+            'v_targ': self.v_targ.params})
+
+    @property
+    def target_function_state(self):
+        return hk.data_structures.to_immutable_dict({
+            'v': self.v.function_state,
+            'v_targ': self.v_targ.function_state})
 
 
 class BaseTDLearningQ(BaseTDLearning):
@@ -308,6 +291,61 @@ class BaseTDLearningQ(BaseTDLearning):
             loss_function=loss_function,
             value_transform=value_transform)
 
+        def loss_func(params, target_params, state, target_state, rng, transition_batch):
+            rngs = hk.PRNGSequence(rng)
+            S, A = transition_batch[:2]
+            A = self.q.action_preprocessor(A)
+            G = self.target_func(target_params, target_state, next(rngs), transition_batch)
+            Q, state_new = self.q.function_type1(params, state, next(rngs), S, A, True)
+            loss = self.loss_function(G, Q)
+            return loss, (loss, G, Q, S, A, state_new)
+
+        def grads_and_metrics_func(
+                params, target_params, state, target_state, rng, transition_batch):
+
+            rngs = hk.PRNGSequence(rng)
+            grads, (loss, G, Q, S, A, state_new) = jax.grad(loss_func, has_aux=True)(
+                params, target_params, state, target_state, next(rngs), transition_batch)
+
+            # target-network estimate
+            Q_targ, _ = self.q_targ.function_type1(
+                target_params['q_targ'], target_state['q_targ'], next(rngs), S, A, False)
+
+            # residuals: estimate - better_estimate
+            err = Q - G
+            err_targ = Q_targ - Q
+
+            name = self.__class__.__name__
+            metrics = {
+                f'{name}/loss': loss,
+                f'{name}/bias': jnp.mean(err),
+                f'{name}/rmse': jnp.sqrt(jnp.mean(jnp.square(err))),
+                f'{name}/bias_targ': jnp.mean(err_targ),
+                f'{name}/rmse_targ': jnp.sqrt(jnp.mean(jnp.square(err_targ)))}
+
+            # add some diagnostics of the gradients
+            metrics.update(get_grads_diagnostics(grads, key_prefix=f'{name}/grads_'))
+
+            return grads, state_new, metrics
+
+        def td_error_func(params, target_params, state, target_state, rng, transition_batch):
+            rngs = hk.PRNGSequence(rng)
+            S = transition_batch.S
+            A = self.q.action_preprocessor(transition_batch.A)
+            G = self.target_func(target_params, target_state, next(rngs), transition_batch)
+            Q, _ = self.q.function_type1(params, state, next(rngs), S, A, False)
+            dL_dQ = jax.grad(self.loss_function, argnums=1)
+            return -dL_dQ(G, Q)
+
+        def apply_grads_func(opt, opt_state, params, grads):
+            updates, new_opt_state = opt.update(grads, opt_state)
+            new_params = optax.apply_updates(params, updates)
+            return new_opt_state, new_params
+
+        self._apply_grads_func = jax.jit(apply_grads_func, static_argnums=0)
+        self._grads_and_metrics_func = jax.jit(grads_and_metrics_func)
+        self._td_error_func = jax.jit(td_error_func)
+
     @property
     def q(self):
         return self._f
@@ -315,3 +353,46 @@ class BaseTDLearningQ(BaseTDLearning):
     @property
     def q_targ(self):
         return self._f_targ
+
+    @property
+    def target_params(self):
+        return hk.data_structures.to_immutable_dict({
+            'q': self.q.params,
+            'q_targ': self.q_targ.params})
+
+    @property
+    def target_function_state(self):
+        return hk.data_structures.to_immutable_dict({
+            'q': self.q.function_state,
+            'q_targ': self.q_targ.function_state})
+
+
+class BaseTDLearningQWithTargetPolicy(BaseTDLearningQ):
+    def __init__(
+            self, q, pi_targ, q_targ=None, optimizer=None,
+            loss_function=None, value_transform=None):
+
+        if not isinstance(pi_targ, (PolicyMixin, type(None))):
+            raise TypeError(f"pi_targ must be a Policy, got: {type(pi_targ)}")
+
+        self.pi_targ = pi_targ
+        super().__init__(
+            q=q,
+            q_targ=q_targ,
+            optimizer=optimizer,
+            loss_function=loss_function,
+            value_transform=value_transform)
+
+    @property
+    def target_params(self):
+        return hk.data_structures.to_immutable_dict({
+            'q': self.q.params,
+            'q_targ': self.q_targ.params,
+            'pi_targ': getattr(self.pi_targ, 'params', None)})
+
+    @property
+    def target_function_state(self):
+        return hk.data_structures.to_immutable_dict({
+            'q': self.q.function_state,
+            'q_targ': self.q_targ.function_state,
+            'pi_targ': getattr(self.pi_targ, 'function_state', None)})

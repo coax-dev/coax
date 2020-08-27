@@ -19,11 +19,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-import jax
-import jax.numpy as jnp
-import haiku as hk
-
-from ..utils import get_grads_diagnostics
 from ._base import BaseTDLearningQ
 
 
@@ -89,69 +84,10 @@ class Sarsa(BaseTDLearningQ):
         passing ``value_transform=(func, inverse_func)`` works just as well.
 
     """
-    def _init_funcs(self):
-
-        def target(params, state, rng, Rn, In, S_next, A_next):
-            f, f_inv = self.value_transform
-            Q_sa_next, _ = self.q_targ.function_type1(params, state, rng, S_next, A_next, False)
-            return f(Rn + In * f_inv(Q_sa_next))
-
-        def loss_func(params, target_params, state, rng, transition_batch):
-            rngs = hk.PRNGSequence(rng)
-            S, A, _, Rn, In, S_next, A_next, _ = transition_batch
-            A = self.q.action_preprocessor(A)
-            A_next = self.q.action_preprocessor(A_next)
-            G = target(target_params, state, next(rngs), Rn, In, S_next, A_next)
-            Q, state_new = self.q.function_type1(params, state, next(rngs), S, A, True)
-            loss = self.loss_function(G, Q)
-            return loss, (loss, G, Q, S, A, state_new)
-
-        def grads_and_metrics_func(params, target_params, state, rng, transition_batch):
-            rngs = hk.PRNGSequence(rng)
-            grads, (loss, G, Q, S, A, state_new) = \
-                jax.grad(loss_func, has_aux=True)(
-                    params, target_params, state, next(rngs), transition_batch)
-
-            # target-network estimate
-            Q_targ, _ = self.q_targ.function_type1(target_params, state, next(rngs), S, A, False)
-
-            # residuals: estimate - better_estimate
-            err = Q - G
-            err_targ = Q_targ - Q
-
-            name = self.__class__.__name__
-            metrics = {
-                f'{name}/loss': loss,
-                f'{name}/bias': jnp.mean(err),
-                f'{name}/rmse': jnp.sqrt(jnp.mean(jnp.square(err))),
-                f'{name}/bias_targ': jnp.mean(err_targ),
-                f'{name}/rmse_targ': jnp.sqrt(jnp.mean(jnp.square(err_targ)))}
-
-            # add some diagnostics of the gradients
-            metrics.update(get_grads_diagnostics(grads, key_prefix=f'{name}/grads_'))
-
-            return grads, state_new, metrics
-
-        def td_error_func(params, target_params, state, rng, transition_batch):
-            rngs = hk.PRNGSequence(rng)
-            S, A, _, Rn, In, S_next, A_next, _ = transition_batch
-            A = self.q.action_preprocessor(A)
-            A_next = self.q.action_preprocessor(A_next)
-            G = target(target_params, state, next(rngs), Rn, In, S_next, A_next)
-            Q, _ = self.q.function_type1(params, state, next(rngs), S, A, False)
-            return G - Q
-
-        self._grads_and_metrics_func = jax.jit(grads_and_metrics_func)
-        self._td_error_func = jax.jit(td_error_func)
-
-    def grads_and_metrics(self, transition_batch):
-        if transition_batch.A_next is None:
-            raise ValueError(
-                "transition_batch.A_next cannot be None; it is required by the Sarsa updater")
-        return super().grads_and_metrics(transition_batch)
-
-    def td_error(self, transition_batch):
-        if transition_batch.A_next is None:
-            raise ValueError(
-                "transition_batch.A_next cannot be None; it is required by the Sarsa updater")
-        return super().td_error(transition_batch)
+    def target_func(self, target_params, target_state, rng, transition_batch):
+        Rn, In, S_next = transition_batch[3:6]
+        A_next = self.q_targ.action_preprocessor(transition_batch.A_next)
+        params, state = target_params['q_targ'], target_state['q_targ']
+        Q_sa_next, _ = self.q_targ.function_type1(params, state, rng, S_next, A_next, False)
+        f, f_inv = self.value_transform
+        return f(Rn + In * f_inv(Q_sa_next))

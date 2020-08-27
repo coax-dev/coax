@@ -65,9 +65,8 @@ buffer = coax.experience_replay.SimpleReplayBuffer(capacity=25000)
 
 
 # updaters
-qlearning = coax.td_learning.QLearningMode(q, pi_targ, q_targ,
-                                           loss_function=coax.value_losses.mse,
-                                           optimizer=optax.adam(1e-3))
+qlearning = coax.td_learning.QLearning(
+    q, pi_targ, q_targ, loss_function=coax.value_losses.mse, optimizer=optax.adam(1e-3))
 determ_pg = coax.policy_objectives.DeterministicPG(pi, q_targ, optimizer=optax.adam(1e-4))
 
 

@@ -38,7 +38,7 @@ tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
 
 
 # updater
-qlearning = coax.td_learning.DoubleQLearning(q, q_targ, optimizer=optax.adam(0.02))
+qlearning = coax.td_learning.DoubleQLearning(q, q_targ=q_targ, optimizer=optax.adam(0.02))
 
 
 # train

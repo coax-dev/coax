@@ -46,7 +46,7 @@ tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
 
 
 # updaters
-qlearning = coax.td_learning.QLearningMode(q, pi_targ, q_targ, optimizer=optax.adam(0.02))
+qlearning = coax.td_learning.QLearning(q, pi_targ, q_targ, optimizer=optax.adam(0.02))
 determ_pg = coax.policy_objectives.DeterministicPG(pi, q, optimizer=optax.adam(0.01))
 
 

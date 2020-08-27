@@ -41,7 +41,6 @@ Object Reference
     coax.td_learning.Sarsa
     coax.td_learning.ExpectedSarsa
     coax.td_learning.QLearning
-    coax.td_learning.QLearningMode
     coax.td_learning.DoubleQLearning
 
 
@@ -51,7 +50,6 @@ from ._simple_td import SimpleTD
 from ._sarsa import Sarsa
 from ._expectedsarsa import ExpectedSarsa
 from ._qlearning import QLearning
-from ._qlearningmode import QLearningMode
 from ._doubleqlearning import DoubleQLearning
 
 
@@ -60,6 +58,5 @@ __all__ = (
     'Sarsa',
     'ExpectedSarsa',
     'QLearning',
-    'QLearningMode',
     'DoubleQLearning',
 )

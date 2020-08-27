@@ -34,7 +34,7 @@ q_targ = q.copy()
 
 # specify how to update policy and value function
 determ_pg = coax.policy_objectives.DeterministicPG(pi, q, optimizer=optax.adam(0.001))
-qlearning = coax.td_learning.QLearningMode(q, pi_targ, q_targ, optimizer=optax.adam(0.002))
+qlearning = coax.td_learning.QLearning(q, pi_targ, q_targ, optimizer=optax.adam(0.002))
 
 
 # specify how to trace the transitions

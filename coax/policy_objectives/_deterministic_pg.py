@@ -102,14 +102,14 @@ class DeterministicPG(PolicyObjective):
             # some consistency checks
             assert objective.ndim == 1
 
-            return objective, (dist_params, state_pi_new)
+            return jnp.mean(objective), (dist_params, state_pi_new)
 
         def loss_func(params_pi, params_q, state_pi, state_q, rng, transition_batch, **reg_hparams):
             objective, (dist_params, state_pi_new) = \
                 objective_func(params_pi, params_q, state_pi, state_q, rng, transition_batch)
 
             # flip sign to turn objective into loss
-            loss = loss_bare = -jnp.mean(objective)
+            loss = loss_bare = -objective
 
             # add regularization term
             if self.regularizer is not None:

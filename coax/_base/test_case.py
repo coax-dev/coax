@@ -232,6 +232,20 @@ class TestCase(unittest.TestCase):
             return seq(flatten(S))
         return func
 
+    @property
+    def func_v(self):
+        def func(S, is_training):
+            flatten = hk.Flatten()
+            batch_norm = hk.BatchNorm(create_scale=True, create_offset=True, decay_rate=0.95)
+            batch_norm = partial(batch_norm, is_training=is_training)
+            seq = hk.Sequential((
+                hk.Linear(7), batch_norm, jnp.tanh,
+                hk.Linear(3), jnp.tanh,
+                hk.Linear(1), jnp.ravel
+            ))
+            return seq(flatten(S))
+        return func
+
     def assertArrayAlmostEqual(self, x, y, decimal=None):
         decimal = decimal or self.decimal
         x = onp.asanyarray(x)

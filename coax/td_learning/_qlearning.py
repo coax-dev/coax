@@ -19,25 +19,39 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-import gym
-import jax
+import warnings
+
 import jax.numpy as jnp
 import haiku as hk
+from gym.spaces import Discrete
 
-from ..utils import get_grads_diagnostics
-from ._base import BaseTDLearningQ
+from ._base import BaseTDLearningQWithTargetPolicy
 
 
-class QLearning(BaseTDLearningQ):
+class QLearning(BaseTDLearningQWithTargetPolicy):
     r"""
 
-    TD-learning with q-learning updates. The :math:`n`-step bootstrapped target is constructed as:
+    TD-learning with Q-Learning updates.
+
+    The :math:`n`-step bootstrapped target for discrete actions is constructed as:
 
     .. math::
 
-        G^{(n)}_t\ =\ R^{(n)}_t + I^{(n)}_t\,\max_a q_\text{targ}(S_{t+n}, a)
+        G^{(n)}_t\ =\ R^{(n)}_t + I^{(n)}_t\,\max_aq_\text{targ}\left(S_{t+n}, a\right)
 
-    where
+    For non-discrete action spaces, this uses a DDPG-style target:
+
+    .. math::
+
+        G^{(n)}_t\ =\ R^{(n)}_t + I^{(n)}_t\,q_\text{targ}\left(
+            S_{t+n}, a_\text{targ}(S_{t+n})\right)
+
+    where :math:`a_\text{targ}(s)` is the **mode** of the underlying conditional probability
+    distribution :math:`\pi_\text{targ}(.|s)`. Even though these two formulations of the q-learning
+    target are equivalent, the implementation of the latter does require additional input, namely
+    :code:`pi_targ`.
+
+    The :math:`n`-step reward and indicator (referenced above) are defined as:
 
     .. math::
 
@@ -47,11 +61,17 @@ class QLearning(BaseTDLearningQ):
             \gamma^n    & \text{otherwise}
         \end{matrix}\right.
 
+
     Parameters
     ----------
     q : Q
 
         The main q-function to update.
+
+    pi_targ : Policy, optional
+
+        The policy that is used for constructing the TD-target. This is ignored if the action space
+        is discrete and *required* otherwise.
 
     q_targ : Q, optional
 
@@ -90,68 +110,41 @@ class QLearning(BaseTDLearningQ):
         passing ``value_transform=(func, inverse_func)`` works just as well.
 
     """
-    def __init__(self, q, q_targ=None, optimizer=None, loss_function=None, value_transform=None):
-
-        if not isinstance(q.action_space, gym.spaces.Discrete):
-            raise NotImplementedError(
-                f"{self.__class__.__name__} class is only implemented for discrete actions spaces; "
-                "you can use Sarsa or QLearningMode for non-discrete action spaces")
+    def __init__(
+            self, q, pi_targ=None, q_targ=None,
+            optimizer=None, loss_function=None, value_transform=None):
 
         super().__init__(
-            q=q, q_targ=q_targ, optimizer=optimizer,
+            q=q, pi_targ=pi_targ, q_targ=q_targ, optimizer=optimizer,
             loss_function=loss_function, value_transform=value_transform)
 
-    def _init_funcs(self):
+        # consistency checks
+        if self.pi_targ is None and not isinstance(self.q.action_space, Discrete):
+            raise TypeError("pi_targ must be provided if action space is not discrete")
+        if self.pi_targ is not None and isinstance(self.q.action_space, Discrete):
+            warnings.warn("pi_targ is ignored, because action space is discrete")
 
-        def target(params, state, rng, Rn, In, S_next):
-            f, f_inv = self.value_transform
-            Q_s_next, _ = self.q_targ.function_type2(params, state, rng, S_next, False)
-            assert Q_s_next.ndim == 2
-            Q_sa_next = jnp.max(Q_s_next, axis=1)
-            return f(Rn + In * f_inv(Q_sa_next))
+    def target_func(self, target_params, target_state, rng, transition_batch):
+        rngs = hk.PRNGSequence(rng)
+        Rn, In, S_next = transition_batch[3:6]
 
-        def loss_func(params, target_params, state, rng, transition_batch):
-            rngs = hk.PRNGSequence(rng)
-            S, A, _, Rn, In, S_next, _, _ = transition_batch
-            A = self.q.action_preprocessor(A)
-            G = target(target_params, state, next(rngs), Rn, In, S_next)
-            Q, state_new = self.q.function_type1(params, state, next(rngs), S, A, True)
-            loss = self.loss_function(G, Q)
-            return loss, (loss, G, Q, S, A, state_new)
+        if isinstance(self.q.action_space, Discrete):
+            # get greedy value directly from q_targ
+            params, state = target_params['q_targ'], target_state['q_targ']
+            Q_s, _ = self.q_targ.function_type2(params, state, rng, S_next, False)
+            assert Q_s.ndim == 2, f"bad shape: {Q_s.shape}"
+            Q_sa = jnp.max(Q_s, axis=1)
 
-        def grads_and_metrics_func(params, target_params, state, rng, transition_batch):
-            rngs = hk.PRNGSequence(rng)
-            grads, (loss, G, Q, S, A, state_new) = \
-                jax.grad(loss_func, has_aux=True)(
-                    params, target_params, state, next(rngs), transition_batch)
+        else:
+            # get greedy action from pi_targ
+            params, state = target_params['pi_targ'], target_state['pi_targ']
+            dist_params, _ = self.pi_targ.function(params, state, next(rngs), S_next, False)
+            A_next = self.pi_targ.proba_dist.mode(dist_params)  # greedy action
 
-            # target-network estimate
-            Q_targ, _ = self.q_targ.function_type1(target_params, state, next(rngs), S, A, False)
+            # evaluate q_targ on greedy action
+            params, state = target_params['q_targ'], target_state['q_targ']
+            Q_sa, _ = self.q_targ.function_type1(params, state, next(rngs), S_next, A_next, False)
 
-            # residuals: estimate - better_estimate
-            err = Q - G
-            err_targ = Q_targ - Q
-
-            name = self.__class__.__name__
-            metrics = {
-                f'{name}/loss': loss,
-                f'{name}/bias': jnp.mean(err),
-                f'{name}/rmse': jnp.sqrt(jnp.mean(jnp.square(err))),
-                f'{name}/bias_targ': jnp.mean(err_targ),
-                f'{name}/rmse_targ': jnp.sqrt(jnp.mean(jnp.square(err_targ)))}
-
-            # add some diagnostics of the gradients
-            metrics.update(get_grads_diagnostics(grads, key_prefix=f'{name}/grads_'))
-
-            return grads, state_new, metrics
-
-        def td_error_func(params, target_params, state, rng, transition_batch):
-            rngs = hk.PRNGSequence(rng)
-            S, A, _, Rn, In, S_next, _, _ = transition_batch
-            A = self.q.action_preprocessor(A)
-            G = target(target_params, state, next(rngs), Rn, In, S_next)
-            Q, _ = self.q.function_type1(params, state, next(rngs), S, A, False)
-            return G - Q
-
-        self._grads_and_metrics_func = jax.jit(grads_and_metrics_func)
-        self._td_error_func = jax.jit(td_error_func)
+        assert Q_sa.ndim == 1, f"bad shape: {Q_sa.shape}"
+        f, f_inv = self.value_transform
+        return f(Rn + In * f_inv(Q_sa))

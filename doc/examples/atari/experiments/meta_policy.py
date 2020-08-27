@@ -52,7 +52,7 @@ class DQN1:
     pi = coax.EpsilonGreedy(q, epsilon=1.)
 
     # updater
-    qlearning = coax.td_learning.QLearning(q, q_targ)
+    qlearning = coax.td_learning.QLearning(q, q_targ=q_targ)
 
     # replay buffer
     tracer = coax.reward_tracing.NStep(n=1, gamma=0.99)
@@ -81,7 +81,7 @@ class DQN2:
     pi = coax.BoltzmannPolicy(q, tau=0.015)
 
     # updater
-    qlearning = coax.td_learning.QLearning(q, q_targ)
+    qlearning = coax.td_learning.QLearning(q, q_targ=q_targ)
 
     # replay buffer
     tracer = coax.reward_tracing.NStep(n=1, gamma=0.99)
@@ -106,7 +106,7 @@ class DDPG:
 
     # updaters
     determ_pg = coax.policy_objectives.DeterministicPG(pi, q, regularizer=kl)
-    qlearning = coax.td_learning.QLearningMode(q, pi_targ, q_targ)
+    qlearning = coax.td_learning.QLearning(q, pi_targ, q_targ)
 
     # replay buffer
     tracer = coax.reward_tracing.NStep(n=1, gamma=0.99)
@@ -163,7 +163,7 @@ class META:  # based on DQN1
     pi = coax.BoltzmannPolicy(q, tau=0.015)
 
     # updater
-    qlearning = coax.td_learning.QLearning(q, q_targ)
+    qlearning = coax.td_learning.QLearning(q, q_targ=q_targ)
 
     # replay buffer
     tracer = coax.reward_tracing.NStep(n=1, gamma=0.99)

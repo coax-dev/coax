@@ -37,7 +37,7 @@ vanilla_pg = coax.policy_objectives.VanillaPG(pi, optimizer=optax.adam(0.01))
 
 
 # train
-for ep in range(250):
+for ep in range(500):
     s = env.reset()
 
     for t in range(env.spec.max_episode_steps):

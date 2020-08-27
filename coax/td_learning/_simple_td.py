@@ -19,11 +19,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-import jax
-import jax.numpy as jnp
-import haiku as hk
-
-from ..utils import get_grads_diagnostics
 from ._base import BaseTDLearningV
 
 
@@ -91,53 +86,9 @@ class SimpleTD(BaseTDLearningV):
         passing ``value_transform=(func, inverse_func)`` works just as well.
 
     """
-    def _init_funcs(self):
-
-        def target(params, state, rng, Rn, In, S_next):
-            f, f_inv = self.value_transform
-            V_next, _ = self.v_targ.function(params, state, rng, S_next, False)
-            return f(Rn + In * f_inv(V_next))
-
-        def loss_func(params, target_params, state, rng, transition_batch):
-            rngs = hk.PRNGSequence(rng)
-            S, _, _, Rn, In, S_next, _, _ = transition_batch
-            G = target(target_params, state, next(rngs), Rn, In, S_next)
-            V, state_new = self.v.function(params, state, next(rngs), S, True)
-            loss = self.loss_function(G, V)
-            return loss, (loss, G, V, S, state_new)
-
-        def grads_and_metrics_func(params, target_params, state, rng, transition_batch):
-            rngs = hk.PRNGSequence(rng)
-            grads, (loss, G, V, S, state_new) = \
-                jax.grad(loss_func, has_aux=True)(
-                    params, target_params, state, next(rngs), transition_batch)
-
-            # target-network estimate
-            V_targ, _ = self.v_targ.function(target_params, state, next(rngs), S, False)
-
-            # residuals: estimate - better_estimate
-            err = V - G
-            err_targ = V_targ - V
-
-            name = self.__class__.__name__
-            metrics = {
-                f'{name}/loss': loss,
-                f'{name}/bias': jnp.mean(err),
-                f'{name}/rmse': jnp.sqrt(jnp.mean(jnp.square(err))),
-                f'{name}/bias_targ': jnp.mean(err_targ),
-                f'{name}/rmse_targ': jnp.sqrt(jnp.mean(jnp.square(err_targ)))}
-
-            # add some diagnostics of the gradients
-            metrics.update(get_grads_diagnostics(grads, key_prefix=f'{name}/grads_'))
-
-            return grads, state_new, metrics
-
-        def td_error_func(params, target_params, state, rng, transition_batch):
-            rngs = hk.PRNGSequence(rng)
-            S, _, _, Rn, In, S_next, _, _ = transition_batch
-            G = target(target_params, state, next(rngs), Rn, In, S_next)
-            V, _ = self.v.function(params, state, next(rngs), S, False)
-            return G - V
-
-        self._grads_and_metrics_func = jax.jit(grads_and_metrics_func)
-        self._td_error_func = jax.jit(td_error_func)
+    def target_func(self, target_params, target_state, rng, transition_batch):
+        Rn, In, S_next = transition_batch[3:6]
+        params, state = target_params['v_targ'], target_state['v_targ']
+        V_next, _ = self.v_targ.function(params, state, rng, S_next, False)
+        f, f_inv = self.value_transform
+        return f(Rn + In * f_inv(V_next))

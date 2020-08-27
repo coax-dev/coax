@@ -72,11 +72,11 @@ class VanillaPG(PolicyObjective):
             # compute REINFORCE-style objective
             A_raw = self.pi.proba_dist.preprocess_variate(A)
             log_pi = self.pi.proba_dist.log_proba(dist_params, A_raw)
-            objective = Adv * log_pi
 
             # some consistency checks
             assert Adv.ndim == 1
-            assert objective.ndim == 1
+            assert log_pi.ndim == 1
+            objective = jnp.dot(Adv, log_pi)
 
             # also pass auxiliary data to avoid multiple forward passes
             return objective, (dist_params, log_pi, state_new)
@@ -86,7 +86,7 @@ class VanillaPG(PolicyObjective):
                 objective_func(params, state, rng, transition_batch, Adv)
 
             # flip sign to turn objective into loss
-            loss = loss_bare = -jnp.mean(objective)
+            loss = loss_bare = -objective
 
             # add regularization term
             if self.regularizer is not None:

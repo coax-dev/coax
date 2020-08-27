@@ -20,61 +20,49 @@
 # ------------------------------------------------------------------------------------------------ #
 
 from copy import deepcopy
-from functools import partial
 
-import jax
-import jax.numpy as jnp
-import haiku as hk
 from optax import sgd
 
-from .._base.test_case import TestCase, DiscreteEnv
+from .._base.test_case import TestCase
 from .._core.value_v import V
 from ..utils import get_transition
 from ._simple_td import SimpleTD
-
-env = DiscreteEnv(random_seed=13)
-
-
-def func(S, is_training):
-    seq = hk.Sequential((
-        hk.Flatten(),
-        hk.Linear(8), jax.nn.relu,
-        partial(hk.dropout, hk.next_rng_key(), 0.25 if is_training else 0.),
-        partial(hk.BatchNorm(False, False, 0.99), is_training=is_training),
-        hk.Linear(8), jax.nn.relu,
-        hk.Linear(1), jnp.ravel,
-    ))
-    return seq(S)
 
 
 class TestSimpleTD(TestCase):
 
     def setUp(self):
+        self.transition_discrete = get_transition(self.env_discrete).to_batch()
+        self.transition_boxspace = get_transition(self.env_boxspace).to_batch()
 
-        self.transition_batch = get_transition(self.env_discrete).to_batch()
+    def test_update_discrete(self):
+        env = self.env_discrete
+        func_v = self.func_v
 
-    def test_update_type1_discrete(self):
-        v = V(func, env.observation_space)
+        v = V(func_v, env.observation_space)
         v_targ = v.copy()
         updater = SimpleTD(v, v_targ, optimizer=sgd(1.0))
 
         params = deepcopy(v.params)
         function_state = deepcopy(v.function_state)
 
-        updater.update(self.transition_batch)
+        updater.update(self.transition_discrete)
 
         self.assertPytreeNotEqual(params, v.params)
         self.assertPytreeNotEqual(function_state, v.function_state)
 
-    def test_update_type2_discrete(self):
-        v = V(func, env.observation_space)
+    def test_update_boxspace(self):
+        env = self.env_boxspace
+        func_v = self.func_v
+
+        v = V(func_v, env.observation_space)
         v_targ = v.copy()
         updater = SimpleTD(v, v_targ, optimizer=sgd(1.0))
 
         params = deepcopy(v.params)
         function_state = deepcopy(v.function_state)
 
-        updater.update(self.transition_batch)
+        updater.update(self.transition_boxspace)
 
         self.assertPytreeNotEqual(params, v.params)
         self.assertPytreeNotEqual(function_state, v.function_state)

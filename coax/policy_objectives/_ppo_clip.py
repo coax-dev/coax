@@ -110,14 +110,14 @@ class PPOClip(PolicyObjective):
             assert objective.ndim == 1
 
             # also pass auxiliary data to avoid multiple forward passes
-            return objective, (dist_params, log_pi, state_new)
+            return jnp.sum(objective), (dist_params, log_pi, state_new)
 
         def loss_func(params, state, rng, transition_batch, Adv, epsilon, **reg_hparams):
             objective, (dist_params, log_pi, state_new) = \
                 objective_func(params, state, rng, transition_batch, Adv, epsilon)
 
             # flip sign to turn objective into loss
-            loss = loss_bare = -jnp.mean(objective)
+            loss = loss_bare = -objective
 
             # add regularization term
             if self.regularizer is not None:

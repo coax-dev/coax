@@ -14,7 +14,6 @@ to the **coax** package.
     SARSA <sarsa>
     Expected SARSA <expected_sarsa>
     Q-Learning <qlearning>
-    Q-Learning (mode) <qlearning_mode>
     Double Q-Learning <double_qlearning>
     REINFORCE <reinforce>
     A2C <a2c>

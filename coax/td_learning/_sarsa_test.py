@@ -20,83 +20,65 @@
 # ------------------------------------------------------------------------------------------------ #
 
 from copy import deepcopy
-from functools import partial
 
-import jax
-import jax.numpy as jnp
-import haiku as hk
 from optax import sgd
 
-from .._base.test_case import TestCase, DiscreteEnv
+from .._base.test_case import TestCase
 from .._core.value_q import Q
 from ..utils import get_transition
 from ._sarsa import Sarsa
-
-env = DiscreteEnv(random_seed=13)
-
-
-def func_type1(S, A, is_training):
-    seq = hk.Sequential((
-        hk.Linear(8), jax.nn.relu,
-        partial(hk.dropout, hk.next_rng_key(), 0.25 if is_training else 0.),
-        partial(hk.BatchNorm(False, False, 0.99), is_training=is_training),
-        hk.Linear(8), jax.nn.relu,
-        hk.Linear(1), jnp.ravel,
-    ))
-    flatten = hk.Flatten()
-    X = jnp.concatenate((flatten(S), flatten(A)), axis=-1)
-    return seq(X)
-
-
-def func_type2(S, is_training):
-    seq = hk.Sequential((
-        hk.Flatten(),
-        hk.Linear(8), jax.nn.relu,
-        partial(hk.dropout, hk.next_rng_key(), 0.25 if is_training else 0.),
-        partial(hk.BatchNorm(False, False, 0.99), is_training=is_training),
-        hk.Linear(8), jax.nn.relu,
-        hk.Linear(env.action_space.n),
-    ))
-    return seq(S)
 
 
 class TestSarsa(TestCase):
 
     def setUp(self):
+        self.transition_discrete = get_transition(self.env_discrete).to_batch()
+        self.transition_boxspace = get_transition(self.env_boxspace).to_batch()
 
-        self.transition_batch = get_transition(self.env_discrete).to_batch()
+    def test_update_discrete_type1(self):
+        env = self.env_discrete
+        func_q = self.func_q_type1
 
-    def test_update_type1_discrete(self):
-        q = Q(func_type1, env.observation_space, env.action_space)
+        q = Q(func_q, env.observation_space, env.action_space)
         q_targ = q.copy()
         updater = Sarsa(q, q_targ, optimizer=sgd(1.0))
 
         params = deepcopy(q.params)
         function_state = deepcopy(q.function_state)
 
-        updater.update(self.transition_batch)
+        updater.update(self.transition_discrete)
 
         self.assertPytreeNotEqual(params, q.params)
         self.assertPytreeNotEqual(function_state, q.function_state)
 
-    def test_update_type2_discrete(self):
-        q = Q(func_type2, env.observation_space, env.action_space)
+    def test_update_discrete_type2(self):
+        env = self.env_discrete
+        func_q = self.func_q_type2
+
+        q = Q(func_q, env.observation_space, env.action_space)
         q_targ = q.copy()
         updater = Sarsa(q, q_targ, optimizer=sgd(1.0))
 
         params = deepcopy(q.params)
         function_state = deepcopy(q.function_state)
 
-        updater.update(self.transition_batch)
+        updater.update(self.transition_discrete)
 
         self.assertPytreeNotEqual(params, q.params)
         self.assertPytreeNotEqual(function_state, q.function_state)
 
-    def test_update_without_anext(self):
-        q = Q(func_type1, env.observation_space, env.action_space)
+    def test_update_boxspace(self):
+        env = self.env_boxspace
+        func_q = self.func_q_type1
+
+        q = Q(func_q, env.observation_space, env.action_space)
         q_targ = q.copy()
-        sarsa = Sarsa(q, q_targ)
-        self.transition_batch.A_next = None
-        msg = "transition_batch.A_next cannot be None; it is required by the Sarsa updater"
-        with self.assertRaisesRegex(ValueError, msg):
-            sarsa.update(self.transition_batch)
+        updater = Sarsa(q, q_targ, optimizer=sgd(1.0))
+
+        params = deepcopy(q.params)
+        function_state = deepcopy(q.function_state)
+
+        updater.update(self.transition_boxspace)
+
+        self.assertPytreeNotEqual(params, q.params)
+        self.assertPytreeNotEqual(function_state, q.function_state)
