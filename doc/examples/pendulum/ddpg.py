@@ -22,7 +22,6 @@ gifs_filepath = "./data/gifs/ddpg/T{:08d}.gif"
 
 # env with preprocessing
 env = gym.make('Pendulum-v0')  # AtariPreprocessing does frame skipping
-# env = coax.wrappers.BoxActionsToReals(env)
 env = coax.wrappers.TrainMonitor(env, tensorboard_dir)
 
 
@@ -91,7 +90,7 @@ while env.T < 1000000:
 
         # learn
         if len(buffer) >= 5000:
-            transition_batch = buffer.sample(batch_size=1024)
+            transition_batch = buffer.sample(batch_size=128)
 
             metrics = {'OrnsteinUhlenbeckNoise/sigma': noise.sigma}
             metrics.update(determ_pg.update(transition_batch))

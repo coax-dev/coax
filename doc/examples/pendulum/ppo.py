@@ -22,7 +22,6 @@ gifs_filepath = "./data/gifs/ppo/T{:08d}.gif"
 
 # env with preprocessing
 env = gym.make('Pendulum-v0')  # AtariPreprocessing does frame skipping
-# env = coax.wrappers.BoxActionsToReals(env)
 env = coax.wrappers.TrainMonitor(env, tensorboard_dir)
 
 
