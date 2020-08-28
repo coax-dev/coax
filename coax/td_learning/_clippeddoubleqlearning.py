@@ -118,35 +118,6 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
             self, q, pi_targ_list=None, q_targ_list=None,
             optimizer=None, loss_function=None, value_transform=None):
 
-        if not isinstance(q, Q):
-            raise TypeError(f"q must be a coax.Q, got: {type(q)}")
-
-        # check input: pi_targ_list
-        if isinstance(q.action_space, Discrete):
-            if pi_targ_list is not None:
-                warnings.warn("pi_targ_list is ignored, because action space is discrete")
-        else:
-            if pi_targ_list is None:
-                raise TypeError("pi_targ_list must be provided if action space is not discrete")
-            if not isinstance(pi_targ_list, (tuple, list)):
-                raise TypeError(
-                    f"pi_targ_list must be a list or a tuple, got: {type(pi_targ_list)}")
-            if len(pi_targ_list) < 1:
-                raise ValueError("pi_targ_list cannot be empty")
-            for pi in pi_targ_list:
-                if not isinstance(pi, Policy):
-                    raise TypeError(
-                        f"all pi_targ in pi_targ_list must be a coax.Policy, got: {type(pi)}")
-
-        # check input: q_targ_list
-        if not isinstance(q_targ_list, (tuple, list)):
-            raise TypeError(f"q_targ_list must be a list or a tuple, got: {type(q_targ_list)}")
-        if not q_targ_list:
-            raise ValueError("q_targ_list cannot be empty")
-        for q_targ in q_targ_list:
-            if not isinstance(q_targ, Q):
-                raise TypeError(f"all q_targ in q_targ_list must be a coax.Q, got: {type(q_targ)}")
-
         super().__init__(
             f=q,
             f_targ=None,
@@ -154,6 +125,8 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
             loss_function=loss_function,
             value_transform=value_transform)
 
+        self._check_input_lists(pi_targ_list, q_targ_list)
+        del self._f_targ  # no need for this (only potential source of confusion)
         self.q_targ_list = q_targ_list
         self.pi_targ_list = [] if pi_targ_list is None else pi_targ_list
 
@@ -294,3 +267,30 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
         assert Q_sa_next.ndim == 1, f"bad shape: {Q_sa_next.shape}"
         f, f_inv = self.value_transform
         return f(Rn + In * f_inv(Q_sa_next))
+
+    def _check_input_lists(self, pi_targ_list, q_targ_list):
+        # check input: pi_targ_list
+        if isinstance(self.q.action_space, Discrete):
+            if pi_targ_list is not None:
+                warnings.warn("pi_targ_list is ignored, because action space is discrete")
+        else:
+            if pi_targ_list is None:
+                raise TypeError("pi_targ_list must be provided if action space is not discrete")
+            if not isinstance(pi_targ_list, (tuple, list)):
+                raise TypeError(
+                    f"pi_targ_list must be a list or a tuple, got: {type(pi_targ_list)}")
+            if len(pi_targ_list) < 1:
+                raise ValueError("pi_targ_list cannot be empty")
+            for pi in pi_targ_list:
+                if not isinstance(pi, Policy):
+                    raise TypeError(
+                        f"all pi_targ in pi_targ_list must be a coax.Policy, got: {type(pi)}")
+
+        # check input: q_targ_list
+        if not isinstance(q_targ_list, (tuple, list)):
+            raise TypeError(f"q_targ_list must be a list or a tuple, got: {type(q_targ_list)}")
+        if not q_targ_list:
+            raise ValueError("q_targ_list cannot be empty")
+        for q_targ in q_targ_list:
+            if not isinstance(q_targ, Q):
+                raise TypeError(f"all q_targ in q_targ_list must be a coax.Q, got: {type(q_targ)}")
