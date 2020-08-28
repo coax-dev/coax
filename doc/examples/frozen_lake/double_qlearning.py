@@ -20,7 +20,7 @@ env = coax.wrappers.TrainMonitor(env)
 def func(S, A, is_training):
     value = hk.Sequential((hk.Flatten(), hk.Linear(1, w_init=jnp.zeros), jnp.ravel))
     S = hk.one_hot(S, env.observation_space.n)
-    X = jnp.kron(S, A)  # A is already one-hot encoded
+    X = jax.vmap(jnp.kron)(S, A)  # A is already one-hot encoded
     return value(X)
 
 

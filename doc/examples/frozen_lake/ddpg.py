@@ -27,7 +27,7 @@ def func_pi(S, is_training):
 def func_q(S, A, is_training):
     value = hk.Sequential((hk.Flatten(), hk.Linear(1, w_init=jnp.zeros), jnp.ravel))
     S = hk.one_hot(S, env.observation_space.n)
-    X = jnp.kron(S, A)  # A is already one-hot encoded
+    X = jax.vmap(jnp.kron)(S, A)  # A is already one-hot encoded
     return value(X)
 
 
@@ -43,6 +43,7 @@ pi_targ = pi.copy()
 
 # experience tracer
 tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
+buffer = coax.experience_replay.SimpleReplayBuffer(capacity=128)
 
 
 # updaters
@@ -65,7 +66,10 @@ for ep in range(500):
         # update
         tracer.add(s, a, r, done)
         while tracer:
-            transition_batch = tracer.pop()
+            buffer.add(tracer.pop())
+
+        if len(buffer) == buffer.capacity:
+            transition_batch = buffer.sample(batch_size=16)
             determ_pg.update(transition_batch)
             qlearning.update(transition_batch)
 
