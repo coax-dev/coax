@@ -155,15 +155,15 @@ class BaseTDLearning(ABC, RandomStateMixin):
     def td_error(self, transition_batch):
         r"""
 
-        Compute the TD-errors associated with a batch of transitions. We defined the TD-error as the
+        Compute the TD-errors associated with a batch of transitions. We define the TD-error as the
         negative gradient of the :attr:`loss_function` with respect to the predicted value:
 
         .. math::
 
             \text{td_error}_i\ =\ -\frac{\partial L(y, \hat{y})}{\partial \hat{y}_i}
 
-        Note that reduces to the ordinary definition :math:`\text{td_error}=y-\hat{y}` when we use
-        the :func:`coax.value_losses.mse` loss funtion.
+        Note that this reduces to the ordinary definition :math:`\text{td_error}=y-\hat{y}` when we
+        use the :func:`coax.value_losses.mse` loss funtion.
 
         Parameters
         ----------
