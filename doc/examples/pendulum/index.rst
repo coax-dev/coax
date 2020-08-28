@@ -9,3 +9,4 @@ In these notebooks we solve the `Pendulum <https://gym.openai.com/envs/Pendulum-
 
     DDPG <ddpg>
     PPO <ppo>
+    TD3 <td3>

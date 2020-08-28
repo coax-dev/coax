@@ -28,4 +28,4 @@ an agent.
     a2c
     ppo
     ddpg
-
+    td3
