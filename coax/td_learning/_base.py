@@ -46,11 +46,9 @@ class BaseTDLearning(ABC, RandomStateMixin):
 
         self._f = f
         self._f_targ = f if f_targ is None else f_targ
-        self.loss_function = loss_function or huber
-        if value_transform is None:
-            self.value_transform = ValueTransform(lambda x: x, lambda x: x)
-        else:
-            self.value_transform = value_transform
+        self.loss_function = huber if loss_function is None else loss_function
+        self.value_transform = \
+            ValueTransform(lambda x: x, lambda x: x) if value_transform is None else value_transform
 
         # optimizer
         self._optimizer = optax.adam(1e-3) if optimizer is None else optimizer
