@@ -1,7 +1,7 @@
 Value Functions
 ===============
 
-The are two kinds of value functions, state value functions :math:`v(s)` and state-action value
+There are two kinds of value functions, state value functions :math:`v(s)` and state-action value
 functions (or q-functions) :math:`q(s,a)`. The state value function evaluates the expected
 (discounted) return, defined as:
 
@@ -104,6 +104,8 @@ create some example data again.
     #       is_training=True),
     #     static_argnums=(1,)),
     #   output=DeviceArray([[ 1.2767161 , -0.05539829]], dtype=float32))
+
+.. _modeltypes:
 
 Note that there are **two types** of modeling a q-function:
 

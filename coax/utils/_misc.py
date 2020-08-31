@@ -481,7 +481,7 @@ def is_vfunction(obj):
     return isinstance(obj, V)
 
 
-def is_qfunction(obj, qtype=None):
+def is_qfunction(obj, modeltype=None):
     r"""
 
     Check whether an object is a :class:`state-action value function <coax.Q>`, or Q-function.
@@ -492,7 +492,7 @@ def is_qfunction(obj, qtype=None):
 
         Object to check.
 
-    qtype : 1 or 2, optional
+    modeltype : 1 or 2, optional
 
         Check for specific Q-function type, i.e. type-1 or type-2. See :class:`coax.Q` for more
         details.
@@ -501,17 +501,17 @@ def is_qfunction(obj, qtype=None):
     -------
     bool
 
-        Whether ``obj`` is a Q-function and (optionally) whether it specifically has qtype 1 or 2.
+        Whether ``obj`` is a Q-function and (optionally) whether it is of modeltype 1 or 2.
 
     """
     # import at runtime to avoid circular dependence
     from .._core.value_q import Q
 
-    if qtype is None:
+    if modeltype is None:
         return isinstance(obj, Q)
-    if qtype not in (1, 2):
-        raise ValueError("unexpected qtype: {}".format(qtype))
-    return isinstance(obj, Q) and obj.qtype == qtype
+    if modeltype not in (1, 2):
+        raise ValueError("unexpected modeltype: {}".format(modeltype))
+    return isinstance(obj, Q) and obj.modeltype == modeltype
 
 
 def is_policy(obj, check_updateable=False):

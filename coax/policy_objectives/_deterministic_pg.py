@@ -80,7 +80,7 @@ class DeterministicPG(PolicyObjective):
     def __init__(self, pi, q_targ, optimizer=None, regularizer=None):
         if not isinstance(q_targ, Q):
             raise TypeError(f"q must be a q-function, got: {type(q_targ)}")
-        if q_targ.qtype != 1:
+        if q_targ.modeltype != 1:
             raise TypeError("q must be a type-1 q-function")
 
         super().__init__(pi=pi, optimizer=optimizer, regularizer=regularizer)

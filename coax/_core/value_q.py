@@ -134,10 +134,10 @@ class Q(BaseFunc):
         r"""
 
         Same as :attr:`function`, except that it ensures a type-1 function signature, regardless of
-        the underlying :attr:`qtype`.
+        the underlying :attr:`modeltype`.
 
         """
-        if self.qtype == 1:
+        if self.modeltype == 1:
             return self.function
 
         assert isinstance(self.action_space, Discrete)
@@ -156,10 +156,10 @@ class Q(BaseFunc):
         r"""
 
         Same as :attr:`function`, except that it ensures a type-2 function signature, regardless of
-        the underlying :attr:`qtype`.
+        the underlying :attr:`modeltype`.
 
         """
-        if self.qtype == 2:
+        if self.modeltype == 2:
             return self.function
 
         if not isinstance(self.action_space, Discrete):
@@ -185,21 +185,21 @@ class Q(BaseFunc):
         return q2_func
 
     @property
-    def qtype(self):
+    def modeltype(self):
         r"""
 
         Specifier for how the q-function is modeled, i.e.
 
         .. math::
 
-            (s,a)   &\mapsto q(s,a)\in\mathbb{R}    &\qquad (\text{qtype} &= 1) \\
-            s       &\mapsto q(s,.)\in\mathbb{R}^n  &\qquad (\text{qtype} &= 2)
+            (s,a)   &\mapsto q(s,a)\in\mathbb{R}    &\qquad (\text{modeltype} &= 1) \\
+            s       &\mapsto q(s,.)\in\mathbb{R}^n  &\qquad (\text{modeltype} &= 2)
 
-        Note that qtype=2 is only well-defined if the action space is :class:`Discrete
+        Note that modeltype=2 is only well-defined if the action space is :class:`Discrete
         <gym.spaces.Discrete>`. Namely, :math:`n` is the number of discrete actions.
 
         """
-        return self._qtype
+        return self._modeltype
 
     @classmethod
     def example_data(
@@ -254,7 +254,7 @@ class Q(BaseFunc):
         if sig == sig_type2 and not isinstance(self.action_space, Discrete):
             raise TypeError("type-2 q-functions are only well-defined for Discrete action spaces")
 
-        example_data_per_qtype = self.example_data(
+        example_data_per_modeltype = self.example_data(
             observation_space=self.observation_space,
             action_space=self.action_space,
             action_preprocessor=self.action_preprocessor,
@@ -262,11 +262,11 @@ class Q(BaseFunc):
             random_seed=self.random_seed)
 
         if sig == sig_type1:
-            self._qtype = 1
-            example_data = example_data_per_qtype.type1
+            self._modeltype = 1
+            example_data = example_data_per_modeltype.type1
         else:
-            self._qtype = 2
-            example_data = example_data_per_qtype.type2
+            self._modeltype = 2
+            example_data = example_data_per_modeltype.type2
 
         return example_data
 
