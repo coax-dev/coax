@@ -335,8 +335,8 @@ class NormalDist(BaseProbaDist):
 
     def preprocess_variate(self, X):
         X = X.reshape(-1, *self.space.shape)
-        X = onp.clip(X, self.clip_min, self.clip_max)
-        hi = onp.clip(self.space.high.reshape(-1, *self.space.shape), self.clip_min, self.clip_max)
-        lo = onp.clip(self.space.low.reshape(-1, *self.space.shape), self.clip_min, self.clip_max)
+        X = jnp.clip(X, self.clip_min, self.clip_max)
+        hi = jnp.clip(self.space.high.reshape(-1, *self.space.shape), self.clip_min, self.clip_max)
+        lo = jnp.clip(self.space.low.reshape(-1, *self.space.shape), self.clip_min, self.clip_max)
         X = clipped_logit((X - lo) / (hi - lo))
         return X
