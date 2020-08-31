@@ -54,11 +54,25 @@ class NormalDist(BaseProbaDist):
 
         The gym-style space that specifies the domain of the distribution.
 
+    clip_min : float, optional
+
+        The lower clipping value to use when clipping bounded and non-bounded variates. This
+        clipping is done for numeric stability, i.e. it is *not* related to ensuring that bounded
+        variates fit the bounding box.
+
+    clip_max : float, optional
+
+        The upper clipping value to use when clipping bounded and non-bounded variates. This
+        clipping is done for numeric stability, i.e. it is *not* related to ensuring that bounded
+        variates fit the bounding box.
+
     """
-    def __init__(self, space):
+    def __init__(self, space, clip_min=-15, clip_max=15):
         if not isinstance(space, Box):
             raise TypeError(f"{self.__class__.__name__} can only be defined over Box spaces")
 
+        self.clip_min = clip_min
+        self.clip_max = clip_max
         super().__init__(space)
         log_2pi = 1.8378770664093453  # abbreviation
 
@@ -310,17 +324,19 @@ class NormalDist(BaseProbaDist):
 
     def postprocess_variate(self, X, batch_mode=False):
         X = onp.asarray(X, dtype=self.space.dtype).reshape(-1, *self.space.shape)
-        hi = self.space.high.reshape(-1, *self.space.shape)
-        lo = self.space.low.reshape(-1, *self.space.shape)
-        X = lo + (hi - lo) * sigmoid(X)
-        x = X[0]
+        hi = onp.clip(self.space.high.reshape(-1, *self.space.shape), self.clip_min, self.clip_max)
+        lo = onp.clip(self.space.low.reshape(-1, *self.space.shape), self.clip_min, self.clip_max)
+        X_box = lo + (hi - lo) * sigmoid(X)
+        x = X_box[0]
         assert self.space.contains(x), \
-            f"{self.__class__.__name__}.postprocessor_variate failed for X: {X}"
-        return X if batch_mode else x
+            f"{self.__class__.__name__}.postprocessor_variate failed for X: {X}, which was " \
+            f"transformed to x: {x} which isn't contained in original space: {self.space}"
+        return X_box if batch_mode else x
 
     def preprocess_variate(self, X):
         X = X.reshape(-1, *self.space.shape)
-        hi = self.space.high.reshape(-1, *self.space.shape)
-        lo = self.space.low.reshape(-1, *self.space.shape)
+        X = onp.clip(X, self.clip_min, self.clip_max)
+        hi = onp.clip(self.space.high.reshape(-1, *self.space.shape), self.clip_min, self.clip_max)
+        lo = onp.clip(self.space.low.reshape(-1, *self.space.shape), self.clip_min, self.clip_max)
         X = clipped_logit((X - lo) / (hi - lo))
         return X

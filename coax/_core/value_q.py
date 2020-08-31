@@ -172,7 +172,7 @@ class Q(BaseFunc):
             # example: let S = [7, 2, 5, 8] and num_actions = 3, then
             # S_rep = [7, 7, 7, 2, 2, 2, 5, 5, 5, 8, 8, 8]  # repeated
             # A_rep = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2]  # tiled
-            S_rep = jax.tree_map(lambda x: jnp.repeat(x, n, axis=0))
+            S_rep = jax.tree_map(lambda x: jnp.repeat(x, n, axis=0), S)
             A_rep = jnp.tile(jnp.arange(n), S.shape[0])
             A_rep = self.action_preprocessor(A_rep)  # one-hot encoding
 
