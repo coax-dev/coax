@@ -46,7 +46,7 @@ class MetaPolicyEnv(gym.Wrapper):
         Callable objects that take a state observation :math:`s` and return an
         action :math:`a` (and optionally, log-propensity :math:`\log\pi(a|s)`).
         See for example :attr:`coax.Policy.__call__` or
-        :attr:`coax.Policy.greedy`.
+        :attr:`coax.Policy.mode`.
 
     """
     def __init__(self, env, *arms):

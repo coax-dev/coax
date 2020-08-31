@@ -146,10 +146,10 @@ class META:  # based on DQN1
         DDPG.pi,
         PPO.pi_old,
         # exploiting arms
-        DQN1.pi.greedy,
-        DQN2.pi.greedy,
-        DDPG.pi.greedy,
-        PPO.pi_old.greedy,
+        DQN1.pi.mode,
+        DQN2.pi.mode,
+        DDPG.pi.mode,
+        PPO.pi_old.mode,
     )
     env = coax.wrappers.MetaPolicyEnv(ENV, *arms)
     env = coax.wrappers.TrainMonitor(
@@ -262,5 +262,5 @@ while META.env.T < 3000000:
     if META.env.period(name='generate_gif', T_period=10000):
         T = META.env.T - META.env.T % 10000
         coax.utils.generate_gif(
-            env=META.env, policy=META.pi.greedy, resize_to=(320, 420),
+            env=META.env, policy=META.pi.mode, resize_to=(320, 420),
             filepath=gifs_filepath.format(T))

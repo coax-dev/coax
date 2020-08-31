@@ -36,7 +36,7 @@ creating some example data, which allows us inspect the correct input/output for
     import gym
 
     env = gym.make('CartPole-v0')
-    data = coax.V.example_data(env.observation_space)
+    data = coax.V.example_data(env.observation_space, env.action_space)
 
     print(data)
     # ExampleData(
@@ -75,7 +75,7 @@ From this we may define our Haiku-style forward-pass function:
 q(s, a)
 -------
 
-In this example we see how to construct a valid state-action value function :math:`q(s,a)`. let's
+In this example we see how to construct a valid state-action value function :math:`q(s,a)`. Let's
 create some example data again.
 
 .. code:: python

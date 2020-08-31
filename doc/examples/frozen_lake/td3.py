@@ -111,7 +111,7 @@ for t in range(env.spec.max_episode_steps):
     for i, q_ in enumerate(q2(s)):
         print("  q2(s,{:s}) = {:.3f}".format('LDRU'[i], q_))
 
-    a = pi.greedy(s)
+    a = pi.mode(s)
     s, r, done, info = env.step(a)
 
     env.render()

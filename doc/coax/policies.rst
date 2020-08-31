@@ -38,7 +38,7 @@ As an aside, we note that **coax** policies have two more methods:
 
 .. code:: python
 
-    a = pi.greedy(s)                 # same as pi(s), except sampling greedily
+    a = pi.mode(s)                   # same as pi(s), except 'sampling' greedily
     dist_params = pi.dist_params(s)  # distribution parameters, conditioned on s
     print(dist_params)               # in this example: categorical dist with n=3
     # {'logits': array([-0.5711, 1.0513 , 0.0012])}

@@ -38,7 +38,7 @@ __all__ = (
 )
 
 
-QTypes = namedtuple('QTypes', ('type1', 'type2'))
+ModelTypes = namedtuple('ModelTypes', ('type1', 'type2'))
 ArgsType1 = namedtuple('Args', ('S', 'A', 'is_training'))
 ArgsType2 = namedtuple('Args', ('S', 'is_training'))
 
@@ -115,7 +115,7 @@ class Q(BaseFunc):
         -------
         q_sa or q_s : ndarray
 
-            Depending on whether ``a`` is provided, this either returns a scalar representing
+            Depending on whether :code:`a` is provided, this either returns a scalar representing
             :math:`q(s,a)\in\mathbb{R}` or a vector representing :math:`q(s,.)\in\mathbb{R}^n`,
             where :math:`n` is the number of discrete actions. Naturally, this only applies for
             discrete action spaces.
@@ -172,9 +172,9 @@ class Q(BaseFunc):
             # example: let S = [7, 2, 5, 8] and num_actions = 3, then
             # S_rep = [7, 7, 7, 2, 2, 2, 5, 5, 5, 8, 8, 8]  # repeated
             # A_rep = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2]  # tiled
-            S_rep = jnp.repeat(S, n, axis=0)
+            S_rep = jax.tree_map(lambda x: jnp.repeat(x, n, axis=0))
             A_rep = jnp.tile(jnp.arange(n), S.shape[0])
-            A_rep = self.action_preprocessor(A_rep)
+            A_rep = self.action_preprocessor(A_rep)  # one-hot encoding
 
             # evaluate on replicas => output shape: (batch * num_actions, 1)
             Q_sa_rep, state_new = self.function(q1_params, q1_state, rng, S_rep, A_rep, is_training)
@@ -238,7 +238,7 @@ class Q(BaseFunc):
                 output=jnp.asarray(rnd.randn(batch_size, action_space.n)),
             )
 
-        return QTypes(type1=q1_data, type2=q2_data)
+        return ModelTypes(type1=q1_data, type2=q2_data)
 
     def _check_signature(self, func):
         sig_type1 = ('S', 'A', 'is_training')

@@ -75,8 +75,8 @@ class RandomPolicy:
             f"{self.action_space.__class__.__name__} space is not yet implemented; "
             "please submit a feature request")
 
-    @docstring(PolicyMixin.greedy)
-    def greedy(self, s):
+    @docstring(PolicyMixin.mode)
+    def mode(self, s):
         return self(s, return_logp=False)
 
     @docstring(PolicyMixin.dist_params)

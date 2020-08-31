@@ -92,7 +92,7 @@ for t in range(env.spec.max_episode_steps):
     for i, p in enumerate(propensities):
         print("  π({:s}|s) = {:.3f}".format('LDRU'[i], p))
 
-    a = pi.greedy(s)
+    a = pi.mode(s)
     s, r, done, info = env.step(a)
 
     env.render()

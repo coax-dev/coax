@@ -69,7 +69,7 @@ class TestEpsilonGreedy(TestCase):
         pi = EpsilonGreedy(self.q, epsilon=0.1)
         s = self.env.reset()
         for t in range(self.env.spec.max_episode_steps):
-            a = pi.greedy(s)
+            a = pi.mode(s)
             s, r, done, info = self.env.step(a)
             if done:
                 break
@@ -107,7 +107,7 @@ class TestBoltzmannPolicy(TestCase):
         pi = BoltzmannPolicy(self.q, temperature=1.0)
         s = self.env.reset()
         for t in range(self.env.spec.max_episode_steps):
-            a = pi.greedy(s)
+            a = pi.mode(s)
             s, r, done, info = self.env.step(a)
             if done:
                 break

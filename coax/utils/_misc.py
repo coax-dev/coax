@@ -384,7 +384,7 @@ def generate_gif(
 
         Therefore, ``policy`` just need to be a callable object that maps state observations to
         actions. For instance if ``pi`` is a :class:`coax.Policy`, we could execute a greedy policy
-        by passing ``policy=pi.greedy``.
+        by passing ``policy=pi.mode``.
 
     filepath : str
 

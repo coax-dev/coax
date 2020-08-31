@@ -109,4 +109,4 @@ while env.T < 1000000:
     # generate an animated GIF to see what's going on
     if env.period(name='generate_gif', T_period=10000) and env.T > 5000:
         T = env.T - env.T % 10000
-        coax.utils.generate_gif(env=env, policy=pi.greedy, filepath=gifs_filepath.format(T))
+        coax.utils.generate_gif(env=env, policy=pi.mode, filepath=gifs_filepath.format(T))

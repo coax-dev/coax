@@ -34,8 +34,7 @@ class EntropyRegularizer(PolicyRegularizer):
 
     .. math::
 
-        \text{loss}(\theta; s,a)\ =\
-            -J(\theta; s,a) + \beta\,H[\pi_\theta(.|s)]
+        \text{loss}(\theta; s,a)\ =\ -J(\theta; s,a) - \beta\,H[\pi_\theta(.|s)]
 
     where :math:`J(\theta)` is the bare policy objective.
 
@@ -75,8 +74,7 @@ class EntropyRegularizer(PolicyRegularizer):
     def function(self):
         r"""
 
-        JIT-compiled function that returns the values for the regularization
-        term.
+        JIT-compiled function that returns the values for the regularization term.
 
         Parameters
         ----------

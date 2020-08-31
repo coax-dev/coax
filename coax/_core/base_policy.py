@@ -64,7 +64,7 @@ class PolicyMixin:
         a = self.proba_dist.postprocess_variate(A)
         return (a, batch_to_single(logP)) if return_logp else a
 
-    def greedy(self, s):
+    def mode(self, s):
         r"""
 
         Sample a greedy action :math:`a=\arg\max_a\pi(a|s)`.

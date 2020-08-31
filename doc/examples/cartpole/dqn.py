@@ -88,4 +88,4 @@ for ep in range(1000):
 
 
 # run env one more time to render
-coax.utils.generate_gif(env, pi.greedy, filepath="data/dqn.gif", duration=25)
+coax.utils.generate_gif(env, pi.mode, filepath="data/dqn.gif", duration=25)

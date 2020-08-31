@@ -67,7 +67,7 @@ class TestRandomPolicy(TestCase):
         pi = RandomPolicy(self.env.action_space)
         s = self.env.reset()
         for t in range(self.env.spec.max_episode_steps):
-            a = pi.greedy(s)
+            a = pi.mode(s)
             s, r, done, info = self.env.step(a)
             if done:
                 break

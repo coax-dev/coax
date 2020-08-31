@@ -75,7 +75,6 @@ def func_boxspace(S, is_training):
 
 class TestPolicy(TestCase):
     def test_init(self):
-        # cannot define a type-2 q-function on a non-discrete action space
         msg = (
             r"func has bad return tree_structure, "
             r"expected: PyTreeDef\(dict\[\['logvar', 'mu'\]\], \[\*,\*\]\), "
@@ -120,14 +119,14 @@ class TestPolicy(TestCase):
         s = safe_sample(boxspace, seed=17)
         pi = Policy(func_discrete, boxspace, discrete, random_seed=19)
 
-        a = pi.greedy(s)
+        a = pi.mode(s)
         self.assertTrue(discrete.contains(a))
 
     def test_greedy_box(self):
         s = safe_sample(boxspace, seed=17)
         pi = Policy(func_boxspace, boxspace, boxspace, random_seed=19)
 
-        a = pi.greedy(s)
+        a = pi.mode(s)
         print(type(a), a.shape, a.dtype)
         print(a)
         self.assertTrue(boxspace.contains(a))
