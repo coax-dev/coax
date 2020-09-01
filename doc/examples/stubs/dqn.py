@@ -54,7 +54,8 @@ for ep in range(100):
         # add transition to buffer
         tracer.add(s, a, r, done)
         while tracer:
-            buffer.add(tracer.pop())
+            transition = tracer.pop()
+            buffer.add(transition)
 
         # update
         transition_batch = buffer.sample(batch_size=32)

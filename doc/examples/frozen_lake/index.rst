@@ -19,4 +19,5 @@ to the **coax** package.
     A2C <a2c>
     PPO <ppo>
     DDPG <ddpg>
+    TD3 <td3>
 
