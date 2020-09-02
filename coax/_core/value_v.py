@@ -20,7 +20,6 @@
 # ------------------------------------------------------------------------------------------------ #
 
 from inspect import signature
-from collections import namedtuple
 
 import jax
 import jax.numpy as jnp
@@ -28,15 +27,12 @@ import numpy as onp
 from gym.spaces import Space
 
 from ..utils import single_to_batch, safe_sample
-from .base_func import BaseFunc, ExampleData, Inputs
+from .base_func import BaseFunc, ExampleData, Inputs, ArgsType2
 
 
 __all__ = (
     'V',
 )
-
-
-Args = namedtuple('Args', ('S', 'is_training'))
 
 
 class V(BaseFunc):
@@ -105,7 +101,7 @@ class V(BaseFunc):
         S = jax.tree_multimap(lambda *x: jnp.stack(x, axis=0), *S)
 
         return ExampleData(
-            inputs=Inputs(args=Args(S=S, is_training=True), static_argnums=(1,)),
+            inputs=Inputs(args=ArgsType2(S=S, is_training=True), static_argnums=(1,)),
             output=jnp.asarray(rnd.randn(batch_size)),
         )
 

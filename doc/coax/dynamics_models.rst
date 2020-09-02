@@ -32,23 +32,28 @@ example data.
     print(data.type1)
     # ExampleData(
     #   inputs=Inputs(
-    #     args=Args(
-    #       S=DeviceArray([[0.7476373 , 0.12747586, 0.41887903, 0.0605397 ]], dtype=float32),
-    #       A=DeviceArray([[0., 1.]], dtype=float32),
-    #       is_training=True),
-    #     static_argnums=(2,)),
-    #   output=DeviceArray([0.74104834], dtype=float32))
+    #     args=ArgsType1(
+    #       S=array(shape=(1, 4), dtype=float32)
+    #       A=array(shape=(1, 2), dtype=float32)
+    #       is_training=True)
+    #     static_argnums=(2,))
+    #   output={
+    #     'logvar': array(shape=(1, 4), dtype=float32)
+    #     'mu': array(shape=(1, 4), dtype=float32)})
 
     print(data.type2)
     # ExampleData(
     #   inputs=Inputs(
-    #     args=Args(
-    #       S=DeviceArray([[0.84571934, 0.38024798, 0.27534822, 0.7612812 ]], dtype=float32),
-    #       is_training=True),
-    #     static_argnums=(1,)),
-    #   output=DeviceArray([[ 1.2767161 , -0.05539829]], dtype=float32))
+    #     args=ArgsType2(
+    #       S=array(shape=(1, 4), dtype=float32)
+    #       is_training=True)
+    #     static_argnums=(1,))
+    #   output={
+    #     'logvar': array(shape=(1, 2, 4), dtype=float32)
+    #     'mu': array(shape=(1, 2, 4), dtype=float32)})
 
-Note that, similar to q-functions, there are **two types** of handling a discrete actions space:
+
+Note that, similar to q-functions, there are **two types** of handling a discrete action space:
 
 .. math::
 

@@ -21,17 +21,56 @@
 
 from abc import ABC, abstractmethod
 from copy import deepcopy
-from collections import namedtuple
+from typing import Any, Tuple, NamedTuple
 
 import jax
 import haiku as hk
 from gym.spaces import Space
 
+from ..typing import Batch, Observation, Action
+from ..utils import pretty_repr
 from .._base.mixins import RandomStateMixin
 
 
-ExampleData = namedtuple('ExampleData', ('inputs', 'output'))
-Inputs = namedtuple('Inputs', ('args', 'static_argnums'))
+class Inputs(NamedTuple):
+    args: Any
+    static_argnums: Tuple[int, ...]
+
+    def __repr__(self):
+        return pretty_repr(self)
+
+
+class ExampleData(NamedTuple):
+    inputs: Inputs
+    output: Any
+
+    def __repr__(self):
+        return pretty_repr(self)
+
+
+class ArgsType1(NamedTuple):
+    S: Batch[Observation]
+    A: Batch[Action]
+    is_training: bool
+
+    def __repr__(self):
+        return pretty_repr(self)
+
+
+class ArgsType2(NamedTuple):
+    S: Batch[Observation]
+    is_training: bool
+
+    def __repr__(self):
+        return pretty_repr(self)
+
+
+class ModelTypes(NamedTuple):
+    type1: ArgsType1
+    type2: ArgsType2
+
+    def __repr__(self):
+        return pretty_repr(self)
 
 
 class BaseFunc(ABC, RandomStateMixin):

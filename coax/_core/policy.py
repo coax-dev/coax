@@ -20,7 +20,6 @@
 # ------------------------------------------------------------------------------------------------ #
 
 from inspect import signature
-from collections import namedtuple
 
 import jax
 import jax.numpy as jnp
@@ -29,11 +28,8 @@ from gym.spaces import Space
 
 from ..utils import safe_sample
 from ..proba_dists import ProbaDist
-from .base_func import BaseFunc, ExampleData, Inputs
+from .base_func import BaseFunc, ExampleData, Inputs, ArgsType2
 from .base_policy import PolicyMixin
-
-
-Args = namedtuple('Args', ('S', 'is_training'))
 
 
 class Policy(BaseFunc, PolicyMixin):
@@ -104,7 +100,7 @@ class Policy(BaseFunc, PolicyMixin):
             lambda x: jnp.asarray(rnd.randn(batch_size, *x.shape[1:])), proba_dist.default_priors)
 
         return ExampleData(
-            inputs=Inputs(args=Args(S=S, is_training=True), static_argnums=(1,)),
+            inputs=Inputs(args=ArgsType2(S=S, is_training=True), static_argnums=(1,)),
             output=dist_params,
         )
 

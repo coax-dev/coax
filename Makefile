@@ -58,10 +58,13 @@ pylint:
 flake8:
 	$(PYTHON_EXECUTABLE) -m flake8 coax
 
-test_all: test_gpu test
+test_all: test_gpu test_cpu
 
 test: flake8
-	JAX_PLATFORM_NAME=cpu $(PYTHON_EXECUTABLE) -m pytest --cov=coax coax -v
+	JAX_PLATFORM_NAME=cpu $(PYTHON_EXECUTABLE) -m pytest --numprocesses auto --cov=coax coax -v
+
+test_cpu: flake8
+	JAX_PLATFORM_NAME=cpu $(PYTHON_EXECUTABLE) -m pytest coax -v
 
 test_gpu: flake8
 	JAX_PLATFORM_NAME=gpu $(PYTHON_EXECUTABLE) -m pytest coax -v

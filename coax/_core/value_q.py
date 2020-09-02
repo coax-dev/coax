@@ -21,7 +21,6 @@
 
 import warnings
 from inspect import signature
-from collections import namedtuple
 
 import jax
 import jax.numpy as jnp
@@ -30,17 +29,12 @@ from gym.spaces import Space, Discrete
 
 from ..utils import single_to_batch, safe_sample
 from ..proba_dists import ProbaDist
-from .base_func import BaseFunc, ExampleData, Inputs
+from .base_func import BaseFunc, ExampleData, Inputs, ArgsType1, ArgsType2, ModelTypes
 
 
 __all__ = (
     'Q',
 )
-
-
-ModelTypes = namedtuple('ModelTypes', ('type1', 'type2'))
-ArgsType1 = namedtuple('Args', ('S', 'A', 'is_training'))
-ArgsType2 = namedtuple('Args', ('S', 'is_training'))
 
 
 class Q(BaseFunc):

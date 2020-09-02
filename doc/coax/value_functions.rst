@@ -41,11 +41,11 @@ creating some example data, which allows us inspect the correct input/output for
     print(data)
     # ExampleData(
     #   inputs=Inputs(
-    #     args=Args(
-    #       S=DeviceArray([[0.7222302 , 0.6115424 , 0.18975885, 0.7168227 ]], dtype=float32),
-    #       is_training=True),
-    #     static_argnums=(1,)),
-    #   output=DeviceArray([1.60552], dtype=float32))
+    #     args=ArgsType2(
+    #       S=array(shape=(1, 4), dtype=float32)
+    #       is_training=True)
+    #     static_argnums=(1,))
+    #   output=array(shape=(1,), dtype=float32))
 
 From this we may define our Haiku-style forward-pass function:
 
@@ -89,21 +89,22 @@ create some example data again.
     print(data.type1)
     # ExampleData(
     #   inputs=Inputs(
-    #     args=Args(
-    #       S=DeviceArray([[0.7476373 , 0.12747586, 0.41887903, 0.0605397 ]], dtype=float32),
-    #       A=DeviceArray([[0., 1.]], dtype=float32),
-    #       is_training=True),
-    #     static_argnums=(2,)),
-    #   output=DeviceArray([0.74104834], dtype=float32))
+    #     args=ArgsType1(
+    #       S=array(shape=(1, 4), dtype=float32)
+    #       A=array(shape=(1, 2), dtype=float32)
+    #       is_training=True)
+    #     static_argnums=(2,))
+    #   output=array(shape=(1,), dtype=float32))
 
     print(data.type2)
     # ExampleData(
     #   inputs=Inputs(
-    #     args=Args(
-    #       S=DeviceArray([[0.84571934, 0.38024798, 0.27534822, 0.7612812 ]], dtype=float32),
-    #       is_training=True),
-    #     static_argnums=(1,)),
-    #   output=DeviceArray([[ 1.2767161 , -0.05539829]], dtype=float32))
+    #     args=ArgsType2(
+    #       S=array(shape=(1, 4), dtype=float32)
+    #       is_training=True)
+    #     static_argnums=(1,))
+    #   output=array(shape=(1, 2), dtype=float32))
+
 
 .. _modeltypes:
 

@@ -108,11 +108,12 @@ correct input/output format for our forward-pass function.
     print(data)
     # ExampleData(
     #   inputs=Inputs(
-    #     args=Args(
-    #       S=DeviceArray([[0.232, 0.043, 0.418, 0.394]], dtype=float32),
-    #       is_training=True),
-    #     static_argnums=(1,)),
-    #   output={'logits': DeviceArray([[1.534, -0.154]], dtype=float32)})
+    #     args=ArgsType2(
+    #       S=array(shape=(1, 4), dtype=float32)
+    #       is_training=True)
+    #     static_argnums=(1,))
+    #   output={
+    #     'logits': array(shape=(1, 2), dtype=float32)})
 
 
 Now, our task is to write a Haiku-style forward-pass function that generates this output given the

@@ -26,10 +26,12 @@ import warnings
 from collections import namedtuple
 from importlib import reload, import_module
 from types import ModuleType
+from typing import Mapping
 from copy import deepcopy
 
-import jax
 import gym
+import jax
+import jax.numpy as jnp
 import numpy as onp
 from PIL import Image
 
@@ -46,6 +48,7 @@ __all__ = (
     'is_policy',
     'is_qfunction',
     'is_vfunction',
+    'pretty_repr',
     'reload_recursive',
     'render_episode',
     'getattr_safe',
@@ -542,6 +545,43 @@ def is_policy(obj, check_updateable=False):
         isinstance(obj, BaseFunc)
         and isinstance(obj, PolicyMixin)
         and (not check_updateable or isinstance(obj, UpdateableMixin)))
+
+
+def pretty_repr(o, d=0):
+    r"""
+
+    Generate pretty :func:`repr` (string representions).
+
+    Parameters
+    ----------
+    o : object
+
+        Any object.
+
+    d : int, optional
+
+        The depth of the recursion. This is used to determine the indentation level in recursive
+        calls, so we typically keep this 0.
+
+    Returns
+    -------
+    pretty_repr : str
+
+        A nicely formatted string representation of :code:`object`.
+
+    """
+    i = "  "  # indentation string
+    if isinstance(o, (jnp.ndarray, onp.ndarray)):
+        return f"array(shape={o.shape}, dtype={str(o.dtype)})"
+    if hasattr(o, '_asdict'):
+        sep = '\n' + i * (d + 1)
+        body = sep + sep.join(f"{k}={pretty_repr(v, d + 1)}" for k, v in o._asdict().items())
+        return f"{type(o).__name__}({body})"
+    if isinstance(o, Mapping):
+        sep = '\n' + i * (d + 1)
+        body = sep + sep.join(f"'{k}': {pretty_repr(v, d + 1)}" for k, v in o.items())
+        return f"{{{body}}}"
+    return repr(o)
 
 
 def getattr_safe(obj, name, default=None):

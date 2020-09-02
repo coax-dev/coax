@@ -55,6 +55,7 @@ Object Reference
     coax.utils.isscalar
     coax.utils.merge_dicts
     coax.utils.OrnsteinUhlenbeckNoise
+    coax.utils.pretty_repr
     coax.utils.reload_recursive
     coax.utils.render_episode
     coax.utils.safe_sample
@@ -96,6 +97,7 @@ from ._misc import (
     is_policy,
     is_qfunction,
     is_vfunction,
+    pretty_repr,
     render_episode,
     reload_recursive,
     StrippedEnv,
@@ -126,6 +128,7 @@ __all__ = (
     'isscalar',
     'merge_dicts',
     'OrnsteinUhlenbeckNoise',
+    'pretty_repr',
     'reload_recursive',
     'render_episode',
     'safe_sample',

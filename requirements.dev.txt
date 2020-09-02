@@ -3,6 +3,7 @@ pylint>=2.5.3
 pur>=5.3.0
 pytest>=5.4.3
 pytest-cov>=2.10.1
+pytest-xdist>=1.32.0
 twine>=3.2.0
 gym[atari,box2d]>=0.17.2
 jax>=0.1.73
