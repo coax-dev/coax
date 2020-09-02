@@ -99,10 +99,23 @@ class ExpectedSarsa(BaseTDLearningQWithTargetPolicy):
         value-transforms. Note that a ValueTransform is just a glorified pair of functions, i.e.
         passing ``value_transform=(func, inverse_func)`` works just as well.
 
+    policy_regularizer : PolicyRegularizer, optional
+
+        If provided, this policy regularizer is added to the TD-target. A typical example is to use
+        an :class:`coax.policy_regularizers.EntropyRegularizer`, which adds the policy entropy to
+        the target. In this case, we minimize the following loss shifted by the entropy term:
+
+        .. math::
+
+            L(y_\text{true} + \beta\,H[\pi], y_\text{pred})
+
+        Note that the coefficient :math:`\beta` plays the role of the temperature in SAC-style
+        agents.
+
     """
     def __init__(
             self, q, pi_targ, q_targ=None, optimizer=None,
-            loss_function=None, value_transform=None):
+            loss_function=None, value_transform=None, policy_regularizer=None):
 
         if not isinstance(q.action_space, gym.spaces.Discrete):
             raise NotImplementedError(
@@ -111,8 +124,13 @@ class ExpectedSarsa(BaseTDLearningQWithTargetPolicy):
             raise TypeError("pi_targ must be provided")
 
         super().__init__(
-            q=q, pi_targ=pi_targ, q_targ=q_targ, optimizer=optimizer,
-            loss_function=loss_function, value_transform=value_transform)
+            q=q,
+            pi_targ=pi_targ,
+            q_targ=q_targ,
+            optimizer=optimizer,
+            loss_function=loss_function,
+            value_transform=value_transform,
+            policy_regularizer=policy_regularizer)
 
     def target_func(self, target_params, target_state, rng, transition_batch):
         rngs = hk.PRNGSequence(rng)

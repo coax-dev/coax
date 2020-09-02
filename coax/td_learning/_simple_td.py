@@ -85,6 +85,19 @@ class SimpleTD(BaseTDLearningV):
         value-transforms. Note that a ValueTransform is just a glorified pair of functions, i.e.
         passing ``value_transform=(func, inverse_func)`` works just as well.
 
+    policy_regularizer : PolicyRegularizer, optional
+
+        If provided, this policy regularizer is added to the TD-target. A typical example is to use
+        an :class:`coax.policy_regularizers.EntropyRegularizer`, which adds the policy entropy to
+        the target. In this case, we minimize the following loss shifted by the entropy term:
+
+        .. math::
+
+            L(y_\text{true} + \beta\,H[\pi], y_\text{pred})
+
+        Note that the coefficient :math:`\beta` plays the role of the temperature in SAC-style
+        agents.
+
     """
     def target_func(self, target_params, target_state, rng, transition_batch):
         Rn, In, S_next = transition_batch[3:6]

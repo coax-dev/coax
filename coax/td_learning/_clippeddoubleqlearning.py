@@ -113,17 +113,31 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
         value-transforms. Note that a ValueTransform is just a glorified pair of functions, i.e.
         passing ``value_transform=(func, inverse_func)`` works just as well.
 
+    policy_regularizer : PolicyRegularizer, optional
+
+        If provided, this policy regularizer is added to the TD-target. A typical example is to use
+        an :class:`coax.policy_regularizers.EntropyRegularizer`, which adds the policy entropy to
+        the target. In this case, we minimize the following loss shifted by the entropy term:
+
+        .. math::
+
+            L(y_\text{true} + \beta\,H[\pi], y_\text{pred})
+
+        Note that the coefficient :math:`\beta` plays the role of the temperature in SAC-style
+        agents.
+
     """
     def __init__(
             self, q, pi_targ_list=None, q_targ_list=None,
-            optimizer=None, loss_function=None, value_transform=None):
+            optimizer=None, loss_function=None, value_transform=None, policy_regularizer=None):
 
         super().__init__(
             f=q,
             f_targ=None,
             optimizer=optimizer,
             loss_function=loss_function,
-            value_transform=value_transform)
+            value_transform=value_transform,
+            policy_regularizer=policy_regularizer)
 
         self._check_input_lists(pi_targ_list, q_targ_list)
         del self._f_targ  # no need for this (only potential source of confusion)

@@ -33,6 +33,7 @@ from .._core.value_q import Q
 from ..utils import get_grads_diagnostics
 from ..value_transforms import ValueTransform
 from ..value_losses import huber
+from ..policy_regularizers import PolicyRegularizer
 
 
 __all__ = (
@@ -42,13 +43,20 @@ __all__ = (
 
 
 class BaseTDLearning(ABC, RandomStateMixin):
-    def __init__(self, f, f_targ=None, optimizer=None, loss_function=None, value_transform=None):
+    def __init__(
+            self, f, f_targ=None, optimizer=None,
+            loss_function=None, value_transform=None, policy_regularizer=None):
 
         self._f = f
         self._f_targ = f if f_targ is None else f_targ
         self.loss_function = huber if loss_function is None else loss_function
         self.value_transform = \
             ValueTransform(lambda x: x, lambda x: x) if value_transform is None else value_transform
+
+        if not isinstance(policy_regularizer, (PolicyRegularizer, type(None))):
+            raise TypeError(
+                f"policy_regularizer must be PolicyRegularizer, got: {type(policy_regularizer)}")
+        self.policy_regularizer = policy_regularizer
 
         # optimizer
         self._optimizer = optax.adam(1e-3) if optimizer is None else optimizer
@@ -196,7 +204,10 @@ class BaseTDLearning(ABC, RandomStateMixin):
 
 
 class BaseTDLearningV(BaseTDLearning):
-    def __init__(self, v, v_targ=None, optimizer=None, loss_function=None, value_transform=None):
+    def __init__(
+            self, v, v_targ=None, optimizer=None,
+            loss_function=None, value_transform=None, policy_regularizer=None):
+
         if not isinstance(v, V):
             raise TypeError(f"v must be a coax.V, got: {type(v)}")
         if not isinstance(v_targ, (V, type(None))):
@@ -207,13 +218,23 @@ class BaseTDLearningV(BaseTDLearning):
             f_targ=v_targ,
             optimizer=optimizer,
             loss_function=loss_function,
-            value_transform=value_transform)
+            value_transform=value_transform,
+            policy_regularizer=policy_regularizer)
 
         def loss_func(params, target_params, state, target_state, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
             S = transition_batch.S
             G = self.target_func(target_params, target_state, next(rngs), transition_batch)
             V, state_new = self.v.function(params, state, next(rngs), S, True)
+
+            # add policy regularization term to target
+            if self.policy_regularizer is not None:
+                dist_params, _ = self.policy_regularizer.pi.function(
+                    target_params['reg_pi'], target_state['reg_pi'], next(rngs), S, False)
+                reg = self.policy_regularizer.function(dist_params, **target_params['reg_hparams'])
+                assert reg.shape == G.shape, f"bad shape: {G.shape} != {reg.shape}"
+                G += -reg  # flip sign (typical example: reg = -beta * entropy)
+
             loss = self.loss_function(G, V)
             return loss, (loss, G, V, S, state_new)
 
@@ -249,6 +270,15 @@ class BaseTDLearningV(BaseTDLearning):
             S = transition_batch.S
             G = self.target_func(target_params, target_state, next(rngs), transition_batch)
             V, _ = self.v.function(params, state, next(rngs), S, False)
+
+            # add policy regularization term to target
+            if self.policy_regularizer is not None:
+                dist_params, _ = self.policy_regularizer.pi.function(
+                    target_params['reg_pi'], target_state['reg_pi'], next(rngs), S, False)
+                reg = self.policy_regularizer.function(dist_params, **target_params['reg_hparams'])
+                assert reg.shape == G.shape, f"bad shape: {G.shape} != {reg.shape}"
+                G += -reg  # flip sign (typical example: reg = -beta * entropy)
+
             dL_dV = jax.grad(self.loss_function, argnums=1)
             return -dL_dV(G, V)
 
@@ -273,17 +303,24 @@ class BaseTDLearningV(BaseTDLearning):
     def target_params(self):
         return hk.data_structures.to_immutable_dict({
             'v': self.v.params,
-            'v_targ': self.v_targ.params})
+            'v_targ': self.v_targ.params,
+            'reg_pi': getattr(getattr(self.policy_regularizer, 'pi', None), 'params', None),
+            'reg_hparams': getattr(self.policy_regularizer, 'hyperparams', None)})
 
     @property
     def target_function_state(self):
         return hk.data_structures.to_immutable_dict({
             'v': self.v.function_state,
-            'v_targ': self.v_targ.function_state})
+            'v_targ': self.v_targ.function_state,
+            'reg_pi':
+                getattr(getattr(self.policy_regularizer, 'pi', None), 'function_state', None)})
 
 
 class BaseTDLearningQ(BaseTDLearning):
-    def __init__(self, q, q_targ=None, optimizer=None, loss_function=None, value_transform=None):
+    def __init__(
+            self, q, q_targ=None, optimizer=None,
+            loss_function=None, value_transform=None, policy_regularizer=None):
+
         if not isinstance(q, Q):
             raise TypeError(f"q must be a coax.Q, got: {type(q)}")
         if not isinstance(q_targ, (Q, type(None), list, tuple)):
@@ -294,7 +331,8 @@ class BaseTDLearningQ(BaseTDLearning):
             f_targ=q_targ,
             optimizer=optimizer,
             loss_function=loss_function,
-            value_transform=value_transform)
+            value_transform=value_transform,
+            policy_regularizer=policy_regularizer)
 
         def loss_func(params, target_params, state, target_state, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
@@ -302,6 +340,15 @@ class BaseTDLearningQ(BaseTDLearning):
             A = self.q.action_preprocessor(A)
             G = self.target_func(target_params, target_state, next(rngs), transition_batch)
             Q, state_new = self.q.function_type1(params, state, next(rngs), S, A, True)
+
+            # add policy regularization term to target
+            if self.policy_regularizer is not None:
+                dist_params, _ = self.policy_regularizer.pi.function(
+                    target_params['reg_pi'], target_state['reg_pi'], next(rngs), S, False)
+                reg = self.policy_regularizer.function(dist_params, **target_params['reg_hparams'])
+                assert reg.shape == G.shape, f"bad shape: {G.shape} != {reg.shape}"
+                G += -reg  # flip sign (typical example: reg = -beta * entropy)
+
             loss = self.loss_function(G, Q)
             return loss, (loss, G, Q, S, A, state_new)
 
@@ -339,6 +386,15 @@ class BaseTDLearningQ(BaseTDLearning):
             A = self.q.action_preprocessor(transition_batch.A)
             G = self.target_func(target_params, target_state, next(rngs), transition_batch)
             Q, _ = self.q.function_type1(params, state, next(rngs), S, A, False)
+
+            # add policy regularization term to target
+            if self.policy_regularizer is not None:
+                dist_params, _ = self.policy_regularizer.pi.function(
+                    target_params['reg_pi'], target_state['reg_pi'], next(rngs), S, False)
+                reg = self.policy_regularizer.function(dist_params, **target_params['reg_hparams'])
+                assert reg.shape == G.shape, f"bad shape: {G.shape} != {reg.shape}"
+                G += -reg  # flip sign (typical example: reg = -beta * entropy)
+
             dL_dQ = jax.grad(self.loss_function, argnums=1)
             return -dL_dQ(G, Q)
 
@@ -363,19 +419,23 @@ class BaseTDLearningQ(BaseTDLearning):
     def target_params(self):
         return hk.data_structures.to_immutable_dict({
             'q': self.q.params,
-            'q_targ': self.q_targ.params})
+            'q_targ': self.q_targ.params,
+            'reg_pi': getattr(getattr(self.policy_regularizer, 'pi', None), 'params', None),
+            'reg_hparams': getattr(self.policy_regularizer, 'hyperparams', None)})
 
     @property
     def target_function_state(self):
         return hk.data_structures.to_immutable_dict({
             'q': self.q.function_state,
-            'q_targ': self.q_targ.function_state})
+            'q_targ': self.q_targ.function_state,
+            'reg_pi':
+                getattr(getattr(self.policy_regularizer, 'pi', None), 'function_state', None)})
 
 
 class BaseTDLearningQWithTargetPolicy(BaseTDLearningQ):
     def __init__(
             self, q, pi_targ, q_targ=None, optimizer=None,
-            loss_function=None, value_transform=None):
+            loss_function=None, value_transform=None, policy_regularizer=None):
 
         if not isinstance(pi_targ, (PolicyMixin, type(None))):
             raise TypeError(f"pi_targ must be a Policy, got: {type(pi_targ)}")
@@ -386,18 +446,23 @@ class BaseTDLearningQWithTargetPolicy(BaseTDLearningQ):
             q_targ=q_targ,
             optimizer=optimizer,
             loss_function=loss_function,
-            value_transform=value_transform)
+            value_transform=value_transform,
+            policy_regularizer=policy_regularizer)
 
     @property
     def target_params(self):
         return hk.data_structures.to_immutable_dict({
             'q': self.q.params,
             'q_targ': self.q_targ.params,
-            'pi_targ': getattr(self.pi_targ, 'params', None)})
+            'pi_targ': getattr(self.pi_targ, 'params', None),
+            'reg_pi': getattr(getattr(self.policy_regularizer, 'pi', None), 'params', None),
+            'reg_hparams': getattr(self.policy_regularizer, 'hyperparams', None)})
 
     @property
     def target_function_state(self):
         return hk.data_structures.to_immutable_dict({
             'q': self.q.function_state,
             'q_targ': self.q_targ.function_state,
-            'pi_targ': getattr(self.pi_targ, 'function_state', None)})
+            'pi_targ': getattr(self.pi_targ, 'function_state', None),
+            'reg_pi':
+                getattr(getattr(self.policy_regularizer, 'pi', None), 'function_state', None)})
