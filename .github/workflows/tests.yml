@@ -43,5 +43,5 @@ jobs:
         python -m flake8 coax --count --exit-zero --max-complexity=10 --statistics
     - name: Test with pytest
       run: |
-        python -m pip install pytest
-        python -m pytest -v coax
+        python -m pip install pytest pytest-cov
+        python -m pytest --cov=coax --cov-report=xml coax -v
