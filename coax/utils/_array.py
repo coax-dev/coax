@@ -515,7 +515,10 @@ def _safe_sample(space, rnd):
         return rnd.randint(2, size=space.n)
 
     if isinstance(space, gym.spaces.Box):
-        return onp.clip(rnd.rand(*space.shape), space.low, space.high)
+        midpoints = (space.low + space.high) / 2.
+        sizes = onp.clip(space.high - space.low, 0, 100)  # clip to reasonable range
+        low = midpoints - sizes / 2.
+        return low + rnd.rand(*space.shape) * sizes
 
     if isinstance(space, gym.spaces.Tuple):
         return tuple(_safe_sample(sp, rnd) for sp in space.spaces)
