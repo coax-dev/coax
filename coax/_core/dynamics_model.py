@@ -28,7 +28,7 @@ import numpy as onp
 import haiku as hk
 from gym.spaces import Space, Discrete
 
-from ..utils import safe_sample, single_to_batch, batch_to_single
+from ..utils import safe_sample, batch_to_single
 from ..proba_dists import ProbaDist
 from .base_func import BaseFunc, ExampleData, Inputs, ArgsType1, ArgsType2, ModelTypes
 
