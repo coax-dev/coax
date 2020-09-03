@@ -134,7 +134,7 @@ class DynamicsModel(BaseFunc):
             single float or a list of :math:`n` floats, one for each :math:`n` discrete actions.
 
         """
-        S = single_to_batch(s)
+        S = self.proba_dist.preprocess_variate(s)
         if a is None:
             # batch_to_single() projects: (batch, num_actions, *shape) -> (num_actions, *shape)
             S_next, logP = batch_to_single(
@@ -173,7 +173,7 @@ class DynamicsModel(BaseFunc):
             :math:`s'` or a list of :math:`n` next-states, one for each :math:`n` discrete actions.
 
         """
-        S = single_to_batch(s)
+        S = self.proba_dist.preprocess_variate(s)
         if a is None:
             # batch_to_single() projects: (batch, num_actions, *shape) -> (num_actions, *shape)
             S_next = batch_to_single(
@@ -209,7 +209,7 @@ class DynamicsModel(BaseFunc):
             dict or a list of :math:`n` such dicts, one for each :math:`n` discrete actions.
 
         """
-        S = single_to_batch(s)
+        S = self.proba_dist.preprocess_variate(s)
         if a is None:
             # batch_to_single() projects: (batch, num_actions, *shape) -> (num_actions, *shape)
             dist_params = batch_to_single(
@@ -326,9 +326,13 @@ class DynamicsModel(BaseFunc):
 
         rnd = onp.random.RandomState(random_seed)
 
+        if proba_dist is None:
+            proba_dist = ProbaDist(observation_space)
+
         # input: state observations
         S = [safe_sample(observation_space, rnd) for _ in range(batch_size)]
-        S = jax.tree_multimap(lambda *x: jnp.stack(x, axis=0), *S)
+        S = [proba_dist.preprocess_variate(s) for s in S]
+        S = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *S)
 
         # input: actions
         A = jax.tree_multimap(
@@ -342,8 +346,6 @@ class DynamicsModel(BaseFunc):
             warnings.warn(f"preprocessing failed for actions A; caught exception: {e}")
 
         # output
-        if proba_dist is None:
-            proba_dist = ProbaDist(observation_space)
         dist_params_type1 = jax.tree_map(
             lambda x: jnp.asarray(rnd.randn(batch_size, *x.shape[1:])), proba_dist.default_priors)
 

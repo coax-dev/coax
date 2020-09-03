@@ -71,26 +71,33 @@ Let's first define our **type-1** forward-pass function:
     import jax
     import jax.numpy as jnp
     import haiku as hk
+    from numpy import prod
 
     def func_type1(S, A, is_training):
-        """ (s,a) -> q(s,a) """
+        """ (s,a) -> p(s'|s,a) """
+        output_shape = (env.action_space.n, *env.observation_space.shape)
         seq = hk.Sequential((
             hk.Linear(8), jax.nn.relu,
             hk.Linear(8), jax.nn.relu,
             hk.Linear(8), jax.nn.relu,
-            hk.Linear(1, w_init=jnp.zeros), jnp.ravel
+            hk.Linear(prod(output_shape), w_init=jnp.zeros),
+            hk.Reshape(output_shape),
         ))
-        X = jnp.concatenate((S, A), axis=-1)
-        return seq(X)
+        S = check_onehot(S)
+        X = jax.vmap(jnp.kron)(S, A)
+        mu = S + seq(X)
+        return {'mu': mu, 'logvar': jnp.full_like(mu, -10)}
 
 
-    q = coax.Q(func_type1, env.observation_space, env.action_space)
+    p = coax.DynamicsModel(func_type1, env.observation_space, env.action_space)
 
     # example usage
-    s = env.observation_space.sample()
+    s = env.reset()
     a = env.action_space.sample()
-    print(q(s, a))  # 0.0
-    print(q(s))     # array([0., 0.])
+
+    print(s)        # [ 0.008, 0.021, -0.037, 0.032]
+    print(p(s, a))  # [-0.015, 0.067, -0.035, 0.029]
+    print(p(s))     # [[-0.012, 0.064, -0.039, 0.041], [ 0.022, 0.048, -0.039, 0.027]]
 
 
 Alternatively, a **type-2** forward-pass function might be:
@@ -99,26 +106,35 @@ Alternatively, a **type-2** forward-pass function might be:
 
     def func_type2(S, is_training):
         """ s -> q(s,.) """
+        output_shape = (env.action_space.n, *env.observation_space.shape)
         seq = hk.Sequential((
             hk.Linear(8), jax.nn.relu,
             hk.Linear(8), jax.nn.relu,
             hk.Linear(8), jax.nn.relu,
-            hk.Linear(env.action_space.n, w_init=jnp.zeros)
+            hk.Linear(prod(output_shape), w_init=jnp.zeros),
+            hk.Reshape(output_shape),
         ))
-        return seq(S)
+        S = check_onehot(S)
+        mu = S + seq(S)
+        return {'mu': mu, 'logvar': jnp.full_like(mu, -10)}
 
 
-    q = coax.Q(func_type2, env.observation_space, env.action_space)
+    p = coax.DynamicsModel(func_type2, env.observation_space, env.action_space)
 
     # example usage
-    s = env.observation_space.sample()
+    s = env.reset()
     a = env.action_space.sample()
-    print(q(s, a))  # 0.0
-    print(q(s))     # array([0., 0.])
+
+    print(s)        # [ 0.004,  0.041,  0.043, -0.015]
+    print(p(s, a))  # [-0.024,  0.067,  0.042,  0.011]
+    print(p(s))     # [[-0.014, -0.102,  0.041, -0.052], [0.007, -0.065, 0.044, 0.102]]
+
+
+
 
 
 If something goes wrong and you'd like to debug the forward-pass function, here's an example of what
-:attr:`coax.Q.__init__` runs under the hood:
+:attr:`coax.Dynamics.__init__` runs under the hood:
 
 .. code:: python
 
