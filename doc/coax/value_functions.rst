@@ -191,6 +191,8 @@ Object Reference
 
     coax.V
     coax.Q
+    coax.SuccessorStateQ
 
 .. autoclass:: coax.V
 .. autoclass:: coax.Q
+.. autoclass:: coax.SuccessorStateQ
