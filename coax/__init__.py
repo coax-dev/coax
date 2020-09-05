@@ -27,6 +27,7 @@ from ._core.value_v import V
 from ._core.value_q import Q
 from ._core.policy import Policy
 from ._core.dynamics_model import DynamicsModel
+from ._core.reward_model import RewardModel
 from ._core.value_based_policy import EpsilonGreedy, BoltzmannPolicy
 from ._core.random_policy import RandomPolicy
 from .utils import safe_sample, render_episode
@@ -52,6 +53,7 @@ __all__ = (
     'Q',
     'Policy',
     'DynamicsModel',
+    'RewardModel',
     'EpsilonGreedy',
     'BoltzmannPolicy',
     'RandomPolicy',

@@ -19,10 +19,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-from gym.spaces import Discrete
 import jax
 import jax.numpy as jnp
-import numpy as onp
+from gym.spaces import Discrete
 
 from ._base import BaseProbaDist
 
@@ -294,11 +293,11 @@ class CategoricalDist(BaseProbaDist):
     def default_priors(self):
         return {'logits': jnp.zeros((1, self.space.n))}
 
-    def postprocess_variate(self, X, batch_mode=False):
+    def postprocess_variate(self, X, index=0, batch_mode=False):
         assert X.ndim == 2
         assert X.shape[1] == self.space.n
-        X = onp.argmax(X, axis=1)
-        x = X[0]
+        X = jnp.argmax(X, axis=1)
+        x = int(X[index])
         assert self.space.contains(x), \
             f"{self.__class__.__name__}.postprocessor_variate failed for X: {X}"
         return X if batch_mode else x

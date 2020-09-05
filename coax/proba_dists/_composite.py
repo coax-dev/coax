@@ -210,26 +210,26 @@ class ProbaDist(BaseProbaDist):
 
         raise AssertionError(f"bad structure_type: {self._structure_type}")
 
-    def postprocess_variate(self, X, batch_mode=False):
+    def postprocess_variate(self, X, index=0, batch_mode=False):
         if self._structure_type == StructureType.LEAF:
-            return self._structure.postprocess_variate(X, batch_mode)
+            return self._structure.postprocess_variate(X, index=index, batch_mode=batch_mode)
 
         if isinstance(self.space, (gym.spaces.MultiDiscrete, gym.spaces.MultiBinary)):
             assert self._structure_type == StructureType.LIST
             return onp.stack([
-                dist.postprocess_variate(X[i], batch_mode)
+                dist.postprocess_variate(X[i], index=index, batch_mode=batch_mode)
                 for i, dist in enumerate(self._structure)], axis=-1)
 
         if isinstance(self.space, gym.spaces.Tuple):
             assert self._structure_type == StructureType.LIST
             return tuple(
-                dist.postprocess_variate(X[i], batch_mode)
+                dist.postprocess_variate(X[i], index=index, batch_mode=batch_mode)
                 for i, dist in enumerate(self._structure))
 
         if isinstance(self.space, gym.spaces.Dict):
             assert self._structure_type == StructureType.DICT
             return {
-                k: dist.postprocess_variate(X[k], batch_mode)
+                k: dist.postprocess_variate(X[k], index=index, batch_mode=batch_mode)
                 for k, dist in self._structure.items()}
 
         raise AssertionError(

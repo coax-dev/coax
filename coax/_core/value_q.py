@@ -61,7 +61,7 @@ class Q(BaseFunc):
 
     action_preprocessor : function, optional
 
-        Turns a single actions into a batch of actions that are compatible with the corresponding
+        Turns a single action into a batch of actions that are compatible with the corresponding
         probability distribution. If left unspecified, this defaults to:
 
         .. code:: python

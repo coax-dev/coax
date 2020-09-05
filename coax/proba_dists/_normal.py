@@ -322,12 +322,12 @@ class NormalDist(BaseProbaDist):
         shape = (1, *self.space.shape)  # include batch axis
         return {'mu': jnp.zeros(shape), 'logvar': jnp.zeros(shape)}
 
-    def postprocess_variate(self, X, batch_mode=False):
-        X = onp.asarray(X, dtype=self.space.dtype).reshape(-1, *self.space.shape)
-        hi = onp.clip(self.space.high.reshape(-1, *self.space.shape), self.clip_min, self.clip_max)
-        lo = onp.clip(self.space.low.reshape(-1, *self.space.shape), self.clip_min, self.clip_max)
+    def postprocess_variate(self, X, index=0, batch_mode=False):
+        X = jnp.asarray(X, dtype=self.space.dtype).reshape(-1, *self.space.shape)
+        hi = jnp.clip(self.space.high.reshape(-1, *self.space.shape), self.clip_min, self.clip_max)
+        lo = jnp.clip(self.space.low.reshape(-1, *self.space.shape), self.clip_min, self.clip_max)
         X_box = lo + (hi - lo) * sigmoid(X)
-        x = X_box[0]
+        x = onp.asanyarray(X_box[index])
         assert self.space.contains(x), \
             f"{self.__class__.__name__}.postprocessor_variate failed for X: {X}, which was " \
             f"transformed to x: {x} which isn't contained in original space: {self.space}"

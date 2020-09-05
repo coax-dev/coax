@@ -19,20 +19,22 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+import numpy as onp
+from gym.spaces import Box
+
 from ..proba_dists import ProbaDist
 from .base_model import BaseModel
 
 
 __all__ = (
-    'DynamicsModel',
+    'RewardModel',
 )
 
 
-class DynamicsModel(BaseModel):
+class RewardModel(BaseModel):
     r"""
 
-    A parametrized dynamics model :math:`p_\theta(s'|s,a)`. Here, :math:`s'` is the successor state,
-    given that we take action :math:`a` from state :math:`s`.
+    A parametrized reward-function, represented by a stochastic function :math:`p_\theta(r|s,a)`.
 
     Parameters
     ----------
@@ -50,6 +52,22 @@ class DynamicsModel(BaseModel):
         The action space of the environment. This is used to generate example input for
         initializing :attr:`params`.
 
+    reward_range : tuple of floats
+
+        A pair of floats :code:`(min_reward, max_reward)`, which is typically provided by the
+        environment as :code:`env.reward_range`.
+
+    observation_preprocessor
+
+        Turns a single observation into a batch of observations that are compatible with the
+        corresponding probability distribution. If left unspecified, this defaults to:
+
+        .. code:: python
+
+            observation_preprocessor = ProbaDist(observation_space).preprocess_variate
+
+        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
+
     action_preprocessor : function, optional
 
         Turns a single action into a batch of actions that are compatible with the corresponding
@@ -61,31 +79,21 @@ class DynamicsModel(BaseModel):
 
         See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
 
-    proba_dist : ProbaDist, optional
-
-        A probability distribution that is used to interpret the output of :code:`func
-        <coax.Policy.func>`. Check out the :mod:`coax.proba_dists` module for available options.
-
-        If left unspecified, this defaults to:
-
-        .. code:: python
-
-            proba_dist = coax.proba_dists.ProbaDist(observation_space)
-
     random_seed : int, optional
 
         Seed for pseudo-random number generators.
 
     """
     def __init__(
-            self, func, observation_space, action_space,
-            action_preprocessor=None, proba_dist=None, random_seed=None):
+            self, func, observation_space, action_space, reward_range,
+            observation_preprocessor=None, action_preprocessor=None, random_seed=None):
 
+        self.reward_range = reward_range
+        if observation_preprocessor is None:
+            observation_preprocessor = ProbaDist(observation_space).preprocess_variate
         if action_preprocessor is None:
             action_preprocessor = ProbaDist(action_space).preprocess_variate
-        if proba_dist is None:
-            proba_dist = ProbaDist(observation_space)
-        observation_preprocessor = proba_dist.preprocess_variate
+        proba_dist = self._reward_proba_dist(reward_range)
 
         super().__init__(
             func=func,
@@ -98,14 +106,14 @@ class DynamicsModel(BaseModel):
 
     @classmethod
     def example_data(
-            cls, observation_space, action_space,
-            action_preprocessor=None, proba_dist=None, batch_size=1, random_seed=None):
+            cls, observation_space, action_space, reward_range, observation_preprocessor=None,
+            action_preprocessor=None, batch_size=1, random_seed=None):
 
+        if observation_preprocessor is None:
+            observation_preprocessor = ProbaDist(observation_space).preprocess_variate
         if action_preprocessor is None:
             action_preprocessor = ProbaDist(action_space).preprocess_variate
-        if proba_dist is None:
-            proba_dist = ProbaDist(observation_space)
-        observation_preprocessor = proba_dist.preprocess_variate
+        proba_dist = cls._reward_proba_dist(reward_range)
 
         return super().example_data(
             observation_space=observation_space,
@@ -119,7 +127,7 @@ class DynamicsModel(BaseModel):
     def __call__(self, s, a=None, return_logp=False):
         r"""
 
-        Sample a successor state :math:`s'` from the dynamics model :math:`p(s'|s,a)`.
+        Sample a reward :math:`r` from the reward function :math:`p(r|s,a)`.
 
         Parameters
         ----------
@@ -137,14 +145,14 @@ class DynamicsModel(BaseModel):
 
         Returns
         -------
-        s_next : state observation or list thereof
+        r : float or list thereof
 
-            Depending on whether :code:`a` is provided, this either returns a single next-state
-            :math:`s'` or a list of :math:`n` next-states, one for each discrete action.
+            Depending on whether :code:`a` is provided, this either returns a single reward
+            :math:`r` or a list of :math:`n` rewards, one for each discrete action.
 
         logp : non-positive float or list thereof, optional
 
-            The log-propensity :math:`\log p(s'|s,a)`. This is only returned if we set
+            The log-propensity :math:`\log p(r|s,a)`. This is only returned if we set
             ``return_logp=True``. Depending on whether :code:`a` is provided, this is either a
             single float or a list of :math:`n` floats, one for each discrete action.
 
@@ -154,8 +162,8 @@ class DynamicsModel(BaseModel):
     def mode(self, s, a=None):
         r"""
 
-        Get the most probable successor state :math:`s'` according to the dynamics model,
-        :math:`s'=\arg\max_{s'}p_\theta(s'|s,a)`.
+        Get the most probable successor state :math:`r` according to the reward model,
+        :math:`r=\arg\max_{r}p_\theta(r|s,a)`.
 
         Parameters
         ----------
@@ -169,10 +177,10 @@ class DynamicsModel(BaseModel):
 
         Returns
         -------
-        s_next : state observation or list thereof
+        r : float or list thereof
 
-            Depending on whether :code:`a` is provided, this either returns a single next-state
-            :math:`s'` or a list of :math:`n` next-states, one for each discrete action.
+            Depending on whether :code:`a` is provided, this either returns a single reward
+            :math:`r` or a list of :math:`n` rewards, one for each discrete action.
 
         """
         return super().mode(s, a=a)
@@ -180,7 +188,7 @@ class DynamicsModel(BaseModel):
     def dist_params(self, s, a=None):
         r"""
 
-        Get the parameters of the conditional probability distribution :math:`p_\theta(s'|s,a)`.
+        Get the parameters of the conditional probability distribution :math:`p_\theta(r|s,a)`.
 
         Parameters
         ----------
@@ -201,3 +209,11 @@ class DynamicsModel(BaseModel):
 
         """
         return super().dist_params(s, a=a)
+
+    @staticmethod
+    def _reward_proba_dist(reward_range):
+        assert len(reward_range) == 2
+        low, high = onp.clip(reward_range[0], -1e6, 1e6), onp.clip(reward_range[1], -1e6, 1e6)
+        assert low < high, f"inconsistent low, high: {low}, {high}"
+        reward_space = Box(low, high, shape=())
+        return ProbaDist(reward_space)
