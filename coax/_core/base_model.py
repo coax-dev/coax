@@ -383,7 +383,7 @@ class BaseModel(BaseFunc):
             raise TypeError(f"found leaves with unexpected shapes: {shapes_tree}")
 
     def _reshape_from_replicas(self, leaf):
-        """ reshape from (batch x num_actions, *shape) to (batch, *shape, num_actions) """
+        """ reshape from (batch x num_actions, *) to (batch, num_actions, *) """
         assert isinstance(self.action_space, Discrete), "action_space is non-discrete"
         assert isinstance(leaf, jnp.ndarray), f"leaf must be ndarray, got: {type(leaf)}"
         assert leaf.ndim >= 1, f"bad shape: {leaf.shape}"
@@ -393,7 +393,7 @@ class BaseModel(BaseFunc):
         return leaf
 
     def _reshape_to_replicas(self, leaf):
-        """ reshape from (batch, *shape, num_actions) to (batch x num_actions, *shape) """
+        """ reshape from (batch, num_actions, *) to (batch x num_actions, *) """
         assert isinstance(self.action_space, Discrete), "action_space is non-discrete"
         assert isinstance(leaf, jnp.ndarray), f"leaf must be ndarray, got: {type(leaf)}"
         assert leaf.ndim >= 2, f"bad shape: {leaf.shape}"
