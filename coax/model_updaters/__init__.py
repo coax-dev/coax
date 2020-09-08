@@ -33,7 +33,7 @@ Object Reference
 .. autosummary::
     :nosignatures:
 
-    coax.model_updaters.PredictionLoss
+    coax.model_updaters.StochasticUpdater
 
 """
 

@@ -258,6 +258,7 @@ If this ain't your first rodeo, head over the examples listed :doc:`here <exampl
 
     coax/td_learning
     coax/policy_objectives
+    coax/model_updaters
     coax/reward_tracing
     coax/experience_replay
     coax/value_losses
