@@ -101,7 +101,7 @@ class PolicyObjective:
             return grads, state_new, metrics
 
         def apply_grads_func(opt, opt_state, params, grads):
-            updates, new_opt_state = opt.update(grads, opt_state)
+            updates, new_opt_state = opt.update(grads, opt_state, params)
             new_params = optax.apply_updates(params, updates)
             return new_opt_state, new_params
 
@@ -119,6 +119,13 @@ class PolicyObjective:
     @property
     def optimizer(self):
         return self._optimizer
+
+    @optimizer.setter
+    def optimizer(self, new_optimizer):
+        new_optimizer_state_structure = jax.tree_structure(new_optimizer.init(self._f.params))
+        if new_optimizer_state_structure != jax.tree_structure(self.optimizer_state):
+            raise AttributeError("cannot set optimizer attr: mismatch in optimizer_state structure")
+        self._optimizer = new_optimizer
 
     @property
     def optimizer_state(self):
