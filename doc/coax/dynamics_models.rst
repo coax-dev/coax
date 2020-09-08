@@ -202,7 +202,6 @@ Let's first define our **type-1** forward-pass function:
 
     def func_type1(S, A, is_training):
         """ (s,a) -> p(r|s,a) """
-        output_shape = (env.action_space.n, *env.observation_space.shape)
         mu = hk.Sequential((
             hk.Linear(8), jax.nn.relu,
             hk.Linear(8), jax.nn.relu,
@@ -235,7 +234,6 @@ Alternatively, a **type-2** forward-pass function might be:
 
     def func_type2(S, is_training):
         """ s -> p(r|s,.) """
-        output_shape = (env.action_space.n, *env.observation_space.shape)
         mu = hk.Sequential((
             hk.Linear(8), jax.nn.relu,
             hk.Linear(8), jax.nn.relu,
