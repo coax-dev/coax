@@ -69,20 +69,6 @@ class Sarsa(BaseTDLearningQ):
         If left unspecified, this defaults to :func:`coax.value_losses.huber`. Check out the
         :mod:`coax.value_losses` module for other predefined loss functions.
 
-    value_transform : ValueTransform or pair of funcs, optional
-
-        If provided, the returns are transformed as follows:
-
-        .. math::
-
-            G^{(n)}_t\ \mapsto\ f\left(G^{(n)}_t\right)\ =\
-                f\left(R^{(n)}_t + I^{(n)}_t\,f^{-1}\left(q(S_{t+n}, A_{t+n})\right)\right)
-
-        where :math:`f` and :math:`f^{-1}` are given by ``value_transform.transform_func`` and
-        ``value_transform.inverse_func``, respectively. See :mod:`coax.td_learning` for examples of
-        value-transforms. Note that a ValueTransform is just a glorified pair of functions, i.e.
-        passing ``value_transform=(func, inverse_func)`` works just as well.
-
     policy_regularizer : PolicyRegularizer, optional
 
         If provided, this policy regularizer is added to the TD-target. A typical example is to use
@@ -102,5 +88,5 @@ class Sarsa(BaseTDLearningQ):
         A_next = self.q_targ.action_preprocessor(transition_batch.A_next)
         params, state = target_params['q_targ'], target_state['q_targ']
         Q_sa_next, _ = self.q_targ.function_type1(params, state, rng, S_next, A_next, False)
-        f, f_inv = self.value_transform
+        f, f_inv = self.q.value_transform
         return f(Rn + In * f_inv(Q_sa_next))

@@ -23,6 +23,7 @@ import numpy as onp
 from gym.spaces import Box
 
 from ..proba_dists import ProbaDist
+from ..value_transforms import ValueTransform
 from .base_model import BaseModel
 
 
@@ -79,6 +80,27 @@ class RewardModel(BaseModel):
 
         See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
 
+    value_transform : ValueTransform or pair of funcs, optional
+
+        If provided, the target for the underlying function approximator is transformed such that:
+
+        .. math::
+
+            \tilde{R}_t\ \sim\ \tilde{p}_\theta(.|S_t, A_t)
+
+        which is related to the original reward as :math:`\tilde{R_t}=f(R_t)`. This means that
+        calling the function involves undoing this transformation:
+
+        .. math::
+
+            \tilde{r}\ &\sim\ \tilde{p}_\theta(.|s, a) \\
+            r\ &=\ f^{-1}(\tilde{r})
+
+        Here, :math:`f` and :math:`f^{-1}` are given by ``value_transform.transform_func`` and
+        ``value_transform.inverse_func``, respectively. Note that a ValueTransform is just a
+        glorified pair of functions, i.e. passing ``value_transform=(func, inverse_func)`` works
+        just as well.
+
     random_seed : int, optional
 
         Seed for pseudo-random number generators.
@@ -86,7 +108,14 @@ class RewardModel(BaseModel):
     """
     def __init__(
             self, func, observation_space, action_space, reward_range,
-            observation_preprocessor=None, action_preprocessor=None, random_seed=None):
+            observation_preprocessor=None, action_preprocessor=None, value_transform=None,
+            random_seed=None):
+
+        self.value_transform = value_transform
+        if self.value_transform is None:
+            self.value_transform = ValueTransform(lambda x: x, lambda x: x)
+        if not isinstance(self.value_transform, ValueTransform):
+            self.value_transform = ValueTransform(*value_transform)
 
         self.reward_range = reward_range
         if observation_preprocessor is None:

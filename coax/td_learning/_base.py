@@ -31,7 +31,6 @@ from .._core.base_policy import PolicyMixin
 from .._core.value_v import V
 from .._core.value_q import Q
 from ..utils import get_grads_diagnostics
-from ..value_transforms import ValueTransform
 from ..value_losses import huber
 from ..policy_regularizers import PolicyRegularizer
 
@@ -43,15 +42,11 @@ __all__ = (
 
 
 class BaseTDLearning(ABC, RandomStateMixin):
-    def __init__(
-            self, f, f_targ=None, optimizer=None,
-            loss_function=None, value_transform=None, policy_regularizer=None):
+    def __init__(self, f, f_targ=None, optimizer=None, loss_function=None, policy_regularizer=None):
 
         self._f = f
         self._f_targ = f if f_targ is None else f_targ
         self.loss_function = huber if loss_function is None else loss_function
-        self.value_transform = \
-            ValueTransform(lambda x: x, lambda x: x) if value_transform is None else value_transform
 
         if not isinstance(policy_regularizer, (PolicyRegularizer, type(None))):
             raise TypeError(
@@ -61,6 +56,13 @@ class BaseTDLearning(ABC, RandomStateMixin):
         # optimizer
         self._optimizer = optax.adam(1e-3) if optimizer is None else optimizer
         self._optimizer_state = self.optimizer.init(self._f.params)
+
+        def apply_grads_func(opt, opt_state, params, grads):
+            updates, new_opt_state = opt.update(grads, opt_state, params)
+            new_params = optax.apply_updates(params, updates)
+            return new_opt_state, new_params
+
+        self._apply_grads_func = jax.jit(apply_grads_func, static_argnums=0)
 
     @abstractmethod
     def target_func(self, target_params, target_state, rng, transition_batch):
@@ -194,6 +196,13 @@ class BaseTDLearning(ABC, RandomStateMixin):
     def optimizer(self):
         return self._optimizer
 
+    @optimizer.setter
+    def optimizer(self, new_optimizer):
+        new_optimizer_state_structure = jax.tree_structure(new_optimizer.init(self._f.params))
+        if new_optimizer_state_structure != jax.tree_structure(self.optimizer_state):
+            raise AttributeError("cannot set optimizer attr: mismatch in optimizer_state structure")
+        self._optimizer = new_optimizer
+
     @property
     def optimizer_state(self):
         return self._optimizer_state
@@ -204,9 +213,7 @@ class BaseTDLearning(ABC, RandomStateMixin):
 
 
 class BaseTDLearningV(BaseTDLearning):
-    def __init__(
-            self, v, v_targ=None, optimizer=None,
-            loss_function=None, value_transform=None, policy_regularizer=None):
+    def __init__(self, v, v_targ=None, optimizer=None, loss_function=None, policy_regularizer=None):
 
         if not isinstance(v, V):
             raise TypeError(f"v must be a coax.V, got: {type(v)}")
@@ -218,7 +225,6 @@ class BaseTDLearningV(BaseTDLearning):
             f_targ=v_targ,
             optimizer=optimizer,
             loss_function=loss_function,
-            value_transform=value_transform,
             policy_regularizer=policy_regularizer)
 
         def loss_func(params, target_params, state, target_state, rng, transition_batch):
@@ -282,12 +288,6 @@ class BaseTDLearningV(BaseTDLearning):
             dL_dV = jax.grad(self.loss_function, argnums=1)
             return -dL_dV(G, V)
 
-        def apply_grads_func(opt, opt_state, params, grads):
-            updates, new_opt_state = opt.update(grads, opt_state)
-            new_params = optax.apply_updates(params, updates)
-            return new_opt_state, new_params
-
-        self._apply_grads_func = jax.jit(apply_grads_func, static_argnums=0)
         self._grads_and_metrics_func = jax.jit(grads_and_metrics_func)
         self._td_error_func = jax.jit(td_error_func)
 
@@ -317,9 +317,7 @@ class BaseTDLearningV(BaseTDLearning):
 
 
 class BaseTDLearningQ(BaseTDLearning):
-    def __init__(
-            self, q, q_targ=None, optimizer=None,
-            loss_function=None, value_transform=None, policy_regularizer=None):
+    def __init__(self, q, q_targ=None, optimizer=None, loss_function=None, policy_regularizer=None):
 
         if not isinstance(q, Q):
             raise TypeError(f"q must be a coax.Q, got: {type(q)}")
@@ -331,7 +329,6 @@ class BaseTDLearningQ(BaseTDLearning):
             f_targ=q_targ,
             optimizer=optimizer,
             loss_function=loss_function,
-            value_transform=value_transform,
             policy_regularizer=policy_regularizer)
 
         def loss_func(params, target_params, state, target_state, rng, transition_batch):
@@ -435,7 +432,7 @@ class BaseTDLearningQ(BaseTDLearning):
 class BaseTDLearningQWithTargetPolicy(BaseTDLearningQ):
     def __init__(
             self, q, pi_targ, q_targ=None, optimizer=None,
-            loss_function=None, value_transform=None, policy_regularizer=None):
+            loss_function=None, policy_regularizer=None):
 
         if not isinstance(pi_targ, (PolicyMixin, type(None))):
             raise TypeError(f"pi_targ must be a Policy, got: {type(pi_targ)}")
@@ -446,7 +443,6 @@ class BaseTDLearningQWithTargetPolicy(BaseTDLearningQ):
             q_targ=q_targ,
             optimizer=optimizer,
             loss_function=loss_function,
-            value_transform=value_transform,
             policy_regularizer=policy_regularizer)
 
     @property

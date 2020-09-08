@@ -19,16 +19,16 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-import warnings
 from inspect import signature
 
 import jax
 import jax.numpy as jnp
 import numpy as onp
-from gym.spaces import Space, Discrete
+from gym.spaces import Discrete
 
 from ..utils import single_to_batch, safe_sample
 from ..proba_dists import ProbaDist
+from ..value_transforms import ValueTransform
 from .base_func import BaseFunc, ExampleData, Inputs, ArgsType1, ArgsType2, ModelTypes
 
 
@@ -70,6 +70,25 @@ class Q(BaseFunc):
 
         See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
 
+    value_transform : ValueTransform or pair of funcs, optional
+
+        If provided, the target for the underlying function approximator is transformed such that:
+
+        .. math::
+
+            \tilde{q}_\theta(S_t, A_t)\ \approx\ f(G_t)
+
+        This means that calling the function involves undoing this transformation:
+
+        .. math::
+
+            q(s, a)\ =\ f^{-1}(\tilde{q}_\theta(s, a))
+
+        Here, :math:`f` and :math:`f^{-1}` are given by ``value_transform.transform_func`` and
+        ``value_transform.inverse_func``, respectively. Note that a ValueTransform is just a
+        glorified pair of functions, i.e. passing ``value_transform=(func, inverse_func)`` works
+        just as well.
+
     random_seed : int, optional
 
         Seed for pseudo-random number generators.
@@ -77,11 +96,17 @@ class Q(BaseFunc):
     """
     def __init__(
             self, func, observation_space, action_space,
-            action_preprocessor=None, random_seed=None):
+            action_preprocessor=None, value_transform=None, random_seed=None):
 
         self.action_preprocessor = \
             action_preprocessor if action_preprocessor is not None \
             else ProbaDist(action_space).preprocess_variate
+
+        self.value_transform = value_transform
+        if self.value_transform is None:
+            self.value_transform = ValueTransform(lambda x: x, lambda x: x)
+        if not isinstance(self.value_transform, ValueTransform):
+            self.value_transform = ValueTransform(*value_transform)
 
         super().__init__(
             func,
@@ -121,6 +146,7 @@ class Q(BaseFunc):
         else:
             A = self.action_preprocessor(a)
             Q, _ = self.function_type1(self.params, self.function_state, self.rng, S, A, False)
+        Q = self.value_transform.inverse_func(Q)
         return onp.asarray(Q[0])
 
     @property
@@ -200,10 +226,8 @@ class Q(BaseFunc):
             cls, observation_space, action_space,
             action_preprocessor=None, batch_size=1, random_seed=None):
 
-        if not isinstance(observation_space, Space):
-            raise TypeError(
-                f"observation_space must be derived from gym.Space, got: {type(observation_space)}")
-
+        if action_preprocessor is None:
+            action_preprocessor = ProbaDist(action_space).preprocess_variate
         rnd = onp.random.RandomState(random_seed)
 
         # input: state observations
@@ -211,26 +235,24 @@ class Q(BaseFunc):
         S = jax.tree_multimap(lambda *x: jnp.stack(x, axis=0), *S)
 
         # input: actions
-        A = jax.tree_multimap(
-            lambda *x: jnp.stack(x, axis=0),
-            *(safe_sample(action_space, rnd) for _ in range(batch_size)))
-        try:
-            if action_preprocessor is None:
-                action_preprocessor = ProbaDist(action_space).preprocess_variate
-            A = action_preprocessor(A)
-        except Exception as e:
-            warnings.warn(f"preprocessing failed for actions A; caught exception: {e}")
+        A = [safe_sample(action_space, rnd) for _ in range(batch_size)]
+        A = [action_preprocessor(s) for s in A]
+        A = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *A)
 
+        # output: type1
         q1_data = ExampleData(
             inputs=Inputs(args=ArgsType1(S=S, A=A, is_training=True), static_argnums=(2,)),
             output=jnp.asarray(rnd.randn(batch_size)),
         )
-        q2_data = None
-        if isinstance(action_space, Discrete):
-            q2_data = ExampleData(
-                inputs=Inputs(args=ArgsType2(S=S, is_training=True), static_argnums=(1,)),
-                output=jnp.asarray(rnd.randn(batch_size, action_space.n)),
-            )
+
+        if not isinstance(action_space, Discrete):
+            return ModelTypes(type1=q1_data, type2=None)
+
+        # output: type2 (if actions are discrete)
+        q2_data = ExampleData(
+            inputs=Inputs(args=ArgsType2(S=S, is_training=True), static_argnums=(1,)),
+            output=jnp.asarray(rnd.randn(batch_size, action_space.n)),
+        )
 
         return ModelTypes(type1=q1_data, type2=q2_data)
 

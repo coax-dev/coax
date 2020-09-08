@@ -27,6 +27,7 @@ import numpy as onp
 from gym.spaces import Space
 
 from ..utils import single_to_batch, safe_sample
+from ..value_transforms import ValueTransform
 from .base_func import BaseFunc, ExampleData, Inputs, ArgsType2
 
 
@@ -53,12 +54,38 @@ class V(BaseFunc):
         initializing ``func``. This is done after Haiku-transforming it, see also
         :func:`haiku.transform_with_state`.
 
+    value_transform : ValueTransform or pair of funcs, optional
+
+        If provided, the target for the underlying function approximator is transformed such that:
+
+        .. math::
+
+            \tilde{v}_\theta(S_t)\ \approx\ f(G_t)
+
+        This means that calling the function involves undoing this transformation:
+
+        .. math::
+
+            v(s)\ =\ f^{-1}(\tilde{v}_\theta(s))
+
+        Here, :math:`f` and :math:`f^{-1}` are given by ``value_transform.transform_func`` and
+        ``value_transform.inverse_func``, respectively. Note that a ValueTransform is just a
+        glorified pair of functions, i.e. passing ``value_transform=(func, inverse_func)`` works
+        just as well.
+
     random_seed : int, optional
 
         Seed for pseudo-random number generators.
 
     """
-    def __init__(self, func, observation_space, random_seed=None):
+    def __init__(self, func, observation_space, value_transform=None, random_seed=None):
+
+        self.value_transform = value_transform
+        if self.value_transform is None:
+            self.value_transform = ValueTransform(lambda x: x, lambda x: x)
+        if not isinstance(self.value_transform, ValueTransform):
+            self.value_transform = ValueTransform(*value_transform)
+
         super().__init__(
             func=func,
             observation_space=observation_space,
@@ -85,6 +112,7 @@ class V(BaseFunc):
         """
         S = single_to_batch(s)
         V, _ = self.function(self.params, self.function_state, self.rng, S, False)
+        V = self.value_transform.inverse_func(V)
         return onp.asarray(V[0])
 
     @classmethod

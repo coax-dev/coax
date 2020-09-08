@@ -28,6 +28,7 @@ from .._core.value_v import V
 from .._core.policy import Policy
 from ..utils import get_transition
 from ..policy_regularizers import EntropyRegularizer
+from ..value_transforms import LogTransform
 from ._simple_td import SimpleTD
 
 
@@ -139,6 +140,41 @@ class TestSimpleTD(TestCase):
         # then update with policy regularizer
         policy_reg = EntropyRegularizer(pi, beta=1.0)
         updater = SimpleTD(v, v_targ, optimizer=sgd(1.0), policy_regularizer=policy_reg)
+        updater.update(transition_batch)
+        params_with_reg = deepcopy(v.params)
+        function_state_with_reg = deepcopy(v.function_state)
+        self.assertPytreeNotEqual(params_with_reg, params_init)
+        self.assertPytreeNotEqual(function_state_with_reg, function_state_init)
+        self.assertPytreeNotEqual(params_with_reg, params_without_reg)
+        self.assertPytreeAlmostEqual(function_state_with_reg, function_state_without_reg)  # same!
+
+    def test_value_transform(self):
+        env = self.env_discrete
+        func_v = self.func_v
+        transition_batch = self.transition_discrete
+
+        v = V(func_v, env.observation_space, random_seed=11)
+
+        params_init = deepcopy(v.params)
+        function_state_init = deepcopy(v.function_state)
+
+        # first update without value transform
+        updater = SimpleTD(v, optimizer=sgd(1.0))
+        updater.update(transition_batch)
+        params_without_reg = deepcopy(v.params)
+        function_state_without_reg = deepcopy(v.function_state)
+        self.assertPytreeNotEqual(params_without_reg, params_init)
+        self.assertPytreeNotEqual(function_state_without_reg, function_state_init)
+
+        # reset weights
+        v = V(func_v, env.observation_space, value_transform=LogTransform(), random_seed=11)
+        v.params = deepcopy(params_init)
+        v.function_state = deepcopy(function_state_init)
+        self.assertPytreeAlmostEqual(params_init, v.params)
+        self.assertPytreeAlmostEqual(function_state_init, v.function_state)
+
+        # then update with value transform
+        updater = SimpleTD(v, optimizer=sgd(1.0))
         updater.update(transition_batch)
         params_with_reg = deepcopy(v.params)
         function_state_with_reg = deepcopy(v.function_state)

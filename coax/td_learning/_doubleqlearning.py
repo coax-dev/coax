@@ -82,20 +82,6 @@ class DoubleQLearning(BaseTDLearningQWithTargetPolicy):
         If left unspecified, this defaults to :func:`coax.value_losses.huber`. Check out the
         :mod:`coax.value_losses` module for other predefined loss functions.
 
-    value_transform : ValueTransform or pair of funcs, optional
-
-        If provided, the returns are transformed as follows:
-
-        .. math::
-
-            G^{(n)}_t\ \mapsto\ f\left(G^{(n)}_t\right)\ =\
-                f\left(R^{(n)}_t + I^{(n)}_t\,f^{-1}\left(q(S_{t+n}, A_{t+n})\right)\right)
-
-        where :math:`f` and :math:`f^{-1}` are given by ``value_transform.transform_func`` and
-        ``value_transform.inverse_func``, respectively. See :mod:`coax.td_learning` for examples of
-        value-transforms. Note that a ValueTransform is just a glorified pair of functions, i.e.
-        passing ``value_transform=(func, inverse_func)`` works just as well.
-
     policy_regularizer : PolicyRegularizer, optional
 
         If provided, this policy regularizer is added to the TD-target. A typical example is to use
@@ -112,7 +98,7 @@ class DoubleQLearning(BaseTDLearningQWithTargetPolicy):
     """
     def __init__(
             self, q, pi_targ=None, q_targ=None,
-            optimizer=None, loss_function=None, value_transform=None, policy_regularizer=None):
+            optimizer=None, loss_function=None, policy_regularizer=None):
 
         super().__init__(
             q=q,
@@ -120,7 +106,6 @@ class DoubleQLearning(BaseTDLearningQWithTargetPolicy):
             q_targ=q_targ,
             optimizer=optimizer,
             loss_function=loss_function,
-            value_transform=value_transform,
             policy_regularizer=policy_regularizer)
 
         # consistency checks
@@ -152,5 +137,5 @@ class DoubleQLearning(BaseTDLearningQWithTargetPolicy):
         Q_sa_next, _ = self.q.function_type1(params, state, next(rngs), S_next, A_next, False)
 
         assert Q_sa_next.ndim == 1, f"bad shape: {Q_sa_next.shape}"
-        f, f_inv = self.value_transform
+        f, f_inv = self.q.value_transform
         return f(Rn + In * f_inv(Q_sa_next))
