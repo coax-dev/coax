@@ -70,7 +70,7 @@ buffer = coax.experience_replay.SimpleReplayBuffer(capacity=512)
 
 
 # policy regularizer (avoid premature exploitation)
-policy_reg = coax.policy_regularizers.EntropyRegularizer(pi, beta=0.01)
+policy_reg = coax.regularizers.EntropyRegularizer(pi, beta=0.01)
 
 
 # updaters

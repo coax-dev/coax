@@ -65,7 +65,7 @@ pi_targ = pi.copy()
 q_targ = q.copy()
 
 # policy regularizer (avoid premature exploitation)
-kl_div = coax.policy_regularizers.KLDivRegularizer(pi, beta=0.001)
+kl_div = coax.regularizers.KLDivRegularizer(pi, beta=0.001)
 
 # updaters
 qlearning = coax.td_learning.QLearning(q, pi_targ, q_targ, optimizer=adam(3e-4))

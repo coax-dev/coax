@@ -22,10 +22,10 @@
 import jax
 import jax.numpy as jnp
 
-from ._base import PolicyRegularizer
+from ._base import Regularizer
 
 
-class EntropyRegularizer(PolicyRegularizer):
+class EntropyRegularizer(Regularizer):
     r"""
 
     Policy regularization term based on the entropy of the policy.
@@ -40,25 +40,25 @@ class EntropyRegularizer(PolicyRegularizer):
 
     Parameters
     ----------
-    pi : Policy
+    f : Policy | DynamicsModel | RewardModel
 
-        The policy to be regularized.
+        The stochastic function approximator to regularize.
 
     beta : non-negative float
 
         The coefficient that determines the strength of the overall regularization term.
 
     """
-    def __init__(self, pi, beta=0.001):
-        super().__init__(pi)
+    def __init__(self, f, beta=0.001):
+        super().__init__(f)
         self.beta = beta
 
         def function(dist_params, beta):
-            entropy = self.pi.proba_dist.entropy(dist_params)
+            entropy = self.f.proba_dist.entropy(dist_params)
             return -beta * entropy
 
         def metrics(dist_params, beta):
-            entropy = self.pi.proba_dist.entropy(dist_params)
+            entropy = self.f.proba_dist.entropy(dist_params)
             return {
                 'EntropyRegularizer/beta': beta,
                 'EntropyRegularizer/entropy': jnp.mean(entropy)}
@@ -80,8 +80,7 @@ class EntropyRegularizer(PolicyRegularizer):
         ----------
         dist_params : pytree with ndarray leaves
 
-            The distribution parameters of the (conditional) probability distribution
-            :math:`\pi(a|s)`.
+            The distribution parameters of the (conditional) probability distribution.
 
         beta : non-negative float
 
@@ -100,8 +99,7 @@ class EntropyRegularizer(PolicyRegularizer):
         ----------
         dist_params : pytree with ndarray leaves
 
-            The distribution parameters of the (conditional) probability distribution
-            :math:`\pi(a|s)`.
+            The distribution parameters of the (conditional) probability distribution.
 
         beta : non-negative float
 

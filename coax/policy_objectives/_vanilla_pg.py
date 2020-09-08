@@ -47,9 +47,9 @@ class VanillaPG(PolicyObjective):
         An optax-style optimizer. The default optimizer is :func:`optax.adam(1e-3)
         <optax.adam>`.
 
-    regularizer : PolicyRegularizer, optional
+    regularizer : Regularizer, optional
 
-        A policy regularizer, see :mod:`coax.policy_regularizers`.
+        A policy regularizer, see :mod:`coax.regularizers`.
 
     """
     REQUIRES_PROPENSITIES = False

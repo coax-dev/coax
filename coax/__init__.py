@@ -34,13 +34,14 @@ from ._core.successor_state_q import SuccessorStateQ
 from .utils import safe_sample, render_episode
 
 # pre-load submodules
-from . import experience_replay
 from . import decorators
-from . import td_learning
+from . import experience_replay
+from . import model_updaters
 from . import policy_objectives
-from . import policy_regularizers
 from . import proba_dists
+from . import regularizers
 from . import reward_tracing
+from . import td_learning
 from . import typing
 from . import utils
 from . import value_losses
@@ -63,13 +64,14 @@ __all__ = (
     'render_episode',
 
     # modules
-    'experience_replay',
     'decorators',
-    'td_learning',
+    'experience_replay',
+    'model_updaters',
     'policy_objectives',
-    'policy_regularizers',
     'proba_dists',
+    'regularizers',
     'reward_tracing',
+    'td_learning',
     'typing',
     'utils',
     'value_losses',

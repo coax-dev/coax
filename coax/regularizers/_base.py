@@ -19,36 +19,69 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-r"""
-
-Policy Regularizers
-===================
-
-This is a collection of policy regularizers that can be used to put soft
-constraints on parametrized policy. These is typically added to the
-loss/objective to avoid premature exploitation of a policy.
+from .._core.policy import Policy
+from .._core.dynamics_model import DynamicsModel
+from .._core.reward_model import RewardModel
 
 
-Object Reference
-----------------
+class Regularizer:
+    r"""
 
-.. autosummary::
-    :nosignatures:
+    Abstract base class for policy regularizers. Check out
+    :class:`coax.regularizers.EntropyRegularizer` for a specific example.
 
-    coax.policy_regularizers.PolicyRegularizer
-    coax.policy_regularizers.EntropyRegularizer
-    coax.policy_regularizers.KLDivRegularizer
+    Parameters
+    ----------
+    f : Policy | DynamicsModel | RewardModel
 
+        The stochastic function approximator to regularize.
 
-"""
+    """
+    def __init__(self, f):
+        if not isinstance(f, (Policy, DynamicsModel, RewardModel)):
+            raise TypeError(
+                f"proba_dist must be a Policy, DynamicsModel or RewardModel, got {type(f)}")
+        self.f = f
 
-from ._base import PolicyRegularizer
-from ._entropy import EntropyRegularizer
-from ._kl_div import KLDivRegularizer
+    @property
+    def hyperparams(self):
+        return {}
 
+    @property
+    def function(self):
+        r"""
 
-__all__ = (
-    'PolicyRegularizer',
-    'EntropyRegularizer',
-    'KLDivRegularizer',
-)
+        JIT-compiled function that returns the values for the regularization term.
+
+        Parameters
+        ----------
+        dist_params : pytree with ndarray leaves
+
+            The distribution parameters of the (conditional) probability distribution.
+
+        \*\*hyperparams
+
+            Hyperparameters specific to the regularizer, see :attr:`hyperparams`.
+
+        """
+        return self._function
+
+    @property
+    def metrics_func(self):
+        r"""
+
+        JIT-compiled function that returns the performance metrics for the regularization term.
+
+        Parameters
+        ----------
+        dist_params : pytree with ndarray leaves
+
+            The distribution parameters of the (conditional) probability distribution
+            :math:`\pi(a|s)`.
+
+        \*\*hyperparams
+
+            Hyperparameters specific to the regularizer, see :attr:`hyperparams`.
+
+        """
+        return self._metrics_func

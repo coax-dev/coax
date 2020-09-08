@@ -27,7 +27,7 @@ from .._base.test_case import TestCase
 from .._core.value_v import V
 from .._core.policy import Policy
 from ..utils import get_transition
-from ..policy_regularizers import EntropyRegularizer
+from ..regularizers import EntropyRegularizer
 from ..value_transforms import LogTransform
 from ._simple_td import SimpleTD
 

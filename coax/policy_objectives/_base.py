@@ -28,7 +28,7 @@ import haiku as hk
 
 from .._core.policy import Policy
 from ..utils import get_grads_diagnostics
-from ..policy_regularizers import PolicyRegularizer
+from ..regularizers import Regularizer
 
 
 class PolicyObjective:
@@ -43,9 +43,9 @@ class PolicyObjective:
 
         The parametrized policy :math:`\pi_\theta(a|s)`.
 
-    regularizer : PolicyRegularizer, optional
+    regularizer : Regularizer, optional
 
-        A policy regularizer, see :mod:`coax.policy_regularizers`.
+        A policy regularizer, see :mod:`coax.regularizers`.
 
     """
     REQUIRES_PROPENSITIES = None
@@ -53,8 +53,8 @@ class PolicyObjective:
     def __init__(self, pi, optimizer=None, regularizer=None):
         if not isinstance(pi, Policy):
             raise TypeError(f"pi must be a Policy, got: {type(pi)}")
-        if not isinstance(regularizer, (PolicyRegularizer, type(None))):
-            raise TypeError(f"regularizer must be a PolicyRegularizer, got: {type(regularizer)}")
+        if not isinstance(regularizer, (Regularizer, type(None))):
+            raise TypeError(f"regularizer must be a Regularizer, got: {type(regularizer)}")
 
         self._pi = pi
         self._regularizer = regularizer

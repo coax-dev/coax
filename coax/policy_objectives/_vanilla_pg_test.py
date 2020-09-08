@@ -27,7 +27,7 @@ from optax import sgd
 from .._base.test_case import TestCase
 from .._core.policy import Policy
 from ..utils import tree_ravel
-from ..policy_regularizers import EntropyRegularizer, KLDivRegularizer
+from ..regularizers import EntropyRegularizer, KLDivRegularizer
 from ._vanilla_pg import VanillaPG
 
 

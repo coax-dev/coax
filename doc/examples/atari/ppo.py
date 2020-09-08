@@ -64,7 +64,7 @@ pi_behavior = pi.copy()
 v_targ = v.copy()
 
 # policy regularizer (avoid premature exploitation)
-kl_div = coax.policy_regularizers.KLDivRegularizer(pi, beta=0.001)
+kl_div = coax.regularizers.KLDivRegularizer(pi, beta=0.001)
 
 # updaters
 simpletd = coax.td_learning.SimpleTD(v, v_targ, optimizer=adam(3e-4))

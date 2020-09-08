@@ -22,10 +22,10 @@
 import jax
 import jax.numpy as jnp
 
-from ._base import PolicyRegularizer
+from ._base import Regularizer
 
 
-class KLDivRegularizer(PolicyRegularizer):
+class KLDivRegularizer(Regularizer):
     r"""
 
     Policy regularization term based on the Kullback-Leibler divergence of the policy relative to a
@@ -44,9 +44,9 @@ class KLDivRegularizer(PolicyRegularizer):
 
     Parameters
     ----------
-    pi : Policy
+    f : Policy | DynamicsModel | RewardModel
 
-        The policy to be regularized.
+        The stochastic function approximator to regularize.
 
     beta : non-negative float
 
@@ -59,17 +59,17 @@ class KLDivRegularizer(PolicyRegularizer):
         <coax.proba_dists.NormalDist.default_priors>`.
 
     """
-    def __init__(self, pi, beta=0.001, priors=None):
-        super().__init__(pi)
+    def __init__(self, f, beta=0.001, priors=None):
+        super().__init__(f)
         self.beta = beta
-        self.priors = self.pi.proba_dist.default_priors if priors is None else priors
+        self.priors = self.f.proba_dist.default_priors if priors is None else priors
 
         def function(dist_params, priors, beta):
-            kl_div = self.pi.proba_dist.kl_divergence(priors, dist_params)
+            kl_div = self.f.proba_dist.kl_divergence(priors, dist_params)
             return beta * kl_div
 
         def metrics(dist_params, priors, beta):
-            kl_div = self.pi.proba_dist.kl_divergence(priors, dist_params)
+            kl_div = self.f.proba_dist.kl_divergence(priors, dist_params)
             return {
                 'KLDivRegularizer/beta': beta,
                 'KLDivRegularizer/kl_div': jnp.mean(kl_div)}
@@ -91,8 +91,7 @@ class KLDivRegularizer(PolicyRegularizer):
         ----------
         dist_params : pytree with ndarray leaves
 
-            The distribution parameters of the (conditional) probability distribution
-            :math:`\pi(a|s)`.
+            The distribution parameters of the (conditional) probability distribution.
 
         beta : non-negative float
 
@@ -115,8 +114,7 @@ class KLDivRegularizer(PolicyRegularizer):
         ----------
         dist_params : pytree with ndarray leaves
 
-            The distribution parameters of the (conditional) probability distribution
-            :math:`\pi(a|s)`.
+            The distribution parameters of the (conditional) probability distribution.
 
         beta : non-negative float
 

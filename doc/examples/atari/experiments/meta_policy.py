@@ -102,7 +102,7 @@ class DDPG:
     q_targ = q.copy()
 
     # policy regularizer (avoid premature exploitation)
-    kl = coax.policy_regularizers.KLDivRegularizer(pi, beta=0.001)
+    kl = coax.regularizers.KLDivRegularizer(pi, beta=0.001)
 
     # updaters
     determ_pg = coax.policy_objectives.DeterministicPG(pi, q, regularizer=kl)
@@ -130,7 +130,7 @@ class PPO:
     buffer = coax.experience_replay.SimpleReplayBuffer(capacity=256)
 
     # policy regularizer (avoid premature exploitation)
-    kl = coax.policy_regularizers.KLDivRegularizer(pi, beta=0.001)
+    kl = coax.regularizers.KLDivRegularizer(pi, beta=0.001)
 
     # updaters
     simple_td = coax.td_learning.SimpleTD(v, v_targ)

@@ -71,10 +71,10 @@ class SimpleTD(BaseTDLearningV):
         If left unspecified, this defaults to :func:`coax.value_losses.huber`. Check out the
         :mod:`coax.value_losses` module for other predefined loss functions.
 
-    policy_regularizer : PolicyRegularizer, optional
+    policy_regularizer : Regularizer, optional
 
         If provided, this policy regularizer is added to the TD-target. A typical example is to use
-        an :class:`coax.policy_regularizers.EntropyRegularizer`, which adds the policy entropy to
+        an :class:`coax.regularizers.EntropyRegularizer`, which adds the policy entropy to
         the target. In this case, we minimize the following loss shifted by the entropy term:
 
         .. math::

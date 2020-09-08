@@ -32,7 +32,7 @@ from .._core.value_v import V
 from .._core.value_q import Q
 from ..utils import get_grads_diagnostics
 from ..value_losses import huber
-from ..policy_regularizers import PolicyRegularizer
+from ..regularizers import Regularizer
 
 
 __all__ = (
@@ -48,9 +48,9 @@ class BaseTDLearning(ABC, RandomStateMixin):
         self._f_targ = f if f_targ is None else f_targ
         self.loss_function = huber if loss_function is None else loss_function
 
-        if not isinstance(policy_regularizer, (PolicyRegularizer, type(None))):
+        if not isinstance(policy_regularizer, (Regularizer, type(None))):
             raise TypeError(
-                f"policy_regularizer must be PolicyRegularizer, got: {type(policy_regularizer)}")
+                f"policy_regularizer must be a Regularizer, got: {type(policy_regularizer)}")
         self.policy_regularizer = policy_regularizer
 
         # optimizer
@@ -77,10 +77,6 @@ class BaseTDLearning(ABC, RandomStateMixin):
     @abstractmethod
     def target_function_state(self):
         pass
-
-    @property
-    def hyperparams(self):
-        return {}
 
     def update(self, transition_batch):
         r"""
@@ -235,36 +231,34 @@ class BaseTDLearningV(BaseTDLearning):
 
             # add policy regularization term to target
             if self.policy_regularizer is not None:
-                dist_params, _ = self.policy_regularizer.pi.function(
-                    target_params['reg_pi'], target_state['reg_pi'], next(rngs), S, False)
+                dist_params, _ = self.policy_regularizer.f.function(
+                    target_params['reg'], target_state['reg'], next(rngs), S, False)
                 reg = self.policy_regularizer.function(dist_params, **target_params['reg_hparams'])
                 assert reg.shape == G.shape, f"bad shape: {G.shape} != {reg.shape}"
                 G += -reg  # flip sign (typical example: reg = -beta * entropy)
 
             loss = self.loss_function(G, V)
-            return loss, (loss, G, V, S, state_new)
+            td_error = -jax.grad(self.loss_function, argnums=1)(G, V)  # e.g. (G - V) for MSE loss
+
+            return loss, (loss, td_error, G, V, S, state_new)
 
         def grads_and_metrics_func(
                 params, target_params, state, target_state, rng, transition_batch):
 
             rngs = hk.PRNGSequence(rng)
-            grads, (loss, G, V, S, state_new) = jax.grad(loss_func, has_aux=True)(
+            grads, (loss, td_error, G, V, S, state_new) = jax.grad(loss_func, has_aux=True)(
                 params, target_params, state, target_state, next(rngs), transition_batch)
 
-            # target-network estimate
+            # TD error relative to the target-network estimate
             V_targ, _ = self.v_targ.function(target_params['v_targ'], state, next(rngs), S, False)
-
-            # residuals: estimate - better_estimate
-            err = V - G
-            err_targ = V_targ - V
+            td_error_targ = -jax.grad(self.loss_function, argnums=1)(V, V_targ)  # e.g. (V - V_targ)
 
             name = self.__class__.__name__
             metrics = {
                 f'{name}/loss': loss,
-                f'{name}/bias': jnp.mean(err),
-                f'{name}/rmse': jnp.sqrt(jnp.mean(jnp.square(err))),
-                f'{name}/bias_targ': jnp.mean(err_targ),
-                f'{name}/rmse_targ': jnp.sqrt(jnp.mean(jnp.square(err_targ)))}
+                f'{name}/td_error': jnp.mean(td_error),
+                f'{name}/td_error_targ': jnp.mean(td_error_targ),
+            }
 
             # add some diagnostics of the gradients
             metrics.update(get_grads_diagnostics(grads, key_prefix=f'{name}/grads_'))
@@ -272,21 +266,8 @@ class BaseTDLearningV(BaseTDLearning):
             return grads, state_new, metrics
 
         def td_error_func(params, target_params, state, target_state, rng, transition_batch):
-            rngs = hk.PRNGSequence(rng)
-            S = transition_batch.S
-            G = self.target_func(target_params, target_state, next(rngs), transition_batch)
-            V, _ = self.v.function(params, state, next(rngs), S, False)
-
-            # add policy regularization term to target
-            if self.policy_regularizer is not None:
-                dist_params, _ = self.policy_regularizer.pi.function(
-                    target_params['reg_pi'], target_state['reg_pi'], next(rngs), S, False)
-                reg = self.policy_regularizer.function(dist_params, **target_params['reg_hparams'])
-                assert reg.shape == G.shape, f"bad shape: {G.shape} != {reg.shape}"
-                G += -reg  # flip sign (typical example: reg = -beta * entropy)
-
-            dL_dV = jax.grad(self.loss_function, argnums=1)
-            return -dL_dV(G, V)
+            loss, aux = loss_func(params, target_params, state, target_state, rng, transition_batch)
+            return aux[1]
 
         self._grads_and_metrics_func = jax.jit(grads_and_metrics_func)
         self._td_error_func = jax.jit(td_error_func)
@@ -304,7 +285,7 @@ class BaseTDLearningV(BaseTDLearning):
         return hk.data_structures.to_immutable_dict({
             'v': self.v.params,
             'v_targ': self.v_targ.params,
-            'reg_pi': getattr(getattr(self.policy_regularizer, 'pi', None), 'params', None),
+            'reg': getattr(getattr(self.policy_regularizer, 'f', None), 'params', None),
             'reg_hparams': getattr(self.policy_regularizer, 'hyperparams', None)})
 
     @property
@@ -312,8 +293,7 @@ class BaseTDLearningV(BaseTDLearning):
         return hk.data_structures.to_immutable_dict({
             'v': self.v.function_state,
             'v_targ': self.v_targ.function_state,
-            'reg_pi':
-                getattr(getattr(self.policy_regularizer, 'pi', None), 'function_state', None)})
+            'reg': getattr(getattr(self.policy_regularizer, 'f', None), 'function_state', None)})
 
 
 class BaseTDLearningQ(BaseTDLearning):
@@ -340,37 +320,35 @@ class BaseTDLearningQ(BaseTDLearning):
 
             # add policy regularization term to target
             if self.policy_regularizer is not None:
-                dist_params, _ = self.policy_regularizer.pi.function(
-                    target_params['reg_pi'], target_state['reg_pi'], next(rngs), S, False)
+                dist_params, _ = self.policy_regularizer.f.function(
+                    target_params['reg'], target_state['reg'], next(rngs), S, False)
                 reg = self.policy_regularizer.function(dist_params, **target_params['reg_hparams'])
                 assert reg.shape == G.shape, f"bad shape: {G.shape} != {reg.shape}"
                 G += -reg  # flip sign (typical example: reg = -beta * entropy)
 
             loss = self.loss_function(G, Q)
-            return loss, (loss, G, Q, S, A, state_new)
+            td_error = -jax.grad(self.loss_function, argnums=1)(G, Q)  # e.g. (G - Q) for MSE loss
+
+            return loss, (loss, td_error, G, Q, S, A, state_new)
 
         def grads_and_metrics_func(
                 params, target_params, state, target_state, rng, transition_batch):
 
             rngs = hk.PRNGSequence(rng)
-            grads, (loss, G, Q, S, A, state_new) = jax.grad(loss_func, has_aux=True)(
+            grads, (loss, td_error, G, Q, S, A, state_new) = jax.grad(loss_func, has_aux=True)(
                 params, target_params, state, target_state, next(rngs), transition_batch)
 
-            # target-network estimate
+            # TD error relative to the target-network estimate
             Q_targ, _ = self.q_targ.function_type1(
                 target_params['q_targ'], target_state['q_targ'], next(rngs), S, A, False)
-
-            # residuals: estimate - better_estimate
-            err = Q - G
-            err_targ = Q_targ - Q
+            td_error_targ = -jax.grad(self.loss_function, argnums=1)(Q, Q_targ)  # e.g. (Q - Q_targ)
 
             name = self.__class__.__name__
             metrics = {
                 f'{name}/loss': loss,
-                f'{name}/bias': jnp.mean(err),
-                f'{name}/rmse': jnp.sqrt(jnp.mean(jnp.square(err))),
-                f'{name}/bias_targ': jnp.mean(err_targ),
-                f'{name}/rmse_targ': jnp.sqrt(jnp.mean(jnp.square(err_targ)))}
+                f'{name}/td_error': jnp.mean(td_error),
+                f'{name}/td_error_targ': jnp.mean(td_error_targ),
+            }
 
             # add some diagnostics of the gradients
             metrics.update(get_grads_diagnostics(grads, key_prefix=f'{name}/grads_'))
@@ -378,29 +356,9 @@ class BaseTDLearningQ(BaseTDLearning):
             return grads, state_new, metrics
 
         def td_error_func(params, target_params, state, target_state, rng, transition_batch):
-            rngs = hk.PRNGSequence(rng)
-            S = transition_batch.S
-            A = self.q.action_preprocessor(transition_batch.A)
-            G = self.target_func(target_params, target_state, next(rngs), transition_batch)
-            Q, _ = self.q.function_type1(params, state, next(rngs), S, A, False)
+            loss, aux = loss_func(params, target_params, state, target_state, rng, transition_batch)
+            return aux[1]
 
-            # add policy regularization term to target
-            if self.policy_regularizer is not None:
-                dist_params, _ = self.policy_regularizer.pi.function(
-                    target_params['reg_pi'], target_state['reg_pi'], next(rngs), S, False)
-                reg = self.policy_regularizer.function(dist_params, **target_params['reg_hparams'])
-                assert reg.shape == G.shape, f"bad shape: {G.shape} != {reg.shape}"
-                G += -reg  # flip sign (typical example: reg = -beta * entropy)
-
-            dL_dQ = jax.grad(self.loss_function, argnums=1)
-            return -dL_dQ(G, Q)
-
-        def apply_grads_func(opt, opt_state, params, grads):
-            updates, new_opt_state = opt.update(grads, opt_state)
-            new_params = optax.apply_updates(params, updates)
-            return new_opt_state, new_params
-
-        self._apply_grads_func = jax.jit(apply_grads_func, static_argnums=0)
         self._grads_and_metrics_func = jax.jit(grads_and_metrics_func)
         self._td_error_func = jax.jit(td_error_func)
 
@@ -417,7 +375,7 @@ class BaseTDLearningQ(BaseTDLearning):
         return hk.data_structures.to_immutable_dict({
             'q': self.q.params,
             'q_targ': self.q_targ.params,
-            'reg_pi': getattr(getattr(self.policy_regularizer, 'pi', None), 'params', None),
+            'reg': getattr(getattr(self.policy_regularizer, 'f', None), 'params', None),
             'reg_hparams': getattr(self.policy_regularizer, 'hyperparams', None)})
 
     @property
@@ -425,8 +383,7 @@ class BaseTDLearningQ(BaseTDLearning):
         return hk.data_structures.to_immutable_dict({
             'q': self.q.function_state,
             'q_targ': self.q_targ.function_state,
-            'reg_pi':
-                getattr(getattr(self.policy_regularizer, 'pi', None), 'function_state', None)})
+            'reg': getattr(getattr(self.policy_regularizer, 'f', None), 'function_state', None)})
 
 
 class BaseTDLearningQWithTargetPolicy(BaseTDLearningQ):
@@ -451,7 +408,7 @@ class BaseTDLearningQWithTargetPolicy(BaseTDLearningQ):
             'q': self.q.params,
             'q_targ': self.q_targ.params,
             'pi_targ': getattr(self.pi_targ, 'params', None),
-            'reg_pi': getattr(getattr(self.policy_regularizer, 'pi', None), 'params', None),
+            'reg': getattr(getattr(self.policy_regularizer, 'f', None), 'params', None),
             'reg_hparams': getattr(self.policy_regularizer, 'hyperparams', None)})
 
     @property
@@ -460,5 +417,5 @@ class BaseTDLearningQWithTargetPolicy(BaseTDLearningQ):
             'q': self.q.function_state,
             'q_targ': self.q_targ.function_state,
             'pi_targ': getattr(self.pi_targ, 'function_state', None),
-            'reg_pi':
-                getattr(getattr(self.policy_regularizer, 'pi', None), 'function_state', None)})
+            'reg':
+                getattr(getattr(self.policy_regularizer, 'f', None), 'function_state', None)})

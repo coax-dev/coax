@@ -258,11 +258,11 @@ If this ain't your first rodeo, head over the examples listed :doc:`here <exampl
 
     coax/td_learning
     coax/policy_objectives
-    coax/policy_regularizers
     coax/reward_tracing
     coax/experience_replay
     coax/value_losses
     coax/value_transforms
+    coax/regularizers
 
 .. toctree::
     :caption: Utilities

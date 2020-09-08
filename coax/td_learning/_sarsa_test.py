@@ -27,7 +27,7 @@ from .._base.test_case import TestCase
 from .._core.value_q import Q
 from .._core.policy import Policy
 from ..utils import get_transition
-from ..policy_regularizers import EntropyRegularizer
+from ..regularizers import EntropyRegularizer
 from ._sarsa import Sarsa
 
 
@@ -119,6 +119,8 @@ class TestSarsa(TestCase):
         # then update with policy regularizer
         policy_reg = EntropyRegularizer(pi, beta=1.0)
         updater = Sarsa(q, q_targ, optimizer=sgd(1.0), policy_regularizer=policy_reg)
+        print('updater.target_params:', updater.target_params)
+        print('updater.target_function_state:', updater.target_function_state)
         updater.update(transition_batch)
         params_with_reg = deepcopy(q.params)
         function_state_with_reg = deepcopy(q.function_state)
