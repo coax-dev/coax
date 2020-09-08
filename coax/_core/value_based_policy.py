@@ -28,6 +28,7 @@ from ..utils import docstring
 from ..proba_dists import CategoricalDist
 from .base_policy import PolicyMixin
 from .value_q import Q
+from .successor_state_q import SuccessorStateQ
 
 
 __all__ = (
@@ -40,7 +41,7 @@ class BaseValueBasedPolicy(PolicyMixin):
     """ Abstract base class for value-based policies. """
 
     def __init__(self, q):
-        if not isinstance(q, Q):
+        if not isinstance(q, (Q, SuccessorStateQ)):
             raise TypeError("q must be an instance of coax.Q")
 
         if not isinstance(q.action_space, gym.spaces.Discrete):

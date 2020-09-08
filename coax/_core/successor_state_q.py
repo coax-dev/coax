@@ -19,12 +19,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+import jax
+import haiku as hk
 
-import numpy as onp
-from gym.spaces import Discrete
-
-from ..utils import safe_sample
 from .._core.value_v import V
+from .._core.value_q import Q
+from .._core.dynamics_model import DynamicsModel
+from .._core.reward_model import RewardModel
 
 
 __all__ = (
@@ -49,7 +50,7 @@ class SuccessorStateQ:
         A dynamics model :math:`p(s'|s,a)`. This may also be a ordinary function with the signature:
         :code:`(Observation, Action) -> Observation`.
 
-    r : RewardFunction
+    r : RewardModel
 
         A reward function :math:`r(s,a)`. This may also be a ordinary function with the signature:
         :code:`(Observation, Action) -> float`.
@@ -58,35 +59,122 @@ class SuccessorStateQ:
 
         The discount factor for future rewards :math:`\gamma\in[0,1]`.
 
-    random_seed : int, optional
-
-        Seed for pseudo-random number generators.
-
     """
     def __init__(self, v, p, r, gamma=0.9):
-        self._check_functions(v, p, r)
+        # some explicit type checks
+        if not isinstance(v, V):
+            raise TypeError(f"v must be of type V, got: {type(v)}")
+        if not isinstance(p, DynamicsModel):
+            raise TypeError(f"p must be of type DynamicsModel, got: {type(p)}")
+        if not isinstance(r, RewardModel):
+            raise TypeError(f"r must be of type RewardModel, got: {type(r)}")
+
         self.v = v
         self.p = p
         self.r = r
         self.gamma = gamma
 
-    @staticmethod
-    def _check_functions(v, p, r):
-        if not isinstance(v, V):
-            raise TypeError(f"v must be of type V, got: {type(v)}")
-        s = safe_sample(v.observation_space)
-        a = safe_sample(v.action_space)
-        try:
-            assert p(s, a) in v.observation_space, "s_next is not an element of observation_space"
-        except Exception as e:
-            raise TypeError(
-                "the dynamics model p(s'|s,a) generated a invalid successor state; "
-                f"caught exception: {e}")
-        try:
-            float(r(s, a))
-        except Exception as e:
-            raise TypeError(
-                f"the reward model r(s,a) generated an invalid reward; caught exception: {e}")
+        # we assume that self.r uses the same action preprocessor
+        self.observation_space = self.p.observation_space
+        self.action_space = self.p.action_space
+        self.action_preprocessor = self.p.action_preprocessor
+
+    @property
+    def rng(self):
+        return self.v.rng
+
+    @property
+    def params(self):
+        return hk.data_structures.to_immutable_dict({
+            'v': self.v.params,
+            'p': self.p.params,
+            'r': self.r.params,
+            'gamma': self.gamma,
+        })
+
+    @property
+    def function_state(self):
+        return hk.data_structures.to_immutable_dict({
+            'v': self.v.function_state,
+            'p': self.p.function_state,
+            'r': self.r.function_state,
+        })
+
+    @property
+    def function_type1(self):
+        if not hasattr(self, '_function_type1'):
+            def func(params, state, rng, S, A, is_training):
+                rngs = hk.PRNGSequence(rng)
+                new_state = dict(state)
+
+                # s' ~ p(.|s,a)
+                S_ = self.p.observation_preprocessor(S)
+                dist_params, new_state['p'] = \
+                    self.p.function_type1(params['p'], state['p'], next(rngs), S_, A, is_training)
+                S_next = self.p.proba_dist.sample(dist_params, next(rngs))
+                S_next = self.p.proba_dist.postprocess_variate(S_next, batch_mode=True)
+
+                # r = r(s,a)
+                S_ = self.r.observation_preprocessor(S)
+                dist_params, new_state['r'] = \
+                    self.r.function_type1(params['r'], state['r'], next(rngs), S_, A, is_training)
+                R = self.r.proba_dist.sample(dist_params, next(rngs))
+                R = self.r.proba_dist.postprocess_variate(R, batch_mode=True)
+
+                # v(s')
+                V, new_state['v'] = \
+                    self.v.function(params['v'], state['v'], next(rngs), S_next, is_training)
+
+                # q = r + γ v(s')
+                Q_sa = R + params['gamma'] * V
+                assert Q_sa.ndim == 1, f"bad shape: {Q_sa.shape}"
+
+                return Q_sa, hk.data_structures.to_immutable_dict(new_state)
+
+            self._function_type1 = jax.jit(func, static_argnums=(5,))
+
+        return self._function_type1
+
+    @property
+    def function_type2(self):
+        if not hasattr(self, '_function_type2'):
+            def func(params, state, rng, S, is_training):
+                rngs = hk.PRNGSequence(rng)
+                new_state = dict(state)
+
+                # s' ~ p(s'|s,.)  # note: S_next is replicated, one for each (discrete) action
+                S_ = self.p.observation_preprocessor(S)
+                dist_params_rep, new_state['p'] = \
+                    self.p.function_type2(params['p'], state['p'], next(rngs), S_, is_training)
+                dist_params_rep = jax.tree_map(self.p._reshape_to_replicas, dist_params_rep)
+                S_next_rep = self.p.proba_dist.sample(dist_params_rep, next(rngs))
+
+                # r ~ p(r|s,a)  # note: R is replicated, one for each (discrete) action
+                S_ = self.r.observation_preprocessor(S)
+                dist_params_rep, new_state['r'] = \
+                    self.r.function_type2(params['r'], state['r'], next(rngs), S_, is_training)
+                dist_params_rep = jax.tree_map(self.r._reshape_to_replicas, dist_params_rep)
+                R_rep = self.r.proba_dist.sample(dist_params_rep, next(rngs))
+                R_rep = self.r.proba_dist.postprocess_variate(R_rep, batch_mode=True)
+
+                # v(s')  # note: since the input S_next is replicated, so is the output V
+                S_next_rep = self.p.proba_dist.postprocess_variate(S_next_rep, batch_mode=True)
+                V_rep, new_state['v'] = \
+                    self.v.function(params['v'], state['v'], next(rngs), S_next_rep, is_training)
+
+                # q = r + γ v(s')
+                Q_rep = R_rep + params['gamma'] * V_rep
+
+                # reshape from (batch x num_actions, *) to (batch, num_actions, *)
+                Q_s = self.p._reshape_from_replicas(Q_rep)
+                assert Q_s.ndim == 2, f"bad shape: {Q_s.shape}"
+                assert Q_s.shape[1] == self.action_space.n, f"bad shape: {Q_s.shape}"
+
+                return Q_s, hk.data_structures.to_immutable_dict(new_state)
+
+            self._function_type2 = jax.jit(func, static_argnums=(4,))
+
+        return self._function_type2
 
     def __call__(self, s, a=None):
         r"""
@@ -114,10 +202,4 @@ class SuccessorStateQ:
             discrete action spaces.
 
         """
-        v, p, r, γ = self.v, self.p, self.r, self.gamma
-        if a is None:
-            if not isinstance(self.v.action_space, Discrete):
-                raise TypeError(
-                    "input 'a' is required for q-function when action space is non-Discrete")
-            return onp.stack([r(s, a) + γ * v(p(s, a)) for a in range(self.v.action_space.n)])
-        return r(s, a) + γ * v(p(s, a))
+        return Q.__call__(self, s, a=a)
