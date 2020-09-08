@@ -23,7 +23,6 @@ import jax
 import jax.numpy as jnp
 import numpy as onp
 from gym.spaces import Box
-from scipy.special import expit as sigmoid
 
 from ._base import BaseProbaDist
 from ..utils import clipped_logit
@@ -326,12 +325,17 @@ class NormalDist(BaseProbaDist):
         X = jnp.asarray(X, dtype=self.space.dtype).reshape(-1, *self.space.shape)
         hi = jnp.clip(self.space.high.reshape(-1, *self.space.shape), self.clip_min, self.clip_max)
         lo = jnp.clip(self.space.low.reshape(-1, *self.space.shape), self.clip_min, self.clip_max)
-        X_box = lo + (hi - lo) * sigmoid(X)
-        x = onp.asanyarray(X_box[index])
-        assert self.space.contains(x), \
-            f"{self.__class__.__name__}.postprocessor_variate failed for X: {X}, which was " \
-            f"transformed to x: {x} which isn't contained in original space: {self.space}"
-        return X_box if batch_mode else x
+        X_box = lo + (hi - lo) * jax.nn.sigmoid(X)
+        x = X_box[index]
+        try:
+            assert self.space.contains(onp.asanyarray(x)), \
+                f"{self.__class__.__name__}.postprocessor_variate failed for X: {X}, which was " \
+                f"transformed to x: {x} which isn't contained in original space: {self.space}"
+        except Exception as e:
+            msg = "The numpy.ndarray conversion method __array__() was called on the JAX Tracer "
+            if not e.args[0].startswith(msg):
+                raise
+        return X_box if batch_mode else onp.asanyarray(x)
 
     def preprocess_variate(self, X):
         X = X.reshape(-1, *self.space.shape)
