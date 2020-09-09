@@ -1,5 +1,5 @@
-Sphinx>=3.1.2
+Sphinx>=3.2.1
 sphinx-rtd-theme>=0.5.0
 nbsphinx>=0.7.1
-sphinx-tabs>=1.1.13
+sphinx-tabs>=1.2.1
 sphinx-copybutton>=0.3.0

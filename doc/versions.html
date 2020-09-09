@@ -7,15 +7,6 @@
   column-gap: 0;
   text-align: center;
 }
-.version.options.os {
-  column-count: 2;
-}
-.version.options.python {
-  column-count: 3;
-}
-.version.options.cuda {
-  column-count: 4;
-}
 .version.title {
   width: 25%;
   padding: 10px 10px 10px 0px;
@@ -44,29 +35,30 @@
 <tbody>
   <tr>
     <td class="version title os">OS:</td>
-    <td class="version options os">
-      <!-- if you add a row here, make sure to update 'column-count' in css rule above -->
+    <td class="version options os" style="column-count: 2">
       <div id="macosx_10_9_x86_64" class="version option os">Mac</div>
       <div id="manylinux2010_x86_64" class="version option os selected">Linux</div>
+      <!-- if you add a row here, make sure to update 'column-count' as well -->
     </td>
   </tr>
   <tr>
     <td class="version title python">Python version:</td>
-    <td class="version options python">
-      <!-- if you add a row here, make sure to update 'column-count' in css rule above -->
+    <td class="version options python" style="column-count: 3">
       <div id="cp36" class="version option python">3.6</div>
       <div id="cp37" class="version option python">3.7</div>
       <div id="cp38" class="version option python selected">3.8</div>
+      <!-- if you add a row here, make sure to update 'column-count' as well -->
     </td>
   </tr>
   <tr>
     <td class="version title cuda">CUDA version:</td>
-    <td class="version options cuda">
-      <!-- if you add a row here, make sure to update 'column-count' in css rule above -->
+    <td class="version options cuda" style="column-count: 5">
       <div id="nocuda"  class="version option cuda selected">none</div>
       <div id="cuda100" class="version option cuda">10.0</div>
       <div id="cuda101" class="version option cuda">10.1</div>
       <div id="cuda102" class="version option cuda">10.2</div>
+      <div id="cuda110" class="version option cuda">11.0</div>
+      <!-- if you add a row here, make sure to update 'column-count' as well -->
     </td>
   </tr>
 </tbody>

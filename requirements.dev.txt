@@ -1,12 +1,12 @@
 flake8>=3.8.3
-pylint>=2.5.3
+pylint>=2.6.0
 pur>=5.3.0
-pytest>=5.4.3
+pytest>=6.0.1
 pytest-cov>=2.10.1
-pytest-xdist>=1.32.0
+pytest-xdist>=2.1.0
 twine>=3.2.0
 gym[atari,box2d]>=0.17.2
-jax>=0.1.73
+jax>=0.1.76
 jaxlib>=0.1.52
 jupyter>=1.0.0
-sphinx-autobuild>=0.7.1
+sphinx-autobuild>=2020.9.1
