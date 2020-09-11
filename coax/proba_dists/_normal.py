@@ -19,6 +19,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+import warnings
+
 import jax
 import jax.numpy as jnp
 import numpy as onp
@@ -53,27 +55,53 @@ class NormalDist(BaseProbaDist):
 
         The gym-style space that specifies the domain of the distribution.
 
-    clip_min : float, optional
+    clip_box_range : float, optional
 
-        The lower clipping value to use when clipping bounded and non-bounded variates. This
-        clipping is done for numeric stability, i.e. it is *not* related to ensuring that bounded
-        variates fit the bounding box.
+        The range of values to allow. This is mainly to ensure reasonable values when one or
+        more dimensions of the Box space have very large ranges, i.e. large values for :code:`high -
+        low`, while in reality only a small part of that range is occupied. We therefore clip by
+        scaling down the box bounds as:
 
-    clip_max : float, optional
+        .. math::
 
-        The upper clipping value to use when clipping bounded and non-bounded variates. This
-        clipping is done for numeric stability, i.e. it is *not* related to ensuring that bounded
-        variates fit the bounding box.
+            (\texttt{low}, \texttt{high})\
+                \mapsto\ (\texttt{low} / \Lambda, \texttt{high} / \Lambda)
+
+        where
+
+        .. math::
+
+            \Lambda\ =\
+                \min\left(1, \frac{\texttt{clip_box_range}}{\texttt{high} - \texttt{low}}\right)
+
+    clip_reals_range : float, optional
+
+        The range of values to allow for the decompactified values, the *reals*, used internally.
+        This range is set for numeric stability. Namely, the :attr:`postprocess_variate` method
+        compactifies the reals to a closed interval (Box) by applying a logistic sigmoid. Setting a
+        finite :code:`clip_reals_range` ensures that the sigmoid doesn't fully saturate.
 
     """
-    def __init__(self, space, clip_min=-15, clip_max=15):
+    def __init__(self, space, clip_box_range=300., clip_reals_range=60.):
         if not isinstance(space, Box):
             raise TypeError(f"{self.__class__.__name__} can only be defined over Box spaces")
 
-        self.clip_min = clip_min
-        self.clip_max = clip_max
         super().__init__(space)
-        log_2pi = 1.8378770664093453  # abbreviation
+
+        self.clip_box_range = clip_box_range
+        self.clip_reals_range = clip_reals_range
+
+        high, low = onp.expand_dims(self.space.high, 0), onp.expand_dims(self.space.low, 0)
+        self._box_scale = onp.minimum(1., self.clip_box_range / (high - low))
+        self._low = low * self._box_scale
+        self._high = high * self._box_scale
+
+        if onp.any(self._box_scale < 1.):
+            warnings.warn(
+                f"one or more dimensions of Box(low={self.space.low}, high={self.space.high}) "
+                f"will be clipped to Box(low={self._low[0]}, high={self._high[0]})")
+
+        log_2pi = onp.asarray(1.8378770664093453)  # abbreviation
 
         def sample(dist_params, rng):
             mu, logvar = dist_params['mu'], dist_params['logvar']
@@ -322,25 +350,14 @@ class NormalDist(BaseProbaDist):
         return {'mu': jnp.zeros(shape), 'logvar': jnp.zeros(shape)}
 
     def postprocess_variate(self, X, index=0, batch_mode=False):
-        X = jnp.asarray(X, dtype=self.space.dtype).reshape(-1, *self.space.shape)
-        hi = jnp.clip(self.space.high.reshape(-1, *self.space.shape), self.clip_min, self.clip_max)
-        lo = jnp.clip(self.space.low.reshape(-1, *self.space.shape), self.clip_min, self.clip_max)
-        X_box = lo + (hi - lo) * jax.nn.sigmoid(X)
-        x = X_box[index]
-        try:
-            assert self.space.contains(onp.asanyarray(x)), \
-                f"{self.__class__.__name__}.postprocessor_variate failed for X: {X}, which was " \
-                f"transformed to x: {x} which isn't contained in original space: {self.space}"
-        except Exception as e:
-            msg = "The numpy.ndarray conversion method __array__() was called on the JAX Tracer "
-            if not e.args[0].startswith(msg):
-                raise
-        return X_box if batch_mode else onp.asanyarray(x)
+        X = jnp.asarray(X, dtype=self.space.dtype)   # ensure ndarray with correct dtype
+        X = jnp.reshape(X, (-1, *self.space.shape))  # ensure correct shape
+        X = jnp.clip(X, -self.clip_reals_range / 2, self.clip_reals_range / 2)  # clip for stability
+        X = self._low + (self._high - self._low) * jax.nn.sigmoid(X)  # reals -> closed interval
+        return X if batch_mode else onp.asanyarray(X[index])
 
     def preprocess_variate(self, X):
-        X = X.reshape(-1, *self.space.shape)
-        X = jnp.clip(X, self.clip_min, self.clip_max)
-        hi = jnp.clip(self.space.high.reshape(-1, *self.space.shape), self.clip_min, self.clip_max)
-        lo = jnp.clip(self.space.low.reshape(-1, *self.space.shape), self.clip_min, self.clip_max)
-        X = clipped_logit((X - lo) / (hi - lo))
+        X = jnp.asarray(X, dtype=self.space.dtype)   # ensure ndarray with correct dtype
+        X = jnp.reshape(X, (-1, *self.space.shape))  # ensure batch axis
+        X = clipped_logit((X - self._low) / (self._high - self._low))  # closed intervals -> reals
         return X

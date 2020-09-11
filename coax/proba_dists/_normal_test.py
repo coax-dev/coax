@@ -49,3 +49,14 @@ class TestNormalDist(TestCase):
         kl_div_direct = dist.kl_divergence(params_p, params_q)
         kl_div_from_ce = dist.cross_entropy(params_p, params_q) - dist.entropy(params_p)
         self.assertArrayAlmostEqual(kl_div_direct, kl_div_from_ce)
+
+    def test_box_clip(self):
+        msg = (
+            r"one or more dimensions of Box\(low=.*, high=.*\) "
+            r"will be clipped to Box\(low=.*, high=.*\)"
+        )
+        with self.assertWarnsRegex(UserWarning, msg):
+            dist = NormalDist(gym.spaces.Box(low=-1000, high=10000000, shape=(1,)))
+
+        self.assertGreater(dist._low[0, 0], dist.space.low[0])
+        self.assertLess(dist._high[0, 0], dist.space.high[0])

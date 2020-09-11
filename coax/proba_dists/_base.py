@@ -216,7 +216,7 @@ class BaseProbaDist(ABC):
         r""" The default distribution parameters. """
         pass
 
-    def postprocess_variate(self, X, batch_mode=False):
+    def postprocess_variate(self, X, index=0, batch_mode=False):
         r"""
 
         The post-processor specific to variates drawn from this ditribution.
@@ -230,6 +230,11 @@ class BaseProbaDist(ABC):
 
             A batch of **raw** clean variates, i.e. same format as the outputs of :func:`sample`
             and :func:`mode`.
+
+        index : int, optional
+
+            The index to pick out from the batch. Note that this only applies if
+            :code:`batch_mode=False`.
 
         batch_mode : bool, optional
 
