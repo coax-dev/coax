@@ -93,8 +93,9 @@ class TestSimpleTD(TestCase):
         self.assertPytreeNotEqual(function_state_without_reg, function_state_init)
 
         # reset weights
-        v.params = deepcopy(params_init)
-        v.function_state = deepcopy(function_state_init)
+        v = V(func_v, env.observation_space, random_seed=11)
+        pi = Policy(func_pi, env.observation_space, env.action_space, random_seed=17)
+        v_targ = v.copy()
         self.assertPytreeAlmostEqual(params_init, v.params)
         self.assertPytreeAlmostEqual(function_state_init, v.function_state)
 
@@ -132,8 +133,9 @@ class TestSimpleTD(TestCase):
         self.assertPytreeNotEqual(function_state_without_reg, function_state_init)
 
         # reset weights
-        v.params = deepcopy(params_init)
-        v.function_state = deepcopy(function_state_init)
+        v = V(func_v, env.observation_space, random_seed=11)
+        pi = Policy(func_pi, env.observation_space, env.action_space, random_seed=17)
+        v_targ = v.copy()
         self.assertPytreeAlmostEqual(params_init, v.params)
         self.assertPytreeAlmostEqual(function_state_init, v.function_state)
 
@@ -168,8 +170,6 @@ class TestSimpleTD(TestCase):
 
         # reset weights
         v = V(func_v, env.observation_space, value_transform=LogTransform(), random_seed=11)
-        v.params = deepcopy(params_init)
-        v.function_state = deepcopy(function_state_init)
         self.assertPytreeAlmostEqual(params_init, v.params)
         self.assertPytreeAlmostEqual(function_state_init, v.function_state)
 

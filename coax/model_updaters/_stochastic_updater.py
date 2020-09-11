@@ -28,6 +28,7 @@ from .._core.dynamics_model import DynamicsModel
 from .._core.reward_model import RewardModel
 from ..utils import get_grads_diagnostics
 from ..value_losses import huber
+from ..regularizers import Regularizer
 
 
 __all__ = (
@@ -68,9 +69,12 @@ class StochasticUpdater:
     def __init__(self, model, optimizer=None, loss_function=None, regularizer=None):
         if not isinstance(model, (DynamicsModel, RewardModel)):
             raise TypeError(f"model must be a DynamicsModel or RewardModel, got: {type(model)}")
+        if not isinstance(regularizer, (Regularizer, type(None))):
+            raise TypeError(f"regularizer must be a Regularizer, got: {type(regularizer)}")
 
         self.model = model
         self.loss_function = huber if loss_function is None else loss_function
+        self.regularizer = regularizer
 
         # optimizer
         self._optimizer = optax.adam(1e-3) if optimizer is None else optimizer
@@ -81,24 +85,34 @@ class StochasticUpdater:
             new_params = optax.apply_updates(params, updates)
             return new_opt_state, new_params
 
-        def loss_func(params, state, rng, transition_batch):
+        def loss_func(params, state, hyperparams, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
             S = self.model.observation_preprocessor(transition_batch.S)
             A = self.model.action_preprocessor(transition_batch.A)
             dist_params, new_state = \
                 self.model.function_type1(params, state, next(rngs), S, A, True)
             y_pred = self.model.proba_dist.sample(dist_params, next(rngs))
+
             if isinstance(self.model, DynamicsModel):
                 y_true = self.model.observation_preprocessor(transition_batch.S_next)
-            if isinstance(self.model, RewardModel):
+            elif isinstance(self.model, RewardModel):
                 y_true = self.model.value_transform.transform_func(transition_batch.Rn)
+            else:
+                raise AssertionError(f"unexpected model type: {type(self.model)}")
+
             loss = self.loss_function(y_true, y_pred)
             td_error = -jax.grad(self.loss_function, argnums=1)(y_true, y_pred)
+
+            # add regularization term
+            if self.regularizer is not None:
+                hparams = hyperparams['regularizer']
+                loss = loss + jnp.mean(self.regularizer.function(dist_params, **hparams))
+
             return loss, (loss, td_error, new_state)
 
-        def grads_and_metrics_func(params, state, rng, transition_batch):
+        def grads_and_metrics_func(params, state, hyperparams, rng, transition_batch):
             grads, (loss, td_error, new_state) = \
-                jax.grad(loss_func, has_aux=True)(params, state, rng, transition_batch)
+                jax.grad(loss_func, has_aux=True)(params, state, hyperparams, rng, transition_batch)
 
             name = self.__class__.__name__
             metrics = {
@@ -111,13 +125,8 @@ class StochasticUpdater:
 
             return grads, new_state, metrics
 
-        def td_error_func(params, state, rng, transition_batch):
-            loss, aux = loss_func(params, state, rng, transition_batch)
-            return aux[1]
-
         self._apply_grads_func = jax.jit(apply_grads_func, static_argnums=0)
         self._grads_and_metrics_func = jax.jit(grads_and_metrics_func)
-        self._td_error_func = jax.jit(td_error_func)
 
     def update(self, transition_batch):
         r"""
@@ -196,36 +205,13 @@ class StochasticUpdater:
 
         """
         return self._grads_and_metrics_func(
-            self.model.params, self.model.function_state, self.model.rng, transition_batch)
+            self.model.params, self.model.function_state, self.hyperparams, self.model.rng,
+            transition_batch)
 
-    def td_error(self, transition_batch):
-        r"""
-
-        Compute the TD-errors associated with a batch of transitions. We define the TD-error as the
-        negative gradient of the :attr:`loss_function` with respect to the predicted value:
-
-        .. math::
-
-            \text{td_error}_i\ =\ -\frac{\partial L(y, \hat{y})}{\partial \hat{y}_i}
-
-        Note that this reduces to the ordinary definition :math:`\text{td_error}=y-\hat{y}` when we
-        use the :func:`coax.value_losses.mse` loss funtion.
-
-        Parameters
-        ----------
-        transition_batch : TransitionBatch
-
-            A batch of transitions.
-
-        Returns
-        -------
-        td_errors : ndarray, shape: [batch_size]
-
-            A batch of TD-errors.
-
-        """
-        return self._td_error_func(
-            self.model.params, self.model.function_state, self.model.rng, transition_batch)
+    @property
+    def hyperparams(self):
+        return hk.data_structures.to_immutable_dict({
+            'regularizer': getattr(self.regularizer, 'hyperparams', {})})
 
     @property
     def optimizer(self):
@@ -244,4 +230,6 @@ class StochasticUpdater:
 
     @optimizer_state.setter
     def optimizer_state(self, new_optimizer_state):
+        if jax.tree_structure(new_optimizer_state) != jax.tree_structure(self.optimizer_state):
+            raise AttributeError("cannot set optimizer_state attr: mismatch in tree structure")
         self._optimizer_state = new_optimizer_state

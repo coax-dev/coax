@@ -111,8 +111,9 @@ class TestSarsa(TestCase):
         self.assertPytreeNotEqual(function_state_without_reg, function_state_init)
 
         # reset weights
-        q.params = deepcopy(params_init)
-        q.function_state = deepcopy(function_state_init)
+        q = Q(func_q, env.observation_space, env.action_space, random_seed=11)
+        pi = Policy(func_pi, env.observation_space, env.action_space, random_seed=17)
+        q_targ = q.copy()
         self.assertPytreeAlmostEqual(params_init, q.params)
         self.assertPytreeAlmostEqual(function_state_init, q.function_state)
 
@@ -152,10 +153,11 @@ class TestSarsa(TestCase):
         self.assertPytreeNotEqual(function_state_without_reg, function_state_init)
 
         # reset weights
-        q.params = deepcopy(params_init)
-        q.function_state = deepcopy(function_state_init)
-        self.assertPytreeAlmostEqual(params_init, q.params)
-        self.assertPytreeAlmostEqual(function_state_init, q.function_state)
+        q = Q(func_q, env.observation_space, env.action_space, random_seed=11)
+        pi = Policy(func_pi, env.observation_space, env.action_space, random_seed=17)
+        q_targ = q.copy()
+        self.assertPytreeAlmostEqual(params_init, q.params, decimal=10)
+        self.assertPytreeAlmostEqual(function_state_init, q.function_state, decimal=10)
 
         # then update with policy regularizer
         policy_reg = EntropyRegularizer(pi, beta=1.0)
@@ -164,6 +166,6 @@ class TestSarsa(TestCase):
         params_with_reg = deepcopy(q.params)
         function_state_with_reg = deepcopy(q.function_state)
         self.assertPytreeNotEqual(params_with_reg, params_init)
+        self.assertPytreeNotEqual(params_with_reg, params_without_reg)  # <--- important
         self.assertPytreeNotEqual(function_state_with_reg, function_state_init)
-        self.assertPytreeNotEqual(params_with_reg, params_without_reg)
         self.assertPytreeAlmostEqual(function_state_with_reg, function_state_without_reg)  # same!

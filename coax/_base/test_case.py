@@ -186,11 +186,8 @@ class TestCase(unittest.TestCase):
             batch_norm_m = partial(batch_norm_m, is_training=is_training)
             batch_norm_v = partial(batch_norm_v, is_training=is_training)
             mu = hk.Sequential((
-                hk.Linear(7),
-                batch_norm_m,
-                jnp.tanh,
-                hk.Linear(3),
-                jnp.tanh,
+                hk.Linear(7), batch_norm_m, jnp.tanh,
+                hk.Linear(3), jnp.tanh,
                 hk.Linear(onp.prod(self.env_boxspace.action_space.shape)),
                 hk.Reshape(self.env_boxspace.action_space.shape),
             ))
@@ -244,6 +241,57 @@ class TestCase(unittest.TestCase):
                 hk.Linear(1), jnp.ravel
             ))
             return seq(flatten(S))
+        return func
+
+    @property
+    def func_p_type1(self):
+        def func(S, A, is_training):
+            output_shape = self.env_discrete.observation_space.shape
+            flatten = hk.Flatten()
+            batch_norm_m = hk.BatchNorm(create_scale=True, create_offset=True, decay_rate=0.95)
+            batch_norm_v = hk.BatchNorm(create_scale=True, create_offset=True, decay_rate=0.95)
+            batch_norm_m = partial(batch_norm_m, is_training=is_training)
+            batch_norm_v = partial(batch_norm_v, is_training=is_training)
+            mu = hk.Sequential((
+                hk.Linear(7), batch_norm_m, jnp.tanh,
+                hk.Linear(3), jnp.tanh,
+                hk.Linear(onp.prod(output_shape)),
+                hk.Reshape(output_shape),
+            ))
+            logvar = hk.Sequential((
+                hk.Linear(7), batch_norm_v, jnp.tanh,
+                hk.Linear(3), jnp.tanh,
+                hk.Linear(onp.prod(output_shape)),
+                hk.Reshape(output_shape),
+            ))
+            X = jnp.concatenate((flatten(S), flatten(A)), axis=-1)
+            return {'mu': mu(X), 'logvar': logvar(X)}
+        return func
+
+    @property
+    def func_p_type2(self):
+        def func(S, is_training):
+            env = self.env_discrete
+            output_shape = (env.action_space.n, *env.observation_space.shape)
+            flatten = hk.Flatten()
+            batch_norm_m = hk.BatchNorm(create_scale=True, create_offset=True, decay_rate=0.95)
+            batch_norm_v = hk.BatchNorm(create_scale=True, create_offset=True, decay_rate=0.95)
+            batch_norm_m = partial(batch_norm_m, is_training=is_training)
+            batch_norm_v = partial(batch_norm_v, is_training=is_training)
+            mu = hk.Sequential((
+                hk.Linear(7), batch_norm_m, jnp.tanh,
+                hk.Linear(3), jnp.tanh,
+                hk.Linear(onp.prod(output_shape)),
+                hk.Reshape(output_shape),
+            ))
+            logvar = hk.Sequential((
+                hk.Linear(7), batch_norm_v, jnp.tanh,
+                hk.Linear(3), jnp.tanh,
+                hk.Linear(onp.prod(output_shape)),
+                hk.Reshape(output_shape),
+            ))
+            X = flatten(S)
+            return {'mu': mu(X), 'logvar': logvar(X)}
         return func
 
     def assertArrayAlmostEqual(self, x, y, decimal=None):
