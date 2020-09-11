@@ -298,8 +298,8 @@ try:
     with open('versions.html') as f:
         filecontent = f.read()
     filecontent_new = re.sub(
-        r'var jaxlibVersion = \'\d+\.\d+\.\d+\';  // this is automatically updated from conf\.py',
-        f"var jaxlibVersion = '{__version__}';  // this is automatically updated from conf.py",
+        r'var jaxlibVersion = \'\d+\.\d+\.\d+\';',
+        f"var jaxlibVersion = '{__version__}';",
         filecontent)
     if filecontent_new != filecontent:
         with open('versions.html', 'w') as f:
