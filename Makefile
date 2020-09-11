@@ -60,8 +60,8 @@ flake8:
 
 test_all: test_gpu test_cpu
 
-test: flake8
-	JAX_PLATFORM_NAME=cpu $(PYTHON_EXECUTABLE) -m pytest --numprocesses auto --cov=coax coax -v
+test: flake8  # for quick testing
+	JAX_PLATFORM_NAME=cpu $(PYTHON_EXECUTABLE) -m pytest --numprocesses auto coax -v
 
 test_cpu: flake8
 	JAX_PLATFORM_NAME=cpu $(PYTHON_EXECUTABLE) -m pytest coax -v
