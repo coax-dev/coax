@@ -20,6 +20,7 @@
 # ------------------------------------------------------------------------------------------------ #
 
 from functools import partial
+from collections import namedtuple
 
 import gym
 import jax
@@ -34,7 +35,8 @@ from .dynamics_model import DynamicsModel
 
 discrete = gym.spaces.Discrete(7)
 boxspace = gym.spaces.Box(low=0, high=1, shape=(3, 5))
-multidiscrete = gym.spaces.MultiDiscrete([11, 5, 7])
+
+Env = namedtuple('Env', ('observation_space', 'action_space'))
 
 
 def check_onehot(S):
@@ -125,9 +127,9 @@ class TestDynamicsModel(TestCase):
         # cannot define a type-2 models on a non-discrete action space
         msg = r"type-2 models are only well-defined for Discrete action spaces"
         with self.assertRaisesRegex(TypeError, msg):
-            DynamicsModel(func_boxspace_type2, boxspace, boxspace)
+            DynamicsModel(func_boxspace_type2, Env(boxspace, boxspace))
         with self.assertRaisesRegex(TypeError, msg):
-            DynamicsModel(func_discrete_type2, discrete, boxspace)
+            DynamicsModel(func_discrete_type2, Env(discrete, boxspace))
 
         msg = (
             r"func has bad return tree_structure, "
@@ -135,11 +137,11 @@ class TestDynamicsModel(TestCase):
             r"got: PyTreeDef\(dict\[\['logits'\]\], \[\*\]\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
-            DynamicsModel(func_discrete_type1, boxspace, discrete)
+            DynamicsModel(func_discrete_type1, Env(boxspace, discrete))
         with self.assertRaisesRegex(TypeError, msg):
-            DynamicsModel(func_discrete_type2, boxspace, discrete)
+            DynamicsModel(func_discrete_type2, Env(boxspace, discrete))
         with self.assertRaisesRegex(TypeError, msg):
-            DynamicsModel(func_discrete_type1, boxspace, boxspace)
+            DynamicsModel(func_discrete_type1, Env(boxspace, boxspace))
 
         msg = (
             r"func has bad return tree_structure, "
@@ -147,110 +149,105 @@ class TestDynamicsModel(TestCase):
             r"got: PyTreeDef\(dict\[\['logvar', 'mu'\]\], \[\*,\*\]\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
-            DynamicsModel(func_boxspace_type1, discrete, discrete)
+            DynamicsModel(func_boxspace_type1, Env(discrete, discrete))
         with self.assertRaisesRegex(TypeError, msg):
-            DynamicsModel(func_boxspace_type2, discrete, discrete)
+            DynamicsModel(func_boxspace_type2, Env(discrete, discrete))
         with self.assertRaisesRegex(TypeError, msg):
-            DynamicsModel(func_boxspace_type1, discrete, boxspace)
+            DynamicsModel(func_boxspace_type1, Env(discrete, boxspace))
 
         # these should all be fine
-        DynamicsModel(func_discrete_type1, discrete, boxspace)
-        DynamicsModel(func_discrete_type1, discrete, discrete)
-        DynamicsModel(func_discrete_type2, discrete, discrete)
-        DynamicsModel(func_boxspace_type1, boxspace, boxspace)
-        DynamicsModel(func_boxspace_type1, boxspace, discrete)
-        DynamicsModel(func_boxspace_type2, boxspace, discrete)
+        DynamicsModel(func_discrete_type1, Env(discrete, boxspace))
+        DynamicsModel(func_discrete_type1, Env(discrete, discrete))
+        DynamicsModel(func_discrete_type2, Env(discrete, discrete))
+        DynamicsModel(func_boxspace_type1, Env(boxspace, boxspace))
+        DynamicsModel(func_boxspace_type1, Env(boxspace, discrete))
+        DynamicsModel(func_boxspace_type2, Env(boxspace, discrete))
 
     # test_call_* ##################################################################################
 
     def test_call_discrete_discrete_type1(self):
         func = func_discrete_type1
-        observation_space = discrete
-        action_space = discrete
+        env = Env(discrete, discrete)
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        p = DynamicsModel(func, observation_space, action_space, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        p = DynamicsModel(func, env, random_seed=19)
 
         s_next, logp = p(s, a, return_logp=True)
-        print(s_next, logp, observation_space)
-        self.assertIn(s_next, observation_space)
+        print(s_next, logp, env.observation_space)
+        self.assertIn(s_next, env.observation_space)
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
         for s_next in p(s):
-            print(s_next, observation_space)
-            self.assertIn(s_next, observation_space)
+            print(s_next, env.observation_space)
+            self.assertIn(s_next, env.observation_space)
 
     def test_call_discrete_discrete_type2(self):
         func = func_discrete_type2
-        observation_space = discrete
-        action_space = discrete
+        env = Env(discrete, discrete)
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        p = DynamicsModel(func, observation_space, action_space, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        p = DynamicsModel(func, env, random_seed=19)
 
         s_next, logp = p(s, a, return_logp=True)
-        print(s_next, logp, observation_space)
-        self.assertIn(s_next, observation_space)
+        print(s_next, logp, env.observation_space)
+        self.assertIn(s_next, env.observation_space)
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
         for s_next in p(s):
-            print(s_next, observation_space)
-            self.assertIn(s_next, observation_space)
+            print(s_next, env.observation_space)
+            self.assertIn(s_next, env.observation_space)
 
     def test_call_boxspace_discrete_type1(self):
         func = func_boxspace_type1
-        observation_space = boxspace
-        action_space = discrete
+        env = Env(boxspace, discrete)
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        p = DynamicsModel(func, observation_space, action_space, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        p = DynamicsModel(func, env, random_seed=19)
 
         s_next, logp = p(s, a, return_logp=True)
-        print(s_next, logp, observation_space)
-        self.assertIn(s_next, observation_space)
+        print(s_next, logp, env.observation_space)
+        self.assertIn(s_next, env.observation_space)
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
         for s_next in p(s):
-            print(s_next, observation_space)
-            self.assertIn(s_next, observation_space)
+            print(s_next, env.observation_space)
+            self.assertIn(s_next, env.observation_space)
 
     def test_call_boxspace_discrete_type2(self):
         func = func_boxspace_type2
-        observation_space = boxspace
-        action_space = discrete
+        env = Env(boxspace, discrete)
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        p = DynamicsModel(func, observation_space, action_space, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        p = DynamicsModel(func, env, random_seed=19)
 
         s_next, logp = p(s, a, return_logp=True)
-        print(s_next, logp, observation_space)
-        self.assertIn(s_next, observation_space)
+        print(s_next, logp, env.observation_space)
+        self.assertIn(s_next, env.observation_space)
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
         for s_next in p(s):
-            print(s_next, observation_space)
-            self.assertIn(s_next, observation_space)
+            print(s_next, env.observation_space)
+            self.assertIn(s_next, env.observation_space)
 
     def test_call_discrete_boxspace(self):
         func = func_discrete_type1
-        observation_space = discrete
-        action_space = boxspace
+        env = Env(discrete, boxspace)
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        p = DynamicsModel(func, observation_space, action_space, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        p = DynamicsModel(func, env, random_seed=19)
 
         s_next, logp = p(s, a, return_logp=True)
-        print(s_next, logp, observation_space)
-        self.assertIn(s_next, observation_space)
+        print(s_next, logp, env.observation_space)
+        self.assertIn(s_next, env.observation_space)
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
@@ -260,16 +257,15 @@ class TestDynamicsModel(TestCase):
 
     def test_call_boxspace_boxspace(self):
         func = func_boxspace_type1
-        observation_space = boxspace
-        action_space = boxspace
+        env = Env(boxspace, boxspace)
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        p = DynamicsModel(func, observation_space, action_space, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        p = DynamicsModel(func, env, random_seed=19)
 
         s_next, logp = p(s, a, return_logp=True)
-        print(s_next, logp, observation_space)
-        self.assertIn(s_next, observation_space)
+        print(s_next, logp, env.observation_space)
+        self.assertIn(s_next, env.observation_space)
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
@@ -281,84 +277,79 @@ class TestDynamicsModel(TestCase):
 
     def test_mode_discrete_discrete_type1(self):
         func = func_discrete_type1
-        observation_space = discrete
-        action_space = discrete
+        env = Env(discrete, discrete)
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        p = DynamicsModel(func, observation_space, action_space, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        p = DynamicsModel(func, env, random_seed=19)
 
         s_next = p.mode(s, a)
-        print(s_next, observation_space)
-        self.assertIn(s_next, observation_space)
+        print(s_next, env.observation_space)
+        self.assertIn(s_next, env.observation_space)
 
         for s_next in p.mode(s):
-            print(s_next, observation_space)
-            self.assertIn(s_next, observation_space)
+            print(s_next, env.observation_space)
+            self.assertIn(s_next, env.observation_space)
 
     def test_mode_discrete_discrete_type2(self):
         func = func_discrete_type2
-        observation_space = discrete
-        action_space = discrete
+        env = Env(discrete, discrete)
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        p = DynamicsModel(func, observation_space, action_space, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        p = DynamicsModel(func, env, random_seed=19)
 
         s_next = p.mode(s, a)
-        print(s_next, observation_space)
-        self.assertIn(s_next, observation_space)
+        print(s_next, env.observation_space)
+        self.assertIn(s_next, env.observation_space)
 
         for s_next in p.mode(s):
-            print(s_next, observation_space)
-            self.assertIn(s_next, observation_space)
+            print(s_next, env.observation_space)
+            self.assertIn(s_next, env.observation_space)
 
     def test_mode_boxspace_discrete_type1(self):
         func = func_boxspace_type1
-        observation_space = boxspace
-        action_space = discrete
+        env = Env(boxspace, discrete)
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        p = DynamicsModel(func, observation_space, action_space, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        p = DynamicsModel(func, env, random_seed=19)
 
         s_next = p.mode(s, a)
-        print(s_next, observation_space)
-        self.assertIn(s_next, observation_space)
+        print(s_next, env.observation_space)
+        self.assertIn(s_next, env.observation_space)
 
         for s_next in p.mode(s):
-            print(s_next, observation_space)
-            self.assertIn(s_next, observation_space)
+            print(s_next, env.observation_space)
+            self.assertIn(s_next, env.observation_space)
 
     def test_mode_boxspace_discrete_type2(self):
         func = func_boxspace_type2
-        observation_space = boxspace
-        action_space = discrete
+        env = Env(boxspace, discrete)
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        p = DynamicsModel(func, observation_space, action_space, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        p = DynamicsModel(func, env, random_seed=19)
 
         s_next = p.mode(s, a)
-        print(s_next, observation_space)
-        self.assertIn(s_next, observation_space)
+        print(s_next, env.observation_space)
+        self.assertIn(s_next, env.observation_space)
 
         for s_next in p.mode(s):
-            print(s_next, observation_space)
-            self.assertIn(s_next, observation_space)
+            print(s_next, env.observation_space)
+            self.assertIn(s_next, env.observation_space)
 
     def test_mode_discrete_boxspace(self):
         func = func_discrete_type1
-        observation_space = discrete
-        action_space = boxspace
+        env = Env(discrete, boxspace)
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        p = DynamicsModel(func, observation_space, action_space, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        p = DynamicsModel(func, env, random_seed=19)
 
         s_next = p.mode(s, a)
-        print(s_next, observation_space)
-        self.assertIn(s_next, observation_space)
+        print(s_next, env.observation_space)
+        self.assertIn(s_next, env.observation_space)
 
         msg = r"input 'A' is required for type-1 dynamics model when action space is non-Discrete"
         with self.assertRaisesRegex(ValueError, msg):
@@ -366,16 +357,15 @@ class TestDynamicsModel(TestCase):
 
     def test_mode_boxspace_boxspace(self):
         func = func_boxspace_type1
-        observation_space = boxspace
-        action_space = boxspace
+        env = Env(boxspace, boxspace)
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        p = DynamicsModel(func, observation_space, action_space, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        p = DynamicsModel(func, env, random_seed=19)
 
         s_next = p.mode(s, a)
-        print(s_next, observation_space)
-        self.assertIn(s_next, observation_space)
+        print(s_next, env.observation_space)
+        self.assertIn(s_next, env.observation_space)
 
         msg = r"input 'A' is required for type-1 dynamics model when action space is non-Discrete"
         with self.assertRaisesRegex(ValueError, msg):
@@ -383,10 +373,9 @@ class TestDynamicsModel(TestCase):
 
     def test_function_state(self):
         func = func_discrete_type1
-        observation_space = discrete
-        action_space = discrete
+        env = Env(discrete, discrete)
 
-        p = DynamicsModel(func, observation_space, action_space, random_seed=19)
+        p = DynamicsModel(func, env, random_seed=19)
 
         print(p.function_state)
         batch_norm_avg = p.function_state['batch_norm/~/mean_ema']['average']
@@ -404,7 +393,8 @@ class TestDynamicsModel(TestCase):
             r"got: func\(S, is_training, x\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
-            DynamicsModel(badfunc, boxspace, discrete, random_seed=13)
+            env = Env(boxspace, discrete)
+            DynamicsModel(badfunc, env, random_seed=13)
 
     def test_bad_output_structure(self):
         def badfunc(S, is_training):
@@ -417,4 +407,5 @@ class TestDynamicsModel(TestCase):
             r"got: PyTreeDef\(dict\[\['foo', 'logits'\]\], \[\*,\*\]\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
-            DynamicsModel(badfunc, discrete, discrete, random_seed=13)
+            env = Env(discrete, discrete)
+            DynamicsModel(badfunc, env, random_seed=13)

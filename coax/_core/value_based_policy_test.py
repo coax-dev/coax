@@ -51,7 +51,7 @@ def func_type2(S, is_training):
 class TestEpsilonGreedy(TestCase):
     def setUp(self):
         self.env = gym.make('FrozenLakeNonSlippery-v0')
-        self.q = Q(func_type2, self.env.observation_space, self.env.action_space)
+        self.q = Q(func_type2, env)
 
     def tearDown(self):
         del self.q, self.env
@@ -89,7 +89,7 @@ class TestEpsilonGreedy(TestCase):
 class TestBoltzmannPolicy(TestCase):
     def setUp(self):
         self.env = gym.make('FrozenLakeNonSlippery-v0')
-        self.q = Q(func_type2, self.env.observation_space, self.env.action_space)
+        self.q = Q(func_type2, env)
 
     def tearDown(self):
         del self.q, self.env

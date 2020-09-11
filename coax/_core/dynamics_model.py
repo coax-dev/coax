@@ -40,15 +40,9 @@ class DynamicsModel(BaseModel):
 
         A Haiku-style function that specifies the forward pass.
 
-    observation_space : gym.Space
+    env : gym.Env
 
-        The observation space of the environment. This is used to generate example input for
-        initializing :attr:`params`.
-
-    action_space : gym.Space
-
-        The action space of the environment. This is used to generate example input for
-        initializing :attr:`params`.
+        The gym-style environment. This is used to validate the input/output structure of ``func``.
 
     action_preprocessor : function, optional
 
@@ -77,20 +71,17 @@ class DynamicsModel(BaseModel):
         Seed for pseudo-random number generators.
 
     """
-    def __init__(
-            self, func, observation_space, action_space,
-            action_preprocessor=None, proba_dist=None, random_seed=None):
-
+    def __init__(self, func, env, action_preprocessor=None, proba_dist=None, random_seed=None):
         if action_preprocessor is None:
-            action_preprocessor = ProbaDist(action_space).preprocess_variate
+            action_preprocessor = ProbaDist(env.action_space).preprocess_variate
         if proba_dist is None:
-            proba_dist = ProbaDist(observation_space)
+            proba_dist = ProbaDist(env.observation_space)
         observation_preprocessor = proba_dist.preprocess_variate
 
         super().__init__(
             func=func,
-            observation_space=observation_space,
-            action_space=action_space,
+            observation_space=env.observation_space,
+            action_space=env.action_space,
             observation_preprocessor=observation_preprocessor,
             action_preprocessor=action_preprocessor,
             proba_dist=proba_dist,

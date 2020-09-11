@@ -57,8 +57,8 @@ def func_q(S, A, is_training):
 
 
 # function approximators
-pi = coax.Policy(func_pi, env.observation_space, env.action_space)
-q = coax.Q(func_q, env.observation_space, env.action_space)
+pi = coax.Policy(func_pi, env)
+q = coax.Q(func_q, env)
 
 # target networks
 pi_targ = pi.copy()

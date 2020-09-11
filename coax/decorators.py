@@ -72,11 +72,11 @@ def value_v(env, random_seed=None):
             ))
             return value(S)
 
-        v = coax.V(func, env.observation_space)
+        v = coax.V(func, env)
 
     """
     def decorator(func):
-        return V(func, env.observation_space, random_seed)
+        return V(func, env, random_seed)
     return decorator
 
 
@@ -104,11 +104,11 @@ def value_q(env, random_seed=None):
             ))
             return value(S)
 
-        q = coax.Q(func, env.observation_space, env.action_space)
+        q = coax.Q(func, env)
 
     """
     def decorator(func):
-        return Q(func, env.observation_space, env.action_space, random_seed)
+        return Q(func, env, random_seed)
     return decorator
 
 
@@ -136,9 +136,9 @@ def policy(env, random_seed=None):
             ))
             return {'logits': logits(S)}  # note: this example is specific to discrete actions
 
-        pi = coax.Policy(func, env.observation_space, env.action_space)
+        pi = coax.Policy(func, env)
 
     """
     def decorator(func):
-        return Policy(func, env.observation_space, env.action_space, random_seed)
+        return Policy(func, env, random_seed)
     return decorator

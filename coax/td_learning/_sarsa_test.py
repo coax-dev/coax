@@ -42,7 +42,7 @@ class TestSarsa(TestCase):
         func_q = self.func_q_type1
         transition_batch = self.transition_discrete
 
-        q = Q(func_q, env.observation_space, env.action_space, random_seed=11)
+        q = Q(func_q, env, random_seed=11)
         q_targ = q.copy()
         updater = Sarsa(q, q_targ, optimizer=sgd(1.0))
 
@@ -59,7 +59,7 @@ class TestSarsa(TestCase):
         func_q = self.func_q_type2
         transition_batch = self.transition_discrete
 
-        q = Q(func_q, env.observation_space, env.action_space, random_seed=11)
+        q = Q(func_q, env, random_seed=11)
         q_targ = q.copy()
         updater = Sarsa(q, q_targ, optimizer=sgd(1.0))
 
@@ -76,7 +76,7 @@ class TestSarsa(TestCase):
         func_q = self.func_q_type1
         transition_batch = self.transition_boxspace
 
-        q = Q(func_q, env.observation_space, env.action_space, random_seed=11)
+        q = Q(func_q, env, random_seed=11)
         q_targ = q.copy()
         updater = Sarsa(q, q_targ, optimizer=sgd(1.0))
 
@@ -94,8 +94,8 @@ class TestSarsa(TestCase):
         func_pi = self.func_pi_discrete
         transition_batch = self.transition_discrete
 
-        q = Q(func_q, env.observation_space, env.action_space, random_seed=11)
-        pi = Policy(func_pi, env.observation_space, env.action_space, random_seed=17)
+        q = Q(func_q, env, random_seed=11)
+        pi = Policy(func_pi, env, random_seed=17)
         q_targ = q.copy()
 
         params_init = deepcopy(q.params)
@@ -111,8 +111,8 @@ class TestSarsa(TestCase):
         self.assertPytreeNotEqual(function_state_without_reg, function_state_init)
 
         # reset weights
-        q = Q(func_q, env.observation_space, env.action_space, random_seed=11)
-        pi = Policy(func_pi, env.observation_space, env.action_space, random_seed=17)
+        q = Q(func_q, env, random_seed=11)
+        pi = Policy(func_pi, env, random_seed=17)
         q_targ = q.copy()
         self.assertPytreeAlmostEqual(params_init, q.params)
         self.assertPytreeAlmostEqual(function_state_init, q.function_state)
@@ -136,8 +136,8 @@ class TestSarsa(TestCase):
         func_pi = self.func_pi_boxspace
         transition_batch = self.transition_boxspace
 
-        q = Q(func_q, env.observation_space, env.action_space, random_seed=11)
-        pi = Policy(func_pi, env.observation_space, env.action_space, random_seed=17)
+        q = Q(func_q, env, random_seed=11)
+        pi = Policy(func_pi, env, random_seed=17)
         q_targ = q.copy()
 
         params_init = deepcopy(q.params)
@@ -153,8 +153,8 @@ class TestSarsa(TestCase):
         self.assertPytreeNotEqual(function_state_without_reg, function_state_init)
 
         # reset weights
-        q = Q(func_q, env.observation_space, env.action_space, random_seed=11)
-        pi = Policy(func_pi, env.observation_space, env.action_space, random_seed=17)
+        q = Q(func_q, env, random_seed=11)
+        pi = Policy(func_pi, env, random_seed=17)
         q_targ = q.copy()
         self.assertPytreeAlmostEqual(params_init, q.params, decimal=10)
         self.assertPytreeAlmostEqual(function_state_init, q.function_state, decimal=10)

@@ -31,18 +31,18 @@ def func_v(S, is_training):
 def func_p(S, A, is_training):
     linear = hk.Linear(4, w_init=jnp.zeros)
     mu = S + linear(A)
-    return {'mu': mu, 'logvar': jnp.full_like(mu, -jnp.inf)}  # deterministic (var=0)
+    return {'mu': mu, 'logvar': jnp.full_like(mu, -jnp.inf)}  # deterministic (variance = 0)
 
 
 def func_r(S, A, is_training):
     mu = jnp.ones(S.shape[0])  # CartPole yields r=1 at every time step (no need to learn)
-    return {'mu': mu, 'logvar': jnp.full_like(mu, -jnp.inf)}  # deterministic (var=0)
+    return {'mu': mu, 'logvar': jnp.full_like(mu, -jnp.inf)}  # deterministic (variance = 0)
 
 
 # function approximators
-v = coax.V(func_v, env.observation_space)
-p = coax.DynamicsModel(func_p, env.observation_space, env.action_space)
-r = coax.RewardModel(func_r, env.observation_space, env.action_space, env.reward_range)
+v = coax.V(func_v, env)
+p = coax.DynamicsModel(func_p, env)
+r = coax.RewardModel(func_r, env)
 
 
 # composite objects

@@ -40,7 +40,7 @@ class TestDoubleQLearning(TestCase):
         env = self.env_discrete
         func_q = self.func_q_type1
 
-        q = Q(func_q, env.observation_space, env.action_space)
+        q = Q(func_q, env)
         q_targ = q.copy()
         updater = DoubleQLearning(q, q_targ=q_targ, optimizer=sgd(1.0))
 
@@ -56,7 +56,7 @@ class TestDoubleQLearning(TestCase):
         env = self.env_discrete
         func_q = self.func_q_type2
 
-        q = Q(func_q, env.observation_space, env.action_space)
+        q = Q(func_q, env)
         q_targ = q.copy()
         updater = DoubleQLearning(q, q_targ=q_targ, optimizer=sgd(1.0))
 
@@ -73,8 +73,8 @@ class TestDoubleQLearning(TestCase):
         func_q = self.func_q_type1
         func_pi = self.func_pi_boxspace
 
-        q = Q(func_q, env.observation_space, env.action_space)
-        pi = Policy(func_pi, env.observation_space, env.action_space)
+        q = Q(func_q, env)
+        pi = Policy(func_pi, env)
         q_targ = q.copy()
         updater = DoubleQLearning(q, pi, q_targ, optimizer=sgd(1.0))
 
@@ -91,8 +91,8 @@ class TestDoubleQLearning(TestCase):
         func_q = self.func_q_type1
         func_pi = self.func_pi_discrete
 
-        q = Q(func_q, env.observation_space, env.action_space)
-        pi = Policy(func_pi, env.observation_space, env.action_space)
+        q = Q(func_q, env)
+        pi = Policy(func_pi, env)
         q_targ = q.copy()
 
         msg = r"pi_targ is ignored, because action space is discrete"
@@ -103,7 +103,7 @@ class TestDoubleQLearning(TestCase):
         env = self.env_boxspace
         func_q = self.func_q_type1
 
-        q = Q(func_q, env.observation_space, env.action_space)
+        q = Q(func_q, env)
         q_targ = q.copy()
 
         msg = r"pi_targ must be provided if action space is not discrete"
@@ -114,7 +114,7 @@ class TestDoubleQLearning(TestCase):
         env = self.env_discrete
         func_q = self.func_q_type1
 
-        q = Q(func_q, env.observation_space, env.action_space)
+        q = Q(func_q, env)
         q_targ = q.copy()
 
         msg = r"pi_targ must be a Policy, got: .*"

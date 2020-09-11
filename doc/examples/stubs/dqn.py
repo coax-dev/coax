@@ -26,7 +26,7 @@ def func_type2(S, is_training):
 
 # function approximator
 func = ...  # func_type1 or func_type2
-q = coax.Q(func, env.observation_space, env.action_space)
+q = coax.Q(func, env)
 pi = coax.EpsilonGreedy(q, epsilon=0.1)
 
 

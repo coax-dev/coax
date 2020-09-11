@@ -31,7 +31,7 @@ def func(S, is_training):
 
 
 # value function and its derived policy
-q = coax.Q(func, env.observation_space, env.action_space)
+q = coax.Q(func, env)
 pi = coax.BoltzmannPolicy(q, temperature=0.1)
 
 # target network

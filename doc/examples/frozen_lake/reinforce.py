@@ -25,7 +25,7 @@ def func_pi(S, is_training):
 
 
 # function approximators
-pi = coax.Policy(func_pi, env.observation_space, env.action_space)
+pi = coax.Policy(func_pi, env)
 
 
 # experience tracer

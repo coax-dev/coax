@@ -133,7 +133,7 @@ give us an idea of the structure (shapes, dtypes, etc.).*
         return {'logits': logits(S)}
 
 
-    pi = coax.Policy(func, env.observation_space, env.action_space)
+    pi = coax.Policy(func, env)
 
     # example usage
     s = env.observation_space.sample()
@@ -186,7 +186,7 @@ an example of how to create a valid policy function approximator for the **Pendu
         return {'mu': mu(S), 'logvar': logvar(S)}
 
 
-    pi = coax.Policy(func, env.observation_space, env.action_space)
+    pi = coax.Policy(func, env)
 
     # example usage
     s = env.observation_space.sample()
@@ -242,7 +242,7 @@ precisely the same way as we've done before. For example, here's a compatible fo
                      'logvar': hk.Linear(6)(S).reshape(-1, 2, 3)},),
         }
 
-    pi = coax.Policy(func, observation_space, action_space)
+    pi = coax.Policy(func, env)
 
     # example usage:
     s = observation_space.sample()

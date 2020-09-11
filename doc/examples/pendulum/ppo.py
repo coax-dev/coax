@@ -56,8 +56,8 @@ def func_v(S, is_training):
 
 
 # define function approximators
-pi = coax.Policy(func_pi, env.observation_space, env.action_space)
-v = coax.V(func_v, env.observation_space)
+pi = coax.Policy(func_pi, env)
+v = coax.V(func_v, env)
 
 
 # target network

@@ -22,8 +22,8 @@ def func_pi(S, is_training):
 
 
 # function approximators
-v = coax.V(func_v, env.observation_space)
-pi = coax.Policy(func_pi, env.observation_space, env.action_space)
+v = coax.V(func_v, env)
+pi = coax.Policy(func_pi, env)
 
 
 # specify how to update policy and value function

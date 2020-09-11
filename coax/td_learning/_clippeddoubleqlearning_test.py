@@ -41,8 +41,8 @@ class TestClippedDoubleQLearning(TestCase):
         func_q = self.func_q_type1
         transition_batch = self.transition_discrete
 
-        q1 = Q(func_q, env.observation_space, env.action_space)
-        q2 = Q(func_q, env.observation_space, env.action_space)
+        q1 = Q(func_q, env)
+        q2 = Q(func_q, env)
         q_targ1 = q1.copy()
         q_targ2 = q2.copy()
         updater1 = ClippedDoubleQLearning(q1, q_targ_list=[q_targ1, q_targ2], optimizer=sgd(1.0))
@@ -66,8 +66,8 @@ class TestClippedDoubleQLearning(TestCase):
         func_q = self.func_q_type2
         transition_batch = self.transition_discrete
 
-        q1 = Q(func_q, env.observation_space, env.action_space)
-        q2 = Q(func_q, env.observation_space, env.action_space)
+        q1 = Q(func_q, env)
+        q2 = Q(func_q, env)
         q_targ1 = q1.copy()
         q_targ2 = q2.copy()
         updater1 = ClippedDoubleQLearning(q1, q_targ_list=[q_targ1, q_targ2], optimizer=sgd(1.0))
@@ -92,10 +92,10 @@ class TestClippedDoubleQLearning(TestCase):
         func_pi = self.func_pi_boxspace
         transition_batch = self.transition_boxspace
 
-        q1 = Q(func_q, env.observation_space, env.action_space)
-        q2 = Q(func_q, env.observation_space, env.action_space)
-        pi1 = Policy(func_pi, env.observation_space, env.action_space)
-        pi2 = Policy(func_pi, env.observation_space, env.action_space)
+        q1 = Q(func_q, env)
+        q2 = Q(func_q, env)
+        pi1 = Policy(func_pi, env)
+        pi2 = Policy(func_pi, env)
         q_targ1 = q1.copy()
         q_targ2 = q2.copy()
         updater1 = ClippedDoubleQLearning(
@@ -121,10 +121,10 @@ class TestClippedDoubleQLearning(TestCase):
         func_q = self.func_q_type1
         func_pi = self.func_pi_discrete
 
-        q1 = Q(func_q, env.observation_space, env.action_space)
-        q2 = Q(func_q, env.observation_space, env.action_space)
-        pi1 = Policy(func_pi, env.observation_space, env.action_space)
-        pi2 = Policy(func_pi, env.observation_space, env.action_space)
+        q1 = Q(func_q, env)
+        q2 = Q(func_q, env)
+        pi1 = Policy(func_pi, env)
+        pi2 = Policy(func_pi, env)
         q_targ1 = q1.copy()
         q_targ2 = q2.copy()
 
@@ -137,8 +137,8 @@ class TestClippedDoubleQLearning(TestCase):
         env = self.env_boxspace
         func_q = self.func_q_type1
 
-        q1 = Q(func_q, env.observation_space, env.action_space)
-        q2 = Q(func_q, env.observation_space, env.action_space)
+        q1 = Q(func_q, env)
+        q2 = Q(func_q, env)
         q_targ1 = q1.copy()
         q_targ2 = q2.copy()
 
@@ -150,7 +150,7 @@ class TestClippedDoubleQLearning(TestCase):
         env = self.env_discrete
         func_q = self.func_q_type1
 
-        q = Q(func_q, env.observation_space, env.action_space)
+        q = Q(func_q, env)
         q_targ = q.copy()
 
         msg = r"len\(q_targ_list\) must be at least 2"
@@ -162,8 +162,8 @@ class TestClippedDoubleQLearning(TestCase):
         func_q = self.func_q_type1
         func_pi = self.func_pi_boxspace
 
-        q = Q(func_q, env.observation_space, env.action_space)
-        pi = Policy(func_pi, env.observation_space, env.action_space)
+        q = Q(func_q, env)
+        pi = Policy(func_pi, env)
         q_targ = q.copy()
 
         msg = r"len\(q_targ_list\) \* len\(pi_targ_list\) must be at least 2"

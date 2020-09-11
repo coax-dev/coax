@@ -42,8 +42,8 @@ class TestExpectedSarsa(TestCase):
         func_q = self.func_q_type1
         func_pi = self.func_pi_discrete
 
-        q = Q(func_q, env.observation_space, env.action_space)
-        pi = Policy(func_pi, env.observation_space, env.action_space)
+        q = Q(func_q, env)
+        pi = Policy(func_pi, env)
         q_targ = q.copy()
         updater = ExpectedSarsa(q, pi, q_targ, optimizer=sgd(1.0))
 
@@ -60,8 +60,8 @@ class TestExpectedSarsa(TestCase):
         func_q = self.func_q_type2
         func_pi = self.func_pi_discrete
 
-        q = Q(func_q, env.observation_space, env.action_space)
-        pi = Policy(func_pi, env.observation_space, env.action_space)
+        q = Q(func_q, env)
+        pi = Policy(func_pi, env)
         q_targ = q.copy()
         updater = ExpectedSarsa(q, pi, q_targ, optimizer=sgd(1.0))
 
@@ -78,8 +78,8 @@ class TestExpectedSarsa(TestCase):
         func_q = self.func_q_type1
         func_pi = self.func_pi_boxspace
 
-        q = Q(func_q, env.observation_space, env.action_space)
-        pi = Policy(func_pi, env.observation_space, env.action_space)
+        q = Q(func_q, env)
+        pi = Policy(func_pi, env)
         q_targ = q.copy()
 
         msg = r"ExpectedSarsa class is only implemented for discrete actions spaces"
@@ -90,7 +90,7 @@ class TestExpectedSarsa(TestCase):
         env = self.env_discrete
         func_q = self.func_q_type1
 
-        q = Q(func_q, env.observation_space, env.action_space)
+        q = Q(func_q, env)
         q_targ = q.copy()
 
         msg = r"pi_targ must be provided"
@@ -103,8 +103,8 @@ class TestExpectedSarsa(TestCase):
         func_pi = self.func_pi_discrete
         transition_batch = self.transition_discrete
 
-        q = Q(func_q, env.observation_space, env.action_space, random_seed=11)
-        pi = Policy(func_pi, env.observation_space, env.action_space, random_seed=17)
+        q = Q(func_q, env, random_seed=11)
+        pi = Policy(func_pi, env, random_seed=17)
         q_targ = q.copy()
 
         params_init = deepcopy(q.params)

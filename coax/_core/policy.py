@@ -43,14 +43,9 @@ class Policy(BaseFunc, PolicyMixin):
 
         A Haiku-style function that specifies the forward pass.
 
-    observation_space : gym.Space
+    env : gym.Env
 
-        The observation space of the environment. This is used to generate example input for
-        initializing :attr:`params`.
-
-    action_space : gym.Space
-
-        The action space of the environment. This is used to validate the output structure.
+        The gym-style environment. This is used to validate the input/output structure of ``func``.
 
     proba_dist : ProbaDist, optional
 
@@ -68,12 +63,12 @@ class Policy(BaseFunc, PolicyMixin):
         Seed for pseudo-random number generators.
 
     """
-    def __init__(self, func, observation_space, action_space, proba_dist=None, random_seed=None):
-        self.proba_dist = ProbaDist(action_space) if proba_dist is None else proba_dist
+    def __init__(self, func, env, proba_dist=None, random_seed=None):
+        self.proba_dist = ProbaDist(env.action_space) if proba_dist is None else proba_dist
         super().__init__(
             func=func,
-            observation_space=observation_space,
-            action_space=action_space,
+            observation_space=env.observation_space,
+            action_space=env.action_space,
             random_seed=random_seed)
 
     @classmethod

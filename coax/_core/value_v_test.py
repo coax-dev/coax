@@ -55,7 +55,7 @@ class TestV(TestCase):
     decimal = 6
 
     def setUp(self):
-        self.v = V(func, self.env_discrete.observation_space, random_seed=13)
+        self.v = V(func, self.env_discrete, random_seed=13)
         self.transition = get_transition(self.env_discrete)
         self.transition_batch = self.transition.to_batch()
 
@@ -89,14 +89,14 @@ class TestV(TestCase):
             r"func has bad signature; "
             r"expected: func\(S, is_training\), got: func\(S, is_training, x\)")
         with self.assertRaisesRegex(TypeError, msg):
-            V(badfunc, self.env_discrete.observation_space, random_seed=13)
+            V(badfunc, self.env_discrete, random_seed=13)
 
     def test_bad_output_type(self):
         def badfunc(S, is_training):
             return 'garbage'
         msg = r"func has bad return type; expected jnp\.ndarray, got str"
         with self.assertRaisesRegex(TypeError, msg):
-            V(badfunc, self.env_discrete.observation_space, random_seed=13)
+            V(badfunc, self.env_discrete, random_seed=13)
 
     def test_bad_output_shape(self):
         def badfunc(S, is_training):
@@ -104,7 +104,7 @@ class TestV(TestCase):
             return jnp.expand_dims(V, axis=-1)
         msg = r"func has bad return shape, expected: \(1,\), got: \(1, 1\)"
         with self.assertRaisesRegex(TypeError, msg):
-            V(badfunc, self.env_discrete.observation_space, random_seed=13)
+            V(badfunc, self.env_discrete, random_seed=13)
 
     def test_bad_output_dtype(self):
         def badfunc(S, is_training):
@@ -112,4 +112,4 @@ class TestV(TestCase):
             return V.astype('int32')
         msg = r"func has bad return dtype; expected a subdtype of jnp\.floating, got dtype=int32"
         with self.assertRaisesRegex(TypeError, msg):
-            V(badfunc, self.env_discrete.observation_space, random_seed=13)
+            V(badfunc, self.env_discrete, random_seed=13)

@@ -38,7 +38,7 @@ class TestPPOClip(TestCase):
         transitions = self.transitions_discrete
         print(transitions)
 
-        pi = Policy(func, env.observation_space, env.action_space)
+        pi = Policy(func, env)
         updater = PPOClip(pi, optimizer=sgd(1.0))
 
         params = deepcopy(pi.params)
@@ -58,7 +58,7 @@ class TestPPOClip(TestCase):
         transitions = self.transitions_boxspace
         print(transitions)
 
-        pi = Policy(func, env.observation_space, env.action_space)
+        pi = Policy(func, env)
         updater = PPOClip(pi, optimizer=sgd(1.0))
 
         params = deepcopy(pi.params)

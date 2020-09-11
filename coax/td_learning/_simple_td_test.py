@@ -42,7 +42,7 @@ class TestSimpleTD(TestCase):
         env = self.env_discrete
         func_v = self.func_v
 
-        v = V(func_v, env.observation_space, random_seed=11)
+        v = V(func_v, env, random_seed=11)
         v_targ = v.copy()
         updater = SimpleTD(v, v_targ, optimizer=sgd(1.0))
 
@@ -58,7 +58,7 @@ class TestSimpleTD(TestCase):
         env = self.env_boxspace
         func_v = self.func_v
 
-        v = V(func_v, env.observation_space, random_seed=11)
+        v = V(func_v, env, random_seed=11)
         v_targ = v.copy()
         updater = SimpleTD(v, v_targ, optimizer=sgd(1.0))
 
@@ -76,8 +76,8 @@ class TestSimpleTD(TestCase):
         func_pi = self.func_pi_discrete
         transition_batch = self.transition_discrete
 
-        v = V(func_v, env.observation_space, random_seed=11)
-        pi = Policy(func_pi, env.observation_space, env.action_space, random_seed=17)
+        v = V(func_v, env, random_seed=11)
+        pi = Policy(func_pi, env, random_seed=17)
         v_targ = v.copy()
 
         params_init = deepcopy(v.params)
@@ -93,8 +93,8 @@ class TestSimpleTD(TestCase):
         self.assertPytreeNotEqual(function_state_without_reg, function_state_init)
 
         # reset weights
-        v = V(func_v, env.observation_space, random_seed=11)
-        pi = Policy(func_pi, env.observation_space, env.action_space, random_seed=17)
+        v = V(func_v, env, random_seed=11)
+        pi = Policy(func_pi, env, random_seed=17)
         v_targ = v.copy()
         self.assertPytreeAlmostEqual(params_init, v.params)
         self.assertPytreeAlmostEqual(function_state_init, v.function_state)
@@ -116,8 +116,8 @@ class TestSimpleTD(TestCase):
         func_pi = self.func_pi_boxspace
         transition_batch = self.transition_boxspace
 
-        v = V(func_v, env.observation_space, random_seed=11)
-        pi = Policy(func_pi, env.observation_space, env.action_space, random_seed=17)
+        v = V(func_v, env, random_seed=11)
+        pi = Policy(func_pi, env, random_seed=17)
         v_targ = v.copy()
 
         params_init = deepcopy(v.params)
@@ -133,8 +133,8 @@ class TestSimpleTD(TestCase):
         self.assertPytreeNotEqual(function_state_without_reg, function_state_init)
 
         # reset weights
-        v = V(func_v, env.observation_space, random_seed=11)
-        pi = Policy(func_pi, env.observation_space, env.action_space, random_seed=17)
+        v = V(func_v, env, random_seed=11)
+        pi = Policy(func_pi, env, random_seed=17)
         v_targ = v.copy()
         self.assertPytreeAlmostEqual(params_init, v.params)
         self.assertPytreeAlmostEqual(function_state_init, v.function_state)
@@ -155,7 +155,7 @@ class TestSimpleTD(TestCase):
         func_v = self.func_v
         transition_batch = self.transition_discrete
 
-        v = V(func_v, env.observation_space, random_seed=11)
+        v = V(func_v, env, random_seed=11)
 
         params_init = deepcopy(v.params)
         function_state_init = deepcopy(v.function_state)
@@ -169,7 +169,7 @@ class TestSimpleTD(TestCase):
         self.assertPytreeNotEqual(function_state_without_reg, function_state_init)
 
         # reset weights
-        v = V(func_v, env.observation_space, value_transform=LogTransform(), random_seed=11)
+        v = V(func_v, env, value_transform=LogTransform(), random_seed=11)
         self.assertPytreeAlmostEqual(params_init, v.params)
         self.assertPytreeAlmostEqual(function_state_init, v.function_state)
 

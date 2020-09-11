@@ -20,6 +20,7 @@
 # ------------------------------------------------------------------------------------------------ #
 
 from functools import partial
+from collections import namedtuple
 
 import jax
 import jax.numpy as jnp
@@ -33,6 +34,8 @@ from .reward_model import RewardModel
 
 discrete = Discrete(7)
 boxspace = Box(low=0, high=1, shape=(3, 5))
+
+Env = namedtuple('Env', ('observation_space', 'action_space', 'reward_range'))
 
 
 def check_onehot(S):
@@ -87,115 +90,104 @@ def func_type2(S, is_training):
 
 class TestRewardModel(TestCase):
     def test_init(self):
-        reward_range = (-10, 10)
 
         # cannot define a type-2 models on a non-discrete action space
         msg = r"type-2 models are only well-defined for Discrete action spaces"
         with self.assertRaisesRegex(TypeError, msg):
-            RewardModel(func_type2, boxspace, boxspace, reward_range)
+            RewardModel(func_type2, Env(boxspace, boxspace, (-10, 10)))
 
         # these should all be fine
-        RewardModel(func_type1, discrete, discrete, reward_range)
-        RewardModel(func_type1, discrete, boxspace, reward_range)
-        RewardModel(func_type1, boxspace, boxspace, reward_range)
-        RewardModel(func_type2, discrete, discrete, reward_range)
-        RewardModel(func_type2, boxspace, discrete, reward_range)
+        RewardModel(func_type1, Env(discrete, discrete, (-10, 10)))
+        RewardModel(func_type1, Env(discrete, boxspace, (-10, 10)))
+        RewardModel(func_type1, Env(boxspace, boxspace, (-10, 10)))
+        RewardModel(func_type2, Env(discrete, discrete, (-10, 10)))
+        RewardModel(func_type2, Env(boxspace, discrete, (-10, 10)))
 
     # test_call_* ##################################################################################
 
     def test_call_discrete_discrete_type1(self):
         func = func_type1
-        observation_space = discrete
-        action_space = discrete
-        reward_range = (-10, 10)
+        env = Env(discrete, discrete, (-10, 10))
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        r = RewardModel(func, observation_space, action_space, reward_range, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        r = RewardModel(func, env, random_seed=19)
 
         r_, logp = r(s, a, return_logp=True)
-        print(r_, logp, observation_space)
-        self.assertIn(r_, Box(*reward_range, shape=()))
+        print(r_, logp, env.observation_space)
+        self.assertIn(r_, Box(*env.reward_range, shape=()))
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
         for r_ in r(s):
-            print(r_, observation_space)
-            self.assertIn(r_, Box(*reward_range, shape=()))
+            print(r_, env.observation_space)
+            self.assertIn(r_, Box(*env.reward_range, shape=()))
 
     def test_call_discrete_discrete_type2(self):
         func = func_type2
-        observation_space = discrete
-        action_space = discrete
-        reward_range = (-10, 10)
+        env = Env(discrete, discrete, (-10, 10))
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        r = RewardModel(func, observation_space, action_space, reward_range, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        r = RewardModel(func, env, random_seed=19)
 
         r_, logp = r(s, a, return_logp=True)
-        print(r_, logp, observation_space)
-        self.assertIn(r_, Box(*reward_range, shape=()))
+        print(r_, logp, env.observation_space)
+        self.assertIn(r_, Box(*env.reward_range, shape=()))
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
         for r_ in r(s):
-            print(r_, observation_space)
-            self.assertIn(r_, Box(*reward_range, shape=()))
+            print(r_, env.observation_space)
+            self.assertIn(r_, Box(*env.reward_range, shape=()))
 
     def test_call_boxspace_discrete_type1(self):
         func = func_type1
-        observation_space = boxspace
-        action_space = discrete
-        reward_range = (-10, 10)
+        env = Env(boxspace, discrete, (-10, 10))
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        r = RewardModel(func, observation_space, action_space, reward_range, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        r = RewardModel(func, env, random_seed=19)
 
         r_, logp = r(s, a, return_logp=True)
-        print(r_, logp, observation_space)
-        self.assertIn(r_, Box(*reward_range, shape=()))
+        print(r_, logp, env.observation_space)
+        self.assertIn(r_, Box(*env.reward_range, shape=()))
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
         for r_ in r(s):
-            print(r_, observation_space)
-            self.assertIn(r_, Box(*reward_range, shape=()))
+            print(r_, env.observation_space)
+            self.assertIn(r_, Box(*env.reward_range, shape=()))
 
     def test_call_boxspace_discrete_type2(self):
         func = func_type2
-        observation_space = boxspace
-        action_space = discrete
-        reward_range = (-10, 10)
+        env = Env(boxspace, discrete, (-10, 10))
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        r = RewardModel(func, observation_space, action_space, reward_range, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        r = RewardModel(func, env, random_seed=19)
 
         r_, logp = r(s, a, return_logp=True)
-        print(r_, logp, observation_space)
-        self.assertIn(r_, Box(*reward_range, shape=()))
+        print(r_, logp, env.observation_space)
+        self.assertIn(r_, Box(*env.reward_range, shape=()))
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
         for r_ in r(s):
-            print(r_, observation_space)
-            self.assertIn(r_, Box(*reward_range, shape=()))
+            print(r_, env.observation_space)
+            self.assertIn(r_, Box(*env.reward_range, shape=()))
 
     def test_call_discrete_boxspace(self):
         func = func_type1
-        observation_space = discrete
-        action_space = boxspace
-        reward_range = (-10, 10)
+        env = Env(discrete, boxspace, (-10, 10))
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        r = RewardModel(func, observation_space, action_space, reward_range, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        r = RewardModel(func, env, random_seed=19)
 
         r_, logp = r(s, a, return_logp=True)
-        print(r_, logp, observation_space)
-        self.assertIn(r_, Box(*reward_range, shape=()))
+        print(r_, logp, env.observation_space)
+        self.assertIn(r_, Box(*env.reward_range, shape=()))
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
@@ -205,17 +197,15 @@ class TestRewardModel(TestCase):
 
     def test_call_boxspace_boxspace(self):
         func = func_type1
-        observation_space = boxspace
-        action_space = boxspace
-        reward_range = (-10, 10)
+        env = Env(boxspace, boxspace, (-10, 10))
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        r = RewardModel(func, observation_space, action_space, reward_range, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        r = RewardModel(func, env, random_seed=19)
 
         r_, logp = r(s, a, return_logp=True)
-        print(r_, logp, observation_space)
-        self.assertIn(r_, Box(*reward_range, shape=()))
+        print(r_, logp, env.observation_space)
+        self.assertIn(r_, Box(*env.reward_range, shape=()))
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
@@ -227,89 +217,79 @@ class TestRewardModel(TestCase):
 
     def test_mode_discrete_discrete_type1(self):
         func = func_type1
-        observation_space = discrete
-        action_space = discrete
-        reward_range = (-10, 10)
+        env = Env(discrete, discrete, (-10, 10))
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        r = RewardModel(func, observation_space, action_space, reward_range, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        r = RewardModel(func, env, random_seed=19)
 
         r_ = r.mode(s, a)
-        print(r_, observation_space)
-        self.assertIn(r_, Box(*reward_range, shape=()))
+        print(r_, env.observation_space)
+        self.assertIn(r_, Box(*env.reward_range, shape=()))
 
         for r_ in r.mode(s):
-            print(r_, observation_space)
-            self.assertIn(r_, Box(*reward_range, shape=()))
+            print(r_, env.observation_space)
+            self.assertIn(r_, Box(*env.reward_range, shape=()))
 
     def test_mode_discrete_discrete_type2(self):
         func = func_type2
-        observation_space = discrete
-        action_space = discrete
-        reward_range = (-10, 10)
+        env = Env(discrete, discrete, (-10, 10))
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        r = RewardModel(func, observation_space, action_space, reward_range, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        r = RewardModel(func, env, random_seed=19)
 
         r_ = r.mode(s, a)
-        print(r_, observation_space)
-        self.assertIn(r_, Box(*reward_range, shape=()))
+        print(r_, env.observation_space)
+        self.assertIn(r_, Box(*env.reward_range, shape=()))
 
         for r_ in r.mode(s):
-            print(r_, observation_space)
-            self.assertIn(r_, Box(*reward_range, shape=()))
+            print(r_, env.observation_space)
+            self.assertIn(r_, Box(*env.reward_range, shape=()))
 
     def test_mode_boxspace_discrete_type1(self):
         func = func_type1
-        observation_space = boxspace
-        action_space = discrete
-        reward_range = (-10, 10)
+        env = Env(boxspace, discrete, (-10, 10))
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        r = RewardModel(func, observation_space, action_space, reward_range, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        r = RewardModel(func, env, random_seed=19)
 
         r_ = r.mode(s, a)
-        print(r_, observation_space)
-        self.assertIn(r_, Box(*reward_range, shape=()))
+        print(r_, env.observation_space)
+        self.assertIn(r_, Box(*env.reward_range, shape=()))
 
         for r_ in r.mode(s):
-            print(r_, observation_space)
-            self.assertIn(r_, Box(*reward_range, shape=()))
+            print(r_, env.observation_space)
+            self.assertIn(r_, Box(*env.reward_range, shape=()))
 
     def test_mode_boxspace_discrete_type2(self):
         func = func_type2
-        observation_space = boxspace
-        action_space = discrete
-        reward_range = (-10, 10)
+        env = Env(boxspace, discrete, (-10, 10))
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        r = RewardModel(func, observation_space, action_space, reward_range, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        r = RewardModel(func, env, random_seed=19)
 
         r_ = r.mode(s, a)
-        print(r_, observation_space)
-        self.assertIn(r_, Box(*reward_range, shape=()))
+        print(r_, env.observation_space)
+        self.assertIn(r_, Box(*env.reward_range, shape=()))
 
         for r_ in r.mode(s):
-            print(r_, observation_space)
-            self.assertIn(r_, Box(*reward_range, shape=()))
+            print(r_, env.observation_space)
+            self.assertIn(r_, Box(*env.reward_range, shape=()))
 
     def test_mode_discrete_boxspace(self):
         func = func_type1
-        observation_space = discrete
-        action_space = boxspace
-        reward_range = (-10, 10)
+        env = Env(discrete, boxspace, (-10, 10))
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        r = RewardModel(func, observation_space, action_space, reward_range, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        r = RewardModel(func, env, random_seed=19)
 
         r_ = r.mode(s, a)
-        print(r_, observation_space)
-        self.assertIn(r_, Box(*reward_range, shape=()))
+        print(r_, env.observation_space)
+        self.assertIn(r_, Box(*env.reward_range, shape=()))
 
         msg = r"input 'A' is required for type-1 dynamics model when action space is non-Discrete"
         with self.assertRaisesRegex(ValueError, msg):
@@ -317,17 +297,15 @@ class TestRewardModel(TestCase):
 
     def test_mode_boxspace_boxspace(self):
         func = func_type1
-        observation_space = boxspace
-        action_space = boxspace
-        reward_range = (-10, 10)
+        env = Env(boxspace, boxspace, (-10, 10))
 
-        s = safe_sample(observation_space, seed=17)
-        a = safe_sample(action_space, seed=18)
-        r = RewardModel(func, observation_space, action_space, reward_range, random_seed=19)
+        s = safe_sample(env.observation_space, seed=17)
+        a = safe_sample(env.action_space, seed=18)
+        r = RewardModel(func, env, random_seed=19)
 
         r_ = r.mode(s, a)
-        print(r_, observation_space)
-        self.assertIn(r_, Box(*reward_range, shape=()))
+        print(r_, env.observation_space)
+        self.assertIn(r_, Box(*env.reward_range, shape=()))
 
         msg = r"input 'A' is required for type-1 dynamics model when action space is non-Discrete"
         with self.assertRaisesRegex(ValueError, msg):
@@ -335,12 +313,9 @@ class TestRewardModel(TestCase):
 
     def test_function_state(self):
         func = func_type1
-        observation_space = discrete
-        reward_range = (-10, 10)
+        env = Env(discrete, discrete, (-10, 10))
 
-        action_space = discrete
-
-        r = RewardModel(func, observation_space, action_space, reward_range, random_seed=19)
+        r = RewardModel(func, env, random_seed=19)
 
         print(r.function_state)
         batch_norm_avg = r.function_state['batch_norm/~/mean_ema']['average']
@@ -358,7 +333,8 @@ class TestRewardModel(TestCase):
             r"got: func\(S, is_training, x\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
-            RewardModel(badfunc, boxspace, discrete, (-10, 10), random_seed=13)
+            env = Env(boxspace, discrete, (-10, 10))
+            RewardModel(badfunc, env, random_seed=13)
 
     def test_bad_output_structure(self):
         def badfunc(S, is_training):
@@ -371,4 +347,5 @@ class TestRewardModel(TestCase):
             r"got: PyTreeDef\(dict\[\['foo', 'logvar', 'mu'\]\], \[\*,\*,\*\]\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
-            RewardModel(badfunc, discrete, discrete, (-10, 10), random_seed=13)
+            env = Env(discrete, discrete, (-10, 10))
+            RewardModel(badfunc, env, random_seed=13)

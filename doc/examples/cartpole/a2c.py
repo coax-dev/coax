@@ -45,8 +45,8 @@ optimizer_pi = optax.chain(optax.apply_every(k=32), optax.adam(0.001))
 
 
 # value function and its derived policy
-v = coax.V(func_v, env.observation_space)
-pi = coax.Policy(func_pi, env.observation_space, env.action_space)
+v = coax.V(func_v, env)
+pi = coax.Policy(func_pi, env)
 
 # experience tracer
 tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)

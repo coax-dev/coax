@@ -41,7 +41,7 @@ def func(S, is_training):
 
 
 # function approximator
-q = coax.Q(func, env.observation_space, env.action_space)
+q = coax.Q(func, env)
 pi = coax.BoltzmannPolicy(q, temperature=0.015)  # <--- different from standard DQN
 
 # target network

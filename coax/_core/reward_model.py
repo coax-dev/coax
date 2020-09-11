@@ -43,15 +43,9 @@ class RewardModel(BaseModel):
 
         A Haiku-style function that specifies the forward pass.
 
-    observation_space : gym.Space
+    env : gym.Env
 
-        The observation space of the environment. This is used to generate example input for
-        initializing :attr:`params`.
-
-    action_space : gym.Space
-
-        The action space of the environment. This is used to generate example input for
-        initializing :attr:`params`.
+        The gym-style environment. This is used to validate the input/output structure of ``func``.
 
     reward_range : tuple of floats
 
@@ -107,9 +101,8 @@ class RewardModel(BaseModel):
 
     """
     def __init__(
-            self, func, observation_space, action_space, reward_range,
-            observation_preprocessor=None, action_preprocessor=None, value_transform=None,
-            random_seed=None):
+            self, func, env, observation_preprocessor=None, action_preprocessor=None,
+            value_transform=None, random_seed=None):
 
         self.value_transform = value_transform
         if self.value_transform is None:
@@ -117,17 +110,17 @@ class RewardModel(BaseModel):
         if not isinstance(self.value_transform, ValueTransform):
             self.value_transform = ValueTransform(*value_transform)
 
-        self.reward_range = reward_range
+        self.reward_range = env.reward_range
         if observation_preprocessor is None:
-            observation_preprocessor = ProbaDist(observation_space).preprocess_variate
+            observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
         if action_preprocessor is None:
-            action_preprocessor = ProbaDist(action_space).preprocess_variate
-        proba_dist = self._reward_proba_dist(reward_range)
+            action_preprocessor = ProbaDist(env.action_space).preprocess_variate
+        proba_dist = self._reward_proba_dist(env.reward_range)
 
         super().__init__(
             func=func,
-            observation_space=observation_space,
-            action_space=action_space,
+            observation_space=env.observation_space,
+            action_space=env.action_space,
             observation_preprocessor=observation_preprocessor,
             action_preprocessor=action_preprocessor,
             proba_dist=proba_dist,

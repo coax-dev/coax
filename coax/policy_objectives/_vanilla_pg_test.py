@@ -39,7 +39,7 @@ class TestVanillaPG(TestCase):
         transitions = self.transitions_discrete
         print(transitions)
 
-        pi = Policy(func, env.observation_space, env.action_space)
+        pi = Policy(func, env)
         updater = VanillaPG(pi, optimizer=sgd(1.0))
 
         params = deepcopy(pi.params)
@@ -59,7 +59,7 @@ class TestVanillaPG(TestCase):
         transitions = self.transitions_boxspace
         print(transitions)
 
-        pi = Policy(func, env.observation_space, env.action_space)
+        pi = Policy(func, env)
         updater = VanillaPG(pi, optimizer=sgd(1.0))
 
         params = deepcopy(pi.params)
@@ -80,7 +80,7 @@ class TestVanillaPG(TestCase):
         reg = EntropyRegularizer
         print(transitions)
 
-        pi = Policy(func, env.observation_space, env.action_space)
+        pi = Policy(func, env)
         updater = VanillaPG(pi, regularizer=reg(pi), optimizer=sgd(1.0))
 
         params = deepcopy(pi.params)
@@ -101,7 +101,7 @@ class TestVanillaPG(TestCase):
         reg = EntropyRegularizer
         print(transitions)
 
-        pi = Policy(func, env.observation_space, env.action_space)
+        pi = Policy(func, env)
         updater = VanillaPG(pi, regularizer=reg(pi), optimizer=sgd(1.0))
 
         params = deepcopy(pi.params)
@@ -122,7 +122,7 @@ class TestVanillaPG(TestCase):
         reg = KLDivRegularizer
         print(transitions)
 
-        pi = Policy(func, env.observation_space, env.action_space)
+        pi = Policy(func, env)
         updater = VanillaPG(pi, regularizer=reg(pi), optimizer=sgd(1.0))
 
         params = deepcopy(pi.params)
@@ -143,7 +143,7 @@ class TestVanillaPG(TestCase):
         reg = KLDivRegularizer
         print(transitions)
 
-        pi = Policy(func, env.observation_space, env.action_space)
+        pi = Policy(func, env)
         updater = VanillaPG(pi, regularizer=reg(pi), optimizer=sgd(1.0))
 
         params = deepcopy(pi.params)

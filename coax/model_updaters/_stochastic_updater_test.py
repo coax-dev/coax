@@ -41,7 +41,7 @@ class TestStochasticUpdater(TestCase):
         func_p = self.func_p_type1
         transition_batch = self.transition_discrete
 
-        p = DynamicsModel(func_p, env.observation_space, env.action_space, random_seed=11)
+        p = DynamicsModel(func_p, env, random_seed=11)
         updater = StochasticUpdater(p, optimizer=sgd(1.0))
 
         params = deepcopy(p.params)
@@ -57,7 +57,7 @@ class TestStochasticUpdater(TestCase):
         func_p = self.func_p_type2
         transition_batch = self.transition_discrete
 
-        p = DynamicsModel(func_p, env.observation_space, env.action_space, random_seed=11)
+        p = DynamicsModel(func_p, env, random_seed=11)
         updater = StochasticUpdater(p, optimizer=sgd(1.0))
 
         params = deepcopy(p.params)
@@ -73,7 +73,7 @@ class TestStochasticUpdater(TestCase):
         func_p = self.func_p_type1
         transition_batch = self.transition_discrete
 
-        p = DynamicsModel(func_p, env.observation_space, env.action_space, random_seed=11)
+        p = DynamicsModel(func_p, env, random_seed=11)
 
         params_init = deepcopy(p.params)
         function_state_init = deepcopy(p.function_state)
@@ -87,7 +87,7 @@ class TestStochasticUpdater(TestCase):
         self.assertPytreeNotEqual(function_state_without_reg, function_state_init)
 
         # reset weights
-        p = DynamicsModel(func_p, env.observation_space, env.action_space, random_seed=11)
+        p = DynamicsModel(func_p, env, random_seed=11)
         self.assertPytreeAlmostEqual(params_init, p.params)
         self.assertPytreeAlmostEqual(function_state_init, p.function_state)
 

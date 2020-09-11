@@ -105,7 +105,7 @@ Now that we defined our forward-pass function, we can create a q-function:
 
 .. code:: python
 
-    q = coax.Q(func, env.observation_space, env.action_space)
+    q = coax.Q(func, env)
 
     # example input
     s = env.observation_space.sample()

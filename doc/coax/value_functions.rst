@@ -65,7 +65,7 @@ From this we may define our Haiku-style forward-pass function:
         return seq(S)
 
 
-    v = coax.V(func, env.observation_space)
+    v = coax.V(func, env)
 
     # example usage
     s = env.observation_space.sample()
@@ -139,7 +139,7 @@ Let's first define our **type-1** forward-pass function:
         return seq(X)
 
 
-    q = coax.Q(func_type1, env.observation_space, env.action_space)
+    q = coax.Q(func_type1, env)
 
     # example usage
     s = env.observation_space.sample()
@@ -163,7 +163,7 @@ Alternatively, a **type-2** forward-pass function might be:
         return seq(S)
 
 
-    q = coax.Q(func_type2, env.observation_space, env.action_space)
+    q = coax.Q(func_type2, env)
 
     # example usage
     s = env.observation_space.sample()

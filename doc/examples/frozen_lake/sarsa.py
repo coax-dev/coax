@@ -25,7 +25,7 @@ def func(S, A, is_training):
 
 
 # function approximator
-q = coax.Q(func, env.observation_space, env.action_space)
+q = coax.Q(func, env)
 pi = coax.EpsilonGreedy(q, epsilon=0.1)
 
 

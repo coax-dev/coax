@@ -68,19 +68,19 @@ class TestQ(TestCase):
         # cannot define a type-2 q-function on a non-discrete action space
         msg = r"type-2 q-functions are only well-defined for Discrete action spaces"
         with self.assertRaisesRegex(TypeError, msg):
-            Q(func_type2, env_boxspace.observation_space, env_boxspace.action_space)
+            Q(func_type2, env_boxspace)
 
         # these should all be fine
-        Q(func_type1, env_boxspace.observation_space, env_boxspace.action_space)
-        Q(func_type1, env_discrete.observation_space, env_discrete.action_space)
-        Q(func_type2, env_discrete.observation_space, env_discrete.action_space)
+        Q(func_type1, env_boxspace)
+        Q(func_type1, env_discrete)
+        Q(func_type2, env_discrete)
 
     def test_call_type1_discrete(self):
         env = env_discrete
         func = func_type1
         s = safe_sample(env.observation_space, seed=19)
         a = safe_sample(env.action_space, seed=19)
-        q = Q(func, env.observation_space, env.action_space, random_seed=42)
+        q = Q(func, env, random_seed=42)
 
         # without a
         q_s = q(s)
@@ -98,7 +98,7 @@ class TestQ(TestCase):
         func = func_type2
         s = safe_sample(env.observation_space, seed=19)
         a = safe_sample(env.action_space, seed=19)
-        q = Q(func, env.observation_space, env.action_space, random_seed=42)
+        q = Q(func, env, random_seed=42)
 
         # without a
         q_s = q(s)
@@ -116,7 +116,7 @@ class TestQ(TestCase):
         func = func_type1
         s = safe_sample(env.observation_space, seed=19)
         a = safe_sample(env.action_space, seed=19)
-        q = Q(func, env.observation_space, env.action_space, random_seed=42)
+        q = Q(func, env, random_seed=42)
 
         # type-1 requires a if actions space is non-discrete
         msg = r"input 'A' is required for type-1 q-function when action space is non-Discrete"
@@ -131,7 +131,7 @@ class TestQ(TestCase):
     def test_apply_q1_as_q2(self):
         env = env_discrete
         func = func_type1
-        q = Q(func, env.observation_space, env.action_space, random_seed=42)
+        q = Q(func, env, random_seed=42)
         n = env.action_space.n  # num_actions
 
         def q1_func(params, state, rng, S, A, is_training):
@@ -164,7 +164,7 @@ class TestQ(TestCase):
     def test_apply_q2_as_q1(self):
         env = env_discrete
         func = func_type2
-        q = Q(func, env.observation_space, env.action_space, random_seed=42)
+        q = Q(func, env, random_seed=42)
         n = env.action_space.n  # num_actions
 
         def q2_func(params, state, rng, S, is_training):
@@ -186,7 +186,7 @@ class TestQ(TestCase):
         tau = 0.13
         env = env_discrete
         func = func_type1
-        q = Q(func, env.observation_space, env.action_space, random_seed=42)
+        q = Q(func, env, random_seed=42)
         q_targ = q.copy()
         q.params = jax.tree_map(jnp.ones_like, q.params)
         q_targ.params = jax.tree_map(jnp.zeros_like, q.params)
@@ -197,7 +197,7 @@ class TestQ(TestCase):
     def test_function_state(self):
         env = env_discrete
         func = func_type1
-        q = Q(func, env.observation_space, env.action_space, random_seed=42)
+        q = Q(func, env, random_seed=42)
         print(q.function_state)
         batch_norm_avg = q.function_state['batch_norm/~/mean_ema']['average']
         self.assertArrayShape(batch_norm_avg, (1, 8))
@@ -213,7 +213,7 @@ class TestQ(TestCase):
             r"expected: func\(S, A, is_training\) or func\(S, is_training\), "
             r"got: func\(S, A, is_training, x\)")
         with self.assertRaisesRegex(TypeError, msg):
-            Q(badfunc, env.observation_space, env.action_space)
+            Q(badfunc, env)
 
     def test_bad_output_type(self):
         env = env_discrete
@@ -222,7 +222,7 @@ class TestQ(TestCase):
             return 'garbage'
         msg = r"func has bad return type; expected jnp\.ndarray, got str"
         with self.assertRaisesRegex(TypeError, msg):
-            Q(badfunc, env.observation_space, env.action_space)
+            Q(badfunc, env)
 
     def test_bad_output_shape_type1(self):
         env = env_discrete
@@ -232,7 +232,7 @@ class TestQ(TestCase):
             return jnp.expand_dims(Q, axis=-1)
         msg = r"func has bad return shape, expected: \(1,\), got: \(1, 1\)"
         with self.assertRaisesRegex(TypeError, msg):
-            Q(badfunc, env.observation_space, env.action_space)
+            Q(badfunc, env)
 
     def test_bad_output_shape_type2(self):
         env = env_discrete
@@ -242,7 +242,7 @@ class TestQ(TestCase):
             return Q[:, :2]
         msg = r"func has bad return shape, expected: \(1, 3\), got: \(1, 2\)"
         with self.assertRaisesRegex(TypeError, msg):
-            Q(badfunc, env.observation_space, env.action_space)
+            Q(badfunc, env)
 
     def test_bad_output_dtype(self):
         env = env_discrete
@@ -252,4 +252,4 @@ class TestQ(TestCase):
             return Q.astype('int32')
         msg = r"func has bad return dtype; expected a subdtype of jnp\.floating, got dtype=int32"
         with self.assertRaisesRegex(TypeError, msg):
-            Q(badfunc, env.observation_space, env.action_space)
+            Q(badfunc, env)

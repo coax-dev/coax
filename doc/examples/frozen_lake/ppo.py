@@ -30,8 +30,8 @@ def func_pi(S, is_training):
 
 
 # function approximators
-pi = coax.Policy(func_pi, env.observation_space, env.action_space)
-v = coax.V(func_v, env.observation_space)
+pi = coax.Policy(func_pi, env)
+v = coax.V(func_v, env)
 
 
 # create copies

@@ -20,6 +20,7 @@
 # ------------------------------------------------------------------------------------------------ #
 
 from functools import partial
+from collections import namedtuple
 
 import gym
 import jax
@@ -34,7 +35,8 @@ from .policy import Policy
 
 discrete = gym.spaces.Discrete(7)
 boxspace = gym.spaces.Box(low=0, high=1, shape=(3, 5))
-multidiscrete = gym.spaces.MultiDiscrete([11, 5, 7])
+
+Env = namedtuple('Env', ('observation_space', 'action_space'))
 
 
 def func_discrete(S, is_training):
@@ -81,7 +83,7 @@ class TestPolicy(TestCase):
             r"got: PyTreeDef\(dict\[\['logits'\]\], \[\*\]\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
-            Policy(func_discrete, boxspace, boxspace)
+            Policy(func_discrete, Env(boxspace, boxspace))
 
         msg = (
             r"func has bad return tree_structure, "
@@ -89,15 +91,16 @@ class TestPolicy(TestCase):
             r"got: PyTreeDef\(dict\[\['logvar', 'mu'\]\], \[\*,\*\]\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
-            Policy(func_boxspace, boxspace, discrete)
+            Policy(func_boxspace, Env(boxspace, discrete))
 
         # these should all be fine
-        Policy(func_discrete, boxspace, discrete)
-        Policy(func_boxspace, boxspace, boxspace)
+        Policy(func_discrete, Env(boxspace, discrete))
+        Policy(func_boxspace, Env(boxspace, boxspace))
 
     def test_call_discrete(self):
+        env = Env(boxspace, discrete)
         s = safe_sample(boxspace, seed=17)
-        pi = Policy(func_discrete, boxspace, discrete, random_seed=19)
+        pi = Policy(func_discrete, env, random_seed=19)
 
         a = pi(s)
         print(a, discrete)
@@ -105,8 +108,9 @@ class TestPolicy(TestCase):
         self.assertEqual(a, 3)
 
     def test_call_box(self):
+        env = Env(boxspace, boxspace)
         s = safe_sample(boxspace, seed=17)
-        pi = Policy(func_boxspace, boxspace, boxspace, random_seed=19)
+        pi = Policy(func_boxspace, env, random_seed=19)
 
         a = pi(s)
         print(type(a), a.shape, a.dtype)
@@ -116,15 +120,17 @@ class TestPolicy(TestCase):
         self.assertArraySubdtypeFloat(a)
 
     def test_greedy_discrete(self):
+        env = Env(boxspace, discrete)
         s = safe_sample(boxspace, seed=17)
-        pi = Policy(func_discrete, boxspace, discrete, random_seed=19)
+        pi = Policy(func_discrete, env, random_seed=19)
 
         a = pi.mode(s)
         self.assertTrue(discrete.contains(a))
 
     def test_greedy_box(self):
+        env = Env(boxspace, boxspace)
         s = safe_sample(boxspace, seed=17)
-        pi = Policy(func_boxspace, boxspace, boxspace, random_seed=19)
+        pi = Policy(func_boxspace, env, random_seed=19)
 
         a = pi.mode(s)
         print(type(a), a.shape, a.dtype)
@@ -134,7 +140,8 @@ class TestPolicy(TestCase):
         self.assertArraySubdtypeFloat(a)
 
     def test_function_state(self):
-        pi = Policy(func_discrete, boxspace, discrete, random_seed=19)
+        env = Env(boxspace, discrete)
+        pi = Policy(func_discrete, env, random_seed=19)
         print(pi.function_state)
         batch_norm_avg = pi.function_state['batch_norm/~/mean_ema']['average']
         self.assertArrayShape(batch_norm_avg, (1, 8))
@@ -148,7 +155,8 @@ class TestPolicy(TestCase):
             r"expected: func\(S, is_training\), got: func\(S, is_training, x\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
-            Policy(badfunc, boxspace, discrete, random_seed=13)
+            env = Env(boxspace, discrete)
+            Policy(badfunc, env, random_seed=13)
 
     def test_bad_output_structure(self):
         def badfunc(S, is_training):
@@ -161,4 +169,5 @@ class TestPolicy(TestCase):
             r"got: PyTreeDef\(dict\[\['foo', 'logits'\]\], \[\*,\*\]\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
-            Policy(badfunc, boxspace, discrete, random_seed=13)
+            env = Env(boxspace, discrete)
+            Policy(badfunc, env, random_seed=13)

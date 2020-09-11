@@ -48,11 +48,9 @@ class V(BaseFunc):
         A Haiku-style function that specifies the forward pass. The function signature must be the
         same as the example below.
 
-    observation_space : gym.Space
+    env : gym.Env
 
-        The observation space of the environment. This is used to generate example input for
-        initializing ``func``. This is done after Haiku-transforming it, see also
-        :func:`haiku.transform_with_state`.
+        The gym-style environment. This is used to validate the input/output structure of ``func``.
 
     value_transform : ValueTransform or pair of funcs, optional
 
@@ -78,7 +76,7 @@ class V(BaseFunc):
         Seed for pseudo-random number generators.
 
     """
-    def __init__(self, func, observation_space, value_transform=None, random_seed=None):
+    def __init__(self, func, env, value_transform=None, random_seed=None):
 
         self.value_transform = value_transform
         if self.value_transform is None:
@@ -88,7 +86,7 @@ class V(BaseFunc):
 
         super().__init__(
             func=func,
-            observation_space=observation_space,
+            observation_space=env.observation_space,
             action_space=None,
             random_seed=random_seed)
 
