@@ -205,6 +205,8 @@ class BaseTDLearning(ABC, RandomStateMixin):
 
     @optimizer_state.setter
     def optimizer_state(self, new_optimizer_state):
+        if jax.tree_structure(new_optimizer_state) != jax.tree_structure(self.optimizer_state):
+            raise AttributeError("cannot set optimizer_state attr: mismatch in tree structure")
         self._optimizer_state = new_optimizer_state
 
 
