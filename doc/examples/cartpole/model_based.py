@@ -2,7 +2,6 @@ import os
 
 import coax
 import gym
-import jax
 import jax.numpy as jnp
 import haiku as hk
 import optax
@@ -20,18 +19,13 @@ env = coax.wrappers.TrainMonitor(env, log_all_metrics=True)
 
 
 def func_v(S, is_training):
-    kinetic = S[:, 3] ** 2        # angular velocity squared
-    potential = hk.Sequential((
-        lambda x: x[:, :3] ** 2,  # drop angular velocity
-        hk.Linear(1, w_init=jnp.zeros), jnp.ravel
-    ))
-    return -kinetic + potential(S)
+    potential = hk.Sequential((jnp.square, hk.Linear(1, w_init=jnp.zeros), jnp.ravel))
+    return -jnp.square(S[:, 3]) + potential(S[:, :3])  # kinetic term is angular velocity squared
 
 
 def func_p(S, A, is_training):
-    linear = hk.Linear(4, w_init=jnp.zeros)
-    mu = S + linear(A)
-    return {'mu': mu, 'logvar': jnp.full_like(mu, -jnp.inf)}  # deterministic (variance = 0)
+    dS = hk.Linear(4, w_init=jnp.zeros)
+    return {'mu': S + dS(A), 'logvar': jnp.full_like(S, -jnp.inf)}  # deterministic (variance = 0)
 
 
 def func_r(S, A, is_training):
@@ -47,7 +41,7 @@ r = coax.RewardModel(func_r, env)
 
 # composite objects
 q = coax.SuccessorStateQ(v, p, r, gamma=0.9)
-pi = coax.EpsilonGreedy(q, epsilon=0.1)
+pi = coax.EpsilonGreedy(q, epsilon=0.)  # no exploration
 
 
 # reward tracer
@@ -59,7 +53,7 @@ adam = optax.chain(optax.apply_every(k=32), optax.adam(0.001))
 simple_td = coax.td_learning.SimpleTD(v, loss_function=mse, optimizer=adam)
 
 sgd = optax.sgd(0.01, momentum=0.9, nesterov=True)
-model_updater = coax.model_updaters.SimpleModelUpdater(p, optimizer=sgd)
+model_updater = coax.model_updaters.StochasticUpdater(p, optimizer=sgd)
 
 
 while env.T < 100000:
@@ -70,10 +64,6 @@ while env.T < 100000:
         a = pi(s)
         s_next, r, done, info = env.step(a)
         env.render()
-        env.record_metrics({'p/loss': jnp.linalg.norm(s_next - p(s, a))})
-
-        if t == env.spec.max_episode_steps - 1:
-            r = 1. / (1. - tracer.gamma)  # best case asymptotic return
 
         tracer.add(s, a, r, done)
         while tracer:
@@ -82,11 +72,13 @@ while env.T < 100000:
             env.record_metrics(model_updater.update(transition_batch))
 
         if done:
-            env.logger.info(f"p.params: {p.params}")
-            env.logger.info(f"v.params: {v.params}")
             break
 
         s = s_next
+
+    # early stopping
+    if env.ep >= 5 and env.avg_G > env.spec.reward_threshold:
+        break
 
 
 # run env one more time to render
