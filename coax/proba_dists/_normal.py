@@ -55,51 +55,42 @@ class NormalDist(BaseProbaDist):
 
         The gym-style space that specifies the domain of the distribution.
 
-    clip_box_range : float, optional
+    clip_box : pair of floats, optional
 
-        The range of values to allow. This is mainly to ensure reasonable values when one or
-        more dimensions of the Box space have very large ranges, i.e. large values for :code:`high -
-        low`, while in reality only a small part of that range is occupied. We therefore clip by
-        scaling down the box bounds as:
+        The range of values to allow for *clean* (compact) variates. This is mainly to ensure
+        reasonable values when one or more dimensions of the Box space have very large ranges, while
+        in reality only a small part of that range is occupied.
 
-        .. math::
+    clip_reals : pair of floats, optional
 
-            (\texttt{low}, \texttt{high})\
-                \mapsto\ (\texttt{low} / \Lambda, \texttt{high} / \Lambda)
-
-        where
-
-        .. math::
-
-            \Lambda\ =\
-                \min\left(1, \frac{\texttt{clip_box_range}}{\texttt{high} - \texttt{low}}\right)
-
-    clip_reals_range : float, optional
-
-        The range of values to allow for the decompactified values, the *reals*, used internally.
-        This range is set for numeric stability. Namely, the :attr:`postprocess_variate` method
-        compactifies the reals to a closed interval (Box) by applying a logistic sigmoid. Setting a
-        finite :code:`clip_reals_range` ensures that the sigmoid doesn't fully saturate.
+        The range of values to allow for *raw* (decompactified) variates, the *reals*, used
+        internally. This range is set for numeric stability. Namely, the :attr:`postprocess_variate`
+        method compactifies the reals to a closed interval (Box) by applying a logistic sigmoid.
+        Setting a finite range for :code:`clip_reals` ensures that the sigmoid doesn't fully
+        saturate.
 
     """
-    def __init__(self, space, clip_box_range=300., clip_reals_range=60.):
+    def __init__(self, space, clip_box=(-256., 256.), clip_reals=(-30., 30.)):
         if not isinstance(space, Box):
             raise TypeError(f"{self.__class__.__name__} can only be defined over Box spaces")
 
         super().__init__(space)
 
-        self.clip_box_range = clip_box_range
-        self.clip_reals_range = clip_reals_range
+        self.clip_box = clip_box
+        self.clip_reals = clip_reals
 
-        high, low = onp.expand_dims(self.space.high, 0), onp.expand_dims(self.space.low, 0)
-        self._box_scale = onp.minimum(1., self.clip_box_range / (high - low))
-        self._low = low * self._box_scale
-        self._high = high * self._box_scale
-
-        if onp.any(self._box_scale < 1.):
-            warnings.warn(
-                f"one or more dimensions of Box(low={self.space.low}, high={self.space.high}) "
-                f"will be clipped to Box(low={self._low[0]}, high={self._high[0]})")
+        self._low = onp.maximum(onp.expand_dims(self.space.low, axis=0), self.clip_box[0])
+        self._high = onp.minimum(onp.expand_dims(self.space.high, axis=0), self.clip_box[1])
+        onp.testing.assert_array_less(
+            self._low, self._high,
+            "Box clipping resulted in inconsistent boundaries: "
+            f"low={self._low}, high={self._high}; please specify proper clipping values, "
+            "e.g. NormalDist(space, clip_box=(-1000., 1000.))")
+        if onp.any(self._low > self.space.low) or onp.any(self._high < self.space.high):
+            with onp.printoptions(precision=1):
+                warnings.warn(
+                    f"one or more dimensions of Box(low={self.space.low}, high={self.space.high}) "
+                    f"will be clipped to Box(low={self._low[0]}, high={self._high[0]})")
 
         log_2pi = onp.asarray(1.8378770664093453)  # abbreviation
 
@@ -178,6 +169,24 @@ class NormalDist(BaseProbaDist):
         self._entropy_func = jax.jit(entropy)
         self._cross_entropy_func = jax.jit(cross_entropy)
         self._kl_divergence_func = jax.jit(kl_divergence)
+
+    @property
+    def default_priors(self):
+        shape = (1, *self.space.shape)  # include batch axis
+        return {'mu': jnp.zeros(shape), 'logvar': jnp.zeros(shape)}
+
+    def postprocess_variate(self, X, index=0, batch_mode=False):
+        X = jnp.asarray(X, dtype=self.space.dtype)                    # ensure ndarray
+        X = jnp.reshape(X, (-1, *self.space.shape))                   # ensure correct shape
+        X = jnp.clip(X, *self.clip_reals)                             # clip for stability
+        X = self._low + (self._high - self._low) * jax.nn.sigmoid(X)  # reals -> closed interval
+        return X if batch_mode else onp.asanyarray(X[index])
+
+    def preprocess_variate(self, X):
+        X = jnp.asarray(X, dtype=self.space.dtype)                     # ensure ndarray
+        X = jnp.reshape(X, (-1, *self.space.shape))                    # ensure batch axis
+        X = clipped_logit((X - self._low) / (self._high - self._low))  # closed intervals -> reals
+        return X
 
     @property
     def sample(self):
@@ -343,21 +352,3 @@ class NormalDist(BaseProbaDist):
 
         """
         return self._kl_divergence_func
-
-    @property
-    def default_priors(self):
-        shape = (1, *self.space.shape)  # include batch axis
-        return {'mu': jnp.zeros(shape), 'logvar': jnp.zeros(shape)}
-
-    def postprocess_variate(self, X, index=0, batch_mode=False):
-        X = jnp.asarray(X, dtype=self.space.dtype)   # ensure ndarray with correct dtype
-        X = jnp.reshape(X, (-1, *self.space.shape))  # ensure correct shape
-        X = jnp.clip(X, -self.clip_reals_range / 2, self.clip_reals_range / 2)  # clip for stability
-        X = self._low + (self._high - self._low) * jax.nn.sigmoid(X)  # reals -> closed interval
-        return X if batch_mode else onp.asanyarray(X[index])
-
-    def preprocess_variate(self, X):
-        X = jnp.asarray(X, dtype=self.space.dtype)   # ensure ndarray with correct dtype
-        X = jnp.reshape(X, (-1, *self.space.shape))  # ensure batch axis
-        X = clipped_logit((X - self._low) / (self._high - self._low))  # closed intervals -> reals
-        return X
