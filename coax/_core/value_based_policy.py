@@ -141,7 +141,15 @@ class BoltzmannPolicy(BaseValueBasedPolicy):
         p &= \text{softmax}(q(s,.) / \tau) \\
         a &\sim \text{Cat}(p)
 
-    Note that this policy is only well-defined for *discrete* action spaces.
+    Note that this policy is only well-defined for *discrete* action spaces. Also, it's worth noting
+    that if the q-function has a non-trivial value transform :math:`f(.)` (e.g.
+    :class:`coax.value_transforms.LogTransform`), we feed in the *transformed* estimate as our
+    logits, i.e.
+
+    .. math::
+
+        p = \text{softmax}(f(q(s,.)) / \tau)
+
 
     Parameters
     ----------

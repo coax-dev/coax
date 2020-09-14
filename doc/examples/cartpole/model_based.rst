@@ -6,6 +6,18 @@ using a model-based agent, which uses a function approximator for a value functi
 well as a dynamics model :math:`p(s'|s,a)`. Since the CartPole observation space covers the full
 phase space of the dynamics, this agent is able to learn the task *within the first episode*.
 
+The way in which the dynamics model is used in this agent is rather simple. Namely, we only use it
+to define a single-step look-ahead q-function, i.e.
+
+.. math::
+
+    q(s,a)\ =\ r(s,a) + \mathop{\mathbb{E}}_{s'\sim p_\theta(.|s,a)} v_\theta(s')
+
+This composite q-function is implemented by :class:`coax.SuccessorStateQ`. Note that the reward
+function for the CartPole environment is simply :math:`r(s,a)=1` at each time step, so we don't need
+to model that.
+
+
 If training is successful, this is what the result would look like:
 
 .. image:: /_static/img/cartpole.gif
