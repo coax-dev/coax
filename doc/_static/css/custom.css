@@ -17,6 +17,8 @@ body a {
 
 .wy-nav-content {
   background: #fff;
+  max-width: 1000px;
+  min-width: 700px;
 }
 
 .rst-content dl:not(.docutils) dl dt strong {
