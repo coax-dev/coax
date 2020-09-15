@@ -22,7 +22,7 @@
 import jax
 import haiku as hk
 
-from ..utils import batch_to_single, single_to_batch
+from ..utils import batch_to_single
 
 __all__ = (
     'PolicyMixin',
@@ -59,7 +59,7 @@ class PolicyMixin:
             ``return_logp=True``.
 
         """
-        S = single_to_batch(s)
+        S = self.observation_preprocessor(s)
         A, logP = self.sample_func(self.params, self.function_state, self.rng, S)
         a = self.proba_dist.postprocess_variate(A)
         return (a, batch_to_single(logP)) if return_logp else a
@@ -82,7 +82,7 @@ class PolicyMixin:
             A single action :math:`a`.
 
         """
-        S = single_to_batch(s)
+        S = self.observation_preprocessor(s)
         A = self.mode_func(self.params, self.function_state, self.rng, S)
         a = self.proba_dist.postprocess_variate(A)
         return a
@@ -105,7 +105,7 @@ class PolicyMixin:
             The distribution parameters of :math:`\pi(.|s)`.
 
         """
-        S = single_to_batch(s)
+        S = self.observation_preprocessor(s)
         dist_params, _ = self.function(self.params, self.function_state, self.rng, S, False)
         return batch_to_single(dist_params)
 

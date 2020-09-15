@@ -68,8 +68,13 @@ class BaseValueBasedPolicy(PolicyMixin):
     def rng(self):
         return self.q.rng
 
-    def _preprocess_state(self, s):
-        return self.q._preprocess_state(s)
+    @property
+    def observation_preprocessor(self):
+        return self.q.observation_preprocessor
+
+    @property
+    def action_preprocessor(self):
+        return self.q.action_preprocessor
 
 
 class EpsilonGreedy(BaseValueBasedPolicy):

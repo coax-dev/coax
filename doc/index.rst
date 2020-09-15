@@ -83,10 +83,7 @@ function:
     env = coax.wrappers.TrainMonitor(env)
 
     def func(S, is_training):
-        values = hk.Sequential((
-            lambda x: hk.one_hot(x, env.observation_space.n),
-            hk.Linear(env.action_space.n, w_init=jnp.zeros)
-        ))
+        values = hk.Linear(env.action_space.n, w_init=jnp.zeros)
         return values(S)  # shape: (batch_size, num_actions)
 
 
@@ -136,7 +133,7 @@ value-based policy:
 .. code:: python
 
     # derive policy from q-function
-    pi = coax.EpsilonGreedy(q, epsilon=1.0)  # we'll scale this down later
+    pi = coax.EpsilonGreedy(q, epsilon=1.0)  # we'll scale down epsilon later
 
     # sample action
     a = pi(s)

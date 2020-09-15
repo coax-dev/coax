@@ -27,7 +27,7 @@ import jax.numpy as jnp
 import numpy as onp
 from gym.spaces import Space
 
-from ..utils import single_to_batch, safe_sample
+from ..utils import safe_sample
 from ..value_transforms import ValueTransform
 from ..proba_dists import ProbaDist
 from .base_func import BaseFunc, ExampleData, Inputs, ArgsType2
@@ -141,7 +141,7 @@ class V(BaseFunc):
                 f"got: {type(env.observation_space)}")
 
         if observation_preprocessor is None:
-            observation_preprocessor = single_to_batch
+            observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
 
         rnd = onp.random.RandomState(random_seed)
 

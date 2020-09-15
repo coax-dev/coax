@@ -27,7 +27,7 @@ import jax.numpy as jnp
 import numpy as onp
 from gym.spaces import Space, Discrete
 
-from ..utils import single_to_batch, safe_sample
+from ..utils import safe_sample
 from ..proba_dists import ProbaDist
 from ..value_transforms import ValueTransform
 from .base_func import BaseFunc, ExampleData, Inputs, ArgsType1, ArgsType2, ModelTypes
@@ -242,7 +242,7 @@ class Q(BaseFunc):
                 f"got: {type(env.observation_space)}")
 
         if observation_preprocessor is None:
-            observation_preprocessor = single_to_batch
+            observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
 
         if action_preprocessor is None:
             action_preprocessor = ProbaDist(env.action_space).preprocess_variate

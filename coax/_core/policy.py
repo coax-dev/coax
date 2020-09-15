@@ -27,7 +27,7 @@ import jax.numpy as jnp
 import numpy as onp
 from gym.spaces import Space
 
-from ..utils import safe_sample, single_to_batch
+from ..utils import safe_sample
 from ..proba_dists import ProbaDist
 from .base_func import BaseFunc, ExampleData, Inputs, ArgsType2
 from .base_policy import PolicyMixin
@@ -105,7 +105,7 @@ class Policy(BaseFunc, PolicyMixin):
                 f"env.action_space must be derived from gym.Space, got: {type(env.action_space)}")
 
         if observation_preprocessor is None:
-            observation_preprocessor = single_to_batch
+            observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
 
         rnd = onp.random.RandomState(random_seed)
 
