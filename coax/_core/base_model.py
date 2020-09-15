@@ -20,6 +20,7 @@
 # ------------------------------------------------------------------------------------------------ #
 
 from inspect import signature
+from collections import namedtuple
 
 import jax
 import jax.numpy as jnp
@@ -194,12 +195,16 @@ class BaseModel(BaseFunc):
 
     @classmethod
     def example_data(
-            cls, observation_space, action_space, observation_preprocessor,
-            action_preprocessor, proba_dist, batch_size=1, random_seed=None):
+            cls, env, observation_preprocessor, action_preprocessor, proba_dist,
+            batch_size=1, random_seed=None):
 
-        if not isinstance(observation_space, Space):
+        if not isinstance(env.observation_space, Space):
             raise TypeError(
-                f"observation_space must be derived from gym.Space, got: {type(observation_space)}")
+                "env.observation_space must be derived from gym.Space, "
+                f"got: {type(env.observation_space)}")
+        if not isinstance(env.action_space, Space):
+            raise TypeError(
+                f"env.action_space must be derived from gym.Space, got: {type(env.action_space)}")
 
         rnd = onp.random.RandomState(random_seed)
 
@@ -209,13 +214,13 @@ class BaseModel(BaseFunc):
         assert proba_dist is not None
 
         # input: state observations
-        S = [safe_sample(observation_space, rnd) for _ in range(batch_size)]
+        S = [safe_sample(env.observation_space, rnd) for _ in range(batch_size)]
         S = [observation_preprocessor(s) for s in S]
         S = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *S)
 
         # input: actions
-        A = [safe_sample(action_space, rnd) for _ in range(batch_size)]
-        A = [action_preprocessor(s) for s in A]
+        A = [safe_sample(env.action_space, rnd) for _ in range(batch_size)]
+        A = [action_preprocessor(a) for a in A]
         A = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *A)
 
         # output: type1
@@ -225,12 +230,12 @@ class BaseModel(BaseFunc):
             inputs=Inputs(args=ArgsType1(S=S, A=A, is_training=True), static_argnums=(2,)),
             output=dist_params_type1)
 
-        if not isinstance(action_space, Discrete):
+        if not isinstance(env.action_space, Discrete):
             return ModelTypes(type1=q1_data, type2=None)
 
         # output: type2 (if actions are discrete)
         dist_params_type2 = jax.tree_map(
-            lambda x: jnp.asarray(rnd.randn(batch_size, action_space.n, *x.shape[1:])),
+            lambda x: jnp.asarray(rnd.randn(batch_size, env.action_space.n, *x.shape[1:])),
             proba_dist.default_priors)
         q2_data = ExampleData(
             inputs=Inputs(args=ArgsType2(S=S, is_training=True), static_argnums=(1,)),
@@ -342,9 +347,9 @@ class BaseModel(BaseFunc):
             raise TypeError(
                 "type-2 models are only well-defined for Discrete action spaces")
 
+        Env = namedtuple('Env', ('observation_space', 'action_space'))
         example_data_per_modeltype = BaseModel.example_data(
-            observation_space=self.observation_space,
-            action_space=self.action_space,
+            env=Env(self.observation_space, self.action_space),
             observation_preprocessor=self.observation_preprocessor,
             action_preprocessor=self.action_preprocessor,
             proba_dist=self.proba_dist,

@@ -120,6 +120,22 @@ class CategoricalDist(BaseProbaDist):
         return self._gumbel_softmax_tau
 
     @property
+    def default_priors(self):
+        return {'logits': jnp.zeros((1, self.space.n))}
+
+    def preprocess_variate(self, X):
+        X = jnp.asarray(X)
+        assert X.ndim <= 1, f"unexpected X.shape: {X.shape}"
+        assert jnp.issubdtype(X.dtype, jnp.integer), f"expected an integer dtype, got {X.dtype}"
+        return jax.nn.one_hot(X, self.space.n).reshape(-1, self.space.n)
+
+    def postprocess_variate(self, X, index=0, batch_mode=False):
+        assert X.ndim == 2
+        assert X.shape[1] == self.space.n
+        X = jnp.argmax(X, axis=1)
+        return X if batch_mode else int(X[index])
+
+    @property
     def sample(self):
         r"""
 
@@ -288,22 +304,3 @@ class CategoricalDist(BaseProbaDist):
 
         """
         return self._kl_divergence_func
-
-    @property
-    def default_priors(self):
-        return {'logits': jnp.zeros((1, self.space.n))}
-
-    def postprocess_variate(self, X, index=0, batch_mode=False):
-        assert X.ndim == 2
-        assert X.shape[1] == self.space.n
-        X = jnp.argmax(X, axis=1)
-        x = int(X[index])
-        assert self.space.contains(x), \
-            f"{self.__class__.__name__}.postprocessor_variate failed for X: {X}"
-        return X if batch_mode else x
-
-    def preprocess_variate(self, X):
-        X = jnp.asarray(X)
-        assert X.ndim <= 1, f"unexpected X.shape: {X.shape}"
-        assert jnp.issubdtype(X.dtype, jnp.integer), f"expected an integer dtype, got {X.dtype}"
-        return jax.nn.one_hot(X, self.space.n).reshape(-1, self.space.n)

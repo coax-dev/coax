@@ -44,6 +44,17 @@ class DynamicsModel(BaseModel):
 
         The gym-style environment. This is used to validate the input/output structure of ``func``.
 
+    observation_preprocessor : function, optional
+
+        Turns a single observation into a batch of observations that are compatible with the
+        corresponding probability distribution. If left unspecified, this defaults to:
+
+        .. code:: python
+
+            observation_preprocessor = proba_dist.preprocess_variate
+
+        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
+
     action_preprocessor : function, optional
 
         Turns a single action into a batch of actions that are compatible with the corresponding
@@ -71,12 +82,17 @@ class DynamicsModel(BaseModel):
         Seed for pseudo-random number generators.
 
     """
-    def __init__(self, func, env, action_preprocessor=None, proba_dist=None, random_seed=None):
-        if action_preprocessor is None:
-            action_preprocessor = ProbaDist(env.action_space).preprocess_variate
+    def __init__(
+            self, func, env, observation_preprocessor=None, action_preprocessor=None,
+            proba_dist=None, random_seed=None):
+
+        # set defaults
         if proba_dist is None:
             proba_dist = ProbaDist(env.observation_space)
-        observation_preprocessor = proba_dist.preprocess_variate
+        if observation_preprocessor is None:
+            observation_preprocessor = proba_dist.preprocess_variate
+        if action_preprocessor is None:
+            action_preprocessor = ProbaDist(env.action_space).preprocess_variate
 
         super().__init__(
             func=func,
@@ -89,19 +105,17 @@ class DynamicsModel(BaseModel):
 
     @classmethod
     def example_data(
-            cls, observation_space, action_space,
-            action_preprocessor=None, proba_dist=None, batch_size=1, random_seed=None):
+            cls, env, action_preprocessor=None, proba_dist=None, batch_size=1, random_seed=None):
 
+        # set defaults
         if action_preprocessor is None:
-            action_preprocessor = ProbaDist(action_space).preprocess_variate
+            action_preprocessor = ProbaDist(env.action_space).preprocess_variate
         if proba_dist is None:
-            proba_dist = ProbaDist(observation_space)
-        observation_preprocessor = proba_dist.preprocess_variate
+            proba_dist = ProbaDist(env.observation_space)
 
         return super().example_data(
-            observation_space=observation_space,
-            action_space=action_space,
-            observation_preprocessor=observation_preprocessor,
+            env=env,
+            observation_preprocessor=proba_dist.preprocess_variate,
             action_preprocessor=action_preprocessor,
             proba_dist=proba_dist,
             batch_size=batch_size,

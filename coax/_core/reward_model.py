@@ -52,7 +52,7 @@ class RewardModel(BaseModel):
         A pair of floats :code:`(min_reward, max_reward)`, which is typically provided by the
         environment as :code:`env.reward_range`.
 
-    observation_preprocessor
+    observation_preprocessor : function, optional
 
         Turns a single observation into a batch of observations that are compatible with the
         corresponding probability distribution. If left unspecified, this defaults to:
@@ -105,17 +105,17 @@ class RewardModel(BaseModel):
             value_transform=None, random_seed=None):
 
         self.value_transform = value_transform
-        if self.value_transform is None:
-            self.value_transform = ValueTransform(lambda x: x, lambda x: x)
-        if not isinstance(self.value_transform, ValueTransform):
-            self.value_transform = ValueTransform(*value_transform)
-
         self.reward_range = env.reward_range
+
+        # set defaults
         if observation_preprocessor is None:
             observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
         if action_preprocessor is None:
             action_preprocessor = ProbaDist(env.action_space).preprocess_variate
-        proba_dist = self._reward_proba_dist(env.reward_range)
+        if self.value_transform is None:
+            self.value_transform = ValueTransform(lambda x: x, lambda x: x)
+        if not isinstance(self.value_transform, ValueTransform):
+            self.value_transform = ValueTransform(*value_transform)
 
         super().__init__(
             func=func,
@@ -123,23 +123,22 @@ class RewardModel(BaseModel):
             action_space=env.action_space,
             observation_preprocessor=observation_preprocessor,
             action_preprocessor=action_preprocessor,
-            proba_dist=proba_dist,
+            proba_dist=self._reward_proba_dist(env.reward_range),
             random_seed=random_seed)
 
     @classmethod
     def example_data(
-            cls, observation_space, action_space, reward_range, observation_preprocessor=None,
+            cls, env, reward_range, observation_preprocessor=None,
             action_preprocessor=None, batch_size=1, random_seed=None):
 
         if observation_preprocessor is None:
-            observation_preprocessor = ProbaDist(observation_space).preprocess_variate
+            observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
         if action_preprocessor is None:
-            action_preprocessor = ProbaDist(action_space).preprocess_variate
+            action_preprocessor = ProbaDist(env.action_space).preprocess_variate
         proba_dist = cls._reward_proba_dist(reward_range)
 
         return super().example_data(
-            observation_space=observation_space,
-            action_space=action_space,
+            env=env,
             observation_preprocessor=observation_preprocessor,
             action_preprocessor=action_preprocessor,
             proba_dist=proba_dist,

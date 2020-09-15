@@ -20,6 +20,7 @@
 # ------------------------------------------------------------------------------------------------ #
 
 from inspect import signature
+from collections import namedtuple
 
 import jax
 import jax.numpy as jnp
@@ -28,6 +29,7 @@ from gym.spaces import Space
 
 from ..utils import single_to_batch, safe_sample
 from ..value_transforms import ValueTransform
+from ..proba_dists import ProbaDist
 from .base_func import BaseFunc, ExampleData, Inputs, ArgsType2
 
 
@@ -51,6 +53,17 @@ class V(BaseFunc):
     env : gym.Env
 
         The gym-style environment. This is used to validate the input/output structure of ``func``.
+
+    observation_preprocessor : function, optional
+
+        Turns a single observation into a batch of observations that are compatible with the
+        corresponding probability distribution. If left unspecified, this defaults to:
+
+        .. code:: python
+
+            observation_preprocessor = ProbaDist(observation_space).preprocess_variate
+
+        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
 
     value_transform : ValueTransform or pair of funcs, optional
 
@@ -76,9 +89,15 @@ class V(BaseFunc):
         Seed for pseudo-random number generators.
 
     """
-    def __init__(self, func, env, value_transform=None, random_seed=None):
+    def __init__(
+            self, func, env, observation_preprocessor=None, value_transform=None, random_seed=None):
 
+        self.observation_preprocessor = observation_preprocessor
         self.value_transform = value_transform
+
+        # defaults
+        if self.observation_preprocessor is None:
+            self.observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
         if self.value_transform is None:
             self.value_transform = ValueTransform(lambda x: x, lambda x: x)
         if not isinstance(self.value_transform, ValueTransform):
@@ -108,23 +127,28 @@ class V(BaseFunc):
             The estimated expected value associated with the input state observation ``s``.
 
         """
-        S = single_to_batch(s)
+        S = self.observation_preprocessor(s)
         V, _ = self.function(self.params, self.function_state, self.rng, S, False)
         V = self.value_transform.inverse_func(V)
         return onp.asarray(V[0])
 
     @classmethod
-    def example_data(cls, observation_space, batch_size=1, random_seed=None):
+    def example_data(cls, env, observation_preprocessor=None, batch_size=1, random_seed=None):
 
-        if not isinstance(observation_space, Space):
+        if not isinstance(env.observation_space, Space):
             raise TypeError(
-                f"observation_space must be derived from gym.Space, got: {type(observation_space)}")
+                "env.observation_space must be derived from gym.Space, "
+                f"got: {type(env.observation_space)}")
+
+        if observation_preprocessor is None:
+            observation_preprocessor = single_to_batch
 
         rnd = onp.random.RandomState(random_seed)
 
         # input: state observations
-        S = [safe_sample(observation_space, rnd) for _ in range(batch_size)]
-        S = jax.tree_multimap(lambda *x: jnp.stack(x, axis=0), *S)
+        S = [safe_sample(env.observation_space, rnd) for _ in range(batch_size)]
+        S = [observation_preprocessor(s) for s in S]
+        S = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *S)
 
         return ExampleData(
             inputs=Inputs(args=ArgsType2(S=S, is_training=True), static_argnums=(1,)),
@@ -138,8 +162,10 @@ class V(BaseFunc):
                 f"func has bad signature; expected: func(S, is_training), got: func({sig})")
 
         # example inputs
+        Env = namedtuple('Env', ('observation_space',))
         return self.example_data(
-            observation_space=self.observation_space,
+            env=Env(self.observation_space),
+            observation_preprocessor=self.observation_preprocessor,
             batch_size=1,
             random_seed=self.random_seed,
         )

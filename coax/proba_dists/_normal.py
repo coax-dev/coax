@@ -175,18 +175,18 @@ class NormalDist(BaseProbaDist):
         shape = (1, *self.space.shape)  # include batch axis
         return {'mu': jnp.zeros(shape), 'logvar': jnp.zeros(shape)}
 
+    def preprocess_variate(self, X):
+        X = jnp.asarray(X, dtype=self.space.dtype)                     # ensure ndarray
+        X = jnp.reshape(X, (-1, *self.space.shape))                    # ensure batch axis
+        X = clipped_logit((X - self._low) / (self._high - self._low))  # closed intervals -> reals
+        return X
+
     def postprocess_variate(self, X, index=0, batch_mode=False):
         X = jnp.asarray(X, dtype=self.space.dtype)                    # ensure ndarray
         X = jnp.reshape(X, (-1, *self.space.shape))                   # ensure correct shape
         X = jnp.clip(X, *self.clip_reals)                             # clip for stability
         X = self._low + (self._high - self._low) * jax.nn.sigmoid(X)  # reals -> closed interval
         return X if batch_mode else onp.asanyarray(X[index])
-
-    def preprocess_variate(self, X):
-        X = jnp.asarray(X, dtype=self.space.dtype)                     # ensure ndarray
-        X = jnp.reshape(X, (-1, *self.space.shape))                    # ensure batch axis
-        X = clipped_logit((X - self._low) / (self._high - self._low))  # closed intervals -> reals
-        return X
 
     @property
     def sample(self):

@@ -20,11 +20,12 @@
 # ------------------------------------------------------------------------------------------------ #
 
 from inspect import signature
+from collections import namedtuple
 
 import jax
 import jax.numpy as jnp
 import numpy as onp
-from gym.spaces import Discrete
+from gym.spaces import Space, Discrete
 
 from ..utils import single_to_batch, safe_sample
 from ..proba_dists import ProbaDist
@@ -52,6 +53,17 @@ class Q(BaseFunc):
     env : gym.Env
 
         The gym-style environment. This is used to validate the input/output structure of ``func``.
+
+    observation_preprocessor : function, optional
+
+        Turns a single observation into a batch of observations that are compatible with the
+        corresponding probability distribution. If left unspecified, this defaults to:
+
+        .. code:: python
+
+            observation_preprocessor = ProbaDist(observation_space).preprocess_variate
+
+        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
 
     action_preprocessor : function, optional
 
@@ -88,13 +100,19 @@ class Q(BaseFunc):
         Seed for pseudo-random number generators.
 
     """
-    def __init__(self, func, env, action_preprocessor=None, value_transform=None, random_seed=None):
+    def __init__(
+            self, func, env, observation_preprocessor=None, action_preprocessor=None,
+            value_transform=None, random_seed=None):
 
-        self.action_preprocessor = \
-            action_preprocessor if action_preprocessor is not None \
-            else ProbaDist(env.action_space).preprocess_variate
-
+        self.observation_preprocessor = observation_preprocessor
+        self.action_preprocessor = action_preprocessor
         self.value_transform = value_transform
+
+        # defaults
+        if self.observation_preprocessor is None:
+            self.observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
+        if self.action_preprocessor is None:
+            self.action_preprocessor = ProbaDist(env.action_space).preprocess_variate
         if self.value_transform is None:
             self.value_transform = ValueTransform(lambda x: x, lambda x: x)
         if not isinstance(self.value_transform, ValueTransform):
@@ -132,7 +150,7 @@ class Q(BaseFunc):
             discrete action spaces.
 
         """
-        S = single_to_batch(s)
+        S = self.observation_preprocessor(s)
         if a is None:
             Q, _ = self.function_type2(self.params, self.function_state, self.rng, S, False)
         else:
@@ -215,20 +233,30 @@ class Q(BaseFunc):
 
     @classmethod
     def example_data(
-            cls, observation_space, action_space,
-            action_preprocessor=None, batch_size=1, random_seed=None):
+            cls, env, observation_preprocessor=None, action_preprocessor=None,
+            batch_size=1, random_seed=None):
+
+        if not isinstance(env.observation_space, Space):
+            raise TypeError(
+                "env.observation_space must be derived from gym.Space, "
+                f"got: {type(env.observation_space)}")
+
+        if observation_preprocessor is None:
+            observation_preprocessor = single_to_batch
 
         if action_preprocessor is None:
-            action_preprocessor = ProbaDist(action_space).preprocess_variate
+            action_preprocessor = ProbaDist(env.action_space).preprocess_variate
+
         rnd = onp.random.RandomState(random_seed)
 
         # input: state observations
-        S = [safe_sample(observation_space, rnd) for _ in range(batch_size)]
-        S = jax.tree_multimap(lambda *x: jnp.stack(x, axis=0), *S)
+        S = [safe_sample(env.observation_space, rnd) for _ in range(batch_size)]
+        S = [observation_preprocessor(s) for s in S]
+        S = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *S)
 
         # input: actions
-        A = [safe_sample(action_space, rnd) for _ in range(batch_size)]
-        A = [action_preprocessor(s) for s in A]
+        A = [safe_sample(env.action_space, rnd) for _ in range(batch_size)]
+        A = [action_preprocessor(a) for a in A]
         A = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *A)
 
         # output: type1
@@ -237,13 +265,13 @@ class Q(BaseFunc):
             output=jnp.asarray(rnd.randn(batch_size)),
         )
 
-        if not isinstance(action_space, Discrete):
+        if not isinstance(env.action_space, Discrete):
             return ModelTypes(type1=q1_data, type2=None)
 
         # output: type2 (if actions are discrete)
         q2_data = ExampleData(
             inputs=Inputs(args=ArgsType2(S=S, is_training=True), static_argnums=(1,)),
-            output=jnp.asarray(rnd.randn(batch_size, action_space.n)),
+            output=jnp.asarray(rnd.randn(batch_size, env.action_space.n)),
         )
 
         return ModelTypes(type1=q1_data, type2=q2_data)
@@ -262,9 +290,9 @@ class Q(BaseFunc):
         if sig == sig_type2 and not isinstance(self.action_space, Discrete):
             raise TypeError("type-2 q-functions are only well-defined for Discrete action spaces")
 
+        Env = namedtuple('Env', ('observation_space', 'action_space'))
         example_data_per_modeltype = self.example_data(
-            observation_space=self.observation_space,
-            action_space=self.action_space,
+            env=Env(self.observation_space, self.action_space),
             action_preprocessor=self.action_preprocessor,
             batch_size=1,
             random_seed=self.random_seed)

@@ -192,7 +192,7 @@ class BaseFunc(ABC, RandomStateMixin):
         """ Check if func has expected output signature; raises TypeError """
 
     @abstractmethod
-    def example_data(self, *args, **kwargs):
+    def example_data(self, env, **kwargs):
         r"""
 
         A small utility function that generates example input and output data. These may be useful

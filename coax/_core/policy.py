@@ -20,13 +20,14 @@
 # ------------------------------------------------------------------------------------------------ #
 
 from inspect import signature
+from collections import namedtuple
 
 import jax
 import jax.numpy as jnp
 import numpy as onp
 from gym.spaces import Space
 
-from ..utils import safe_sample
+from ..utils import safe_sample, single_to_batch
 from ..proba_dists import ProbaDist
 from .base_func import BaseFunc, ExampleData, Inputs, ArgsType2
 from .base_policy import PolicyMixin
@@ -47,6 +48,17 @@ class Policy(BaseFunc, PolicyMixin):
 
         The gym-style environment. This is used to validate the input/output structure of ``func``.
 
+    observation_preprocessor : function, optional
+
+        Turns a single observation into a batch of observations that are compatible with the
+        corresponding probability distribution. If left unspecified, this defaults to:
+
+        .. code:: python
+
+            observation_preprocessor = ProbaDist(observation_space).preprocess_variate
+
+        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
+
     proba_dist : ProbaDist, optional
 
         A probability distribution that is used to interpret the output of :code:`func
@@ -63,8 +75,16 @@ class Policy(BaseFunc, PolicyMixin):
         Seed for pseudo-random number generators.
 
     """
-    def __init__(self, func, env, proba_dist=None, random_seed=None):
-        self.proba_dist = ProbaDist(env.action_space) if proba_dist is None else proba_dist
+    def __init__(self, func, env, observation_preprocessor=None, proba_dist=None, random_seed=None):
+        self.observation_preprocessor = observation_preprocessor
+        self.proba_dist = proba_dist
+
+        # defaults
+        if self.observation_preprocessor is None:
+            self.observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
+        if self.proba_dist is None:
+            self.proba_dist = ProbaDist(env.action_space)
+
         super().__init__(
             func=func,
             observation_space=env.observation_space,
@@ -73,24 +93,30 @@ class Policy(BaseFunc, PolicyMixin):
 
     @classmethod
     def example_data(
-            cls, observation_space, action_space, proba_dist=None, batch_size=1, random_seed=None):
+            cls, env, observation_preprocessor=None, proba_dist=None,
+            batch_size=1, random_seed=None):
 
-        if not isinstance(observation_space, Space):
+        if not isinstance(env.observation_space, Space):
             raise TypeError(
-                f"observation_space must be derived from gym.Space, got: {type(observation_space)}")
-        if not isinstance(action_space, Space):
+                "env.observation_space must be derived from gym.Space, "
+                f"got: {type(env.observation_space)}")
+        if not isinstance(env.action_space, Space):
             raise TypeError(
-                f"action_space must be derived from gym.Space, got: {type(action_space)}")
+                f"env.action_space must be derived from gym.Space, got: {type(env.action_space)}")
+
+        if observation_preprocessor is None:
+            observation_preprocessor = single_to_batch
 
         rnd = onp.random.RandomState(random_seed)
 
         # input: state observations
-        S = [safe_sample(observation_space, rnd) for _ in range(batch_size)]
-        S = jax.tree_multimap(lambda *x: jnp.stack(x, axis=0), *S)
+        S = [safe_sample(env.observation_space, rnd) for _ in range(batch_size)]
+        S = [observation_preprocessor(s) for s in S]
+        S = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *S)
 
         # output
         if proba_dist is None:
-            proba_dist = ProbaDist(action_space)
+            proba_dist = ProbaDist(env.action_space)
         dist_params = jax.tree_map(
             lambda x: jnp.asarray(rnd.randn(batch_size, *x.shape[1:])), proba_dist.default_priors)
 
@@ -105,9 +131,10 @@ class Policy(BaseFunc, PolicyMixin):
             raise TypeError(
                 f"func has bad signature; expected: func(S, is_training), got: func({sig})")
 
+        Env = namedtuple('Env', ('observation_space', 'action_space'))
         return self.example_data(
-            observation_space=self.observation_space,
-            action_space=self.action_space,
+            env=Env(self.observation_space, self.action_space),
+            observation_preprocessor=self.observation_preprocessor,
             proba_dist=self.proba_dist,
             batch_size=1,
             random_seed=self.random_seed,
