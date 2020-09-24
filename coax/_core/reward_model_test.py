@@ -38,12 +38,6 @@ boxspace = Box(low=0, high=1, shape=(3, 5))
 Env = namedtuple('Env', ('observation_space', 'action_space', 'reward_range'))
 
 
-def check_onehot(S):
-    if jnp.issubdtype(S.dtype, jnp.integer):
-        return hk.one_hot(S, discrete.n)
-    return S
-
-
 def func_type1(S, A, is_training):
     batch_norm = hk.BatchNorm(False, False, 0.99)
     mu = hk.Sequential((
@@ -62,7 +56,7 @@ def func_type1(S, A, is_training):
         hk.Linear(8), jnp.tanh,
         hk.Linear(1), jnp.ravel,
     ))
-    X = jax.vmap(jnp.kron)(check_onehot(S), A)
+    X = jax.vmap(jnp.kron)(S, A)
     return {'mu': mu(X), 'logvar': logvar(X)}
 
 
@@ -84,8 +78,7 @@ def func_type2(S, is_training):
         hk.Linear(8), jnp.tanh,
         hk.Linear(discrete.n),
     ))
-    X = check_onehot(S)
-    return {'mu': mu(X), 'logvar': logvar(X)}
+    return {'mu': mu(S), 'logvar': logvar(S)}
 
 
 class TestRewardModel(TestCase):

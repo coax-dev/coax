@@ -39,12 +39,6 @@ boxspace = gym.spaces.Box(low=0, high=1, shape=(3, 5))
 Env = namedtuple('Env', ('observation_space', 'action_space'))
 
 
-def check_onehot(S):
-    if jnp.issubdtype(S.dtype, jnp.integer):
-        return hk.one_hot(S, discrete.n)
-    return S
-
-
 def func_discrete_type1(S, A, is_training):
     batch_norm = hk.BatchNorm(False, False, 0.99)
     seq = hk.Sequential((
@@ -55,7 +49,7 @@ def func_discrete_type1(S, A, is_training):
         hk.Linear(8), jnp.tanh,
         hk.Linear(discrete.n),
     ))
-    X = jax.vmap(jnp.kron)(check_onehot(S), A)
+    X = jax.vmap(jnp.kron)(S, A)
     return {'logits': seq(X)}
 
 
@@ -70,8 +64,7 @@ def func_discrete_type2(S, is_training):
         hk.Linear(discrete.n * discrete.n),
         hk.Reshape((discrete.n, discrete.n)),
     ))
-    X = check_onehot(S)
-    return {'logits': seq(X)}
+    return {'logits': seq(S)}
 
 
 def func_boxspace_type1(S, A, is_training):
@@ -94,7 +87,7 @@ def func_boxspace_type1(S, A, is_training):
         hk.Linear(onp.prod(boxspace.shape)),
         hk.Reshape(boxspace.shape),
     ))
-    X = jax.vmap(jnp.kron)(check_onehot(S), A)
+    X = jax.vmap(jnp.kron)(S, A)
     return {'mu': mu(X), 'logvar': logvar(X)}
 
 
@@ -118,8 +111,7 @@ def func_boxspace_type2(S, is_training):
         hk.Linear(onp.prod(boxspace.shape) * discrete.n),
         hk.Reshape((discrete.n, *boxspace.shape)),
     ))
-    X = check_onehot(S)
-    return {'mu': mu(X), 'logvar': logvar(X)}
+    return {'mu': mu(S), 'logvar': logvar(S)}
 
 
 class TestDynamicsModel(TestCase):
