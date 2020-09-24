@@ -9,8 +9,12 @@ py:attribute
 	haiku.Transformed.init                   api.html#haiku.Transformed.init
 	haiku.TransformedWithState.apply         api.html#haiku.TransformedWithState.apply
 	haiku.TransformedWithState.init          api.html#haiku.TransformedWithState.init
+	haiku.experimental.MethodContext.method_name api.html#haiku.experimental.MethodContext.method_name
+	haiku.experimental.MethodContext.module  api.html#haiku.experimental.MethodContext.module
+	haiku.experimental.MethodContext.orig_method api.html#haiku.experimental.MethodContext.orig_method
 	haiku.experimental.ParamContext.full_name api.html#haiku.experimental.ParamContext.full_name
 	haiku.experimental.ParamContext.module   api.html#haiku.experimental.ParamContext.module
+	haiku.experimental.ParamContext.original_dtype api.html#haiku.experimental.ParamContext.original_dtype
 	haiku.initializers.Initializer           api.html#haiku.initializers.Initializer
 	haiku.nets.VectorQuantizer.commitment_cost api.html#haiku.nets.VectorQuantizer.commitment_cost
 	haiku.nets.VectorQuantizer.embedding_dim api.html#haiku.nets.VectorQuantizer.embedding_dim
@@ -45,6 +49,7 @@ py:class
 	haiku.ExponentialMovingAverage           api.html#haiku.ExponentialMovingAverage
 	haiku.Flatten                            api.html#haiku.Flatten
 	haiku.GRU                                api.html#haiku.GRU
+	haiku.GroupNorm                          api.html#haiku.GroupNorm
 	haiku.IdentityCore                       api.html#haiku.IdentityCore
 	haiku.InstanceNorm                       api.html#haiku.InstanceNorm
 	haiku.LSTM                               api.html#haiku.LSTM
@@ -63,6 +68,7 @@ py:class
 	haiku.Transformed                        api.html#haiku.Transformed
 	haiku.TransformedWithState               api.html#haiku.TransformedWithState
 	haiku.VanillaRNN                         api.html#haiku.VanillaRNN
+	haiku.experimental.MethodContext         api.html#haiku.experimental.MethodContext
 	haiku.experimental.ParamContext          api.html#haiku.experimental.ParamContext
 	haiku.initializers.Constant              api.html#haiku.initializers.Constant
 	haiku.initializers.Identity              api.html#haiku.initializers.Identity
@@ -102,11 +108,13 @@ py:function
 	haiku.expand_apply                       api.html#haiku.expand_apply
 	haiku.experimental.custom_creator        api.html#haiku.experimental.custom_creator
 	haiku.experimental.custom_getter         api.html#haiku.experimental.custom_getter
+	haiku.experimental.intercept_methods     api.html#haiku.experimental.intercept_methods
 	haiku.experimental.lift                  api.html#haiku.experimental.lift
 	haiku.experimental.named_call            api.html#haiku.experimental.named_call
 	haiku.experimental.optimize_rng_use      api.html#haiku.experimental.optimize_rng_use
 	haiku.experimental.profiler_name_scopes  api.html#haiku.experimental.profiler_name_scopes
 	haiku.experimental.to_dot                api.html#haiku.experimental.to_dot
+	haiku.fori_loop                          api.html#haiku.fori_loop
 	haiku.get_parameter                      api.html#haiku.get_parameter
 	haiku.get_state                          api.html#haiku.get_state
 	haiku.grad                               api.html#haiku.grad
@@ -173,6 +181,8 @@ py:method
 	haiku.GRU.__call__                       api.html#haiku.GRU.__call__
 	haiku.GRU.__init__                       api.html#haiku.GRU.__init__
 	haiku.GRU.initial_state                  api.html#haiku.GRU.initial_state
+	haiku.GroupNorm.__call__                 api.html#haiku.GroupNorm.__call__
+	haiku.GroupNorm.__init__                 api.html#haiku.GroupNorm.__init__
 	haiku.IdentityCore.__call__              api.html#haiku.IdentityCore.__call__
 	haiku.IdentityCore.initial_state         api.html#haiku.IdentityCore.initial_state
 	haiku.InstanceNorm.__init__              api.html#haiku.InstanceNorm.__init__
@@ -265,7 +275,6 @@ std:label
 	genindex                                 Index                                   : genindex.html
 	jozefowicz2015empirical                  api.html#jozefowicz2015empirical
 	modindex                                 Module Index                            : py-modindex.html
-	py-modindex                              Python Module Index                     : py-modindex.html
 	search                                   Search Page                             : search.html
 	transforms-caveats                       Limitations of using JAX transforms inside of networks: transforms.html#transforms-caveats
 	xingjian2015convolutional                api.html#xingjian2015convolutional

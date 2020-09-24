@@ -1023,6 +1023,7 @@ py:method
 	sklearn.ensemble.StackingClassifier.fit  modules/generated/sklearn.ensemble.StackingClassifier.html#sklearn.ensemble.StackingClassifier.fit
 	sklearn.ensemble.StackingClassifier.fit_transform modules/generated/sklearn.ensemble.StackingClassifier.html#sklearn.ensemble.StackingClassifier.fit_transform
 	sklearn.ensemble.StackingClassifier.get_params modules/generated/sklearn.ensemble.StackingClassifier.html#sklearn.ensemble.StackingClassifier.get_params
+	sklearn.ensemble.StackingClassifier.n_features_in_ modules/generated/sklearn.ensemble.StackingClassifier.html#sklearn.ensemble.StackingClassifier.n_features_in_
 	sklearn.ensemble.StackingClassifier.predict modules/generated/sklearn.ensemble.StackingClassifier.html#sklearn.ensemble.StackingClassifier.predict
 	sklearn.ensemble.StackingClassifier.predict_proba modules/generated/sklearn.ensemble.StackingClassifier.html#sklearn.ensemble.StackingClassifier.predict_proba
 	sklearn.ensemble.StackingClassifier.score modules/generated/sklearn.ensemble.StackingClassifier.html#sklearn.ensemble.StackingClassifier.score
@@ -1032,6 +1033,7 @@ py:method
 	sklearn.ensemble.StackingRegressor.fit   modules/generated/sklearn.ensemble.StackingRegressor.html#sklearn.ensemble.StackingRegressor.fit
 	sklearn.ensemble.StackingRegressor.fit_transform modules/generated/sklearn.ensemble.StackingRegressor.html#sklearn.ensemble.StackingRegressor.fit_transform
 	sklearn.ensemble.StackingRegressor.get_params modules/generated/sklearn.ensemble.StackingRegressor.html#sklearn.ensemble.StackingRegressor.get_params
+	sklearn.ensemble.StackingRegressor.n_features_in_ modules/generated/sklearn.ensemble.StackingRegressor.html#sklearn.ensemble.StackingRegressor.n_features_in_
 	sklearn.ensemble.StackingRegressor.predict modules/generated/sklearn.ensemble.StackingRegressor.html#sklearn.ensemble.StackingRegressor.predict
 	sklearn.ensemble.StackingRegressor.score modules/generated/sklearn.ensemble.StackingRegressor.html#sklearn.ensemble.StackingRegressor.score
 	sklearn.ensemble.StackingRegressor.set_params modules/generated/sklearn.ensemble.StackingRegressor.html#sklearn.ensemble.StackingRegressor.set_params
@@ -3289,7 +3291,7 @@ std:doc
 	whats_new/v0.20                          Version 0.20.4                          : whats_new/v0.20.html
 	whats_new/v0.21                          Version 0.21.3                          : whats_new/v0.21.html
 	whats_new/v0.22                          Version 0.22.2.post1                    : whats_new/v0.22.html
-	whats_new/v0.23                          Version 0.23.1                          : whats_new/v0.23.html
+	whats_new/v0.23                          Version 0.23.2                          : whats_new/v0.23.html
 	whats_new/v0.24                          Version 0.24.0                          : whats_new/v0.24.html
 std:label
 	20newsgroups_dataset                     The 20 newsgroups text dataset          : datasets/index.html#newsgroups-dataset
@@ -3366,6 +3368,7 @@ std:label
 	changes_0_22_2                           Version 0.22.2.post1                    : whats_new/v0.22.html#changes-0-22-2
 	changes_0_23                             Version 0.23.0                          : whats_new/v0.23.html#changes-0-23
 	changes_0_23_1                           Version 0.23.1                          : whats_new/v0.23.html#changes-0-23-1
+	changes_0_23_2                           Version 0.23.2                          : whats_new/v0.23.html#changes-0-23-2
 	changes_0_24                             Version 0.24.0                          : whats_new/v0.24.html#changes-0-24
 	changes_0_5                              Version 0.5                             : whats_new/older_versions.html#changes-0-5
 	changes_0_6                              Version 0.6                             : whats_new/older_versions.html#changes-0-6

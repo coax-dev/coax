@@ -1748,6 +1748,7 @@ py:function
 	numpy.ma.allequal                        reference/generated/numpy.ma.allequal.html#numpy.ma.allequal
 	numpy.ma.append                          reference/generated/numpy.ma.append.html#numpy.ma.append
 	numpy.ma.apply_along_axis                reference/generated/numpy.ma.apply_along_axis.html#numpy.ma.apply_along_axis
+	numpy.ma.apply_over_axes                 reference/generated/numpy.ma.apply_over_axes.html#numpy.ma.apply_over_axes
 	numpy.ma.argsort                         reference/generated/numpy.ma.argsort.html#numpy.ma.argsort
 	numpy.ma.array                           reference/generated/numpy.ma.array.html#numpy.ma.array
 	numpy.ma.asanyarray                      reference/generated/numpy.ma.asanyarray.html#numpy.ma.asanyarray
@@ -1894,10 +1895,13 @@ py:function
 	numpy.polynomial.chebyshev.chebgrid2d    reference/generated/numpy.polynomial.chebyshev.chebgrid2d.html#numpy.polynomial.chebyshev.chebgrid2d
 	numpy.polynomial.chebyshev.chebgrid3d    reference/generated/numpy.polynomial.chebyshev.chebgrid3d.html#numpy.polynomial.chebyshev.chebgrid3d
 	numpy.polynomial.chebyshev.chebint       reference/generated/numpy.polynomial.chebyshev.chebint.html#numpy.polynomial.chebyshev.chebint
+	numpy.polynomial.chebyshev.chebinterpolate reference/generated/numpy.polynomial.chebyshev.chebinterpolate.html#numpy.polynomial.chebyshev.chebinterpolate
 	numpy.polynomial.chebyshev.chebline      reference/generated/numpy.polynomial.chebyshev.chebline.html#numpy.polynomial.chebyshev.chebline
 	numpy.polynomial.chebyshev.chebmul       reference/generated/numpy.polynomial.chebyshev.chebmul.html#numpy.polynomial.chebyshev.chebmul
 	numpy.polynomial.chebyshev.chebmulx      reference/generated/numpy.polynomial.chebyshev.chebmulx.html#numpy.polynomial.chebyshev.chebmulx
 	numpy.polynomial.chebyshev.chebpow       reference/generated/numpy.polynomial.chebyshev.chebpow.html#numpy.polynomial.chebyshev.chebpow
+	numpy.polynomial.chebyshev.chebpts1      reference/generated/numpy.polynomial.chebyshev.chebpts1.html#numpy.polynomial.chebyshev.chebpts1
+	numpy.polynomial.chebyshev.chebpts2      reference/generated/numpy.polynomial.chebyshev.chebpts2.html#numpy.polynomial.chebyshev.chebpts2
 	numpy.polynomial.chebyshev.chebroots     reference/generated/numpy.polynomial.chebyshev.chebroots.html#numpy.polynomial.chebyshev.chebroots
 	numpy.polynomial.chebyshev.chebsub       reference/generated/numpy.polynomial.chebyshev.chebsub.html#numpy.polynomial.chebyshev.chebsub
 	numpy.polynomial.chebyshev.chebtrim      reference/generated/numpy.polynomial.chebyshev.chebtrim.html#numpy.polynomial.chebyshev.chebtrim
@@ -2137,6 +2141,7 @@ py:function
 	numpy.setxor1d                           reference/generated/numpy.setxor1d.html#numpy.setxor1d
 	numpy.shape                              reference/generated/numpy.shape.html#numpy.shape
 	numpy.shares_memory                      reference/generated/numpy.shares_memory.html#numpy.shares_memory
+	numpy.show_config                        reference/generated/numpy.show_config.html#numpy.show_config
 	numpy.sinc                               reference/generated/numpy.sinc.html#numpy.sinc
 	numpy.sort                               reference/generated/numpy.sort.html#numpy.sort
 	numpy.sort_complex                       reference/generated/numpy.sort_complex.html#numpy.sort_complex
@@ -2490,6 +2495,7 @@ py:method
 	numpy.lib.user_array.container.astype    reference/generated/numpy.lib.user_array.container.astype.html#numpy.lib.user_array.container.astype
 	numpy.lib.user_array.container.byteswap  reference/generated/numpy.lib.user_array.container.byteswap.html#numpy.lib.user_array.container.byteswap
 	numpy.lib.user_array.container.copy      reference/generated/numpy.lib.user_array.container.copy.html#numpy.lib.user_array.container.copy
+	numpy.lib.user_array.container.tobytes   reference/generated/numpy.lib.user_array.container.tobytes.html#numpy.lib.user_array.container.tobytes
 	numpy.lib.user_array.container.tostring  reference/generated/numpy.lib.user_array.container.tostring.html#numpy.lib.user_array.container.tostring
 	numpy.ma.MaskType.all                    reference/generated/numpy.ma.MaskType.all.html#numpy.ma.MaskType.all
 	numpy.ma.MaskType.any                    reference/generated/numpy.ma.MaskType.any.html#numpy.ma.MaskType.any
@@ -2580,7 +2586,6 @@ py:method
 	numpy.ma.MaskedArray.__ixor__            reference/generated/numpy.ma.MaskedArray.__ixor__.html#numpy.ma.MaskedArray.__ixor__
 	numpy.ma.MaskedArray.__le__              reference/generated/numpy.ma.MaskedArray.__le__.html#numpy.ma.MaskedArray.__le__
 	numpy.ma.MaskedArray.__len__             reference/generated/numpy.ma.MaskedArray.__len__.html#numpy.ma.MaskedArray.__len__
-	numpy.ma.MaskedArray.__long__            reference/generated/numpy.ma.MaskedArray.__long__.html#numpy.ma.MaskedArray.__long__
 	numpy.ma.MaskedArray.__lshift__          reference/generated/numpy.ma.MaskedArray.__lshift__.html#numpy.ma.MaskedArray.__lshift__
 	numpy.ma.MaskedArray.__lt__              reference/generated/numpy.ma.MaskedArray.__lt__.html#numpy.ma.MaskedArray.__lt__
 	numpy.ma.MaskedArray.__mod__             reference/generated/numpy.ma.MaskedArray.__mod__.html#numpy.ma.MaskedArray.__mod__
@@ -2999,9 +3004,7 @@ py:method
 	numpy.ndarray.transpose                  reference/generated/numpy.ndarray.transpose.html#numpy.ndarray.transpose
 	numpy.ndarray.var                        reference/generated/numpy.ndarray.var.html#numpy.ndarray.var
 	numpy.ndarray.view                       reference/generated/numpy.ndarray.view.html#numpy.ndarray.view
-	numpy.ndenumerate.next                   reference/generated/numpy.ndenumerate.next.html#numpy.ndenumerate.next
 	numpy.ndindex.ndincr                     reference/generated/numpy.ndindex.ndincr.html#numpy.ndindex.ndincr
-	numpy.ndindex.next                       reference/generated/numpy.ndindex.next.html#numpy.ndindex.next
 	numpy.nditer.close                       reference/generated/numpy.nditer.close.html#numpy.nditer.close
 	numpy.nditer.copy                        reference/generated/numpy.nditer.copy.html#numpy.nditer.copy
 	numpy.nditer.debug_print                 reference/generated/numpy.nditer.debug_print.html#numpy.nditer.debug_print
@@ -3400,6 +3403,11 @@ py:module
 	numpy.ma                                 reference/maskedarray.generic.html#module-numpy.ma
 	numpy.matlib                             reference/routines.matlib.html#module-numpy.matlib
 	numpy.polynomial                         reference/routines.polynomials.package.html#module-numpy.polynomial
+	numpy.polynomial.chebyshev               reference/routines.polynomials.chebyshev.html#module-numpy.polynomial.chebyshev
+	numpy.polynomial.hermite                 reference/routines.polynomials.hermite.html#module-numpy.polynomial.hermite
+	numpy.polynomial.hermite_e               reference/routines.polynomials.hermite_e.html#module-numpy.polynomial.hermite_e
+	numpy.polynomial.laguerre                reference/routines.polynomials.laguerre.html#module-numpy.polynomial.laguerre
+	numpy.polynomial.legendre                reference/routines.polynomials.legendre.html#module-numpy.polynomial.legendre
 	numpy.polynomial.polynomial              reference/routines.polynomials.polynomial.html#module-numpy.polynomial.polynomial
 	numpy.polynomial.polyutils               reference/routines.polynomials.polyutils.html#module-numpy.polynomial.polyutils
 	numpy.random                             reference/random/index.html#module-numpy.random
@@ -3408,7 +3416,7 @@ std:doc
 	about                                    About NumPy                             : about.html
 	benchmarking                             NumPy benchmarks                        : benchmarking.html
 	bugs                                     Reporting bugs                          : bugs.html
-	contents                                 NumPy manual contents                   : contents.html
+	contents                                 NumPy Documentation                     : contents.html
 	dev/conduct/code_of_conduct              NumPy Code of Conduct                   : dev/conduct/code_of_conduct.html
 	dev/conduct/report_handling_manual       NumPy Code of Conduct - How to follow up on a report: dev/conduct/report_handling_manual.html
 	dev/development_environment              Setting up and using your development environment: dev/development_environment.html
@@ -3423,15 +3431,17 @@ std:doc
 	dev/governance/governance                NumPy project governance and decision-making: dev/governance/governance.html
 	dev/governance/index                     NumPy governance                        : dev/governance/index.html
 	dev/governance/people                    Current steering council and institutional partners: dev/governance/people.html
+	dev/howto-docs                           How to contribute to the NumPy documentation: dev/howto-docs.html
 	dev/index                                Contributing to NumPy                   : dev/index.html
 	dev/releasing                            Releasing a Version                     : dev/releasing.html
 	dev/style_guide                          NumPy C Style Guide                     : dev/style_guide.html
+	dev/underthehood                         Under-the-hood Documentation for developers: dev/underthehood.html
 	docs/howto_build_docs                    Building the NumPy API and reference docs: docs/howto_build_docs.html
 	docs/howto_document                      A Guide to NumPy/SciPy Documentation    : docs/howto_document.html
 	docs/index                               NumPy’s Documentation                   : docs/index.html
 	f2py/advanced                            Advanced F2PY usages                    : f2py/advanced.html
 	f2py/distutils                           Using via numpy.distutils               : f2py/distutils.html
-	f2py/getting-started                     Three ways to wrap - getting started    : f2py/getting-started.html
+	f2py/f2py.getting-started                Three ways to wrap - getting started    : f2py/f2py.getting-started.html
 	f2py/index                               F2PY Users Guide and Reference Manual   : f2py/index.html
 	f2py/python-usage                        Using F2PY bindings in Python           : f2py/python-usage.html
 	f2py/signature-file                      Signature file                          : f2py/signature-file.html
@@ -3447,6 +3457,7 @@ std:doc
 	reference/arrays.interface               The Array Interface                     : reference/arrays.interface.html
 	reference/arrays.ndarray                 The N-dimensional array (ndarray)       : reference/arrays.ndarray.html
 	reference/arrays.nditer                  Iterating Over Arrays                   : reference/arrays.nditer.html
+	reference/arrays.nditer.cython           Putting the Inner Loop in Cython        : reference/arrays.nditer.cython.html
 	reference/arrays.scalars                 Scalars                                 : reference/arrays.scalars.html
 	reference/c-api/array                    Array API                               : reference/c-api/array.html
 	reference/c-api/config                   System configuration                    : reference/c-api/config.html
@@ -4116,6 +4127,7 @@ std:doc
 	reference/generated/numpy.lib.user_array.container.astype numpy.lib.user_array.container.astype   : reference/generated/numpy.lib.user_array.container.astype.html
 	reference/generated/numpy.lib.user_array.container.byteswap numpy.lib.user_array.container.byteswap : reference/generated/numpy.lib.user_array.container.byteswap.html
 	reference/generated/numpy.lib.user_array.container.copy numpy.lib.user_array.container.copy     : reference/generated/numpy.lib.user_array.container.copy.html
+	reference/generated/numpy.lib.user_array.container.tobytes numpy.lib.user_array.container.tobytes  : reference/generated/numpy.lib.user_array.container.tobytes.html
 	reference/generated/numpy.lib.user_array.container.tostring numpy.lib.user_array.container.tostring : reference/generated/numpy.lib.user_array.container.tostring.html
 	reference/generated/numpy.linalg.LinAlgError numpy.linalg.LinAlgError                : reference/generated/numpy.linalg.LinAlgError.html
 	reference/generated/numpy.linalg.cholesky numpy.linalg.cholesky                   : reference/generated/numpy.linalg.cholesky.html
@@ -4258,7 +4270,6 @@ std:doc
 	reference/generated/numpy.ma.MaskedArray.__ixor__ numpy.ma.MaskedArray.__ixor__           : reference/generated/numpy.ma.MaskedArray.__ixor__.html
 	reference/generated/numpy.ma.MaskedArray.__le__ numpy.ma.MaskedArray.__le__             : reference/generated/numpy.ma.MaskedArray.__le__.html
 	reference/generated/numpy.ma.MaskedArray.__len__ numpy.ma.MaskedArray.__len__            : reference/generated/numpy.ma.MaskedArray.__len__.html
-	reference/generated/numpy.ma.MaskedArray.__long__ numpy.ma.MaskedArray.__long__           : reference/generated/numpy.ma.MaskedArray.__long__.html
 	reference/generated/numpy.ma.MaskedArray.__lshift__ numpy.ma.MaskedArray.__lshift__         : reference/generated/numpy.ma.MaskedArray.__lshift__.html
 	reference/generated/numpy.ma.MaskedArray.__lt__ numpy.ma.MaskedArray.__lt__             : reference/generated/numpy.ma.MaskedArray.__lt__.html
 	reference/generated/numpy.ma.MaskedArray.__mod__ numpy.ma.MaskedArray.__mod__            : reference/generated/numpy.ma.MaskedArray.__mod__.html
@@ -4374,6 +4385,7 @@ std:doc
 	reference/generated/numpy.ma.any         numpy.ma.any                            : reference/generated/numpy.ma.any.html
 	reference/generated/numpy.ma.append      numpy.ma.append                         : reference/generated/numpy.ma.append.html
 	reference/generated/numpy.ma.apply_along_axis numpy.ma.apply_along_axis               : reference/generated/numpy.ma.apply_along_axis.html
+	reference/generated/numpy.ma.apply_over_axes numpy.ma.apply_over_axes                : reference/generated/numpy.ma.apply_over_axes.html
 	reference/generated/numpy.ma.arange      numpy.ma.arange                         : reference/generated/numpy.ma.arange.html
 	reference/generated/numpy.ma.argmax      numpy.ma.argmax                         : reference/generated/numpy.ma.argmax.html
 	reference/generated/numpy.ma.argmin      numpy.ma.argmin                         : reference/generated/numpy.ma.argmin.html
@@ -4908,10 +4920,8 @@ std:doc
 	reference/generated/numpy.ndarray.var    numpy.ndarray.var                       : reference/generated/numpy.ndarray.var.html
 	reference/generated/numpy.ndarray.view   numpy.ndarray.view                      : reference/generated/numpy.ndarray.view.html
 	reference/generated/numpy.ndenumerate    numpy.ndenumerate                       : reference/generated/numpy.ndenumerate.html
-	reference/generated/numpy.ndenumerate.next numpy.ndenumerate.next                  : reference/generated/numpy.ndenumerate.next.html
 	reference/generated/numpy.ndindex        numpy.ndindex                           : reference/generated/numpy.ndindex.html
 	reference/generated/numpy.ndindex.ndincr numpy.ndindex.ndincr                    : reference/generated/numpy.ndindex.ndincr.html
-	reference/generated/numpy.ndindex.next   numpy.ndindex.next                      : reference/generated/numpy.ndindex.next.html
 	reference/generated/numpy.nditer         numpy.nditer                            : reference/generated/numpy.nditer.html
 	reference/generated/numpy.nditer.close   numpy.nditer.close                      : reference/generated/numpy.nditer.close.html
 	reference/generated/numpy.nditer.copy    numpy.nditer.copy                       : reference/generated/numpy.nditer.copy.html
@@ -5017,11 +5027,14 @@ std:doc
 	reference/generated/numpy.polynomial.chebyshev.chebgrid2d numpy.polynomial.chebyshev.chebgrid2d   : reference/generated/numpy.polynomial.chebyshev.chebgrid2d.html
 	reference/generated/numpy.polynomial.chebyshev.chebgrid3d numpy.polynomial.chebyshev.chebgrid3d   : reference/generated/numpy.polynomial.chebyshev.chebgrid3d.html
 	reference/generated/numpy.polynomial.chebyshev.chebint numpy.polynomial.chebyshev.chebint      : reference/generated/numpy.polynomial.chebyshev.chebint.html
+	reference/generated/numpy.polynomial.chebyshev.chebinterpolate numpy.polynomial.chebyshev.chebinterpolate: reference/generated/numpy.polynomial.chebyshev.chebinterpolate.html
 	reference/generated/numpy.polynomial.chebyshev.chebline numpy.polynomial.chebyshev.chebline     : reference/generated/numpy.polynomial.chebyshev.chebline.html
 	reference/generated/numpy.polynomial.chebyshev.chebmul numpy.polynomial.chebyshev.chebmul      : reference/generated/numpy.polynomial.chebyshev.chebmul.html
 	reference/generated/numpy.polynomial.chebyshev.chebmulx numpy.polynomial.chebyshev.chebmulx     : reference/generated/numpy.polynomial.chebyshev.chebmulx.html
 	reference/generated/numpy.polynomial.chebyshev.chebone numpy.polynomial.chebyshev.chebone      : reference/generated/numpy.polynomial.chebyshev.chebone.html
 	reference/generated/numpy.polynomial.chebyshev.chebpow numpy.polynomial.chebyshev.chebpow      : reference/generated/numpy.polynomial.chebyshev.chebpow.html
+	reference/generated/numpy.polynomial.chebyshev.chebpts1 numpy.polynomial.chebyshev.chebpts1     : reference/generated/numpy.polynomial.chebyshev.chebpts1.html
+	reference/generated/numpy.polynomial.chebyshev.chebpts2 numpy.polynomial.chebyshev.chebpts2     : reference/generated/numpy.polynomial.chebyshev.chebpts2.html
 	reference/generated/numpy.polynomial.chebyshev.chebroots numpy.polynomial.chebyshev.chebroots    : reference/generated/numpy.polynomial.chebyshev.chebroots.html
 	reference/generated/numpy.polynomial.chebyshev.chebsub numpy.polynomial.chebyshev.chebsub      : reference/generated/numpy.polynomial.chebyshev.chebsub.html
 	reference/generated/numpy.polynomial.chebyshev.chebtrim numpy.polynomial.chebyshev.chebtrim     : reference/generated/numpy.polynomial.chebyshev.chebtrim.html
@@ -5523,6 +5536,7 @@ std:doc
 	reference/generated/numpy.setxor1d       numpy.setxor1d                          : reference/generated/numpy.setxor1d.html
 	reference/generated/numpy.shape          numpy.shape                             : reference/generated/numpy.shape.html
 	reference/generated/numpy.shares_memory  numpy.shares_memory                     : reference/generated/numpy.shares_memory.html
+	reference/generated/numpy.show_config    numpy.show_config                       : reference/generated/numpy.show_config.html
 	reference/generated/numpy.sign           numpy.sign                              : reference/generated/numpy.sign.html
 	reference/generated/numpy.signbit        numpy.signbit                           : reference/generated/numpy.signbit.html
 	reference/generated/numpy.sin            numpy.sin                               : reference/generated/numpy.sin.html
@@ -5618,6 +5632,7 @@ std:doc
 	reference/generated/numpy.who            numpy.who                               : reference/generated/numpy.who.html
 	reference/generated/numpy.zeros          numpy.zeros                             : reference/generated/numpy.zeros.html
 	reference/generated/numpy.zeros_like     numpy.zeros_like                        : reference/generated/numpy.zeros_like.html
+	reference/global_state                   Global State                            : reference/global_state.html
 	reference/index                          NumPy Reference                         : reference/index.html
 	reference/internals                      NumPy internals                         : reference/internals.html
 	reference/internals.code-explanations    NumPy C Code Explanations               : reference/internals.code-explanations.html
@@ -5843,15 +5858,15 @@ std:doc
 	reference/routines.other                 Miscellaneous routines                  : reference/routines.other.html
 	reference/routines.padding               Padding Arrays                          : reference/routines.padding.html
 	reference/routines.polynomials           Polynomials                             : reference/routines.polynomials.html
-	reference/routines.polynomials.chebyshev Chebyshev Module (numpy.polynomial.chebyshev): reference/routines.polynomials.chebyshev.html
+	reference/routines.polynomials.chebyshev Chebyshev Series (numpy.polynomial.chebyshev): reference/routines.polynomials.chebyshev.html
 	reference/routines.polynomials.classes   Using the Convenience Classes           : reference/routines.polynomials.classes.html
-	reference/routines.polynomials.hermite   Hermite Module, “Physicists’” (numpy.polynomial.hermite): reference/routines.polynomials.hermite.html
-	reference/routines.polynomials.hermite_e HermiteE Module, “Probabilists’” (numpy.polynomial.hermite_e): reference/routines.polynomials.hermite_e.html
-	reference/routines.polynomials.laguerre  Laguerre Module (numpy.polynomial.laguerre): reference/routines.polynomials.laguerre.html
-	reference/routines.polynomials.legendre  Legendre Module (numpy.polynomial.legendre): reference/routines.polynomials.legendre.html
-	reference/routines.polynomials.package   Polynomial Package                      : reference/routines.polynomials.package.html
+	reference/routines.polynomials.hermite   Hermite Series, “Physicists” (numpy.polynomial.hermite): reference/routines.polynomials.hermite.html
+	reference/routines.polynomials.hermite_e HermiteE Series, “Probabilists” (numpy.polynomial.hermite_e): reference/routines.polynomials.hermite_e.html
+	reference/routines.polynomials.laguerre  Laguerre Series (numpy.polynomial.laguerre): reference/routines.polynomials.laguerre.html
+	reference/routines.polynomials.legendre  Legendre Series (numpy.polynomial.legendre): reference/routines.polynomials.legendre.html
+	reference/routines.polynomials.package   <no title>                              : reference/routines.polynomials.package.html
 	reference/routines.polynomials.poly1d    Poly1d                                  : reference/routines.polynomials.poly1d.html
-	reference/routines.polynomials.polynomial Polynomial Module (numpy.polynomial.polynomial): reference/routines.polynomials.polynomial.html
+	reference/routines.polynomials.polynomial Power Series (numpy.polynomial.polynomial): reference/routines.polynomials.polynomial.html
 	reference/routines.polynomials.polyutils Polyutils                               : reference/routines.polynomials.polyutils.html
 	reference/routines.set                   Set routines                            : reference/routines.set.html
 	reference/routines.sort                  Sorting, searching, and counting        : reference/routines.sort.html
@@ -5904,11 +5919,12 @@ std:doc
 	release/1.17.3-notes                     NumPy 1.17.3 Release Notes              : release/1.17.3-notes.html
 	release/1.17.4-notes                     NumPy 1.17.4 Release Notes              : release/1.17.4-notes.html
 	release/1.17.5-notes                     NumPy 1.17.5 Release Notes              : release/1.17.5-notes.html
-	release/1.18.0-notes                     NumPy NumPy 1.18.0 Release Notes        : release/1.18.0-notes.html
+	release/1.18.0-notes                     NumPy 1.18.0 Release Notes              : release/1.18.0-notes.html
 	release/1.18.1-notes                     NumPy 1.18.1 Release Notes              : release/1.18.1-notes.html
 	release/1.18.2-notes                     NumPy 1.18.2 Release Notes              : release/1.18.2-notes.html
 	release/1.18.3-notes                     NumPy 1.18.3 Release Notes              : release/1.18.3-notes.html
 	release/1.18.4-notes                     NumPy 1.18.4 Release Notes              : release/1.18.4-notes.html
+	release/1.19.0-notes                     NumPy 1.19.0 Release Notes              : release/1.19.0-notes.html
 	release/1.3.0-notes                      NumPy 1.3.0 Release Notes               : release/1.3.0-notes.html
 	release/1.4.0-notes                      NumPy 1.4.0 Release Notes               : release/1.4.0-notes.html
 	release/1.5.0-notes                      NumPy 1.5.0 Release Notes               : release/1.5.0-notes.html
@@ -5925,6 +5941,7 @@ std:doc
 	release/1.9.1-notes                      NumPy 1.9.1 Release Notes               : release/1.9.1-notes.html
 	release/1.9.2-notes                      NumPy 1.9.2 Release Notes               : release/1.9.2-notes.html
 	release/template                         NumPy 1.xx.x Release Notes              : release/template.html
+	user/absolute_beginners                  NumPy: the absolute basics for beginners: user/absolute_beginners.html
 	user/basics                              NumPy basics                            : user/basics.html
 	user/basics.broadcasting                 Broadcasting                            : user/basics.broadcasting.html
 	user/basics.byteswapping                 Byte-swapping                           : user/basics.byteswapping.html
@@ -5942,14 +5959,19 @@ std:doc
 	user/c-info.how-to-extend                How to extend NumPy                     : user/c-info.how-to-extend.html
 	user/c-info.python-as-glue               Using Python as glue                    : user/c-info.python-as-glue.html
 	user/c-info.ufunc-tutorial               Writing your own ufunc                  : user/c-info.ufunc-tutorial.html
+	user/explanations_index                  Explanations                            : user/explanations_index.html
+	user/howtos_index                        NumPy How Tos                           : user/howtos_index.html
 	user/index                               NumPy User Guide                        : user/index.html
 	user/install                             Installing NumPy                        : user/install.html
+	user/ionumpy                             How to read and write data using NumPy  : user/ionumpy.html
 	user/misc                                Miscellaneous                           : user/misc.html
 	user/numpy-for-matlab-users              NumPy for Matlab users                  : user/numpy-for-matlab-users.html
 	user/quickstart                          Quickstart tutorial                     : user/quickstart.html
 	user/setting-up                          Setting up                              : user/setting-up.html
 	user/theory.broadcasting                 Array Broadcasting in Numpy             : user/theory.broadcasting.html
 	user/troubleshooting-importerror         Troubleshooting ImportError             : user/troubleshooting-importerror.html
+	user/tutorial-svd                        Tutorial: Linear algebra on n-dimensional arrays: user/tutorial-svd.html
+	user/tutorials_index                     NumPy Tutorials                         : user/tutorials_index.html
 	user/whatisnumpy                         What is NumPy?                          : user/whatisnumpy.html
 std:label
 	alignment                                Memory Alignment                        : reference/alignment.html#alignment
@@ -5980,6 +6002,7 @@ std:label
 	arrays.scalars.built-in                  Built-in scalar types                   : reference/arrays.scalars.html#arrays-scalars-built-in
 	arrays.scalars.character-codes           Built-in scalar types                   : reference/arrays.scalars.html#arrays-scalars-character-codes
 	asking-for-merging                       Asking for your changes to be merged with the main repo: dev/development_workflow.html#asking-for-merging
+	basics.broadcasting                      Broadcasting                            : user/basics.broadcasting.html#basics-broadcasting
 	basics.dispatch                          Writing custom array containers         : user/basics.dispatch.html#basics-dispatch
 	basics.indexing                          Indexing                                : user/basics.indexing.html#basics-indexing
 	basics.subclassing                       Subclassing ndarray                     : user/basics.subclassing.html#basics-subclassing
@@ -5994,6 +6017,7 @@ std:label
 	details-of-signature                     Details of Signature                    : reference/c-api/generalized-ufuncs.html#details-of-signature
 	development-environment                  Setting up and using your development environment: dev/development_environment.html#development-environment
 	development-workflow                     Development workflow                    : dev/development_workflow.html#development-workflow
+	devindex                                 Contributing to NumPy                   : dev/index.html#devindex
 	dispatch_mechanism                       user/basics.dispatch.html#dispatch-mechanism
 	distutils-user-guide                     NumPy Distutils - Users Guide           : reference/distutils_guide.html#distutils-user-guide
 	documentation                            NumPy’s Documentation                   : docs/index.html#documentation
@@ -6004,6 +6028,7 @@ std:label
 	example-2                                Example 2                               : user/theory.broadcasting.html#example-2
 	example-3                                Example 3                               : user/theory.broadcasting.html#example-3
 	example-4                                Example 4                               : user/theory.broadcasting.html#example-4
+	explanations                             Explanations                            : user/explanations_index.html#explanations
 	extending                                Extending                               : reference/random/extending.html#extending
 	extending_cython_example                 Extending numpy.random via Cython       : reference/random/examples/cython/index.html#extending-cython-example
 	external                                 f2py/signature-file.html#external
@@ -6020,9 +6045,12 @@ std:label
 	git-config-basic                         Overview                                : dev/gitwash/configure_git.html#git-config-basic
 	git-development                          Git for development                     : dev/gitwash/index.html#git-development
 	git-resources                            Additional Git Resources                : dev/gitwash/git_resources.html#git-resources
+	global_state                             Global State                            : reference/global_state.html#global-state
 	governance-people                        Current steering council and institutional partners: dev/governance/people.html#governance-people
 	howto-build-docs                         Building the NumPy API and reference docs: docs/howto_build_docs.html#howto-build-docs
+	howto-docs                               How to contribute to the NumPy documentation: dev/howto-docs.html#howto-docs
 	howto-document                           A Guide to NumPy/SciPy Documentation    : docs/howto_document.html#howto-document
+	howtos                                   NumPy How Tos                           : user/howtos_index.html#howtos
 	independent-streams                      Independent Streams                     : reference/random/parallel.html#independent-streams
 	install-git                              dev/gitwash/index.html#install-git
 	legacy                                   Legacy Random Generation                : reference/random/legacy.html#legacy
@@ -6040,14 +6068,22 @@ std:label
 	new-or-different                         What’s New or Different                 : reference/random/new-or-different.html#new-or-different
 	numpy-for-matlab-users                   NumPy for Matlab users                  : user/numpy-for-matlab-users.html#numpy-for-matlab-users
 	numpy-for-matlab-users.notes             Notes                                   : user/numpy-for-matlab-users.html#numpy-for-matlab-users-notes
+	numpy-internals                          NumPy internals                         : reference/internals.html#numpy-internals
 	numpy.ma.constants                       Constants of the numpy.ma module        : reference/maskedarray.baseclass.html#numpy-ma-constants
+	numpy_docs_mainpage                      NumPy Documentation                     : contents.html#numpy-docs-mainpage
 	numpyrandom                              reference/random/index.html#numpyrandom
 	offsets-and-alignment                    Automatic Byte Offsets and Alignment    : user/basics.rec.html#offsets-and-alignment
 	parallel-builds                          Parallel builds                         : user/building.html#parallel-builds
 	parallel-jumped                          Jumping the BitGenerator state          : reference/random/parallel.html#parallel-jumped
 	push-tag-and-commit                      Push the release tag and commit         : dev/releasing.html#push-tag-and-commit
 	pushing-to-main                          Pushing changes to the main repo        : dev/development_workflow.html#pushing-to-main
+	quickstart.array-creation                Array Creation                          : user/quickstart.html#quickstart-array-creation
+	quickstart.basic-operations              Basic Operations                        : user/quickstart.html#quickstart-basic-operations
+	quickstart.copies-and-views              Copies and Views                        : user/quickstart.html#quickstart-copies-and-views
+	quickstart.indexing-slicing-and-iterating Indexing, Slicing and Iterating         : user/quickstart.html#quickstart-indexing-slicing-and-iterating
 	quickstart.shape-manipulation            Shape Manipulation                      : user/quickstart.html#quickstart-shape-manipulation
+	quickstart.stacking-arrays               Stacking together different arrays      : user/quickstart.html#quickstart-stacking-arrays
+	quickstart.the-basics                    The Basics                              : user/quickstart.html#quickstart-the-basics
 	r01a8f58ef25b-1                          reference/generated/numpy.roots.html#r01a8f58ef25b-1
 	r03a512939777-1                          reference/random/generated/numpy.random.RandomState.zipf.html#r03a512939777-1
 	r068cb77115ef-1                          reference/random/generated/numpy.random.f.html#r068cb77115ef-1
@@ -6120,6 +6156,7 @@ std:label
 	r3d00038c3802-4                          reference/random/generated/numpy.random.RandomState.laplace.html#r3d00038c3802-4
 	r3f369196fea0-1                          reference/generated/numpy.arctanh.html#r3f369196fea0-1
 	r3f369196fea0-2                          reference/generated/numpy.arctanh.html#r3f369196fea0-2
+	r3f3efff98d00-1                          reference/routines.polynomials.chebyshev.html#r3f3efff98d00-1
 	r40f8e2ad755a-1                          reference/random/bit_generators/philox.html#r40f8e2ad755a-1
 	r4338a4b3d731-1                          reference/random/generated/numpy.random.RandomState.pareto.html#r4338a4b3d731-1
 	r4338a4b3d731-2                          reference/random/generated/numpy.random.RandomState.pareto.html#r4338a4b3d731-2
@@ -6312,6 +6349,8 @@ std:label
 	rc702e98a756a-1                          reference/generated/numpy.linalg.eigh.html#rc702e98a756a-1
 	rc7ef81b9dca3-1                          reference/random/generated/numpy.random.gamma.html#rc7ef81b9dca3-1
 	rc7ef81b9dca3-2                          reference/random/generated/numpy.random.gamma.html#rc7ef81b9dca3-2
+	rc8180d76515b-1                          reference/random/bit_generators/generated/numpy.random.MT19937.jumped.html#rc8180d76515b-1
+	rc8180d76515b-2                          reference/random/bit_generators/generated/numpy.random.MT19937.jumped.html#rc8180d76515b-2
 	rccd29a30f060-1                          reference/random/generated/numpy.random.Generator.logistic.html#rccd29a30f060-1
 	rccd29a30f060-2                          reference/random/generated/numpy.random.Generator.logistic.html#rccd29a30f060-2
 	rccd29a30f060-3                          reference/random/generated/numpy.random.Generator.logistic.html#rccd29a30f060-3
@@ -6380,9 +6419,11 @@ std:label
 	routines.fft                             reference/routines.fft.html#routines-fft
 	routines.help                            NumPy-specific help functions           : reference/routines.help.html#routines-help
 	routines.indexing                        Indexing routines                       : reference/routines.indexing.html#routines-indexing
+	routines.io                              Input and output                        : reference/routines.io.html#routines-io
 	routines.linalg                          reference/routines.linalg.html#routines-linalg
 	routines.linalg-broadcasting             Linear algebra on several matrices at once: reference/routines.linalg.html#routines-linalg-broadcasting
 	routines.ma                              Masked array operations                 : reference/routines.ma.html#routines-ma
+	routines.polynomial                      Polynomials                             : reference/routines.polynomials.html#routines-polynomial
 	search                                   Search Page                             : search.html
 	sec:array_iterator                       Basic Iteration                         : user/c-info.beyond-basics.html#sec-array-iterator
 	sec:creating-a-new                       Creating a new universal function       : user/c-info.ufunc-tutorial.html#sec-creating-a-new
@@ -6401,6 +6442,7 @@ std:label
 	testing-builds                           Testing builds                          : dev/development_environment.html#testing-builds
 	testing-guidelines                       Testing Guidelines                      : reference/testing.html#testing-guidelines
 	titles                                   Field Titles                            : user/basics.rec.html#titles
+	tutorials                                NumPy Tutorials                         : user/tutorials_index.html#tutorials
 	ufuncs                                   Universal functions (ufunc)             : reference/ufuncs.html#ufuncs
 	ufuncs-output-type                       Output type determination               : reference/ufuncs.html#ufuncs-output-type
 	ufuncs.broadcasting                      Broadcasting                            : reference/ufuncs.html#ufuncs-broadcasting
@@ -6408,11 +6450,13 @@ std:label
 	ufuncs.kwargs                            Optional keyword arguments              : reference/ufuncs.html#ufuncs-kwargs
 	ufuncs.methods                           Methods                                 : reference/ufuncs.html#ufuncs-methods
 	ufuncs.overrides                         Overriding Ufunc behavior               : reference/ufuncs.html#ufuncs-overrides
+	underthehood                             Under-the-hood Documentation for developers: dev/underthehood.html#underthehood
 	user                                     NumPy User Guide                        : user/index.html#user
 	user.user-defined-data-types             User-defined data-types                 : user/c-info.beyond-basics.html#user-user-defined-data-types
 	using-git                                Git for development                     : dev/gitwash/index.html#using-git
 	view-casting                             View casting                            : user/basics.subclassing.html#view-casting
 	whatis-vectorization                     Why is NumPy Fast?                      : user/whatisnumpy.html#whatis-vectorization
+	whatisnumpy                              What is NumPy?                          : user/whatisnumpy.html#whatisnumpy
 	writing-an-extension                     Writing an extension module             : user/c-info.how-to-extend.html#writing-an-extension
 	writing-the-commit-message               Writing the commit message              : dev/development_workflow.html#writing-the-commit-message
 std:term

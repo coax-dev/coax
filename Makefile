@@ -75,10 +75,14 @@ notebooks:
 install_dev: install_requirements
 	$(PYTHON_EXECUTABLE) -m pip install -e .
 
-install_requirements:
+install_requirements: __install_requirements intersphinx
+
+upgrade_requirements: __upgrade_requirements intersphinx
+
+__install_requirements:
 	for r in requirements.txt requirements.dev.txt doc/requirements.txt; do $(PYTHON_EXECUTABLE) -m pip install -r $$r; done
 
-upgrade_requirements:
+__upgrade_requirements:
 	for r in requirements.txt requirements.dev.txt doc/requirements.txt; do $(PYTHON_EXECUTABLE) -m pur -r $$r; $(PYTHON_EXECUTABLE) -m pip install -r $$r; done
 
 rm_pycache:

@@ -830,7 +830,6 @@ c:function
 	PyUnicode_InternInPlace                  c-api/unicode.html#c.PyUnicode_InternInPlace
 	PyUnicode_Join                           c-api/unicode.html#c.PyUnicode_Join
 	PyUnicode_KIND                           c-api/unicode.html#c.PyUnicode_KIND
-	PyUnicode_MAX_CHAR_VALUE                 c-api/unicode.html#c.PyUnicode_MAX_CHAR_VALUE
 	PyUnicode_New                            c-api/unicode.html#c.PyUnicode_New
 	PyUnicode_READ                           c-api/unicode.html#c.PyUnicode_READ
 	PyUnicode_READY                          c-api/unicode.html#c.PyUnicode_READY
@@ -901,7 +900,6 @@ c:function
 	Py_PreInitialize                         c-api/init_config.html#c.Py_PreInitialize
 	Py_PreInitializeFromArgs                 c-api/init_config.html#c.Py_PreInitializeFromArgs
 	Py_PreInitializeFromBytesArgs            c-api/init_config.html#c.Py_PreInitializeFromBytesArgs
-	Py_RETURN_RICHCOMPARE                    c-api/typeobj.html#c.Py_RETURN_RICHCOMPARE
 	Py_ReprEnter                             c-api/exceptions.html#c.Py_ReprEnter
 	Py_ReprLeave                             c-api/exceptions.html#c.Py_ReprLeave
 	Py_RunMain                               c-api/init_config.html#c.Py_RunMain
@@ -945,19 +943,13 @@ c:function
 	_Py_c_prod                               c-api/complex.html#c._Py_c_prod
 	_Py_c_quot                               c-api/complex.html#c._Py_c_quot
 	_Py_c_sum                                c-api/complex.html#c._Py_c_sum
-	audit                                    howto/instrumentation.html#c.audit
 	create_module                            c-api/module.html#c.create_module
 	exec_module                              c-api/module.html#c.exec_module
-	function__entry                          howto/instrumentation.html#c.function__entry
-	function__return                         howto/instrumentation.html#c.function__return
-	gc__done                                 howto/instrumentation.html#c.gc__done
-	gc__start                                howto/instrumentation.html#c.gc__start
-	import__find__load__done                 howto/instrumentation.html#c.import__find__load__done
-	import__find__load__start                howto/instrumentation.html#c.import__find__load__start
-	line                                     howto/instrumentation.html#c.line
-	python.function.entry                    howto/instrumentation.html#c.python.function.entry
-	python.function.return                   howto/instrumentation.html#c.python.function.return
 c:macro
+	PYMEM_DOMAIN_MEM                         c-api/memory.html#c.PYMEM_DOMAIN_MEM
+	PYMEM_DOMAIN_OBJ                         c-api/memory.html#c.PYMEM_DOMAIN_OBJ
+	PYMEM_DOMAIN_RAW                         c-api/memory.html#c.PYMEM_DOMAIN_RAW
+	PY_VECTORCALL_ARGUMENTS_OFFSET           c-api/object.html#c.PY_VECTORCALL_ARGUMENTS_OFFSET
 	PyBUF_ANY_CONTIGUOUS                     c-api/buffer.html#c.PyBUF_ANY_CONTIGUOUS
 	PyBUF_CONTIG                             c-api/buffer.html#c.PyBUF_CONTIG
 	PyBUF_CONTIG_RO                          c-api/buffer.html#c.PyBUF_CONTIG_RO
@@ -983,6 +975,7 @@ c:macro
 	PyUnicode_1BYTE_KIND                     c-api/unicode.html#c.PyUnicode_1BYTE_KIND
 	PyUnicode_2BYTE_KIND                     c-api/unicode.html#c.PyUnicode_2BYTE_KIND
 	PyUnicode_4BYTE_KIND                     c-api/unicode.html#c.PyUnicode_4BYTE_KIND
+	PyUnicode_MAX_CHAR_VALUE                 c-api/unicode.html#c.PyUnicode_MAX_CHAR_VALUE
 	PyUnicode_WCHAR_KIND                     c-api/unicode.html#c.PyUnicode_WCHAR_KIND
 	PyVarObject_HEAD_INIT                    c-api/structures.html#c.PyVarObject_HEAD_INIT
 	Py_ABS                                   c-api/intro.html#c.Py_ABS
@@ -999,6 +992,7 @@ c:macro
 	Py_RETURN_FALSE                          c-api/bool.html#c.Py_RETURN_FALSE
 	Py_RETURN_NONE                           c-api/none.html#c.Py_RETURN_NONE
 	Py_RETURN_NOTIMPLEMENTED                 c-api/object.html#c.Py_RETURN_NOTIMPLEMENTED
+	Py_RETURN_RICHCOMPARE                    c-api/typeobj.html#c.Py_RETURN_RICHCOMPARE
 	Py_RETURN_TRUE                           c-api/bool.html#c.Py_RETURN_TRUE
 	Py_SIZE                                  c-api/structures.html#c.Py_SIZE
 	Py_STRINGIFY                             c-api/intro.html#c.Py_STRINGIFY
@@ -1010,6 +1004,8 @@ c:macro
 	Py_UNICODE_JOIN_SURROGATES               c-api/unicode.html#c.Py_UNICODE_JOIN_SURROGATES
 	Py_UNREACHABLE                           c-api/intro.html#c.Py_UNREACHABLE
 	Py_UNUSED                                c-api/intro.html#c.Py_UNUSED
+	Py_mod_create                            c-api/module.html#c.Py_mod_create
+	Py_mod_exec                              c-api/module.html#c.Py_mod_exec
 	Py_tss_NEEDS_INIT                        c-api/init.html#c.Py_tss_NEEDS_INIT
 c:member
 	PyAsyncMethods.am_aiter                  c-api/typeobj.html#c.PyAsyncMethods.am_aiter
@@ -1317,10 +1313,6 @@ c:type
 	visitproc                                c-api/gcsupport.html#c.visitproc
 c:var
 	CO_FUTURE_DIVISION                       c-api/veryhigh.html#c.CO_FUTURE_DIVISION
-	PYMEM_DOMAIN_MEM                         c-api/memory.html#c.PYMEM_DOMAIN_MEM
-	PYMEM_DOMAIN_OBJ                         c-api/memory.html#c.PYMEM_DOMAIN_OBJ
-	PYMEM_DOMAIN_RAW                         c-api/memory.html#c.PYMEM_DOMAIN_RAW
-	PY_VECTORCALL_ARGUMENTS_OFFSET           c-api/object.html#c.PY_VECTORCALL_ARGUMENTS_OFFSET
 	PyByteArray_Type                         c-api/bytearray.html#c.PyByteArray_Type
 	PyBytes_Type                             c-api/bytes.html#c.PyBytes_Type
 	PyCallIter_Type                          c-api/iterator.html#c.PyCallIter_Type
@@ -1385,8 +1377,6 @@ c:var
 	Py_VerboseFlag                           c-api/init.html#c.Py_VerboseFlag
 	Py_eval_input                            c-api/veryhigh.html#c.Py_eval_input
 	Py_file_input                            c-api/veryhigh.html#c.Py_file_input
-	Py_mod_create                            c-api/module.html#c.Py_mod_create
-	Py_mod_exec                              c-api/module.html#c.Py_mod_exec
 	Py_single_input                          c-api/veryhigh.html#c.Py_single_input
 	_Py_NoneStruct                           c-api/allocation.html#c._Py_NoneStruct
 py:attribute
@@ -9471,6 +9461,7 @@ py:method
 	urllib.request.HTTPPasswordMgr.add_password library/urllib.request.html#urllib.request.HTTPPasswordMgr.add_password
 	urllib.request.HTTPPasswordMgr.find_user_password library/urllib.request.html#urllib.request.HTTPPasswordMgr.find_user_password
 	urllib.request.HTTPPasswordMgrWithPriorAuth.add_password library/urllib.request.html#urllib.request.HTTPPasswordMgrWithPriorAuth.add_password
+	urllib.request.HTTPPasswordMgrWithPriorAuth.find_user_password library/urllib.request.html#urllib.request.HTTPPasswordMgrWithPriorAuth.find_user_password
 	urllib.request.HTTPPasswordMgrWithPriorAuth.is_authenticated library/urllib.request.html#urllib.request.HTTPPasswordMgrWithPriorAuth.is_authenticated
 	urllib.request.HTTPPasswordMgrWithPriorAuth.update_authenticated library/urllib.request.html#urllib.request.HTTPPasswordMgrWithPriorAuth.update_authenticated
 	urllib.request.HTTPRedirectHandler.http_error_301 library/urllib.request.html#urllib.request.HTTPRedirectHandler.http_error_301
@@ -11029,6 +11020,7 @@ std:label
 	bpo-36085-whatsnew                       whatsnew/3.8.html#bpo-36085-whatsnew
 	break                                    The break statement                     : reference/simple_stmts.html#break
 	browser-controllers                      Browser Controller Objects              : library/webbrowser.html#browser-controllers
+	bsd0                                     ZERO-CLAUSE BSD LICENSE FOR CODE IN THE PYTHON 3.8.6rc1 DOCUMENTATION: license.html#bsd0
 	buffer-request-types                     Buffer request types                    : c-api/buffer.html#buffer-request-types
 	buffer-structs                           Buffer Object Structures                : c-api/typeobj.html#buffer-structs
 	buffer-structure                         Buffer structure                        : c-api/buffer.html#buffer-structure
@@ -11209,7 +11201,7 @@ std:label
 	default-warning-filter                   Default Warning Filter                  : library/warnings.html#default-warning-filter
 	default_values                           Parameter default values                : howto/clinic.html#default-values
 	defining-new-types                       Defining Extension Types: Tutorial      : extending/newtypes_tutorial.html#defining-new-types
-	defused-packages                         The defusedxml and defusedexpat Packages: library/xml.html#defused-packages
+	defusedxml-package                       The defusedxml Package                  : library/xml.html#defusedxml-package
 	del                                      The del statement                       : reference/simple_stmts.html#del
 	deleting-attributes                      Deleting Attributes                     : library/unittest.mock.html#deleting-attributes
 	delimiters                               Delimiters                              : reference/lexical_analysis.html#delimiters
@@ -11755,6 +11747,7 @@ std:label
 	other-lang                               Other Language Changes                  : whatsnew/2.5.html#other-lang
 	other-methods-and-attrs                  library/unittest.html#other-methods-and-attrs
 	other-tokens                             Other tokens                            : reference/lexical_analysis.html#other-tokens
+	otherlicenses                            Licenses and Acknowledgements for Incorporated Software: license.html#otherlicenses
 	otherobjects                             Function Objects                        : c-api/concrete.html#otherobjects
 	ownershiprules                           Ownership Rules                         : extending/extending.html#ownershiprules
 	package-index                            The Python Package Index (PyPI)         : distutils/packageindex.html#package-index
@@ -11852,6 +11845,7 @@ std:label
 	proxy-basic-auth-handler                 ProxyBasicAuthHandler Objects           : library/urllib.request.html#proxy-basic-auth-handler
 	proxy-digest-auth-handler                ProxyDigestAuthHandler Objects          : library/urllib.request.html#proxy-digest-auth-handler
 	proxy-handler                            ProxyHandler Objects                    : library/urllib.request.html#proxy-handler
+	psf-license                              PSF LICENSE AGREEMENT FOR PYTHON 3.8.6rc1: license.html#psf-license
 	publishing-python-packages               Reading the Python Packaging User Guide : distributing/index.html#publishing-python-packages
 	pure-embedding                           Pure Embedding                          : extending/embedding.html#pure-embedding
 	pure-mod                                 Pure Python distribution (by module)    : distutils/examples.html#pure-mod
