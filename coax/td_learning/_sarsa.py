@@ -84,9 +84,9 @@ class Sarsa(BaseTDLearningQ):
 
     """
     def target_func(self, target_params, target_state, rng, transition_batch):
-        Rn, In, S_next = transition_batch[3:6]
-        A_next = self.q_targ.action_preprocessor(transition_batch.A_next)
         params, state = target_params['q_targ'], target_state['q_targ']
+        S_next = self.q_targ.observation_preprocessor(transition_batch.S_next)
+        A_next = self.q_targ.action_preprocessor(transition_batch.A_next)
         Q_sa_next, _ = self.q_targ.function_type1(params, state, rng, S_next, A_next, False)
         f, f_inv = self.q.value_transform
-        return f(Rn + In * f_inv(Q_sa_next))
+        return f(transition_batch.Rn + transition_batch.In * f_inv(Q_sa_next))

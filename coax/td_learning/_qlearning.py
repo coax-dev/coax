@@ -129,11 +129,11 @@ class QLearning(BaseTDLearningQWithTargetPolicy):
 
     def target_func(self, target_params, target_state, rng, transition_batch):
         rngs = hk.PRNGSequence(rng)
-        Rn, In, S_next = transition_batch[3:6]
 
         if isinstance(self.q.action_space, Discrete):
             # get greedy value directly from q_targ
             params, state = target_params['q_targ'], target_state['q_targ']
+            S_next = self.q_targ.observation_preprocessor(transition_batch.S_next)
             Q_s, _ = self.q_targ.function_type2(params, state, rng, S_next, False)
             assert Q_s.ndim == 2, f"bad shape: {Q_s.shape}"
             Q_sa = jnp.max(Q_s, axis=1)
@@ -141,13 +141,15 @@ class QLearning(BaseTDLearningQWithTargetPolicy):
         else:
             # get greedy action from pi_targ
             params, state = target_params['pi_targ'], target_state['pi_targ']
+            S_next = self.pi_targ.observation_preprocessor(transition_batch.S_next)
             dist_params, _ = self.pi_targ.function(params, state, next(rngs), S_next, False)
             A_next = self.pi_targ.proba_dist.mode(dist_params)  # greedy action
 
             # evaluate q_targ on greedy action
             params, state = target_params['q_targ'], target_state['q_targ']
+            S_next = self.q_targ.observation_preprocessor(transition_batch.S_next)
             Q_sa, _ = self.q_targ.function_type1(params, state, next(rngs), S_next, A_next, False)
 
         assert Q_sa.ndim == 1, f"bad shape: {Q_sa.shape}"
         f, f_inv = self.q.value_transform
-        return f(Rn + In * f_inv(Q_sa))
+        return f(transition_batch.Rn + transition_batch.In * f_inv(Q_sa))
