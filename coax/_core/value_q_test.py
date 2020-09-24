@@ -220,7 +220,7 @@ class TestQ(TestCase):
 
         def badfunc(S, A, is_training):
             return 'garbage'
-        msg = r"func has bad return type; expected jnp\.ndarray, got str"
+        msg = r"is not a valid JAX type"
         with self.assertRaisesRegex(TypeError, msg):
             Q(badfunc, env)
 
