@@ -1,6 +1,3 @@
-# this is a script that I use for benchmarking my machine  -kris
-
-
 import os
 
 import gym
@@ -8,7 +5,8 @@ import jax
 import coax
 import haiku as hk
 import jax.numpy as jnp
-import optax
+from optax import adam
+from ray.rllib.env.atari_wrappers import wrap_deepmind
 
 
 # set some env vars
@@ -18,37 +16,34 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'              # tell XLA to be quiet
 
 
 # env with preprocessing
-env = gym.make('PongNoFrameskip-v4')  # AtariPreprocessing does frame skipping
-env = gym.wrappers.AtariPreprocessing(env, terminal_on_life_loss=True)
-env = gym.wrappers.FrameStack(env, num_stack=3)
+env = gym.make('PongNoFrameskip-v4')  # wrap_deepmind will do frame skipping
+env = wrap_deepmind(env)
 env = coax.wrappers.TrainMonitor(env)
 
 
-class Func(coax.FuncApprox):
-    def body(self, S, is_training):
-        M = coax.utils.diff_transform_matrix(num_frames=3)
-        seq = hk.Sequential([  # S.shape = [batch, num_stack, h, w]
-            lambda x: jnp.dot(jnp.moveaxis(S / 255, 1, -1), M),  # [b, h, w, n]
-            hk.Conv2D(16, kernel_shape=8, stride=4), jax.nn.relu,
-            hk.Conv2D(32, kernel_shape=4, stride=2), jax.nn.relu,
-            hk.Flatten(),
-            hk.Linear(256), jax.nn.relu,
-        ])
-        return seq(S)
-
-    def optimizer(self):
-        return optax.adam(learning_rate=0.00025)
+def func(S, is_training):
+    """ type-2 q-function: s -> q(s,.) """
+    M = coax.utils.diff_transform_matrix(num_frames=S.shape[-1])
+    seq = hk.Sequential((  # S.shape = [batch, h, w, num_stack]
+        lambda x: jnp.dot(x / 255, M),  # [b, h, w, n]
+        hk.Conv2D(16, kernel_shape=8, stride=4), jax.nn.relu,
+        hk.Conv2D(32, kernel_shape=4, stride=2), jax.nn.relu,
+        hk.Flatten(),
+        hk.Linear(256), jax.nn.relu,
+        hk.Linear(env.action_space.n, w_init=jnp.zeros),
+    ))
+    return seq(S)
 
 
-# function approximators
-func = Func(env)
-q = coax.Q(func, qtype=2)
-q_targ = q.copy()
+# function approximator
+q = coax.Q(func, env)
 pi = coax.EpsilonGreedy(q, epsilon=1.)
 
-# updater
-qlearning = coax.td_learning.QLearning(q, q_targ=q_targ)
+# target network
+q_targ = q.copy()
 
+# updater
+qlearning = coax.td_learning.QLearning(q, q_targ=q_targ, optimizer=adam(3e-4))
 
 # reward tracer and replay buffer
 tracer = coax.reward_tracing.NStep(n=1, gamma=0.99)
@@ -79,13 +74,21 @@ while env.T < 3000000:
             buffer.add(tracer.pop())
 
         # learn
-        if len(buffer) > 1000:  # buffer warm-up
-            qlearning.update(buffer.sample(batch_size=256))
+        if len(buffer) > 50000:  # buffer warm-up
+            metrics = qlearning.update(buffer.sample(batch_size=32))
+            env.record_metrics(metrics)
 
-        if env.period('target_model_sync', T_period=10000):
+        if env.T % 10000 == 0:
             q_targ.soft_update(q, tau=1)
 
         if done:
             break
 
         s = s_next
+
+    # # generate an animated GIF to see what's going on
+    # if env.period(name='generate_gif', T_period=10000) and env.T > 50000:
+    #     T = env.T - env.T % 10000
+    #     coax.utils.generate_gif(
+    #         env=env, policy=pi.mode, resize_to=(320, 420),
+    #         filepath=gifs_filepath.format(T))

@@ -2,6 +2,7 @@ import os
 
 import coax
 import gym
+import jax
 import jax.numpy as jnp
 import haiku as hk
 import optax
@@ -19,14 +20,13 @@ env = coax.wrappers.TrainMonitor(env)
 
 def func(S, A, is_training):
     value = hk.Sequential((hk.Flatten(), hk.Linear(1, w_init=jnp.zeros), jnp.ravel))
-    S = hk.one_hot(S, env.observation_space.n)
-    X = jax.vmap(jnp.kron)(S, A)  # A is already one-hot encoded
+    X = jax.vmap(jnp.kron)(S, A)  # S and A are one-hot encoded
     return value(X)
 
 
 # function approximator
 q = coax.Q(func, env)
-pi = coax.BoltzmannPolicy(q, temperature=0.15)
+pi = coax.BoltzmannPolicy(q, temperature=0.1)
 
 
 # experience tracer

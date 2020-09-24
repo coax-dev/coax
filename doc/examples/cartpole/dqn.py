@@ -44,9 +44,6 @@ buffer = coax.experience_replay.SimpleReplayBuffer(capacity=100000)
 # updater
 qlearning = coax.td_learning.QLearning(q, q_targ=q_targ, loss_function=mse, optimizer=adam(0.001))
 
-# used for early stopping
-num_successes = 0
-
 
 # train
 for ep in range(1000):
