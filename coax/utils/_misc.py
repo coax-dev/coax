@@ -269,8 +269,8 @@ def render_episode(env, policy=None, step_delay_ms=0):
 
     step_delay_ms : non-negative float
 
-        The number of milliseconds to wait between consecutive timesteps. This
-        can be used to slow down the rendering.
+        The number of milliseconds to wait between consecutive timesteps. This can be used to slow
+        down the rendering.
 
     """
     from ..wrappers import TrainMonitor
@@ -363,11 +363,7 @@ def get_env_attr(env, attr, default='__ERROR__', max_depth=100):
     return default
 
 
-def generate_gif(
-        env, policy, filepath,
-        resize_to=None,
-        duration=50,
-        max_episode_steps=None):
+def generate_gif(env, filepath, policy=None, resize_to=None, duration=50, max_episode_steps=None):
     r"""
     Store a gif from the episode frames.
 
@@ -377,21 +373,14 @@ def generate_gif(
 
         The environment to record from.
 
-    policy : function s => a
-
-        The policy that is used to take actions.
-
-        .. code:: python
-
-            a = policy(s)
-
-        Therefore, ``policy`` just need to be a callable object that maps state observations to
-        actions. For instance if ``pi`` is a :class:`coax.Policy`, we could execute a greedy policy
-        by passing ``policy=pi.mode``.
-
     filepath : str
 
         Location of the output gif file.
+
+    policy : callable, optional
+
+        A policy objects that is used to pick actions: ``a = policy(s)``. If left unspecified, we'll
+        just take random actions instead, i.e. ``a = env.action_space.sample()``.
 
     resize_to : tuple of ints, optional
 
@@ -411,8 +400,8 @@ def generate_gif(
 
     """
     logger = logging.getLogger('generate_gif')
-    max_episode_steps = max_episode_steps or \
-        getattr(getattr(env, 'spec'), 'max_episode_steps', 10000)
+    max_episode_steps = max_episode_steps \
+        or getattr(getattr(env, 'spec'), 'max_episode_steps', 10000)
 
     from ..wrappers import TrainMonitor
     if isinstance(env, TrainMonitor):
@@ -422,7 +411,7 @@ def generate_gif(
     frames = []
     s = env.reset()
     for t in range(max_episode_steps):
-        a = policy(s)
+        a = env.action_space.sample() if policy is None else policy(s)
         s_next, r, done, info = env.step(a)
 
         # store frame
