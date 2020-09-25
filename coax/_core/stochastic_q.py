@@ -22,7 +22,7 @@
 import numpy as onp
 from gym.spaces import Box
 
-from ..proba_dists import ProbaDist
+from ..proba_dists import ProbaDist, NormalDist, DiscretizedIntervalDist
 from ..value_transforms import ValueTransform
 from .base_model import BaseModel
 
@@ -52,6 +52,13 @@ class StochasticQ(BaseModel):
 
         A pair of floats :code:`(min_value, max_value)`. If left unspecified, this defaults to
         :code:`value_range=env.reward_range`.
+
+    num_bins : int, optional
+
+        If provided, the space of values is discretized into :code:`num_bins` equal-sized bins. This
+        also changes the underlying probability distribution to a :class:`CategoricalDist
+        <coax.proba_dists.CategoricalDist>` instead of the unimodal :class:`NormalDist
+        <coax.proba_dists.NormalDist>`.
 
     observation_preprocessor : function, optional
 
@@ -95,19 +102,19 @@ class StochasticQ(BaseModel):
 
     """
     def __init__(
-            self, func, env, value_range=None, observation_preprocessor=None,
+            self, func, env, value_range=None, num_bins=None, observation_preprocessor=None,
             action_preprocessor=None, value_transform=None, random_seed=None):
 
-        self.value_range = value_range
+        self.__num_bins = num_bins
         self.value_transform = value_transform
+        self.value_range, proba_dist = \
+            self._output_proba_dist(value_range or env.reward_range, self.num_bins)
 
         # set defaults
         if observation_preprocessor is None:
             observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
         if action_preprocessor is None:
             action_preprocessor = ProbaDist(env.action_space).preprocess_variate
-        if self.value_range is None:
-            self.value_range = env.reward_range
         if self.value_transform is None:
             self.value_transform = ValueTransform(lambda x: x, lambda x: x)
         if not isinstance(self.value_transform, ValueTransform):
@@ -119,8 +126,12 @@ class StochasticQ(BaseModel):
             action_space=env.action_space,
             observation_preprocessor=observation_preprocessor,
             action_preprocessor=action_preprocessor,
-            proba_dist=self._output_proba_dist(self.value_range),
+            proba_dist=proba_dist,
             random_seed=random_seed)
+
+    @property
+    def num_bins(self):
+        return self.__num_bins
 
     @classmethod
     def example_data(
@@ -229,9 +240,12 @@ class StochasticQ(BaseModel):
         return super().dist_params(s, a=a)
 
     @staticmethod
-    def _output_proba_dist(reward_range):
+    def _output_proba_dist(reward_range, num_bins):
         assert len(reward_range) == 2
         low, high = onp.clip(reward_range[0], -1e6, 1e6), onp.clip(reward_range[1], -1e6, 1e6)
         assert low < high, f"inconsistent low, high: {low}, {high}"
         reward_space = Box(low, high, shape=())
-        return ProbaDist(reward_space)
+        if num_bins is None:
+            return (low, high), NormalDist(reward_space)
+        else:
+            return (low, high), DiscretizedIntervalDist(reward_space, num_bins)

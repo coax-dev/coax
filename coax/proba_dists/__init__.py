@@ -37,6 +37,7 @@ Object Reference
     coax.proba_dists.ProbaDist
     coax.proba_dists.CategoricalDist
     coax.proba_dists.NormalDist
+    coax.proba_dists.DiscretizedIntervalDist
 
 
 """
@@ -44,10 +45,12 @@ Object Reference
 from ._composite import ProbaDist
 from ._categorical import CategoricalDist
 from ._normal import NormalDist
+from ._discretized_interval import DiscretizedIntervalDist
 
 
 __all__ = (
     'ProbaDist',
     'CategoricalDist',
     'NormalDist',
+    'DiscretizedIntervalDist',
 )
