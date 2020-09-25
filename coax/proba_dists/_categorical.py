@@ -74,34 +74,44 @@ class CategoricalDist(BaseProbaDist):
         super().__init__(space)
         self._gumbel_softmax_tau = gumbel_softmax_tau
 
+        def check_shape(x, name):
+            if not (x.ndim == 2 and x.shape[1] == space.n):
+                raise ValueError(f"expected {name}.shape: (?, {space.n}), got: {x.shape}")
+            return x
+
         def sample(dist_params, rng):
-            logp = jax.nn.log_softmax(dist_params['logits'])
+            logits = check_shape(dist_params['logits'], 'logits')
+            logp = jax.nn.log_softmax(logits)
             u = jax.random.uniform(rng, logp.shape)
             g = -jnp.log(-jnp.log(u))  # g ~ Gumbel(0,1)
             return jax.nn.softmax((g + logp) / self.gumbel_softmax_tau)
 
         def mode(dist_params):
-            logp = jax.nn.log_softmax(dist_params['logits'])
+            logits = check_shape(dist_params['logits'], 'logits')
+            logp = jax.nn.log_softmax(logits)
             return jax.nn.softmax(logp / self.gumbel_softmax_tau)
 
         def log_proba(dist_params, X):
-            Z = dist_params['logits']
-            assert X.ndim == 2 and X.shape[1] == self.space.n, f"unexpected X.shape: {X.shape}"
-            assert Z.ndim == 2 and Z.shape[1] == self.space.n, f"unexpected logits.shape: {Z.shape}"
-            return jnp.einsum('ij,ij->i', X, jax.nn.log_softmax(Z))
+            X = check_shape(X, 'X')
+            logits = check_shape(dist_params['logits'], 'logits')
+            logp = jax.nn.log_softmax(logits)
+            return jnp.einsum('ij,ij->i', X, logp)
 
         def entropy(dist_params):
-            logp = jax.nn.log_softmax(dist_params['logits'])
+            logits = check_shape(dist_params['logits'], 'logits')
+            logp = jax.nn.log_softmax(logits)
             return jnp.einsum('ij,ij->i', jnp.exp(logp), -logp)
 
         def cross_entropy(dist_params_p, dist_params_q):
-            p = jax.nn.softmax(dist_params_p['logits'])
-            logq = jax.nn.log_softmax(dist_params_q['logits'])
+            p = check_shape(jax.nn.softmax(dist_params_p['logits']), 'p')
+            logq = check_shape(jax.nn.log_softmax(dist_params_q['logits']), 'logq')
             return jnp.einsum('ij,ij->i', p, -logq)
 
         def kl_divergence(dist_params_p, dist_params_q):
-            logp = jax.nn.log_softmax(dist_params_p['logits'])
-            logq = jax.nn.log_softmax(dist_params_q['logits'])
+            logits_p = check_shape(dist_params_p['logits'], 'logits_p')
+            logits_q = check_shape(dist_params_q['logits'], 'logits_q')
+            logp = jax.nn.log_softmax(logits_p)
+            logq = jax.nn.log_softmax(logits_q)
             return jnp.einsum('ij,ij->i', jnp.exp(logp), logp - logq)
 
         self._sample_func = jax.jit(sample)
