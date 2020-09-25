@@ -263,8 +263,8 @@ class TestProbaDist(TestCase):
             ],
         }
         X_raw = dist.sample(dist_params, next(self.rngs))
-        X_clean = dist.postprocess_variate(X_raw, batch_mode=True)
-        x_clean = dist.postprocess_variate(X_raw, batch_mode=False)
+        X_clean = dist.postprocess_variate(next(self.rngs), X_raw, batch_mode=True)
+        x_clean = dist.postprocess_variate(next(self.rngs), X_raw, batch_mode=False)
         print(jax.tree_map(jnp.shape, X_raw))
         print(jax.tree_map(jnp.shape, X_clean))
         print(X_clean)

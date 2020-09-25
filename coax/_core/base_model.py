@@ -59,35 +59,35 @@ class BaseModel(BaseFunc):
             random_seed=random_seed)
 
     def __call__(self, s, a=None, return_logp=False):
-        S = self.observation_preprocessor(s)
+        S = self.observation_preprocessor(self.rng, s)
         if a is None:
             X, logP = self.sample_func_type2(self.params, self.function_state, self.rng, S)
             X, logP = batch_to_single((X, logP))  # (batch, num_actions, *) -> (num_actions, *)
-            num_actions = self.action_space.n
-            x = [self.proba_dist.postprocess_variate(X, index=i) for i in range(num_actions)]
+            n = self.action_space.n
+            x = [self.proba_dist.postprocess_variate(self.rng, X, index=i) for i in range(n)]
             logp = list(logP)
         else:
-            A = self.action_preprocessor(a)
+            A = self.action_preprocessor(self.rng, a)
             X, logP = self.sample_func_type1(self.params, self.function_state, self.rng, S, A)
-            x = self.proba_dist.postprocess_variate(X)
+            x = self.proba_dist.postprocess_variate(self.rng, X)
             logp = batch_to_single(logP)
         return (x, logp) if return_logp else x
 
     def mode(self, s, a=None):
-        S = self.observation_preprocessor(s)
+        S = self.observation_preprocessor(self.rng, s)
         if a is None:
             X = self.mode_func_type2(self.params, self.function_state, self.rng, S)
             X = batch_to_single(X)  # (batch, num_actions, *) -> (num_actions, *)
-            num_actions = self.action_space.n
-            x = [self.proba_dist.postprocess_variate(X, index=i) for i in range(num_actions)]
+            n = self.action_space.n
+            x = [self.proba_dist.postprocess_variate(self.rng, X, index=i) for i in range(n)]
         else:
-            A = self.action_preprocessor(a)
+            A = self.action_preprocessor(self.rng, a)
             X = self.mode_func_type1(self.params, self.function_state, self.rng, S, A)
-            x = self.proba_dist.postprocess_variate(X)
+            x = self.proba_dist.postprocess_variate(self.rng, X)
         return x
 
     def dist_params(self, s, a=None):
-        S = self.observation_preprocessor(s)
+        S = self.observation_preprocessor(self.rng, s)
         if a is None:
             # batch_to_single() projects: (batch, num_actions, *shape) -> (num_actions, *shape)
             dist_params = batch_to_single(
@@ -95,7 +95,7 @@ class BaseModel(BaseFunc):
             dist_params = [
                 batch_to_single(dist_params, index=i) for i in range(self.action_space.n)]
         else:
-            A = self.action_preprocessor(a)
+            A = self.action_preprocessor(self.rng, a)
             dist_params, _ = self.function_type1(
                 self.params, self.function_state, self.rng, S, A, False)
         return dist_params
@@ -160,16 +160,18 @@ class BaseModel(BaseFunc):
             return leaf
 
         def type2_func(type1_params, type1_state, rng, S, is_training):
+            rngs = hk.PRNGSequence(rng)
+
             # example: let S = [7, 2, 5, 8] and num_actions = 3, then
             # S_rep = [7, 7, 7, 2, 2, 2, 5, 5, 5, 8, 8, 8]  # repeated
             # A_rep = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2]  # tiled
             S_rep = jax.tree_map(lambda x: jnp.repeat(x, n, axis=0), S)
             A_rep = jnp.tile(jnp.arange(n), S.shape[0])
-            A_rep = self.action_preprocessor(A_rep)  # one-hot encoding
+            A_rep = self.action_preprocessor(next(rngs), A_rep)  # one-hot encoding
 
             # evaluate on replicas => output shape: (batch * num_actions, *shape)
             dist_params_rep, state_new = self.function(
-                type1_params, type1_state, rng, S_rep, A_rep, is_training)
+                type1_params, type1_state, next(rngs), S_rep, A_rep, is_training)
             dist_params = jax.tree_map(reshape, dist_params_rep)
 
             return dist_params, state_new
@@ -207,6 +209,7 @@ class BaseModel(BaseFunc):
                 f"env.action_space must be derived from gym.Space, got: {type(env.action_space)}")
 
         rnd = onp.random.RandomState(random_seed)
+        rngs = hk.PRNGSequence(rnd.randint(jnp.iinfo('int32').max))
 
         # these must be provided
         assert observation_preprocessor is not None
@@ -215,12 +218,12 @@ class BaseModel(BaseFunc):
 
         # input: state observations
         S = [safe_sample(env.observation_space, rnd) for _ in range(batch_size)]
-        S = [observation_preprocessor(s) for s in S]
+        S = [observation_preprocessor(next(rngs), s) for s in S]
         S = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *S)
 
         # input: actions
         A = [safe_sample(env.action_space, rnd) for _ in range(batch_size)]
-        A = [action_preprocessor(a) for a in A]
+        A = [action_preprocessor(next(rngs), a) for a in A]
         A = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *A)
 
         # output: type1

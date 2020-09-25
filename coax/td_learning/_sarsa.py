@@ -19,6 +19,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+import haiku as hk
+
 from ._base import BaseTDLearningQ
 
 
@@ -84,9 +86,10 @@ class Sarsa(BaseTDLearningQ):
 
     """
     def target_func(self, target_params, target_state, rng, transition_batch):
+        rngs = hk.PRNGSequence(rng)
         params, state = target_params['q_targ'], target_state['q_targ']
-        S_next = self.q_targ.observation_preprocessor(transition_batch.S_next)
-        A_next = self.q_targ.action_preprocessor(transition_batch.A_next)
-        Q_sa_next, _ = self.q_targ.function_type1(params, state, rng, S_next, A_next, False)
+        S_next = self.q_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
+        A_next = self.q_targ.action_preprocessor(next(rngs), transition_batch.A_next)
+        Q_sa_next, _ = self.q_targ.function_type1(params, state, next(rngs), S_next, A_next, False)
         f, f_inv = self.q.value_transform
         return f(transition_batch.Rn + transition_batch.In * f_inv(Q_sa_next))

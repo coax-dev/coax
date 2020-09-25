@@ -227,13 +227,14 @@ class BaseTDLearningV(BaseTDLearning):
 
         def loss_func(params, target_params, state, target_state, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
-            S = self.v.observation_preprocessor(transition_batch.S)
+            S = self.v.observation_preprocessor(next(rngs), transition_batch.S)
             V, state_new = self.v.function(params, state, next(rngs), S, True)
             G = self.target_func(target_params, target_state, next(rngs), transition_batch)
 
             # add policy regularization term to target
             if self.policy_regularizer is not None:
-                S_reg = self.policy_regularizer.f.observation_preprocessor(transition_batch.S)
+                S_reg = self.policy_regularizer.f.observation_preprocessor(
+                    next(rngs), transition_batch.S)
                 dist_params, _ = self.policy_regularizer.f.function(
                     target_params['reg'], target_state['reg'], next(rngs), S_reg, False)
                 reg = self.policy_regularizer.function(dist_params, **target_params['reg_hparams'])
@@ -253,7 +254,7 @@ class BaseTDLearningV(BaseTDLearning):
                 params, target_params, state, target_state, next(rngs), transition_batch)
 
             # TD error relative to the target-network estimate
-            S = self.v_targ.observation_preprocessor(transition_batch.S)
+            S = self.v_targ.observation_preprocessor(next(rngs), transition_batch.S)
             V_targ, _ = self.v_targ.function(target_params['v_targ'], state, next(rngs), S, False)
             td_error_targ = -jax.grad(self.loss_function, argnums=1)(V, V_targ)  # e.g. (V - V_targ)
 
@@ -317,14 +318,15 @@ class BaseTDLearningQ(BaseTDLearning):
 
         def loss_func(params, target_params, state, target_state, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
-            S = self.q.observation_preprocessor(transition_batch.S)
-            A = self.q.action_preprocessor(transition_batch.A)
+            S = self.q.observation_preprocessor(next(rngs), transition_batch.S)
+            A = self.q.action_preprocessor(next(rngs), transition_batch.A)
             Q, state_new = self.q.function_type1(params, state, next(rngs), S, A, True)
             G = self.target_func(target_params, target_state, next(rngs), transition_batch)
 
             # add policy regularization term to target
             if self.policy_regularizer is not None:
-                S_reg = self.policy_regularizer.f.observation_preprocessor(transition_batch.S)
+                S_reg = self.policy_regularizer.f.observation_preprocessor(
+                    next(rngs), transition_batch.S)
                 dist_params, _ = self.policy_regularizer.f.function(
                     target_params['reg'], target_state['reg'], next(rngs), S_reg, False)
                 reg = self.policy_regularizer.function(dist_params, **target_params['reg_hparams'])
@@ -344,8 +346,8 @@ class BaseTDLearningQ(BaseTDLearning):
                 params, target_params, state, target_state, next(rngs), transition_batch)
 
             # TD error relative to the target-network estimate
-            S = self.q_targ.observation_preprocessor(transition_batch.S)
-            A = self.q_targ.action_preprocessor(transition_batch.A)
+            S = self.q_targ.observation_preprocessor(next(rngs), transition_batch.S)
+            A = self.q_targ.action_preprocessor(next(rngs), transition_batch.A)
             Q_targ, _ = self.q_targ.function_type1(
                 target_params['q_targ'], target_state['q_targ'], next(rngs), S, A, False)
             td_error_targ = -jax.grad(self.loss_function, argnums=1)(Q, Q_targ)  # e.g. (Q - Q_targ)

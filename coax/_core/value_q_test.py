@@ -178,7 +178,7 @@ class TestQ(TestCase):
 
         S = jnp.array([5, 7, 11, 13, 17, 19, 23])
         A = jnp.array([2, 0, 1, 1, 0, 1, 2])
-        A_onehot = q.action_preprocessor(A)
+        A_onehot = q.action_preprocessor(q.rng, A)
         Q_sa, _ = q.function_type1(params, state, rng, S, A_onehot, is_training)
         self.assertArrayAlmostEqual(Q_sa, A)
 

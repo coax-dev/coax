@@ -120,7 +120,7 @@ class DoubleQLearning(BaseTDLearningQWithTargetPolicy):
         if isinstance(self.q.action_space, Discrete):
             # get greedy action as the argmax over q_targ
             params, state = target_params['q_targ'], target_state['q_targ']
-            S_next = self.q_targ.observation_preprocessor(transition_batch.S_next)
+            S_next = self.q_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
             Q_s_next, _ = self.q_targ.function_type2(params, state, next(rngs), S_next, False)
             assert Q_s_next.ndim == 2, f"bad shape: {Q_s_next.shape}"
             A_next = (Q_s_next == Q_s_next.max(axis=1, keepdims=True)).astype(Q_s_next.dtype)
@@ -129,12 +129,12 @@ class DoubleQLearning(BaseTDLearningQWithTargetPolicy):
         else:
             # get greedy action as the mode of pi_targ
             params, state = target_params['pi_targ'], target_state['pi_targ']
-            S_next = self.pi_targ.observation_preprocessor(transition_batch.S_next)
+            S_next = self.pi_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
             A_next = self.pi_targ.mode_func(params, state, next(rngs), S_next)
 
         # evaluate on q (not q_targ)
         params, state = target_params['q'], target_state['q']
-        S_next = self.q.observation_preprocessor(transition_batch.S_next)
+        S_next = self.q.observation_preprocessor(next(rngs), transition_batch.S_next)
         Q_sa_next, _ = self.q.function_type1(params, state, next(rngs), S_next, A_next, False)
 
         assert Q_sa_next.ndim == 1, f"bad shape: {Q_sa_next.shape}"

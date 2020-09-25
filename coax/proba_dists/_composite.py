@@ -210,40 +210,49 @@ class ProbaDist(BaseProbaDist):
 
         raise AssertionError(f"bad structure_type: {self._structure_type}")
 
-    def postprocess_variate(self, X, index=0, batch_mode=False):
+    def postprocess_variate(self, rng, X, index=0, batch_mode=False):
+        rngs = hk.PRNGSequence(rng)
+
         if self._structure_type == StructureType.LEAF:
-            return self._structure.postprocess_variate(X, index=index, batch_mode=batch_mode)
+            return self._structure.postprocess_variate(
+                next(rngs), X, index=index, batch_mode=batch_mode)
 
         if isinstance(self.space, (gym.spaces.MultiDiscrete, gym.spaces.MultiBinary)):
             assert self._structure_type == StructureType.LIST
             return onp.stack([
-                dist.postprocess_variate(X[i], index=index, batch_mode=batch_mode)
+                dist.postprocess_variate(next(rngs), X[i], index=index, batch_mode=batch_mode)
                 for i, dist in enumerate(self._structure)], axis=-1)
 
         if isinstance(self.space, gym.spaces.Tuple):
             assert self._structure_type == StructureType.LIST
             return tuple(
-                dist.postprocess_variate(X[i], index=index, batch_mode=batch_mode)
+                dist.postprocess_variate(next(rngs), X[i], index=index, batch_mode=batch_mode)
                 for i, dist in enumerate(self._structure))
 
         if isinstance(self.space, gym.spaces.Dict):
             assert self._structure_type == StructureType.DICT
             return {
-                k: dist.postprocess_variate(X[k], index=index, batch_mode=batch_mode)
+                k: dist.postprocess_variate(next(rngs), X[k], index=index, batch_mode=batch_mode)
                 for k, dist in self._structure.items()}
 
         raise AssertionError(
             f"postprocess_variate not implemented for space: {self.space.__class__.__name__}; "
             "please send us a bug report / feature request")
 
-    def preprocess_variate(self, X):
+    def preprocess_variate(self, rng, X):
+        rngs = hk.PRNGSequence(rng)
+
         if self._structure_type == StructureType.LEAF:
-            return self._structure.preprocess_variate(X)
+            return self._structure.preprocess_variate(next(rngs), X)
 
         if self._structure_type == StructureType.LIST:
-            return [dist.preprocess_variate(X[i]) for i, dist in enumerate(self._structure)]
+            return [
+                dist.preprocess_variate(next(rngs), X[i])
+                for i, dist in enumerate(self._structure)]
 
         if self._structure_type == StructureType.DICT:
-            return {k: dist.preprocess_variate(X[k]) for k, dist in self._structure.items()}
+            return {
+                k: dist.preprocess_variate(next(rngs), X[k])
+                for k, dist in self._structure.items()}
 
         raise AssertionError(f"bad structure_type: {self._structure_type}")

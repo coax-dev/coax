@@ -216,7 +216,7 @@ class BaseProbaDist(ABC):
         r""" The default distribution parameters. """
         pass
 
-    def postprocess_variate(self, X, index=0, batch_mode=False):
+    def postprocess_variate(self, rng, X, index=0, batch_mode=False):
         r"""
 
         The post-processor specific to variates drawn from this ditribution.
@@ -226,6 +226,10 @@ class BaseProbaDist(ABC):
 
         Parameters
         ----------
+        rng : PRNGKey
+
+            A key for seeding the pseudo-random number generator.
+
         X : raw variates
 
             A batch of **raw** clean variates, i.e. same format as the outputs of :func:`sample`
@@ -251,7 +255,7 @@ class BaseProbaDist(ABC):
         """
         return X if batch_mode else batch_to_single(X)
 
-    def preprocess_variate(self, X):
+    def preprocess_variate(self, rng, X):
         r"""
 
         The pre-processor to ensure that an instance of the :attr:`space` is processed into the same
@@ -260,6 +264,10 @@ class BaseProbaDist(ABC):
 
         Parameters
         ----------
+        rng : PRNGKey
+
+            A key for seeding the pseudo-random number generator.
+
         X : clean variates
 
             A batch of clean variates, i.e. instances of the gym-style :attr:`space`.

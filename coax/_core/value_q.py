@@ -25,6 +25,7 @@ from collections import namedtuple
 import jax
 import jax.numpy as jnp
 import numpy as onp
+import haiku as hk
 from gym.spaces import Space, Discrete
 
 from ..utils import safe_sample
@@ -150,11 +151,11 @@ class Q(BaseFunc):
             discrete action spaces.
 
         """
-        S = self.observation_preprocessor(s)
+        S = self.observation_preprocessor(self.rng, s)
         if a is None:
             Q, _ = self.function_type2(self.params, self.function_state, self.rng, S, False)
         else:
-            A = self.action_preprocessor(a)
+            A = self.action_preprocessor(self.rng, a)
             Q, _ = self.function_type1(self.params, self.function_state, self.rng, S, A, False)
         Q = self.value_transform.inverse_func(Q)
         return onp.asarray(Q[0])
@@ -199,15 +200,18 @@ class Q(BaseFunc):
         n = self.action_space.n
 
         def q2_func(q1_params, q1_state, rng, S, is_training):
+            rngs = hk.PRNGSequence(rng)
+
             # example: let S = [7, 2, 5, 8] and num_actions = 3, then
             # S_rep = [7, 7, 7, 2, 2, 2, 5, 5, 5, 8, 8, 8]  # repeated
             # A_rep = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2]  # tiled
             S_rep = jax.tree_map(lambda x: jnp.repeat(x, n, axis=0), S)
             A_rep = jnp.tile(jnp.arange(n), S.shape[0])
-            A_rep = self.action_preprocessor(A_rep)  # one-hot encoding
+            A_rep = self.action_preprocessor(next(rngs), A_rep)  # one-hot encoding
 
             # evaluate on replicas => output shape: (batch * num_actions, 1)
-            Q_sa_rep, state_new = self.function(q1_params, q1_state, rng, S_rep, A_rep, is_training)
+            Q_sa_rep, state_new = \
+                self.function(q1_params, q1_state, next(rngs), S_rep, A_rep, is_training)
             Q_s = Q_sa_rep.reshape(-1, n)  # shape: (batch, num_actions)
 
             return Q_s, state_new
@@ -248,15 +252,16 @@ class Q(BaseFunc):
             action_preprocessor = ProbaDist(env.action_space).preprocess_variate
 
         rnd = onp.random.RandomState(random_seed)
+        rngs = hk.PRNGSequence(rnd.randint(jnp.iinfo('int32').max))
 
         # input: state observations
         S = [safe_sample(env.observation_space, rnd) for _ in range(batch_size)]
-        S = [observation_preprocessor(s) for s in S]
+        S = [observation_preprocessor(next(rngs), s) for s in S]
         S = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *S)
 
         # input: actions
         A = [safe_sample(env.action_space, rnd) for _ in range(batch_size)]
-        A = [action_preprocessor(a) for a in A]
+        A = [action_preprocessor(next(rngs), a) for a in A]
         A = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *A)
 
         # output: type1

@@ -87,14 +87,14 @@ class StochasticUpdater:
 
         def loss_func(params, state, hyperparams, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
-            S = self.model.observation_preprocessor(transition_batch.S)
-            A = self.model.action_preprocessor(transition_batch.A)
+            S = self.model.observation_preprocessor(next(rngs), transition_batch.S)
+            A = self.model.action_preprocessor(next(rngs), transition_batch.A)
             dist_params, new_state = \
                 self.model.function_type1(params, state, next(rngs), S, A, True)
             y_pred = self.model.proba_dist.sample(dist_params, next(rngs))
 
             if isinstance(self.model, DynamicsModel):
-                y_true = self.model.observation_preprocessor(transition_batch.S_next)
+                y_true = self.model.observation_preprocessor(next(rngs), transition_batch.S_next)
             elif isinstance(self.model, RewardModel):
                 y_true = self.model.value_transform.transform_func(transition_batch.Rn)
             else:

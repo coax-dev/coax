@@ -25,6 +25,7 @@ from collections import namedtuple
 import jax
 import jax.numpy as jnp
 import numpy as onp
+import haiku as hk
 from gym.spaces import Space
 
 from ..utils import safe_sample
@@ -108,10 +109,11 @@ class Policy(BaseFunc, PolicyMixin):
             observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
 
         rnd = onp.random.RandomState(random_seed)
+        rngs = hk.PRNGSequence(rnd.randint(jnp.iinfo('int32').max))
 
         # input: state observations
         S = [safe_sample(env.observation_space, rnd) for _ in range(batch_size)]
-        S = [observation_preprocessor(s) for s in S]
+        S = [observation_preprocessor(next(rngs), s) for s in S]
         S = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *S)
 
         # output

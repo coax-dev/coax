@@ -25,6 +25,7 @@ from collections import namedtuple
 import jax
 import jax.numpy as jnp
 import numpy as onp
+import haiku as hk
 from gym.spaces import Space
 
 from ..utils import safe_sample
@@ -127,7 +128,7 @@ class V(BaseFunc):
             The estimated expected value associated with the input state observation ``s``.
 
         """
-        S = self.observation_preprocessor(s)
+        S = self.observation_preprocessor(self.rng, s)
         V, _ = self.function(self.params, self.function_state, self.rng, S, False)
         V = self.value_transform.inverse_func(V)
         return onp.asarray(V[0])
@@ -144,10 +145,11 @@ class V(BaseFunc):
             observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
 
         rnd = onp.random.RandomState(random_seed)
+        rngs = hk.PRNGSequence(rnd.randint(jnp.iinfo('int32').max))
 
         # input: state observations
         S = [safe_sample(env.observation_space, rnd) for _ in range(batch_size)]
-        S = [observation_preprocessor(s) for s in S]
+        S = [observation_preprocessor(next(rngs), s) for s in S]
         S = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *S)
 
         return ExampleData(

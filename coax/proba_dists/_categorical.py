@@ -23,6 +23,7 @@ import jax
 import jax.numpy as jnp
 from gym.spaces import Discrete
 
+from ..utils import argmax
 from ._base import BaseProbaDist
 
 
@@ -137,16 +138,16 @@ class CategoricalDist(BaseProbaDist):
     def default_priors(self):
         return {'logits': jnp.zeros((1, self.space.n))}
 
-    def preprocess_variate(self, X):
+    def preprocess_variate(self, rng, X):
         X = jnp.asarray(X)
         assert X.ndim <= 1, f"unexpected X.shape: {X.shape}"
         assert jnp.issubdtype(X.dtype, jnp.integer), f"expected an integer dtype, got {X.dtype}"
         return jax.nn.one_hot(X, self.space.n).reshape(-1, self.space.n)
 
-    def postprocess_variate(self, X, index=0, batch_mode=False):
+    def postprocess_variate(self, rng, X, index=0, batch_mode=False):
         assert X.ndim == 2
         assert X.shape[1] == self.space.n
-        X = jnp.argmax(X, axis=1)
+        X = argmax(rng, X, axis=1)
         return X if batch_mode else int(X[index])
 
     @property

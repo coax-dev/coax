@@ -19,6 +19,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+import haiku as hk
+
 from ._base import BaseTDLearningV
 
 
@@ -86,8 +88,9 @@ class SimpleTD(BaseTDLearningV):
 
     """
     def target_func(self, target_params, target_state, rng, transition_batch):
+        rngs = hk.PRNGSequence(rng)
         params, state = target_params['v_targ'], target_state['v_targ']
-        S_next = self.v_targ.observation_preprocessor(transition_batch.S_next)
-        V_next, _ = self.v_targ.function(params, state, rng, S_next, False)
+        S_next = self.v_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
+        V_next, _ = self.v_targ.function(params, state, next(rngs), S_next, False)
         f, f_inv = self.v.value_transform
         return f(transition_batch.Rn + transition_batch.In * f_inv(V_next))

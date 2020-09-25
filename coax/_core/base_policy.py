@@ -59,9 +59,9 @@ class PolicyMixin:
             ``return_logp=True``.
 
         """
-        S = self.observation_preprocessor(s)
+        S = self.observation_preprocessor(self.rng, s)
         A, logP = self.sample_func(self.params, self.function_state, self.rng, S)
-        a = self.proba_dist.postprocess_variate(A)
+        a = self.proba_dist.postprocess_variate(self.rng, A)
         return (a, batch_to_single(logP)) if return_logp else a
 
     def mode(self, s):
@@ -82,9 +82,9 @@ class PolicyMixin:
             A single action :math:`a`.
 
         """
-        S = self.observation_preprocessor(s)
+        S = self.observation_preprocessor(self.rng, s)
         A = self.mode_func(self.params, self.function_state, self.rng, S)
-        a = self.proba_dist.postprocess_variate(A)
+        a = self.proba_dist.postprocess_variate(self.rng, A)
         return a
 
     def dist_params(self, s):
@@ -105,7 +105,7 @@ class PolicyMixin:
             The distribution parameters of :math:`\pi(.|s)`.
 
         """
-        S = self.observation_preprocessor(s)
+        S = self.observation_preprocessor(self.rng, s)
         dist_params, _ = self.function(self.params, self.function_state, self.rng, S, False)
         return batch_to_single(dist_params)
 

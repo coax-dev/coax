@@ -109,18 +109,18 @@ class SuccessorStateQ:
                 new_state = dict(state)
 
                 # s' ~ p(.|s,a)
-                S_ = self.p.observation_preprocessor(S)
+                S_ = self.p.observation_preprocessor(next(rngs), S)
                 dist_params, new_state['p'] = \
                     self.p.function_type1(params['p'], state['p'], next(rngs), S_, A, is_training)
                 S_next = self.p.proba_dist.sample(dist_params, next(rngs))
-                S_next = self.p.proba_dist.postprocess_variate(S_next, batch_mode=True)
+                S_next = self.p.proba_dist.postprocess_variate(next(rngs), S_next, batch_mode=True)
 
                 # r = r(s,a)
-                S_ = self.r.observation_preprocessor(S)
+                S_ = self.r.observation_preprocessor(next(rngs), S)
                 dist_params, new_state['r'] = \
                     self.r.function_type1(params['r'], state['r'], next(rngs), S_, A, is_training)
                 R = self.r.proba_dist.sample(dist_params, next(rngs))
-                R = self.r.proba_dist.postprocess_variate(R, batch_mode=True)
+                R = self.r.proba_dist.postprocess_variate(next(rngs), R, batch_mode=True)
 
                 # v(s')
                 V, new_state['v'] = \
@@ -144,22 +144,23 @@ class SuccessorStateQ:
                 new_state = dict(state)
 
                 # s' ~ p(s'|s,.)  # note: S_next is replicated, one for each (discrete) action
-                S_ = self.p.observation_preprocessor(S)
+                S_ = self.p.observation_preprocessor(next(rngs), S)
                 dist_params_rep, new_state['p'] = \
                     self.p.function_type2(params['p'], state['p'], next(rngs), S_, is_training)
                 dist_params_rep = jax.tree_map(self.p._reshape_to_replicas, dist_params_rep)
                 S_next_rep = self.p.proba_dist.sample(dist_params_rep, next(rngs))
 
                 # r ~ p(r|s,a)  # note: R is replicated, one for each (discrete) action
-                S_ = self.r.observation_preprocessor(S)
+                S_ = self.r.observation_preprocessor(next(rngs), S)
                 dist_params_rep, new_state['r'] = \
                     self.r.function_type2(params['r'], state['r'], next(rngs), S_, is_training)
                 dist_params_rep = jax.tree_map(self.r._reshape_to_replicas, dist_params_rep)
                 R_rep = self.r.proba_dist.sample(dist_params_rep, next(rngs))
-                R_rep = self.r.proba_dist.postprocess_variate(R_rep, batch_mode=True)
+                R_rep = self.r.proba_dist.postprocess_variate(next(rngs), R_rep, batch_mode=True)
 
                 # v(s')  # note: since the input S_next is replicated, so is the output V
-                S_next_rep = self.p.proba_dist.postprocess_variate(S_next_rep, batch_mode=True)
+                S_next_rep = \
+                    self.p.proba_dist.postprocess_variate(next(rngs), S_next_rep, batch_mode=True)
                 V_rep, new_state['v'] = \
                     self.v.function(params['v'], state['v'], next(rngs), S_next_rep, is_training)
 

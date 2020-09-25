@@ -122,12 +122,12 @@ class ExpectedSarsa(BaseTDLearningQWithTargetPolicy):
 
         # compute q-values
         params, state = target_params['q_targ'], target_state['q_targ']
-        S_next = self.q_targ.observation_preprocessor(transition_batch.S_next)
+        S_next = self.q_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
         Q_s_next, _ = self.q_targ.function_type2(params, state, next(rngs), S_next, False)
 
         # action propensities
         params, state = target_params['pi_targ'], target_state['pi_targ']
-        S_next = self.pi_targ.observation_preprocessor(transition_batch.S_next)
+        S_next = self.pi_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
         dist_params, _ = self.pi_targ.function(params, state, next(rngs), S_next, False)
         P = jax.nn.softmax(dist_params['logits'], axis=-1)
 
