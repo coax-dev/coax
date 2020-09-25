@@ -75,6 +75,8 @@ class CategoricalDist(BaseProbaDist):
         self._gumbel_softmax_tau = gumbel_softmax_tau
 
         def check_shape(x, name):
+            if not isinstance(x, jnp.ndarray):
+                raise TypeError(f"expected an jax.numpy.ndarray, got: {type(x)}")
             if not (x.ndim == 2 and x.shape[1] == space.n):
                 raise ValueError(f"expected {name}.shape: (?, {space.n}), got: {x.shape}")
             return x

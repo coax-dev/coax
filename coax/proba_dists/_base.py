@@ -249,11 +249,7 @@ class BaseProbaDist(ABC):
             :code:`x in self.space`.
 
         """
-        # N.B. this post-processor is essentially a no-op
-        x = batch_to_single(X)
-        assert self.space.contains(x), \
-            f"{self.__class__.__name__}.postprocessor_variate failed for X: {X}"
-        return X if batch_mode else x
+        return X if batch_mode else batch_to_single(X)
 
     def preprocess_variate(self, X):
         r"""

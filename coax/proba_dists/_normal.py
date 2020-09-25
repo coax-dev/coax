@@ -94,74 +94,74 @@ class NormalDist(BaseProbaDist):
 
         log_2pi = onp.asarray(1.8378770664093453)  # abbreviation
 
+        def check_shape(x, name, flatten):
+            if not isinstance(x, jnp.ndarray):
+                raise TypeError(f"expected an jax.numpy.ndarray, got: {type(x)}")
+            if not (x.ndim == len(space.shape) + 1 and x.shape[1:] == space.shape):
+                expected = ', '.join(f'{i:d}' for i in space.shape)
+                raise ValueError(f"expected {name}.shape: (?, {expected}), got: {x.shape}")
+            if flatten:
+                x = x.reshape(x.shape[0], -1)  # batch-flatten
+            return x
+
         def sample(dist_params, rng):
-            mu, logvar = dist_params['mu'], dist_params['logvar']
+            mu = check_shape(dist_params['mu'], name='mu', flatten=True)
+            logvar = check_shape(dist_params['logvar'], name='logvar', flatten=True)
+
             X = mu + jnp.exp(logvar / 2) * jax.random.normal(rng, mu.shape)
             return X.reshape(-1, *self.space.shape)
 
         def mode(dist_params):
-            X = dist_params['mu']
-            X = X.reshape(-1, *self.space.shape)
-            return X
+            return check_shape(dist_params['mu'], name='mu', flatten=False)
 
         def log_proba(dist_params, X):
-            mu, logvar = dist_params['mu'], dist_params['logvar']
-
-            # ensure that all quantities are batch-flattened
-            X = X.reshape(X.shape[0], -1)
-            mu = mu.reshape(mu.shape[0], -1)
-            logvar = logvar.reshape(logvar.shape[0], -1)
-
-            assert X.shape[1] == mu.shape[1] == logvar.shape[1] == onp.prod(self.space.shape), \
-                f"X.shape = {X.shape}, mu.shape = {mu.shape}, " + \
-                f"logvar.shape = {logvar.shape}, self.space.shape = {self.space.shape}"
+            X = check_shape(X, name='X', flatten=True)
+            mu = check_shape(dist_params['mu'], name='mu', flatten=True)
+            logvar = check_shape(dist_params['logvar'], name='logvar', flatten=True)
 
             n = logvar.shape[-1]
-            log_det_var = jnp.sum(logvar, axis=-1)  # log(det(M)) = tr(log(M))
-            quad = jnp.einsum('ij,ij->i', jnp.square(X - mu), jnp.exp(-logvar))
-            return -0.5 * (n * log_2pi + log_det_var + quad)
+            logdetvar = jnp.sum(logvar, axis=-1)  # log(det(M)) = tr(log(M))
+            quadratic = jnp.einsum('ij,ij->i', jnp.square(X - mu), jnp.exp(-logvar))
+            return -0.5 * (n * log_2pi + logdetvar + quadratic)
 
         def entropy(dist_params):
-            logvar = dist_params['logvar']
-            logvar = logvar.reshape(logvar.shape[0], -1)
+            logvar = check_shape(dist_params['logvar'], name='logvar', flatten=True)
 
             assert logvar.ndim == 2  # check if flattened
-            log_det_var = jnp.sum(logvar, axis=-1)  # log(det(M)) = tr(log(M))
+            logdetvar = jnp.sum(logvar, axis=-1)  # log(det(M)) = tr(log(M))
             n = logvar.shape[-1]
-            return 0.5 * (n * log_2pi + log_det_var + n)
+            return 0.5 * (n * log_2pi + logdetvar + n)
 
         def cross_entropy(dist_params_p, dist_params_q):
-            m1, log_v1 = dist_params_p['mu'], dist_params_p['logvar']
-            m2, log_v2 = dist_params_q['mu'], dist_params_q['logvar']
+            mu1 = check_shape(dist_params_p['mu'], name='mu_p', flatten=True)
+            mu2 = check_shape(dist_params_q['mu'], name='mu_q', flatten=True)
+            logvar1 = check_shape(dist_params_p['logvar'], name='logvar_p', flatten=True)
+            logvar2 = check_shape(dist_params_q['logvar'], name='logvar_q', flatten=True)
 
-            # ensure that all quantities are batch-flattened
-            m1, log_v1 = m1.reshape(m1.shape[0], -1), log_v1.reshape(log_v1.shape[0], -1)
-            m2, log_v2 = m2.reshape(m2.shape[0], -1), log_v2.reshape(log_v2.shape[0], -1)
+            n = mu1.shape[-1]
+            assert n == mu2.shape[-1] == logvar1.shape[-1] == logvar2.shape[-1]
 
-            v1 = jnp.exp(log_v1)
-            v2_inv = jnp.exp(-log_v2)
-            log_det_v2 = jnp.sum(log_v2, axis=-1)  # log(det(M)) = tr(log(M))
-            n = m1.shape[-1]
-            assert n == m2.shape[-1] == log_v1.shape[-1] == log_v2.shape[-1]
-            quad = jnp.einsum('ij,ij->i', v1 + jnp.square(m1 - m2), v2_inv)
-            return 0.5 * (n * log_2pi + log_det_v2 + quad)
+            var1 = jnp.exp(logvar1)
+            var2_inv = jnp.exp(-logvar2)
+            logdetvar2 = jnp.sum(logvar2, axis=-1)  # log(det(M)) = tr(log(M))
+            quadratic = jnp.einsum('ij,ij->i', var1 + jnp.square(mu1 - mu2), var2_inv)
+            return 0.5 * (n * log_2pi + logdetvar2 + quadratic)
 
         def kl_divergence(dist_params_p, dist_params_q):
-            m1, log_v1 = dist_params_p['mu'], dist_params_p['logvar']
-            m2, log_v2 = dist_params_q['mu'], dist_params_q['logvar']
+            mu1 = check_shape(dist_params_p['mu'], name='mu_p', flatten=True)
+            mu2 = check_shape(dist_params_q['mu'], name='mu_q', flatten=True)
+            logvar1 = check_shape(dist_params_p['logvar'], name='logvar_p', flatten=True)
+            logvar2 = check_shape(dist_params_q['logvar'], name='logvar_q', flatten=True)
 
-            # ensure that all quantities are batch-flattened
-            m1, log_v1 = m1.reshape(m1.shape[0], -1), log_v1.reshape(log_v1.shape[0], -1)
-            m2, log_v2 = m2.reshape(m2.shape[0], -1), log_v2.reshape(log_v2.shape[0], -1)
+            n = mu1.shape[-1]
+            assert n == mu2.shape[-1] == logvar1.shape[-1] == logvar2.shape[-1]
 
-            v1 = jnp.exp(log_v1)
-            v2_inv = jnp.exp(-log_v2)
-            log_det_v1 = jnp.sum(log_v1, axis=-1)  # log(det(M)) = tr(log(M))
-            log_det_v2 = jnp.sum(log_v2, axis=-1)  # log(det(M)) = tr(log(M))
-            n = m1.shape[-1]
-            assert n == m2.shape[-1] == log_v1.shape[-1] == log_v2.shape[-1]
-            quad = jnp.einsum('ij,ij->i', v1 + jnp.square(m1 - m2), v2_inv)
-            return 0.5 * (log_det_v2 - log_det_v1 + quad - n)
+            var1 = jnp.exp(logvar1)
+            var2_inv = jnp.exp(-logvar2)
+            logdetvar1 = jnp.sum(logvar1, axis=-1)  # log(det(M)) = tr(log(M))
+            logdetvar2 = jnp.sum(logvar2, axis=-1)  # log(det(M)) = tr(log(M))
+            quadratic = jnp.einsum('ij,ij->i', var1 + jnp.square(mu1 - mu2), var2_inv)
+            return 0.5 * (logdetvar2 - logdetvar1 + quadratic - n)
 
         self._sample_func = jax.jit(sample)
         self._mode_func = jax.jit(mode)

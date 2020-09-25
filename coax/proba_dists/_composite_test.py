@@ -208,8 +208,8 @@ class TestProbaDist(TestCase):
         dist = ProbaDist(space)
         params_p = {
             'foo': {
-                'mu': jax.random.normal(next(self.rngs), shape=(11, 2 * 7)),
-                'logvar': jax.random.normal(next(self.rngs), shape=(11, 2 * 7)),
+                'mu': jax.random.normal(next(self.rngs), shape=(11, 2, 7)),
+                'logvar': jax.random.normal(next(self.rngs), shape=(11, 2, 7)),
             },
             'bar': [
                 {'logits': jax.random.normal(next(self.rngs), shape=(11, 3))},
@@ -218,8 +218,8 @@ class TestProbaDist(TestCase):
         }
         params_q = {
             'foo': {
-                'mu': jax.random.normal(next(self.rngs), shape=(11, 2 * 7)),
-                'logvar': jax.random.normal(next(self.rngs), shape=(11, 2 * 7)),
+                'mu': jax.random.normal(next(self.rngs), shape=(11, 2, 7)),
+                'logvar': jax.random.normal(next(self.rngs), shape=(11, 2, 7)),
             },
             'bar': [
                 {'logits': jax.random.normal(next(self.rngs), shape=(11, 3))},
