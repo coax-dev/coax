@@ -142,8 +142,7 @@ class QLearning(BaseTDLearningQWithTargetPolicy):
             # get greedy action from pi_targ
             params, state = target_params['pi_targ'], target_state['pi_targ']
             S_next = self.pi_targ.observation_preprocessor(transition_batch.S_next)
-            dist_params, _ = self.pi_targ.function(params, state, next(rngs), S_next, False)
-            A_next = self.pi_targ.proba_dist.mode(dist_params)  # greedy action
+            A_next = self.pi_targ.mode_func(params, state, next(rngs), S_next)
 
             # evaluate q_targ on greedy action
             params, state = target_params['q_targ'], target_state['q_targ']

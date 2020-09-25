@@ -118,7 +118,7 @@ class DoubleQLearning(BaseTDLearningQWithTargetPolicy):
         rngs = hk.PRNGSequence(rng)
 
         if isinstance(self.q.action_space, Discrete):
-            # compute A_next as the argmax over q_targ
+            # get greedy action as the argmax over q_targ
             params, state = target_params['q_targ'], target_state['q_targ']
             S_next = self.q_targ.observation_preprocessor(transition_batch.S_next)
             Q_s_next, _ = self.q_targ.function_type2(params, state, next(rngs), S_next, False)
@@ -127,11 +127,10 @@ class DoubleQLearning(BaseTDLearningQWithTargetPolicy):
             A_next /= A_next.sum(axis=1, keepdims=True)  # there may be ties
 
         else:
-            # compute A_next as the mode of pi_targ
+            # get greedy action as the mode of pi_targ
             params, state = target_params['pi_targ'], target_state['pi_targ']
             S_next = self.pi_targ.observation_preprocessor(transition_batch.S_next)
-            dist_params, _ = self.pi_targ.function(params, state, next(rngs), S_next, False)
-            A_next = self.pi_targ.proba_dist.mode(dist_params)  # greedy action
+            A_next = self.pi_targ.mode_func(params, state, next(rngs), S_next)
 
         # evaluate on q (not q_targ)
         params, state = target_params['q'], target_state['q']
