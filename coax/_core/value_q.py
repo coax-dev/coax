@@ -176,7 +176,7 @@ class Q(BaseFunc):
             assert A.ndim == 2
             assert A.shape[1] == self.action_space.n
             Q_s, state_new = self.function(q2_params, q2_state, rng, S, is_training)
-            Q_sa = jnp.einsum('ij,ij->i', A, Q_s)
+            Q_sa = jax.vmap(jnp.dot)(A, Q_s)
             return Q_sa, state_new
 
         return q1_func
