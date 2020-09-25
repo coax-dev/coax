@@ -94,19 +94,20 @@ class DeterministicPG(PolicyObjective):
 
     def objective_func(self, params, state, hyperparams, rng, transition_batch, Adv):
         rngs = hk.PRNGSequence(rng)
-        S = transition_batch.S
 
         # get distribution params from function approximator
+        S = self.pi.observation_preprocessor(transition_batch.S)
         dist_params, state_new = self.pi.function(params, state, next(rngs), S, True)
 
         # compute objective: q(s, a_greedy)
-        A_greedy = self.pi.proba_dist.mode(dist_params)
-        log_pi = self.pi.proba_dist.log_proba(dist_params, A_greedy)
+        S = self.q_targ.observation_preprocessor(transition_batch.S)
+        A = self.pi.proba_dist.mode(dist_params)
+        log_pi = self.pi.proba_dist.log_proba(dist_params, A)
         params_q, state_q = hyperparams['q']['params'], hyperparams['q']['function_state']
-        objective, _ = self.q_targ.function_type1(params_q, state_q, next(rngs), S, A_greedy, True)
+        objective, _ = self.q_targ.function_type1(params_q, state_q, next(rngs), S, A, True)
 
         # some consistency checks
-        assert objective.ndim == 1
+        assert objective.ndim == 1, f"bad shape: {objective.shape}"
 
         return jnp.mean(objective), (dist_params, log_pi, state_new)
 

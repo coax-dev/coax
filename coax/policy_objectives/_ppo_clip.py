@@ -87,13 +87,13 @@ class PPOClip(PolicyObjective):
         rngs = hk.PRNGSequence(rng)
 
         # get distribution params from function approximator
-        S, A, logP = transition_batch[:3]
+        S = self.pi.observation_preprocessor(transition_batch.S)
         dist_params, state_new = self.pi.function(params, state, next(rngs), S, True)
 
         # compute probability ratios
-        A_raw = self.pi.proba_dist.preprocess_variate(A)
-        log_pi = self.pi.proba_dist.log_proba(dist_params, A_raw)
-        ratio = jnp.exp(log_pi - logP)  # logP is log(π_old)
+        A = self.pi.proba_dist.preprocess_variate(transition_batch.A)
+        log_pi = self.pi.proba_dist.log_proba(dist_params, A)
+        ratio = jnp.exp(log_pi - transition_batch.logP)  # π_new / π_old
         ratio_clip = jnp.clip(ratio, 1 - hyperparams['epsilon'], 1 + hyperparams['epsilon'])
 
         # ppo-clip objective

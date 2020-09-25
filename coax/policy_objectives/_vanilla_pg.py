@@ -58,12 +58,12 @@ class VanillaPG(PolicyObjective):
         rngs = hk.PRNGSequence(rng)
 
         # get distribution params from function approximator
-        S, A = transition_batch[:2]
+        S = self.pi.observation_preprocessor(transition_batch.S)
         dist_params, state_new = self.pi.function(params, state, next(rngs), S, True)
 
         # compute REINFORCE-style objective
-        A_raw = self.pi.proba_dist.preprocess_variate(A)
-        log_pi = self.pi.proba_dist.log_proba(dist_params, A_raw)
+        A = self.pi.proba_dist.preprocess_variate(transition_batch.A)
+        log_pi = self.pi.proba_dist.log_proba(dist_params, A)
 
         # some consistency checks
         assert Adv.ndim == 1
