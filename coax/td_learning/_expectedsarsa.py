@@ -119,21 +119,22 @@ class ExpectedSarsa(BaseTDLearningQWithTargetPolicy):
 
     def target_func(self, target_params, target_state, rng, transition_batch):
         rngs = hk.PRNGSequence(rng)
-        Rn, In, S_next = transition_batch[3:6]
 
         # compute q-values
         params, state = target_params['q_targ'], target_state['q_targ']
+        S_next = self.q_targ.observation_preprocessor(transition_batch.S_next)
         Q_s_next, _ = self.q_targ.function_type2(params, state, next(rngs), S_next, False)
 
         # action propensities
         params, state = target_params['pi_targ'], target_state['pi_targ']
+        S_next = self.pi_targ.observation_preprocessor(transition_batch.S_next)
         dist_params, _ = self.pi_targ.function(params, state, next(rngs), S_next, False)
         P = jax.nn.softmax(dist_params['logits'], axis=-1)
 
         # project
         assert P.ndim == 2, f"bad shape: {P.shape}"
         assert Q_s_next.ndim == 2, f"bad shape: {Q_s_next.shape}"
-        Q_sa_next = jnp.einsum('ij,ij->i', P, Q_s_next)
+        Q_sa_next = jax.vmap(jnp.dot)(P, Q_s_next)
 
         f, f_inv = self.q.value_transform
-        return f(Rn + In * f_inv(Q_sa_next))
+        return f(transition_batch.Rn + transition_batch.In * f_inv(Q_sa_next))
