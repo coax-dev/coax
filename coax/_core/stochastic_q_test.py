@@ -29,7 +29,7 @@ from gym.spaces import Discrete, Box
 
 from .._base.test_case import TestCase
 from ..utils import safe_sample
-from .reward_model import RewardModel
+from .stochastic_q import StochasticQ
 
 
 discrete = Discrete(7)
@@ -81,20 +81,20 @@ def func_type2(S, is_training):
     return {'mu': mu(S), 'logvar': logvar(S)}
 
 
-class TestRewardModel(TestCase):
+class TestStochasticQ(TestCase):
     def test_init(self):
 
         # cannot define a type-2 models on a non-discrete action space
         msg = r"type-2 models are only well-defined for Discrete action spaces"
         with self.assertRaisesRegex(TypeError, msg):
-            RewardModel(func_type2, Env(boxspace, boxspace, (-10, 10)))
+            StochasticQ(func_type2, Env(boxspace, boxspace, (-10, 10)))
 
         # these should all be fine
-        RewardModel(func_type1, Env(discrete, discrete, (-10, 10)))
-        RewardModel(func_type1, Env(discrete, boxspace, (-10, 10)))
-        RewardModel(func_type1, Env(boxspace, boxspace, (-10, 10)))
-        RewardModel(func_type2, Env(discrete, discrete, (-10, 10)))
-        RewardModel(func_type2, Env(boxspace, discrete, (-10, 10)))
+        StochasticQ(func_type1, Env(discrete, discrete, (-10, 10)))
+        StochasticQ(func_type1, Env(discrete, boxspace, (-10, 10)))
+        StochasticQ(func_type1, Env(boxspace, boxspace, (-10, 10)))
+        StochasticQ(func_type2, Env(discrete, discrete, (-10, 10)))
+        StochasticQ(func_type2, Env(boxspace, discrete, (-10, 10)))
 
     # test_call_* ##################################################################################
 
@@ -104,7 +104,7 @@ class TestRewardModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = RewardModel(func, env, random_seed=19)
+        r = StochasticQ(func, env, random_seed=19)
 
         r_, logp = r(s, a, return_logp=True)
         print(r_, logp, env.observation_space)
@@ -122,7 +122,7 @@ class TestRewardModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = RewardModel(func, env, random_seed=19)
+        r = StochasticQ(func, env, random_seed=19)
 
         r_, logp = r(s, a, return_logp=True)
         print(r_, logp, env.observation_space)
@@ -140,7 +140,7 @@ class TestRewardModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = RewardModel(func, env, random_seed=19)
+        r = StochasticQ(func, env, random_seed=19)
 
         r_, logp = r(s, a, return_logp=True)
         print(r_, logp, env.observation_space)
@@ -158,7 +158,7 @@ class TestRewardModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = RewardModel(func, env, random_seed=19)
+        r = StochasticQ(func, env, random_seed=19)
 
         r_, logp = r(s, a, return_logp=True)
         print(r_, logp, env.observation_space)
@@ -176,7 +176,7 @@ class TestRewardModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = RewardModel(func, env, random_seed=19)
+        r = StochasticQ(func, env, random_seed=19)
 
         r_, logp = r(s, a, return_logp=True)
         print(r_, logp, env.observation_space)
@@ -194,7 +194,7 @@ class TestRewardModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = RewardModel(func, env, random_seed=19)
+        r = StochasticQ(func, env, random_seed=19)
 
         r_, logp = r(s, a, return_logp=True)
         print(r_, logp, env.observation_space)
@@ -214,7 +214,7 @@ class TestRewardModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = RewardModel(func, env, random_seed=19)
+        r = StochasticQ(func, env, random_seed=19)
 
         r_ = r.mode(s, a)
         print(r_, env.observation_space)
@@ -230,7 +230,7 @@ class TestRewardModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = RewardModel(func, env, random_seed=19)
+        r = StochasticQ(func, env, random_seed=19)
 
         r_ = r.mode(s, a)
         print(r_, env.observation_space)
@@ -246,7 +246,7 @@ class TestRewardModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = RewardModel(func, env, random_seed=19)
+        r = StochasticQ(func, env, random_seed=19)
 
         r_ = r.mode(s, a)
         print(r_, env.observation_space)
@@ -262,7 +262,7 @@ class TestRewardModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = RewardModel(func, env, random_seed=19)
+        r = StochasticQ(func, env, random_seed=19)
 
         r_ = r.mode(s, a)
         print(r_, env.observation_space)
@@ -278,7 +278,7 @@ class TestRewardModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = RewardModel(func, env, random_seed=19)
+        r = StochasticQ(func, env, random_seed=19)
 
         r_ = r.mode(s, a)
         print(r_, env.observation_space)
@@ -294,7 +294,7 @@ class TestRewardModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = RewardModel(func, env, random_seed=19)
+        r = StochasticQ(func, env, random_seed=19)
 
         r_ = r.mode(s, a)
         print(r_, env.observation_space)
@@ -308,7 +308,7 @@ class TestRewardModel(TestCase):
         func = func_type1
         env = Env(discrete, discrete, (-10, 10))
 
-        r = RewardModel(func, env, random_seed=19)
+        r = StochasticQ(func, env, random_seed=19)
 
         print(r.function_state)
         batch_norm_avg = r.function_state['batch_norm/~/mean_ema']['average']
@@ -327,7 +327,7 @@ class TestRewardModel(TestCase):
         )
         with self.assertRaisesRegex(TypeError, msg):
             env = Env(boxspace, discrete, (-10, 10))
-            RewardModel(badfunc, env, random_seed=13)
+            StochasticQ(badfunc, env, random_seed=13)
 
     def test_bad_output_structure(self):
         def badfunc(S, is_training):
@@ -341,4 +341,4 @@ class TestRewardModel(TestCase):
         )
         with self.assertRaisesRegex(TypeError, msg):
             env = Env(discrete, discrete, (-10, 10))
-            RewardModel(badfunc, env, random_seed=13)
+            StochasticQ(badfunc, env, random_seed=13)

@@ -49,10 +49,10 @@ tracer = coax.reward_tracing.NStep(n=1, gamma=q.gamma)
 
 
 # updaters
-adam = optax.chain(optax.apply_every(k=32), optax.adam(0.001))
+adam = optax.chain(optax.apply_every(k=8), optax.adam(0.001))
 simple_td = coax.td_learning.SimpleTD(v, loss_function=mse, optimizer=adam)
 
-sgd = optax.sgd(0.01, momentum=0.9, nesterov=True)
+sgd = optax.sgd(0.001, momentum=0.9, nesterov=True)
 model_updater = coax.model_updaters.StochasticUpdater(p, optimizer=sgd)
 
 

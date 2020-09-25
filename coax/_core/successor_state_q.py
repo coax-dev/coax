@@ -78,6 +78,7 @@ class SuccessorStateQ:
         self.observation_space = self.p.observation_space
         self.action_space = self.p.action_space
         self.action_preprocessor = self.p.action_preprocessor
+        self.observation_preprocessor = self.p.observation_preprocessor
 
     @property
     def rng(self):
