@@ -103,8 +103,10 @@ class CategoricalDist(BaseProbaDist):
             return jnp.einsum('ij,ij->i', jnp.exp(logp), -logp)
 
         def cross_entropy(dist_params_p, dist_params_q):
-            p = check_shape(jax.nn.softmax(dist_params_p['logits']), 'p')
-            logq = check_shape(jax.nn.log_softmax(dist_params_q['logits']), 'logq')
+            logits_p = check_shape(dist_params_p['logits'], 'logits_p')
+            logits_q = check_shape(dist_params_q['logits'], 'logits_q')
+            p = jax.nn.softmax(logits_p)
+            logq = jax.nn.log_softmax(logits_q)
             return jnp.einsum('ij,ij->i', p, -logq)
 
         def kl_divergence(dist_params_p, dist_params_q):
