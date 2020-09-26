@@ -267,7 +267,6 @@ If this ain't your first rodeo, head over the examples listed :doc:`here <exampl
     :maxdepth: 1
     :hidden:
 
-    coax/decorators
     coax/wrappers
     coax/utils
     coax/envs

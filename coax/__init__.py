@@ -35,7 +35,6 @@ from ._core.successor_state_q import SuccessorStateQ
 from .utils import safe_sample, render_episode
 
 # pre-load submodules
-from . import decorators
 from . import experience_replay
 from . import model_updaters
 from . import policy_objectives
@@ -66,7 +65,6 @@ __all__ = (
     'render_episode',
 
     # modules
-    'decorators',
     'experience_replay',
     'model_updaters',
     'policy_objectives',
