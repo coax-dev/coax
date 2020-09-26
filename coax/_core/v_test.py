@@ -27,7 +27,7 @@ import haiku as hk
 
 from .._base.test_case import TestCase
 from ..utils import get_transition
-from .value_v import V
+from .v import V
 
 
 def func(S, is_training):

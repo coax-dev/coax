@@ -28,8 +28,8 @@ import optax
 
 from .._base.mixins import RandomStateMixin
 from .._core.base_policy import PolicyMixin
-from .._core.value_v import V
-from .._core.value_q import Q
+from .._core.v import V
+from .._core.q import Q
 from ..utils import get_grads_diagnostics
 from ..value_losses import huber
 from ..regularizers import Regularizer

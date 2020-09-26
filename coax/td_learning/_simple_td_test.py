@@ -24,7 +24,7 @@ from copy import deepcopy
 from optax import sgd
 
 from .._base.test_case import TestCase
-from .._core.value_v import V
+from .._core.v import V
 from .._core.policy import Policy
 from ..utils import get_transition
 from ..regularizers import EntropyRegularizer

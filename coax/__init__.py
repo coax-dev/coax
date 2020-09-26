@@ -23,8 +23,8 @@ __version__ = '0.1.1rc1'
 
 
 # expose specific classes and functions
-from ._core.value_v import V
-from ._core.value_q import Q
+from ._core.v import V
+from ._core.q import Q
 from ._core.stochastic_q import StochasticQ
 from ._core.policy import Policy
 from ._core.dynamics_model import DynamicsModel

@@ -26,7 +26,7 @@ from optax import sgd
 
 from .._base.test_case import TestCase
 from .._core.policy import Policy
-from .._core.value_q import Q
+from .._core.q import Q
 from ..utils import tree_ravel
 from ._deterministic_pg import DeterministicPG
 

@@ -469,8 +469,10 @@ def is_vfunction(obj):
 
     """
     # import at runtime to avoid circular dependence
-    from .._core.value_v import V
-    return isinstance(obj, V)
+    from .._core.v import V
+    from .._core.stochastic_v import StochasticV
+
+    return isinstance(obj, (V, StochasticV))
 
 
 def is_qfunction(obj, modeltype=None):
@@ -497,10 +499,12 @@ def is_qfunction(obj, modeltype=None):
 
     """
     # import at runtime to avoid circular dependence
-    from .._core.value_q import Q
+    from .._core.q import Q
+    from .._core.stochastic_q import StochasticQ
+    from .._core.successor_state_q import SuccessorStateQ
 
     if modeltype is None:
-        return isinstance(obj, Q)
+        return isinstance(obj, (Q, StochasticQ, SuccessorStateQ))
     if modeltype not in (1, 2):
         raise ValueError("unexpected modeltype: {}".format(modeltype))
     return isinstance(obj, Q) and obj.modeltype == modeltype
@@ -517,23 +521,16 @@ def is_policy(obj, check_updateable=False):
 
         Object to check.
 
-    check_updateable : bool, optional
-
-        If the obj is a policy, also check whether or not the policy is updateable.
-
     Returns
     -------
     bool
 
-        Whether ``obj`` is an (updateable) policy.
+        Whether ``obj`` is a policy.
 
     """
     # import at runtime to avoid circular dependence
-    from .._base.abstract import BaseFunc, PolicyMixin, UpdateableMixin
-    return (
-        isinstance(obj, BaseFunc)
-        and isinstance(obj, PolicyMixin)
-        and (not check_updateable or isinstance(obj, UpdateableMixin)))
+    from .._base.abstract import BaseFunc, PolicyMixin
+    return isinstance(obj, BaseFunc) and isinstance(obj, PolicyMixin)
 
 
 def pretty_repr(o, d=0):

@@ -27,7 +27,7 @@ import haiku as hk
 from ..utils import docstring
 from ..proba_dists import CategoricalDist
 from .base_policy import PolicyMixin
-from .value_q import Q
+from .q import Q
 from .successor_state_q import SuccessorStateQ
 
 

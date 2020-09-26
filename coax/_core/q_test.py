@@ -28,7 +28,7 @@ import haiku as hk
 
 from .._base.test_case import TestCase, DiscreteEnv, BoxEnv
 from ..utils import safe_sample
-from .value_q import Q
+from .q import Q
 
 
 env_discrete = DiscreteEnv(random_seed=13)

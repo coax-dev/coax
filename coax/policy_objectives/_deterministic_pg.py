@@ -22,7 +22,7 @@
 import jax.numpy as jnp
 import haiku as hk
 
-from .._core.value_q import Q
+from .._core.q import Q
 from ._base import PolicyObjective
 
 

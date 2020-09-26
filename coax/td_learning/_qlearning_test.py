@@ -24,7 +24,7 @@ from copy import deepcopy
 from optax import sgd
 
 from .._base.test_case import TestCase
-from .._core.value_q import Q
+from .._core.q import Q
 from .._core.policy import Policy
 from ..utils import get_transition
 from ._qlearning import QLearning

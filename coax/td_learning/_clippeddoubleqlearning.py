@@ -27,7 +27,7 @@ import haiku as hk
 import optax
 from gym.spaces import Discrete
 
-from .._core.value_q import Q
+from .._core.q import Q
 from .._core.policy import Policy
 from ..utils import get_grads_diagnostics
 from ._base import BaseTDLearning

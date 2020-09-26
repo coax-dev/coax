@@ -22,8 +22,8 @@
 import jax
 import haiku as hk
 
-from .._core.value_v import V
-from .._core.value_q import Q
+from .._core.v import V
+from .._core.q import Q
 from .._core.dynamics_model import DynamicsModel
 from .._core.reward_model import RewardModel
 
