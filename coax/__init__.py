@@ -25,8 +25,11 @@ __version__ = '0.1.1rc1'
 # expose specific classes and functions
 from ._core.v import V
 from ._core.q import Q
-from ._core.stochastic_q import StochasticQ
 from ._core.policy import Policy
+from ._core.reward_function import RewardFunction
+from ._core.transition_model import TransitionModel
+from ._core.stochastic_v import StochasticV
+from ._core.stochastic_q import StochasticQ
 from ._core.stochastic_transition_model import StochasticTransitionModel
 from ._core.stochastic_reward_function import StochasticRewardFunction
 from ._core.value_based_policy import EpsilonGreedy, BoltzmannPolicy
@@ -53,10 +56,13 @@ __all__ = (
     # classes and functions
     'V',
     'Q',
-    'StochasticQ',
     'Policy',
-    'StochasticTransitionModel',
+    'RewardFunction',
+    'TransitionModel',
+    'StochasticV',
+    'StochasticQ',
     'StochasticRewardFunction',
+    'StochasticTransitionModel',
     'EpsilonGreedy',
     'BoltzmannPolicy',
     'RandomPolicy',

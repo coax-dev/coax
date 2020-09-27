@@ -94,7 +94,7 @@ class TestV(TestCase):
     def test_bad_output_type(self):
         def badfunc(S, is_training):
             return 'garbage'
-        msg = r"is not a valid JAX type"
+        msg = r"(?:is not a valid JAX type|func has bad return type)"
         with self.assertRaisesRegex(TypeError, msg):
             V(badfunc, self.env_discrete, random_seed=13)
 
