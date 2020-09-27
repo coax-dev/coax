@@ -19,12 +19,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-import numpy as onp
 from gym.spaces import Box
 
-from ..proba_dists import ProbaDist, NormalDist, DiscretizedIntervalDist
+from ..proba_dists import ProbaDist, DiscretizedIntervalDist
 from ..value_transforms import ValueTransform
-from .base_model import BaseModel
+from .base_stochastic_func_sa import BaseStochasticFunc_sa
 
 
 __all__ = (
@@ -32,7 +31,7 @@ __all__ = (
 )
 
 
-class StochasticQ(BaseModel):
+class StochasticQ(BaseStochasticFunc_sa):
     r"""
 
     A q-function :math:`q(s,a)`, represented by a stochastic function
@@ -50,8 +49,7 @@ class StochasticQ(BaseModel):
 
     value_range : tuple of floats
 
-        A pair of floats :code:`(min_value, max_value)`. If left unspecified, this defaults to
-        :code:`value_range=env.reward_range`.
+        A pair of floats :code:`(min_value, max_value)`.
 
     num_bins : int, optional
 
@@ -102,13 +100,12 @@ class StochasticQ(BaseModel):
 
     """
     def __init__(
-            self, func, env, value_range=None, num_bins=None, observation_preprocessor=None,
+            self, func, env, value_range, num_bins=51, observation_preprocessor=None,
             action_preprocessor=None, value_transform=None, random_seed=None):
 
-        self.__num_bins = num_bins
         self.value_transform = value_transform
-        self.value_range, proba_dist = \
-            self._output_proba_dist(value_range or env.reward_range, self.num_bins)
+        self.value_range = self._check_value_range(value_range)
+        proba_dist = self._get_proba_dist(self.value_range, num_bins)
 
         # set defaults
         if observation_preprocessor is None:
@@ -131,15 +128,16 @@ class StochasticQ(BaseModel):
 
     @property
     def num_bins(self):
-        return self.__num_bins
+        return self.proba_dist.space.n
 
     @classmethod
     def example_data(
-            cls, env, value_range=None, observation_preprocessor=None,
+            cls, env, value_range, num_bins=51, observation_preprocessor=None,
             action_preprocessor=None, batch_size=1, random_seed=None):
 
-        if value_range is None:
-            value_range = env.reward_range
+        value_range = cls._check_value_range(value_range)
+        proba_dist = cls._get_proba_dist(value_range, num_bins)
+
         if observation_preprocessor is None:
             observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
         if action_preprocessor is None:
@@ -149,7 +147,7 @@ class StochasticQ(BaseModel):
             env=env,
             observation_preprocessor=observation_preprocessor,
             action_preprocessor=action_preprocessor,
-            proba_dist=cls._output_proba_dist(value_range),
+            proba_dist=proba_dist,
             batch_size=batch_size,
             random_seed=random_seed)
 
@@ -240,12 +238,16 @@ class StochasticQ(BaseModel):
         return super().dist_params(s, a=a)
 
     @staticmethod
-    def _output_proba_dist(reward_range, num_bins):
-        assert len(reward_range) == 2
-        low, high = onp.clip(reward_range[0], -1e6, 1e6), onp.clip(reward_range[1], -1e6, 1e6)
-        assert low < high, f"inconsistent low, high: {low}, {high}"
-        reward_space = Box(low, high, shape=())
-        if num_bins is None:
-            return (low, high), NormalDist(reward_space)
-        else:
-            return (low, high), DiscretizedIntervalDist(reward_space, num_bins)
+    def _get_proba_dist(value_range, num_bins):
+        reward_space = Box(*value_range, shape=())
+        return DiscretizedIntervalDist(reward_space, num_bins)
+
+    @staticmethod
+    def _check_value_range(value_range):
+        if not (isinstance(value_range, (tuple, list))
+                and len(value_range) == 2
+                and isinstance(value_range[0], (int, float))
+                and isinstance(value_range[1], (int, float))
+                and value_range[0] < value_range[1]):
+            raise TypeError("value_range is not a valid pair tuple of floats: (low, high)")
+        return float(value_range[0]), float(value_range[1])

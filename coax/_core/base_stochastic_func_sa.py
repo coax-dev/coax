@@ -33,11 +33,11 @@ from .base_func import BaseFunc, ExampleData, Inputs, ArgsType1, ArgsType2, Mode
 
 
 __all__ = (
-    'BaseModel',
+    'BaseStochasticFunc_sa',
 )
 
 
-class BaseModel(BaseFunc):
+class BaseStochasticFunc_sa(BaseFunc):
     r"""
 
     An abstract base class for stochastic models, i.e. DynamicsModel and RewardModel
@@ -351,7 +351,7 @@ class BaseModel(BaseFunc):
                 "type-2 models are only well-defined for Discrete action spaces")
 
         Env = namedtuple('Env', ('observation_space', 'action_space'))
-        example_data_per_modeltype = BaseModel.example_data(
+        example_data_per_modeltype = BaseStochasticFunc_sa.example_data(
             env=Env(self.observation_space, self.action_space),
             observation_preprocessor=self.observation_preprocessor,
             action_preprocessor=self.action_preprocessor,

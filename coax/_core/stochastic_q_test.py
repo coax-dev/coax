@@ -34,51 +34,37 @@ from .stochastic_q import StochasticQ
 
 discrete = Discrete(7)
 boxspace = Box(low=0, high=1, shape=(3, 5))
+num_bins = 20
 
-Env = namedtuple('Env', ('observation_space', 'action_space', 'reward_range'))
+Env = namedtuple('Env', ('observation_space', 'action_space'))
 
 
 def func_type1(S, A, is_training):
     batch_norm = hk.BatchNorm(False, False, 0.99)
-    mu = hk.Sequential((
+    logits = hk.Sequential((
         hk.Flatten(),
         hk.Linear(8), jax.nn.relu,
         partial(hk.dropout, hk.next_rng_key(), 0.25 if is_training else 0.),
         partial(batch_norm, is_training=is_training),
         hk.Linear(8), jnp.tanh,
-        hk.Linear(1), jnp.ravel,
-    ))
-    logvar = hk.Sequential((
-        hk.Flatten(),
-        hk.Linear(8), jax.nn.relu,
-        partial(hk.dropout, hk.next_rng_key(), 0.25 if is_training else 0.),
-        partial(batch_norm, is_training=is_training),
-        hk.Linear(8), jnp.tanh,
-        hk.Linear(1), jnp.ravel,
+        hk.Linear(num_bins),
     ))
     X = jax.vmap(jnp.kron)(S, A)
-    return {'mu': mu(X), 'logvar': logvar(X)}
+    return {'logits': logits(X)}
 
 
 def func_type2(S, is_training):
     batch_norm = hk.BatchNorm(False, False, 0.99)
-    mu = hk.Sequential((
+    logits = hk.Sequential((
         hk.Flatten(),
         hk.Linear(8), jax.nn.relu,
         partial(hk.dropout, hk.next_rng_key(), 0.25 if is_training else 0.),
         partial(batch_norm, is_training=is_training),
         hk.Linear(8), jnp.tanh,
-        hk.Linear(discrete.n),
+        hk.Linear(discrete.n * num_bins),
+        hk.Reshape((discrete.n, num_bins)),
     ))
-    logvar = hk.Sequential((
-        hk.Flatten(),
-        hk.Linear(8), jax.nn.relu,
-        partial(hk.dropout, hk.next_rng_key(), 0.25 if is_training else 0.),
-        partial(batch_norm, is_training=is_training),
-        hk.Linear(8), jnp.tanh,
-        hk.Linear(discrete.n),
-    ))
-    return {'mu': mu(S), 'logvar': logvar(S)}
+    return {'logits': logits(S)}
 
 
 class TestStochasticQ(TestCase):
@@ -87,100 +73,105 @@ class TestStochasticQ(TestCase):
         # cannot define a type-2 models on a non-discrete action space
         msg = r"type-2 models are only well-defined for Discrete action spaces"
         with self.assertRaisesRegex(TypeError, msg):
-            StochasticQ(func_type2, Env(boxspace, boxspace, (-10, 10)))
+            StochasticQ(func_type2, Env(boxspace, boxspace), (-10, 10), num_bins=num_bins)
 
         # these should all be fine
-        StochasticQ(func_type1, Env(discrete, discrete, (-10, 10)))
-        StochasticQ(func_type1, Env(discrete, boxspace, (-10, 10)))
-        StochasticQ(func_type1, Env(boxspace, boxspace, (-10, 10)))
-        StochasticQ(func_type2, Env(discrete, discrete, (-10, 10)))
-        StochasticQ(func_type2, Env(boxspace, discrete, (-10, 10)))
+        StochasticQ(func_type1, Env(discrete, discrete), (-10, 10), num_bins=num_bins)
+        StochasticQ(func_type1, Env(discrete, boxspace), (-10, 10), num_bins=num_bins)
+        StochasticQ(func_type1, Env(boxspace, boxspace), (-10, 10), num_bins=num_bins)
+        StochasticQ(func_type2, Env(discrete, discrete), (-10, 10), num_bins=num_bins)
+        StochasticQ(func_type2, Env(boxspace, discrete), (-10, 10), num_bins=num_bins)
 
     # test_call_* ##################################################################################
 
     def test_call_discrete_discrete_type1(self):
         func = func_type1
-        env = Env(discrete, discrete, (-10, 10))
+        env = Env(discrete, discrete)
+        value_range = (-10, 10)
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, random_seed=19)
+        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
         r_, logp = r(s, a, return_logp=True)
         print(r_, logp, env.observation_space)
-        self.assertIn(r_, Box(*env.reward_range, shape=()))
+        self.assertIn(r_, Box(*value_range, shape=()))
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
         for r_ in r(s):
             print(r_, env.observation_space)
-            self.assertIn(r_, Box(*env.reward_range, shape=()))
+            self.assertIn(r_, Box(*value_range, shape=()))
 
     def test_call_discrete_discrete_type2(self):
         func = func_type2
-        env = Env(discrete, discrete, (-10, 10))
+        env = Env(discrete, discrete)
+        value_range = (-10, 10)
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, random_seed=19)
+        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
         r_, logp = r(s, a, return_logp=True)
         print(r_, logp, env.observation_space)
-        self.assertIn(r_, Box(*env.reward_range, shape=()))
+        self.assertIn(r_, Box(*value_range, shape=()))
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
         for r_ in r(s):
             print(r_, env.observation_space)
-            self.assertIn(r_, Box(*env.reward_range, shape=()))
+            self.assertIn(r_, Box(*value_range, shape=()))
 
     def test_call_boxspace_discrete_type1(self):
         func = func_type1
-        env = Env(boxspace, discrete, (-10, 10))
+        env = Env(boxspace, discrete)
+        value_range = (-10, 10)
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, random_seed=19)
+        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
         r_, logp = r(s, a, return_logp=True)
         print(r_, logp, env.observation_space)
-        self.assertIn(r_, Box(*env.reward_range, shape=()))
+        self.assertIn(r_, Box(*value_range, shape=()))
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
         for r_ in r(s):
             print(r_, env.observation_space)
-            self.assertIn(r_, Box(*env.reward_range, shape=()))
+            self.assertIn(r_, Box(*value_range, shape=()))
 
     def test_call_boxspace_discrete_type2(self):
         func = func_type2
-        env = Env(boxspace, discrete, (-10, 10))
+        env = Env(boxspace, discrete)
+        value_range = (-10, 10)
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, random_seed=19)
+        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
         r_, logp = r(s, a, return_logp=True)
         print(r_, logp, env.observation_space)
-        self.assertIn(r_, Box(*env.reward_range, shape=()))
+        self.assertIn(r_, Box(*value_range, shape=()))
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
         for r_ in r(s):
             print(r_, env.observation_space)
-            self.assertIn(r_, Box(*env.reward_range, shape=()))
+            self.assertIn(r_, Box(*value_range, shape=()))
 
     def test_call_discrete_boxspace(self):
         func = func_type1
-        env = Env(discrete, boxspace, (-10, 10))
+        env = Env(discrete, boxspace)
+        value_range = (-10, 10)
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, random_seed=19)
+        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
         r_, logp = r(s, a, return_logp=True)
         print(r_, logp, env.observation_space)
-        self.assertIn(r_, Box(*env.reward_range, shape=()))
+        self.assertIn(r_, Box(*value_range, shape=()))
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
@@ -190,15 +181,16 @@ class TestStochasticQ(TestCase):
 
     def test_call_boxspace_boxspace(self):
         func = func_type1
-        env = Env(boxspace, boxspace, (-10, 10))
+        env = Env(boxspace, boxspace)
+        value_range = (-10, 10)
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, random_seed=19)
+        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
         r_, logp = r(s, a, return_logp=True)
         print(r_, logp, env.observation_space)
-        self.assertIn(r_, Box(*env.reward_range, shape=()))
+        self.assertIn(r_, Box(*value_range, shape=()))
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
@@ -210,79 +202,84 @@ class TestStochasticQ(TestCase):
 
     def test_mode_discrete_discrete_type1(self):
         func = func_type1
-        env = Env(discrete, discrete, (-10, 10))
+        env = Env(discrete, discrete)
+        value_range = (-10, 10)
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, random_seed=19)
+        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
         r_ = r.mode(s, a)
         print(r_, env.observation_space)
-        self.assertIn(r_, Box(*env.reward_range, shape=()))
+        self.assertIn(r_, Box(*value_range, shape=()))
 
         for r_ in r.mode(s):
             print(r_, env.observation_space)
-            self.assertIn(r_, Box(*env.reward_range, shape=()))
+            self.assertIn(r_, Box(*value_range, shape=()))
 
     def test_mode_discrete_discrete_type2(self):
         func = func_type2
-        env = Env(discrete, discrete, (-10, 10))
+        env = Env(discrete, discrete)
+        value_range = (-10, 10)
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, random_seed=19)
+        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
         r_ = r.mode(s, a)
         print(r_, env.observation_space)
-        self.assertIn(r_, Box(*env.reward_range, shape=()))
+        self.assertIn(r_, Box(*value_range, shape=()))
 
         for r_ in r.mode(s):
             print(r_, env.observation_space)
-            self.assertIn(r_, Box(*env.reward_range, shape=()))
+            self.assertIn(r_, Box(*value_range, shape=()))
 
     def test_mode_boxspace_discrete_type1(self):
         func = func_type1
-        env = Env(boxspace, discrete, (-10, 10))
+        env = Env(boxspace, discrete)
+        value_range = (-10, 10)
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, random_seed=19)
+        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
         r_ = r.mode(s, a)
         print(r_, env.observation_space)
-        self.assertIn(r_, Box(*env.reward_range, shape=()))
+        self.assertIn(r_, Box(*value_range, shape=()))
 
         for r_ in r.mode(s):
             print(r_, env.observation_space)
-            self.assertIn(r_, Box(*env.reward_range, shape=()))
+            self.assertIn(r_, Box(*value_range, shape=()))
 
     def test_mode_boxspace_discrete_type2(self):
         func = func_type2
-        env = Env(boxspace, discrete, (-10, 10))
+        env = Env(boxspace, discrete)
+        value_range = (-10, 10)
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, random_seed=19)
+        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
         r_ = r.mode(s, a)
         print(r_, env.observation_space)
-        self.assertIn(r_, Box(*env.reward_range, shape=()))
+        self.assertIn(r_, Box(*value_range, shape=()))
 
         for r_ in r.mode(s):
             print(r_, env.observation_space)
-            self.assertIn(r_, Box(*env.reward_range, shape=()))
+            self.assertIn(r_, Box(*value_range, shape=()))
 
     def test_mode_discrete_boxspace(self):
         func = func_type1
-        env = Env(discrete, boxspace, (-10, 10))
+        env = Env(discrete, boxspace)
+        value_range = (-10, 10)
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, random_seed=19)
+        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
         r_ = r.mode(s, a)
         print(r_, env.observation_space)
-        self.assertIn(r_, Box(*env.reward_range, shape=()))
+        self.assertIn(r_, Box(*value_range, shape=()))
 
         msg = r"input 'A' is required for type-1 dynamics model when action space is non-Discrete"
         with self.assertRaisesRegex(ValueError, msg):
@@ -290,15 +287,16 @@ class TestStochasticQ(TestCase):
 
     def test_mode_boxspace_boxspace(self):
         func = func_type1
-        env = Env(boxspace, boxspace, (-10, 10))
+        env = Env(boxspace, boxspace)
+        value_range = (-10, 10)
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, random_seed=19)
+        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
         r_ = r.mode(s, a)
         print(r_, env.observation_space)
-        self.assertIn(r_, Box(*env.reward_range, shape=()))
+        self.assertIn(r_, Box(*value_range, shape=()))
 
         msg = r"input 'A' is required for type-1 dynamics model when action space is non-Discrete"
         with self.assertRaisesRegex(ValueError, msg):
@@ -306,9 +304,10 @@ class TestStochasticQ(TestCase):
 
     def test_function_state(self):
         func = func_type1
-        env = Env(discrete, discrete, (-10, 10))
+        env = Env(discrete, discrete)
+        value_range = (-10, 10)
 
-        r = StochasticQ(func, env, random_seed=19)
+        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
         print(r.function_state)
         batch_norm_avg = r.function_state['batch_norm/~/mean_ema']['average']
@@ -326,8 +325,9 @@ class TestStochasticQ(TestCase):
             r"got: func\(S, is_training, x\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
-            env = Env(boxspace, discrete, (-10, 10))
-            StochasticQ(badfunc, env, random_seed=13)
+            env = Env(boxspace, discrete)
+            value_range = (-10, 10)
+            StochasticQ(badfunc, env, value_range, num_bins=num_bins, random_seed=13)
 
     def test_bad_output_structure(self):
         def badfunc(S, is_training):
@@ -336,9 +336,10 @@ class TestStochasticQ(TestCase):
             return dist_params
         msg = (
             r"func has bad return tree_structure, "
-            r"expected: PyTreeDef\(dict\[\['logvar', 'mu'\]\], \[\*,\*\]\), "
-            r"got: PyTreeDef\(dict\[\['foo', 'logvar', 'mu'\]\], \[\*,\*,\*\]\)"
+            r"expected: PyTreeDef\(dict\[\['logits'\]\], \[\*\]\), "
+            r"got: PyTreeDef\(dict\[\['foo', 'logits'\]\], \[\*,\*\]\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
-            env = Env(discrete, discrete, (-10, 10))
-            StochasticQ(badfunc, env, random_seed=13)
+            env = Env(discrete, discrete)
+            value_range = (-10, 10)
+            StochasticQ(badfunc, env, value_range, num_bins=num_bins, random_seed=13)

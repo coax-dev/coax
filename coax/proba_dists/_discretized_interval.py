@@ -57,7 +57,7 @@ class DiscretizedIntervalDist(CategoricalDist):
     space : gym.spaces.Box
 
         The gym-style space that specifies the domain of the distribution. The shape of the Box must
-        have :code:`ndim == 1`.
+        have :code:`prod(shape) == 1`, i.e. a single interval.
 
     num_bins : int, optional
 
@@ -105,4 +105,5 @@ class DiscretizedIntervalDist(CategoricalDist):
         low, high = float(self.space_orig.low), float(self.space_orig.high)
         u = jax.random.uniform(rng, jnp.shape(X))  # u in [0, 1]
         X = low + (X + u) * (high - low) / self.num_bins
+        X = jnp.reshape(X, (-1, *self.space_orig.shape))
         return X if batch_mode else X[index]

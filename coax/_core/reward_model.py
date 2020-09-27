@@ -43,7 +43,7 @@ class RewardModel(StochasticQ):
 
         The gym-style environment. This is used to validate the input/output structure of ``func``.
 
-    value_range : tuple of floats
+    value_range : tuple of floats, optional
 
         A pair of floats :code:`(min_value, max_value)`. If left unspecified, this defaults to
         :code:`value_range=env.reward_range`.
@@ -89,4 +89,11 @@ class RewardModel(StochasticQ):
         Seed for pseudo-random number generators.
 
     """
-    # this is just an alias of StochasticQ
+    def __init__(
+            self, func, env, value_range=None, num_bins=51, observation_preprocessor=None,
+            action_preprocessor=None, value_transform=None, random_seed=None):
+
+        super().__init__(
+            func, env, value_range=(value_range or env.reward_range), num_bins=51,
+            observation_preprocessor=None, action_preprocessor=None, value_transform=None,
+            random_seed=None)
