@@ -27,10 +27,9 @@ import haiku as hk
 import optax
 
 from .._base.mixins import RandomStateMixin
-from .._core.base_policy import PolicyMixin
 from .._core.v import V
 from .._core.q import Q
-from ..utils import get_grads_diagnostics
+from ..utils import get_grads_diagnostics, is_policy
 from ..value_losses import huber
 from ..regularizers import Regularizer
 
@@ -400,7 +399,7 @@ class BaseTDLearningQWithTargetPolicy(BaseTDLearningQ):
             self, q, pi_targ, q_targ=None, optimizer=None,
             loss_function=None, policy_regularizer=None):
 
-        if not isinstance(pi_targ, (PolicyMixin, type(None))):
+        if pi_targ is not None and not is_policy(pi_targ):
             raise TypeError(f"pi_targ must be a Policy, got: {type(pi_targ)}")
 
         self.pi_targ = pi_targ

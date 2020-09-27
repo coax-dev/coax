@@ -24,7 +24,7 @@ import jax.numpy as jnp
 import numpy as onp
 
 from ..utils import docstring
-from .base_policy import PolicyMixin
+from .policy import Policy
 
 
 __all__ = (
@@ -55,7 +55,7 @@ class RandomPolicy:
         self.action_space.seed(random_seed)
         self.random_seed = random_seed
 
-    @docstring(PolicyMixin.__call__)
+    @docstring(Policy.__call__)
     def __call__(self, s, return_logp=False):
         a = self.action_space.sample()
         if not return_logp:
@@ -75,11 +75,11 @@ class RandomPolicy:
             f"{self.action_space.__class__.__name__} space is not yet implemented; "
             "please submit a feature request")
 
-    @docstring(PolicyMixin.mode)
+    @docstring(Policy.mode)
     def mode(self, s):
         return self(s, return_logp=False)
 
-    @docstring(PolicyMixin.dist_params)
+    @docstring(Policy.dist_params)
     def dist_params(self, s):
         if isinstance(self.action_space, gym.spaces.Discrete):
             return {'logits': jnp.zeros(self.action_space.n)}

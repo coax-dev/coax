@@ -91,17 +91,17 @@ class TestStochasticQ(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
+        q = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
-        r_, logp = r(s, a, return_logp=True)
-        print(r_, logp, env.observation_space)
-        self.assertIn(r_, Box(*value_range, shape=()))
+        q_, logp = q(s, a, return_logp=True)
+        print(q_, logp, env.observation_space)
+        self.assertIn(q_, Box(*value_range, shape=()))
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
-        for r_ in r(s):
-            print(r_, env.observation_space)
-            self.assertIn(r_, Box(*value_range, shape=()))
+        for q_ in q(s):
+            print(q_, env.observation_space)
+            self.assertIn(q_, Box(*value_range, shape=()))
 
     def test_call_discrete_discrete_type2(self):
         func = func_type2
@@ -110,17 +110,17 @@ class TestStochasticQ(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
+        q = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
-        r_, logp = r(s, a, return_logp=True)
-        print(r_, logp, env.observation_space)
-        self.assertIn(r_, Box(*value_range, shape=()))
+        q_, logp = q(s, a, return_logp=True)
+        print(q_, logp, env.observation_space)
+        self.assertIn(q_, Box(*value_range, shape=()))
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
-        for r_ in r(s):
-            print(r_, env.observation_space)
-            self.assertIn(r_, Box(*value_range, shape=()))
+        for q_ in q(s):
+            print(q_, env.observation_space)
+            self.assertIn(q_, Box(*value_range, shape=()))
 
     def test_call_boxspace_discrete_type1(self):
         func = func_type1
@@ -129,17 +129,17 @@ class TestStochasticQ(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
+        q = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
-        r_, logp = r(s, a, return_logp=True)
-        print(r_, logp, env.observation_space)
-        self.assertIn(r_, Box(*value_range, shape=()))
+        q_, logp = q(s, a, return_logp=True)
+        print(q_, logp, env.observation_space)
+        self.assertIn(q_, Box(*value_range, shape=()))
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
-        for r_ in r(s):
-            print(r_, env.observation_space)
-            self.assertIn(r_, Box(*value_range, shape=()))
+        for q_ in q(s):
+            print(q_, env.observation_space)
+            self.assertIn(q_, Box(*value_range, shape=()))
 
     def test_call_boxspace_discrete_type2(self):
         func = func_type2
@@ -148,17 +148,17 @@ class TestStochasticQ(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
+        q = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
-        r_, logp = r(s, a, return_logp=True)
-        print(r_, logp, env.observation_space)
-        self.assertIn(r_, Box(*value_range, shape=()))
+        q_, logp = q(s, a, return_logp=True)
+        print(q_, logp, env.observation_space)
+        self.assertIn(q_, Box(*value_range, shape=()))
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
-        for r_ in r(s):
-            print(r_, env.observation_space)
-            self.assertIn(r_, Box(*value_range, shape=()))
+        for q_ in q(s):
+            print(q_, env.observation_space)
+            self.assertIn(q_, Box(*value_range, shape=()))
 
     def test_call_discrete_boxspace(self):
         func = func_type1
@@ -167,17 +167,17 @@ class TestStochasticQ(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
+        q = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
-        r_, logp = r(s, a, return_logp=True)
-        print(r_, logp, env.observation_space)
-        self.assertIn(r_, Box(*value_range, shape=()))
+        q_, logp = q(s, a, return_logp=True)
+        print(q_, logp, env.observation_space)
+        self.assertIn(q_, Box(*value_range, shape=()))
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
         msg = r"input 'A' is required for type-1 dynamics model when action space is non-Discrete"
         with self.assertRaisesRegex(ValueError, msg):
-            r(s)
+            q(s)
 
     def test_call_boxspace_boxspace(self):
         func = func_type1
@@ -186,17 +186,17 @@ class TestStochasticQ(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
+        q = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
-        r_, logp = r(s, a, return_logp=True)
-        print(r_, logp, env.observation_space)
-        self.assertIn(r_, Box(*value_range, shape=()))
+        q_, logp = q(s, a, return_logp=True)
+        print(q_, logp, env.observation_space)
+        self.assertIn(q_, Box(*value_range, shape=()))
         self.assertArraySubdtypeFloat(logp)
         self.assertArrayShape(logp, ())
 
         msg = r"input 'A' is required for type-1 dynamics model when action space is non-Discrete"
         with self.assertRaisesRegex(ValueError, msg):
-            r(s)
+            q(s)
 
     # test_mode_* ##################################################################################
 
@@ -207,15 +207,15 @@ class TestStochasticQ(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
+        q = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
-        r_ = r.mode(s, a)
-        print(r_, env.observation_space)
-        self.assertIn(r_, Box(*value_range, shape=()))
+        q_ = q.mode(s, a)
+        print(q_, env.observation_space)
+        self.assertIn(q_, Box(*value_range, shape=()))
 
-        for r_ in r.mode(s):
-            print(r_, env.observation_space)
-            self.assertIn(r_, Box(*value_range, shape=()))
+        for q_ in q.mode(s):
+            print(q_, env.observation_space)
+            self.assertIn(q_, Box(*value_range, shape=()))
 
     def test_mode_discrete_discrete_type2(self):
         func = func_type2
@@ -224,15 +224,15 @@ class TestStochasticQ(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
+        q = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
-        r_ = r.mode(s, a)
-        print(r_, env.observation_space)
-        self.assertIn(r_, Box(*value_range, shape=()))
+        q_ = q.mode(s, a)
+        print(q_, env.observation_space)
+        self.assertIn(q_, Box(*value_range, shape=()))
 
-        for r_ in r.mode(s):
-            print(r_, env.observation_space)
-            self.assertIn(r_, Box(*value_range, shape=()))
+        for q_ in q.mode(s):
+            print(q_, env.observation_space)
+            self.assertIn(q_, Box(*value_range, shape=()))
 
     def test_mode_boxspace_discrete_type1(self):
         func = func_type1
@@ -241,15 +241,15 @@ class TestStochasticQ(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
+        q = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
-        r_ = r.mode(s, a)
-        print(r_, env.observation_space)
-        self.assertIn(r_, Box(*value_range, shape=()))
+        q_ = q.mode(s, a)
+        print(q_, env.observation_space)
+        self.assertIn(q_, Box(*value_range, shape=()))
 
-        for r_ in r.mode(s):
-            print(r_, env.observation_space)
-            self.assertIn(r_, Box(*value_range, shape=()))
+        for q_ in q.mode(s):
+            print(q_, env.observation_space)
+            self.assertIn(q_, Box(*value_range, shape=()))
 
     def test_mode_boxspace_discrete_type2(self):
         func = func_type2
@@ -258,15 +258,15 @@ class TestStochasticQ(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
+        q = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
-        r_ = r.mode(s, a)
-        print(r_, env.observation_space)
-        self.assertIn(r_, Box(*value_range, shape=()))
+        q_ = q.mode(s, a)
+        print(q_, env.observation_space)
+        self.assertIn(q_, Box(*value_range, shape=()))
 
-        for r_ in r.mode(s):
-            print(r_, env.observation_space)
-            self.assertIn(r_, Box(*value_range, shape=()))
+        for q_ in q.mode(s):
+            print(q_, env.observation_space)
+            self.assertIn(q_, Box(*value_range, shape=()))
 
     def test_mode_discrete_boxspace(self):
         func = func_type1
@@ -275,15 +275,15 @@ class TestStochasticQ(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
+        q = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
-        r_ = r.mode(s, a)
-        print(r_, env.observation_space)
-        self.assertIn(r_, Box(*value_range, shape=()))
+        q_ = q.mode(s, a)
+        print(q_, env.observation_space)
+        self.assertIn(q_, Box(*value_range, shape=()))
 
         msg = r"input 'A' is required for type-1 dynamics model when action space is non-Discrete"
         with self.assertRaisesRegex(ValueError, msg):
-            r.mode(s)
+            q.mode(s)
 
     def test_mode_boxspace_boxspace(self):
         func = func_type1
@@ -292,25 +292,25 @@ class TestStochasticQ(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
+        q = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
-        r_ = r.mode(s, a)
-        print(r_, env.observation_space)
-        self.assertIn(r_, Box(*value_range, shape=()))
+        q_ = q.mode(s, a)
+        print(q_, env.observation_space)
+        self.assertIn(q_, Box(*value_range, shape=()))
 
         msg = r"input 'A' is required for type-1 dynamics model when action space is non-Discrete"
         with self.assertRaisesRegex(ValueError, msg):
-            r.mode(s)
+            q.mode(s)
 
     def test_function_state(self):
         func = func_type1
         env = Env(discrete, discrete)
         value_range = (-10, 10)
 
-        r = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
+        q = StochasticQ(func, env, value_range, num_bins=num_bins, random_seed=19)
 
-        print(r.function_state)
-        batch_norm_avg = r.function_state['batch_norm/~/mean_ema']['average']
+        print(q.function_state)
+        batch_norm_avg = q.function_state['batch_norm/~/mean_ema']['average']
         self.assertArrayShape(batch_norm_avg, (1, 8))
         self.assertArrayNotEqual(batch_norm_avg, jnp.zeros_like(batch_norm_avg))
 

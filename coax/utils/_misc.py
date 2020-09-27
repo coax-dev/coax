@@ -529,8 +529,9 @@ def is_policy(obj, check_updateable=False):
 
     """
     # import at runtime to avoid circular dependence
-    from .._base.abstract import BaseFunc, PolicyMixin
-    return isinstance(obj, BaseFunc) and isinstance(obj, PolicyMixin)
+    from .._core.policy import Policy
+    from .._core.value_based_policy import BaseValueBasedPolicy
+    return isinstance(obj, (Policy, BaseValueBasedPolicy))
 
 
 def pretty_repr(o, d=0):

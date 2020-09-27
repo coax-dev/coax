@@ -23,7 +23,7 @@ from gym.spaces import Box
 
 from ..proba_dists import ProbaDist, DiscretizedIntervalDist
 from ..value_transforms import ValueTransform
-from .base_stochastic_func_sa import BaseStochasticFunc_sa
+from .base_stochastic_func_type1 import BaseStochasticFuncType1
 
 
 __all__ = (
@@ -31,7 +31,7 @@ __all__ = (
 )
 
 
-class StochasticQ(BaseStochasticFunc_sa):
+class StochasticQ(BaseStochasticFuncType1):
     r"""
 
     A q-function :math:`q(s,a)`, represented by a stochastic function
@@ -189,8 +189,7 @@ class StochasticQ(BaseStochasticFunc_sa):
     def mode(self, s, a=None):
         r"""
 
-        Get the most probable successor state :math:`r` according to the reward model,
-        :math:`r=\arg\max_{r}p_\theta(r|s,a)`.
+        Get the most probable value.
 
         Parameters
         ----------
@@ -215,7 +214,7 @@ class StochasticQ(BaseStochasticFunc_sa):
     def dist_params(self, s, a=None):
         r"""
 
-        Get the parameters of the conditional probability distribution :math:`p_\theta(r|s,a)`.
+        Get the parameters of the underlying (conditional) probability distribution.
 
         Parameters
         ----------

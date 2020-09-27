@@ -20,7 +20,7 @@
 # ------------------------------------------------------------------------------------------------ #
 
 from ..proba_dists import ProbaDist
-from .base_stochastic_func_sa import BaseStochasticFunc_sa
+from .base_stochastic_func_type1 import BaseStochasticFuncType1
 
 
 __all__ = (
@@ -28,7 +28,7 @@ __all__ = (
 )
 
 
-class DynamicsModel(BaseStochasticFunc_sa):
+class DynamicsModel(BaseStochasticFuncType1):
     r"""
 
     A parametrized dynamics model :math:`p_\theta(s'|s,a)`. Here, :math:`s'` is the successor state,

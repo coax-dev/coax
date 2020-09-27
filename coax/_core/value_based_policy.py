@@ -24,11 +24,10 @@ import jax
 import jax.numpy as jnp
 import haiku as hk
 
-from ..utils import docstring
+from ..utils import docstring, is_qfunction
 from ..proba_dists import CategoricalDist
-from .base_policy import PolicyMixin
+from .base_stochastic_func_type2 import StochasticFuncType2Mixin
 from .q import Q
-from .successor_state_q import SuccessorStateQ
 
 
 __all__ = (
@@ -37,23 +36,29 @@ __all__ = (
 )
 
 
-class BaseValueBasedPolicy(PolicyMixin):
+class BaseValueBasedPolicy(StochasticFuncType2Mixin):
     """ Abstract base class for value-based policies. """
 
     def __init__(self, q):
-        if not isinstance(q, (Q, SuccessorStateQ)):
-            raise TypeError("q must be an instance of coax.Q")
+        if not is_qfunction(q):
+            raise TypeError(f"q must be a q-function, got: {type(q)}")
 
         if not isinstance(q.action_space, gym.spaces.Discrete):
             raise TypeError(f"{self.__class__.__name__} is only well-defined for Discrete actions")
 
         self.q = q
+        self.observation_preprocessor = self.q.observation_preprocessor
+        self.action_preprocessor = self.q.action_preprocessor
         self.proba_dist = CategoricalDist(self.q.action_space)
+
+    @property
+    def rng(self):
+        return self.q.rng
 
     @property
     @docstring(Q.function)
     def function(self):
-        return self._function
+        return self._function  # this is set downstream (below)
 
     @property
     @docstring(Q.function_state)
@@ -64,17 +69,74 @@ class BaseValueBasedPolicy(PolicyMixin):
     def function_state(self, new_function_state):
         self.q.function_state = new_function_state
 
-    @property
-    def rng(self):
-        return self.q.rng
+    def __call__(self, s, return_logp=False):
+        r"""
 
-    @property
-    def observation_preprocessor(self):
-        return self.q.observation_preprocessor
+        Sample an action :math:`a\sim\pi_q(.|s)`.
 
-    @property
-    def action_preprocessor(self):
-        return self.q.action_preprocessor
+        Parameters
+        ----------
+        s : state observation
+
+            A single state observation :math:`s`.
+
+        return_logp : bool, optional
+
+            Whether to return the log-propensity :math:`\log\pi_q(a|s)`.
+
+        Returns
+        -------
+        a : action
+
+            A single action :math:`a`.
+
+        logp : float, optional
+
+            The log-propensity :math:`\log\pi_q(a|s)`. This is only returned if we set
+            ``return_logp=True``.
+
+        """
+        return super().__call__(s, return_logp=return_logp)
+
+    def mode(self, s):
+        r"""
+
+        Sample a greedy action :math:`a=\arg\max_a\pi_q(a|s)`.
+
+        Parameters
+        ----------
+        s : state observation
+
+            A single state observation :math:`s`.
+
+        Returns
+        -------
+        a : action
+
+            A single action :math:`a`.
+
+        """
+        return super().mode(s)
+
+    def dist_params(self, s):
+        r"""
+
+        Get the conditional distribution parameters of :math:`\pi_q(.|s)`.
+
+        Parameters
+        ----------
+        s : state observation
+
+            A single state observation :math:`s`.
+
+        Returns
+        -------
+        dist_params : Params
+
+            The distribution parameters of :math:`\pi_q(.|s)`.
+
+        """
+        return super().dist_params(s)
 
 
 class EpsilonGreedy(BaseValueBasedPolicy):
@@ -82,7 +144,7 @@ class EpsilonGreedy(BaseValueBasedPolicy):
 
     Create an :math:`\epsilon`-greedy policy, given a q-function.
 
-    This policy samples actions :math:`a\sim\pi(.|s)` according to the following rule:
+    This policy samples actions :math:`a\sim\pi_q(.|s)` according to the following rule:
 
     .. math::
 
@@ -139,7 +201,7 @@ class BoltzmannPolicy(BaseValueBasedPolicy):
 
     Derive a Boltzmann policy from a q-function.
 
-    This policy samples actions :math:`a\sim\pi(.|s)` according to the following rule:
+    This policy samples actions :math:`a\sim\pi_q(.|s)` according to the following rule:
 
     .. math::
 

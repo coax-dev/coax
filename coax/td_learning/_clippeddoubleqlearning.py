@@ -28,8 +28,7 @@ import optax
 from gym.spaces import Discrete
 
 from .._core.q import Q
-from .._core.policy import Policy
-from ..utils import get_grads_diagnostics
+from ..utils import get_grads_diagnostics, is_policy
 from ._base import BaseTDLearning
 
 
@@ -284,10 +283,10 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
                     f"pi_targ_list must be a list or a tuple, got: {type(pi_targ_list)}")
             if len(pi_targ_list) < 1:
                 raise ValueError("pi_targ_list cannot be empty")
-            for pi in pi_targ_list:
-                if not isinstance(pi, Policy):
+            for pi_targ in pi_targ_list:
+                if not is_policy(pi_targ):
                     raise TypeError(
-                        f"all pi_targ in pi_targ_list must be a coax.Policy, got: {type(pi)}")
+                        f"all pi_targ in pi_targ_list must be a policies, got: {type(pi_targ)}")
 
         # check input: q_targ_list
         if not isinstance(q_targ_list, (tuple, list)):
