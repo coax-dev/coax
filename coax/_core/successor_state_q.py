@@ -22,10 +22,9 @@
 import jax
 import haiku as hk
 
-from .._core.v import V
 from .._core.q import Q
-from .._core.stochastic_transition_model import StochasticTransitionModel
-from .._core.stochastic_reward_function import StochasticRewardFunction
+from .._core.base_stochastic_func_type1 import BaseStochasticFuncType1
+from ..utils import is_vfunction, is_reward_function, is_transition_model, is_stochastic
 
 
 __all__ = (
@@ -38,6 +37,10 @@ class SuccessorStateQ:
 
     A state-action value function :math:`q(s,a)=r(s,a)+\gamma\mathop{\mathbb{E}}_{s'\sim
     p(.|s,a)}v(s')`.
+
+    **caution** A word of caution: If you use custom observation/action pre-/post-processors, please
+    make sure that all three function approximators :code:`v`, :code:`p` and :code:`r` use the same
+    ones.
 
     Parameters
     ----------
@@ -62,12 +65,12 @@ class SuccessorStateQ:
     """
     def __init__(self, v, p, r, gamma=0.9):
         # some explicit type checks
-        if not isinstance(v, V):
-            raise TypeError(f"v must be of type V, got: {type(v)}")
-        if not isinstance(p, StochasticTransitionModel):
-            raise TypeError(f"p must be of type StochasticTransitionModel, got: {type(p)}")
-        if not isinstance(r, StochasticRewardFunction):
-            raise TypeError(f"r must be of type StochasticRewardFunction, got: {type(r)}")
+        if not is_vfunction(v):
+            raise TypeError(f"v must be a state-value function, got: {type(v)}")
+        if not is_transition_model(p):
+            raise TypeError(f"p must be a transition model, got: {type(p)}")
+        if not is_reward_function(r):
+            raise TypeError(f"r must be a reward function, got: {type(r)}")
 
         self.v = v
         self.p = p
@@ -79,6 +82,11 @@ class SuccessorStateQ:
         self.action_space = self.p.action_space
         self.action_preprocessor = self.p.action_preprocessor
         self.observation_preprocessor = self.p.observation_preprocessor
+        self.observation_postprocessor = self.p.observation_postprocessor
+        self.value_transform = self.v.value_transform
+
+    _reshape_to_replicas = BaseStochasticFuncType1._reshape_to_replicas
+    _reshape_from_replicas = BaseStochasticFuncType1._reshape_from_replicas
 
     @property
     def rng(self):
@@ -109,28 +117,43 @@ class SuccessorStateQ:
                 new_state = dict(state)
 
                 # s' ~ p(.|s,a)
-                S_ = self.p.observation_preprocessor(next(rngs), S)
-                dist_params, new_state['p'] = \
-                    self.p.function_type1(params['p'], state['p'], next(rngs), S_, A, is_training)
-                S_next = self.p.proba_dist.sample(dist_params, next(rngs))
-                S_next = self.p.proba_dist.postprocess_variate(next(rngs), S_next, batch_mode=True)
+                if is_stochastic(self.p):
+                    dist_params, new_state['p'] = self.p.function_type1(
+                        params['p'], state['p'], next(rngs), S, A, is_training)
+                    S_next = self.p.proba_dist.sample(dist_params, next(rngs))
+                else:
+                    S_next, new_state['p'] = self.p.function_type1(
+                        params['p'], state['p'], next(rngs), S, A, is_training)
 
                 # r = r(s,a)
-                S_ = self.r.observation_preprocessor(next(rngs), S)
-                dist_params, new_state['r'] = \
-                    self.r.function_type1(params['r'], state['r'], next(rngs), S_, A, is_training)
-                R = self.r.proba_dist.sample(dist_params, next(rngs))
-                R = self.r.proba_dist.postprocess_variate(next(rngs), R, batch_mode=True)
+                if is_stochastic(self.r):
+                    dist_params, new_state['r'] = self.r.function_type1(
+                        params['r'], state['r'], next(rngs), S, A, is_training)
+                    R = self.r.proba_dist.sample(dist_params, next(rngs))
+                    R = self.r.proba_dist.postprocess_variate(next(rngs), R, batch_mode=True)
+                else:
+                    R, new_state['r'] = self.r.function_type1(
+                        params['r'], state['r'], next(rngs), S, A, is_training)
 
                 # v(s')
-                V, new_state['v'] = \
-                    self.v.function(params['v'], state['v'], next(rngs), S_next, is_training)
+                if is_stochastic(self.v):
+                    dist_params, new_state['v'] = self.v.function(
+                        params['v'], state['v'], next(rngs), S_next, is_training)
+                    V = self.v.proba_dist.sample(dist_params, next(rngs))
+                    V = self.v.proba_dist.postprocess_variate(next(rngs), V, batch_mode=True)
+                else:
+                    V, new_state['v'] = self.v.function(
+                        params['v'], state['v'], next(rngs), S_next, is_training)
 
                 # q = r + γ v(s')
-                Q_sa = R + params['gamma'] * V
+                f, f_inv = self.value_transform
+                Q_sa = f(R + params['gamma'] * f_inv(V))
                 assert Q_sa.ndim == 1, f"bad shape: {Q_sa.shape}"
 
-                return Q_sa, hk.data_structures.to_immutable_dict(new_state)
+                new_state = hk.data_structures.to_immutable_dict(new_state)
+                assert jax.tree_structure(new_state) == jax.tree_structure(state)
+
+                return Q_sa, new_state
 
             self._function_type1 = jax.jit(func, static_argnums=(5,))
 
@@ -144,35 +167,53 @@ class SuccessorStateQ:
                 new_state = dict(state)
 
                 # s' ~ p(s'|s,.)  # note: S_next is replicated, one for each (discrete) action
-                S_ = self.p.observation_preprocessor(next(rngs), S)
-                dist_params_rep, new_state['p'] = \
-                    self.p.function_type2(params['p'], state['p'], next(rngs), S_, is_training)
-                dist_params_rep = jax.tree_map(self.p._reshape_to_replicas, dist_params_rep)
-                S_next_rep = self.p.proba_dist.sample(dist_params_rep, next(rngs))
+                if is_stochastic(self.p):
+                    dist_params_rep, new_state['p'] = self.p.function_type2(
+                        params['p'], state['p'], next(rngs), S, is_training)
+                    dist_params_rep = jax.tree_map(self._reshape_to_replicas, dist_params_rep)
+                    S_next_rep = self.p.proba_dist.sample(dist_params_rep, next(rngs))
+                else:
+                    S_next_rep, new_state['p'] = self.p.function_type2(
+                        params['p'], state['p'], next(rngs), S, is_training)
+                    S_next_rep = jax.tree_map(self._reshape_to_replicas, S_next_rep)
 
                 # r ~ p(r|s,a)  # note: R is replicated, one for each (discrete) action
-                S_ = self.r.observation_preprocessor(next(rngs), S)
-                dist_params_rep, new_state['r'] = \
-                    self.r.function_type2(params['r'], state['r'], next(rngs), S_, is_training)
-                dist_params_rep = jax.tree_map(self.r._reshape_to_replicas, dist_params_rep)
-                R_rep = self.r.proba_dist.sample(dist_params_rep, next(rngs))
-                R_rep = self.r.proba_dist.postprocess_variate(next(rngs), R_rep, batch_mode=True)
+                if is_stochastic(self.r):
+                    dist_params_rep, new_state['r'] = self.r.function_type2(
+                        params['r'], state['r'], next(rngs), S, is_training)
+                    dist_params_rep = jax.tree_map(self._reshape_to_replicas, dist_params_rep)
+                    R_rep = self.r.proba_dist.sample(dist_params_rep, next(rngs))
+                    R_rep = self.r.proba_dist.postprocess_variate(
+                        next(rngs), R_rep, batch_mode=True)
+                else:
+                    R_rep, new_state['r'] = self.r.function_type2(
+                        params['r'], state['r'], next(rngs), S, is_training)
+                    R_rep = jax.tree_map(self._reshape_to_replicas, R_rep)
 
                 # v(s')  # note: since the input S_next is replicated, so is the output V
-                S_next_rep = \
-                    self.p.proba_dist.postprocess_variate(next(rngs), S_next_rep, batch_mode=True)
-                V_rep, new_state['v'] = \
-                    self.v.function(params['v'], state['v'], next(rngs), S_next_rep, is_training)
+                if is_stochastic(self.v):
+                    dist_params_rep, new_state['v'] = self.v.function(
+                        params['v'], state['v'], next(rngs), S_next_rep, is_training)
+                    V_rep = self.v.proba_dist.sample(dist_params_rep, next(rngs))
+                    V_rep = self.v.proba_dist.postprocess_variate(
+                        next(rngs), V_rep, batch_mode=True)
+                else:
+                    V_rep, new_state['v'] = self.v.function(
+                        params['v'], state['v'], next(rngs), S_next_rep, is_training)
 
                 # q = r + γ v(s')
-                Q_rep = R_rep + params['gamma'] * V_rep
+                f, f_inv = self.value_transform
+                Q_rep = f(R_rep + params['gamma'] * f_inv(V_rep))
 
                 # reshape from (batch x num_actions, *) to (batch, num_actions, *)
-                Q_s = self.p._reshape_from_replicas(Q_rep)
+                Q_s = self._reshape_from_replicas(Q_rep)
                 assert Q_s.ndim == 2, f"bad shape: {Q_s.shape}"
                 assert Q_s.shape[1] == self.action_space.n, f"bad shape: {Q_s.shape}"
 
-                return Q_s, hk.data_structures.to_immutable_dict(new_state)
+                new_state = hk.data_structures.to_immutable_dict(new_state)
+                assert jax.tree_structure(new_state) == jax.tree_structure(state)
+
+                return Q_s, new_state
 
             self._function_type2 = jax.jit(func, static_argnums=(4,))
 

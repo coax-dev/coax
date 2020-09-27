@@ -24,9 +24,7 @@ import jax.numpy as jnp
 import haiku as hk
 import optax
 
-from .._core.stochastic_transition_model import StochasticTransitionModel
-from .._core.stochastic_reward_function import StochasticRewardFunction
-from ..utils import get_grads_diagnostics, is_stochastic
+from ..utils import get_grads_diagnostics, is_stochastic, is_reward_function, is_transition_model
 from ..value_losses import huber
 from ..regularizers import Regularizer
 
@@ -70,8 +68,8 @@ class ModelUpdater:
 
     """
     def __init__(self, model, optimizer=None, loss_function=None, regularizer=None):
-        if not is_stochastic(model):  #FIXME: do strict checking
-            raise TypeError(f"model must be a stochastic function approximator, got: {type(model)}")
+        if not (is_reward_function(model) or is_transition_model(model)):
+            raise TypeError(f"model must be a dynamics model, got: {type(model)}")
         if not isinstance(regularizer, (Regularizer, type(None))):
             raise TypeError(f"regularizer must be a Regularizer, got: {type(regularizer)}")
 
@@ -92,13 +90,16 @@ class ModelUpdater:
             rngs = hk.PRNGSequence(rng)
             S = self.model.observation_preprocessor(next(rngs), transition_batch.S)
             A = self.model.action_preprocessor(next(rngs), transition_batch.A)
-            dist_params, new_state = \
-                self.model.function_type1(params, state, next(rngs), S, A, True)
-            y_pred = self.model.proba_dist.sample(dist_params, next(rngs))
+            if is_stochastic(self.model):
+                dist_params, new_state = \
+                    self.model.function_type1(params, state, next(rngs), S, A, True)
+                y_pred = self.model.proba_dist.sample(dist_params, next(rngs))
+            else:
+                y_pred, new_state = self.model.function_type1(params, state, next(rngs), S, A, True)
 
-            if isinstance(self.model, StochasticTransitionModel):
+            if is_transition_model(self.model):
                 y_true = self.model.observation_preprocessor(next(rngs), transition_batch.S_next)
-            elif isinstance(self.model, StochasticRewardFunction):
+            elif is_reward_function(self.model):
                 y_true = self.model.value_transform.transform_func(transition_batch.Rn)
             else:
                 raise AssertionError(f"unexpected model type: {type(self.model)}")

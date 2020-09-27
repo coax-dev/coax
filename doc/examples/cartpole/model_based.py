@@ -25,18 +25,17 @@ def func_v(S, is_training):
 
 def func_p(S, A, is_training):
     dS = hk.Linear(4, w_init=jnp.zeros)
-    return {'mu': S + dS(A), 'logvar': jnp.full_like(S, -jnp.inf)}  # deterministic (variance = 0)
+    return S + dS(A)
 
 
 def func_r(S, A, is_training):
-    mu = jnp.ones(S.shape[0])  # CartPole yields r=1 at every time step (no need to learn)
-    return {'mu': mu, 'logvar': jnp.full_like(mu, -jnp.inf)}  # deterministic (variance = 0)
+    return jnp.ones(S.shape[0])  # CartPole yields r=1 at every time step (no need to learn)
 
 
 # function approximators
 v = coax.V(func_v, env)
-p = coax.StochasticTransitionModel(func_p, env)
-r = coax.StochasticRewardFunction(func_r, env)
+p = coax.TransitionModel(func_p, env)
+r = coax.RewardFunction(func_r, env)
 
 
 # composite objects
@@ -49,10 +48,10 @@ tracer = coax.reward_tracing.NStep(n=1, gamma=q.gamma)
 
 
 # updaters
-adam = optax.chain(optax.apply_every(k=8), optax.adam(0.001))
+adam = optax.chain(optax.apply_every(k=16), optax.adam(1e-4))
 simple_td = coax.td_learning.SimpleTD(v, loss_function=mse, optimizer=adam)
 
-sgd = optax.sgd(0.001, momentum=0.9, nesterov=True)
+sgd = optax.sgd(1e-3, momentum=0.9, nesterov=True)
 model_updater = coax.model_updaters.ModelUpdater(p, optimizer=sgd)
 
 
