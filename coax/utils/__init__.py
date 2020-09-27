@@ -51,7 +51,9 @@ Object Reference
     coax.utils.idx
     coax.utils.is_policy
     coax.utils.is_qfunction
+    coax.utils.is_reward_function
     coax.utils.is_stochastic
+    coax.utils.is_transition_model
     coax.utils.is_vfunction
     coax.utils.isscalar
     coax.utils.merge_dicts
@@ -97,7 +99,9 @@ from ._misc import (
     has_env_attr,
     is_policy,
     is_qfunction,
+    is_reward_function,
     is_stochastic,
+    is_transition_model,
     is_vfunction,
     pretty_repr,
     render_episode,
@@ -126,7 +130,9 @@ __all__ = (
     'idx',
     'is_policy',
     'is_qfunction',
+    'is_reward_function',
     'is_stochastic',
+    'is_transition_model',
     'is_vfunction',
     'isscalar',
     'merge_dicts',

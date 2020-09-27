@@ -44,17 +44,19 @@ __all__ = (
     'generate_gif',
     'get_env_attr',
     'get_transition',
+    'getattr_safe',
     'has_env_attr',
-    'is_stochastic',
     'is_policy',
     'is_qfunction',
+    'is_reward_function',
+    'is_stochastic',
+    'is_transition_model',
     'is_vfunction',
     'pretty_repr',
     'reload_recursive',
     'render_episode',
-    'getattr_safe',
-    'StrippedEnv',
     'strip_env_recursive',
+    'StrippedEnv',
 )
 
 
@@ -451,6 +453,54 @@ def generate_gif(env, filepath, policy=None, resize_to=None, duration=50, max_ep
     logger.info("recorded episode to: {}".format(filepath))
 
 
+def is_transition_model(obj):
+    r"""
+
+    Check whether an object is a dynamics model.
+
+    Parameters
+    ----------
+    obj
+
+        Object to check.
+
+    Returns
+    -------
+    bool
+
+        Whether ``obj`` is a dynamics function.
+
+    """
+    # import at runtime to avoid circular dependence
+    from .._core.transition_model import TransitionModel
+    from .._core.stochastic_transition_model import StochasticTransitionModel
+    return isinstance(obj, (TransitionModel, StochasticTransitionModel))
+
+
+def is_reward_function(obj):
+    r"""
+
+    Check whether an object is a dynamics model.
+
+    Parameters
+    ----------
+    obj
+
+        Object to check.
+
+    Returns
+    -------
+    bool
+
+        Whether ``obj`` is a dynamics function.
+
+    """
+    # import at runtime to avoid circular dependence
+    from .._core.reward_function import RewardFunction
+    from .._core.stochastic_reward_function import StochasticRewardFunction
+    return isinstance(obj, (RewardFunction, StochasticRewardFunction))
+
+
 def is_vfunction(obj):
     r"""
 
@@ -472,11 +522,10 @@ def is_vfunction(obj):
     # import at runtime to avoid circular dependence
     from .._core.v import V
     from .._core.stochastic_v import StochasticV
-
     return isinstance(obj, (V, StochasticV))
 
 
-def is_qfunction(obj, modeltype=None):
+def is_qfunction(obj):
     r"""
 
     Check whether an object is a :class:`state-action value function <coax.Q>`, or Q-function.
@@ -486,11 +535,6 @@ def is_qfunction(obj, modeltype=None):
     obj
 
         Object to check.
-
-    modeltype : 1 or 2, optional
-
-        Check for specific Q-function type, i.e. type-1 or type-2. See :class:`coax.Q` for more
-        details.
 
     Returns
     -------
@@ -503,18 +547,13 @@ def is_qfunction(obj, modeltype=None):
     from .._core.q import Q
     from .._core.stochastic_q import StochasticQ
     from .._core.successor_state_q import SuccessorStateQ
-
-    if modeltype is None:
-        return isinstance(obj, (Q, StochasticQ, SuccessorStateQ))
-    if modeltype not in (1, 2):
-        raise ValueError("unexpected modeltype: {}".format(modeltype))
-    return isinstance(obj, Q) and obj.modeltype == modeltype
+    return isinstance(obj, (Q, StochasticQ, SuccessorStateQ))
 
 
 def is_stochastic(obj):
     r"""
 
-    Check whether an object is a :doc:`policy <policies>`.
+    Check whether an object is a stochastic function approximator.
 
     Parameters
     ----------
@@ -526,13 +565,17 @@ def is_stochastic(obj):
     -------
     bool
 
-        Whether ``obj`` is a policy.
+        Whether ``obj`` is a stochastic function approximator.
 
     """
     # import at runtime to avoid circular dependence
-    from .._core.base_stochastic_func_type1 import BaseStochasticFuncType1
-    from .._core.base_stochastic_func_type2 import StochasticFuncType2Mixin
-    return isinstance(obj, (BaseStochasticFuncType1, StochasticFuncType2Mixin))
+    from .._core.policy import Policy
+    from .._core.stochastic_v import StochasticV
+    from .._core.stochastic_q import StochasticQ
+    from .._core.stochastic_reward_function import StochasticRewardFunction
+    from .._core.stochastic_transition_model import StochasticTransitionModel
+    return isinstance(obj, (
+        Policy, StochasticV, StochasticQ, StochasticRewardFunction, StochasticTransitionModel))
 
 
 def is_policy(obj):
@@ -555,8 +598,8 @@ def is_policy(obj):
     """
     # import at runtime to avoid circular dependence
     from .._core.policy import Policy
-    from .._core.value_based_policy import BaseValueBasedPolicy
-    return isinstance(obj, (Policy, BaseValueBasedPolicy))
+    from .._core.value_based_policy import EpsilonGreedy, BoltzmannPolicy
+    return isinstance(obj, (Policy, EpsilonGreedy, BoltzmannPolicy))
 
 
 def pretty_repr(o, d=0):
