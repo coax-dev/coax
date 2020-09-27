@@ -29,7 +29,7 @@ example data.
     import gym
 
     env = gym.make('CartPole-v0')
-    data = coax.DynamicsModel.example_data(env.observation_space, env.action_space)
+    data = coax.StochasticTransitionModel.example_data(env.observation_space, env.action_space)
 
     print(data.type1)
     # ExampleData(
@@ -90,7 +90,7 @@ Let's first define our **type-1** forward-pass function:
         return {'mu': mu, 'logvar': jnp.full_like(mu, -10)}
 
 
-    p = coax.DynamicsModel(func_type1, env)
+    p = coax.StochasticTransitionModel(func_type1, env)
 
     # example usage
     s = env.reset()
@@ -119,7 +119,7 @@ Alternatively, a **type-2** forward-pass function might be:
         return {'mu': mu, 'logvar': jnp.full_like(mu, -10)}
 
 
-    p = coax.DynamicsModel(func_type2, env)
+    p = coax.StochasticTransitionModel(func_type2, env)
 
     # example usage
     s = env.reset()
@@ -276,8 +276,8 @@ Object Reference
 .. autosummary::
     :nosignatures:
 
-    coax.DynamicsModel
+    coax.StochasticTransitionModel
     coax.RewardModel
 
-.. autoclass:: coax.DynamicsModel
+.. autoclass:: coax.StochasticTransitionModel
 .. autoclass:: coax.RewardModel

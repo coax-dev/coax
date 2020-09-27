@@ -30,7 +30,7 @@ import haiku as hk
 
 from .._base.test_case import TestCase
 from ..utils import safe_sample
-from .dynamics_model import DynamicsModel
+from .stochastic_transition_model import StochasticTransitionModel
 
 
 discrete = gym.spaces.Discrete(7)
@@ -114,14 +114,14 @@ def func_boxspace_type2(S, is_training):
     return {'mu': mu(S), 'logvar': logvar(S)}
 
 
-class TestDynamicsModel(TestCase):
+class TestStochasticTransitionModel(TestCase):
     def test_init(self):
         # cannot define a type-2 models on a non-discrete action space
         msg = r"type-2 models are only well-defined for Discrete action spaces"
         with self.assertRaisesRegex(TypeError, msg):
-            DynamicsModel(func_boxspace_type2, Env(boxspace, boxspace))
+            StochasticTransitionModel(func_boxspace_type2, Env(boxspace, boxspace))
         with self.assertRaisesRegex(TypeError, msg):
-            DynamicsModel(func_discrete_type2, Env(discrete, boxspace))
+            StochasticTransitionModel(func_discrete_type2, Env(discrete, boxspace))
 
         msg = (
             r"func has bad return tree_structure, "
@@ -129,11 +129,11 @@ class TestDynamicsModel(TestCase):
             r"got: PyTreeDef\(dict\[\['logits'\]\], \[\*\]\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
-            DynamicsModel(func_discrete_type1, Env(boxspace, discrete))
+            StochasticTransitionModel(func_discrete_type1, Env(boxspace, discrete))
         with self.assertRaisesRegex(TypeError, msg):
-            DynamicsModel(func_discrete_type2, Env(boxspace, discrete))
+            StochasticTransitionModel(func_discrete_type2, Env(boxspace, discrete))
         with self.assertRaisesRegex(TypeError, msg):
-            DynamicsModel(func_discrete_type1, Env(boxspace, boxspace))
+            StochasticTransitionModel(func_discrete_type1, Env(boxspace, boxspace))
 
         msg = (
             r"func has bad return tree_structure, "
@@ -141,19 +141,19 @@ class TestDynamicsModel(TestCase):
             r"got: PyTreeDef\(dict\[\['logvar', 'mu'\]\], \[\*,\*\]\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
-            DynamicsModel(func_boxspace_type1, Env(discrete, discrete))
+            StochasticTransitionModel(func_boxspace_type1, Env(discrete, discrete))
         with self.assertRaisesRegex(TypeError, msg):
-            DynamicsModel(func_boxspace_type2, Env(discrete, discrete))
+            StochasticTransitionModel(func_boxspace_type2, Env(discrete, discrete))
         with self.assertRaisesRegex(TypeError, msg):
-            DynamicsModel(func_boxspace_type1, Env(discrete, boxspace))
+            StochasticTransitionModel(func_boxspace_type1, Env(discrete, boxspace))
 
         # these should all be fine
-        DynamicsModel(func_discrete_type1, Env(discrete, boxspace))
-        DynamicsModel(func_discrete_type1, Env(discrete, discrete))
-        DynamicsModel(func_discrete_type2, Env(discrete, discrete))
-        DynamicsModel(func_boxspace_type1, Env(boxspace, boxspace))
-        DynamicsModel(func_boxspace_type1, Env(boxspace, discrete))
-        DynamicsModel(func_boxspace_type2, Env(boxspace, discrete))
+        StochasticTransitionModel(func_discrete_type1, Env(discrete, boxspace))
+        StochasticTransitionModel(func_discrete_type1, Env(discrete, discrete))
+        StochasticTransitionModel(func_discrete_type2, Env(discrete, discrete))
+        StochasticTransitionModel(func_boxspace_type1, Env(boxspace, boxspace))
+        StochasticTransitionModel(func_boxspace_type1, Env(boxspace, discrete))
+        StochasticTransitionModel(func_boxspace_type2, Env(boxspace, discrete))
 
     # test_call_* ##################################################################################
 
@@ -163,7 +163,7 @@ class TestDynamicsModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        p = DynamicsModel(func, env, random_seed=19)
+        p = StochasticTransitionModel(func, env, random_seed=19)
 
         s_next, logp = p(s, a, return_logp=True)
         print(s_next, logp, env.observation_space)
@@ -181,7 +181,7 @@ class TestDynamicsModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        p = DynamicsModel(func, env, random_seed=19)
+        p = StochasticTransitionModel(func, env, random_seed=19)
 
         s_next, logp = p(s, a, return_logp=True)
         print(s_next, logp, env.observation_space)
@@ -199,7 +199,7 @@ class TestDynamicsModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        p = DynamicsModel(func, env, random_seed=19)
+        p = StochasticTransitionModel(func, env, random_seed=19)
 
         s_next, logp = p(s, a, return_logp=True)
         print(s_next, logp, env.observation_space)
@@ -217,7 +217,7 @@ class TestDynamicsModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        p = DynamicsModel(func, env, random_seed=19)
+        p = StochasticTransitionModel(func, env, random_seed=19)
 
         s_next, logp = p(s, a, return_logp=True)
         print(s_next, logp, env.observation_space)
@@ -235,7 +235,7 @@ class TestDynamicsModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        p = DynamicsModel(func, env, random_seed=19)
+        p = StochasticTransitionModel(func, env, random_seed=19)
 
         s_next, logp = p(s, a, return_logp=True)
         print(s_next, logp, env.observation_space)
@@ -253,7 +253,7 @@ class TestDynamicsModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        p = DynamicsModel(func, env, random_seed=19)
+        p = StochasticTransitionModel(func, env, random_seed=19)
 
         s_next, logp = p(s, a, return_logp=True)
         print(s_next, logp, env.observation_space)
@@ -273,7 +273,7 @@ class TestDynamicsModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        p = DynamicsModel(func, env, random_seed=19)
+        p = StochasticTransitionModel(func, env, random_seed=19)
 
         s_next = p.mode(s, a)
         print(s_next, env.observation_space)
@@ -289,7 +289,7 @@ class TestDynamicsModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        p = DynamicsModel(func, env, random_seed=19)
+        p = StochasticTransitionModel(func, env, random_seed=19)
 
         s_next = p.mode(s, a)
         print(s_next, env.observation_space)
@@ -305,7 +305,7 @@ class TestDynamicsModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        p = DynamicsModel(func, env, random_seed=19)
+        p = StochasticTransitionModel(func, env, random_seed=19)
 
         s_next = p.mode(s, a)
         print(s_next, env.observation_space)
@@ -321,7 +321,7 @@ class TestDynamicsModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        p = DynamicsModel(func, env, random_seed=19)
+        p = StochasticTransitionModel(func, env, random_seed=19)
 
         s_next = p.mode(s, a)
         print(s_next, env.observation_space)
@@ -337,7 +337,7 @@ class TestDynamicsModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        p = DynamicsModel(func, env, random_seed=19)
+        p = StochasticTransitionModel(func, env, random_seed=19)
 
         s_next = p.mode(s, a)
         print(s_next, env.observation_space)
@@ -353,7 +353,7 @@ class TestDynamicsModel(TestCase):
 
         s = safe_sample(env.observation_space, seed=17)
         a = safe_sample(env.action_space, seed=18)
-        p = DynamicsModel(func, env, random_seed=19)
+        p = StochasticTransitionModel(func, env, random_seed=19)
 
         s_next = p.mode(s, a)
         print(s_next, env.observation_space)
@@ -367,7 +367,7 @@ class TestDynamicsModel(TestCase):
         func = func_discrete_type1
         env = Env(discrete, discrete)
 
-        p = DynamicsModel(func, env, random_seed=19)
+        p = StochasticTransitionModel(func, env, random_seed=19)
 
         print(p.function_state)
         batch_norm_avg = p.function_state['batch_norm/~/mean_ema']['average']
@@ -386,7 +386,7 @@ class TestDynamicsModel(TestCase):
         )
         with self.assertRaisesRegex(TypeError, msg):
             env = Env(boxspace, discrete)
-            DynamicsModel(badfunc, env, random_seed=13)
+            StochasticTransitionModel(badfunc, env, random_seed=13)
 
     def test_bad_output_structure(self):
         def badfunc(S, is_training):
@@ -400,4 +400,4 @@ class TestDynamicsModel(TestCase):
         )
         with self.assertRaisesRegex(TypeError, msg):
             env = Env(discrete, discrete)
-            DynamicsModel(badfunc, env, random_seed=13)
+            StochasticTransitionModel(badfunc, env, random_seed=13)

@@ -19,9 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-from .._core.policy import Policy
-from .._core.dynamics_model import DynamicsModel
-from .._core.reward_model import RewardModel
+from ..utils import is_stochastic
 
 
 class Regularizer:
@@ -32,15 +30,14 @@ class Regularizer:
 
     Parameters
     ----------
-    f : Policy | DynamicsModel | RewardModel
+    f : stochastic function approximator
 
-        The stochastic function approximator to regularize.
+        The stochastic function approximator (e.g. :class:`coax.Policy`) to regularize.
 
     """
     def __init__(self, f):
-        if not isinstance(f, (Policy, DynamicsModel, RewardModel)):
-            raise TypeError(
-                f"proba_dist must be a Policy, DynamicsModel or RewardModel, got {type(f)}")
+        if not is_stochastic(f):
+            raise TypeError(f"proba_dist must be a stochastic function, got {type(f)}")
         self.f = f
 
     @property

@@ -43,7 +43,7 @@ class BaseStochasticFuncType1(BaseFunc):
     An abstract base class for stochastic functions that take *state-action pairs* as input:
 
     - StochasticQ
-    - DynamicsModel
+    - StochasticTransitionModel
     - RewardModel
 
     """

@@ -24,11 +24,11 @@ from .base_stochastic_func_type1 import BaseStochasticFuncType1
 
 
 __all__ = (
-    'DynamicsModel',
+    'StochasticTransitionModel',
 )
 
 
-class DynamicsModel(BaseStochasticFuncType1):
+class StochasticTransitionModel(BaseStochasticFuncType1):
     r"""
 
     A parametrized dynamics model :math:`p_\theta(s'|s,a)`. Here, :math:`s'` is the successor state,

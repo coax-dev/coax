@@ -27,7 +27,7 @@ from ._core.v import V
 from ._core.q import Q
 from ._core.stochastic_q import StochasticQ
 from ._core.policy import Policy
-from ._core.dynamics_model import DynamicsModel
+from ._core.stochastic_transition_model import StochasticTransitionModel
 from ._core.reward_model import RewardModel
 from ._core.value_based_policy import EpsilonGreedy, BoltzmannPolicy
 from ._core.random_policy import RandomPolicy
@@ -55,7 +55,7 @@ __all__ = (
     'Q',
     'StochasticQ',
     'Policy',
-    'DynamicsModel',
+    'StochasticTransitionModel',
     'RewardModel',
     'EpsilonGreedy',
     'BoltzmannPolicy',

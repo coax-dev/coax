@@ -44,7 +44,7 @@ class KLDivRegularizer(Regularizer):
 
     Parameters
     ----------
-    f : Policy | DynamicsModel | RewardModel
+    f : Policy | StochasticTransitionModel | RewardModel
 
         The stochastic function approximator to regularize.
 

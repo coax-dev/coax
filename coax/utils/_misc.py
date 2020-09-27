@@ -45,6 +45,7 @@ __all__ = (
     'get_env_attr',
     'get_transition',
     'has_env_attr',
+    'is_stochastic',
     'is_policy',
     'is_qfunction',
     'is_vfunction',
@@ -510,7 +511,31 @@ def is_qfunction(obj, modeltype=None):
     return isinstance(obj, Q) and obj.modeltype == modeltype
 
 
-def is_policy(obj, check_updateable=False):
+def is_stochastic(obj):
+    r"""
+
+    Check whether an object is a :doc:`policy <policies>`.
+
+    Parameters
+    ----------
+    obj
+
+        Object to check.
+
+    Returns
+    -------
+    bool
+
+        Whether ``obj`` is a policy.
+
+    """
+    # import at runtime to avoid circular dependence
+    from .._core.base_stochastic_func_type1 import BaseStochasticFuncType1
+    from .._core.base_stochastic_func_type2 import StochasticFuncType2Mixin
+    return isinstance(obj, (BaseStochasticFuncType1, StochasticFuncType2Mixin))
+
+
+def is_policy(obj):
     r"""
 
     Check whether an object is a :doc:`policy <policies>`.

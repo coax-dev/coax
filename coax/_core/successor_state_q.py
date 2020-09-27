@@ -24,7 +24,7 @@ import haiku as hk
 
 from .._core.v import V
 from .._core.q import Q
-from .._core.dynamics_model import DynamicsModel
+from .._core.stochastic_transition_model import StochasticTransitionModel
 from .._core.reward_model import RewardModel
 
 
@@ -45,7 +45,7 @@ class SuccessorStateQ:
 
         A state value function :math:`v(s)`.
 
-    p : DynamicsModel
+    p : StochasticTransitionModel
 
         A dynamics model :math:`p(s'|s,a)`. This may also be a ordinary function with the signature:
         :code:`(Observation, Action) -> Observation`.
@@ -64,8 +64,8 @@ class SuccessorStateQ:
         # some explicit type checks
         if not isinstance(v, V):
             raise TypeError(f"v must be of type V, got: {type(v)}")
-        if not isinstance(p, DynamicsModel):
-            raise TypeError(f"p must be of type DynamicsModel, got: {type(p)}")
+        if not isinstance(p, StochasticTransitionModel):
+            raise TypeError(f"p must be of type StochasticTransitionModel, got: {type(p)}")
         if not isinstance(r, RewardModel):
             raise TypeError(f"r must be of type RewardModel, got: {type(r)}")
 

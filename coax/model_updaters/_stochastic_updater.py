@@ -24,9 +24,9 @@ import jax.numpy as jnp
 import haiku as hk
 import optax
 
-from .._core.dynamics_model import DynamicsModel
+from .._core.stochastic_transition_model import StochasticTransitionModel
 from .._core.reward_model import RewardModel
-from ..utils import get_grads_diagnostics
+from ..utils import get_grads_diagnostics, is_stochastic
 from ..value_losses import huber
 from ..regularizers import Regularizer
 
@@ -43,9 +43,9 @@ class StochasticUpdater:
 
     Parameters
     ----------
-    model : DynamicsModel or RewardModel
+    model : [Stochastic]TransitionModel or [Stochastic]RewardFunction
 
-        The main dynamics/reward model to update.
+        The main dynamics model to update.
 
     optimizer : optax optimizer, optional
 
@@ -64,11 +64,14 @@ class StochasticUpdater:
         If left unspecified, this defaults to :func:`coax.value_losses.huber`. Check out the
         :mod:`coax.value_losses` module for other predefined loss functions.
 
+    regularizer : Regularizer, optional
+
+        A stochastic regularizer, see :mod:`coax.regularizers`.
 
     """
     def __init__(self, model, optimizer=None, loss_function=None, regularizer=None):
-        if not isinstance(model, (DynamicsModel, RewardModel)):
-            raise TypeError(f"model must be a DynamicsModel or RewardModel, got: {type(model)}")
+        if not is_stochastic(model):
+            raise TypeError(f"model must be a stochastic function approximator, got: {type(model)}")
         if not isinstance(regularizer, (Regularizer, type(None))):
             raise TypeError(f"regularizer must be a Regularizer, got: {type(regularizer)}")
 
@@ -93,7 +96,7 @@ class StochasticUpdater:
                 self.model.function_type1(params, state, next(rngs), S, A, True)
             y_pred = self.model.proba_dist.sample(dist_params, next(rngs))
 
-            if isinstance(self.model, DynamicsModel):
+            if isinstance(self.model, StochasticTransitionModel):
                 y_true = self.model.observation_preprocessor(next(rngs), transition_batch.S_next)
             elif isinstance(self.model, RewardModel):
                 y_true = self.model.value_transform.transform_func(transition_batch.Rn)

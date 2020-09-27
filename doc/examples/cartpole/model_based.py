@@ -35,7 +35,7 @@ def func_r(S, A, is_training):
 
 # function approximators
 v = coax.V(func_v, env)
-p = coax.DynamicsModel(func_p, env)
+p = coax.StochasticTransitionModel(func_p, env)
 r = coax.RewardModel(func_r, env)
 
 
