@@ -23,11 +23,11 @@ from .stochastic_q import StochasticQ
 
 
 __all__ = (
-    'RewardModel',
+    'StochasticRewardFunction',
 )
 
 
-class RewardModel(StochasticQ):
+class StochasticRewardFunction(StochasticQ):
     r"""
 
     A reward function :math:`r(s,a)`, represented by a stochastic function

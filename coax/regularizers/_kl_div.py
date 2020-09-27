@@ -44,9 +44,9 @@ class KLDivRegularizer(Regularizer):
 
     Parameters
     ----------
-    f : Policy | StochasticTransitionModel | RewardModel
+    f : stochastic function approximator
 
-        The stochastic function approximator to regularize.
+        The stochastic function approximator (e.g. :class:`coax.Policy`) to regularize.
 
     beta : non-negative float
 

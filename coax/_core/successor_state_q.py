@@ -25,7 +25,7 @@ import haiku as hk
 from .._core.v import V
 from .._core.q import Q
 from .._core.stochastic_transition_model import StochasticTransitionModel
-from .._core.reward_model import RewardModel
+from .._core.stochastic_reward_function import StochasticRewardFunction
 
 
 __all__ = (
@@ -50,7 +50,7 @@ class SuccessorStateQ:
         A dynamics model :math:`p(s'|s,a)`. This may also be a ordinary function with the signature:
         :code:`(Observation, Action) -> Observation`.
 
-    r : RewardModel
+    r : StochasticRewardFunction
 
         A reward function :math:`r(s,a)`. This may also be a ordinary function with the signature:
         :code:`(Observation, Action) -> float`.
@@ -66,8 +66,8 @@ class SuccessorStateQ:
             raise TypeError(f"v must be of type V, got: {type(v)}")
         if not isinstance(p, StochasticTransitionModel):
             raise TypeError(f"p must be of type StochasticTransitionModel, got: {type(p)}")
-        if not isinstance(r, RewardModel):
-            raise TypeError(f"r must be of type RewardModel, got: {type(r)}")
+        if not isinstance(r, StochasticRewardFunction):
+            raise TypeError(f"r must be of type StochasticRewardFunction, got: {type(r)}")
 
         self.v = v
         self.p = p

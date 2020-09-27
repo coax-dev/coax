@@ -36,7 +36,7 @@ creating some example data, which allows us inspect the correct input/output for
     import gym
 
     env = gym.make('CartPole-v0')
-    data = coax.V.example_data(env.observation_space, env.action_space)
+    data = coax.V.example_data(env)
 
     print(data)
     # ExampleData(
@@ -84,7 +84,7 @@ create some example data again.
     import gym
 
     env = gym.make('CartPole-v0')
-    data = coax.Q.example_data(env.observation_space)
+    data = coax.Q.example_data(env)
 
     print(data.type1)
     # ExampleData(

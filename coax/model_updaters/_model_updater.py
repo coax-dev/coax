@@ -25,7 +25,7 @@ import haiku as hk
 import optax
 
 from .._core.stochastic_transition_model import StochasticTransitionModel
-from .._core.reward_model import RewardModel
+from .._core.stochastic_reward_function import StochasticRewardFunction
 from ..utils import get_grads_diagnostics, is_stochastic
 from ..value_losses import huber
 from ..regularizers import Regularizer
@@ -98,7 +98,7 @@ class ModelUpdater:
 
             if isinstance(self.model, StochasticTransitionModel):
                 y_true = self.model.observation_preprocessor(next(rngs), transition_batch.S_next)
-            elif isinstance(self.model, RewardModel):
+            elif isinstance(self.model, StochasticRewardFunction):
                 y_true = self.model.value_transform.transform_func(transition_batch.Rn)
             else:
                 raise AssertionError(f"unexpected model type: {type(self.model)}")

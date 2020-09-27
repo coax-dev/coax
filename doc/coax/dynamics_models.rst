@@ -29,7 +29,7 @@ example data.
     import gym
 
     env = gym.make('CartPole-v0')
-    data = coax.StochasticTransitionModel.example_data(env.observation_space, env.action_space)
+    data = coax.StochasticTransitionModel.example_data(env)
 
     print(data.type1)
     # ExampleData(
@@ -154,7 +154,7 @@ example data.
     import gym
 
     env = gym.make('CartPole-v0')
-    data = coax.RewardModel.example_data(env.observation_space, env.action_space, env.reward_range)
+    data = coax.StochasticRewardFunction.example_data(env)
 
     print(data.type1)
     # ExampleData(
@@ -218,7 +218,7 @@ Let's first define our **type-1** forward-pass function:
         return {'mu': mu(X), 'logvar': logvar(X)}
 
 
-    r = coax.RewardModel(func_type1, env)
+    r = coax.StochasticRewardFunction(func_type1, env)
 
     # example usage
     s = env.reset()
@@ -249,7 +249,7 @@ Alternatively, a **type-2** forward-pass function might be:
         return {'mu': mu(S), 'logvar': logvar(S)}
 
 
-    r = coax.RewardModel(func_type2, env)
+    r = coax.StochasticRewardFunction(func_type2, env)
 
     # example usage
     s = env.reset()
@@ -277,7 +277,7 @@ Object Reference
     :nosignatures:
 
     coax.StochasticTransitionModel
-    coax.RewardModel
+    coax.StochasticRewardFunction
 
 .. autoclass:: coax.StochasticTransitionModel
-.. autoclass:: coax.RewardModel
+.. autoclass:: coax.StochasticRewardFunction

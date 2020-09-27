@@ -103,7 +103,7 @@ correct input/output format for our forward-pass function.
 
     env = gym.make('CartPole-v0')
 
-    data = coax.Policy.example_data(env.observation_space, env.action_space)
+    data = coax.Policy.example_data(env)
 
     print(data)
     # ExampleData(
@@ -212,13 +212,16 @@ space:
 
 .. code:: python
 
+    from collections import namedtuple
     from gym.spaces import Dict, Tuple, Box, Discrete, MultiDiscrete
 
-    observation_space = Box(low=0, high=1, shape=(7,))
-    action_space = Dict({
-        'foo': MultiDiscrete([4, 5]),
-        'bar': Tuple((Box(low=0, high=1, shape=(2, 3)),)),
-    })
+    DummyEnv = namedtuple('DummyEnv', ('observation_space', 'action_space'))
+    env = DummyEnv(
+        Box(low=0, high=1, shape=(7,)),
+        Dict({
+            'foo': MultiDiscrete([4, 5]),
+            'bar': Tuple((Box(low=0, high=1, shape=(2, 3)),)),
+        }))
 
     data = coax.Policy.example_data(observation_space, action_space)
     print(data.output)

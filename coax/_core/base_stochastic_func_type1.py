@@ -44,7 +44,7 @@ class BaseStochasticFuncType1(BaseFunc):
 
     - StochasticQ
     - StochasticTransitionModel
-    - RewardModel
+    - StochasticRewardFunction
 
     """
     def __init__(
@@ -233,22 +233,22 @@ class BaseStochasticFuncType1(BaseFunc):
         # output: type1
         dist_params_type1 = jax.tree_map(
             lambda x: jnp.asarray(rnd.randn(batch_size, *x.shape[1:])), proba_dist.default_priors)
-        q1_data = ExampleData(
+        data_type1 = ExampleData(
             inputs=Inputs(args=ArgsType1(S=S, A=A, is_training=True), static_argnums=(2,)),
             output=dist_params_type1)
 
         if not isinstance(env.action_space, Discrete):
-            return ModelTypes(type1=q1_data, type2=None)
+            return ModelTypes(type1=data_type1, type2=None)
 
         # output: type2 (if actions are discrete)
         dist_params_type2 = jax.tree_map(
             lambda x: jnp.asarray(rnd.randn(batch_size, env.action_space.n, *x.shape[1:])),
             proba_dist.default_priors)
-        q2_data = ExampleData(
+        data_type2 = ExampleData(
             inputs=Inputs(args=ArgsType2(S=S, is_training=True), static_argnums=(1,)),
             output=dist_params_type2)
 
-        return ModelTypes(type1=q1_data, type2=q2_data)
+        return ModelTypes(type1=data_type1, type2=data_type2)
 
     @property
     def sample_func_type1(self):
