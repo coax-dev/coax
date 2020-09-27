@@ -30,8 +30,7 @@ __all__ = (
 class StochasticRewardFunction(StochasticQ):
     r"""
 
-    A reward function :math:`r(s,a)`, represented by a stochastic function
-    :math:`\mathbb{P}_\theta(R_t|S_t=s,A_t=a)`.
+    A stochastic reward function :math:`p_\theta(r|s,a)`.
 
     Parameters
     ----------

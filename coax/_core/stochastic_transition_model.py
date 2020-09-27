@@ -31,7 +31,7 @@ __all__ = (
 class StochasticTransitionModel(BaseStochasticFuncType1):
     r"""
 
-    A parametrized dynamics model :math:`p_\theta(s'|s,a)`. Here, :math:`s'` is the successor state,
+    A stochastic transition model :math:`p_\theta(s'|s,a)`. Here, :math:`s'` is the successor state,
     given that we take action :math:`a` from state :math:`s`.
 
     Parameters

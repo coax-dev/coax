@@ -191,8 +191,12 @@ Object Reference
 
     coax.V
     coax.Q
+    coax.StochasticV
+    coax.StochasticQ
     coax.SuccessorStateQ
 
 .. autoclass:: coax.V
 .. autoclass:: coax.Q
+.. autoclass:: coax.StochasticV
+.. autoclass:: coax.StochasticQ
 .. autoclass:: coax.SuccessorStateQ
