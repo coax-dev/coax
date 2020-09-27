@@ -32,11 +32,11 @@ from ..regularizers import Regularizer
 
 
 __all__ = (
-    'StochasticUpdater',
+    'ModelUpdater',
 )
 
 
-class StochasticUpdater:
+class ModelUpdater:
     r"""
 
     Model updater that uses *sampling* for maximum-likelihood estimation.
@@ -70,7 +70,7 @@ class StochasticUpdater:
 
     """
     def __init__(self, model, optimizer=None, loss_function=None, regularizer=None):
-        if not is_stochastic(model):
+        if not is_stochastic(model):  #FIXME: do strict checking
             raise TypeError(f"model must be a stochastic function approximator, got: {type(model)}")
         if not isinstance(regularizer, (Regularizer, type(None))):
             raise TypeError(f"regularizer must be a Regularizer, got: {type(regularizer)}")

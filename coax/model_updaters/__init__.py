@@ -24,7 +24,8 @@ r"""
 Model Updaters
 ==============
 
-This is a collection of objects that are used to update dynamics models and reward models.
+This is a collection of objects that are used to update dynamics models, i.e. transition models and
+reward functions.
 
 
 Object Reference
@@ -33,15 +34,15 @@ Object Reference
 .. autosummary::
     :nosignatures:
 
-    coax.model_updaters.StochasticUpdater
+    coax.model_updaters.ModelUpdater
 
 """
 
 # TODO(krholshe): think of better names for this module and classes
 
-from ._stochastic_updater import StochasticUpdater
+from ._model_updater import ModelUpdater
 
 
 __all__ = (
-    'StochasticUpdater',
+    'ModelUpdater',
 )

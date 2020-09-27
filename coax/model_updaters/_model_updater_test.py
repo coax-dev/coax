@@ -27,10 +27,10 @@ from .._base.test_case import TestCase
 from .._core.stochastic_transition_model import StochasticTransitionModel
 from ..utils import get_transition
 from ..regularizers import EntropyRegularizer
-from ._stochastic_updater import StochasticUpdater
+from ._model_updater import ModelUpdater
 
 
-class TestStochasticUpdater(TestCase):
+class TestModelUpdater(TestCase):
 
     def setUp(self):
         self.transition_discrete = get_transition(self.env_discrete).to_batch()
@@ -42,7 +42,7 @@ class TestStochasticUpdater(TestCase):
         transition_batch = self.transition_discrete
 
         p = StochasticTransitionModel(func_p, env, random_seed=11)
-        updater = StochasticUpdater(p, optimizer=sgd(1.0))
+        updater = ModelUpdater(p, optimizer=sgd(1.0))
 
         params = deepcopy(p.params)
         function_state = deepcopy(p.function_state)
@@ -58,7 +58,7 @@ class TestStochasticUpdater(TestCase):
         transition_batch = self.transition_discrete
 
         p = StochasticTransitionModel(func_p, env, random_seed=11)
-        updater = StochasticUpdater(p, optimizer=sgd(1.0))
+        updater = ModelUpdater(p, optimizer=sgd(1.0))
 
         params = deepcopy(p.params)
         function_state = deepcopy(p.function_state)
@@ -79,7 +79,7 @@ class TestStochasticUpdater(TestCase):
         function_state_init = deepcopy(p.function_state)
 
         # first update without policy regularizer
-        updater = StochasticUpdater(p, optimizer=sgd(1.0))
+        updater = ModelUpdater(p, optimizer=sgd(1.0))
         updater.update(transition_batch)
         params_without_reg = deepcopy(p.params)
         function_state_without_reg = deepcopy(p.function_state)
@@ -93,7 +93,7 @@ class TestStochasticUpdater(TestCase):
 
         # then update with policy regularizer
         reg = EntropyRegularizer(p, beta=1.0)
-        updater = StochasticUpdater(p, optimizer=sgd(1.0), regularizer=reg)
+        updater = ModelUpdater(p, optimizer=sgd(1.0), regularizer=reg)
         updater.update(transition_batch)
         params_with_reg = deepcopy(p.params)
         function_state_with_reg = deepcopy(p.function_state)
