@@ -19,12 +19,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+import warnings
+
 import jax
 import haiku as hk
 
 from .._core.q import Q
 from .._core.base_stochastic_func_type1 import BaseStochasticFuncType1
-from ..utils import is_vfunction, is_reward_function, is_transition_model, is_stochastic
+from ..utils import (
+    check_preprocessors, is_vfunction, is_reward_function, is_transition_model, is_stochastic)
 
 
 __all__ = (
@@ -84,6 +87,18 @@ class SuccessorStateQ:
         self.observation_preprocessor = self.p.observation_preprocessor
         self.observation_postprocessor = self.p.observation_postprocessor
         self.value_transform = self.v.value_transform
+
+        if not check_preprocessors(
+                self.observation_space,
+                self.v.observation_preprocessor,
+                self.r.observation_preprocessor,
+                self.p.observation_preprocessor):
+            warnings.warn(
+                "it seems that observation_preprocessors of v, r ,p do not match; please "
+                "instantiate your functions approximators with the same observation_preprocessors, "
+                "e.g. v = coax.V(..., observation_preprocessor=p.observation_preprocessor) and "
+                "r = coax.RewardFunction(..., observation_preprocessor=p.observation_preprocessor) "
+                "to ensure that all preprocessors match")
 
     _reshape_to_replicas = BaseStochasticFuncType1._reshape_to_replicas
     _reshape_from_replicas = BaseStochasticFuncType1._reshape_from_replicas

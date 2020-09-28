@@ -19,9 +19,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+import warnings
+
 import jax.numpy as jnp
 import haiku as hk
 
+from ..utils import check_preprocessors
 from .._core.q import Q
 from ._base import PolicyObjective
 
@@ -85,6 +88,16 @@ class DeterministicPG(PolicyObjective):
 
         super().__init__(pi=pi, optimizer=optimizer, regularizer=regularizer)
         self.q_targ = q_targ
+
+        if not check_preprocessors(
+                self.pi.action_space,
+                self.q_targ.action_preprocessor,
+                self.pi.proba_dist.preprocess_variate):
+            warnings.warn(
+                "it seems that q_targ.action_preprocessor does not match "
+                "pi.proba_dist.preprocess_variate; please instantiate your q-function using "
+                "q = coax.Q(..., action_preprocessor=pi.proba_dist.preprocess_variate) to ensure "
+                "that the preprocessors match")
 
     @property
     def hyperparams(self):
