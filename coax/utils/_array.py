@@ -38,6 +38,7 @@ __all__ = (
     'check_array',
     'check_preprocessors',
     'clipped_logit',
+    'default_preprocessor',
     'diff_transform_matrix',
     'double_relu',
     'get_grads_diagnostics',
@@ -294,6 +295,72 @@ def clipped_logit(x, epsilon=1e-15):
     if jax.api._jit_is_disabled():
         assert jnp.all(x >= 0) and jnp.all(x <= 1), "values do not lie on the unit interval"
     return jnp.log(jnp.maximum(epsilon, x)) - jnp.log(jnp.maximum(epsilon, 1 - x))
+
+
+def default_preprocessor(space):
+    r"""
+
+    The default preprocessor for a given space.
+
+    Parameters
+    ----------
+    space : gym.Space
+
+        The domain of the prepocessor.
+
+    Returns
+    -------
+    preprocessor : Callable[PRGNKey, Element[space], Any]
+
+        The preprocessor function. See :attr:`NormalDist.preprocess_variate
+        <coax.proba_dists.NormalDist.preprocess_variate>` for an example.
+
+    """
+    if not isinstance(space, gym.Space):
+        raise TypeError(f"space must a gym.Space, got: {type(space)}")
+
+    if isinstance(space, gym.spaces.Discrete):
+        def func(rng, X):
+            X = jnp.asarray(X)
+            X = jax.nn.one_hot(X, space.n)     # one-hot encoding
+            X = jnp.reshape(X, (-1, space.n))  # ensure batch axis
+            return X
+
+    elif isinstance(space, gym.spaces.Box):
+        def func(rng, X):
+            X = jnp.asarray(X, dtype=space.dtype)   # ensure ndarray
+            X = jnp.reshape(X, (-1, *space.shape))  # ensure batch axis
+            X = jnp.clip(X, space.low, space.high)  # clip to be safe
+            return X
+
+    elif isinstance(space, gym.spaces.MultiDiscrete):
+        def func(rng, X):
+            rngs = hk.PRNGSequence(rng)
+            return [
+                default_preprocessor(gym.spaces.Discrete(n))(next(rngs), X[i])
+                for i, n in enumerate(space.nvec)]
+
+    elif isinstance(space, gym.spaces.MultiBinary):
+        def func(rng, X):
+            X = jnp.asarray(X, dtype=jnp.float32)  # ensure ndarray
+            X = jnp.reshape(X, (-1, space.n))      # ensure batch axis
+            return X
+
+    elif isinstance(space, gym.spaces.Tuple):
+        def func(rng, X):
+            rngs = hk.PRNGSequence(rng)
+            return tuple(
+                default_preprocessor(sp)(next(rngs), X[i]) for i, sp in enumerate(space.spaces))
+
+    elif isinstance(space, gym.spaces.Dict):
+        def func(rng, X):
+            rngs = hk.PRNGSequence(rng)
+            return {k: default_preprocessor(sp)(next(rngs), X[k]) for k, sp in space.spaces.items()}
+
+    else:
+        raise TypeError(f"unsupported space: {space.__class__.__name__}")
+
+    return func
 
 
 def diff_transform_matrix(num_frames, dtype='float32'):

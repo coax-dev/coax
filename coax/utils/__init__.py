@@ -37,7 +37,9 @@ Object Reference
     coax.utils.argmin
     coax.utils.batch_to_single
     coax.utils.check_array
+    coax.utils.check_preprocessors
     coax.utils.clipped_logit
+    coax.utils.default_preprocessor
     coax.utils.diff_transform_matrix
     coax.utils.docstring
     coax.utils.double_relu
@@ -78,7 +80,9 @@ from ._array import (
     argmin,
     batch_to_single,
     check_array,
+    check_preprocessors,
     clipped_logit,
+    default_preprocessor,
     diff_transform_matrix,
     double_relu,
     get_magnitude_quantiles,
@@ -116,7 +120,9 @@ __all__ = (
     'argmin',
     'batch_to_single',
     'check_array',
+    'check_preprocessors',
     'clipped_logit',
+    'default_preprocessor',
     'diff_transform_matrix',
     'docstring',
     'double_relu',

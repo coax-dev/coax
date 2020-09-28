@@ -26,7 +26,7 @@ import numpy as onp
 from haiku import PRNGSequence
 
 from .._base.test_case import TestCase
-from ._array import argmax, check_preprocessors
+from ._array import argmax, check_preprocessors, default_preprocessor
 from ..proba_dists import NormalDist
 
 
@@ -64,9 +64,7 @@ class TestArrayUtils(TestCase):
     def test_check_preprocessors(self):
         box = gym.spaces.Box(low=onp.finfo('float32').min, high=onp.finfo('float32').max, shape=[7])
         p0 = NormalDist(box).preprocess_variate
-
-        def p1(rng, x):
-            return jnp.reshape(x, (-1, *box.shape))
+        p1 = default_preprocessor(box)
 
         def p2(rng, x):
             return 'garbage'
@@ -81,3 +79,31 @@ class TestArrayUtils(TestCase):
         self.assertFalse(check_preprocessors(box, p0, p1))
         self.assertFalse(check_preprocessors(box, p0, p2))
         self.assertFalse(check_preprocessors(box, p1, p2))
+
+    def test_default_preprocessor(self):
+        rngs = PRNGSequence(13)
+
+        box = gym.spaces.Box(low=0, high=1, shape=(2, 3))
+        dsc = gym.spaces.Discrete(7)
+        mbn = gym.spaces.MultiBinary(11)
+        mds = gym.spaces.MultiDiscrete(nvec=[3, 5])
+        tup = gym.spaces.Tuple((box, dsc, mbn, mds))
+        dct = gym.spaces.Dict({'box': box, 'dsc': dsc, 'mbn': mbn, 'mds': mds})
+
+        self.assertArrayShape(default_preprocessor(box)(next(rngs), box.sample()), (1, 2, 3))
+        self.assertArrayShape(default_preprocessor(dsc)(next(rngs), dsc.sample()), (1, 7))
+        self.assertArrayShape(default_preprocessor(mbn)(next(rngs), mbn.sample()), (1, 11))
+        self.assertArrayShape(default_preprocessor(mds)(next(rngs), mds.sample())[0], (1, 3))
+        self.assertArrayShape(default_preprocessor(mds)(next(rngs), mds.sample())[1], (1, 5))
+
+        self.assertArrayShape(default_preprocessor(tup)(next(rngs), tup.sample())[0], (1, 2, 3))
+        self.assertArrayShape(default_preprocessor(tup)(next(rngs), tup.sample())[1], (1, 7))
+        self.assertArrayShape(default_preprocessor(tup)(next(rngs), tup.sample())[2], (1, 11))
+        self.assertArrayShape(default_preprocessor(tup)(next(rngs), tup.sample())[3][0], (1, 3))
+        self.assertArrayShape(default_preprocessor(tup)(next(rngs), tup.sample())[3][1], (1, 5))
+
+        self.assertArrayShape(default_preprocessor(dct)(next(rngs), dct.sample())['box'], (1, 2, 3))
+        self.assertArrayShape(default_preprocessor(dct)(next(rngs), dct.sample())['dsc'], (1, 7))
+        self.assertArrayShape(default_preprocessor(dct)(next(rngs), dct.sample())['mbn'], (1, 11))
+        self.assertArrayShape(default_preprocessor(dct)(next(rngs), dct.sample())['mds'][0], (1, 3))
+        self.assertArrayShape(default_preprocessor(dct)(next(rngs), dct.sample())['mds'][1], (1, 5))
