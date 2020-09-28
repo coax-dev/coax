@@ -40,6 +40,7 @@ Object Reference
     coax.utils.check_preprocessors
     coax.utils.clipped_logit
     coax.utils.default_preprocessor
+    coax.utils.diff_transform
     coax.utils.diff_transform_matrix
     coax.utils.docstring
     coax.utils.double_relu
@@ -83,6 +84,7 @@ from ._array import (
     check_preprocessors,
     clipped_logit,
     default_preprocessor,
+    diff_transform,
     diff_transform_matrix,
     double_relu,
     get_magnitude_quantiles,
@@ -123,6 +125,7 @@ __all__ = (
     'check_preprocessors',
     'clipped_logit',
     'default_preprocessor',
+    'diff_transform',
     'diff_transform_matrix',
     'docstring',
     'double_relu',

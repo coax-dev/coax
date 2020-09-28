@@ -39,6 +39,7 @@ __all__ = (
     'check_preprocessors',
     'clipped_logit',
     'default_preprocessor',
+    'diff_transform',
     'diff_transform_matrix',
     'double_relu',
     'get_grads_diagnostics',
@@ -402,7 +403,7 @@ def diff_transform_matrix(num_frames, dtype='float32'):
 
         The number of stacked frames in the original :math:`X`.
 
-    dtype : keras dtype, optional
+    dtype : dtype, optional
 
         The output data type.
 
@@ -419,6 +420,37 @@ def diff_transform_matrix(num_frames, dtype='float32'):
     s = jnp.diag(jnp.power(-1, jnp.arange(num_frames)))  # alternating sign
     m = s.dot(pascal(num_frames, kind='upper'))[::-1, ::-1]
     return m.astype(dtype)
+
+
+def diff_transform(X, dtype='float32'):
+    r"""
+
+    A helper function that implements discrete differentiation for stacked state observations. See
+    :func:`diff_transform_matrix` for a detailed description.
+
+    .. code:: python
+
+        M = diff_transform_matrix(num_frames=X.shape[-1])
+        X_transformed = np.dot(X, M)
+
+
+    Parameters
+    ----------
+    X : ndarray
+
+        An array whose shape is such that the last axis is the frame-stack axis, i.e.
+        :code:`X.shape[-1] == num_frames`.
+
+    Returns
+    -------
+    X_transformed : ndarray
+
+        The shape is the same as the input shape, but the last axis are mixed to represent position,
+        velocity, acceleration, etc.
+
+    """
+    M = diff_transform_matrix(num_frames=X.shape[-1])
+    return jnp.dot(X, M)
 
 
 def double_relu(arr):
