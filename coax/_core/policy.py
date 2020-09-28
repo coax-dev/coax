@@ -19,6 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+from ..utils import default_preprocessor
 from ..proba_dists import ProbaDist
 from .base_stochastic_func_type2 import BaseStochasticFuncType2
 
@@ -40,14 +41,14 @@ class Policy(BaseStochasticFuncType2):
 
     observation_preprocessor : function, optional
 
-        Turns a single observation into a batch of observations that are compatible with the
-        corresponding probability distribution. If left unspecified, this defaults to:
+        Turns a single observation into a batch of observations that in a form that is convenient
+        for feeding into :code:`func`. If left unspecified, this defaults to:
 
         .. code:: python
 
-            observation_preprocessor = ProbaDist(observation_space).preprocess_variate
+            observation_preprocessor = default_preprocessor(env.observation_space)
 
-        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
+        See :func:`coax.utils.default_preprocessor`.
 
     proba_dist : ProbaDist, optional
 
@@ -69,7 +70,7 @@ class Policy(BaseStochasticFuncType2):
 
         # defaults
         if observation_preprocessor is None:
-            observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
+            observation_preprocessor = default_preprocessor(env.observation_space)
         if proba_dist is None:
             proba_dist = ProbaDist(env.action_space)
 
@@ -157,7 +158,7 @@ class Policy(BaseStochasticFuncType2):
 
         # defaults
         if observation_preprocessor is None:
-            observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
+            observation_preprocessor = default_preprocessor(env.observation_space)
         if proba_dist is None:
             proba_dist = ProbaDist(env.action_space)
 

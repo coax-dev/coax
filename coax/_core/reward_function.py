@@ -45,25 +45,25 @@ class RewardFunction(Q):
 
     observation_preprocessor : function, optional
 
-        Turns a single observation into a batch of observations that are compatible with the
-        corresponding probability distribution. If left unspecified, this defaults to:
+        Turns a single observation into a batch of observations that in a form that is convenient
+        for feeding into :code:`func`. If left unspecified, this defaults to:
 
         .. code:: python
 
-            observation_preprocessor = ProbaDist(observation_space).preprocess_variate
+            observation_preprocessor = default_preprocessor(env.observation_space)
 
-        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
+        See :func:`coax.utils.default_preprocessor`.
 
     action_preprocessor : function, optional
 
-        Turns a single action into a batch of actions that are compatible with the corresponding
-        probability distribution. If left unspecified, this defaults to:
+        Turns a single action into a batch of actions that in a form that is convenient for feeding
+        into :code:`func`. If left unspecified, this defaults to:
 
         .. code:: python
 
-            action_preprocessor = ProbaDist(action_space).preprocess_variate
+            action_preprocessor = default_preprocessor(env.action_space)
 
-        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
+        See :func:`coax.utils.default_preprocessor`.
 
     value_transform : ValueTransform or pair of funcs, optional
 

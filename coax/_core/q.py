@@ -28,8 +28,7 @@ import numpy as onp
 import haiku as hk
 from gym.spaces import Space, Discrete
 
-from ..utils import safe_sample
-from ..proba_dists import ProbaDist
+from ..utils import safe_sample, default_preprocessor
 from ..value_transforms import ValueTransform
 from .base_func import BaseFunc, ExampleData, Inputs, ArgsType1, ArgsType2, ModelTypes
 
@@ -57,25 +56,25 @@ class Q(BaseFunc):
 
     observation_preprocessor : function, optional
 
-        Turns a single observation into a batch of observations that are compatible with the
-        corresponding probability distribution. If left unspecified, this defaults to:
+        Turns a single observation into a batch of observations that in a form that is convenient
+        for feeding into :code:`func`. If left unspecified, this defaults to:
 
         .. code:: python
 
-            observation_preprocessor = ProbaDist(observation_space).preprocess_variate
+            observation_preprocessor = default_preprocessor(env.observation_space)
 
-        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
+        See :func:`coax.utils.default_preprocessor`.
 
     action_preprocessor : function, optional
 
-        Turns a single action into a batch of actions that are compatible with the corresponding
-        probability distribution. If left unspecified, this defaults to:
+        Turns a single action into a batch of actions that in a form that is convenient for feeding
+        into :code:`func`. If left unspecified, this defaults to:
 
         .. code:: python
 
-            action_preprocessor = ProbaDist(action_space).preprocess_variate
+            action_preprocessor = default_preprocessor(env.action_space)
 
-        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
+        See :func:`coax.utils.default_preprocessor`.
 
     value_transform : ValueTransform or pair of funcs, optional
 
@@ -111,9 +110,9 @@ class Q(BaseFunc):
 
         # defaults
         if self.observation_preprocessor is None:
-            self.observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
+            self.observation_preprocessor = default_preprocessor(env.observation_space)
         if self.action_preprocessor is None:
-            self.action_preprocessor = ProbaDist(env.action_space).preprocess_variate
+            self.action_preprocessor = default_preprocessor(env.action_space)
         if self.value_transform is None:
             self.value_transform = ValueTransform(lambda x: x, lambda x: x)
         if not isinstance(self.value_transform, ValueTransform):
@@ -246,10 +245,10 @@ class Q(BaseFunc):
                 f"got: {type(env.observation_space)}")
 
         if observation_preprocessor is None:
-            observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
+            observation_preprocessor = default_preprocessor(env.observation_space)
 
         if action_preprocessor is None:
-            action_preprocessor = ProbaDist(env.action_space).preprocess_variate
+            action_preprocessor = default_preprocessor(env.action_space)
 
         rnd = onp.random.RandomState(random_seed)
         rngs = hk.PRNGSequence(rnd.randint(jnp.iinfo('int32').max))

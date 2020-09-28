@@ -28,9 +28,8 @@ import numpy as onp
 import haiku as hk
 from gym.spaces import Space
 
-from ..utils import safe_sample
+from ..utils import safe_sample, default_preprocessor
 from ..value_transforms import ValueTransform
-from ..proba_dists import ProbaDist
 from .base_func import BaseFunc, ExampleData, Inputs, ArgsType2
 
 
@@ -57,14 +56,14 @@ class V(BaseFunc):
 
     observation_preprocessor : function, optional
 
-        Turns a single observation into a batch of observations that are compatible with the
-        corresponding probability distribution. If left unspecified, this defaults to:
+        Turns a single observation into a batch of observations that in a form that is convenient
+        for feeding into :code:`func`. If left unspecified, this defaults to:
 
         .. code:: python
 
-            observation_preprocessor = ProbaDist(observation_space).preprocess_variate
+            observation_preprocessor = default_preprocessor(env.observation_space)
 
-        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
+        See :func:`coax.utils.default_preprocessor`.
 
     value_transform : ValueTransform or pair of funcs, optional
 
@@ -98,7 +97,7 @@ class V(BaseFunc):
 
         # defaults
         if self.observation_preprocessor is None:
-            self.observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
+            self.observation_preprocessor = default_preprocessor(env.observation_space)
         if self.value_transform is None:
             self.value_transform = ValueTransform(lambda x: x, lambda x: x)
         if not isinstance(self.value_transform, ValueTransform):
@@ -142,7 +141,7 @@ class V(BaseFunc):
                 f"got: {type(env.observation_space)}")
 
         if observation_preprocessor is None:
-            observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
+            observation_preprocessor = default_preprocessor(env.observation_space)
 
         rnd = onp.random.RandomState(random_seed)
         rngs = hk.PRNGSequence(rnd.randint(jnp.iinfo('int32').max))

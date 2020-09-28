@@ -28,7 +28,7 @@ import numpy as onp
 import haiku as hk
 from gym.spaces import Space, Discrete
 
-from ..utils import safe_sample, batch_to_single
+from ..utils import safe_sample, batch_to_single, default_preprocessor
 from ..proba_dists import ProbaDist
 from .base_func import BaseFunc, ExampleData, Inputs, ArgsType1, ArgsType2, ModelTypes
 
@@ -56,14 +56,16 @@ class TransitionModel(BaseFunc):
 
     observation_preprocessor : function, optional
 
-        Turns a single observation into a batch of observations that are compatible with the
-        corresponding probability distribution. If left unspecified, this defaults to:
+        Turns a single observation into a batch of observations that in a form that is convenient
+        for feeding into :code:`func`. If left unspecified, this defaults to:
 
         .. code:: python
 
             observation_preprocessor = ProbaDist(observation_space).preprocess_variate
 
-        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
+        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`. The reason why the default
+        is not :func:`coax.utils.default_preprocessor` is that we prefer consistence with
+        :class:`coax.StochasticTransitionModel`.
 
     observation_postprocessor : function, optional
 
@@ -78,14 +80,14 @@ class TransitionModel(BaseFunc):
 
     action_preprocessor : function, optional
 
-        Turns a single action into a batch of actions that are compatible with the corresponding
-        probability distribution. If left unspecified, this defaults to:
+        Turns a single action into a batch of actions that in a form that is convenient for feeding
+        into :code:`func`. If left unspecified, this defaults to:
 
         .. code:: python
 
-            action_preprocessor = ProbaDist(action_space).preprocess_variate
+            action_preprocessor = default_preprocessor(env.action_space)
 
-        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
+        See :func:`coax.utils.default_preprocessor`.
 
     random_seed : int, optional
 
@@ -106,7 +108,7 @@ class TransitionModel(BaseFunc):
         if self.observation_postprocessor is None:
             self.observation_postprocessor = ProbaDist(env.observation_space).postprocess_variate
         if self.action_preprocessor is None:
-            self.action_preprocessor = ProbaDist(env.action_space).preprocess_variate
+            self.action_preprocessor = default_preprocessor(env.action_space)
 
         super().__init__(
             func,
@@ -265,7 +267,7 @@ class TransitionModel(BaseFunc):
             observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
 
         if action_preprocessor is None:
-            action_preprocessor = ProbaDist(env.action_space).preprocess_variate
+            action_preprocessor = default_preprocessor(env.action_space)
 
         rnd = onp.random.RandomState(random_seed)
         rngs = hk.PRNGSequence(rnd.randint(jnp.iinfo('int32').max))

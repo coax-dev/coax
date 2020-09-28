@@ -19,6 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+from ..utils import default_preprocessor
 from ..proba_dists import ProbaDist
 from .base_stochastic_func_type1 import BaseStochasticFuncType1
 
@@ -46,8 +47,8 @@ class StochasticTransitionModel(BaseStochasticFuncType1):
 
     observation_preprocessor : function, optional
 
-        Turns a single observation into a batch of observations that are compatible with the
-        corresponding probability distribution. If left unspecified, this defaults to:
+        Turns a single observation into a batch of observations that in a form that is convenient
+        for feeding into :code:`func`. If left unspecified, this defaults to:
 
         .. code:: python
 
@@ -57,14 +58,14 @@ class StochasticTransitionModel(BaseStochasticFuncType1):
 
     action_preprocessor : function, optional
 
-        Turns a single action into a batch of actions that are compatible with the corresponding
-        probability distribution. If left unspecified, this defaults to:
+        Turns a single action into a batch of actions that in a form that is convenient for feeding
+        into :code:`func`. If left unspecified, this defaults to:
 
         .. code:: python
 
-            action_preprocessor = ProbaDist(action_space).preprocess_variate
+            action_preprocessor = default_preprocessor(env.action_space)
 
-        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
+        See :func:`coax.utils.default_preprocessor`.
 
     proba_dist : ProbaDist, optional
 
@@ -92,7 +93,7 @@ class StochasticTransitionModel(BaseStochasticFuncType1):
         if observation_preprocessor is None:
             observation_preprocessor = proba_dist.preprocess_variate
         if action_preprocessor is None:
-            action_preprocessor = ProbaDist(env.action_space).preprocess_variate
+            action_preprocessor = default_preprocessor(env.action_space)
 
         super().__init__(
             func=func,
@@ -109,7 +110,7 @@ class StochasticTransitionModel(BaseStochasticFuncType1):
 
         # set defaults
         if action_preprocessor is None:
-            action_preprocessor = ProbaDist(env.action_space).preprocess_variate
+            action_preprocessor = default_preprocessor(env.action_space)
         if proba_dist is None:
             proba_dist = ProbaDist(env.observation_space)
 

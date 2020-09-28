@@ -21,7 +21,8 @@
 
 from gym.spaces import Box
 
-from ..proba_dists import ProbaDist, DiscretizedIntervalDist
+from ..utils import default_preprocessor
+from ..proba_dists import DiscretizedIntervalDist
 from ..value_transforms import ValueTransform
 from .base_stochastic_func_type1 import BaseStochasticFuncType1
 
@@ -60,25 +61,25 @@ class StochasticQ(BaseStochasticFuncType1):
 
     observation_preprocessor : function, optional
 
-        Turns a single observation into a batch of observations that are compatible with the
-        corresponding probability distribution. If left unspecified, this defaults to:
+        Turns a single observation into a batch of observations that in a form that is convenient
+        for feeding into :code:`func`. If left unspecified, this defaults to:
 
         .. code:: python
 
-            observation_preprocessor = ProbaDist(observation_space).preprocess_variate
+            observation_preprocessor = default_preprocessor(env.observation_space)
 
-        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
+        See :func:`coax.utils.default_preprocessor`.
 
     action_preprocessor : function, optional
 
-        Turns a single action into a batch of actions that are compatible with the corresponding
-        probability distribution. If left unspecified, this defaults to:
+        Turns a single action into a batch of actions that in a form that is convenient for feeding
+        into :code:`func`. If left unspecified, this defaults to:
 
         .. code:: python
 
-            action_preprocessor = ProbaDist(action_space).preprocess_variate
+            action_preprocessor = default_preprocessor(env.action_space)
 
-        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
+        See :func:`coax.utils.default_preprocessor`.
 
     value_transform : ValueTransform or pair of funcs, optional
 
@@ -109,9 +110,9 @@ class StochasticQ(BaseStochasticFuncType1):
 
         # set defaults
         if observation_preprocessor is None:
-            observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
+            observation_preprocessor = default_preprocessor(env.observation_space)
         if action_preprocessor is None:
-            action_preprocessor = ProbaDist(env.action_space).preprocess_variate
+            action_preprocessor = default_preprocessor(env.action_space)
         if self.value_transform is None:
             self.value_transform = ValueTransform(lambda x: x, lambda x: x)
         if not isinstance(self.value_transform, ValueTransform):
@@ -139,9 +140,9 @@ class StochasticQ(BaseStochasticFuncType1):
         proba_dist = cls._get_proba_dist(value_range, num_bins)
 
         if observation_preprocessor is None:
-            observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate
+            observation_preprocessor = default_preprocessor(env.observation_space)
         if action_preprocessor is None:
-            action_preprocessor = ProbaDist(env.action_space).preprocess_variate
+            action_preprocessor = default_preprocessor(env.action_space)
 
         return super().example_data(
             env=env,
