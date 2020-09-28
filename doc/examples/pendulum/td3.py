@@ -1,10 +1,5 @@
 import os
 
-# set some env vars
-os.environ.setdefault('JAX_PLATFORM_NAME', 'gpu')     # tell JAX to use GPU
-os.environ['XLA_PYTHON_CLIENT_MEM_FRACTION'] = '0.1'  # don't use all gpu mem
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'              # tell XLA to be quiet
-
 import gym
 import jax
 import coax
@@ -14,14 +9,12 @@ from numpy import prod
 import optax
 
 
-# filepaths etc
-tensorboard_dir = "./data/tensorboard/td3"
-gifs_filepath = "./data/gifs/td3/T{:08d}.gif"
+# the name of this script
+name, _ = os.path.splitext(os.path.basename(__file__))
 
-
-# env with preprocessing
-env = gym.make('Pendulum-v0')  # AtariPreprocessing does frame skipping
-env = coax.wrappers.TrainMonitor(env, tensorboard_dir)
+# the Pendulum MDP
+env = gym.make('Pendulum-v0')
+env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 
 
 def func_pi(S, is_training):
@@ -49,8 +42,8 @@ def func_q(S, A, is_training):
 
 # main function approximators
 pi = coax.Policy(func_pi, env)
-q1 = coax.Q(func_q, env)
-q2 = coax.Q(func_q, env)
+q1 = coax.Q(func_q, env, action_preprocessor=pi.proba_dist.preprocess_variate)
+q2 = coax.Q(func_q, env, action_preprocessor=pi.proba_dist.preprocess_variate)
 
 
 # target network
@@ -122,5 +115,6 @@ while env.T < 1000000:
 
     # generate an animated GIF to see what's going on
     if env.period(name='generate_gif', T_period=10000) and env.T > 5000:
-        T = env.T - env.T % 10000
-        coax.utils.generate_gif(env=env, policy=pi.mode, filepath=gifs_filepath.format(T))
+        T = env.T - env.T % 10000  # round to 10000s
+        coax.utils.generate_gif(
+            env=env, policy=pi.mode, filepath=f"./data/gifs/{name}/T{T:08d}.gif")

@@ -9,20 +9,12 @@ from numpy import prod
 import optax
 
 
-# set some env vars
-os.environ.setdefault('JAX_PLATFORM_NAME', 'gpu')     # tell JAX to use GPU
-os.environ['XLA_PYTHON_CLIENT_MEM_FRACTION'] = '0.1'  # don't use all gpu mem
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'              # tell XLA to be quiet
+# the name of this script
+name, _ = os.path.splitext(os.path.basename(__file__))
 
-
-# filepaths etc
-tensorboard_dir = "./data/tensorboard/ppo"
-gifs_filepath = "./data/gifs/ppo/T{:08d}.gif"
-
-
-# env with preprocessing
-env = gym.make('Pendulum-v0')  # AtariPreprocessing does frame skipping
-env = coax.wrappers.TrainMonitor(env, tensorboard_dir)
+# the Pendulum MDP
+env = gym.make('Pendulum-v0')
+env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 
 
 def func_pi(S, is_training):
@@ -112,5 +104,6 @@ while env.T < 1000000:
 
     # generate an animated GIF to see what's going on
     if env.period(name='generate_gif', T_period=10000) and env.T > 5000:
-        T = env.T - env.T % 10000
-        coax.utils.generate_gif(env=env, policy=pi.mode, filepath=gifs_filepath.format(T))
+        T = env.T - env.T % 10000  # round to 10000s
+        coax.utils.generate_gif(
+            env=env, policy=pi.mode, filepath=f"./data/gifs/{name}/T{T:08d}.gif")

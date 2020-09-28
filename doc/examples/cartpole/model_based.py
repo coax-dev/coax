@@ -8,14 +8,12 @@ import optax
 from coax.value_losses import mse
 
 
-# set some env vars
-os.environ['JAX_PLATFORM_NAME'] = 'cpu'   # tell JAX to use CPU
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # tell XLA to be quiet
-
+# the name of this script
+name, _ = os.path.splitext(os.path.basename(__file__))
 
 # the cart-pole MDP
 env = gym.make('CartPole-v0')
-env = coax.wrappers.TrainMonitor(env, log_all_metrics=True)
+env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 
 
 def func_v(S, is_training):
@@ -33,9 +31,9 @@ def func_r(S, A, is_training):
 
 
 # function approximators
-v = coax.V(func_v, env)
 p = coax.TransitionModel(func_p, env)
-r = coax.RewardFunction(func_r, env)
+v = coax.V(func_v, env, observation_preprocessor=p.observation_preprocessor)
+r = coax.RewardFunction(func_r, env, observation_preprocessor=p.observation_preprocessor)
 
 
 # composite objects
@@ -81,4 +79,4 @@ while env.T < 100000:
 
 
 # run env one more time to render
-coax.utils.generate_gif(env, pi.mode, filepath="data/model_based.gif", duration=25)
+coax.utils.generate_gif(env, policy=pi.mode, filepath=f"./data/{name}.gif", duration=25)

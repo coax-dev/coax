@@ -9,14 +9,12 @@ import optax
 from coax.value_losses import mse
 
 
-# set some env vars
-os.environ['JAX_PLATFORM_NAME'] = 'cpu'   # tell JAX to use CPU
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # tell XLA to be quiet
-
+# the name of this script
+name, _ = os.path.splitext(os.path.basename(__file__))
 
 # the cart-pole MDP
 env = gym.make('CartPole-v0')
-env = coax.wrappers.TrainMonitor(env, 'data/tensorboard/a2c')
+env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 
 
 def func_pi(S, is_training):
@@ -87,4 +85,4 @@ for ep in range(1000):
 
 
 # run env one more time to render
-coax.utils.generate_gif(env, pi, filepath="data/a2c.gif", duration=25)
+coax.utils.generate_gif(env, policy=pi.mode, filepath=f"./data/{name}.gif", duration=25)

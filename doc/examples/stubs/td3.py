@@ -25,8 +25,8 @@ def func_q(S, A, is_training):
 
 # define function approximator
 pi = coax.Policy(func_pi, env)
-q1 = coax.Q(func_q, env)
-q2 = coax.Q(func_q, env)
+q1 = coax.Q(func_q, env, action_preprocessor=pi.proba_dist.preprocess_variate)
+q2 = coax.Q(func_q, env, action_preprocessor=pi.proba_dist.preprocess_variate)
 
 
 # target networks
