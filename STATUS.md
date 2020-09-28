@@ -12,7 +12,7 @@ In this file we list the current status of the tests written (and passed).
 | DoubleQLearning |  ✔   |     ✔      |     ✔      |          |      |          |             |     |
 | ExpectedSarsa   |  ✔   |     ✔      |     ✔      |          |      |          |             |     |
 | VanillaPG       |  ✔   |     ✔      |     ✔      |    ✔     |      |          |             |     |
-| DeterministicPG |  ✔   |     ✔      |     ✔      |          |      |          |             |     |
+| DeterministicPG |  ✔   |     ✔      |     ✔      |          |      |    ✔     |             |     |
 | PPOClip         |  ✔   |     ✔      |     ✔      |    ✔     |  ✔   |    ✔     |             |     |
 | CrossEntropy    |      |            |            |          |      |          |             |     |
 
