@@ -17,6 +17,6 @@ every once in a while. This is done by periodically applying exponential-smoothi
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
     :alt: Open in Google Colab
-    :target: https://colab.research.google.com/github/microsoft/coax/blob/master/doc/_notebooks/stubs/dqn.ipynb
+    :target: https://colab.research.google.com/github/microsoft/coax/blob/main/doc/_notebooks/stubs/dqn.ipynb
 
 .. literalinclude:: dqn.py

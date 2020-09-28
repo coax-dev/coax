@@ -29,6 +29,6 @@ script on your local machine.
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
     :alt: Open in Google Colab
-    :target: https://colab.research.google.com/github/microsoft/coax/blob/master/doc/_notebooks/cartpole/dqn.ipynb
+    :target: https://colab.research.google.com/github/microsoft/coax/blob/main/doc/_notebooks/cartpole/dqn.ipynb
 
 .. literalinclude:: /examples/cartpole/dqn.py

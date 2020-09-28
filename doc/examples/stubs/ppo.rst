@@ -82,6 +82,6 @@ For the **coax** implementation, have a look at :class:`coax.policy_objectives.P
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
     :alt: Open in Google Colab
-    :target: https://colab.research.google.com/github/microsoft/coax/blob/master/doc/_notebooks/stubs/ppo.ipynb
+    :target: https://colab.research.google.com/github/microsoft/coax/blob/main/doc/_notebooks/stubs/ppo.ipynb
 
 .. literalinclude:: ppo.py

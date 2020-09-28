@@ -37,6 +37,6 @@ It is the notebook written in this tutorial:
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
     :alt: Open in Google Colab
-    :target: https://colab.research.google.com/github/microsoft/coax/blob/master/doc/_notebooks/linear_regression/jax.ipynb
+    :target: https://colab.research.google.com/github/microsoft/coax/blob/main/doc/_notebooks/linear_regression/jax.ipynb
 
 .. literalinclude:: jax.py
