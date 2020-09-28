@@ -15,10 +15,15 @@ body a {
   display: none !important;
 }
 
+.wy-nav-top {
+  max-width: 1000px;
+  min-width: 600px;
+}
+
 .wy-nav-content {
   background: #fff;
   max-width: 1000px;
-  min-width: 700px;
+  min-width: 600px;
 }
 
 .rst-content dl:not(.docutils) dl dt strong {

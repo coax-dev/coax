@@ -1,5 +1,3 @@
-import os
-
 import coax
 import gym
 import jax.numpy as jnp
@@ -9,7 +7,7 @@ from coax.value_losses import mse
 
 
 # the name of this script
-name, _ = os.path.splitext(os.path.basename(__file__))
+name = 'model_based'
 
 # the cart-pole MDP
 env = gym.make('CartPole-v0')

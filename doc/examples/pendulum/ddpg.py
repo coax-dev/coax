@@ -1,5 +1,3 @@
-import os
-
 import gym
 import jax
 import coax
@@ -10,7 +8,7 @@ import optax
 
 
 # the name of this script
-name, _ = os.path.splitext(os.path.basename(__file__))
+name = 'ddpg'
 
 # the Pendulum MDP
 env = gym.make('Pendulum-v0')

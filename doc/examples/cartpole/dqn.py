@@ -1,5 +1,3 @@
-import os
-
 import coax
 import gym
 import haiku as hk
@@ -10,7 +8,7 @@ from optax import adam
 
 
 # the name of this script
-name, _ = os.path.splitext(os.path.basename(__file__))
+name = 'dqn'
 
 # the cart-pole MDP
 env = gym.make('CartPole-v0')

@@ -1,15 +1,9 @@
-import os
-
 import coax
 import jax
 import jax.numpy as jnp
 import gym
 import haiku as hk
 import optax
-
-# set some env vars
-os.environ['JAX_PLATFORM_NAME'] = 'cpu'   # tell JAX to use CPU
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'  # tell XLA to be quiet
 
 
 # the MDP

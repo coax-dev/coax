@@ -1,5 +1,10 @@
 import os
 
+# set some env vars
+os.environ.setdefault('JAX_PLATFORM_NAME', 'gpu')     # tell JAX to use GPU
+os.environ['XLA_PYTHON_CLIENT_MEM_FRACTION'] = '0.1'  # don't use all gpu mem
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'              # tell XLA to be quiet
+
 import gym
 import jax
 import coax
@@ -8,13 +13,8 @@ import jax.numpy as jnp
 from optax import adam
 
 
-# set some env vars
-os.environ.setdefault('JAX_PLATFORM_NAME', 'gpu')     # tell JAX to use GPU
-os.environ['XLA_PYTHON_CLIENT_MEM_FRACTION'] = '0.1'  # don't use all gpu mem
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'              # tell XLA to be quiet
-
 # the name of this script
-name, _ = os.path.splitext(os.path.basename(__file__))
+name = 'dqn_type1'
 
 # env with preprocessing
 env = gym.make('PongNoFrameskip-v4')  # wrap_deepmind will do frame skipping
