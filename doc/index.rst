@@ -276,7 +276,6 @@ If this ain't your first rodeo, head over the examples listed :doc:`here <exampl
     :maxdepth: 1
     :hidden:
 
-    Blog Post <blogpost>
     genindex
     release_notes
 
