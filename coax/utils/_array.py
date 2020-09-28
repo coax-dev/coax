@@ -25,6 +25,7 @@ import gym
 import jax
 import jax.numpy as jnp
 import numpy as onp
+import haiku as hk
 from scipy.linalg import pascal
 
 from .._base.errors import NumpyArrayCheckError
@@ -35,6 +36,7 @@ __all__ = (
     'argmin',
     'batch_to_single',
     'check_array',
+    'check_preprocessors',
     'clipped_logit',
     'diff_transform_matrix',
     'double_relu',
@@ -205,6 +207,58 @@ def check_array(arr, ndim=None, ndim_min=None, ndim_max=None, dtype=None, shape=
             .format(axis_size, axis, arr.shape))
 
 
+def check_preprocessors(space, *preprocessors, num_samples=20, random_seed=None):
+    r"""
+
+    Check whether two preprocessors are the same.
+
+    Parameters
+    ----------
+    space : gym.Space
+
+        The domain of the prepocessors.
+
+    \*preprocessors
+
+        Preprocessor functions, which are functions with input signature: :code:`func(rng: PRNGKey,
+        x: Element[space]) -> Any`.
+
+    num_samples : positive int
+
+        The number of samples in which to run checks.
+
+    Returns
+    -------
+    match : bool
+
+        Whether the preprocessors match.
+
+    """
+    if len(preprocessors) < 2:
+        raise ValueError("need at least two preprocessors in order to run test")
+
+    def test_leaves(a, b):
+        assert type(a) is type(b)
+        return onp.testing.assert_allclose(onp.asanyarray(a), onp.asanyarray(b))
+
+    rngs = hk.PRNGSequence(onp.random.RandomState(random_seed).randint(jnp.iinfo('int32').max))
+    p0, *ps = preprocessors
+
+    with jax.disable_jit():
+        for _ in range(num_samples):
+            x = space.sample()
+            y0 = p0(next(rngs), x)
+            for p in ps:
+                y = p(next(rngs), x)
+                if jax.tree_structure(y) != jax.tree_structure(y0):
+                    return False
+                try:
+                    jax.tree_multimap(test_leaves, y, y0)
+                except AssertionError:
+                    return False
+    return True
+
+
 def clipped_logit(x, epsilon=1e-15):
     r"""
 
@@ -238,9 +292,8 @@ def clipped_logit(x, epsilon=1e-15):
 
     """
     if jax.api._jit_is_disabled():
-        assert jnp.any(x > 0) and jnp.any(x < 1), "values do not lie on the unit interval"
-    return jnp.log(
-        jnp.maximum(epsilon, x)) - jnp.log(jnp.maximum(epsilon, 1 - x))
+        assert jnp.all(x >= 0) and jnp.all(x <= 1), "values do not lie on the unit interval"
+    return jnp.log(jnp.maximum(epsilon, x)) - jnp.log(jnp.maximum(epsilon, 1 - x))
 
 
 def diff_transform_matrix(num_frames, dtype='float32'):

@@ -19,12 +19,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+import gym
 import jax
 import jax.numpy as jnp
+import numpy as onp
 from haiku import PRNGSequence
 
 from .._base.test_case import TestCase
-from ._array import argmax
+from ._array import argmax, check_preprocessors
+from ..proba_dists import NormalDist
 
 
 class TestArrayUtils(TestCase):
@@ -57,3 +60,24 @@ class TestArrayUtils(TestCase):
 
         self.assertEqual(argmax(next(rngs), vec), 2)  # not zero
         self.assertArrayAlmostEqual(argmax(next(rngs), mat), [1, 1, 3])
+
+    def test_check_preprocessors(self):
+        box = gym.spaces.Box(low=onp.finfo('float32').min, high=onp.finfo('float32').max, shape=[7])
+        p0 = NormalDist(box).preprocess_variate
+
+        def p1(rng, x):
+            return jnp.reshape(x, (-1, *box.shape))
+
+        def p2(rng, x):
+            return 'garbage'
+
+        msg = r"need at least two preprocessors in order to run test"
+        with self.assertRaisesRegex(ValueError, msg):
+            check_preprocessors(box)
+        with self.assertRaisesRegex(ValueError, msg):
+            check_preprocessors(box, p0)
+
+        self.assertTrue(check_preprocessors(box, p0, p0, p0))
+        self.assertFalse(check_preprocessors(box, p0, p1))
+        self.assertFalse(check_preprocessors(box, p0, p2))
+        self.assertFalse(check_preprocessors(box, p1, p2))

@@ -178,6 +178,7 @@ class NormalDist(BaseProbaDist):
     def preprocess_variate(self, rng, X):
         X = jnp.asarray(X, dtype=self.space.dtype)                     # ensure ndarray
         X = jnp.reshape(X, (-1, *self.space.shape))                    # ensure batch axis
+        X = jnp.clip(X, self._low, self._high)                         # clip to be safe
         X = clipped_logit((X - self._low) / (self._high - self._low))  # closed intervals -> reals
         return X
 
