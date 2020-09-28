@@ -6,7 +6,6 @@ import coax
 import haiku as hk
 import jax.numpy as jnp
 from optax import adam
-from ray.rllib.env.atari_wrappers import wrap_deepmind
 
 
 # set some env vars
@@ -14,30 +13,28 @@ os.environ.setdefault('JAX_PLATFORM_NAME', 'gpu')     # tell JAX to use GPU
 os.environ['XLA_PYTHON_CLIENT_MEM_FRACTION'] = '0.1'  # don't use all gpu mem
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'              # tell XLA to be quiet
 
-
-# filepaths etc
-tensorboard_dir = "./data/tensorboard/dqn_boltzmann"
-gifs_filepath = "./data/gifs/dqn_boltzmann/T{:08d}.gif"
-
+# the name of this script
+name, _ = os.path.splitext(os.path.basename(__file__))
 
 # env with preprocessing
 env = gym.make('PongNoFrameskip-v4')  # wrap_deepmind will do frame skipping
-env = wrap_deepmind(env)
-env = coax.wrappers.TrainMonitor(env, tensorboard_dir=tensorboard_dir)
+env = gym.wrappers.AtariPreprocessing(env)
+env = gym.wrappers.FrameStack(env, num_stack=3)
+env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 
 
 def func(S, is_training):
     """ type-2 q-function: s -> q(s,.) """
-    M = coax.utils.diff_transform_matrix(num_frames=S.shape[-1])
-    seq = hk.Sequential((  # S.shape = [batch, h, w, num_stack]
-        lambda x: jnp.dot(x / 255, M),  # [b, h, w, n]
+    seq = hk.Sequential((
+        coax.utils.diff_transform,
         hk.Conv2D(16, kernel_shape=8, stride=4), jax.nn.relu,
         hk.Conv2D(32, kernel_shape=4, stride=2), jax.nn.relu,
         hk.Flatten(),
         hk.Linear(256), jax.nn.relu,
         hk.Linear(env.action_space.n, w_init=jnp.zeros),
     ))
-    return seq(S)
+    X = jnp.moveaxis(S / 255., 1, -1)  # shape: (batch, frames, h, w) --> (batch, h, w, frames)
+    return seq(X)
 
 
 # function approximator
@@ -82,7 +79,7 @@ while env.T < 3000000:
 
     # generate an animated GIF to see what's going on
     if env.period(name='generate_gif', T_period=10000) and env.T > 50000:
-        T = env.T - env.T % 10000
+        T = env.T - env.T % 10000  # round to 10000s
         coax.utils.generate_gif(
             env=env, policy=pi.mode, resize_to=(320, 420),
-            filepath=gifs_filepath.format(T))
+            filepath=f"./data/gifs/{name}/T{T:08d}.gif")

@@ -6,7 +6,6 @@ import coax
 import haiku as hk
 import jax.numpy as jnp
 from optax import adam
-from ray.rllib.env.atari_wrappers import wrap_deepmind
 
 
 # set some env vars
@@ -14,27 +13,25 @@ os.environ.setdefault('JAX_PLATFORM_NAME', 'gpu')     # tell JAX to use GPU
 os.environ['XLA_PYTHON_CLIENT_MEM_FRACTION'] = '0.1'  # don't use all gpu mem
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'              # tell XLA to be quiet
 
-
-# filepaths etc
-tensorboard_dir = "./data/tensorboard/ppo"
-gifs_filepath = "./data/gifs/ppo/T{:08d}.gif"
-
+# the name of this script
+name, _ = os.path.splitext(os.path.basename(__file__))
 
 # env with preprocessing
-env = gym.make('PongNoFrameskip-v4')  # wrap_deepmind will do frame skipping
-env = wrap_deepmind(env)
-env = coax.wrappers.TrainMonitor(env, tensorboard_dir=tensorboard_dir)
+env = gym.make('PongNoFrameskip-v4')
+env = gym.wrappers.AtariPreprocessing(env)
+env = gym.wrappers.FrameStack(env, num_stack=3)
+env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 
 
 def shared(S, is_training):
-    M = coax.utils.diff_transform_matrix(num_frames=S.shape[-1])
-    seq = hk.Sequential([  # S.shape = [batch, h, w, num_stack]
-        lambda x: jnp.dot(x / 255, M),  # [b, h, w, n]
+    seq = hk.Sequential([
+        coax.utils.diff_transform,
         hk.Conv2D(16, kernel_shape=8, stride=4), jax.nn.relu,
         hk.Conv2D(32, kernel_shape=4, stride=2), jax.nn.relu,
         hk.Flatten(),
     ])
-    return seq(S)
+    X = jnp.moveaxis(S / 255., 1, -1)  # shape: (batch, frames, h, w) --> (batch, h, w, frames)
+    return seq(X)
 
 
 def func_pi(S, is_training):
@@ -64,11 +61,11 @@ pi_behavior = pi.copy()
 v_targ = v.copy()
 
 # policy regularizer (avoid premature exploitation)
-kl_div = coax.regularizers.KLDivRegularizer(pi, beta=0.001)
+entropy = coax.regularizers.EntropyRegularizer(pi, beta=0.001)
 
 # updaters
 simpletd = coax.td_learning.SimpleTD(v, v_targ, optimizer=adam(3e-4))
-ppo_clip = coax.policy_objectives.PPOClip(pi, regularizer=kl_div, optimizer=adam(3e-4))
+ppo_clip = coax.policy_objectives.PPOClip(pi, regularizer=entropy, optimizer=adam(3e-4))
 
 # reward tracer and replay buffer
 tracer = coax.reward_tracing.NStep(n=5, gamma=0.99)
@@ -110,7 +107,7 @@ while env.T < 3000000:
 
     # generate an animated GIF to see what's going on
     if env.period(name='generate_gif', T_period=10000) and env.T > 50000:
-        T = env.T - env.T % 10000
+        T = env.T - env.T % 10000  # round to 10000s
         coax.utils.generate_gif(
             env=env, policy=pi.mode, resize_to=(320, 420),
-            filepath=gifs_filepath.format(T))
+            filepath=f"./data/gifs/{name}/T{T:08d}.gif")
