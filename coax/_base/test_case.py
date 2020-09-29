@@ -230,6 +230,38 @@ class TestCase(unittest.TestCase):
         return func
 
     @property
+    def func_q_tochastic_type1(self):
+        def func(S, A, is_training):
+            flatten = hk.Flatten()
+            batch_norm = hk.BatchNorm(create_scale=True, create_offset=True, decay_rate=0.95)
+            batch_norm = partial(batch_norm, is_training=is_training)
+            seq = hk.Sequential((
+                hk.Linear(7),
+                batch_norm,
+                jnp.tanh,
+                hk.Linear(51),
+            ))
+            print(S.shape, A.shape)
+            X = jnp.concatenate((flatten(S), flatten(A)), axis=-1)
+            return {'logits': seq(X)}
+        return func
+
+    @property
+    def func_q_tochastic_type2(self):
+        def func(S, is_training):
+            flatten = hk.Flatten()
+            batch_norm = hk.BatchNorm(create_scale=True, create_offset=True, decay_rate=0.95)
+            batch_norm = partial(batch_norm, is_training=is_training)
+            seq = hk.Sequential((
+                hk.Linear(7), batch_norm, jnp.tanh,
+                hk.Linear(3), jnp.tanh,
+                hk.Linear(self.env_discrete.action_space.n * 51),
+                hk.Reshape((self.env_discrete.action_space.n, 51))
+            ))
+            return seq(flatten(S))
+        return func
+
+    @property
     def func_v(self):
         def func(S, is_training):
             flatten = hk.Flatten()
