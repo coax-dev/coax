@@ -71,7 +71,7 @@ class DiscretizedIntervalDist(CategoricalDist):
         differentiable variates.
 
     """
-    __slots__ = (*CategoricalDist.__slots__, '_space_orig')
+    __slots__ = (*CategoricalDist.__slots__, '__space_orig', '__low', '__high', '__atoms')
 
     def __init__(self, space, num_bins=20, gumbel_softmax_tau=0.2):
         if not isinstance(space, Box):
@@ -79,16 +79,31 @@ class DiscretizedIntervalDist(CategoricalDist):
         if onp.prod(space.shape) > 1:
             raise TypeError(f"{self.__class__.__name__} can only be defined a single interval")
 
-        self._space_orig = space
         super().__init__(space=Discrete(num_bins), gumbel_softmax_tau=gumbel_softmax_tau)
+        self.__space_orig = space
+        self.__low = low = float(space.low)
+        self.__high = high = float(space.high)
+        self.__atoms = low + (jnp.arange(num_bins) + 0.5) * (high - low) / num_bins
 
     @property
     def space_orig(self):
-        return self._space_orig
+        return self.__space_orig
+
+    @property
+    def low(self):
+        return self.__low
+
+    @property
+    def high(self):
+        return self.__high
 
     @property
     def num_bins(self):
         return self.space.n
+
+    @property
+    def atoms(self):
+        return self.__atoms.copy()
 
     def preprocess_variate(self, rng, X):
         X = jnp.asarray(X)
