@@ -245,8 +245,8 @@ If this ain't your first rodeo, head over the examples listed :doc:`here <exampl
 
     coax/value_functions
     coax/policies
-    coax/proba_dists
     coax/dynamics_models
+    coax/proba_dists
 
 .. toctree::
     :caption: Update Strategies

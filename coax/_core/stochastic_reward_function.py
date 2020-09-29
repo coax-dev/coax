@@ -44,30 +44,26 @@ class StochasticRewardFunction(StochasticQ):
 
     value_range : tuple of floats, optional
 
-        A pair of floats :code:`(min_value, max_value)`. If left unspecified, this defaults to
-        :code:`value_range=env.reward_range`.
+        A pair of floats :code:`(min_value, max_value)`. If left unspecifed, this defaults to
+        :code:`env.reward_range`.
+
+    num_bins : int, optional
+
+        The space of rewards is discretized in :code:`num_bins` equal sized bins. We use the default
+        setting of 51 as suggested in the `Distributional RL <https://arxiv.org/abs/1707.06887>`_
+        paper.
 
     observation_preprocessor : function, optional
 
-        Turns a single observation into a batch of observations that in a form that is convenient
-        for feeding into :code:`func`. If left unspecified, this defaults to:
-
-        .. code:: python
-
-            observation_preprocessor = default_preprocessor(env.observation_space)
-
-        See :func:`coax.utils.default_preprocessor`.
+        Turns a single observation into a batch of observations in a form that is convenient for
+        feeding into :code:`func`. If left unspecified, this defaults to
+        :func:`default_preprocessor(env.observation_space) <coax.utils.default_preprocessor>`.
 
     action_preprocessor : function, optional
 
-        Turns a single action into a batch of actions that in a form that is convenient for feeding
-        into :code:`func`. If left unspecified, this defaults to:
-
-        .. code:: python
-
-            action_preprocessor = default_preprocessor(env.action_space)
-
-        See :func:`coax.utils.default_preprocessor`.
+        Turns a single action into a batch of actions in a form that is convenient for feeding into
+        :code:`func`. If left unspecified, this defaults
+        :func:`default_preprocessor(env.action_space) <coax.utils.default_preprocessor>`.
 
     value_transform : ValueTransform or pair of funcs, optional
 
@@ -86,6 +82,7 @@ class StochasticRewardFunction(StochasticQ):
     random_seed : int, optional
 
         Seed for pseudo-random number generators.
+
 
     """
     def __init__(

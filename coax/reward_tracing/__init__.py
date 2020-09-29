@@ -20,6 +20,14 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
+.. autosummary::
+    :nosignatures:
+
+    coax.reward_tracing.NStep
+    coax.reward_tracing.MonteCarlo
+    coax.reward_tracing.TransitionBatch
+
+----
 
 Reward Tracing
 ==============
@@ -58,13 +66,9 @@ For example, in :math:`n`-step SARSA target is constructed as:
 Object Reference
 ----------------
 
-.. autosummary::
-    :nosignatures:
-
-    coax.reward_tracing.TransitionSingle
-    coax.reward_tracing.TransitionBatch
-    coax.reward_tracing.MonteCarlo
-    coax.reward_tracing.NStep
+.. autoclass:: coax.reward_tracing.NStep
+.. autoclass:: coax.reward_tracing.MonteCarlo
+.. autoclass:: coax.reward_tracing.TransitionBatch
 
 """
 

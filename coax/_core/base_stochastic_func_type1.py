@@ -254,12 +254,12 @@ class BaseStochasticFuncType1(BaseFunc):
     def sample_func_type1(self):
         r"""
 
-        The function that is used for sampling *random* actions, defined as a JIT-compiled pure
+        The function that is used for generating *random samples*, defined as a JIT-compiled pure
         function. This function may be called directly as:
 
         .. code:: python
 
-            output = obj.sample_func_type1(obj.params, obj.function_state, obj.rng, *inputs)
+            output = obj.sample_func_type1(obj.params, obj.function_state, obj.rng, S, is_training)
 
         """
         if not hasattr(self, '_sample_func_type1'):
@@ -276,14 +276,14 @@ class BaseStochasticFuncType1(BaseFunc):
     def sample_func_type2(self):
         r"""
 
-        The function that is used for sampling *random* actions, defined as a JIT-compiled pure
+        The function that is used for generating *random samples*, defined as a JIT-compiled pure
         function. This function may be called directly as:
 
         .. code:: python
 
-            output = obj.sample_func_type2(obj.params, obj.function_state, obj.rng, *inputs)
+            output = obj.sample_func_type2(obj.params, obj.function_state, obj.rng, S, A, is_training)
 
-        """
+        """  # noqa: E501
         if not hasattr(self, '_sample_func_type2'):
             def func(params, state, rng, S):
                 rngs = hk.PRNGSequence(rng)
@@ -301,12 +301,12 @@ class BaseStochasticFuncType1(BaseFunc):
     def mode_func_type1(self):
         r"""
 
-        The function that is used for sampling *greedy* actions, defined as a JIT-compiled pure
-        function. This function may be called directly as:
+        The function that is used for computing the *mode*, defined as a JIT-compiled pure function.
+        This function may be called directly as:
 
         .. code:: python
 
-            output = obj.mode_func(obj.params, obj.function_state, obj.rng, *inputs)
+            output = obj.mode_func(obj.params, obj.function_state, obj.rng, S, A, is_training)
 
         """
         if not hasattr(self, '_mode_func_type1'):
@@ -321,12 +321,12 @@ class BaseStochasticFuncType1(BaseFunc):
     def mode_func_type2(self):
         r"""
 
-        The function that is used for sampling *greedy* actions, defined as a JIT-compiled pure
-        function. This function may be called directly as:
+        The function that is used for computing the *mode*, defined as a JIT-compiled pure function.
+        This function may be called directly as:
 
         .. code:: python
 
-            output = obj.mode_func(obj.params, obj.function_state, obj.rng, *inputs)
+            output = obj.mode_func(obj.params, obj.function_state, obj.rng, S, is_training)
 
         """
         if not hasattr(self, '_mode_func_type2'):

@@ -20,6 +20,13 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
+.. autosummary::
+    :nosignatures:
+
+    coax.regularizers.EntropyRegularizer
+    coax.regularizers.KLDivRegularizer
+
+----
 
 Regularizers
 ============
@@ -32,13 +39,8 @@ policy.
 Object Reference
 ----------------
 
-.. autosummary::
-    :nosignatures:
-
-    coax.regularizers.Regularizer
-    coax.regularizers.EntropyRegularizer
-    coax.regularizers.KLDivRegularizer
-
+..autoclass:: coax.regularizers.EntropyRegularizer
+..autoclass:: coax.regularizers.KLDivRegularizer
 
 """
 

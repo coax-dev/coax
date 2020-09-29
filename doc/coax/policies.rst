@@ -1,3 +1,13 @@
+.. autosummary::
+    :nosignatures:
+
+    coax.Policy
+    coax.EpsilonGreedy
+    coax.BoltzmannPolicy
+    coax.RandomPolicy
+
+----
+
 Policies
 ========
 
@@ -6,6 +16,7 @@ function approximator to parametrize a state-action value function :math:`q_\the
 derives a policy from this q-function. The other method uses a function approximator to parametrize
 the policy directly, i.e. :math:`\pi(a|s)=\pi_\theta(a|s)`. The methods are called *value-based*
 methods and *policy gradient* methods, respectively.
+
 
 A policy in **coax** is a function that maps state observations to actions. The example below shows
 how to use a policy in a simple episode roll-out.
@@ -42,7 +53,6 @@ As an aside, we note that **coax** policies have two more methods:
     dist_params = pi.dist_params(s)  # distribution parameters, conditioned on s
     print(dist_params)               # in this example: categorical dist with n=3
     # {'logits': array([-0.5711, 1.0513 , 0.0012])}
-
 
 
 Random policy
@@ -262,14 +272,6 @@ precisely the same way as we've done before. For example, here's a compatible fo
 
 Object Reference
 ----------------
-
-.. autosummary::
-    :nosignatures:
-
-    coax.Policy
-    coax.EpsilonGreedy
-    coax.BoltzmannPolicy
-    coax.RandomPolicy
 
 .. autoclass:: coax.Policy
 .. autoclass:: coax.EpsilonGreedy

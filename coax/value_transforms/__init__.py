@@ -20,6 +20,13 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
+.. autosummary::
+    :nosignatures:
+
+    coax.value_transforms.ValueTransform
+    coax.value_transforms.LogTransform
+
+----
 
 Value Transforms
 ================
@@ -32,11 +39,8 @@ signal, see e.g. :class:`coax.value_transforms.LogTransform`.
 Object Reference
 ----------------
 
-.. autosummary::
-    :nosignatures:
-
-    coax.value_transforms.ValueTransform
-    coax.value_transforms.LogTransform
+.. autoclass:: coax.value_transforms.ValueTransform
+.. autoclass:: coax.value_transforms.LogTransform
 
 
 """

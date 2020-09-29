@@ -20,6 +20,15 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
+.. autosummary::
+    :nosignatures:
+
+    coax.policy_objectives.VanillaPG
+    coax.policy_objectives.PPOClip
+    coax.policy_objectives.DeterministicPG
+
+
+----
 
 Policy Objectives
 =================
@@ -31,13 +40,9 @@ methods.
 Object Reference
 ----------------
 
-.. autosummary::
-    :nosignatures:
-
-    coax.policy_objectives.PolicyObjective
-    coax.policy_objectives.VanillaPG
-    coax.policy_objectives.PPOClip
-    coax.policy_objectives.DeterministicPG
+.. autoclass:: coax.policy_objectives.VanillaPG
+.. autoclass:: coax.policy_objectives.PPOClip
+.. autoclass:: coax.policy_objectives.DeterministicPG
 
 """
 

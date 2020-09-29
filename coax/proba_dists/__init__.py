@@ -20,17 +20,6 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
-
-Probability Distributions
-=========================
-
-This is a collection of **differentiable** probability distributions used
-throughout the package.
-
-
-Object Reference
-----------------
-
 .. autosummary::
     :nosignatures:
 
@@ -38,6 +27,22 @@ Object Reference
     coax.proba_dists.CategoricalDist
     coax.proba_dists.NormalDist
     coax.proba_dists.DiscretizedIntervalDist
+
+-----
+
+Probability Distributions
+=========================
+
+This is a collection of **differentiable** probability distributions used throughout the package.
+
+
+Object Reference
+----------------
+
+.. autoclass:: coax.proba_dists.ProbaDist
+.. autoclass:: coax.proba_dists.CategoricalDist
+.. autoclass:: coax.proba_dists.NormalDist
+.. autoclass:: coax.proba_dists.DiscretizedIntervalDist
 
 
 """

@@ -1,3 +1,15 @@
+.. autosummary::
+    :nosignatures:
+
+    coax.V
+    coax.Q
+    coax.StochasticV
+    coax.StochasticQ
+    coax.SuccessorStateQ
+
+----
+
+
 Value Functions
 ===============
 
@@ -185,15 +197,6 @@ If something goes wrong and you'd like to debug the forward-pass function, here'
 
 Object Reference
 ----------------
-
-.. autosummary::
-    :nosignatures:
-
-    coax.V
-    coax.Q
-    coax.StochasticV
-    coax.StochasticQ
-    coax.SuccessorStateQ
 
 .. autoclass:: coax.V
 .. autoclass:: coax.Q

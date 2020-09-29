@@ -54,21 +54,15 @@ class StochasticV(BaseStochasticFuncType2):
 
     num_bins : int, optional
 
-        If provided, the space of values is discretized into :code:`num_bins` equal-sized bins. This
-        also changes the underlying probability distribution to a :class:`CategoricalDist
-        <coax.proba_dists.CategoricalDist>` instead of the unimodal :class:`NormalDist
-        <coax.proba_dists.NormalDist>`.
+        The space of rewards is discretized in :code:`num_bins` equal sized bins. We use the default
+        setting of 51 as suggested in the `Distributional RL <https://arxiv.org/abs/1707.06887>`_
+        paper.
 
     observation_preprocessor : function, optional
 
-        Turns a single observation into a batch of observations that in a form that is convenient
-        for feeding into :code:`func`. If left unspecified, this defaults to:
-
-        .. code:: python
-
-            observation_preprocessor = default_preprocessor(env.observation_space)
-
-        See :func:`coax.utils.default_preprocessor`.
+        Turns a single observation into a batch of observations in a form that is convenient for
+        feeding into :code:`func`. If left unspecified, this defaults to
+        :func:`default_preprocessor(env.observation_space) <coax.utils.default_preprocessor>`.
 
     value_transform : ValueTransform or pair of funcs, optional
 

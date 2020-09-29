@@ -45,25 +45,15 @@ class RewardFunction(Q):
 
     observation_preprocessor : function, optional
 
-        Turns a single observation into a batch of observations that in a form that is convenient
-        for feeding into :code:`func`. If left unspecified, this defaults to:
-
-        .. code:: python
-
-            observation_preprocessor = default_preprocessor(env.observation_space)
-
-        See :func:`coax.utils.default_preprocessor`.
+        Turns a single observation into a batch of observations in a form that is convenient for
+        feeding into :code:`func`. If left unspecified, this defaults to
+        :func:`default_preprocessor(env.observation_space) <coax.utils.default_preprocessor>`.
 
     action_preprocessor : function, optional
 
-        Turns a single action into a batch of actions that in a form that is convenient for feeding
-        into :code:`func`. If left unspecified, this defaults to:
-
-        .. code:: python
-
-            action_preprocessor = default_preprocessor(env.action_space)
-
-        See :func:`coax.utils.default_preprocessor`.
+        Turns a single action into a batch of actions in a form that is convenient for feeding into
+        :code:`func`. If left unspecified, this defaults
+        :func:`default_preprocessor(env.action_space) <coax.utils.default_preprocessor>`.
 
     value_transform : ValueTransform or pair of funcs, optional
 

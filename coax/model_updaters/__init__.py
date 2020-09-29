@@ -20,6 +20,12 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
+.. autosummary::
+    :nosignatures:
+
+    coax.model_updaters.ModelUpdater
+
+----
 
 Model Updaters
 ==============
@@ -31,10 +37,7 @@ reward functions.
 Object Reference
 ----------------
 
-.. autosummary::
-    :nosignatures:
-
-    coax.model_updaters.ModelUpdater
+.. autoclass:: coax.model_updaters.ModelUpdater
 
 """
 

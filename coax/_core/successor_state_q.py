@@ -47,16 +47,16 @@ class SuccessorStateQ:
 
     Parameters
     ----------
-    v : V
+    v : V or StochasticV
 
         A state value function :math:`v(s)`.
 
-    p : StochasticTransitionModel
+    p : TransitionModel or StochasticTransitionModel
 
         A dynamics model :math:`p(s'|s,a)`. This may also be a ordinary function with the signature:
         :code:`(Observation, Action) -> Observation`.
 
-    r : StochasticRewardFunction
+    r : RewardFunction or StochasticRewardFunction
 
         A reward function :math:`r(s,a)`. This may also be a ordinary function with the signature:
         :code:`(Observation, Action) -> float`.

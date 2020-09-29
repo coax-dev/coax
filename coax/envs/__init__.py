@@ -20,6 +20,12 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
+.. autosummary::
+    :nosignatures:
+
+    coax.envs.ConnectFourEnv
+
+----
 
 Environments
 ============
@@ -31,11 +37,7 @@ This is a collection of environments currently not included in `OpenAI Gym
 Object Reference
 ----------------
 
-.. autosummary::
-    :nosignatures:
-
-    coax.envs.ConnectFourEnv
-
+.. autoclass:: coax.envs.ConnectFourEnv
 
 """
 

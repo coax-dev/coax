@@ -20,20 +20,6 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
-
-TD Learning
-===========
-
-This is a collection of objects that are used to update value functions via
-*Temporal Difference* (TD) learning. A state value function :class:`coax.V` is
-using :class:`coax.td_learning.SimpleTD`. To update a state-action value
-function :class:`coax.Q`, there are multiple options available. The difference
-between the options are the manner in which the TD-target is constructed.
-
-
-Object Reference
-----------------
-
 .. autosummary::
     :nosignatures:
 
@@ -43,6 +29,28 @@ Object Reference
     coax.td_learning.QLearning
     coax.td_learning.DoubleQLearning
     coax.td_learning.ClippedDoubleQLearning
+
+----
+
+TD Learning
+===========
+
+This is a collection of objects that are used to update value functions via *Temporal Difference*
+(TD) learning. A state value function :class:`coax.V` is using :class:`coax.td_learning.SimpleTD`.
+To update a state-action value function :class:`coax.Q`, there are multiple options available. The
+difference between the options are the manner in which the TD-target is constructed.
+
+
+Object Reference
+----------------
+
+.. autoclass:: coax.td_learning.SimpleTD
+.. autoclass:: coax.td_learning.Sarsa
+.. autoclass:: coax.td_learning.ExpectedSarsa
+.. autoclass:: coax.td_learning.QLearning
+.. autoclass:: coax.td_learning.DoubleQLearning
+.. autoclass:: coax.td_learning.ClippedDoubleQLearning
+
 
 """
 

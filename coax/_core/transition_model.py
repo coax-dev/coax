@@ -56,38 +56,23 @@ class TransitionModel(BaseFunc):
 
     observation_preprocessor : function, optional
 
-        Turns a single observation into a batch of observations that in a form that is convenient
-        for feeding into :code:`func`. If left unspecified, this defaults to:
-
-        .. code:: python
-
-            observation_preprocessor = ProbaDist(observation_space).preprocess_variate
-
-        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`. The reason why the default
-        is not :func:`coax.utils.default_preprocessor` is that we prefer consistence with
-        :class:`coax.StochasticTransitionModel`.
+        Turns a single observation into a batch of observations in a form that is convenient for
+        feeding into :code:`func`. If left unspecified, this defaults to
+        :attr:`proba_dist.preprocess_variate <coax.proba_dists.ProbaDist.preprocess_variate>`. The
+        reason why the default is not :func:`coax.utils.default_preprocessor` is that we prefer
+        consistence with :class:`coax.StochasticTransitionModel`.
 
     observation_postprocessor : function, optional
 
         Takes a batch of generated observations and makes sure that they are that are compatible
-        with the original :code:`observation_space`. If left unspecified, this defaults to:
-
-        .. code:: python
-
-            observation_postprocessor = ProbaDist(observation_space).postprocess_variate
-
-        See also :attr:`coax.proba_dists.ProbaDist.postprocess_variate`.
+        with the original :code:`observation_space`. If left unspecified, this defaults to
+        :attr:`proba_dist.postprocess_variate <coax.proba_dists.ProbaDist.postprocess_variate>`.
 
     action_preprocessor : function, optional
 
-        Turns a single action into a batch of actions that in a form that is convenient for feeding
-        into :code:`func`. If left unspecified, this defaults to:
-
-        .. code:: python
-
-            action_preprocessor = default_preprocessor(env.action_space)
-
-        See :func:`coax.utils.default_preprocessor`.
+        Turns a single action into a batch of actions in a form that is convenient for feeding into
+        :code:`func`. If left unspecified, this defaults
+        :func:`default_preprocessor(env.action_space) <coax.utils.default_preprocessor>`.
 
     random_seed : int, optional
 

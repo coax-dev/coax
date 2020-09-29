@@ -19,7 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-from typing import Any, Sequence
+from typing import TypeVar, Union, Sequence
 
 
 __all__ = (
@@ -30,7 +30,7 @@ __all__ = (
 )
 
 
-Batch = Sequence            # annotate batched quantities
-SpaceElement = Any          # element of a gym-style space
-Observation = SpaceElement  # a state observation
-Action = SpaceElement       # an action
+Batch = Sequence                           # annotate batched quantities
+Observation = TypeVar('Observation')       # a state observation
+Action = TypeVar('Action')                 # an action
+SpaceElement = Union[Observation, Action]  # element of a gym-style space

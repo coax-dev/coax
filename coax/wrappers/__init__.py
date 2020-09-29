@@ -20,6 +20,15 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
+.. autosummary::
+    :nosignatures:
+
+    coax.wrappers.TrainMonitor
+    coax.wrappers.BoxActionsToReals
+    coax.wrappers.BoxActionsToDiscrete
+    coax.wrappers.MetaPolicyEnv
+
+----
 
 Wrappers
 ========
@@ -39,13 +48,10 @@ module as well as tensorboard through the `tensorboardX
 Object Reference
 ----------------
 
-.. autosummary::
-    :nosignatures:
-
-    coax.wrappers.TrainMonitor
-    coax.wrappers.BoxActionsToReals
-    coax.wrappers.BoxActionsToDiscrete
-    coax.wrappers.MetaPolicyEnv
+.. autoclass:: coax.wrappers.TrainMonitor
+.. autoclass:: coax.wrappers.BoxActionsToReals
+.. autoclass:: coax.wrappers.BoxActionsToDiscrete
+.. autoclass:: coax.wrappers.MetaPolicyEnv
 
 
 """

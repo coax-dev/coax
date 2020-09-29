@@ -20,6 +20,12 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
+.. autosummary::
+    :nosignatures:
+
+    coax.experience_replay.SimpleReplayBuffer
+
+----
 
 Experience Replay
 =================
@@ -70,10 +76,8 @@ follows:
 Object Reference
 ----------------
 
-.. autosummary::
-    :nosignatures:
+.. autoclass:: coax.experience_replay.SimpleReplayBuffer
 
-    coax.experience_replay.SimpleReplayBuffer
 
 """
 

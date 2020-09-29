@@ -47,25 +47,15 @@ class StochasticTransitionModel(BaseStochasticFuncType1):
 
     observation_preprocessor : function, optional
 
-        Turns a single observation into a batch of observations that in a form that is convenient
-        for feeding into :code:`func`. If left unspecified, this defaults to:
-
-        .. code:: python
-
-            observation_preprocessor = proba_dist.preprocess_variate
-
-        See also :attr:`coax.proba_dists.ProbaDist.preprocess_variate`.
+        Turns a single observation into a batch of observations in a form that is convenient for
+        feeding into :code:`func`. If left unspecified, this defaults to
+        :attr:`proba_dist.preprocess_variate <coax.proba_dists.ProbaDist.preprocess_variate>`.
 
     action_preprocessor : function, optional
 
-        Turns a single action into a batch of actions that in a form that is convenient for feeding
-        into :code:`func`. If left unspecified, this defaults to:
-
-        .. code:: python
-
-            action_preprocessor = default_preprocessor(env.action_space)
-
-        See :func:`coax.utils.default_preprocessor`.
+        Turns a single action into a batch of actions in a form that is convenient for feeding into
+        :code:`func`. If left unspecified, this defaults
+        :func:`default_preprocessor(env.action_space) <coax.utils.default_preprocessor>`.
 
     proba_dist : ProbaDist, optional
 

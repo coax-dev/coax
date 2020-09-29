@@ -1,3 +1,14 @@
+.. autosummary::
+    :nosignatures:
+
+    coax.TransitionModel
+    coax.RewardFunction
+    coax.StochasticTransitionModel
+    coax.StochasticRewardFunction
+
+----
+
+
 Dynamics Models
 ===============
 
@@ -17,8 +28,8 @@ are the parameters of a Gaussian distribution, :math:`\varphi_\theta(s,a)=(\mu_\
 \Sigma_\theta(s,a))`.
 
 
-Transition model
-----------------
+Transition Models
+-----------------
 
 In this example we see how to construct a deterministic transition model :math:`p(s'|s,a)`. Note
 that the construction of a *stochastic* transition model is very similar to the construction of a
@@ -139,7 +150,7 @@ the constructor runs under the hood:
 
 
 
-Reward functions
+Reward Functions
 ----------------
 
 The :class:`coax.RewardFunction` and :class:`coax.StochasticRewardFunction` are essentially aliases
@@ -149,14 +160,6 @@ of :class:`coax.Q` and :class:`coax.StochasticQ`, respectively. Have a look at t
 
 Object Reference
 ----------------
-
-.. autosummary::
-    :nosignatures:
-
-    coax.TransitionModel
-    coax.RewardFunction
-    coax.StochasticTransitionModel
-    coax.StochasticRewardFunction
 
 .. autoclass:: coax.TransitionModel
 .. autoclass:: coax.RewardFunction
