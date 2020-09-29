@@ -92,5 +92,5 @@ class SimpleTD(BaseTDLearningV):
         params, state = target_params['v_targ'], target_state['v_targ']
         S_next = self.v_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
         V_next, _ = self.v_targ.function(params, state, next(rngs), S_next, False)
-        f, f_inv = self.v.value_transform
+        f, f_inv = self.v.value_transform.transform_func, self.v_targ.value_transform.inverse_func
         return f(transition_batch.Rn + transition_batch.In * f_inv(V_next))

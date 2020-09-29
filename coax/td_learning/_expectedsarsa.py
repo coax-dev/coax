@@ -136,5 +136,5 @@ class ExpectedSarsa(BaseTDLearningQWithTargetPolicy):
         assert Q_s_next.ndim == 2, f"bad shape: {Q_s_next.shape}"
         Q_sa_next = jax.vmap(jnp.dot)(P, Q_s_next)
 
-        f, f_inv = self.q.value_transform
+        f, f_inv = self.q.value_transform.transform_func, self.q_targ.value_transform.inverse_func
         return f(transition_batch.Rn + transition_batch.In * f_inv(Q_sa_next))

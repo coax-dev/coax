@@ -240,7 +240,8 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
                     Q_sa_next, _ = q_j.function_type1(
                         params_j, state_j, next(rngs), S_next, A_next, False)
                     assert Q_sa_next.ndim == 1, f"bad shape: {Q_sa_next.shape}"
-                    Q_sa_next_list.append(Q_sa_next)
+                    f_inv = q_j.value_transform.inverse_func
+                    Q_sa_next_list.append(f_inv(Q_sa_next))
 
         else:
             Q_sa_next_list = []
@@ -259,7 +260,8 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
                     Q_sa_next, _ = q_j.function_type1(
                         params_j, state_j, next(rngs), S_next, A_next, False)
                     assert Q_sa_next.ndim == 1, f"bad shape: {Q_sa_next.shape}"
-                    Q_sa_next_list.append(Q_sa_next)
+                    f_inv = q_j.value_transform.inverse_func
+                    Q_sa_next_list.append(f_inv(Q_sa_next))
 
         # take the min to mitigate over-estimation
         Q_sa_next_list = jnp.stack(Q_sa_next_list, axis=-1)
@@ -267,8 +269,8 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
         Q_sa_next = jnp.min(Q_sa_next_list, axis=-1)
 
         assert Q_sa_next.ndim == 1, f"bad shape: {Q_sa_next.shape}"
-        f, f_inv = self.q.value_transform
-        return f(transition_batch.Rn + transition_batch.In * f_inv(Q_sa_next))
+        f = self.q.value_transform.transform_func
+        return f(transition_batch.Rn + transition_batch.In * Q_sa_next)
 
     def _check_input_lists(self, pi_targ_list, q_targ_list):
         # check input: pi_targ_list

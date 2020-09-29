@@ -138,5 +138,5 @@ class DoubleQLearning(BaseTDLearningQWithTargetPolicy):
         Q_sa_next, _ = self.q.function_type1(params, state, next(rngs), S_next, A_next, False)
 
         assert Q_sa_next.ndim == 1, f"bad shape: {Q_sa_next.shape}"
-        f, f_inv = self.q.value_transform
+        f, f_inv = self.q.value_transform.transform_func, self.q_targ.value_transform.inverse_func
         return f(transition_batch.Rn + transition_batch.In * f_inv(Q_sa_next))
