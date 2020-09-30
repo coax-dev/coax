@@ -53,12 +53,16 @@ for ep in range(500):
             qlearning.update(transition_batch)
 
             # sync target network
-            q_targ.soft_update(q, tau=0.01)
+            q_targ.soft_update(q, tau=0.1)
 
         if done:
             break
 
         s = s_next
+
+    # early stopping
+    if env.avg_G > env.spec.reward_threshold:
+        break
 
 
 # run env one more time to render
@@ -78,3 +82,8 @@ for t in range(env.spec.max_episode_steps):
 
     if done:
         break
+
+
+if env.avg_G < env.spec.reward_threshold:
+    name = globals().get('__file__', 'this script')
+    raise RuntimeError(f"{name} failed to reach env.spec.reward_threshold")

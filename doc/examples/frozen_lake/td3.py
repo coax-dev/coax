@@ -13,14 +13,12 @@ env = coax.wrappers.TrainMonitor(env)
 
 def func_pi(S, is_training):
     logits = hk.Linear(env.action_space.n, w_init=jnp.zeros)
-    S = hk.one_hot(S, env.observation_space.n)
     return {'logits': logits(S)}
 
 
 def func_q(S, A, is_training):
     value = hk.Sequential((hk.Flatten(), hk.Linear(1, w_init=jnp.zeros), jnp.ravel))
-    S = hk.one_hot(S, env.observation_space.n)
-    X = jax.vmap(jnp.kron)(S, A)  # A is already one-hot encoded
+    X = jax.vmap(jnp.kron)(S, A)  # S and A are one-hot encoded
     return value(X)
 
 
@@ -78,14 +76,18 @@ for ep in range(500):
                 determ_pg.update(transition_batch)
 
             # sync copies
-            q1_targ.soft_update(q1, tau=0.01)
-            q2_targ.soft_update(q2, tau=0.01)
-            pi_targ.soft_update(pi, tau=0.01)
+            q1_targ.soft_update(q1, tau=0.1)
+            q2_targ.soft_update(q2, tau=0.1)
+            pi_targ.soft_update(pi, tau=0.1)
 
         if done:
             break
 
         s = s_next
+
+    # early stopping
+    if env.avg_G > env.spec.reward_threshold:
+        break
 
 
 # run env one more time to render
@@ -111,3 +113,8 @@ for t in range(env.spec.max_episode_steps):
 
     if done:
         break
+
+
+if env.avg_G < env.spec.reward_threshold:
+    name = globals().get('__file__', 'this script')
+    raise RuntimeError(f"{name} failed to reach env.spec.reward_threshold")

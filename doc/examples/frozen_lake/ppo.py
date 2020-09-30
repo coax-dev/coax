@@ -13,13 +13,11 @@ env = coax.wrappers.TrainMonitor(env)
 
 def func_v(S, is_training):
     value = hk.Sequential((hk.Linear(1, w_init=jnp.zeros), jnp.ravel))
-    S = hk.one_hot(S, env.observation_space.n)
     return value(S)
 
 
 def func_pi(S, is_training):
     logits = hk.Linear(env.action_space.n, w_init=jnp.zeros)
-    S = hk.one_hot(S, env.observation_space.n)
     return {'logits': logits(S)}
 
 
@@ -71,6 +69,10 @@ for ep in range(500):
 
         s = s_next
 
+    # early stopping
+    if env.avg_G > env.spec.reward_threshold:
+        break
+
 
 # run env one more time to render
 s = env.reset()
@@ -94,3 +96,8 @@ for t in range(env.spec.max_episode_steps):
 
     if done:
         break
+
+
+if env.avg_G < env.spec.reward_threshold:
+    name = globals().get('__file__', 'this script')
+    raise RuntimeError(f"{name} failed to reach env.spec.reward_threshold")

@@ -53,6 +53,10 @@ for ep in range(500):
 
         s = s_next
 
+    # early stopping
+    if env.avg_G > env.spec.reward_threshold:
+        break
+
 
 # run env one more time to render
 s = env.reset()
@@ -71,3 +75,8 @@ for t in range(env.spec.max_episode_steps):
 
     if done:
         break
+
+
+if env.avg_G < env.spec.reward_threshold:
+    name = globals().get('__file__', 'this script')
+    raise RuntimeError(f"{name} failed to reach env.spec.reward_threshold")

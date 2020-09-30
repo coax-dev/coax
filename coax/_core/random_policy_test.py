@@ -36,7 +36,6 @@ env = gym.make('FrozenLakeNonSlippery-v0')
 def func_type2(S, is_training):
     batch_norm = hk.BatchNorm(False, False, 0.99)
     seq = hk.Sequential((
-        partial(jax.nn.one_hot, num_classes=env.observation_space.n),
         hk.Flatten(),
         hk.Linear(8), jax.nn.relu,
         partial(hk.dropout, hk.next_rng_key(), 0.25 if is_training else 0.),
