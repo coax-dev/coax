@@ -16,14 +16,12 @@ body a {
 }
 
 .wy-nav-top {
-  max-width: 1000px;
-  min-width: 600px;
+  max-width: 900px;
 }
 
 .wy-nav-content {
   background: #fff;
-  max-width: 1000px;
-  min-width: 600px;
+  max-width: 900px;
 }
 
 .rst-content dl:not(.docutils) dl dt strong {

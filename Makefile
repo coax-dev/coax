@@ -15,7 +15,7 @@ doc: notebooks flake8
 view_doc:
 	x-www-browser build/sphinx/html/index.html
 
-doc_autobuild:
+doc_autobuild: clean
 	$(PYTHON_EXECUTABLE) -m sphinx_autobuild --open-browser --watch coax --ignore *.tfevents.* -b html doc build/sphinx/html
 
 sync: intersphinx get_pylintrc
