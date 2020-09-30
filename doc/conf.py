@@ -145,6 +145,17 @@ if os.environ.get('GA_TRACKING_ID', '').startswith('UA-'):
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ['_static']
 
+# some extra html files to include as-is
+html_extra_path = []
+
+# verify that base url is linked to google account
+if os.environ.get('GOOGLE_VERIFICATION_HASH'):
+    fn = 'google{GOOGLE_VERIFICATION_HASH}.html'.format(**os.environ)
+    with open(fn, 'w') as f:
+        f.write(f"google-site-verification: {fn}")
+    html_extra_path.append(fn)
+
+
 # Custom sidebar templates, must be a dictionary that maps document names
 # to template names.
 #

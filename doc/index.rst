@@ -12,8 +12,9 @@ coax
 Coax is a modular Reinforcement Learning (RL) python package for solving OpenAI Gym environments
 with JAX-based function approximators.
 
+
 Install
-=======
+-------
 
 Coax is built on top of JAX, but it doesn't have an explicit dependence on the ``jax``
 python package. The reason is that your version of ``jaxlib`` will depend on your CUDA version.
@@ -27,6 +28,39 @@ setup.
 
 Alternatively, you could build ``jaxlib`` from source by following
 `this guide <https://jax.readthedocs.io/en/latest/developer.html#building-from-source>`_.
+
+
+Introduction
+------------
+
+Here's a short video that explains some design choices for **coax**.
+
+
+.. raw:: html
+
+    <div style="
+          position: relative;
+          padding-bottom: 56.25%;
+          overflow: hidden;
+          max-width: 100%;
+          height: auto;">
+
+      <iframe
+          src="https://www.youtube.com/embed/r-aIbcGIc0s?rel=0"
+          frameborder="0"
+          allowfullscreen
+          style="
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;">
+      </iframe>
+
+    </div>
+
+|
+
 
 
 RL concepts, not agents
