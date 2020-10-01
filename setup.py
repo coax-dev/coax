@@ -68,6 +68,7 @@ setup_kwargs = {
     'install_requires': get_install_requires('requirements.txt'),
     'extras_require': {
         'dev': get_install_requires('requirements.dev.txt'),
+        'doc': get_install_requires('requirements.doc.txt'),
     },
     'classifiers': [
         DEV_STATUS[version_spec.majorminor],
