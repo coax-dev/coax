@@ -39,8 +39,8 @@ If you do require CUDA support, please check out the
 ## Getting Started
 
 Have a look at the
-[Getting Started](https://coax.readthedocs.io/examples/getting_started/index.html) page to train
-your first RL agent.
+[Getting Started](https://coax.readthedocs.io/examples/getting_started/prereq_jax.html) page to
+train your first RL agent.
 
 
 ## Contributing
