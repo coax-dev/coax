@@ -53,16 +53,16 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
-    'nbsphinx',
+    'nbsphinx',                # requirement: nbsphinx
     'sphinx.ext.mathjax',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     'sphinx.ext.viewcode',
-    'sphinx_tabs.tabs',
-    'sphinx_copybutton',
+    'sphinx_tabs.tabs',        # requirement: sphinx-tabs
+    'sphinx_copybutton',       # requirement: sphinx-copybutton
+    'notfound.extension',      # requirement: sphinx-notfound-page
 ]
-
 
 # autodoc settings
 autodoc_default_options = {

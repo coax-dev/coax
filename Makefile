@@ -10,7 +10,7 @@ clean:
 
 doc: notebooks flake8
 	rm -rf build/sphinx doc/build .hypothesis
-	$(PYTHON_EXECUTABLE) -m sphinx -j auto -b html doc build/sphinx/html
+	$(PYTHON_EXECUTABLE) -m sphinx -b html doc build/sphinx/html
 
 view_doc:
 	x-www-browser build/sphinx/html/index.html
