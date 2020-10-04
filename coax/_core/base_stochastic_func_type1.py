@@ -102,6 +102,7 @@ class BaseStochasticFuncType1(BaseFunc):
             A = self.action_preprocessor(self.rng, a)
             dist_params, _ = self.function_type1(
                 self.params, self.function_state, self.rng, S, A, False)
+            dist_params = batch_to_single(dist_params)
         return dist_params
 
     @property
