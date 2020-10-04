@@ -78,13 +78,13 @@ class StochasticFuncType2Mixin:
 
         """
         if not hasattr(self, '_sample_func'):
-            def func(params, state, rng, S):
+            def sample_func(params, state, rng, S):
                 rngs = hk.PRNGSequence(rng)
                 dist_params, _ = self.function(params, state, next(rngs), S, False)
                 X = self.proba_dist.sample(dist_params, next(rngs))
                 logP = self.proba_dist.log_proba(dist_params, X)
                 return X, logP
-            self._sample_func = jax.jit(func)
+            self._sample_func = jax.jit(sample_func)
         return self._sample_func
 
     @property
@@ -100,10 +100,10 @@ class StochasticFuncType2Mixin:
 
         """
         if not hasattr(self, '_mode_func'):
-            def func(params, state, rng, S):
+            def mode_func(params, state, rng, S):
                 dist_params, _ = self.function(params, state, rng, S, False)
                 return self.proba_dist.mode(dist_params)
-            self._mode_func = jax.jit(func)
+            self._mode_func = jax.jit(mode_func)
         return self._mode_func
 
 

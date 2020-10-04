@@ -264,13 +264,13 @@ class BaseStochasticFuncType1(BaseFunc):
 
         """
         if not hasattr(self, '_sample_func_type1'):
-            def func(params, state, rng, S, A):
+            def sample_func_type1(params, state, rng, S, A):
                 rngs = hk.PRNGSequence(rng)
                 dist_params, _ = self.function_type1(params, state, next(rngs), S, A, False)
                 S_next = self.proba_dist.sample(dist_params, next(rngs))
                 logP = self.proba_dist.log_proba(dist_params, S_next)
                 return S_next, logP
-            self._sample_func_type1 = jax.jit(func)
+            self._sample_func_type1 = jax.jit(sample_func_type1)
         return self._sample_func_type1
 
     @property
@@ -286,7 +286,7 @@ class BaseStochasticFuncType1(BaseFunc):
 
         """  # noqa: E501
         if not hasattr(self, '_sample_func_type2'):
-            def func(params, state, rng, S):
+            def sample_func_type2(params, state, rng, S):
                 rngs = hk.PRNGSequence(rng)
                 dist_params, _ = self.function_type2(params, state, next(rngs), S, False)
                 dist_params = jax.tree_map(self._reshape_to_replicas, dist_params)
@@ -295,7 +295,7 @@ class BaseStochasticFuncType1(BaseFunc):
                 S_next = jax.tree_map(self._reshape_from_replicas, S_next)  # (batch, n, *shape)
                 logP = self._reshape_from_replicas(logP)                    # (batch, n)
                 return S_next, logP
-            self._sample_func_type2 = jax.jit(func)
+            self._sample_func_type2 = jax.jit(sample_func_type2)
         return self._sample_func_type2
 
     @property
@@ -311,11 +311,11 @@ class BaseStochasticFuncType1(BaseFunc):
 
         """
         if not hasattr(self, '_mode_func_type1'):
-            def func(params, state, rng, S, A):
+            def mode_func_type1(params, state, rng, S, A):
                 dist_params, _ = self.function_type1(params, state, rng, S, A, False)
                 S_next = self.proba_dist.mode(dist_params)
                 return S_next
-            self._mode_func_type1 = jax.jit(func)
+            self._mode_func_type1 = jax.jit(mode_func_type1)
         return self._mode_func_type1
 
     @property
@@ -331,13 +331,13 @@ class BaseStochasticFuncType1(BaseFunc):
 
         """
         if not hasattr(self, '_mode_func_type2'):
-            def func(params, state, rng, S):
+            def mode_func_type2(params, state, rng, S):
                 dist_params, _ = self.function_type2(params, state, rng, S, False)
                 dist_params = jax.tree_map(self._reshape_to_replicas, dist_params)
                 S_next = self.proba_dist.mode(dist_params)                  # (batch x n, *shape)
                 S_next = jax.tree_map(self._reshape_from_replicas, S_next)  # (batch, n, *shape)
                 return S_next
-            self._mode_func_type2 = jax.jit(func)
+            self._mode_func_type2 = jax.jit(mode_func_type2)
         return self._mode_func_type2
 
     def _check_signature(self, func):
