@@ -37,21 +37,12 @@ def get_version_spec():
     return version_spec
 
 
+def get_long_description():
+    with open(os.path.join(PROJECTDIR, 'README.md')) as f:
+        return f.read()
+
+
 version_spec = get_version_spec()
-
-
-long_description = """
-coax: Plug-n-play reinforcement learning in python with OpenAI Gym and JAX.
-
-For full documentation, go to:
-
-    https://coax.readthedocs.io
-
-You can find the source code at:
-
-    https://github.com/microsoft/coax
-
-"""
 
 
 # main setup kw args
@@ -59,7 +50,7 @@ setup_kwargs = {
     'name': 'coax',
     'version': version_spec.version,
     'description': "Plug-n-play reinforcement learning with OpenAI Gym and JAX",
-    'long_description': long_description,
+    'long_description': get_long_description(),
     'author': 'Kristian Holsheimer',
     'author_email': 'kristian.holsheimer@gmail.com',
     'url': 'https://coax.readthedocs.io',
