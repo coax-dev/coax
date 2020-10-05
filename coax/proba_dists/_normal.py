@@ -163,12 +163,23 @@ class NormalDist(BaseProbaDist):
             quadratic = jnp.einsum('ij,ij->i', var1 + jnp.square(mu1 - mu2), var2_inv)
             return 0.5 * (logdetvar2 - logdetvar1 + quadratic - n)
 
+        def affine_transform_func(dist_params, scale, shift, value_transform=None):
+            if value_transform is None:
+                f = f_inv = lambda x: x
+            else:
+                f, f_inv = value_transform
+            mu = check_shape(dist_params['mu'], name='mu', flatten=False)
+            logvar = check_shape(dist_params['logvar'], name='logvar', flatten=False)
+            var_new = f(f_inv(jnp.exp(logvar)) * jnp.square(scale))
+            return {'mu': f(f_inv(mu) + shift), 'logvar': jnp.log(var_new)}
+
         self._sample_func = jax.jit(sample)
         self._mode_func = jax.jit(mode)
         self._log_proba_func = jax.jit(log_proba)
         self._entropy_func = jax.jit(entropy)
         self._cross_entropy_func = jax.jit(cross_entropy)
         self._kl_divergence_func = jax.jit(kl_divergence)
+        self._affine_transform_func = jax.jit(affine_transform_func)
 
     @property
     def default_priors(self):
@@ -201,7 +212,6 @@ class NormalDist(BaseProbaDist):
             \varepsilon\ &\sim\ \mathcal{N}(0,1) \\
             x\ &=\ \mu + \sigma\,\varepsilon
 
-
         Parameters
         ----------
         dist_params : pytree with ndarray leaves
@@ -227,7 +237,6 @@ class NormalDist(BaseProbaDist):
 
         JIT-compiled functions that generates differentiable modes of the distribution, in this case
         simply :math:`\mu`.
-
 
         Parameters
         ----------
@@ -279,8 +288,6 @@ class NormalDist(BaseProbaDist):
 
             H\ =\ -\mathbb{E}_p \log p
             \ =\ \frac12\left( \log(2\pi\sigma^2) + 1\right)
-
-
 
         Parameters
         ----------

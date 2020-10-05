@@ -22,8 +22,10 @@
 import jax
 import jax.numpy as jnp
 import numpy as onp
+import chex
 from gym.spaces import Box, Discrete
 
+from ..utils import isscalar
 from ._categorical import CategoricalDist
 
 
@@ -84,6 +86,60 @@ class DiscretizedIntervalDist(CategoricalDist):
         self.__low = low = float(space.low)
         self.__high = high = float(space.high)
         self.__atoms = low + (jnp.arange(num_bins) + 0.5) * (high - low) / num_bins
+
+        def affine_transform_func(dist_params, scale, shift, value_transform=None):
+            """ implements the "Categorical Algorithm" from https://arxiv.org/abs/1707.06887 """
+
+            # check inputs
+            chex.assert_rank([dist_params['logits'], scale, shift], [2, {0, 1}, {0, 1}])
+            p = jax.nn.softmax(dist_params['logits'])
+            batch_size = p.shape[0]
+
+            if isscalar(scale):
+                scale = jnp.full(shape=(batch_size,), fill_value=jnp.squeeze(scale))
+            if isscalar(shift):
+                shift = jnp.full(shape=(batch_size,), fill_value=jnp.squeeze(shift))
+
+            chex.assert_shape(p, (batch_size, self.num_bins))
+            chex.assert_shape([scale, shift], (batch_size,))
+
+            if value_transform is None:
+                f = f_inv = lambda x: x
+            else:
+                f, f_inv = value_transform
+
+            # variable names correspond to those defined in: https://arxiv.org/abs/1707.06887
+            z = self.__atoms
+            Vmin, Vmax, Δz = z[0], z[-1], z[1] - z[0]
+            Tz = f(jax.vmap(jnp.add)(jnp.outer(scale, f_inv(z)), shift))
+            Tz = jnp.clip(Tz, Vmin, Vmax)  # keep values in valid range
+            chex.assert_shape(Tz, (batch_size, self.num_bins))
+
+            b = (Tz - Vmin) / Δz                            # float in [0, num_bins - 1]
+            l = jnp.floor(b).astype('int32')  # noqa: E741   # int in {0, 1, ..., num_bins - 1}
+            u = jnp.ceil(b).astype('int32')                  # int in {0, 1, ..., num_bins - 1}
+            chex.assert_shape([p, b, l, u], (batch_size, self.num_bins))
+
+            m = jnp.zeros_like(p)
+            i = jnp.expand_dims(jnp.arange(batch_size), axis=1)   # batch index
+            m = jax.ops.index_add(m, (i, l), p * (u - b), indices_are_sorted=True)
+            m = jax.ops.index_add(m, (i, u), p * (b - l), indices_are_sorted=True)
+            m = jax.ops.index_add(m, (i, l), p * (l == u), indices_are_sorted=True)
+            chex.assert_tree_all_close(jnp.sum(m, axis=1), jnp.ones(batch_size), rtol=1e-6)
+
+            # # The above index trickery is equivalent to:
+            # m_alt = onp.zeros((batch_size, self.num_bins))
+            # for i in range(batch_size):
+            #     for j in range(self.num_bins):
+            #         if l[i, j] == u[i, j]:
+            #             m_alt[i, l[i, j]] += p[i, j]  # don't split if b[i, j] is an integer
+            #         else:
+            #             m_alt[i, l[i, j]] += p[i, j] * (u[i, j] - b[i, j])
+            #             m_alt[i, u[i, j]] += p[i, j] * (b[i, j] - l[i, j])
+            # chex.assert_tree_all_close(m, m_alt, rtol=1e-6)
+            return {'logits': jnp.log(jnp.maximum(m, 1e-16))}
+
+        self._affine_transform_func = jax.jit(affine_transform_func)
 
     @property
     def space_orig(self):

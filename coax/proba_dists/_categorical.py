@@ -119,12 +119,16 @@ class CategoricalDist(BaseProbaDist):
             logq = jax.nn.log_softmax(logits_q)
             return jnp.einsum('ij,ij->i', jnp.exp(logp), logp - logq)
 
+        def affine_transform_func(dist_params, scale, shift, value_transform=None):
+            raise NotImplementedError("affine_transform is ill-defined on categorical variables")
+
         self._sample_func = jax.jit(sample)
         self._mode_func = jax.jit(mode)
         self._log_proba_func = jax.jit(log_proba)
         self._entropy_func = jax.jit(entropy)
         self._cross_entropy_func = jax.jit(cross_entropy)
         self._kl_divergence_func = jax.jit(kl_divergence)
+        self._affine_transform_func = affine_transform_func
 
     @property
     def hyperparams(self):

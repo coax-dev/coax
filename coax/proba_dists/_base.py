@@ -42,6 +42,7 @@ class BaseProbaDist(ABC):
         '_entropy_func',
         '_cross_entropy_func',
         '_kl_divergence_func',
+        '_affine_transform_func',
         '_default_priors_func',
     )
 
@@ -204,6 +205,46 @@ class BaseProbaDist(ABC):
 
         """
         return self._kl_divergence_func
+
+    @property
+    def affine_transform(self):
+        r"""
+
+        Transform the distribution :math:`\mathcal{D}\to\mathcal{D}'` in such a way that its
+        associated variables :math:`X\sim\mathcal{D}` and :math:`X'\sim\mathcal{D}'` are related
+        via an affine transformation:
+
+        .. math::
+
+            X' = X\times\text{scale} + \text{shift}
+
+        Parameters
+        ----------
+        scale : float or ndarray
+
+            The multiplicative factor of the affine transformation.
+
+        shift : float or ndarray
+
+            The additive shift of the affine transformation.
+
+        value_transform : ValueTransform, optional
+
+            The transform to apply to the values before the affine transform, i.e.
+
+            .. math::
+
+                X' = f\bigl(f^{-1}(X)\times\text{scale} + \text{shift}\bigr)
+
+        Returns
+        -------
+        dist_params : pytree with ndarray leaves
+
+            The distribution parameters associated with the transformed distribution
+            :math:`\mathcal{D}'`.
+
+        """
+        return self._affine_transform_func
 
     @property
     def dist_params_structure(self):
