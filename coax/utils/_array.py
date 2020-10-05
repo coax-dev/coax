@@ -606,9 +606,8 @@ def idx(arr, axis=0):
 def isscalar(num):
     r"""
 
-    This helper uses a slightly looser definition of scalar compared to
-    :func:`numpy.isscalar` (and :func:`jax.numpy.isscalar`) in that it also
-    considers single-item arrays to be scalaras as well.
+    This helper uses a slightly looser definition of scalar compared to :func:`numpy.isscalar` (and
+    :func:`jax.numpy.isscalar`) in that it also considers single-item arrays to be scalars as well.
 
     Parameters
     ----------
