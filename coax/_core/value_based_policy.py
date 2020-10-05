@@ -23,8 +23,9 @@ import gym
 import jax
 import jax.numpy as jnp
 import haiku as hk
+import chex
 
-from ..utils import docstring, is_qfunction
+from ..utils import docstring, is_qfunction, is_stochastic
 from ..proba_dists import CategoricalDist
 from .base_stochastic_func_type2 import StochasticFuncType2Mixin
 from .q import Q
@@ -50,6 +51,20 @@ class BaseValueBasedPolicy(StochasticFuncType2Mixin):
         self.observation_preprocessor = self.q.observation_preprocessor
         self.action_preprocessor = self.q.action_preprocessor
         self.proba_dist = CategoricalDist(self.q.action_space)
+
+        def Q_s(params, state, rng, S):
+            rngs = hk.PRNGSequence(rng)
+            if is_stochastic(self.q):
+                Q_s = self.q.mean_func_type2(params['q'], state, next(rngs), S)
+                Q_s = self.q.proba_dist.postprocess_variate(next(rngs), Q_s, batch_mode=True)
+            else:
+                Q_s, _ = self.q.function_type2(params['q'], state, next(rngs), S, False)
+
+            chex.assert_rank(Q_s, 2)
+            assert Q_s.shape[1] == self.q.action_space.n
+            return Q_s
+
+        self._Q_s = jax.jit(Q_s)
 
     @property
     def rng(self):
@@ -97,6 +112,28 @@ class BaseValueBasedPolicy(StochasticFuncType2Mixin):
 
         """
         return super().__call__(s, return_logp=return_logp)
+
+    def mean(self, s):
+        r"""
+
+        Get the mean of the distribution :math:`\pi_\theta(.|s)}`.
+
+        Note that if the actions are discrete, this returns the :attr:`mode` instead.
+
+        Parameters
+        ----------
+        s : state observation
+
+            A single state observation :math:`s`.
+
+        Returns
+        -------
+        a : action
+
+            A single action :math:`a`.
+
+        """
+        return super().mean(s)
 
     def mode(self, s):
         r"""
@@ -171,15 +208,15 @@ class EpsilonGreedy(BaseValueBasedPolicy):
         self.epsilon = epsilon
 
         def func(params, state, rng, S, is_training):
-            Q_s, new_state = self.q.function_type2(params['q'], state, rng, S, is_training)
-            assert Q_s.ndim == 2
-            assert Q_s.shape[1] == self.q.action_space.n
+            Q_s = self._Q_s(params, state, rng, S)
+
             A_greedy = (Q_s == Q_s.max(axis=1, keepdims=True)).astype(Q_s.dtype)
             A_greedy /= A_greedy.sum(axis=1, keepdims=True)  # there may be multiple max's (ties)
             A_greedy *= 1 - params['epsilon']
             A_greedy += params['epsilon'] / self.q.action_space.n
+
             dist_params = {'logits': jnp.log(A_greedy + 1e-15)}
-            return dist_params, new_state
+            return dist_params, None  # return dummy state
 
         self._function = jax.jit(func, static_argnums=(4,))
 
@@ -236,11 +273,9 @@ class BoltzmannPolicy(BaseValueBasedPolicy):
         self.temperature = temperature
 
         def func(params, state, rng, S, is_training):
-            Q_s, new_state = self.q.function_type2(params['q'], state, rng, S, is_training)
-            assert Q_s.ndim == 2
-            assert Q_s.shape[1] == self.q.action_space.n
+            Q_s = self._Q_s(params, state, rng, S)
             dist_params = {'logits': Q_s / params['temperature']}
-            return dist_params, new_state
+            return dist_params, None  # return dummy state
 
         self._function = jax.jit(func, static_argnums=(4,))
 

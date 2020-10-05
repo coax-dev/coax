@@ -111,8 +111,11 @@ class NormalDist(BaseProbaDist):
             X = mu + jnp.exp(logvar / 2) * jax.random.normal(rng, mu.shape)
             return X.reshape(-1, *self.space.shape)
 
-        def mode(dist_params):
+        def mean(dist_params):
             return check_shape(dist_params['mu'], name='mu', flatten=False)
+
+        def mode(dist_params):
+            return mean(dist_params)
 
         def log_proba(dist_params, X):
             X = check_shape(X, name='X', flatten=True)
@@ -174,12 +177,13 @@ class NormalDist(BaseProbaDist):
             return {'mu': f(f_inv(mu) + shift), 'logvar': jnp.log(var_new)}
 
         self._sample_func = jax.jit(sample)
+        self._mean_func = jax.jit(mean)
         self._mode_func = jax.jit(mode)
         self._log_proba_func = jax.jit(log_proba)
         self._entropy_func = jax.jit(entropy)
         self._cross_entropy_func = jax.jit(cross_entropy)
         self._kl_divergence_func = jax.jit(kl_divergence)
-        self._affine_transform_func = jax.jit(affine_transform_func)
+        self._affine_transform_func = jax.jit(affine_transform_func, static_argnums=(3,))
 
     @property
     def default_priors(self):
@@ -232,11 +236,33 @@ class NormalDist(BaseProbaDist):
         return self._sample_func
 
     @property
+    def mean(self):
+        r"""
+
+        JIT-compiled functions that generates differentiable means of the distribution, in this case
+        simply :math:`\mu`.
+
+        Parameters
+        ----------
+        dist_params : pytree with ndarray leaves
+
+            A batch of distribution parameters.
+
+        Returns
+        -------
+        X : ndarray
+
+            A batch of differentiable variates.
+
+        """
+        return self._mean_func
+
+    @property
     def mode(self):
         r"""
 
-        JIT-compiled functions that generates differentiable modes of the distribution, in this case
-        simply :math:`\mu`.
+        JIT-compiled functions that generates differentiable modes of the distribution, which for a
+        normal distribution is the same as the :attr:`mean`.
 
         Parameters
         ----------

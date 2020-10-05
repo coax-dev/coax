@@ -106,6 +106,28 @@ class Policy(BaseStochasticFuncType2):
         """
         return super().__call__(s, return_logp=return_logp)
 
+    def mean(self, s):
+        r"""
+
+        Get the mean of the distribution :math:`\pi_\theta(.|s)}`.
+
+        Note that if the actions are discrete, this returns the :attr:`mode` instead.
+
+        Parameters
+        ----------
+        s : state observation
+
+            A single state observation :math:`s`.
+
+        Returns
+        -------
+        a : action
+
+            A single action :math:`a`.
+
+        """
+        return super().mean(s)
+
     def mode(self, s):
         r"""
 

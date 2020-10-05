@@ -21,6 +21,7 @@
 
 import haiku as hk
 
+from ..utils import is_stochastic
 from ._base import BaseTDLearningQ
 
 
@@ -90,6 +91,10 @@ class Sarsa(BaseTDLearningQ):
         params, state = target_params['q_targ'], target_state['q_targ']
         S_next = self.q_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
         A_next = self.q_targ.action_preprocessor(next(rngs), transition_batch.A_next)
+
+        if is_stochastic(self.q):
+            return self._get_target_dist_params(params, state, next(rngs), transition_batch, A_next)
+
         Q_sa_next, _ = self.q_targ.function_type1(params, state, next(rngs), S_next, A_next, False)
         f, f_inv = self.q.value_transform.transform_func, self.q_targ.value_transform.inverse_func
         return f(transition_batch.Rn + transition_batch.In * f_inv(Q_sa_next))

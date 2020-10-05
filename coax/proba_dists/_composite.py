@@ -22,6 +22,7 @@
 from enum import Enum
 
 import gym
+import jax
 import numpy as onp
 import haiku as hk
 
@@ -82,7 +83,7 @@ class ProbaDist(BaseProbaDist):
         else:
             raise TypeError(f"unsupported space: {space.__class__.__name__}")
 
-        def sample_func(dist_params, rng):
+        def sample(dist_params, rng):
             if self._structure_type == StructureType.LEAF:
                 return self._structure.sample(dist_params, rng)
 
@@ -99,7 +100,23 @@ class ProbaDist(BaseProbaDist):
 
             raise AssertionError(f"bad structure_type: {self._structure_type}")
 
-        def mode_func(dist_params):
+        def mean(dist_params):
+            if self._structure_type == StructureType.LEAF:
+                return self._structure.mean(dist_params)
+
+            if self._structure_type == StructureType.LIST:
+                return [
+                    dist.mean(dist_params[i])
+                    for i, dist in enumerate(self._structure)]
+
+            if self._structure_type == StructureType.DICT:
+                return {
+                    k: dist.mean(dist_params[k])
+                    for k, dist in self._structure.items()}
+
+            raise AssertionError(f"bad structure_type: {self._structure_type}")
+
+        def mode(dist_params):
             if self._structure_type == StructureType.LEAF:
                 return self._structure.mode(dist_params)
 
@@ -115,7 +132,7 @@ class ProbaDist(BaseProbaDist):
 
             raise AssertionError(f"bad structure_type: {self._structure_type}")
 
-        def log_proba_func(dist_params, X):
+        def log_proba(dist_params, X):
             if self._structure_type == StructureType.LEAF:
                 return self._structure.log_proba(dist_params, X)
 
@@ -129,7 +146,7 @@ class ProbaDist(BaseProbaDist):
                     dist.log_proba(dist_params[k], X[k])
                     for k, dist in self._structure.items())
 
-        def entropy_func(dist_params):
+        def entropy(dist_params):
             if self._structure_type == StructureType.LEAF:
                 return self._structure.entropy(dist_params)
 
@@ -145,7 +162,7 @@ class ProbaDist(BaseProbaDist):
 
             raise AssertionError(f"bad structure_type: {self._structure_type}")
 
-        def cross_entropy_func(dist_params_p, dist_params_q):
+        def cross_entropy(dist_params_p, dist_params_q):
             if self._structure_type == StructureType.LEAF:
                 return self._structure.cross_entropy(dist_params_p, dist_params_q)
 
@@ -161,7 +178,7 @@ class ProbaDist(BaseProbaDist):
 
             raise AssertionError(f"bad structure_type: {self._structure_type}")
 
-        def kl_divergence_func(dist_params_p, dist_params_q):
+        def kl_divergence(dist_params_p, dist_params_q):
             if self._structure_type == StructureType.LEAF:
                 return self._structure.kl_divergence(dist_params_p, dist_params_q)
 
@@ -177,12 +194,34 @@ class ProbaDist(BaseProbaDist):
 
             raise AssertionError(f"bad structure_type: {self._structure_type}")
 
-        self._sample_func = sample_func
-        self._mode_func = mode_func
-        self._log_proba_func = log_proba_func
-        self._entropy_func = entropy_func
-        self._cross_entropy_func = cross_entropy_func
-        self._kl_divergence_func = kl_divergence_func
+        def affine_transform(dist_params, scale, shift, value_transform=None):
+            if self._structure_type == StructureType.LEAF:
+                return self._structure.affine_transform(dist_params, scale, shift, value_transform)
+
+            if self._structure_type == StructureType.LIST:
+                assert len(dist_params) == len(scale) == len(shift) == len(self._structure)
+                assert value_transform is None or len(value_transform) == len(self._structure)
+                return sum(
+                    dist.affine_transform(dist_params[i], scale[i], shift[i], value_transform[i])
+                    for i, dist in enumerate(self._structure))
+
+            if self._structure_type == StructureType.DICT:
+                assert set(dist_params) == set(scale) == set(shift) == set(self._structure)
+                assert value_transform is None or set(value_transform) == set(self._structure)
+                return sum(
+                    dist.affine_transform(dist_params[k], scale[k], shift[k], value_transform[k])
+                    for k, dist in self._structure.items())
+
+            raise AssertionError(f"bad structure_type: {self._structure_type}")
+
+        self._sample_func = jax.jit(sample)
+        self._mean_func = jax.jit(mean)
+        self._mode_func = jax.jit(mode)
+        self._log_proba_func = jax.jit(log_proba)
+        self._entropy_func = jax.jit(entropy)
+        self._cross_entropy_func = jax.jit(cross_entropy)
+        self._kl_divergence_func = jax.jit(kl_divergence)
+        self._affine_transform_func = jax.jit(affine_transform)
 
     @property
     def hyperparams(self):

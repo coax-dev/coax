@@ -176,6 +176,31 @@ class StochasticQ(BaseStochasticFuncType1):
         """
         return super().__call__(s, a=a, return_logp=return_logp)
 
+    def mean(self, s, a=None):
+        r"""
+
+        Get the mean value.
+
+        Parameters
+        ----------
+        s : state observation
+
+            A single state observation :math:`s`.
+
+        a : action, optional
+
+            A single action :math:`a`. This is *required* if the actions space is non-discrete.
+
+        Returns
+        -------
+        value : float or list thereof
+
+            Depending on whether :code:`a` is provided, this either returns a single value or a list
+            of :math:`n` values, one for each discrete action.
+
+        """
+        return super().mean(s, a=a)
+
     def mode(self, s, a=None):
         r"""
 

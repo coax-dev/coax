@@ -147,6 +147,32 @@ class StochasticTransitionModel(BaseStochasticFuncType1):
         """
         return super().__call__(s, a=a, return_logp=return_logp)
 
+    def mean(self, s, a=None):
+        r"""
+
+        Get the mean successor state :math:`s'` according to the dynamics model,
+        :math:`s'=\arg\max_{s'}p_\theta(s'|s,a)`.
+
+        Parameters
+        ----------
+        s : state observation
+
+            A single state observation :math:`s`.
+
+        a : action, optional
+
+            A single action :math:`a`. This is *required* if the actions space is non-discrete.
+
+        Returns
+        -------
+        s_next : state observation or list thereof
+
+            Depending on whether :code:`a` is provided, this either returns a single next-state
+            :math:`s'` or a list of :math:`n` next-states, one for each discrete action.
+
+        """
+        return super().mean(s, a=a)
+
     def mode(self, s, a=None):
         r"""
 

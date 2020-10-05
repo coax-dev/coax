@@ -22,8 +22,10 @@
 import warnings
 
 import haiku as hk
+import chex
 from gym.spaces import Discrete
 
+from ..utils import is_stochastic
 from ._base import BaseTDLearningQWithTargetPolicy
 
 
@@ -118,12 +120,20 @@ class DoubleQLearning(BaseTDLearningQWithTargetPolicy):
         rngs = hk.PRNGSequence(rng)
 
         if isinstance(self.q.action_space, Discrete):
-            # get greedy action as the argmax over q_targ
             params, state = target_params['q_targ'], target_state['q_targ']
             S_next = self.q_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
-            Q_s_next, _ = self.q_targ.function_type2(params, state, next(rngs), S_next, False)
-            assert Q_s_next.ndim == 2, f"bad shape: {Q_s_next.shape}"
-            A_next = (Q_s_next == Q_s_next.max(axis=1, keepdims=True)).astype(Q_s_next.dtype)
+
+            if is_stochastic(self.q):
+                Q_s = self.q_targ.mean_func_type2(params, state, next(rngs), S_next)
+                Q_s = self.q_targ.proba_dist.postprocess_variate(next(rngs), Q_s, batch_mode=True)
+            else:
+                Q_s, _ = self.q_targ.function_type2(params, state, next(rngs), S_next, False)
+
+            chex.assert_rank(Q_s, 2)
+            assert Q_s.shape[1] == self.q_targ.action_space.n
+
+            # get greedy action as the argmax over q_targ
+            A_next = (Q_s == Q_s.max(axis=1, keepdims=True)).astype(Q_s.dtype)
             A_next /= A_next.sum(axis=1, keepdims=True)  # there may be ties
 
         else:
@@ -132,11 +142,13 @@ class DoubleQLearning(BaseTDLearningQWithTargetPolicy):
             S_next = self.pi_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
             A_next = self.pi_targ.mode_func(params, state, next(rngs), S_next)
 
-        # evaluate on q (not q_targ)
+        # evaluate on q (instead of q_targ)
         params, state = target_params['q'], target_state['q']
-        S_next = self.q.observation_preprocessor(next(rngs), transition_batch.S_next)
-        Q_sa_next, _ = self.q.function_type1(params, state, next(rngs), S_next, A_next, False)
+        S_next = self.q_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
 
-        assert Q_sa_next.ndim == 1, f"bad shape: {Q_sa_next.shape}"
+        if is_stochastic(self.q):
+            return self._get_target_dist_params(params, state, next(rngs), transition_batch, A_next)
+
+        Q_sa_next, _ = self.q.function_type1(params, state, next(rngs), S_next, A_next, False)
         f, f_inv = self.q.value_transform.transform_func, self.q_targ.value_transform.inverse_func
         return f(transition_batch.Rn + transition_batch.In * f_inv(Q_sa_next))

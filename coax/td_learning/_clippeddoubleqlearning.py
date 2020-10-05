@@ -28,7 +28,7 @@ import optax
 from gym.spaces import Discrete
 
 from .._core.q import Q
-from ..utils import get_grads_diagnostics, is_policy
+from ..utils import get_grads_diagnostics, is_policy, is_stochastic
 from ._base import BaseTDLearning
 
 
@@ -115,6 +115,9 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
     def __init__(
             self, q, pi_targ_list=None, q_targ_list=None,
             optimizer=None, loss_function=None, policy_regularizer=None):
+
+        if is_stochastic(q):
+            raise NotImplementedError(f"{type(self).__name__} is not yet implement for StochasticQ")
 
         super().__init__(
             f=q,

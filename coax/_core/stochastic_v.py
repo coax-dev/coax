@@ -148,8 +148,7 @@ class StochasticV(BaseStochasticFuncType2):
         -------
         value : float or list thereof
 
-            Depending on whether :code:`a` is provided, this either returns a single value or a list
-            of :math:`n` values, one for each discrete action.
+            A single value associated with the state observation :math:`s`.
 
         logp : non-positive float or list thereof, optional
 
@@ -159,6 +158,26 @@ class StochasticV(BaseStochasticFuncType2):
 
         """
         return super().__call__(s, return_logp=return_logp)
+
+    def mean(self, s):
+        r"""
+
+        Get the mean value.
+
+        Parameters
+        ----------
+        s : state observation
+
+            A single state observation :math:`s`.
+
+        Returns
+        -------
+        value : float
+
+            A single value associated with the state observation :math:`s`.
+
+        """
+        return super().mean(s)
 
     def mode(self, s):
         r"""
@@ -173,10 +192,9 @@ class StochasticV(BaseStochasticFuncType2):
 
         Returns
         -------
-        value : float or list thereof
+        value : float
 
-            Depending on whether :code:`a` is provided, this either returns a single value or a list
-            of :math:`n` values, one for each discrete action.
+            A single value associated with the state observation :math:`s`.
 
         """
         return super().mode(s)

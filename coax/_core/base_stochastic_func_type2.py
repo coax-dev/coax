@@ -54,6 +54,12 @@ class StochasticFuncType2Mixin:
         x = self.proba_dist.postprocess_variate(self.rng, X)
         return (x, batch_to_single(logP)) if return_logp else x
 
+    def mean(self, s):
+        S = self.observation_preprocessor(self.rng, s)
+        X = self.mean_func(self.params, self.function_state, self.rng, S)
+        x = self.proba_dist.postprocess_variate(self.rng, X)
+        return x
+
     def mode(self, s):
         S = self.observation_preprocessor(self.rng, s)
         X = self.mode_func(self.params, self.function_state, self.rng, S)
@@ -86,6 +92,25 @@ class StochasticFuncType2Mixin:
                 return X, logP
             self._sample_func = jax.jit(sample_func)
         return self._sample_func
+
+    @property
+    def mean_func(self):
+        r"""
+
+        The function that is used for getting the mean of the distribution, defined as a
+        JIT-compiled pure function. This function may be called directly as:
+
+        .. code:: python
+
+            output = obj.mean_func(obj.params, obj.function_state, obj.rng, *inputs)
+
+        """
+        if not hasattr(self, '_mean_func'):
+            def mean_func(params, state, rng, S):
+                dist_params, _ = self.function(params, state, rng, S, False)
+                return self.proba_dist.mean(dist_params)
+            self._mean_func = jax.jit(mean_func)
+        return self._mean_func
 
     @property
     def mode_func(self):

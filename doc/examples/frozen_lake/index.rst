@@ -20,4 +20,7 @@ to the **coax** package.
     PPO <ppo>
     DDPG <ddpg>
     TD3 <td3>
-
+    Stochastic SARSA <stochastic_sarsa>
+    Stochastic Expected-SARSA <stochastic_expected_sarsa>
+    Stochastic Q-Learning <stochastic_qlearning>
+    Stochastic Double Q-Learning <stochastic_double_qlearning>

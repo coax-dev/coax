@@ -87,7 +87,7 @@ class DiscretizedIntervalDist(CategoricalDist):
         self.__high = high = float(space.high)
         self.__atoms = low + (jnp.arange(num_bins) + 0.5) * (high - low) / num_bins
 
-        def affine_transform_func(dist_params, scale, shift, value_transform=None):
+        def affine_transform(dist_params, scale, shift, value_transform=None):
             """ implements the "Categorical Algorithm" from https://arxiv.org/abs/1707.06887 """
 
             # check inputs
@@ -125,7 +125,7 @@ class DiscretizedIntervalDist(CategoricalDist):
             m = jax.ops.index_add(m, (i, l), p * (u - b), indices_are_sorted=True)
             m = jax.ops.index_add(m, (i, u), p * (b - l), indices_are_sorted=True)
             m = jax.ops.index_add(m, (i, l), p * (l == u), indices_are_sorted=True)
-            chex.assert_tree_all_close(jnp.sum(m, axis=1), jnp.ones(batch_size), rtol=1e-6)
+            # chex.assert_tree_all_close(jnp.sum(m, axis=1), jnp.ones(batch_size), rtol=1e-6)
 
             # # The above index trickery is equivalent to:
             # m_alt = onp.zeros((batch_size, self.num_bins))
@@ -139,7 +139,7 @@ class DiscretizedIntervalDist(CategoricalDist):
             # chex.assert_tree_all_close(m, m_alt, rtol=1e-6)
             return {'logits': jnp.log(jnp.maximum(m, 1e-16))}
 
-        self._affine_transform_func = jax.jit(affine_transform_func)
+        self._affine_transform_func = jax.jit(affine_transform, static_argnums=(3,))
 
     @property
     def space_orig(self):
@@ -170,11 +170,11 @@ class DiscretizedIntervalDist(CategoricalDist):
 
     def postprocess_variate(self, rng, X, index=0, batch_mode=False):
         # map almost-one-hot vectors to bin-indices (ints)
-        X = super().postprocess_variate(rng, X, batch_mode=True)
+        chex.assert_rank(X, {2, 3})
+        assert X.shape[-1] == self.num_bins
 
-        # map bin-indices to real values
-        low, high = float(self.space_orig.low), float(self.space_orig.high)
-        u = jax.random.uniform(rng, jnp.shape(X))  # u in [0, 1]
-        X = low + (X + u) * (high - low) / self.num_bins
-        X = jnp.reshape(X, (-1, *self.space_orig.shape))
+        # map bin-probabilities to real values
+        X = jnp.dot(X, self.__atoms)
+        chex.assert_rank(X, {1, 2})
+
         return X if batch_mode else X[index]

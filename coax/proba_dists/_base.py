@@ -37,6 +37,7 @@ class BaseProbaDist(ABC):
     __slots__ = (
         '_space',
         '_sample_func',
+        '_mean_func',
         '_mode_func',
         '_log_proba_func',
         '_entropy_func',
@@ -85,6 +86,27 @@ class BaseProbaDist(ABC):
 
         """
         return self._sample_func
+
+    @property
+    def mean(self):
+        r"""
+
+        JIT-compiled functions that generates differentiable means of the distribution.
+
+        Parameters
+        ----------
+        dist_params : pytree with ndarray leaves
+
+            A batch of distribution parameters.
+
+        Returns
+        -------
+        X : ndarray
+
+            A batch of differentiable variates.
+
+        """
+        return self._mean_func
 
     @property
     def mode(self):
@@ -220,6 +242,10 @@ class BaseProbaDist(ABC):
 
         Parameters
         ----------
+        dist_params : pytree with ndarray leaves
+
+            The distribution parameters of the original distribution :math:`\mathcal{D}`.
+
         scale : float or ndarray
 
             The multiplicative factor of the affine transformation.
@@ -240,8 +266,7 @@ class BaseProbaDist(ABC):
         -------
         dist_params : pytree with ndarray leaves
 
-            The distribution parameters associated with the transformed distribution
-            :math:`\mathcal{D}'`.
+            The distribution parameters of the transformed distribution :math:`\mathcal{D}'`.
 
         """
         return self._affine_transform_func

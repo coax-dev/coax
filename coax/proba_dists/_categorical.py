@@ -89,6 +89,10 @@ class CategoricalDist(BaseProbaDist):
             g = -jnp.log(-jnp.log(u))  # g ~ Gumbel(0,1)
             return jax.nn.softmax((g + logp) / self.gumbel_softmax_tau)
 
+        def mean(dist_params):
+            logits = check_shape(dist_params['logits'], 'logits')
+            return jax.nn.softmax(logits)
+
         def mode(dist_params):
             logits = check_shape(dist_params['logits'], 'logits')
             logp = jax.nn.log_softmax(logits)
@@ -123,6 +127,7 @@ class CategoricalDist(BaseProbaDist):
             raise NotImplementedError("affine_transform is ill-defined on categorical variables")
 
         self._sample_func = jax.jit(sample)
+        self._mean_func = jax.jit(mean)
         self._mode_func = jax.jit(mode)
         self._log_proba_func = jax.jit(log_proba)
         self._entropy_func = jax.jit(entropy)
@@ -183,15 +188,40 @@ class CategoricalDist(BaseProbaDist):
         X : ndarray
 
             A batch of variates :math:`x\sim\text{Cat}(p)`. In order to ensure differentiability of
-            the variates this is not an integer, but instead an *almost* one-hot encoded version
+            the variates this is not an integer, but instead an *almost*-one-hot encoded version
             thereof.
 
             For example, instead of sampling :math:`x=2` from a 4-class categorical distribution,
             Gumbel-softmax will return a vector like :math:`x=[0.05, 0.02, 0.86, 0.07]`. The latter
-            representation can be viewed as an *almost* one-hot encoded version of the former.
+            representation can be viewed as an *almost*-one-hot encoded version of the former.
 
         """
         return self._sample_func
+
+    @property
+    def mean(self):
+        r"""
+
+        JIT-compiled functions that generates differentiable means of the distribution. Strictly
+        speaking, the mean of a categorical variable is not well defined. We opt for returning the
+        raw probabilities: :math:`\text{mean}_k=p_k`.
+
+        Parameters
+        ----------
+        dist_params : pytree with ndarray leaves
+
+            A batch of distribution parameters.
+
+        Returns
+        -------
+        X : ndarray
+
+            A batch of would-be variates :math:`x\sim\text{Cat}(p)`. In contrast to the output of
+            other methods, these aren't true variates because they are not *almost*-one-hot
+            encoded.
+
+        """
+        return self._mean_func
 
     @property
     def mode(self):
@@ -215,12 +245,12 @@ class CategoricalDist(BaseProbaDist):
         X : ndarray
 
             A batch of variates :math:`x\sim\text{Cat}(p)`. In order to ensure differentiability of
-            the variates this is not an integer, but instead an *almost* one-hot encoded version
+            the variates this is not an integer, but instead an *almost*-one-hot encoded version
             thereof.
 
             For example, instead of sampling :math:`x=2` from a 4-class categorical distribution,
             Gumbel-softmax will return a vector like :math:`x=(0.05, 0.02, 0.86, 0.07)`. The latter
-            representation can be viewed as an *almost* one-hot encoded version of the former.
+            representation can be viewed as an *almost*-one-hot encoded version of the former.
 
         """
         return self._mode_func

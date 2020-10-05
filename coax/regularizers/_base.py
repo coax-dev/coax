@@ -19,7 +19,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+import jax
+import haiku as hk
+
 from ..utils import is_stochastic
+from .._core.base_stochastic_func_type1 import BaseStochasticFuncType1
+from .._core.base_stochastic_func_type2 import BaseStochasticFuncType2
 
 
 class Regularizer:
@@ -82,3 +87,24 @@ class Regularizer:
 
         """
         return self._metrics_func
+
+    @property
+    def batch_eval(self):
+        if not hasattr(self, '_batch_eval_func'):
+            def batch_eval_func(params, hyperparams, state, rng, transition_batch):
+                rngs = hk.PRNGSequence(rng)
+                if isinstance(self.f, BaseStochasticFuncType1):
+                    S = self.f.observation_preprocessor(next(rngs), transition_batch.S)
+                    A = self.f.action_preprocessor(next(rngs), transition_batch.A)
+                    dist_params, _ = self.f.function(params, state, next(rngs), S, A, False)
+                if isinstance(self.f, BaseStochasticFuncType2):
+                    S = self.f.observation_preprocessor(next(rngs), transition_batch.S)
+                    dist_params, _ = self.f.function(params, state, next(rngs), S, False)
+                else:
+                    raise TypeError(
+                        "f must be derived from BaseStochasticFuncType1 or BaseStochasticFuncType2")
+                return self.function(dist_params, **hyperparams)
+
+            self._batch_eval_func = jax.jit(batch_eval_func)
+
+        return self._batch_eval_func

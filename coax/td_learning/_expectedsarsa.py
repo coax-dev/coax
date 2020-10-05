@@ -21,9 +21,9 @@
 
 import gym
 import jax
-import jax.numpy as jnp
 import haiku as hk
 
+from ..utils import is_stochastic
 from ._base import BaseTDLearningQWithTargetPolicy
 
 
@@ -120,21 +120,19 @@ class ExpectedSarsa(BaseTDLearningQWithTargetPolicy):
     def target_func(self, target_params, target_state, rng, transition_batch):
         rngs = hk.PRNGSequence(rng)
 
-        # compute q-values
-        params, state = target_params['q_targ'], target_state['q_targ']
-        S_next = self.q_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
-        Q_s_next, _ = self.q_targ.function_type2(params, state, next(rngs), S_next, False)
-
         # action propensities
         params, state = target_params['pi_targ'], target_state['pi_targ']
         S_next = self.pi_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
         dist_params, _ = self.pi_targ.function(params, state, next(rngs), S_next, False)
-        P = jax.nn.softmax(dist_params['logits'], axis=-1)
+        A_next = jax.nn.softmax(dist_params['logits'], axis=-1)  # only works for Discrete actions
 
-        # project
-        assert P.ndim == 2, f"bad shape: {P.shape}"
-        assert Q_s_next.ndim == 2, f"bad shape: {Q_s_next.shape}"
-        Q_sa_next = jax.vmap(jnp.dot)(P, Q_s_next)
+        # evaluate on q_targ
+        params, state = target_params['q_targ'], target_state['q_targ']
+        S_next = self.q_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
 
+        if is_stochastic(self.q):
+            return self._get_target_dist_params(params, state, next(rngs), transition_batch, A_next)
+
+        Q_sa_next, _ = self.q_targ.function_type1(params, state, next(rngs), S_next, A_next, False)
         f, f_inv = self.q.value_transform.transform_func, self.q_targ.value_transform.inverse_func
         return f(transition_batch.Rn + transition_batch.In * f_inv(Q_sa_next))

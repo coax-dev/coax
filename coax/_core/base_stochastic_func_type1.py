@@ -77,6 +77,19 @@ class BaseStochasticFuncType1(BaseFunc):
             logp = batch_to_single(logP)
         return (x, logp) if return_logp else x
 
+    def mean(self, s, a=None):
+        S = self.observation_preprocessor(self.rng, s)
+        if a is None:
+            X = self.mean_func_type2(self.params, self.function_state, self.rng, S)
+            X = batch_to_single(X)  # (batch, num_actions, *) -> (num_actions, *)
+            n = self.action_space.n
+            x = [self.proba_dist.postprocess_variate(self.rng, X, index=i) for i in range(n)]
+        else:
+            A = self.action_preprocessor(self.rng, a)
+            X = self.mean_func_type1(self.params, self.function_state, self.rng, S, A)
+            x = self.proba_dist.postprocess_variate(self.rng, X)
+        return x
+
     def mode(self, s, a=None):
         S = self.observation_preprocessor(self.rng, s)
         if a is None:
@@ -260,7 +273,7 @@ class BaseStochasticFuncType1(BaseFunc):
 
         .. code:: python
 
-            output = obj.sample_func_type1(obj.params, obj.function_state, obj.rng, S, is_training)
+            output = obj.sample_func_type1(obj.params, obj.function_state, obj.rng, S)
 
         """
         if not hasattr(self, '_sample_func_type1'):
@@ -282,19 +295,19 @@ class BaseStochasticFuncType1(BaseFunc):
 
         .. code:: python
 
-            output = obj.sample_func_type2(obj.params, obj.function_state, obj.rng, S, A, is_training)
+            output = obj.sample_func_type2(obj.params, obj.function_state, obj.rng, S, A)
 
-        """  # noqa: E501
+        """
         if not hasattr(self, '_sample_func_type2'):
             def sample_func_type2(params, state, rng, S):
                 rngs = hk.PRNGSequence(rng)
                 dist_params, _ = self.function_type2(params, state, next(rngs), S, False)
                 dist_params = jax.tree_map(self._reshape_to_replicas, dist_params)
-                S_next = self.proba_dist.sample(dist_params, next(rngs))    # (batch x n, *shape)
-                logP = self.proba_dist.log_proba(dist_params, S_next)       # (batch x n)
-                S_next = jax.tree_map(self._reshape_from_replicas, S_next)  # (batch, n, *shape)
-                logP = self._reshape_from_replicas(logP)                    # (batch, n)
-                return S_next, logP
+                X = self.proba_dist.sample(dist_params, next(rngs))    # (batch x n, *shape)
+                logP = self.proba_dist.log_proba(dist_params, X)       # (batch x n)
+                X = jax.tree_map(self._reshape_from_replicas, X)       # (batch, n, *shape)
+                logP = self._reshape_from_replicas(logP)               # (batch, n)
+                return X, logP
             self._sample_func_type2 = jax.jit(sample_func_type2)
         return self._sample_func_type2
 
@@ -307,14 +320,14 @@ class BaseStochasticFuncType1(BaseFunc):
 
         .. code:: python
 
-            output = obj.mode_func(obj.params, obj.function_state, obj.rng, S, A, is_training)
+            output = obj.mode_func_type1(obj.params, obj.function_state, obj.rng, S, A)
 
         """
         if not hasattr(self, '_mode_func_type1'):
             def mode_func_type1(params, state, rng, S, A):
                 dist_params, _ = self.function_type1(params, state, rng, S, A, False)
-                S_next = self.proba_dist.mode(dist_params)
-                return S_next
+                X = self.proba_dist.mode(dist_params)
+                return X
             self._mode_func_type1 = jax.jit(mode_func_type1)
         return self._mode_func_type1
 
@@ -327,18 +340,60 @@ class BaseStochasticFuncType1(BaseFunc):
 
         .. code:: python
 
-            output = obj.mode_func(obj.params, obj.function_state, obj.rng, S, is_training)
+            output = obj.mode_func_type2(obj.params, obj.function_state, obj.rng, S)
 
         """
         if not hasattr(self, '_mode_func_type2'):
             def mode_func_type2(params, state, rng, S):
                 dist_params, _ = self.function_type2(params, state, rng, S, False)
                 dist_params = jax.tree_map(self._reshape_to_replicas, dist_params)
-                S_next = self.proba_dist.mode(dist_params)                  # (batch x n, *shape)
-                S_next = jax.tree_map(self._reshape_from_replicas, S_next)  # (batch, n, *shape)
-                return S_next
+                X = self.proba_dist.mode(dist_params)             # (batch x n, *shape)
+                X = jax.tree_map(self._reshape_from_replicas, X)  # (batch, n, *shape)
+                return X
             self._mode_func_type2 = jax.jit(mode_func_type2)
         return self._mode_func_type2
+
+    @property
+    def mean_func_type1(self):
+        r"""
+
+        The function that is used for computing the *mean*, defined as a JIT-compiled pure function.
+        This function may be called directly as:
+
+        .. code:: python
+
+            output = obj.mean_func_type1(obj.params, obj.function_state, obj.rng, S, A)
+
+        """
+        if not hasattr(self, '_mean_func_type1'):
+            def mean_func_type1(params, state, rng, S, A):
+                dist_params, _ = self.function_type1(params, state, rng, S, A, False)
+                X = self.proba_dist.mean(dist_params)
+                return X
+            self._mean_func_type1 = jax.jit(mean_func_type1)
+        return self._mean_func_type1
+
+    @property
+    def mean_func_type2(self):
+        r"""
+
+        The function that is used for computing the *mean*, defined as a JIT-compiled pure function.
+        This function may be called directly as:
+
+        .. code:: python
+
+            output = obj.mean_func_type2(obj.params, obj.function_state, obj.rng, S)
+
+        """
+        if not hasattr(self, '_mean_func_type2'):
+            def mean_func_type2(params, state, rng, S):
+                dist_params, _ = self.function_type2(params, state, rng, S, False)
+                dist_params = jax.tree_map(self._reshape_to_replicas, dist_params)
+                X = self.proba_dist.mean(dist_params)             # (batch x n, *shape)
+                X = jax.tree_map(self._reshape_from_replicas, X)  # (batch, n, *shape)
+                return X
+            self._mean_func_type2 = jax.jit(mean_func_type2)
+        return self._mean_func_type2
 
     def _check_signature(self, func):
         sig_type1 = ('S', 'A', 'is_training')

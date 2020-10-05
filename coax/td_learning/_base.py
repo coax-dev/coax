@@ -27,9 +27,7 @@ import haiku as hk
 import optax
 
 from .._base.mixins import RandomStateMixin
-from .._core.v import V
-from .._core.q import Q
-from ..utils import get_grads_diagnostics, is_policy
+from ..utils import get_grads_diagnostics, is_policy, is_stochastic, is_qfunction, is_vfunction
 from ..value_losses import huber
 from ..regularizers import Regularizer
 
@@ -212,10 +210,10 @@ class BaseTDLearning(ABC, RandomStateMixin):
 class BaseTDLearningV(BaseTDLearning):
     def __init__(self, v, v_targ=None, optimizer=None, loss_function=None, policy_regularizer=None):
 
-        if not isinstance(v, V):
-            raise TypeError(f"v must be a coax.V, got: {type(v)}")
-        if not isinstance(v_targ, (V, type(None))):
-            raise TypeError(f"v_targ must be a coax.Q or None, got: {type(v_targ)}")
+        if not is_vfunction(v):
+            raise TypeError(f"v must be a v-function, got: {type(v)}")
+        if not (v_targ is None or is_vfunction(v_targ)):
+            raise TypeError(f"v_targ must be a v-function or None, got: {type(v_targ)}")
 
         super().__init__(
             f=v,
@@ -225,53 +223,88 @@ class BaseTDLearningV(BaseTDLearning):
             policy_regularizer=policy_regularizer)
 
         def loss_func(params, target_params, state, target_state, rng, transition_batch):
+            """
+
+            In this function we tie together all the pieces, which is why it's a bit long.
+
+            The main structure to watch for is calls to self.target_func(...), which is defined
+            downstream. All other code is essentially boilerplate to tie this target to the
+            predictions, i.e. to construct a feedback signal for training.
+
+            One of the things we might change here is not to handle both the stochastic and
+            deterministic cases in the same function.
+
+            -kris
+
+            """
             rngs = hk.PRNGSequence(rng)
             S = self.v.observation_preprocessor(next(rngs), transition_batch.S)
-            V, state_new = self.v.function(params, state, next(rngs), S, True)
-            G = self.target_func(target_params, target_state, next(rngs), transition_batch)
 
-            # add policy regularization term to target
-            if self.policy_regularizer is not None:
-                S_reg = self.policy_regularizer.f.observation_preprocessor(
-                    next(rngs), transition_batch.S)
-                dist_params, _ = self.policy_regularizer.f.function(
-                    target_params['reg'], target_state['reg'], next(rngs), S_reg, False)
-                reg = self.policy_regularizer.function(dist_params, **target_params['reg_hparams'])
-                assert reg.shape == G.shape, f"bad shape: {G.shape} != {reg.shape}"
-                G += -reg  # flip sign (typical example: reg = -beta * entropy)
+            # regularization term
+            if self.policy_regularizer is None:
+                regularizer = 0.
+            else:
+                # flip sign (typical example: regularizer = -beta * entropy)
+                regularizer = -self.policy_regularizer.batch_eval(
+                    target_params['reg'], target_params['reg_hparams'], target_state['reg'],
+                    next(rngs), transition_batch)
 
-            loss = self.loss_function(G, V)
-            td_error = -jax.grad(self.loss_function, argnums=1)(G, V)  # e.g. (G - V) for MSE loss
+            if is_stochastic(self.v):
+                dist_params, state_new = self.v.function(params, state, next(rngs), S, True)
+                dist_params_target = \
+                    self.target_func(target_params, target_state, rng, transition_batch)
 
-            return loss, (loss, td_error, G, V, state_new)
+                if self.policy_regularizer is not None:
+                    dist_params_target = self.v.proba_dist.affine_transform(
+                        dist_params_target, 1., regularizer, self.v.value_transform)
+
+                loss = jnp.mean(self.v.proba_dist.cross_entropy(dist_params_target, dist_params))
+
+                # the rest here is only needed for metrics dict
+                V = self.v.proba_dist.mean(dist_params)
+                V = self.v.proba_dist.postprocess_variate(next(rngs), V, batch_mode=True)
+                G = self.v.proba_dist.mean(dist_params_target)
+                G = self.v.proba_dist.postprocess_variate(next(rngs), G, batch_mode=True)
+                dist_params_v_targ, _ = self.v.function(
+                    target_params['v_targ'], target_state['v_targ'], next(rngs), S, False)
+                V_targ = self.v.proba_dist.mean(dist_params_v_targ)
+                V_targ = self.v.proba_dist.postprocess_variate(next(rngs), V_targ, batch_mode=True)
+
+            else:
+                V, state_new = self.v.function(params, state, next(rngs), S, True)
+                G = self.target_func(target_params, target_state, next(rngs), transition_batch)
+                G += regularizer
+                loss = self.loss_function(G, V)
+
+                # only needed for metrics dict
+                V_targ, _ = self.v.function(
+                    target_params['v_targ'], target_state['v_targ'], next(rngs), S, False)
+
+            dLoss_dV = jax.grad(self.loss_function, argnums=1)
+            td_error = -dLoss_dV(G, V)  # e.g. (G - V) if loss function is MSE
+            metrics = {
+                f'{self.__class__.__name__}/loss': loss,
+                f'{self.__class__.__name__}/td_error': jnp.mean(td_error),
+                f'{self.__class__.__name__}/td_error_targ': jnp.mean(-dLoss_dV(V, V_targ)),
+            }
+            return loss, (td_error, state_new, metrics)
 
         def grads_and_metrics_func(
                 params, target_params, state, target_state, rng, transition_batch):
 
             rngs = hk.PRNGSequence(rng)
-            grads, (loss, td_error, G, V, state_new) = jax.grad(loss_func, has_aux=True)(
+            grads, (td_error, state_new, metrics) = jax.grad(loss_func, has_aux=True)(
                 params, target_params, state, target_state, next(rngs), transition_batch)
 
-            # TD error relative to the target-network estimate
-            S = self.v_targ.observation_preprocessor(next(rngs), transition_batch.S)
-            V_targ, _ = self.v_targ.function(target_params['v_targ'], state, next(rngs), S, False)
-            td_error_targ = -jax.grad(self.loss_function, argnums=1)(V, V_targ)  # e.g. (V - V_targ)
-
-            name = self.__class__.__name__
-            metrics = {
-                f'{name}/loss': loss,
-                f'{name}/td_error': jnp.mean(td_error),
-                f'{name}/td_error_targ': jnp.mean(td_error_targ),
-            }
-
-            # add some diagnostics of the gradients
-            metrics.update(get_grads_diagnostics(grads, key_prefix=f'{name}/grads_'))
+            # add some diagnostics about the gradients
+            metrics.update(get_grads_diagnostics(grads, f'{self.__class__.__name__}/grads_'))
 
             return grads, state_new, metrics
 
         def td_error_func(params, target_params, state, target_state, rng, transition_batch):
-            loss, aux = loss_func(params, target_params, state, target_state, rng, transition_batch)
-            return aux[1]
+            loss, (td_error, state_new, metrics) =\
+                loss_func(params, target_params, state, target_state, rng, transition_batch)
+            return td_error
 
         self._grads_and_metrics_func = jax.jit(grads_and_metrics_func)
         self._td_error_func = jax.jit(td_error_func)
@@ -299,14 +332,29 @@ class BaseTDLearningV(BaseTDLearning):
             'v_targ': self.v_targ.function_state,
             'reg': getattr(getattr(self.policy_regularizer, 'f', None), 'function_state', None)})
 
+    def _get_target_dist_params(self, params, state, rng, transition_batch):
+        r"""
+
+        This method applies techniques from the Distributionel RL paper (arxiv:1707.06887) to
+        update StochasticQ / StochasticV.
+
+        """
+        rngs = hk.PRNGSequence(rng)
+        S_next = self.v_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
+        scale, shift = transition_batch.In, transition_batch.Rn  # defines affine transformation
+        dist_params_next, _ = self.v_targ.function(params, state, next(rngs), S_next, False)
+        dist_params_target = self.v_targ.proba_dist.affine_transform(
+            dist_params_next, scale, shift, self.v_targ.value_transform)
+        return dist_params_target
+
 
 class BaseTDLearningQ(BaseTDLearning):
     def __init__(self, q, q_targ=None, optimizer=None, loss_function=None, policy_regularizer=None):
 
-        if not isinstance(q, Q):
-            raise TypeError(f"q must be a coax.Q, got: {type(q)}")
-        if not isinstance(q_targ, (Q, type(None), list, tuple)):
-            raise TypeError(f"q_targ must be a coax.Q or None, got: {type(q_targ)}")
+        if not is_qfunction(q):
+            raise TypeError(f"q must be a q-function, got: {type(q)}")
+        if not (q_targ is None or isinstance(q_targ, (list, tuple)) or is_qfunction(q_targ)):
+            raise TypeError(f"q_targ must be a q-function or None, got: {type(q_targ)}")
 
         super().__init__(
             f=q,
@@ -316,56 +364,90 @@ class BaseTDLearningQ(BaseTDLearning):
             policy_regularizer=policy_regularizer)
 
         def loss_func(params, target_params, state, target_state, rng, transition_batch):
+            """
+
+            In this function we tie together all the pieces, which is why it's a bit long.
+
+            The main structure to watch for is calls to self.target_func(...), which is defined
+            downstream. All other code is essentially boilerplate to tie this target to the
+            predictions, i.e. to construct a feedback signal for training.
+
+            One of the things we might change here is not to handle both the stochastic and
+            deterministic cases in the same function.
+
+            -kris
+
+            """
             rngs = hk.PRNGSequence(rng)
             S = self.q.observation_preprocessor(next(rngs), transition_batch.S)
             A = self.q.action_preprocessor(next(rngs), transition_batch.A)
-            Q, state_new = self.q.function_type1(params, state, next(rngs), S, A, True)
-            G = self.target_func(target_params, target_state, next(rngs), transition_batch)
 
-            # add policy regularization term to target
-            if self.policy_regularizer is not None:
-                S_reg = self.policy_regularizer.f.observation_preprocessor(
-                    next(rngs), transition_batch.S)
-                dist_params, _ = self.policy_regularizer.f.function(
-                    target_params['reg'], target_state['reg'], next(rngs), S_reg, False)
-                reg = self.policy_regularizer.function(dist_params, **target_params['reg_hparams'])
-                assert reg.shape == G.shape, f"bad shape: {G.shape} != {reg.shape}"
-                G += -reg  # flip sign (typical example: reg = -beta * entropy)
+            # regularization term
+            if self.policy_regularizer is None:
+                regularizer = 0.
+            else:
+                # flip sign (typical example: regularizer = -beta * entropy)
+                regularizer = -self.policy_regularizer.batch_eval(
+                    target_params['reg'], target_params['reg_hparams'], target_state['reg'],
+                    next(rngs), transition_batch)
 
-            loss = self.loss_function(G, Q)
-            td_error = -jax.grad(self.loss_function, argnums=1)(G, Q)  # e.g. (G - Q) for MSE loss
+            if is_stochastic(self.q):
+                dist_params, state_new = \
+                    self.q.function_type1(params, state, next(rngs), S, A, True)
+                dist_params_target = \
+                    self.target_func(target_params, target_state, rng, transition_batch)
 
-            return loss, (loss, td_error, G, Q, state_new)
+                if self.policy_regularizer is not None:
+                    dist_params_target = self.q.proba_dist.affine_transform(
+                        dist_params_target, 1., regularizer, self.q.value_transform)
+
+                loss = jnp.mean(self.q.proba_dist.cross_entropy(dist_params_target, dist_params))
+
+                # the rest here is only needed for metrics dict
+                Q = self.q.proba_dist.mean(dist_params)
+                Q = self.q.proba_dist.postprocess_variate(next(rngs), Q, batch_mode=True)
+                G = self.q.proba_dist.mean(dist_params_target)
+                G = self.q.proba_dist.postprocess_variate(next(rngs), G, batch_mode=True)
+                dist_params_q_targ, _ = self.q.function_type1(
+                    target_params['q_targ'], target_state['q_targ'], next(rngs), S, A, False)
+                Q_targ = self.q.proba_dist.mean(dist_params_q_targ)
+                Q_targ = self.q.proba_dist.postprocess_variate(next(rngs), Q_targ, batch_mode=True)
+
+            else:
+                Q, state_new = self.q.function_type1(params, state, next(rngs), S, A, True)
+                G = self.target_func(target_params, target_state, next(rngs), transition_batch)
+                G += regularizer
+                loss = self.loss_function(G, Q)
+
+                # only needed for metrics dict
+                Q_targ, _ = self.q.function_type1(
+                    target_params['q_targ'], target_state['q_targ'], next(rngs), S, A, False)
+
+            dLoss_dQ = jax.grad(self.loss_function, argnums=1)
+            td_error = -dLoss_dQ(G, Q)  # e.g. (G - Q) if loss function is MSE
+            metrics = {
+                f'{self.__class__.__name__}/loss': loss,
+                f'{self.__class__.__name__}/td_error': jnp.mean(td_error),
+                f'{self.__class__.__name__}/td_error_targ': jnp.mean(-dLoss_dQ(Q, Q_targ)),
+            }
+            return loss, (td_error, state_new, metrics)
 
         def grads_and_metrics_func(
                 params, target_params, state, target_state, rng, transition_batch):
 
             rngs = hk.PRNGSequence(rng)
-            grads, (loss, td_error, G, Q, state_new) = jax.grad(loss_func, has_aux=True)(
+            grads, (td_error, state_new, metrics) = jax.grad(loss_func, has_aux=True)(
                 params, target_params, state, target_state, next(rngs), transition_batch)
 
-            # TD error relative to the target-network estimate
-            S = self.q_targ.observation_preprocessor(next(rngs), transition_batch.S)
-            A = self.q_targ.action_preprocessor(next(rngs), transition_batch.A)
-            Q_targ, _ = self.q_targ.function_type1(
-                target_params['q_targ'], target_state['q_targ'], next(rngs), S, A, False)
-            td_error_targ = -jax.grad(self.loss_function, argnums=1)(Q, Q_targ)  # e.g. (Q - Q_targ)
-
-            name = self.__class__.__name__
-            metrics = {
-                f'{name}/loss': loss,
-                f'{name}/td_error': jnp.mean(td_error),
-                f'{name}/td_error_targ': jnp.mean(td_error_targ),
-            }
-
-            # add some diagnostics of the gradients
-            metrics.update(get_grads_diagnostics(grads, key_prefix=f'{name}/grads_'))
+            # add some diagnostics about the gradients
+            metrics.update(get_grads_diagnostics(grads, f'{self.__class__.__name__}/grads_'))
 
             return grads, state_new, metrics
 
         def td_error_func(params, target_params, state, target_state, rng, transition_batch):
-            loss, aux = loss_func(params, target_params, state, target_state, rng, transition_batch)
-            return aux[1]
+            loss, (td_error, state_new, metrics) =\
+                loss_func(params, target_params, state, target_state, rng, transition_batch)
+            return td_error
 
         self._grads_and_metrics_func = jax.jit(grads_and_metrics_func)
         self._td_error_func = jax.jit(td_error_func)
@@ -392,6 +474,22 @@ class BaseTDLearningQ(BaseTDLearning):
             'q': self.q.function_state,
             'q_targ': self.q_targ.function_state,
             'reg': getattr(getattr(self.policy_regularizer, 'f', None), 'function_state', None)})
+
+    def _get_target_dist_params(self, params, state, rng, transition_batch, A_next):
+        r"""
+
+        This method applies techniques from the Distributionel RL paper (arxiv:1707.06887) to
+        update StochasticQ / StochasticV.
+
+        """
+        rngs = hk.PRNGSequence(rng)
+        S_next = self.q_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
+        scale, shift = transition_batch.In, transition_batch.Rn  # defines affine transformation
+        dist_params_next, _ = self.q_targ.function_type1(
+            params, state, next(rngs), S_next, A_next, False)
+        dist_params_target = self.q_targ.proba_dist.affine_transform(
+            dist_params_next, scale, shift, self.q_targ.value_transform)
+        return dist_params_target
 
 
 class BaseTDLearningQWithTargetPolicy(BaseTDLearningQ):
