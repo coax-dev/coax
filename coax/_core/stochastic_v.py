@@ -89,7 +89,7 @@ class StochasticV(BaseStochasticFuncType2):
 
         self.value_transform = value_transform
         self.value_range = self._check_value_range(value_range)
-        proba_dist = self._get_proba_dist(self.value_range, num_bins)
+        proba_dist = self._get_proba_dist(self.value_range, value_transform, num_bins)
 
         # set defaults
         if observation_preprocessor is None:
@@ -114,10 +114,10 @@ class StochasticV(BaseStochasticFuncType2):
     @classmethod
     def example_data(
             cls, env, value_range, num_bins=51, observation_preprocessor=None,
-            batch_size=1, random_seed=None):
+            value_transform=None, batch_size=1, random_seed=None):
 
         value_range = cls._check_value_range(value_range)
-        proba_dist = cls._get_proba_dist(value_range, num_bins)
+        proba_dist = cls._get_proba_dist(value_range, value_transform, num_bins)
 
         if observation_preprocessor is None:
             observation_preprocessor = default_preprocessor(env.observation_space)
@@ -203,7 +203,10 @@ class StochasticV(BaseStochasticFuncType2):
         return super().dist_params(s)
 
     @staticmethod
-    def _get_proba_dist(value_range, num_bins):
+    def _get_proba_dist(value_range, value_transform, num_bins):
+        if value_transform is not None:
+            f, _ = value_transform
+            value_range = f(value_range[0]), f(value_range[1])
         reward_space = Box(*value_range, shape=())
         return DiscretizedIntervalDist(reward_space, num_bins)
 
