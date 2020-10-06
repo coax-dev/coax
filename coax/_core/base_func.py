@@ -134,6 +134,7 @@ class BaseFunc(ABC, RandomStateMixin):
             raise TypeError("'self' and 'other' must be of the same type")
 
         self.params = self._soft_update_func(self.params, other.params, tau)
+        self.function_state = self._soft_update_func(self.function_state, other.function_state, tau)
 
     def copy(self):
         """ Create a deep copy.
