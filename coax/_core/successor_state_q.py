@@ -135,7 +135,7 @@ class SuccessorStateQ:
                 if is_stochastic(self.p):
                     dist_params, new_state['p'] = self.p.function_type1(
                         params['p'], state['p'], next(rngs), S, A, is_training)
-                    S_next = self.p.proba_dist.sample(dist_params, next(rngs))
+                    S_next = self.p.proba_dist.mean(dist_params)
                 else:
                     S_next, new_state['p'] = self.p.function_type1(
                         params['p'], state['p'], next(rngs), S, A, is_training)
@@ -144,7 +144,7 @@ class SuccessorStateQ:
                 if is_stochastic(self.r):
                     dist_params, new_state['r'] = self.r.function_type1(
                         params['r'], state['r'], next(rngs), S, A, is_training)
-                    R = self.r.proba_dist.sample(dist_params, next(rngs))
+                    R = self.r.proba_dist.mean(dist_params)
                     R = self.r.proba_dist.postprocess_variate(next(rngs), R, batch_mode=True)
                 else:
                     R, new_state['r'] = self.r.function_type1(
@@ -154,7 +154,7 @@ class SuccessorStateQ:
                 if is_stochastic(self.v):
                     dist_params, new_state['v'] = self.v.function(
                         params['v'], state['v'], next(rngs), S_next, is_training)
-                    V = self.v.proba_dist.sample(dist_params, next(rngs))
+                    V = self.v.proba_dist.mean(dist_params)
                     V = self.v.proba_dist.postprocess_variate(next(rngs), V, batch_mode=True)
                 else:
                     V, new_state['v'] = self.v.function(
@@ -186,7 +186,7 @@ class SuccessorStateQ:
                     dist_params_rep, new_state['p'] = self.p.function_type2(
                         params['p'], state['p'], next(rngs), S, is_training)
                     dist_params_rep = jax.tree_map(self._reshape_to_replicas, dist_params_rep)
-                    S_next_rep = self.p.proba_dist.sample(dist_params_rep, next(rngs))
+                    S_next_rep = self.p.proba_dist.mean(dist_params_rep)
                 else:
                     S_next_rep, new_state['p'] = self.p.function_type2(
                         params['p'], state['p'], next(rngs), S, is_training)
@@ -197,7 +197,7 @@ class SuccessorStateQ:
                     dist_params_rep, new_state['r'] = self.r.function_type2(
                         params['r'], state['r'], next(rngs), S, is_training)
                     dist_params_rep = jax.tree_map(self._reshape_to_replicas, dist_params_rep)
-                    R_rep = self.r.proba_dist.sample(dist_params_rep, next(rngs))
+                    R_rep = self.r.proba_dist.mean(dist_params_rep)
                     R_rep = self.r.proba_dist.postprocess_variate(
                         next(rngs), R_rep, batch_mode=True)
                 else:
@@ -209,7 +209,7 @@ class SuccessorStateQ:
                 if is_stochastic(self.v):
                     dist_params_rep, new_state['v'] = self.v.function(
                         params['v'], state['v'], next(rngs), S_next_rep, is_training)
-                    V_rep = self.v.proba_dist.sample(dist_params_rep, next(rngs))
+                    V_rep = self.v.proba_dist.mean(dist_params_rep)
                     V_rep = self.v.proba_dist.postprocess_variate(
                         next(rngs), V_rep, batch_mode=True)
                 else:
