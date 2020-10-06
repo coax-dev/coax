@@ -9,17 +9,25 @@ to the **coax** package.
 
 
 .. toctree::
-    :maxdepth: 1
+    :caption: Value-Based Agents
 
     SARSA <sarsa>
     Expected SARSA <expected_sarsa>
     Q-Learning <qlearning>
     Double Q-Learning <double_qlearning>
+
+.. toctree::
+    :caption: Policy-Based Agents
+
     REINFORCE <reinforce>
     A2C <a2c>
     PPO <ppo>
     DDPG <ddpg>
     TD3 <td3>
+
+.. toctree::
+    :caption: Distributional RL
+
     Stochastic SARSA <stochastic_sarsa>
     Stochastic Expected-SARSA <stochastic_expected_sarsa>
     Stochastic Q-Learning <stochastic_qlearning>
