@@ -38,7 +38,7 @@ def get_version_spec():
 
 
 def get_long_description():
-    with open(os.path.join(PROJECTDIR, 'README.md')) as f:
+    with open(os.path.join(PROJECTDIR, 'README.rst')) as f:
         return f.read()
 
 
