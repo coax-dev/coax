@@ -58,7 +58,7 @@ jobs:
         with:
           tag_name: ${{ github.ref }}
           release_name: ${{ github.ref }}
-          body: Release ${{ github.ref }}
+          body: "Release notes: https://coax.readthedocs.io/release_notes.html"
           draft: false
           prerelease: ${{ contains(github.ref, 'rc') }}
 
