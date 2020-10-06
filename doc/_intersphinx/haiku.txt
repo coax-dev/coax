@@ -136,12 +136,14 @@ py:function
 	haiku.scan                               api.html#haiku.scan
 	haiku.set_state                          api.html#haiku.set_state
 	haiku.static_unroll                      api.html#haiku.static_unroll
+	haiku.switch                             api.html#haiku.switch
 	haiku.testing.transform_and_run          api.html#haiku.testing.transform_and_run
 	haiku.to_module                          api.html#haiku.to_module
 	haiku.transform                          api.html#haiku.transform
 	haiku.transform_with_state               api.html#haiku.transform_with_state
 	haiku.transparent                        api.html#haiku.transparent
 	haiku.value_and_grad                     api.html#haiku.value_and_grad
+	haiku.vmap                               api.html#haiku.vmap
 	haiku.with_rng                           api.html#haiku.with_rng
 	haiku.without_apply_rng                  api.html#haiku.without_apply_rng
 	haiku.without_state                      api.html#haiku.without_state

@@ -44,7 +44,7 @@ c:function
 	PyBytes_Size                             c-api/bytes.html#c.PyBytes_Size
 	PyCallIter_Check                         c-api/iterator.html#c.PyCallIter_Check
 	PyCallIter_New                           c-api/iterator.html#c.PyCallIter_New
-	PyCallable_Check                         c-api/object.html#c.PyCallable_Check
+	PyCallable_Check                         c-api/call.html#c.PyCallable_Check
 	PyCapsule_CheckExact                     c-api/capsule.html#c.PyCapsule_CheckExact
 	PyCapsule_GetContext                     c-api/capsule.html#c.PyCapsule_GetContext
 	PyCapsule_GetDestructor                  c-api/capsule.html#c.PyCapsule_GetDestructor
@@ -109,7 +109,6 @@ c:function
 	PyContextVar_Reset                       c-api/contextvars.html#c.PyContextVar_Reset
 	PyContextVar_Set                         c-api/contextvars.html#c.PyContextVar_Set
 	PyContext_CheckExact                     c-api/contextvars.html#c.PyContext_CheckExact
-	PyContext_ClearFreeList                  c-api/contextvars.html#c.PyContext_ClearFreeList
 	PyContext_Copy                           c-api/contextvars.html#c.PyContext_Copy
 	PyContext_CopyCurrent                    c-api/contextvars.html#c.PyContext_CopyCurrent
 	PyContext_Enter                          c-api/contextvars.html#c.PyContext_Enter
@@ -153,7 +152,6 @@ c:function
 	PyDict_Check                             c-api/dict.html#c.PyDict_Check
 	PyDict_CheckExact                        c-api/dict.html#c.PyDict_CheckExact
 	PyDict_Clear                             c-api/dict.html#c.PyDict_Clear
-	PyDict_ClearFreeList                     c-api/dict.html#c.PyDict_ClearFreeList
 	PyDict_Contains                          c-api/dict.html#c.PyDict_Contains
 	PyDict_Copy                              c-api/dict.html#c.PyDict_Copy
 	PyDict_DelItem                           c-api/dict.html#c.PyDict_DelItem
@@ -253,12 +251,13 @@ c:function
 	PyFloat_AsDouble                         c-api/float.html#c.PyFloat_AsDouble
 	PyFloat_Check                            c-api/float.html#c.PyFloat_Check
 	PyFloat_CheckExact                       c-api/float.html#c.PyFloat_CheckExact
-	PyFloat_ClearFreeList                    c-api/float.html#c.PyFloat_ClearFreeList
 	PyFloat_FromDouble                       c-api/float.html#c.PyFloat_FromDouble
 	PyFloat_FromString                       c-api/float.html#c.PyFloat_FromString
 	PyFloat_GetInfo                          c-api/float.html#c.PyFloat_GetInfo
 	PyFloat_GetMax                           c-api/float.html#c.PyFloat_GetMax
 	PyFloat_GetMin                           c-api/float.html#c.PyFloat_GetMin
+	PyFrame_GetBack                          c-api/reflection.html#c.PyFrame_GetBack
+	PyFrame_GetCode                          c-api/reflection.html#c.PyFrame_GetCode
 	PyFrame_GetLineNumber                    c-api/reflection.html#c.PyFrame_GetLineNumber
 	PyFrozenSet_Check                        c-api/set.html#c.PyFrozenSet_Check
 	PyFrozenSet_CheckExact                   c-api/set.html#c.PyFrozenSet_CheckExact
@@ -286,7 +285,6 @@ c:function
 	PyImport_AddModule                       c-api/import.html#c.PyImport_AddModule
 	PyImport_AddModuleObject                 c-api/import.html#c.PyImport_AddModuleObject
 	PyImport_AppendInittab                   c-api/import.html#c.PyImport_AppendInittab
-	PyImport_Cleanup                         c-api/import.html#c.PyImport_Cleanup
 	PyImport_ExecCodeModule                  c-api/import.html#c.PyImport_ExecCodeModule
 	PyImport_ExecCodeModuleEx                c-api/import.html#c.PyImport_ExecCodeModuleEx
 	PyImport_ExecCodeModuleObject            c-api/import.html#c.PyImport_ExecCodeModuleObject
@@ -314,6 +312,7 @@ c:function
 	PyInstanceMethod_New                     c-api/method.html#c.PyInstanceMethod_New
 	PyInterpreterState_Clear                 c-api/init.html#c.PyInterpreterState_Clear
 	PyInterpreterState_Delete                c-api/init.html#c.PyInterpreterState_Delete
+	PyInterpreterState_Get                   c-api/init.html#c.PyInterpreterState_Get
 	PyInterpreterState_GetDict               c-api/init.html#c.PyInterpreterState_GetDict
 	PyInterpreterState_GetID                 c-api/init.html#c.PyInterpreterState_GetID
 	PyInterpreterState_Head                  c-api/init.html#c.PyInterpreterState_Head
@@ -327,7 +326,6 @@ c:function
 	PyList_AsTuple                           c-api/list.html#c.PyList_AsTuple
 	PyList_Check                             c-api/list.html#c.PyList_Check
 	PyList_CheckExact                        c-api/list.html#c.PyList_CheckExact
-	PyList_ClearFreeList                     c-api/list.html#c.PyList_ClearFreeList
 	PyList_GET_ITEM                          c-api/list.html#c.PyList_GET_ITEM
 	PyList_GET_SIZE                          c-api/list.html#c.PyList_GET_SIZE
 	PyList_GetItem                           c-api/list.html#c.PyList_GetItem
@@ -407,7 +405,6 @@ c:function
 	PyMemoryView_GET_BUFFER                  c-api/memoryview.html#c.PyMemoryView_GET_BUFFER
 	PyMemoryView_GetContiguous               c-api/memoryview.html#c.PyMemoryView_GetContiguous
 	PyMethod_Check                           c-api/method.html#c.PyMethod_Check
-	PyMethod_ClearFreeList                   c-api/method.html#c.PyMethod_ClearFreeList
 	PyMethod_Function                        c-api/method.html#c.PyMethod_Function
 	PyMethod_GET_FUNCTION                    c-api/method.html#c.PyMethod_GET_FUNCTION
 	PyMethod_GET_SELF                        c-api/method.html#c.PyMethod_GET_SELF
@@ -420,6 +417,7 @@ c:function
 	PyModule_AddObject                       c-api/module.html#c.PyModule_AddObject
 	PyModule_AddStringConstant               c-api/module.html#c.PyModule_AddStringConstant
 	PyModule_AddStringMacro                  c-api/module.html#c.PyModule_AddStringMacro
+	PyModule_AddType                         c-api/module.html#c.PyModule_AddType
 	PyModule_Check                           c-api/module.html#c.PyModule_Check
 	PyModule_CheckExact                      c-api/module.html#c.PyModule_CheckExact
 	PyModule_Create                          c-api/module.html#c.PyModule_Create
@@ -494,12 +492,16 @@ c:function
 	PyObject_AsReadBuffer                    c-api/objbuffer.html#c.PyObject_AsReadBuffer
 	PyObject_AsWriteBuffer                   c-api/objbuffer.html#c.PyObject_AsWriteBuffer
 	PyObject_Bytes                           c-api/object.html#c.PyObject_Bytes
-	PyObject_Call                            c-api/object.html#c.PyObject_Call
-	PyObject_CallFunction                    c-api/object.html#c.PyObject_CallFunction
-	PyObject_CallFunctionObjArgs             c-api/object.html#c.PyObject_CallFunctionObjArgs
-	PyObject_CallMethod                      c-api/object.html#c.PyObject_CallMethod
-	PyObject_CallMethodObjArgs               c-api/object.html#c.PyObject_CallMethodObjArgs
-	PyObject_CallObject                      c-api/object.html#c.PyObject_CallObject
+	PyObject_Call                            c-api/call.html#c.PyObject_Call
+	PyObject_CallFunction                    c-api/call.html#c.PyObject_CallFunction
+	PyObject_CallFunctionObjArgs             c-api/call.html#c.PyObject_CallFunctionObjArgs
+	PyObject_CallMethod                      c-api/call.html#c.PyObject_CallMethod
+	PyObject_CallMethodNoArgs                c-api/call.html#c.PyObject_CallMethodNoArgs
+	PyObject_CallMethodObjArgs               c-api/call.html#c.PyObject_CallMethodObjArgs
+	PyObject_CallMethodOneArg                c-api/call.html#c.PyObject_CallMethodOneArg
+	PyObject_CallNoArgs                      c-api/call.html#c.PyObject_CallNoArgs
+	PyObject_CallObject                      c-api/call.html#c.PyObject_CallObject
+	PyObject_CallOneArg                      c-api/call.html#c.PyObject_CallOneArg
 	PyObject_Calloc                          c-api/memory.html#c.PyObject_Calloc
 	PyObject_CheckBuffer                     c-api/buffer.html#c.PyObject_CheckBuffer
 	PyObject_CheckReadBuffer                 c-api/objbuffer.html#c.PyObject_CheckReadBuffer
@@ -510,6 +512,8 @@ c:function
 	PyObject_Dir                             c-api/object.html#c.PyObject_Dir
 	PyObject_Free                            c-api/memory.html#c.PyObject_Free
 	PyObject_GC_Del                          c-api/gcsupport.html#c.PyObject_GC_Del
+	PyObject_GC_IsFinalized                  c-api/gcsupport.html#c.PyObject_GC_IsFinalized
+	PyObject_GC_IsTracked                    c-api/gcsupport.html#c.PyObject_GC_IsTracked
 	PyObject_GC_New                          c-api/gcsupport.html#c.PyObject_GC_New
 	PyObject_GC_NewVar                       c-api/gcsupport.html#c.PyObject_GC_NewVar
 	PyObject_GC_Resize                       c-api/gcsupport.html#c.PyObject_GC_Resize
@@ -529,6 +533,7 @@ c:function
 	PyObject_HasAttrString                   c-api/object.html#c.PyObject_HasAttrString
 	PyObject_Hash                            c-api/object.html#c.PyObject_Hash
 	PyObject_HashNotImplemented              c-api/object.html#c.PyObject_HashNotImplemented
+	PyObject_IS_GC                           c-api/gcsupport.html#c.PyObject_IS_GC
 	PyObject_Init                            c-api/allocation.html#c.PyObject_Init
 	PyObject_InitVar                         c-api/allocation.html#c.PyObject_InitVar
 	PyObject_IsInstance                      c-api/object.html#c.PyObject_IsInstance
@@ -553,6 +558,9 @@ c:function
 	PyObject_Str                             c-api/object.html#c.PyObject_Str
 	PyObject_Type                            c-api/object.html#c.PyObject_Type
 	PyObject_TypeCheck                       c-api/object.html#c.PyObject_TypeCheck
+	PyObject_Vectorcall                      c-api/call.html#c.PyObject_Vectorcall
+	PyObject_VectorcallDict                  c-api/call.html#c.PyObject_VectorcallDict
+	PyObject_VectorcallMethod                c-api/call.html#c.PyObject_VectorcallMethod
 	PyParser_SimpleParseFile                 c-api/veryhigh.html#c.PyParser_SimpleParseFile
 	PyParser_SimpleParseFileFlags            c-api/veryhigh.html#c.PyParser_SimpleParseFileFlags
 	PyParser_SimpleParseString               c-api/veryhigh.html#c.PyParser_SimpleParseString
@@ -607,7 +615,6 @@ c:function
 	PySet_Add                                c-api/set.html#c.PySet_Add
 	PySet_Check                              c-api/set.html#c.PySet_Check
 	PySet_Clear                              c-api/set.html#c.PySet_Clear
-	PySet_ClearFreeList                      c-api/set.html#c.PySet_ClearFreeList
 	PySet_Contains                           c-api/set.html#c.PySet_Contains
 	PySet_Discard                            c-api/set.html#c.PySet_Discard
 	PySet_GET_SIZE                           c-api/set.html#c.PySet_GET_SIZE
@@ -659,8 +666,12 @@ c:function
 	PyTZInfo_CheckExact                      c-api/datetime.html#c.PyTZInfo_CheckExact
 	PyThreadState_Clear                      c-api/init.html#c.PyThreadState_Clear
 	PyThreadState_Delete                     c-api/init.html#c.PyThreadState_Delete
+	PyThreadState_DeleteCurrent              c-api/init.html#c.PyThreadState_DeleteCurrent
 	PyThreadState_Get                        c-api/init.html#c.PyThreadState_Get
 	PyThreadState_GetDict                    c-api/init.html#c.PyThreadState_GetDict
+	PyThreadState_GetFrame                   c-api/init.html#c.PyThreadState_GetFrame
+	PyThreadState_GetID                      c-api/init.html#c.PyThreadState_GetID
+	PyThreadState_GetInterpreter             c-api/init.html#c.PyThreadState_GetInterpreter
 	PyThreadState_New                        c-api/init.html#c.PyThreadState_New
 	PyThreadState_Next                       c-api/init.html#c.PyThreadState_Next
 	PyThreadState_SetAsyncExc                c-api/init.html#c.PyThreadState_SetAsyncExc
@@ -688,7 +699,6 @@ c:function
 	PyTraceMalloc_Untrack                    c-api/memory.html#c.PyTraceMalloc_Untrack
 	PyTuple_Check                            c-api/tuple.html#c.PyTuple_Check
 	PyTuple_CheckExact                       c-api/tuple.html#c.PyTuple_CheckExact
-	PyTuple_ClearFreeList                    c-api/tuple.html#c.PyTuple_ClearFreeList
 	PyTuple_GET_ITEM                         c-api/tuple.html#c.PyTuple_GET_ITEM
 	PyTuple_GET_SIZE                         c-api/tuple.html#c.PyTuple_GET_SIZE
 	PyTuple_GetItem                          c-api/tuple.html#c.PyTuple_GetItem
@@ -701,11 +711,14 @@ c:function
 	PyType_Check                             c-api/type.html#c.PyType_Check
 	PyType_CheckExact                        c-api/type.html#c.PyType_CheckExact
 	PyType_ClearCache                        c-api/type.html#c.PyType_ClearCache
+	PyType_FromModuleAndSpec                 c-api/type.html#c.PyType_FromModuleAndSpec
 	PyType_FromSpec                          c-api/type.html#c.PyType_FromSpec
 	PyType_FromSpecWithBases                 c-api/type.html#c.PyType_FromSpecWithBases
 	PyType_GenericAlloc                      c-api/type.html#c.PyType_GenericAlloc
 	PyType_GenericNew                        c-api/type.html#c.PyType_GenericNew
 	PyType_GetFlags                          c-api/type.html#c.PyType_GetFlags
+	PyType_GetModule                         c-api/type.html#c.PyType_GetModule
+	PyType_GetModuleState                    c-api/type.html#c.PyType_GetModuleState
 	PyType_GetSlot                           c-api/type.html#c.PyType_GetSlot
 	PyType_HasFeature                        c-api/type.html#c.PyType_HasFeature
 	PyType_IS_GC                             c-api/type.html#c.PyType_IS_GC
@@ -764,7 +777,6 @@ c:function
 	PyUnicode_AsWideCharString               c-api/unicode.html#c.PyUnicode_AsWideCharString
 	PyUnicode_Check                          c-api/unicode.html#c.PyUnicode_Check
 	PyUnicode_CheckExact                     c-api/unicode.html#c.PyUnicode_CheckExact
-	PyUnicode_ClearFreeList                  c-api/unicode.html#c.PyUnicode_ClearFreeList
 	PyUnicode_Compare                        c-api/unicode.html#c.PyUnicode_Compare
 	PyUnicode_CompareWithASCIIString         c-api/unicode.html#c.PyUnicode_CompareWithASCIIString
 	PyUnicode_Concat                         c-api/unicode.html#c.PyUnicode_Concat
@@ -828,6 +840,7 @@ c:function
 	PyUnicode_GetSize                        c-api/unicode.html#c.PyUnicode_GetSize
 	PyUnicode_InternFromString               c-api/unicode.html#c.PyUnicode_InternFromString
 	PyUnicode_InternInPlace                  c-api/unicode.html#c.PyUnicode_InternInPlace
+	PyUnicode_IsIdentifier                   c-api/unicode.html#c.PyUnicode_IsIdentifier
 	PyUnicode_Join                           c-api/unicode.html#c.PyUnicode_Join
 	PyUnicode_KIND                           c-api/unicode.html#c.PyUnicode_KIND
 	PyUnicode_New                            c-api/unicode.html#c.PyUnicode_New
@@ -846,8 +859,9 @@ c:function
 	PyUnicode_TranslateCharmap               c-api/unicode.html#c.PyUnicode_TranslateCharmap
 	PyUnicode_WRITE                          c-api/unicode.html#c.PyUnicode_WRITE
 	PyUnicode_WriteChar                      c-api/unicode.html#c.PyUnicode_WriteChar
-	PyVectorcall_Call                        c-api/typeobj.html#c.PyVectorcall_Call
-	PyVectorcall_NARGS                       c-api/object.html#c.PyVectorcall_NARGS
+	PyVectorcall_Call                        c-api/call.html#c.PyVectorcall_Call
+	PyVectorcall_Function                    c-api/call.html#c.PyVectorcall_Function
+	PyVectorcall_NARGS                       c-api/call.html#c.PyVectorcall_NARGS
 	PyWeakref_Check                          c-api/weakref.html#c.PyWeakref_Check
 	PyWeakref_CheckProxy                     c-api/weakref.html#c.PyWeakref_CheckProxy
 	PyWeakref_CheckRef                       c-api/weakref.html#c.PyWeakref_CheckRef
@@ -878,6 +892,7 @@ c:function
 	Py_FdIsInteractive                       c-api/sys.html#c.Py_FdIsInteractive
 	Py_Finalize                              c-api/init.html#c.Py_Finalize
 	Py_FinalizeEx                            c-api/init.html#c.Py_FinalizeEx
+	Py_GetArgcArgv                           c-api/init_config.html#c.Py_GetArgcArgv
 	Py_GetBuildInfo                          c-api/init.html#c.Py_GetBuildInfo
 	Py_GetCompiler                           c-api/init.html#c.Py_GetCompiler
 	Py_GetCopyright                          c-api/init.html#c.Py_GetCopyright
@@ -890,6 +905,7 @@ c:function
 	Py_GetPythonHome                         c-api/init.html#c.Py_GetPythonHome
 	Py_GetVersion                            c-api/init.html#c.Py_GetVersion
 	Py_INCREF                                c-api/refcounting.html#c.Py_INCREF
+	Py_IS_TYPE                               c-api/structures.html#c.Py_IS_TYPE
 	Py_Initialize                            c-api/init.html#c.Py_Initialize
 	Py_InitializeEx                          c-api/init.html#c.Py_InitializeEx
 	Py_InitializeFromConfig                  c-api/init_config.html#c.Py_InitializeFromConfig
@@ -903,6 +919,9 @@ c:function
 	Py_ReprEnter                             c-api/exceptions.html#c.Py_ReprEnter
 	Py_ReprLeave                             c-api/exceptions.html#c.Py_ReprLeave
 	Py_RunMain                               c-api/init_config.html#c.Py_RunMain
+	Py_SET_REFCNT                            c-api/structures.html#c.Py_SET_REFCNT
+	Py_SET_SIZE                              c-api/structures.html#c.Py_SET_SIZE
+	Py_SET_TYPE                              c-api/structures.html#c.Py_SET_TYPE
 	Py_SetPath                               c-api/init.html#c.Py_SetPath
 	Py_SetProgramName                        c-api/init.html#c.Py_SetProgramName
 	Py_SetPythonHome                         c-api/init.html#c.Py_SetPythonHome
@@ -929,12 +948,9 @@ c:function
 	Py_XDECREF                               c-api/refcounting.html#c.Py_XDECREF
 	Py_XINCREF                               c-api/refcounting.html#c.Py_XINCREF
 	_PyBytes_Resize                          c-api/bytes.html#c._PyBytes_Resize
-	_PyImport_Fini                           c-api/import.html#c._PyImport_Fini
-	_PyImport_Init                           c-api/import.html#c._PyImport_Init
-	_PyObject_FastCallDict                   c-api/object.html#c._PyObject_FastCallDict
+	_PyInterpreterState_GetEvalFrameFunc     c-api/init.html#c._PyInterpreterState_GetEvalFrameFunc
 	_PyObject_New                            c-api/allocation.html#c._PyObject_New
 	_PyObject_NewVar                         c-api/allocation.html#c._PyObject_NewVar
-	_PyObject_Vectorcall                     c-api/object.html#c._PyObject_Vectorcall
 	_PyTuple_Resize                          c-api/tuple.html#c._PyTuple_Resize
 	_Py_InitializeMain                       c-api/init_config.html#c._Py_InitializeMain
 	_Py_c_diff                               c-api/complex.html#c._Py_c_diff
@@ -949,7 +965,7 @@ c:macro
 	PYMEM_DOMAIN_MEM                         c-api/memory.html#c.PYMEM_DOMAIN_MEM
 	PYMEM_DOMAIN_OBJ                         c-api/memory.html#c.PYMEM_DOMAIN_OBJ
 	PYMEM_DOMAIN_RAW                         c-api/memory.html#c.PYMEM_DOMAIN_RAW
-	PY_VECTORCALL_ARGUMENTS_OFFSET           c-api/object.html#c.PY_VECTORCALL_ARGUMENTS_OFFSET
+	PY_VECTORCALL_ARGUMENTS_OFFSET           c-api/call.html#c.PY_VECTORCALL_ARGUMENTS_OFFSET
 	PyBUF_ANY_CONTIGUOUS                     c-api/buffer.html#c.PyBUF_ANY_CONTIGUOUS
 	PyBUF_CONTIG                             c-api/buffer.html#c.PyBUF_CONTIG
 	PyBUF_CONTIG_RO                          c-api/buffer.html#c.PyBUF_CONTIG_RO
@@ -1015,6 +1031,7 @@ c:member
 	PyBufferProcs.bf_releasebuffer           c-api/typeobj.html#c.PyBufferProcs.bf_releasebuffer
 	PyCompilerFlags.cf_feature_version       c-api/veryhigh.html#c.PyCompilerFlags.cf_feature_version
 	PyCompilerFlags.cf_flags                 c-api/veryhigh.html#c.PyCompilerFlags.cf_flags
+	PyConfig._use_peg_parser                 c-api/init_config.html#c.PyConfig._use_peg_parser
 	PyConfig.argv                            c-api/init_config.html#c.PyConfig.argv
 	PyConfig.base_exec_prefix                c-api/init_config.html#c.PyConfig.base_exec_prefix
 	PyConfig.base_executable                 c-api/init_config.html#c.PyConfig.base_executable
@@ -1045,6 +1062,7 @@ c:member
 	PyConfig.parse_argv                      c-api/init_config.html#c.PyConfig.parse_argv
 	PyConfig.parser_debug                    c-api/init_config.html#c.PyConfig.parser_debug
 	PyConfig.pathconfig_warnings             c-api/init_config.html#c.PyConfig.pathconfig_warnings
+	PyConfig.platlibdir                      c-api/init_config.html#c.PyConfig.platlibdir
 	PyConfig.prefix                          c-api/init_config.html#c.PyConfig.prefix
 	PyConfig.program_name                    c-api/init_config.html#c.PyConfig.program_name
 	PyConfig.pycache_prefix                  c-api/init_config.html#c.PyConfig.pycache_prefix
@@ -1053,7 +1071,6 @@ c:member
 	PyConfig.run_command                     c-api/init_config.html#c.PyConfig.run_command
 	PyConfig.run_filename                    c-api/init_config.html#c.PyConfig.run_filename
 	PyConfig.run_module                      c-api/init_config.html#c.PyConfig.run_module
-	PyConfig.show_alloc_count                c-api/init_config.html#c.PyConfig.show_alloc_count
 	PyConfig.show_ref_count                  c-api/init_config.html#c.PyConfig.show_ref_count
 	PyConfig.site_import                     c-api/init_config.html#c.PyConfig.site_import
 	PyConfig.skip_source_first_line          c-api/init_config.html#c.PyConfig.skip_source_first_line
@@ -1144,7 +1161,6 @@ c:member
 	PyStatus.exitcode                        c-api/init_config.html#c.PyStatus.exitcode
 	PyStatus.func                            c-api/init_config.html#c.PyStatus.func
 	PyTypeObject.tp_alloc                    c-api/typeobj.html#c.PyTypeObject.tp_alloc
-	PyTypeObject.tp_allocs                   c-api/typeobj.html#c.PyTypeObject.tp_allocs
 	PyTypeObject.tp_as_async                 c-api/typeobj.html#c.PyTypeObject.tp_as_async
 	PyTypeObject.tp_as_buffer                c-api/typeobj.html#c.PyTypeObject.tp_as_buffer
 	PyTypeObject.tp_as_mapping               c-api/typeobj.html#c.PyTypeObject.tp_as_mapping
@@ -1166,7 +1182,6 @@ c:member
 	PyTypeObject.tp_finalize                 c-api/typeobj.html#c.PyTypeObject.tp_finalize
 	PyTypeObject.tp_flags                    c-api/typeobj.html#c.PyTypeObject.tp_flags
 	PyTypeObject.tp_free                     c-api/typeobj.html#c.PyTypeObject.tp_free
-	PyTypeObject.tp_frees                    c-api/typeobj.html#c.PyTypeObject.tp_frees
 	PyTypeObject.tp_getattr                  c-api/typeobj.html#c.PyTypeObject.tp_getattr
 	PyTypeObject.tp_getattro                 c-api/typeobj.html#c.PyTypeObject.tp_getattro
 	PyTypeObject.tp_getset                   c-api/typeobj.html#c.PyTypeObject.tp_getset
@@ -1176,14 +1191,11 @@ c:member
 	PyTypeObject.tp_itemsize                 c-api/typeobj.html#c.PyTypeObject.tp_itemsize
 	PyTypeObject.tp_iter                     c-api/typeobj.html#c.PyTypeObject.tp_iter
 	PyTypeObject.tp_iternext                 c-api/typeobj.html#c.PyTypeObject.tp_iternext
-	PyTypeObject.tp_maxalloc                 c-api/typeobj.html#c.PyTypeObject.tp_maxalloc
 	PyTypeObject.tp_members                  c-api/typeobj.html#c.PyTypeObject.tp_members
 	PyTypeObject.tp_methods                  c-api/typeobj.html#c.PyTypeObject.tp_methods
 	PyTypeObject.tp_mro                      c-api/typeobj.html#c.PyTypeObject.tp_mro
 	PyTypeObject.tp_name                     c-api/typeobj.html#c.PyTypeObject.tp_name
 	PyTypeObject.tp_new                      c-api/typeobj.html#c.PyTypeObject.tp_new
-	PyTypeObject.tp_next                     c-api/typeobj.html#c.PyTypeObject.tp_next
-	PyTypeObject.tp_prev                     c-api/typeobj.html#c.PyTypeObject.tp_prev
 	PyTypeObject.tp_repr                     c-api/typeobj.html#c.PyTypeObject.tp_repr
 	PyTypeObject.tp_richcompare              c-api/typeobj.html#c.PyTypeObject.tp_richcompare
 	PyTypeObject.tp_setattr                  c-api/typeobj.html#c.PyTypeObject.tp_setattr
@@ -1191,6 +1203,7 @@ c:member
 	PyTypeObject.tp_str                      c-api/typeobj.html#c.PyTypeObject.tp_str
 	PyTypeObject.tp_subclasses               c-api/typeobj.html#c.PyTypeObject.tp_subclasses
 	PyTypeObject.tp_traverse                 c-api/typeobj.html#c.PyTypeObject.tp_traverse
+	PyTypeObject.tp_vectorcall               c-api/typeobj.html#c.PyTypeObject.tp_vectorcall
 	PyTypeObject.tp_vectorcall_offset        c-api/typeobj.html#c.PyTypeObject.tp_vectorcall_offset
 	PyTypeObject.tp_version_tag              c-api/typeobj.html#c.PyTypeObject.tp_version_tag
 	PyTypeObject.tp_weaklist                 c-api/typeobj.html#c.PyTypeObject.tp_weaklist
@@ -1224,6 +1237,7 @@ c:type
 	PyBytesObject                            c-api/bytes.html#c.PyBytesObject
 	PyCFunction                              c-api/structures.html#c.PyCFunction
 	PyCFunctionWithKeywords                  c-api/structures.html#c.PyCFunctionWithKeywords
+	PyCMethod                                c-api/structures.html#c.PyCMethod
 	PyCapsule                                c-api/capsule.html#c.PyCapsule
 	PyCapsule_Destructor                     c-api/capsule.html#c.PyCapsule_Destructor
 	PyCellObject                             c-api/cell.html#c.PyCellObject
@@ -1279,6 +1293,7 @@ c:type
 	Py_tss_t                                 c-api/init.html#c.Py_tss_t
 	_PyCFunctionFast                         c-api/structures.html#c._PyCFunctionFast
 	_PyCFunctionFastWithKeywords             c-api/structures.html#c._PyCFunctionFastWithKeywords
+	_PyFrameEvalFunction                     c-api/init.html#c._PyFrameEvalFunction
 	_frozen                                  c-api/import.html#c._frozen
 	_inittab                                 c-api/import.html#c._inittab
 	allocfunc                                c-api/typeobj.html#c.allocfunc
@@ -1309,7 +1324,7 @@ c:type
 	ternaryfunc                              c-api/typeobj.html#c.ternaryfunc
 	traverseproc                             c-api/gcsupport.html#c.traverseproc
 	unaryfunc                                c-api/typeobj.html#c.unaryfunc
-	vectorcallfunc                           c-api/typeobj.html#c.vectorcallfunc
+	vectorcallfunc                           c-api/call.html#c.vectorcallfunc
 	visitproc                                c-api/gcsupport.html#c.visitproc
 c:var
 	CO_FUTURE_DIVISION                       c-api/veryhigh.html#c.CO_FUTURE_DIVISION
@@ -1407,6 +1422,11 @@ py:attribute
 	ast.AST.end_col_offset                   library/ast.html#ast.AST.end_col_offset
 	ast.AST.end_lineno                       library/ast.html#ast.AST.end_lineno
 	ast.AST.lineno                           library/ast.html#ast.AST.lineno
+	ast.Assign.type_comment                  library/ast.html#ast.Assign.type_comment
+	ast.For.type_comment                     library/ast.html#ast.For.type_comment
+	ast.FunctionDef.type_comment             library/ast.html#ast.FunctionDef.type_comment
+	ast.With.type_comment                    library/ast.html#ast.With.type_comment
+	ast.arg.type_comment                     library/ast.html#ast.arg.type_comment
 	asyncio.IncompleteReadError.expected     library/asyncio-exceptions.html#asyncio.IncompleteReadError.expected
 	asyncio.IncompleteReadError.partial      library/asyncio-exceptions.html#asyncio.IncompleteReadError.partial
 	asyncio.LimitOverrunError.consumed       library/asyncio-exceptions.html#asyncio.LimitOverrunError.consumed
@@ -1619,9 +1639,11 @@ py:attribute
 	http.client.HTTPConnection.blocksize     library/http.client.html#http.client.HTTPConnection.blocksize
 	http.client.HTTPResponse.closed          library/http.client.html#http.client.HTTPResponse.closed
 	http.client.HTTPResponse.debuglevel      library/http.client.html#http.client.HTTPResponse.debuglevel
+	http.client.HTTPResponse.headers         library/http.client.html#http.client.HTTPResponse.headers
 	http.client.HTTPResponse.msg             library/http.client.html#http.client.HTTPResponse.msg
 	http.client.HTTPResponse.reason          library/http.client.html#http.client.HTTPResponse.reason
 	http.client.HTTPResponse.status          library/http.client.html#http.client.HTTPResponse.status
+	http.client.HTTPResponse.url             library/http.client.html#http.client.HTTPResponse.url
 	http.client.HTTPResponse.version         library/http.client.html#http.client.HTTPResponse.version
 	http.cookiejar.Cookie.comment            library/http.cookiejar.html#http.cookiejar.Cookie.comment
 	http.cookiejar.Cookie.comment_url        library/http.cookiejar.html#http.cookiejar.Cookie.comment_url
@@ -1779,6 +1801,7 @@ py:attribute
 	ipaddress.IPv6Address.max_prefixlen      library/ipaddress.html#ipaddress.IPv6Address.max_prefixlen
 	ipaddress.IPv6Address.packed             library/ipaddress.html#ipaddress.IPv6Address.packed
 	ipaddress.IPv6Address.reverse_pointer    library/ipaddress.html#ipaddress.IPv6Address.reverse_pointer
+	ipaddress.IPv6Address.scope_id           library/ipaddress.html#ipaddress.IPv6Address.scope_id
 	ipaddress.IPv6Address.sixtofour          library/ipaddress.html#ipaddress.IPv6Address.sixtofour
 	ipaddress.IPv6Address.teredo             library/ipaddress.html#ipaddress.IPv6Address.teredo
 	ipaddress.IPv6Address.version            library/ipaddress.html#ipaddress.IPv6Address.version
@@ -1813,6 +1836,7 @@ py:attribute
 	json.JSONDecodeError.msg                 library/json.html#json.JSONDecodeError.msg
 	json.JSONDecodeError.pos                 library/json.html#json.JSONDecodeError.pos
 	logging.Logger.propagate                 library/logging.html#logging.Logger.propagate
+	logging.StreamHandler.terminator         library/logging.handlers.html#logging.StreamHandler.terminator
 	logging.handlers.BaseRotatingHandler.namer library/logging.handlers.html#logging.handlers.BaseRotatingHandler.namer
 	logging.handlers.BaseRotatingHandler.rotator library/logging.handlers.html#logging.handlers.BaseRotatingHandler.rotator
 	logging.lastResort                       library/logging.html#logging.lastResort
@@ -2162,6 +2186,7 @@ py:attribute
 	tracemalloc.Trace.domain                 library/tracemalloc.html#tracemalloc.Trace.domain
 	tracemalloc.Trace.size                   library/tracemalloc.html#tracemalloc.Trace.size
 	tracemalloc.Trace.traceback              library/tracemalloc.html#tracemalloc.Trace.traceback
+	tracemalloc.Traceback.total_nframe       library/tracemalloc.html#tracemalloc.Traceback.total_nframe
 	types.ModuleType.__doc__                 library/types.html#types.ModuleType.__doc__
 	types.ModuleType.__loader__              library/types.html#types.ModuleType.__loader__
 	types.ModuleType.__name__                library/types.html#types.ModuleType.__name__
@@ -2213,6 +2238,10 @@ py:attribute
 	urllib.request.Request.type              library/urllib.request.html#urllib.request.Request.type
 	urllib.request.Request.unverifiable      library/urllib.request.html#urllib.request.Request.unverifiable
 	urllib.request.URLopener.version         library/urllib.request.html#urllib.request.URLopener.version
+	urllib.response.addinfourl.code          library/urllib.request.html#urllib.response.addinfourl.code
+	urllib.response.addinfourl.headers       library/urllib.request.html#urllib.response.addinfourl.headers
+	urllib.response.addinfourl.status        library/urllib.request.html#urllib.response.addinfourl.status
+	urllib.response.addinfourl.url           library/urllib.request.html#urllib.response.addinfourl.url
 	uuid.SafeUUID.safe                       library/uuid.html#uuid.SafeUUID.safe
 	uuid.SafeUUID.unknown                    library/uuid.html#uuid.SafeUUID.unknown
 	uuid.SafeUUID.unsafe                     library/uuid.html#uuid.SafeUUID.unsafe
@@ -2326,6 +2355,7 @@ py:attribute
 	zlib.Decompress.eof                      library/zlib.html#zlib.Decompress.eof
 	zlib.Decompress.unconsumed_tail          library/zlib.html#zlib.Decompress.unconsumed_tail
 	zlib.Decompress.unused_data              library/zlib.html#zlib.Decompress.unused_data
+	zoneinfo.ZoneInfo.key                    library/zoneinfo.html#zoneinfo.ZoneInfo.key
 py:class
 	abc.ABC                                  library/abc.html#abc.ABC
 	abc.ABCMeta                              library/abc.html#abc.ABCMeta
@@ -2339,8 +2369,99 @@ py:class
 	argparse.RawTextHelpFormatter            library/argparse.html#argparse.RawTextHelpFormatter
 	array.array                              library/array.html#array.array
 	ast.AST                                  library/ast.html#ast.AST
+	ast.Add                                  library/ast.html#ast.Add
+	ast.And                                  library/ast.html#ast.And
+	ast.AnnAssign                            library/ast.html#ast.AnnAssign
+	ast.Assert                               library/ast.html#ast.Assert
+	ast.Assign                               library/ast.html#ast.Assign
+	ast.AsyncFor                             library/ast.html#ast.AsyncFor
+	ast.AsyncFunctionDef                     library/ast.html#ast.AsyncFunctionDef
+	ast.AsyncWith                            library/ast.html#ast.AsyncWith
+	ast.Attribute                            library/ast.html#ast.Attribute
+	ast.AugAssign                            library/ast.html#ast.AugAssign
+	ast.Await                                library/ast.html#ast.Await
+	ast.BinOp                                library/ast.html#ast.BinOp
+	ast.BitAnd                               library/ast.html#ast.BitAnd
+	ast.BitOr                                library/ast.html#ast.BitOr
+	ast.BitXor                               library/ast.html#ast.BitXor
+	ast.BoolOp                               library/ast.html#ast.BoolOp
+	ast.Break                                library/ast.html#ast.Break
+	ast.Call                                 library/ast.html#ast.Call
+	ast.ClassDef                             library/ast.html#ast.ClassDef
+	ast.Compare                              library/ast.html#ast.Compare
+	ast.Constant                             library/ast.html#ast.Constant
+	ast.Continue                             library/ast.html#ast.Continue
+	ast.Del                                  library/ast.html#ast.Del
+	ast.Delete                               library/ast.html#ast.Delete
+	ast.Dict                                 library/ast.html#ast.Dict
+	ast.DictComp                             library/ast.html#ast.DictComp
+	ast.Div                                  library/ast.html#ast.Div
+	ast.Eq                                   library/ast.html#ast.Eq
+	ast.ExceptHandler                        library/ast.html#ast.ExceptHandler
+	ast.Expr                                 library/ast.html#ast.Expr
+	ast.FloorDiv                             library/ast.html#ast.FloorDiv
+	ast.For                                  library/ast.html#ast.For
+	ast.FormattedValue                       library/ast.html#ast.FormattedValue
+	ast.FunctionDef                          library/ast.html#ast.FunctionDef
+	ast.GeneratorExp                         library/ast.html#ast.GeneratorExp
+	ast.Global                               library/ast.html#ast.Global
+	ast.Gt                                   library/ast.html#ast.Gt
+	ast.GtE                                  library/ast.html#ast.GtE
+	ast.If                                   library/ast.html#ast.If
+	ast.IfExp                                library/ast.html#ast.IfExp
+	ast.Import                               library/ast.html#ast.Import
+	ast.ImportFrom                           library/ast.html#ast.ImportFrom
+	ast.In                                   library/ast.html#ast.In
+	ast.Invert                               library/ast.html#ast.Invert
+	ast.Is                                   library/ast.html#ast.Is
+	ast.IsNot                                library/ast.html#ast.IsNot
+	ast.JoinedStr                            library/ast.html#ast.JoinedStr
+	ast.LShift                               library/ast.html#ast.LShift
+	ast.Lambda                               library/ast.html#ast.Lambda
+	ast.List                                 library/ast.html#ast.List
+	ast.ListComp                             library/ast.html#ast.ListComp
+	ast.Load                                 library/ast.html#ast.Load
+	ast.Lt                                   library/ast.html#ast.Lt
+	ast.LtE                                  library/ast.html#ast.LtE
+	ast.MatMult                              library/ast.html#ast.MatMult
+	ast.Mod                                  library/ast.html#ast.Mod
+	ast.Mult                                 library/ast.html#ast.Mult
+	ast.Name                                 library/ast.html#ast.Name
+	ast.NamedExpr                            library/ast.html#ast.NamedExpr
 	ast.NodeTransformer                      library/ast.html#ast.NodeTransformer
 	ast.NodeVisitor                          library/ast.html#ast.NodeVisitor
+	ast.Nonlocal                             library/ast.html#ast.Nonlocal
+	ast.Not                                  library/ast.html#ast.Not
+	ast.NotEq                                library/ast.html#ast.NotEq
+	ast.NotIn                                library/ast.html#ast.NotIn
+	ast.Or                                   library/ast.html#ast.Or
+	ast.Pass                                 library/ast.html#ast.Pass
+	ast.Pow                                  library/ast.html#ast.Pow
+	ast.RShift                               library/ast.html#ast.RShift
+	ast.Raise                                library/ast.html#ast.Raise
+	ast.Return                               library/ast.html#ast.Return
+	ast.Set                                  library/ast.html#ast.Set
+	ast.SetComp                              library/ast.html#ast.SetComp
+	ast.Slice                                library/ast.html#ast.Slice
+	ast.Starred                              library/ast.html#ast.Starred
+	ast.Store                                library/ast.html#ast.Store
+	ast.Sub                                  library/ast.html#ast.Sub
+	ast.Subscript                            library/ast.html#ast.Subscript
+	ast.Try                                  library/ast.html#ast.Try
+	ast.Tuple                                library/ast.html#ast.Tuple
+	ast.UAdd                                 library/ast.html#ast.UAdd
+	ast.USub                                 library/ast.html#ast.USub
+	ast.UnaryOp                              library/ast.html#ast.UnaryOp
+	ast.While                                library/ast.html#ast.While
+	ast.With                                 library/ast.html#ast.With
+	ast.Yield                                library/ast.html#ast.Yield
+	ast.YieldFrom                            library/ast.html#ast.YieldFrom
+	ast.alias                                library/ast.html#ast.alias
+	ast.arg                                  library/ast.html#ast.arg
+	ast.arguments                            library/ast.html#ast.arguments
+	ast.comprehension                        library/ast.html#ast.comprehension
+	ast.keyword                              library/ast.html#ast.keyword
+	ast.withitem                             library/ast.html#ast.withitem
 	asynchat.async_chat                      library/asynchat.html#asynchat.async_chat
 	asyncio.AbstractChildWatcher             library/asyncio-policy.html#asyncio.AbstractChildWatcher
 	asyncio.AbstractEventLoop                library/asyncio-eventloop.html#asyncio.AbstractEventLoop
@@ -2360,6 +2481,7 @@ py:class
 	asyncio.LifoQueue                        library/asyncio-queue.html#asyncio.LifoQueue
 	asyncio.Lock                             library/asyncio-sync.html#asyncio.Lock
 	asyncio.MultiLoopChildWatcher            library/asyncio-policy.html#asyncio.MultiLoopChildWatcher
+	asyncio.PidfdChildWatcher                library/asyncio-policy.html#asyncio.PidfdChildWatcher
 	asyncio.PriorityQueue                    library/asyncio-queue.html#asyncio.PriorityQueue
 	asyncio.ProactorEventLoop                library/asyncio-eventloop.html#asyncio.ProactorEventLoop
 	asyncio.Protocol                         library/asyncio-protocol.html#asyncio.Protocol
@@ -2619,6 +2741,7 @@ py:class
 	functools.singledispatchmethod           library/functools.html#functools.singledispatchmethod
 	gettext.GNUTranslations                  library/gettext.html#gettext.GNUTranslations
 	gettext.NullTranslations                 library/gettext.html#gettext.NullTranslations
+	graphlib.TopologicalSorter               library/graphlib.html#graphlib.TopologicalSorter
 	gzip.GzipFile                            library/gzip.html#gzip.GzipFile
 	html.parser.HTMLParser                   library/html.parser.html#html.parser.HTMLParser
 	http.HTTPStatus                          library/http.html#http.HTTPStatus
@@ -2654,6 +2777,8 @@ py:class
 	importlib.abc.ResourceLoader             library/importlib.html#importlib.abc.ResourceLoader
 	importlib.abc.ResourceReader             library/importlib.html#importlib.abc.ResourceReader
 	importlib.abc.SourceLoader               library/importlib.html#importlib.abc.SourceLoader
+	importlib.abc.Traversable                library/importlib.html#importlib.abc.Traversable
+	importlib.abc.TraversableReader          library/importlib.html#importlib.abc.TraversableReader
 	importlib.machinery.BuiltinImporter      library/importlib.html#importlib.machinery.BuiltinImporter
 	importlib.machinery.ExtensionFileLoader  library/importlib.html#importlib.machinery.ExtensionFileLoader
 	importlib.machinery.FileFinder           library/importlib.html#importlib.machinery.FileFinder
@@ -2791,7 +2916,6 @@ py:class
 	pkgutil.ImpImporter                      library/pkgutil.html#pkgutil.ImpImporter
 	pkgutil.ImpLoader                        library/pkgutil.html#pkgutil.ImpLoader
 	pkgutil.ModuleInfo                       library/pkgutil.html#pkgutil.ModuleInfo
-	plistlib.Data                            library/plistlib.html#plistlib.Data
 	plistlib.UID                             library/plistlib.html#plistlib.UID
 	poplib.POP3                              library/poplib.html#poplib.POP3
 	poplib.POP3_SSL                          library/poplib.html#poplib.POP3_SSL
@@ -2829,7 +2953,6 @@ py:class
 	smtpd.PureProxy                          library/smtpd.html#smtpd.PureProxy
 	smtpd.SMTPChannel                        library/smtpd.html#smtpd.SMTPChannel
 	smtpd.SMTPServer                         library/smtpd.html#smtpd.SMTPServer
-	smtplib.LMTP                             library/smtplib.html#smtplib.LMTP
 	smtplib.SMTP                             library/smtplib.html#smtplib.SMTP
 	smtplib.SMTP_SSL                         library/smtplib.html#smtplib.SMTP_SSL
 	socketserver.BaseRequestHandler          library/socketserver.html#socketserver.BaseRequestHandler
@@ -2883,9 +3006,9 @@ py:class
 	test.support.Matcher                     library/test.html#test.support.Matcher
 	test.support.SaveSignals                 library/test.html#test.support.SaveSignals
 	test.support.SuppressCrashReport         library/test.html#test.support.SuppressCrashReport
-	test.support.TestHandler                 library/test.html#test.support.TestHandler
 	test.support.TransientResource           library/test.html#test.support.TransientResource
 	test.support.WarningsRecorder            library/test.html#test.support.WarningsRecorder
+	test.support.bytecode_helper.BytecodeTestCase library/test.html#test.support.bytecode_helper.BytecodeTestCase
 	textwrap.TextWrapper                     library/textwrap.html#textwrap.TextWrapper
 	threading.Barrier                        library/threading.html#threading.Barrier
 	threading.BoundedSemaphore               library/threading.html#threading.BoundedSemaphore
@@ -2900,6 +3023,19 @@ py:class
 	time.struct_time                         library/time.html#time.struct_time
 	timeit.Timer                             library/timeit.html#timeit.Timer
 	tkinter.Tk                               library/tkinter.html#tkinter.Tk
+	tkinter.colorchooser.Chooser             library/tkinter.colorchooser.html#tkinter.colorchooser.Chooser
+	tkinter.commondialog.Dialog              library/dialog.html#tkinter.commondialog.Dialog
+	tkinter.dnd.DndHandler                   library/tkinter.dnd.html#tkinter.dnd.DndHandler
+	tkinter.filedialog.Directory             library/dialog.html#tkinter.filedialog.Directory
+	tkinter.filedialog.FileDialog            library/dialog.html#tkinter.filedialog.FileDialog
+	tkinter.filedialog.LoadFileDialog        library/dialog.html#tkinter.filedialog.LoadFileDialog
+	tkinter.filedialog.Open                  library/dialog.html#tkinter.filedialog.Open
+	tkinter.filedialog.SaveAs                library/dialog.html#tkinter.filedialog.SaveAs
+	tkinter.filedialog.SaveFileDialog        library/dialog.html#tkinter.filedialog.SaveFileDialog
+	tkinter.font.Font                        library/tkinter.font.html#tkinter.font.Font
+	tkinter.messagebox.Message               library/tkinter.messagebox.html#tkinter.messagebox.Message
+	tkinter.scrolledtext.ScrolledText        library/tkinter.scrolledtext.html#tkinter.scrolledtext.ScrolledText
+	tkinter.simpledialog.Dialog              library/dialog.html#tkinter.simpledialog.Dialog
 	tkinter.tix.Balloon                      library/tkinter.tix.html#tkinter.tix.Balloon
 	tkinter.tix.ButtonBox                    library/tkinter.tix.html#tkinter.tix.ButtonBox
 	tkinter.tix.CheckList                    library/tkinter.tix.html#tkinter.tix.CheckList
@@ -3065,6 +3201,7 @@ py:class
 	urllib.request.Request                   library/urllib.request.html#urllib.request.Request
 	urllib.request.URLopener                 library/urllib.request.html#urllib.request.URLopener
 	urllib.request.UnknownHandler            library/urllib.request.html#urllib.request.UnknownHandler
+	urllib.response.addinfourl               library/urllib.request.html#urllib.response.addinfourl
 	urllib.robotparser.RobotFileParser       library/urllib.robotparser.html#urllib.robotparser.RobotFileParser
 	uuid.SafeUUID                            library/uuid.html#uuid.SafeUUID
 	uuid.UUID                                library/uuid.html#uuid.UUID
@@ -3127,6 +3264,7 @@ py:class
 	zipfile.ZipFile                          library/zipfile.html#zipfile.ZipFile
 	zipfile.ZipInfo                          library/zipfile.html#zipfile.ZipInfo
 	zipimport.zipimporter                    library/zipimport.html#zipimport.zipimporter
+	zoneinfo.ZoneInfo                        library/zoneinfo.html#zoneinfo.ZoneInfo
 py:data
 	Ellipsis                                 library/constants.html#Ellipsis
 	False                                    library/constants.html#False
@@ -3146,6 +3284,7 @@ py:data
 	Py_TPFLAGS_DICT_SUBCLASS                 c-api/typeobj.html#Py_TPFLAGS_DICT_SUBCLASS
 	Py_TPFLAGS_HAVE_FINALIZE                 c-api/typeobj.html#Py_TPFLAGS_HAVE_FINALIZE
 	Py_TPFLAGS_HAVE_GC                       c-api/typeobj.html#Py_TPFLAGS_HAVE_GC
+	Py_TPFLAGS_HAVE_VECTORCALL               c-api/typeobj.html#Py_TPFLAGS_HAVE_VECTORCALL
 	Py_TPFLAGS_HEAPTYPE                      c-api/typeobj.html#Py_TPFLAGS_HEAPTYPE
 	Py_TPFLAGS_LIST_SUBCLASS                 c-api/typeobj.html#Py_TPFLAGS_LIST_SUBCLASS
 	Py_TPFLAGS_LONG_SUBCLASS                 c-api/typeobj.html#Py_TPFLAGS_LONG_SUBCLASS
@@ -3156,7 +3295,6 @@ py:data
 	Py_TPFLAGS_TYPE_SUBCLASS                 c-api/typeobj.html#Py_TPFLAGS_TYPE_SUBCLASS
 	Py_TPFLAGS_UNICODE_SUBCLASS              c-api/typeobj.html#Py_TPFLAGS_UNICODE_SUBCLASS
 	True                                     library/constants.html#True
-	_Py_TPFLAGS_HAVE_VECTORCALL              c-api/typeobj.html#_Py_TPFLAGS_HAVE_VECTORCALL
 	__debug__                                library/constants.html#__debug__
 	_thread.LockType                         library/_thread.html#_thread.LockType
 	_thread.TIMEOUT_MAX                      library/_thread.html#_thread.TIMEOUT_MAX
@@ -3436,6 +3574,7 @@ py:data
 	inspect.CO_VARKEYWORDS                   library/inspect.html#inspect.CO_VARKEYWORDS
 	io.DEFAULT_BUFFER_SIZE                   library/io.html#io.DEFAULT_BUFFER_SIZE
 	keyword.kwlist                           library/keyword.html#keyword.kwlist
+	keyword.softkwlist                       library/keyword.html#keyword.softkwlist
 	license                                  library/constants.html#license
 	locale.ALT_DIGITS                        library/locale.html#locale.ALT_DIGITS
 	locale.CHAR_MAX                          library/locale.html#locale.CHAR_MAX
@@ -3506,6 +3645,8 @@ py:data
 	os.CLD_CONTINUED                         library/os.html#os.CLD_CONTINUED
 	os.CLD_DUMPED                            library/os.html#os.CLD_DUMPED
 	os.CLD_EXITED                            library/os.html#os.CLD_EXITED
+	os.CLD_KILLED                            library/os.html#os.CLD_KILLED
+	os.CLD_STOPPED                           library/os.html#os.CLD_STOPPED
 	os.CLD_TRAPPED                           library/os.html#os.CLD_TRAPPED
 	os.EX_CANTCREAT                          library/os.html#os.EX_CANTCREAT
 	os.EX_CONFIG                             library/os.html#os.EX_CONFIG
@@ -3597,6 +3738,7 @@ py:data
 	os.P_OVERLAY                             library/os.html#os.P_OVERLAY
 	os.P_PGID                                library/os.html#os.P_PGID
 	os.P_PID                                 library/os.html#os.P_PID
+	os.P_PIDFD                               library/os.html#os.P_PIDFD
 	os.P_WAIT                                library/os.html#os.P_WAIT
 	os.RTLD_DEEPBIND                         library/os.html#os.RTLD_DEEPBIND
 	os.RTLD_GLOBAL                           library/os.html#os.RTLD_GLOBAL
@@ -3758,7 +3900,9 @@ py:data
 	socket.BDADDR_LOCAL                      library/socket.html#socket.BDADDR_LOCAL
 	socket.CAN_BCM                           library/socket.html#socket.CAN_BCM
 	socket.CAN_ISOTP                         library/socket.html#socket.CAN_ISOTP
+	socket.CAN_J1939                         library/socket.html#socket.CAN_J1939
 	socket.CAN_RAW_FD_FRAMES                 library/socket.html#socket.CAN_RAW_FD_FRAMES
+	socket.CAN_RAW_JOIN_FILTERS              library/socket.html#socket.CAN_RAW_JOIN_FILTERS
 	socket.HCI_DATA_DIR                      library/socket.html#socket.HCI_DATA_DIR
 	socket.HCI_FILTER                        library/socket.html#socket.HCI_FILTER
 	socket.HCI_TIME_STAMP                    library/socket.html#socket.HCI_TIME_STAMP
@@ -3991,6 +4135,7 @@ py:data
 	sys.path_hooks                           library/sys.html#sys.path_hooks
 	sys.path_importer_cache                  library/sys.html#sys.path_importer_cache
 	sys.platform                             library/sys.html#sys.platform
+	sys.platlibdir                           library/sys.html#sys.platlibdir
 	sys.prefix                               library/sys.html#sys.prefix
 	sys.ps1                                  library/sys.html#sys.ps1
 	sys.ps2                                  library/sys.html#sys.ps2
@@ -4015,13 +4160,17 @@ py:data
 	test.support.ALWAYS_EQ                   library/test.html#test.support.ALWAYS_EQ
 	test.support.FS_NONASCII                 library/test.html#test.support.FS_NONASCII
 	test.support.HAVE_DOCSTRINGS             library/test.html#test.support.HAVE_DOCSTRINGS
-	test.support.IPV6_ENABLED                library/test.html#test.support.IPV6_ENABLED
+	test.support.INTERNET_TIMEOUT            library/test.html#test.support.INTERNET_TIMEOUT
 	test.support.LARGEST                     library/test.html#test.support.LARGEST
+	test.support.LONG_TIMEOUT                library/test.html#test.support.LONG_TIMEOUT
+	test.support.LOOPBACK_TIMEOUT            library/test.html#test.support.LOOPBACK_TIMEOUT
 	test.support.MAX_Py_ssize_t              library/test.html#test.support.MAX_Py_ssize_t
 	test.support.MISSING_C_DOCSTRINGS        library/test.html#test.support.MISSING_C_DOCSTRINGS
+	test.support.NEVER_EQ                    library/test.html#test.support.NEVER_EQ
 	test.support.PGO                         library/test.html#test.support.PGO
 	test.support.PIPE_MAX_SIZE               library/test.html#test.support.PIPE_MAX_SIZE
 	test.support.SAVEDCWD                    library/test.html#test.support.SAVEDCWD
+	test.support.SHORT_TIMEOUT               library/test.html#test.support.SHORT_TIMEOUT
 	test.support.SMALLEST                    library/test.html#test.support.SMALLEST
 	test.support.SOCK_MAX_SIZE               library/test.html#test.support.SOCK_MAX_SIZE
 	test.support.TESTFN                      library/test.html#test.support.TESTFN
@@ -4038,6 +4187,7 @@ py:data
 	test.support.is_jython                   library/test.html#test.support.is_jython
 	test.support.max_memuse                  library/test.html#test.support.max_memuse
 	test.support.real_max_memuse             library/test.html#test.support.real_max_memuse
+	test.support.socket_helper.IPV6_ENABLED  library/test.html#test.support.socket_helper.IPV6_ENABLED
 	test.support.unix_shell                  library/test.html#test.support.unix_shell
 	test.support.verbose                     library/test.html#test.support.verbose
 	threading.TIMEOUT_MAX                    library/threading.html#threading.TIMEOUT_MAX
@@ -4048,6 +4198,7 @@ py:data
 	time.CLOCK_PROCESS_CPUTIME_ID            library/time.html#time.CLOCK_PROCESS_CPUTIME_ID
 	time.CLOCK_PROF                          library/time.html#time.CLOCK_PROF
 	time.CLOCK_REALTIME                      library/time.html#time.CLOCK_REALTIME
+	time.CLOCK_TAI                           library/time.html#time.CLOCK_TAI
 	time.CLOCK_THREAD_CPUTIME_ID             library/time.html#time.CLOCK_THREAD_CPUTIME_ID
 	time.CLOCK_UPTIME                        library/time.html#time.CLOCK_UPTIME
 	time.CLOCK_UPTIME_RAW                    library/time.html#time.CLOCK_UPTIME_RAW
@@ -4058,6 +4209,10 @@ py:data
 	tkinter.EXCEPTION                        library/tkinter.html#tkinter.EXCEPTION
 	tkinter.READABLE                         library/tkinter.html#tkinter.READABLE
 	tkinter.WRITABLE                         library/tkinter.html#tkinter.WRITABLE
+	tkinter.font.BOLD                        library/tkinter.font.html#tkinter.font.BOLD
+	tkinter.font.ITALIC                      library/tkinter.font.html#tkinter.font.ITALIC
+	tkinter.font.NORMAL                      library/tkinter.font.html#tkinter.font.NORMAL
+	tkinter.font.ROMAN                       library/tkinter.font.html#tkinter.font.ROMAN
 	token.AMPER                              library/token.html#token.AMPER
 	token.AMPEREQUAL                         library/token.html#token.AMPEREQUAL
 	token.ASYNC                              library/token.html#token.ASYNC
@@ -4140,6 +4295,7 @@ py:data
 	types.MethodType                         library/types.html#types.MethodType
 	types.MethodWrapperType                  library/types.html#types.MethodWrapperType
 	types.WrapperDescriptorType              library/types.html#types.WrapperDescriptorType
+	typing.Annotated                         library/typing.html#typing.Annotated
 	typing.Any                               library/typing.html#typing.Any
 	typing.AnyStr                            library/typing.html#typing.AnyStr
 	typing.Callable                          library/typing.html#typing.Callable
@@ -4280,6 +4436,7 @@ py:data
 	zipfile.ZIP_STORED                       library/zipfile.html#zipfile.ZIP_STORED
 	zlib.ZLIB_RUNTIME_VERSION                library/zlib.html#zlib.ZLIB_RUNTIME_VERSION
 	zlib.ZLIB_VERSION                        library/zlib.html#zlib.ZLIB_VERSION
+	zoneinfo.TZPATH                          library/zoneinfo.html#zoneinfo.TZPATH
 py:exception
 	ArithmeticError                          library/exceptions.html#ArithmeticError
 	AssertionError                           library/exceptions.html#AssertionError
@@ -4402,6 +4559,7 @@ py:exception
 	getopt.GetoptError                       library/getopt.html#getopt.GetoptError
 	getopt.error                             library/getopt.html#getopt.error
 	getpass.GetPassWarning                   library/getpass.html#getpass.GetPassWarning
+	graphlib.CycleError                      library/graphlib.html#graphlib.CycleError
 	gzip.BadGzipFile                         library/gzip.html#gzip.BadGzipFile
 	http.client.BadStatusLine                library/http.client.html#http.client.BadStatusLine
 	http.client.CannotSendHeader             library/http.client.html#http.client.CannotSendHeader
@@ -4544,6 +4702,8 @@ py:exception
 	zipfile.LargeZipFile                     library/zipfile.html#zipfile.LargeZipFile
 	zipimport.ZipImportError                 library/zipimport.html#zipimport.ZipImportError
 	zlib.error                               library/zlib.html#zlib.error
+	zoneinfo.InvalidTZPathWarning            library/zoneinfo.html#zoneinfo.InvalidTZPathWarning
+	zoneinfo.ZoneInfoNotFoundError           library/zoneinfo.html#zoneinfo.ZoneInfoNotFoundError
 py:function
 	__import__                               library/functions.html#__import__
 	_thread.allocate_lock                    library/_thread.html#_thread.allocate_lock
@@ -4573,6 +4733,7 @@ py:function
 	ast.iter_fields                          library/ast.html#ast.iter_fields
 	ast.literal_eval                         library/ast.html#ast.literal_eval
 	ast.parse                                library/ast.html#ast.parse
+	ast.unparse                              library/ast.html#ast.unparse
 	ast.walk                                 library/ast.html#ast.walk
 	asyncio.all_tasks                        library/asyncio-task.html#asyncio.all_tasks
 	asyncio.as_completed                     library/asyncio-task.html#asyncio.as_completed
@@ -4602,6 +4763,7 @@ py:function
 	asyncio.sleep                            library/asyncio-task.html#asyncio.sleep
 	asyncio.start_server                     library/asyncio-stream.html#asyncio.start_server
 	asyncio.start_unix_server                library/asyncio-stream.html#asyncio.start_unix_server
+	asyncio.to_thread                        library/asyncio-task.html#asyncio.to_thread
 	asyncio.wait                             library/asyncio-task.html#asyncio.wait
 	asyncio.wait_for                         library/asyncio-task.html#asyncio.wait_for
 	asyncio.wrap_future                      library/asyncio-future.html#asyncio.wrap_future
@@ -4646,10 +4808,8 @@ py:function
 	base64.b85encode                         library/base64.html#base64.b85encode
 	base64.decode                            library/base64.html#base64.decode
 	base64.decodebytes                       library/base64.html#base64.decodebytes
-	base64.decodestring                      library/base64.html#base64.decodestring
 	base64.encode                            library/base64.html#base64.encode
 	base64.encodebytes                       library/base64.html#base64.encodebytes
-	base64.encodestring                      library/base64.html#base64.encodestring
 	base64.standard_b64decode                library/base64.html#base64.standard_b64decode
 	base64.standard_b64encode                library/base64.html#base64.standard_b64encode
 	base64.urlsafe_b64decode                 library/base64.html#base64.urlsafe_b64decode
@@ -4861,6 +5021,8 @@ py:function
 	curses.filter                            library/curses.html#curses.filter
 	curses.flash                             library/curses.html#curses.flash
 	curses.flushinp                          library/curses.html#curses.flushinp
+	curses.get_escdelay                      library/curses.html#curses.get_escdelay
+	curses.get_tabsize                       library/curses.html#curses.get_tabsize
 	curses.getmouse                          library/curses.html#curses.getmouse
 	curses.getsyx                            library/curses.html#curses.getsyx
 	curses.getwin                            library/curses.html#curses.getwin
@@ -4904,6 +5066,8 @@ py:function
 	curses.resize_term                       library/curses.html#curses.resize_term
 	curses.resizeterm                        library/curses.html#curses.resizeterm
 	curses.savetty                           library/curses.html#curses.savetty
+	curses.set_escdelay                      library/curses.html#curses.set_escdelay
+	curses.set_tabsize                       library/curses.html#curses.set_tabsize
 	curses.setsyx                            library/curses.html#curses.setsyx
 	curses.setupterm                         library/curses.html#curses.setupterm
 	curses.start_color                       library/curses.html#curses.start_color
@@ -5087,7 +5251,7 @@ py:function
 	fnmatch.fnmatchcase                      library/fnmatch.html#fnmatch.fnmatchcase
 	fnmatch.translate                        library/fnmatch.html#fnmatch.translate
 	format                                   library/functions.html#format
-	fractions.gcd                            library/fractions.html#fractions.gcd
+	functools.cache                          library/functools.html#functools.cache
 	functools.cached_property                library/functools.html#functools.cached_property
 	functools.cmp_to_key                     library/functools.html#functools.cmp_to_key
 	functools.lru_cache                      library/functools.html#functools.lru_cache
@@ -5109,6 +5273,7 @@ py:function
 	gc.get_referrers                         library/gc.html#gc.get_referrers
 	gc.get_stats                             library/gc.html#gc.get_stats
 	gc.get_threshold                         library/gc.html#gc.get_threshold
+	gc.is_finalized                          library/gc.html#gc.is_finalized
 	gc.is_tracked                            library/gc.html#gc.is_tracked
 	gc.isenabled                             library/gc.html#gc.isenabled
 	gc.set_debug                             library/gc.html#gc.set_debug
@@ -5196,6 +5361,7 @@ py:function
 	importlib.machinery.all_suffixes         library/importlib.html#importlib.machinery.all_suffixes
 	importlib.reload                         library/importlib.html#importlib.reload
 	importlib.resources.contents             library/importlib.html#importlib.resources.contents
+	importlib.resources.files                library/importlib.html#importlib.resources.files
 	importlib.resources.is_resource          library/importlib.html#importlib.resources.is_resource
 	importlib.resources.open_binary          library/importlib.html#importlib.resources.open_binary
 	importlib.resources.open_text            library/importlib.html#importlib.resources.open_text
@@ -5304,6 +5470,7 @@ py:function
 	json.load                                library/json.html#json.load
 	json.loads                               library/json.html#json.loads
 	keyword.iskeyword                        library/keyword.html#keyword.iskeyword
+	keyword.issoftkeyword                    library/keyword.html#keyword.issoftkeyword
 	len                                      library/functions.html#len
 	linecache.checkcache                     library/linecache.html#linecache.checkcache
 	linecache.clearcache                     library/linecache.html#linecache.clearcache
@@ -5398,6 +5565,7 @@ py:function
 	math.isinf                               library/math.html#math.isinf
 	math.isnan                               library/math.html#math.isnan
 	math.isqrt                               library/math.html#math.isqrt
+	math.lcm                                 library/math.html#math.lcm
 	math.ldexp                               library/math.html#math.ldexp
 	math.lgamma                              library/math.html#math.lgamma
 	math.log                                 library/math.html#math.log
@@ -5405,6 +5573,7 @@ py:function
 	math.log1p                               library/math.html#math.log1p
 	math.log2                                library/math.html#math.log2
 	math.modf                                library/math.html#math.modf
+	math.nextafter                           library/math.html#math.nextafter
 	math.perm                                library/math.html#math.perm
 	math.pow                                 library/math.html#math.pow
 	math.prod                                library/math.html#math.prod
@@ -5416,6 +5585,7 @@ py:function
 	math.tan                                 library/math.html#math.tan
 	math.tanh                                library/math.html#math.tanh
 	math.trunc                               library/math.html#math.trunc
+	math.ulp                                 library/math.html#math.ulp
 	max                                      library/functions.html#max
 	mimetypes.add_type                       library/mimetypes.html#mimetypes.add_type
 	mimetypes.guess_all_extensions           library/mimetypes.html#mimetypes.guess_all_extensions
@@ -5714,6 +5884,7 @@ py:function
 	os.path.splitdrive                       library/os.path.html#os.path.splitdrive
 	os.path.splitext                         library/os.path.html#os.path.splitext
 	os.pathconf                              library/os.html#os.pathconf
+	os.pidfd_open                            library/os.html#os.pidfd_open
 	os.pipe                                  library/os.html#os.pipe
 	os.pipe2                                 library/os.html#os.pipe2
 	os.plock                                 library/os.html#os.plock
@@ -5799,6 +5970,7 @@ py:function
 	os.wait4                                 library/os.html#os.wait4
 	os.waitid                                library/os.html#os.waitid
 	os.waitpid                               library/os.html#os.waitpid
+	os.waitstatus_to_exitcode                library/os.html#os.waitstatus_to_exitcode
 	os.walk                                  library/os.html#os.walk
 	os.write                                 library/os.html#os.write
 	os.writev                                library/os.html#os.writev
@@ -5833,6 +6005,7 @@ py:function
 	pkgutil.get_loader                       library/pkgutil.html#pkgutil.get_loader
 	pkgutil.iter_importers                   library/pkgutil.html#pkgutil.iter_importers
 	pkgutil.iter_modules                     library/pkgutil.html#pkgutil.iter_modules
+	pkgutil.resolve_name                     library/pkgutil.html#pkgutil.resolve_name
 	pkgutil.walk_packages                    library/pkgutil.html#pkgutil.walk_packages
 	platform.architecture                    library/platform.html#platform.architecture
 	platform.java_ver                        library/platform.html#platform.java_ver
@@ -5861,10 +6034,6 @@ py:function
 	plistlib.dumps                           library/plistlib.html#plistlib.dumps
 	plistlib.load                            library/plistlib.html#plistlib.load
 	plistlib.loads                           library/plistlib.html#plistlib.loads
-	plistlib.readPlist                       library/plistlib.html#plistlib.readPlist
-	plistlib.readPlistFromBytes              library/plistlib.html#plistlib.readPlistFromBytes
-	plistlib.writePlist                      library/plistlib.html#plistlib.writePlist
-	plistlib.writePlistToBytes               library/plistlib.html#plistlib.writePlistToBytes
 	pow                                      library/functions.html#pow
 	pprint.isreadable                        library/pprint.html#pprint.isreadable
 	pprint.isrecursive                       library/pprint.html#pprint.isrecursive
@@ -5900,6 +6069,7 @@ py:function
 	random.lognormvariate                    library/random.html#random.lognormvariate
 	random.normalvariate                     library/random.html#random.normalvariate
 	random.paretovariate                     library/random.html#random.paretovariate
+	random.randbytes                         library/random.html#random.randbytes
 	random.randint                           library/random.html#random.randint
 	random.random                            library/random.html#random.random
 	random.randrange                         library/random.html#random.randrange
@@ -6005,6 +6175,7 @@ py:function
 	signal.getitimer                         library/signal.html#signal.getitimer
 	signal.getsignal                         library/signal.html#signal.getsignal
 	signal.pause                             library/signal.html#signal.pause
+	signal.pidfd_send_signal                 library/signal.html#signal.pidfd_send_signal
 	signal.pthread_kill                      library/signal.html#signal.pthread_kill
 	signal.pthread_sigmask                   library/signal.html#signal.pthread_sigmask
 	signal.raise_signal                      library/signal.html#signal.raise_signal
@@ -6145,7 +6316,6 @@ py:function
 	subprocess.run                           library/subprocess.html#subprocess.run
 	sum                                      library/functions.html#sum
 	sunau.open                               library/sunau.html#sunau.open
-	sunau.openfp                             library/sunau.html#sunau.openfp
 	super                                    library/functions.html#super
 	symtable.symtable                        library/symtable.html#symtable.symtable
 	sys._clear_type_cache                    library/sys.html#sys._clear_type_cache
@@ -6165,7 +6335,6 @@ py:function
 	sys.get_coroutine_origin_tracking_depth  library/sys.html#sys.get_coroutine_origin_tracking_depth
 	sys.getallocatedblocks                   library/sys.html#sys.getallocatedblocks
 	sys.getandroidapilevel                   library/sys.html#sys.getandroidapilevel
-	sys.getcheckinterval                     library/sys.html#sys.getcheckinterval
 	sys.getdefaultencoding                   library/sys.html#sys.getdefaultencoding
 	sys.getdlopenflags                       library/sys.html#sys.getdlopenflags
 	sys.getfilesystemencodeerrors            library/sys.html#sys.getfilesystemencodeerrors
@@ -6181,7 +6350,6 @@ py:function
 	sys.is_finalizing                        library/sys.html#sys.is_finalizing
 	sys.set_asyncgen_hooks                   library/sys.html#sys.set_asyncgen_hooks
 	sys.set_coroutine_origin_tracking_depth  library/sys.html#sys.set_coroutine_origin_tracking_depth
-	sys.setcheckinterval                     library/sys.html#sys.setcheckinterval
 	sys.setdlopenflags                       library/sys.html#sys.setdlopenflags
 	sys.setprofile                           library/sys.html#sys.setprofile
 	sys.setrecursionlimit                    library/sys.html#sys.setrecursionlimit
@@ -6229,8 +6397,6 @@ py:function
 	test.support.args_from_interpreter_flags library/test.html#test.support.args_from_interpreter_flags
 	test.support.bigaddrspacetest            library/test.html#test.support.bigaddrspacetest
 	test.support.bigmemtest                  library/test.html#test.support.bigmemtest
-	test.support.bind_port                   library/test.html#test.support.bind_port
-	test.support.bind_unix_socket            library/test.html#test.support.bind_unix_socket
 	test.support.calcobjsize                 library/test.html#test.support.calcobjsize
 	test.support.calcvobjsize                library/test.html#test.support.calcvobjsize
 	test.support.can_symlink                 library/test.html#test.support.can_symlink
@@ -6255,7 +6421,6 @@ py:function
 	test.support.disable_faulthandler        library/test.html#test.support.disable_faulthandler
 	test.support.disable_gc                  library/test.html#test.support.disable_gc
 	test.support.fd_count                    library/test.html#test.support.fd_count
-	test.support.find_unused_port            library/test.html#test.support.find_unused_port
 	test.support.findfile                    library/test.html#test.support.findfile
 	test.support.forget                      library/test.html#test.support.forget
 	test.support.fs_is_case_insensitive      library/test.html#test.support.fs_is_case_insensitive
@@ -6278,6 +6443,7 @@ py:function
 	test.support.open_urlresource            library/test.html#test.support.open_urlresource
 	test.support.optim_args_from_interpreter_flags library/test.html#test.support.optim_args_from_interpreter_flags
 	test.support.patch                       library/test.html#test.support.patch
+	test.support.print_warning               library/test.html#test.support.print_warning
 	test.support.python_is_optimized         library/test.html#test.support.python_is_optimized
 	test.support.reap_children               library/test.html#test.support.reap_children
 	test.support.reap_threads                library/test.html#test.support.reap_threads
@@ -6314,12 +6480,15 @@ py:function
 	test.support.set_match_tests             library/test.html#test.support.set_match_tests
 	test.support.set_memlimit                library/test.html#test.support.set_memlimit
 	test.support.setswitchinterval           library/test.html#test.support.setswitchinterval
-	test.support.skip_unless_bind_unix_socket library/test.html#test.support.skip_unless_bind_unix_socket
 	test.support.skip_unless_symlink         library/test.html#test.support.skip_unless_symlink
 	test.support.skip_unless_xattr           library/test.html#test.support.skip_unless_xattr
+	test.support.socket_helper.bind_port     library/test.html#test.support.socket_helper.bind_port
+	test.support.socket_helper.bind_unix_socket library/test.html#test.support.socket_helper.bind_unix_socket
+	test.support.socket_helper.find_unused_port library/test.html#test.support.socket_helper.find_unused_port
+	test.support.socket_helper.skip_unless_bind_unix_socket library/test.html#test.support.socket_helper.skip_unless_bind_unix_socket
+	test.support.socket_helper.transient_internet library/test.html#test.support.socket_helper.transient_internet
 	test.support.sortdict                    library/test.html#test.support.sortdict
 	test.support.start_threads               library/test.html#test.support.start_threads
-	test.support.strip_python_strerr         library/test.html#test.support.strip_python_strerr
 	test.support.swap_attr                   library/test.html#test.support.swap_attr
 	test.support.swap_item                   library/test.html#test.support.swap_item
 	test.support.system_must_validate_cert   library/test.html#test.support.system_must_validate_cert
@@ -6328,9 +6497,9 @@ py:function
 	test.support.temp_umask                  library/test.html#test.support.temp_umask
 	test.support.threading_cleanup           library/test.html#test.support.threading_cleanup
 	test.support.threading_setup             library/test.html#test.support.threading_setup
-	test.support.transient_internet          library/test.html#test.support.transient_internet
 	test.support.unlink                      library/test.html#test.support.unlink
 	test.support.unload                      library/test.html#test.support.unload
+	test.support.wait_process                library/test.html#test.support.wait_process
 	test.support.wait_threads_exit           library/test.html#test.support.wait_threads_exit
 	test.support.with_pymalloc               library/test.html#test.support.with_pymalloc
 	textwrap.dedent                          library/textwrap.html#textwrap.dedent
@@ -6378,6 +6547,21 @@ py:function
 	timeit.repeat                            library/timeit.html#timeit.repeat
 	timeit.timeit                            library/timeit.html#timeit.timeit
 	tkinter.Tcl                              library/tkinter.html#tkinter.Tcl
+	tkinter.colorchooser.askcolor            library/tkinter.colorchooser.html#tkinter.colorchooser.askcolor
+	tkinter.dnd.dnd_start                    library/tkinter.dnd.html#tkinter.dnd.dnd_start
+	tkinter.filedialog.askdirectory          library/dialog.html#tkinter.filedialog.askdirectory
+	tkinter.filedialog.askopenfile           library/dialog.html#tkinter.filedialog.askopenfile
+	tkinter.filedialog.askopenfilename       library/dialog.html#tkinter.filedialog.askopenfilename
+	tkinter.filedialog.askopenfilenames      library/dialog.html#tkinter.filedialog.askopenfilenames
+	tkinter.filedialog.askopenfiles          library/dialog.html#tkinter.filedialog.askopenfiles
+	tkinter.filedialog.asksaveasfile         library/dialog.html#tkinter.filedialog.asksaveasfile
+	tkinter.filedialog.asksaveasfilename     library/dialog.html#tkinter.filedialog.asksaveasfilename
+	tkinter.font.families                    library/tkinter.font.html#tkinter.font.families
+	tkinter.font.names                       library/tkinter.font.html#tkinter.font.names
+	tkinter.font.nametofont                  library/tkinter.font.html#tkinter.font.nametofont
+	tkinter.simpledialog.askfloat            library/dialog.html#tkinter.simpledialog.askfloat
+	tkinter.simpledialog.askinteger          library/dialog.html#tkinter.simpledialog.askinteger
+	tkinter.simpledialog.askstring           library/dialog.html#tkinter.simpledialog.askstring
 	token.ISEOF                              library/token.html#token.ISEOF
 	token.ISNONTERMINAL                      library/token.html#token.ISNONTERMINAL
 	token.ISTERMINAL                         library/token.html#token.ISTERMINAL
@@ -6408,6 +6592,7 @@ py:function
 	tracemalloc.get_traced_memory            library/tracemalloc.html#tracemalloc.get_traced_memory
 	tracemalloc.get_tracemalloc_memory       library/tracemalloc.html#tracemalloc.get_tracemalloc_memory
 	tracemalloc.is_tracing                   library/tracemalloc.html#tracemalloc.is_tracing
+	tracemalloc.reset_peak                   library/tracemalloc.html#tracemalloc.reset_peak
 	tracemalloc.start                        library/tracemalloc.html#tracemalloc.start
 	tracemalloc.stop                         library/tracemalloc.html#tracemalloc.stop
 	tracemalloc.take_snapshot                library/tracemalloc.html#tracemalloc.take_snapshot
@@ -6615,7 +6800,6 @@ py:function
 	warnings.warn                            library/warnings.html#warnings.warn
 	warnings.warn_explicit                   library/warnings.html#warnings.warn_explicit
 	wave.open                                library/wave.html#wave.open
-	wave.openfp                              library/wave.html#wave.openfp
 	weakref.getweakrefcount                  library/weakref.html#weakref.getweakrefcount
 	weakref.getweakrefs                      library/weakref.html#weakref.getweakrefs
 	weakref.proxy                            library/weakref.html#weakref.proxy
@@ -6675,6 +6859,7 @@ py:function
 	xml.etree.ElementTree.dump               library/xml.etree.elementtree.html#xml.etree.ElementTree.dump
 	xml.etree.ElementTree.fromstring         library/xml.etree.elementtree.html#xml.etree.ElementTree.fromstring
 	xml.etree.ElementTree.fromstringlist     library/xml.etree.elementtree.html#xml.etree.ElementTree.fromstringlist
+	xml.etree.ElementTree.indent             library/xml.etree.elementtree.html#xml.etree.ElementTree.indent
 	xml.etree.ElementTree.iselement          library/xml.etree.elementtree.html#xml.etree.ElementTree.iselement
 	xml.etree.ElementTree.iterparse          library/xml.etree.elementtree.html#xml.etree.ElementTree.iterparse
 	xml.etree.ElementTree.parse              library/xml.etree.elementtree.html#xml.etree.ElementTree.parse
@@ -6704,6 +6889,8 @@ py:function
 	zlib.crc32                               library/zlib.html#zlib.crc32
 	zlib.decompress                          library/zlib.html#zlib.decompress
 	zlib.decompressobj                       library/zlib.html#zlib.decompressobj
+	zoneinfo.available_timezones             library/zoneinfo.html#zoneinfo.available_timezones
+	zoneinfo.reset_tzpath                    library/zoneinfo.html#zoneinfo.reset_tzpath
 py:method
 	BaseException.with_traceback             library/exceptions.html#BaseException.with_traceback
 	_thread.lock.acquire                     library/_thread.html#_thread.lock.acquire
@@ -6765,7 +6952,6 @@ py:method
 	array.array.frombytes                    library/array.html#array.array.frombytes
 	array.array.fromfile                     library/array.html#array.array.fromfile
 	array.array.fromlist                     library/array.html#array.array.fromlist
-	array.array.fromstring                   library/array.html#array.array.fromstring
 	array.array.fromunicode                  library/array.html#array.array.fromunicode
 	array.array.index                        library/array.html#array.array.index
 	array.array.insert                       library/array.html#array.array.insert
@@ -6775,7 +6961,6 @@ py:method
 	array.array.tobytes                      library/array.html#array.array.tobytes
 	array.array.tofile                       library/array.html#array.array.tofile
 	array.array.tolist                       library/array.html#array.array.tolist
-	array.array.tostring                     library/array.html#array.array.tostring
 	array.array.tounicode                    library/array.html#array.array.tounicode
 	ast.NodeVisitor.generic_visit            library/ast.html#ast.NodeVisitor.generic_visit
 	ast.NodeVisitor.visit                    library/ast.html#ast.NodeVisitor.visit
@@ -6887,10 +7072,8 @@ py:method
 	asyncio.SubprocessTransport.send_signal  library/asyncio-protocol.html#asyncio.SubprocessTransport.send_signal
 	asyncio.SubprocessTransport.terminate    library/asyncio-protocol.html#asyncio.SubprocessTransport.terminate
 	asyncio.Task.add_done_callback           library/asyncio-task.html#asyncio.Task.add_done_callback
-	asyncio.Task.all_tasks                   library/asyncio-task.html#asyncio.Task.all_tasks
 	asyncio.Task.cancel                      library/asyncio-task.html#asyncio.Task.cancel
 	asyncio.Task.cancelled                   library/asyncio-task.html#asyncio.Task.cancelled
-	asyncio.Task.current_task                library/asyncio-task.html#asyncio.Task.current_task
 	asyncio.Task.done                        library/asyncio-task.html#asyncio.Task.done
 	asyncio.Task.exception                   library/asyncio-task.html#asyncio.Task.exception
 	asyncio.Task.get_coro                    library/asyncio-task.html#asyncio.Task.get_coro
@@ -6953,6 +7136,7 @@ py:method
 	asyncio.loop.set_exception_handler       library/asyncio-eventloop.html#asyncio.loop.set_exception_handler
 	asyncio.loop.set_task_factory            library/asyncio-eventloop.html#asyncio.loop.set_task_factory
 	asyncio.loop.shutdown_asyncgens          library/asyncio-eventloop.html#asyncio.loop.shutdown_asyncgens
+	asyncio.loop.shutdown_default_executor   library/asyncio-eventloop.html#asyncio.loop.shutdown_default_executor
 	asyncio.loop.sock_accept                 library/asyncio-eventloop.html#asyncio.loop.sock_accept
 	asyncio.loop.sock_connect                library/asyncio-eventloop.html#asyncio.loop.sock_connect
 	asyncio.loop.sock_recv                   library/asyncio-eventloop.html#asyncio.loop.sock_recv
@@ -7049,6 +7233,8 @@ py:method
 	bytearray.lstrip                         library/stdtypes.html#bytearray.lstrip
 	bytearray.maketrans                      library/stdtypes.html#bytearray.maketrans
 	bytearray.partition                      library/stdtypes.html#bytearray.partition
+	bytearray.removeprefix                   library/stdtypes.html#bytearray.removeprefix
+	bytearray.removesuffix                   library/stdtypes.html#bytearray.removesuffix
 	bytearray.replace                        library/stdtypes.html#bytearray.replace
 	bytearray.rfind                          library/stdtypes.html#bytearray.rfind
 	bytearray.rindex                         library/stdtypes.html#bytearray.rindex
@@ -7089,6 +7275,8 @@ py:method
 	bytes.lstrip                             library/stdtypes.html#bytes.lstrip
 	bytes.maketrans                          library/stdtypes.html#bytes.maketrans
 	bytes.partition                          library/stdtypes.html#bytes.partition
+	bytes.removeprefix                       library/stdtypes.html#bytes.removeprefix
+	bytes.removesuffix                       library/stdtypes.html#bytes.removesuffix
 	bytes.replace                            library/stdtypes.html#bytes.replace
 	bytes.rfind                              library/stdtypes.html#bytes.rfind
 	bytes.rindex                             library/stdtypes.html#bytes.rindex
@@ -7903,6 +8091,12 @@ py:method
 	gettext.NullTranslations.output_charset  library/gettext.html#gettext.NullTranslations.output_charset
 	gettext.NullTranslations.pgettext        library/gettext.html#gettext.NullTranslations.pgettext
 	gettext.NullTranslations.set_output_charset library/gettext.html#gettext.NullTranslations.set_output_charset
+	graphlib.TopologicalSorter.add           library/graphlib.html#graphlib.TopologicalSorter.add
+	graphlib.TopologicalSorter.done          library/graphlib.html#graphlib.TopologicalSorter.done
+	graphlib.TopologicalSorter.get_ready     library/graphlib.html#graphlib.TopologicalSorter.get_ready
+	graphlib.TopologicalSorter.is_active     library/graphlib.html#graphlib.TopologicalSorter.is_active
+	graphlib.TopologicalSorter.prepare       library/graphlib.html#graphlib.TopologicalSorter.prepare
+	graphlib.TopologicalSorter.static_order  library/graphlib.html#graphlib.TopologicalSorter.static_order
 	gzip.GzipFile.peek                       library/gzip.html#gzip.GzipFile.peek
 	hashlib.hash.copy                        library/hashlib.html#hashlib.hash.copy
 	hashlib.hash.digest                      library/hashlib.html#hashlib.hash.digest
@@ -7942,6 +8136,9 @@ py:method
 	http.client.HTTPResponse.fileno          library/http.client.html#http.client.HTTPResponse.fileno
 	http.client.HTTPResponse.getheader       library/http.client.html#http.client.HTTPResponse.getheader
 	http.client.HTTPResponse.getheaders      library/http.client.html#http.client.HTTPResponse.getheaders
+	http.client.HTTPResponse.getstatus       library/http.client.html#http.client.HTTPResponse.getstatus
+	http.client.HTTPResponse.geturl          library/http.client.html#http.client.HTTPResponse.geturl
+	http.client.HTTPResponse.info            library/http.client.html#http.client.HTTPResponse.info
 	http.client.HTTPResponse.read            library/http.client.html#http.client.HTTPResponse.read
 	http.client.HTTPResponse.readinto        library/http.client.html#http.client.HTTPResponse.readinto
 	http.cookiejar.Cookie.get_nonstandard_attr library/http.cookiejar.html#http.cookiejar.Cookie.get_nonstandard_attr
@@ -8047,6 +8244,7 @@ py:method
 	imaplib.IMAP4.subscribe                  library/imaplib.html#imaplib.IMAP4.subscribe
 	imaplib.IMAP4.thread                     library/imaplib.html#imaplib.IMAP4.thread
 	imaplib.IMAP4.uid                        library/imaplib.html#imaplib.IMAP4.uid
+	imaplib.IMAP4.unselect                   library/imaplib.html#imaplib.IMAP4.unselect
 	imaplib.IMAP4.unsubscribe                library/imaplib.html#imaplib.IMAP4.unsubscribe
 	imaplib.IMAP4.xatom                      library/imaplib.html#imaplib.IMAP4.xatom
 	imp.NullImporter.find_module             library/imp.html#imp.NullImporter.find_module
@@ -8475,6 +8673,7 @@ py:method
 	multiprocessing.Queue.qsize              library/multiprocessing.html#multiprocessing.Queue.qsize
 	multiprocessing.RLock.acquire            library/multiprocessing.html#multiprocessing.RLock.acquire
 	multiprocessing.RLock.release            library/multiprocessing.html#multiprocessing.RLock.release
+	multiprocessing.SimpleQueue.close        library/multiprocessing.html#multiprocessing.SimpleQueue.close
 	multiprocessing.SimpleQueue.empty        library/multiprocessing.html#multiprocessing.SimpleQueue.empty
 	multiprocessing.SimpleQueue.get          library/multiprocessing.html#multiprocessing.SimpleQueue.get
 	multiprocessing.SimpleQueue.put          library/multiprocessing.html#multiprocessing.SimpleQueue.put
@@ -8559,7 +8758,6 @@ py:method
 	nntplib.NNTP.stat                        library/nntplib.html#nntplib.NNTP.stat
 	nntplib.NNTP.xhdr                        library/nntplib.html#nntplib.NNTP.xhdr
 	nntplib.NNTP.xover                       library/nntplib.html#nntplib.NNTP.xover
-	nntplib.NNTP.xpath                       library/nntplib.html#nntplib.NNTP.xpath
 	numbers.Complex.conjugate                library/numbers.html#numbers.Complex.conjugate
 	object.__abs__                           reference/datamodel.html#object.__abs__
 	object.__add__                           reference/datamodel.html#object.__add__
@@ -8738,6 +8936,7 @@ py:method
 	pathlib.Path.owner                       library/pathlib.html#pathlib.Path.owner
 	pathlib.Path.read_bytes                  library/pathlib.html#pathlib.Path.read_bytes
 	pathlib.Path.read_text                   library/pathlib.html#pathlib.Path.read_text
+	pathlib.Path.readlink                    library/pathlib.html#pathlib.Path.readlink
 	pathlib.Path.rename                      library/pathlib.html#pathlib.Path.rename
 	pathlib.Path.replace                     library/pathlib.html#pathlib.Path.replace
 	pathlib.Path.resolve                     library/pathlib.html#pathlib.Path.resolve
@@ -8753,11 +8952,13 @@ py:method
 	pathlib.PurePath.as_posix                library/pathlib.html#pathlib.PurePath.as_posix
 	pathlib.PurePath.as_uri                  library/pathlib.html#pathlib.PurePath.as_uri
 	pathlib.PurePath.is_absolute             library/pathlib.html#pathlib.PurePath.is_absolute
+	pathlib.PurePath.is_relative_to          library/pathlib.html#pathlib.PurePath.is_relative_to
 	pathlib.PurePath.is_reserved             library/pathlib.html#pathlib.PurePath.is_reserved
 	pathlib.PurePath.joinpath                library/pathlib.html#pathlib.PurePath.joinpath
 	pathlib.PurePath.match                   library/pathlib.html#pathlib.PurePath.match
 	pathlib.PurePath.relative_to             library/pathlib.html#pathlib.PurePath.relative_to
 	pathlib.PurePath.with_name               library/pathlib.html#pathlib.PurePath.with_name
+	pathlib.PurePath.with_stem               library/pathlib.html#pathlib.PurePath.with_stem
 	pathlib.PurePath.with_suffix             library/pathlib.html#pathlib.PurePath.with_suffix
 	pdb.Pdb.run                              library/pdb.html#pdb.Pdb.run
 	pdb.Pdb.runcall                          library/pdb.html#pdb.Pdb.runcall
@@ -8811,6 +9012,7 @@ py:method
 	profile.Profile.runctx                   library/profile.html#profile.Profile.runctx
 	pstats.Stats.add                         library/profile.html#pstats.Stats.add
 	pstats.Stats.dump_stats                  library/profile.html#pstats.Stats.dump_stats
+	pstats.Stats.get_stats_profile           library/profile.html#pstats.Stats.get_stats_profile
 	pstats.Stats.print_callees               library/profile.html#pstats.Stats.print_callees
 	pstats.Stats.print_callers               library/profile.html#pstats.Stats.print_callers
 	pstats.Stats.print_stats                 library/profile.html#pstats.Stats.print_stats
@@ -8930,12 +9132,14 @@ py:method
 	socket.socket.listen                     library/socket.html#socket.socket.listen
 	socket.socket.makefile                   library/socket.html#socket.socket.makefile
 	socket.socket.recv                       library/socket.html#socket.socket.recv
+	socket.socket.recv_fds                   library/socket.html#socket.socket.recv_fds
 	socket.socket.recv_into                  library/socket.html#socket.socket.recv_into
 	socket.socket.recvfrom                   library/socket.html#socket.socket.recvfrom
 	socket.socket.recvfrom_into              library/socket.html#socket.socket.recvfrom_into
 	socket.socket.recvmsg                    library/socket.html#socket.socket.recvmsg
 	socket.socket.recvmsg_into               library/socket.html#socket.socket.recvmsg_into
 	socket.socket.send                       library/socket.html#socket.socket.send
+	socket.socket.send_fds                   library/socket.html#socket.socket.send_fds
 	socket.socket.sendall                    library/socket.html#socket.socket.sendall
 	socket.socket.sendfile                   library/socket.html#socket.socket.sendfile
 	socket.socket.sendmsg                    library/socket.html#socket.socket.sendmsg
@@ -9029,6 +9233,7 @@ py:method
 	statistics.NormalDist.pdf                library/statistics.html#statistics.NormalDist.pdf
 	statistics.NormalDist.quantiles          library/statistics.html#statistics.NormalDist.quantiles
 	statistics.NormalDist.samples            library/statistics.html#statistics.NormalDist.samples
+	statistics.NormalDist.zscore             library/statistics.html#statistics.NormalDist.zscore
 	str.capitalize                           library/stdtypes.html#str.capitalize
 	str.casefold                             library/stdtypes.html#str.casefold
 	str.center                               library/stdtypes.html#str.center
@@ -9058,6 +9263,8 @@ py:method
 	str.lstrip                               library/stdtypes.html#str.lstrip
 	str.maketrans                            library/stdtypes.html#str.maketrans
 	str.partition                            library/stdtypes.html#str.partition
+	str.removeprefix                         library/stdtypes.html#str.removeprefix
+	str.removesuffix                         library/stdtypes.html#str.removesuffix
 	str.replace                              library/stdtypes.html#str.replace
 	str.rfind                                library/stdtypes.html#str.rfind
 	str.rindex                               library/stdtypes.html#str.rindex
@@ -9147,7 +9354,6 @@ py:method
 	symtable.SymbolTable.get_symbols         library/symtable.html#symtable.SymbolTable.get_symbols
 	symtable.SymbolTable.get_type            library/symtable.html#symtable.SymbolTable.get_type
 	symtable.SymbolTable.has_children        library/symtable.html#symtable.SymbolTable.has_children
-	symtable.SymbolTable.has_exec            library/symtable.html#symtable.SymbolTable.has_exec
 	symtable.SymbolTable.is_nested           library/symtable.html#symtable.SymbolTable.is_nested
 	symtable.SymbolTable.is_optimized        library/symtable.html#symtable.SymbolTable.is_optimized
 	symtable.SymbolTable.lookup              library/symtable.html#symtable.SymbolTable.lookup
@@ -9200,6 +9406,9 @@ py:method
 	test.support.EnvironmentVarGuard.unset   library/test.html#test.support.EnvironmentVarGuard.unset
 	test.support.Matcher.match_value         library/test.html#test.support.Matcher.match_value
 	test.support.Matcher.matches             library/test.html#test.support.Matcher.matches
+	test.support.bytecode_helper.BytecodeTestCase.assertInBytecode library/test.html#test.support.bytecode_helper.BytecodeTestCase.assertInBytecode
+	test.support.bytecode_helper.BytecodeTestCase.assertNotInBytecode library/test.html#test.support.bytecode_helper.BytecodeTestCase.assertNotInBytecode
+	test.support.bytecode_helper.BytecodeTestCase.get_disassembly_as_string library/test.html#test.support.bytecode_helper.BytecodeTestCase.get_disassembly_as_string
 	textwrap.TextWrapper.fill                library/textwrap.html#textwrap.TextWrapper.fill
 	textwrap.TextWrapper.wrap                library/textwrap.html#textwrap.TextWrapper.wrap
 	threading.Barrier.abort                  library/threading.html#threading.Barrier.abort
@@ -9237,6 +9446,42 @@ py:method
 	timeit.Timer.timeit                      library/timeit.html#timeit.Timer.timeit
 	tkinter.Widget.tk.createfilehandler      library/tkinter.html#tkinter.Widget.tk.createfilehandler
 	tkinter.Widget.tk.deletefilehandler      library/tkinter.html#tkinter.Widget.tk.deletefilehandler
+	tkinter.commondialog.Dialog.show         library/dialog.html#tkinter.commondialog.Dialog.show
+	tkinter.dnd.DndHandler.cancel            library/tkinter.dnd.html#tkinter.dnd.DndHandler.cancel
+	tkinter.dnd.DndHandler.finish            library/tkinter.dnd.html#tkinter.dnd.DndHandler.finish
+	tkinter.dnd.DndHandler.on_motion         library/tkinter.dnd.html#tkinter.dnd.DndHandler.on_motion
+	tkinter.dnd.DndHandler.on_release        library/tkinter.dnd.html#tkinter.dnd.DndHandler.on_release
+	tkinter.filedialog.FileDialog.cancel_command library/dialog.html#tkinter.filedialog.FileDialog.cancel_command
+	tkinter.filedialog.FileDialog.dirs_double_event library/dialog.html#tkinter.filedialog.FileDialog.dirs_double_event
+	tkinter.filedialog.FileDialog.dirs_select_event library/dialog.html#tkinter.filedialog.FileDialog.dirs_select_event
+	tkinter.filedialog.FileDialog.files_double_event library/dialog.html#tkinter.filedialog.FileDialog.files_double_event
+	tkinter.filedialog.FileDialog.files_select_event library/dialog.html#tkinter.filedialog.FileDialog.files_select_event
+	tkinter.filedialog.FileDialog.filter_command library/dialog.html#tkinter.filedialog.FileDialog.filter_command
+	tkinter.filedialog.FileDialog.get_filter library/dialog.html#tkinter.filedialog.FileDialog.get_filter
+	tkinter.filedialog.FileDialog.get_selection library/dialog.html#tkinter.filedialog.FileDialog.get_selection
+	tkinter.filedialog.FileDialog.go         library/dialog.html#tkinter.filedialog.FileDialog.go
+	tkinter.filedialog.FileDialog.ok_event   library/dialog.html#tkinter.filedialog.FileDialog.ok_event
+	tkinter.filedialog.FileDialog.quit       library/dialog.html#tkinter.filedialog.FileDialog.quit
+	tkinter.filedialog.FileDialog.set_filter library/dialog.html#tkinter.filedialog.FileDialog.set_filter
+	tkinter.filedialog.FileDialog.set_selection library/dialog.html#tkinter.filedialog.FileDialog.set_selection
+	tkinter.filedialog.LoadFileDialog.ok_command library/dialog.html#tkinter.filedialog.LoadFileDialog.ok_command
+	tkinter.filedialog.SaveFileDialog.ok_command library/dialog.html#tkinter.filedialog.SaveFileDialog.ok_command
+	tkinter.font.Font.actual                 library/tkinter.font.html#tkinter.font.Font.actual
+	tkinter.font.Font.cget                   library/tkinter.font.html#tkinter.font.Font.cget
+	tkinter.font.Font.config                 library/tkinter.font.html#tkinter.font.Font.config
+	tkinter.font.Font.copy                   library/tkinter.font.html#tkinter.font.Font.copy
+	tkinter.font.Font.measure                library/tkinter.font.html#tkinter.font.Font.measure
+	tkinter.font.Font.metrics                library/tkinter.font.html#tkinter.font.Font.metrics
+	tkinter.messagebox.askokcancel           library/tkinter.messagebox.html#tkinter.messagebox.askokcancel
+	tkinter.messagebox.askquestion           library/tkinter.messagebox.html#tkinter.messagebox.askquestion
+	tkinter.messagebox.askretrycancel        library/tkinter.messagebox.html#tkinter.messagebox.askretrycancel
+	tkinter.messagebox.askyesno              library/tkinter.messagebox.html#tkinter.messagebox.askyesno
+	tkinter.messagebox.askyesnocancel        library/tkinter.messagebox.html#tkinter.messagebox.askyesnocancel
+	tkinter.messagebox.showerror             library/tkinter.messagebox.html#tkinter.messagebox.showerror
+	tkinter.messagebox.showinfo              library/tkinter.messagebox.html#tkinter.messagebox.showinfo
+	tkinter.messagebox.showwarning           library/tkinter.messagebox.html#tkinter.messagebox.showwarning
+	tkinter.simpledialog.Dialog.body         library/dialog.html#tkinter.simpledialog.Dialog.body
+	tkinter.simpledialog.Dialog.buttonbox    library/dialog.html#tkinter.simpledialog.Dialog.buttonbox
 	tkinter.tix.tixCommand.tix_addbitmapdir  library/tkinter.tix.html#tkinter.tix.tixCommand.tix_addbitmapdir
 	tkinter.tix.tixCommand.tix_cget          library/tkinter.tix.html#tkinter.tix.tixCommand.tix_cget
 	tkinter.tix.tixCommand.tix_configure     library/tkinter.tix.html#tkinter.tix.tixCommand.tix_configure
@@ -9488,6 +9733,9 @@ py:method
 	urllib.request.URLopener.open_unknown    library/urllib.request.html#urllib.request.URLopener.open_unknown
 	urllib.request.URLopener.retrieve        library/urllib.request.html#urllib.request.URLopener.retrieve
 	urllib.request.UnknownHandler.unknown_open library/urllib.request.html#urllib.request.UnknownHandler.unknown_open
+	urllib.response.addinfourl.getstatus     library/urllib.request.html#urllib.response.addinfourl.getstatus
+	urllib.response.addinfourl.geturl        library/urllib.request.html#urllib.response.addinfourl.geturl
+	urllib.response.addinfourl.info          library/urllib.request.html#urllib.response.addinfourl.info
 	urllib.robotparser.RobotFileParser.can_fetch library/urllib.robotparser.html#urllib.robotparser.RobotFileParser.can_fetch
 	urllib.robotparser.RobotFileParser.crawl_delay library/urllib.robotparser.html#urllib.robotparser.RobotFileParser.crawl_delay
 	urllib.robotparser.RobotFileParser.modified library/urllib.robotparser.html#urllib.robotparser.RobotFileParser.modified
@@ -9504,6 +9752,7 @@ py:method
 	venv.EnvBuilder.post_setup               library/venv.html#venv.EnvBuilder.post_setup
 	venv.EnvBuilder.setup_python             library/venv.html#venv.EnvBuilder.setup_python
 	venv.EnvBuilder.setup_scripts            library/venv.html#venv.EnvBuilder.setup_scripts
+	venv.EnvBuilder.upgrade_dependencies     library/venv.html#venv.EnvBuilder.upgrade_dependencies
 	wave.Wave_read.close                     library/wave.html#wave.Wave_read.close
 	wave.Wave_read.getcompname               library/wave.html#wave.Wave_read.getcompname
 	wave.Wave_read.getcomptype               library/wave.html#wave.Wave_read.getcomptype
@@ -9623,10 +9872,8 @@ py:method
 	xml.dom.Node.removeChild                 library/xml.dom.html#xml.dom.Node.removeChild
 	xml.dom.Node.replaceChild                library/xml.dom.html#xml.dom.Node.replaceChild
 	xml.dom.NodeList.item                    library/xml.dom.html#xml.dom.NodeList.item
-	xml.dom.minidom.Node.toprettyxml         library/xml.dom.minidom.html#xml.dom.minidom.Node.toprettyxml
 	xml.dom.minidom.Node.toxml               library/xml.dom.minidom.html#xml.dom.minidom.Node.toxml
 	xml.dom.minidom.Node.unlink              library/xml.dom.minidom.html#xml.dom.minidom.Node.unlink
-	xml.dom.minidom.Node.writexml            library/xml.dom.minidom.html#xml.dom.minidom.Node.writexml
 	xml.dom.pulldom.DOMEventStream.expandNode library/xml.dom.pulldom.html#xml.dom.pulldom.DOMEventStream.expandNode
 	xml.dom.pulldom.DOMEventStream.getEvent  library/xml.dom.pulldom.html#xml.dom.pulldom.DOMEventStream.getEvent
 	xml.dom.pulldom.DOMEventStream.reset     library/xml.dom.pulldom.html#xml.dom.pulldom.DOMEventStream.reset
@@ -9637,8 +9884,6 @@ py:method
 	xml.etree.ElementTree.Element.findall    library/xml.etree.elementtree.html#xml.etree.ElementTree.Element.findall
 	xml.etree.ElementTree.Element.findtext   library/xml.etree.elementtree.html#xml.etree.ElementTree.Element.findtext
 	xml.etree.ElementTree.Element.get        library/xml.etree.elementtree.html#xml.etree.ElementTree.Element.get
-	xml.etree.ElementTree.Element.getchildren library/xml.etree.elementtree.html#xml.etree.ElementTree.Element.getchildren
-	xml.etree.ElementTree.Element.getiterator library/xml.etree.elementtree.html#xml.etree.ElementTree.Element.getiterator
 	xml.etree.ElementTree.Element.insert     library/xml.etree.elementtree.html#xml.etree.ElementTree.Element.insert
 	xml.etree.ElementTree.Element.items      library/xml.etree.elementtree.html#xml.etree.ElementTree.Element.items
 	xml.etree.ElementTree.Element.iter       library/xml.etree.elementtree.html#xml.etree.ElementTree.Element.iter
@@ -9652,7 +9897,6 @@ py:method
 	xml.etree.ElementTree.ElementTree.find   library/xml.etree.elementtree.html#xml.etree.ElementTree.ElementTree.find
 	xml.etree.ElementTree.ElementTree.findall library/xml.etree.elementtree.html#xml.etree.ElementTree.ElementTree.findall
 	xml.etree.ElementTree.ElementTree.findtext library/xml.etree.elementtree.html#xml.etree.ElementTree.ElementTree.findtext
-	xml.etree.ElementTree.ElementTree.getiterator library/xml.etree.elementtree.html#xml.etree.ElementTree.ElementTree.getiterator
 	xml.etree.ElementTree.ElementTree.getroot library/xml.etree.elementtree.html#xml.etree.ElementTree.ElementTree.getroot
 	xml.etree.ElementTree.ElementTree.iter   library/xml.etree.elementtree.html#xml.etree.ElementTree.ElementTree.iter
 	xml.etree.ElementTree.ElementTree.iterfind library/xml.etree.elementtree.html#xml.etree.ElementTree.ElementTree.iterfind
@@ -9819,10 +10063,12 @@ py:method
 	zlib.Decompress.copy                     library/zlib.html#zlib.Decompress.copy
 	zlib.Decompress.decompress               library/zlib.html#zlib.Decompress.decompress
 	zlib.Decompress.flush                    library/zlib.html#zlib.Decompress.flush
+	zoneinfo.ZoneInfo.clear_cache            library/zoneinfo.html#zoneinfo.ZoneInfo.clear_cache
+	zoneinfo.ZoneInfo.from_file              library/zoneinfo.html#zoneinfo.ZoneInfo.from_file
+	zoneinfo.ZoneInfo.no_cache               library/zoneinfo.html#zoneinfo.ZoneInfo.no_cache
 py:module
 	__future__                               library/__future__.html#module-__future__
 	__main__                                 library/__main__.html#module-__main__
-	_dummy_thread                            library/_dummy_thread.html#module-_dummy_thread
 	_thread                                  library/_thread.html#module-_thread
 	abc                                      library/abc.html#module-abc
 	aifc                                     library/aifc.html#module-aifc
@@ -9924,7 +10170,6 @@ py:module
 	distutils.util                           distutils/apiref.html#module-distutils.util
 	distutils.version                        distutils/apiref.html#module-distutils.version
 	doctest                                  library/doctest.html#module-doctest
-	dummy_threading                          library/dummy_threading.html#module-dummy_threading
 	email                                    library/email.html#module-email
 	email.charset                            library/email.charset.html#module-email.charset
 	email.contentmanager                     library/email.contentmanager.html#module-email.contentmanager
@@ -9959,6 +10204,7 @@ py:module
 	getpass                                  library/getpass.html#module-getpass
 	gettext                                  library/gettext.html#module-gettext
 	glob                                     library/glob.html#module-glob
+	graphlib                                 library/graphlib.html#module-graphlib
 	grp                                      library/grp.html#module-grp
 	gzip                                     library/gzip.html#module-gzip
 	hashlib                                  library/hashlib.html#module-hashlib
@@ -10083,13 +10329,22 @@ py:module
 	termios                                  library/termios.html#module-termios
 	test                                     library/test.html#module-test
 	test.support                             library/test.html#module-test.support
+	test.support.bytecode_helper             library/test.html#module-test.support.bytecode_helper
 	test.support.script_helper               library/test.html#module-test.support.script_helper
+	test.support.socket_helper               library/test.html#module-test.support.socket_helper
 	textwrap                                 library/textwrap.html#module-textwrap
 	threading                                library/threading.html#module-threading
 	time                                     library/time.html#module-time
 	timeit                                   library/timeit.html#module-timeit
 	tkinter                                  library/tkinter.html#module-tkinter
+	tkinter.colorchooser                     library/tkinter.colorchooser.html#module-tkinter.colorchooser
+	tkinter.commondialog                     library/dialog.html#module-tkinter.commondialog
+	tkinter.dnd                              library/tkinter.dnd.html#module-tkinter.dnd
+	tkinter.filedialog                       library/dialog.html#module-tkinter.filedialog
+	tkinter.font                             library/tkinter.font.html#module-tkinter.font
+	tkinter.messagebox                       library/tkinter.messagebox.html#module-tkinter.messagebox
 	tkinter.scrolledtext                     library/tkinter.scrolledtext.html#module-tkinter.scrolledtext
+	tkinter.simpledialog                     library/dialog.html#module-tkinter.simpledialog
 	tkinter.tix                              library/tkinter.tix.html#module-tkinter.tix
 	tkinter.ttk                              library/tkinter.ttk.html#module-tkinter.ttk
 	token                                    library/token.html#module-token
@@ -10145,6 +10400,7 @@ py:module
 	zipfile                                  library/zipfile.html#module-zipfile
 	zipimport                                library/zipimport.html#module-zipimport
 	zlib                                     library/zlib.html#module-zlib
+	zoneinfo                                 library/zoneinfo.html#module-zoneinfo
 std:2to3fixer
 	apply                                    library/2to3.html#2to3fixer-apply
 	asserts                                  library/2to3.html#2to3fixer-asserts
@@ -10225,15 +10481,29 @@ std:cmdoption
 	-u                                       using/cmdline.html#cmdoption-u
 	-v                                       using/cmdline.html#id4
 	-x                                       using/cmdline.html#cmdoption-x
+	ast.--help                               library/ast.html#cmdoption-ast-h
+	ast.--include-attributes                 library/ast.html#cmdoption-ast-a
+	ast.--indent                             library/ast.html#cmdoption-ast-indent
+	ast.--mode                               library/ast.html#cmdoption-ast-mode
+	ast.--no-type-comments                   library/ast.html#cmdoption-ast-no-type-comments
+	ast.-a                                   library/ast.html#cmdoption-ast-a
+	ast.-h                                   library/ast.html#cmdoption-ast-h
+	ast.-i                                   library/ast.html#cmdoption-ast-i
+	ast.-m                                   library/ast.html#cmdoption-ast-m
+	compileall.--hardlink-dupes              library/compileall.html#cmdoption-compileall-hardlink-dupes
 	compileall.--invalidation-mode           library/compileall.html#cmdoption-compileall-invalidation-mode
 	compileall.-b                            library/compileall.html#cmdoption-compileall-b
 	compileall.-d                            library/compileall.html#cmdoption-compileall-d
+	compileall.-e                            library/compileall.html#cmdoption-compileall-e
 	compileall.-f                            library/compileall.html#cmdoption-compileall-f
 	compileall.-i                            library/compileall.html#cmdoption-compileall-i
 	compileall.-j                            library/compileall.html#cmdoption-compileall-j
 	compileall.-l                            library/compileall.html#cmdoption-compileall-l
+	compileall.-o                            library/compileall.html#cmdoption-compileall-o
+	compileall.-p                            library/compileall.html#cmdoption-compileall-p
 	compileall.-q                            library/compileall.html#cmdoption-compileall-q
 	compileall.-r                            library/compileall.html#cmdoption-compileall-r
+	compileall.-s                            library/compileall.html#cmdoption-compileall-s
 	compileall.-x                            library/compileall.html#cmdoption-compileall-x
 	compileall.directory                     library/compileall.html#cmdoption-compileall-arg-directory
 	compileall.file                          library/compileall.html#cmdoption-compileall-arg-file
@@ -10245,9 +10515,14 @@ std:cmdoption
 	gzip.-h                                  library/gzip.html#cmdoption-gzip-h
 	gzip.file                                library/gzip.html#cmdoption-gzip-arg-file
 	inspect.--details                        library/inspect.html#cmdoption-inspect-details
+	json.tool.--compact                      library/json.html#cmdoption-json-tool-indent
 	json.tool.--help                         library/json.html#cmdoption-json-tool-h
+	json.tool.--indent                       library/json.html#cmdoption-json-tool-indent
 	json.tool.--json-lines                   library/json.html#cmdoption-json-tool-json-lines
+	json.tool.--no-ensure-ascii              library/json.html#cmdoption-json-tool-no-ensure-ascii
+	json.tool.--no-indent                    library/json.html#cmdoption-json-tool-indent
 	json.tool.--sort-keys                    library/json.html#cmdoption-json-tool-sort-keys
+	json.tool.--tab                          library/json.html#cmdoption-json-tool-indent
 	json.tool.-h                             library/json.html#cmdoption-json-tool-h
 	json.tool.infile                         library/json.html#cmdoption-json-tool-arg-infile
 	json.tool.outfile                        library/json.html#cmdoption-json-tool-arg-outfile
@@ -10363,6 +10638,7 @@ std:doc
 	c-api/buffer                             Buffer Protocol                         : c-api/buffer.html
 	c-api/bytearray                          Byte Array Objects                      : c-api/bytearray.html
 	c-api/bytes                              Bytes Objects                           : c-api/bytes.html
+	c-api/call                               Call Protocol                           : c-api/call.html
 	c-api/capsule                            Capsules                                : c-api/capsule.html
 	c-api/cell                               Cell Objects                            : c-api/cell.html
 	c-api/code                               Code Objects                            : c-api/code.html
@@ -10471,7 +10747,6 @@ std:doc
 	library/2to3                             2to3 - Automated Python 2 to 3 code translation: library/2to3.html
 	library/__future__                       __future__ — Future statement definitions: library/__future__.html
 	library/__main__                         __main__ — Top-level script environment : library/__main__.html
-	library/_dummy_thread                    _dummy_thread — Drop-in replacement for the _thread module: library/_dummy_thread.html
 	library/_thread                          _thread — Low-level threading API       : library/_thread.html
 	library/abc                              abc — Abstract Base Classes             : library/abc.html
 	library/aifc                             aifc — Read and write AIFF and AIFC files: library/aifc.html
@@ -10545,12 +10820,13 @@ std:doc
 	library/debug                            Debugging and Profiling                 : library/debug.html
 	library/decimal                          decimal — Decimal fixed point and floating point arithmetic: library/decimal.html
 	library/development                      Development Tools                       : library/development.html
+	library/devmode                          Python Development Mode                 : library/devmode.html
+	library/dialog                           Tkinter Dialogs                         : library/dialog.html
 	library/difflib                          difflib — Helpers for computing deltas  : library/difflib.html
 	library/dis                              dis — Disassembler for Python bytecode  : library/dis.html
 	library/distribution                     Software Packaging and Distribution     : library/distribution.html
 	library/distutils                        distutils — Building and installing Python modules: library/distutils.html
 	library/doctest                          doctest — Test interactive Python examples: library/doctest.html
-	library/dummy_threading                  dummy_threading — Drop-in replacement for the threading module: library/dummy_threading.html
 	library/email                            email — An email and MIME handling package: library/email.html
 	library/email.charset                    email.charset: Representing character sets: library/email.charset.html
 	library/email.compat32-message           email.message.Message: Representing an email message using the compat32 API: library/email.compat32-message.html
@@ -10590,6 +10866,7 @@ std:doc
 	library/getpass                          getpass — Portable password input       : library/getpass.html
 	library/gettext                          gettext — Multilingual internationalization services: library/gettext.html
 	library/glob                             glob — Unix style pathname pattern expansion: library/glob.html
+	library/graphlib                         graphlib — Functionality to operate with graph-like structures: library/graphlib.html
 	library/grp                              grp — The group database                : library/grp.html
 	library/gzip                             gzip — Support for gzip files           : library/gzip.html
 	library/hashlib                          hashlib — Secure hashes and message digests: library/hashlib.html
@@ -10663,7 +10940,7 @@ std:doc
 	library/pipes                            pipes — Interface to shell pipelines    : library/pipes.html
 	library/pkgutil                          pkgutil — Package extension utility     : library/pkgutil.html
 	library/platform                         platform —  Access to underlying platform’s identifying data: library/platform.html
-	library/plistlib                         plistlib — Generate and parse Mac OS X .plist files: library/plistlib.html
+	library/plistlib                         plistlib — Generate and parse Apple .plist files: library/plistlib.html
 	library/poplib                           poplib — POP3 protocol client           : library/poplib.html
 	library/posix                            posix — The most common POSIX system calls: library/posix.html
 	library/pprint                           pprint — Data pretty printer            : library/pprint.html
@@ -10728,6 +11005,10 @@ std:doc
 	library/timeit                           timeit — Measure execution time of small code snippets: library/timeit.html
 	library/tk                               Graphical User Interfaces with Tk       : library/tk.html
 	library/tkinter                          tkinter — Python interface to Tcl/Tk    : library/tkinter.html
+	library/tkinter.colorchooser             tkinter.colorchooser — Color choosing dialog: library/tkinter.colorchooser.html
+	library/tkinter.dnd                      tkinter.dnd — Drag and drop support     : library/tkinter.dnd.html
+	library/tkinter.font                     tkinter.font — Tkinter font wrapper     : library/tkinter.font.html
+	library/tkinter.messagebox               tkinter.messagebox — Tkinter message prompts: library/tkinter.messagebox.html
 	library/tkinter.scrolledtext             tkinter.scrolledtext — Scrolled Text Widget: library/tkinter.scrolledtext.html
 	library/tkinter.tix                      tkinter.tix — Extension widgets for Tk  : library/tkinter.tix.html
 	library/tkinter.ttk                      tkinter.ttk — Tk themed widgets         : library/tkinter.ttk.html
@@ -10779,6 +11060,7 @@ std:doc
 	library/zipfile                          zipfile — Work with ZIP archives        : library/zipfile.html
 	library/zipimport                        zipimport — Import modules from Zip archives: library/zipimport.html
 	library/zlib                             zlib — Compression compatible with gzip : library/zlib.html
+	library/zoneinfo                         zoneinfo — IANA time zone support       : library/zoneinfo.html
 	license                                  History and License                     : license.html
 	reference/compound_stmts                 Compound statements                     : reference/compound_stmts.html
 	reference/datamodel                      Data model                              : reference/datamodel.html
@@ -10831,6 +11113,7 @@ std:doc
 	whatsnew/3.6                             What’s New In Python 3.6                : whatsnew/3.6.html
 	whatsnew/3.7                             What’s New In Python 3.7                : whatsnew/3.7.html
 	whatsnew/3.8                             What’s New In Python 3.8                : whatsnew/3.8.html
+	whatsnew/3.9                             What’s New In Python 3.9                : whatsnew/3.9.html
 	whatsnew/changelog                       Changelog                               : whatsnew/changelog.html
 	whatsnew/index                           What’s New in Python                    : whatsnew/index.html
 std:envvar
@@ -10853,13 +11136,16 @@ std:envvar
 	PYTHONMALLOC                             using/cmdline.html#envvar-PYTHONMALLOC
 	PYTHONMALLOCSTATS                        using/cmdline.html#envvar-PYTHONMALLOCSTATS
 	PYTHONNOUSERSITE                         using/cmdline.html#envvar-PYTHONNOUSERSITE
+	PYTHONOLDPARSER                          using/cmdline.html#envvar-PYTHONOLDPARSER
 	PYTHONOPTIMIZE                           using/cmdline.html#envvar-PYTHONOPTIMIZE
 	PYTHONPATH                               using/cmdline.html#envvar-PYTHONPATH
+	PYTHONPLATLIBDIR                         using/cmdline.html#envvar-PYTHONPLATLIBDIR
 	PYTHONPROFILEIMPORTTIME                  using/cmdline.html#envvar-PYTHONPROFILEIMPORTTIME
 	PYTHONPYCACHEPREFIX                      using/cmdline.html#envvar-PYTHONPYCACHEPREFIX
 	PYTHONSTARTUP                            using/cmdline.html#envvar-PYTHONSTARTUP
 	PYTHONTHREADDEBUG                        using/cmdline.html#envvar-PYTHONTHREADDEBUG
 	PYTHONTRACEMALLOC                        using/cmdline.html#envvar-PYTHONTRACEMALLOC
+	PYTHONTZPATH                             library/zoneinfo.html#envvar-PYTHONTZPATH
 	PYTHONUNBUFFERED                         using/cmdline.html#envvar-PYTHONUNBUFFERED
 	PYTHONUSERBASE                           using/cmdline.html#envvar-PYTHONUSERBASE
 	PYTHONUTF8                               using/cmdline.html#envvar-PYTHONUTF8
@@ -10905,12 +11191,12 @@ std:label
 	archiving-operations                     Archiving operations                    : library/shutil.html#archiving-operations
 	arg-parsing                              Parsing arguments and building values   : c-api/arg.html#arg-parsing
 	argparse-tutorial                        howto/argparse.html#id1
-	argparse.remainder                       library/argparse.html#argparse-remainder
 	args                                     Beyond sys.argv                         : library/argparse.html#args
 	as                                       The with statement                      : reference/compound_stmts.html#as
 	assert                                   The assert statement                    : reference/simple_stmts.html#assert
 	assert-methods                           library/unittest.html#assert-methods
 	assignment                               Assignment statements                   : reference/simple_stmts.html#assignment
+	ast-cli                                  Command-Line Usage                      : library/ast.html#ast-cli
 	async                                    Coroutines                              : reference/compound_stmts.html#async
 	async def                                Coroutine function definition           : reference/compound_stmts.html#async-def
 	async for                                The async for statement                 : reference/compound_stmts.html#async-for
@@ -11001,6 +11287,7 @@ std:label
 	binaryseq                                Binary Sequence Types — bytes, bytearray, memoryview: library/stdtypes.html#binaryseq
 	binaryservices                           Binary Data Services                    : library/binary.html#binaryservices
 	bind_names                               Binding of names                        : reference/executionmodel.html#bind-names
+	bindings-and-events                      Bindings and Events                     : library/tkinter.html#bindings-and-events
 	binhex-notes                             Notes                                   : library/binhex.html#binhex-notes
 	bisect-example                           library/bisect.html#bisect-example
 	bitstring-ops                            Bitwise Operations on Integer Types     : library/stdtypes.html#bitstring-ops
@@ -11020,7 +11307,7 @@ std:label
 	bpo-36085-whatsnew                       whatsnew/3.8.html#bpo-36085-whatsnew
 	break                                    The break statement                     : reference/simple_stmts.html#break
 	browser-controllers                      Browser Controller Objects              : library/webbrowser.html#browser-controllers
-	bsd0                                     ZERO-CLAUSE BSD LICENSE FOR CODE IN THE PYTHON 3.8.6rc1 DOCUMENTATION: license.html#bsd0
+	bsd0                                     ZERO-CLAUSE BSD LICENSE FOR CODE IN THE PYTHON 3.9.0 DOCUMENTATION: license.html#bsd0
 	buffer-request-types                     Buffer request types                    : c-api/buffer.html#buffer-request-types
 	buffer-structs                           Buffer Object Structures                : c-api/typeobj.html#buffer-structs
 	buffer-structure                         Buffer structure                        : c-api/buffer.html#buffer-structure
@@ -11046,12 +11333,14 @@ std:label
 	c99                                      library/sys.html#c99
 	cab                                      CAB Objects                             : library/msilib.html#cab
 	cacheftp-handler-objects                 CacheFTPHandler Objects                 : library/urllib.request.html#cacheftp-handler-objects
+	call                                     Call Protocol                           : c-api/call.html#call
 	call-function-trio                       Older high-level API                    : library/subprocess.html#call-function-trio
 	callable-types                           Emulating callable objects              : reference/datamodel.html#callable-types
 	callingpython                            Calling Python Functions from C         : extending/extending.html#callingpython
 	calls                                    Calls                                   : reference/expressions.html#calls
 	calls-as-tuples                          library/unittest.mock.html#calls-as-tuples
 	calltips                                 Calltips                                : library/idle.html#calltips
+	capi-call                                Object Calling API                      : c-api/call.html#capi-call
 	capsules                                 Capsules                                : c-api/capsule.html#capsules
 	cell-objects                             Cell Objects                            : c-api/cell.html#cell-objects
 	cgi-intro                                library/cgi.html#cgi-intro
@@ -11214,6 +11503,7 @@ std:label
 	descriptors                              Implementing Descriptors                : reference/datamodel.html#descriptors
 	deterministic-profiling                  What Is Deterministic Profiling?        : library/profile.html#deterministic-profiling
 	development                              Development Tools                       : library/development.html#development
+	devmode                                  Python Development Mode                 : library/devmode.html#devmode
 	devpoll-objects                          /dev/poll Polling Objects               : library/select.html#devpoll-objects
 	dict                                     Dictionary displays                     : reference/expressions.html#dict
 	dict-views                               Dictionary view objects                 : library/stdtypes.html#dict-views
@@ -11361,6 +11651,7 @@ std:label
 	filters-dictconfig                       Configuring filters with dictConfig()   : howto/logging-cookbook.html#filters-dictconfig
 	finalize-examples                        Finalizer Objects                       : library/weakref.html#finalize-examples
 	finally                                  The try statement                       : reference/compound_stmts.html#finally
+	finders-and-loaders                      Finders and loaders                     : reference/import.html#finders-and-loaders
 	finding_modules                          Finding modules                         : using/windows.html#finding-modules
 	floating                                 Floating point literals                 : reference/lexical_analysis.html#floating
 	floatobjects                             Floating Point Objects                  : c-api/float.html#floatobjects
@@ -11807,6 +12098,7 @@ std:label
 	pickle-protocols                         Data stream format                      : library/pickle.html#pickle-protocols
 	pickle-restrict                          Restricting Globals                     : library/pickle.html#pickle-restrict
 	pickle-state                             Handling Stateful Objects               : library/pickle.html#pickle-state
+	pickling                                 Pickle serialization                    : library/zoneinfo.html#pickling
 	poll-objects                             Polling Objects                         : library/select.html#poll-objects
 	pop3-example                             POP3 Example                            : library/poplib.html#pop3-example
 	pop3-objects                             POP3 Objects                            : library/poplib.html#pop3-objects
@@ -11845,7 +12137,7 @@ std:label
 	proxy-basic-auth-handler                 ProxyBasicAuthHandler Objects           : library/urllib.request.html#proxy-basic-auth-handler
 	proxy-digest-auth-handler                ProxyDigestAuthHandler Objects          : library/urllib.request.html#proxy-digest-auth-handler
 	proxy-handler                            ProxyHandler Objects                    : library/urllib.request.html#proxy-handler
-	psf-license                              PSF LICENSE AGREEMENT FOR PYTHON 3.8.6rc1: license.html#psf-license
+	psf-license                              PSF LICENSE AGREEMENT FOR PYTHON 3.9.0  : license.html#psf-license
 	publishing-python-packages               Reading the Python Packaging User Guide : distributing/index.html#publishing-python-packages
 	pure-embedding                           Pure Embedding                          : extending/embedding.html#pure-embedding
 	pure-mod                                 Pure Python distribution (by module)    : distutils/examples.html#pure-mod
@@ -11857,6 +12149,7 @@ std:label
 	pyclbr-class-objects                     Class Objects                           : library/pyclbr.html#pyclbr-class-objects
 	pyclbr-function-objects                  Function Objects                        : library/pyclbr.html#pyclbr-function-objects
 	pymalloc                                 The pymalloc allocator                  : c-api/memory.html#pymalloc
+	pymemberdef-offsets                      c-api/structures.html#pymemberdef-offsets
 	pyporting-howto                          Porting Python 2 Code to Python 3       : howto/pyporting.html#pyporting-howto
 	python                                   Python Runtime Services                 : library/python.html#python
 	python-interface                         Python Interface                        : library/timeit.html#python-interface
@@ -11876,6 +12169,7 @@ std:label
 	re-syntax                                Regular Expression Syntax               : library/re.html#re-syntax
 	readline-example                         Example                                 : library/readline.html#readline-example
 	record-objects                           Record Objects                          : library/msilib.html#record-objects
+	recursion                                Recursion Control                       : c-api/exceptions.html#recursion
 	reducer_override                         Custom Reduction for Types, Functions, and Other Objects: library/pickle.html#reducer-override
 	reentrant-cms                            Reentrant context managers              : library/contextlib.html#reentrant-cms
 	refcounts                                Reference Counts                        : extending/extending.html#refcounts
@@ -11886,6 +12180,7 @@ std:label
 	regex-howto                              Regular Expression HOWTO                : howto/regex.html#regex-howto
 	regrtest                                 Running tests using the command-line interface: library/test.html#regrtest
 	relativeimports                          Package Relative Imports                : reference/import.html#relativeimports
+	removed-in-python-39                     Removed                                 : whatsnew/3.9.html#removed-in-python-39
 	reporting-bugs                           Dealing with Bugs                       : bugs.html#reporting-bugs
 	repr-objects                             Repr Objects                            : library/reprlib.html#repr-objects
 	request-objects                          Request Objects                         : library/urllib.request.html#request-objects
@@ -12101,6 +12396,7 @@ std:label
 	tut-docstrings                           Documentation Strings                   : tutorial/controlflow.html#tut-docstrings
 	tut-error                                Error Handling                          : tutorial/appendix.html#tut-error
 	tut-errors                               Errors and Exceptions                   : tutorial/errors.html#tut-errors
+	tut-exception-chaining                   Exception Chaining                      : tutorial/errors.html#tut-exception-chaining
 	tut-exceptions                           Exceptions                              : tutorial/errors.html#tut-exceptions
 	tut-f-strings                            Formatted String Literals               : tutorial/inputoutput.html#tut-f-strings
 	tut-file-wildcards                       File Wildcards                          : tutorial/stdlib.html#tut-file-wildcards
@@ -12250,6 +12546,7 @@ std:label
 	utilities                                Utilities                               : c-api/utilities.html#utilities
 	uuid-example                             Example                                 : library/uuid.html#uuid-example
 	value-types                              Value Types                             : library/winreg.html#value-types
+	vectorcall                               The Vectorcall Protocol                 : c-api/call.html#vectorcall
 	venv-api                                 API                                     : library/venv.html#venv-api
 	venv-def                                 library/venv.html#venv-def
 	version                                  Distribution versions                   : library/importlib.metadata.html#version
@@ -12337,7 +12634,7 @@ std:label
 	whatsnew36-typing                        typing                                  : whatsnew/3.6.html#whatsnew36-typing
 	whatsnew37-asyncio-deprecated            asyncio                                 : whatsnew/3.7.html#whatsnew37-asyncio-deprecated
 	whatsnew37-asyncio-perf                  whatsnew/3.7.html#whatsnew37-asyncio-perf
-	whatsnew37-devmode                       Development Runtime Mode: -X dev        : whatsnew/3.7.html#whatsnew37-devmode
+	whatsnew37-devmode                       Python Development Mode (-X dev)        : whatsnew/3.7.html#whatsnew37-devmode
 	whatsnew37-pep538                        PEP 538: Legacy C Locale Coercion       : whatsnew/3.7.html#whatsnew37-pep538
 	whatsnew37-pep539                        PEP 539: New C API for Thread-Local Storage: whatsnew/3.7.html#whatsnew37-pep539
 	whatsnew37-pep540                        PEP 540: Forced UTF-8 Runtime Mode      : whatsnew/3.7.html#whatsnew37-pep540
@@ -12394,9 +12691,12 @@ std:label
 	zipimport-examples                       Examples                                : library/zipimport.html#zipimport-examples
 	zipimporter-objects                      zipimporter Objects                     : library/zipimport.html#zipimporter-objects
 	zipinfo-objects                          ZipInfo Objects                         : library/zipfile.html#zipinfo-objects
+	zoneinfo_data_compile_time_config        Compile-time configuration              : library/zoneinfo.html#zoneinfo-data-compile-time-config
+	zoneinfo_data_configuration              Configuring the data sources            : library/zoneinfo.html#zoneinfo-data-configuration
+	zoneinfo_data_environment_var            Environment configuration               : library/zoneinfo.html#zoneinfo-data-environment-var
+	zoneinfo_data_runtime_config             Runtime configuration                   : library/zoneinfo.html#zoneinfo-data-runtime-config
 std:opcode
 	BEFORE_ASYNC_WITH                        library/dis.html#opcode-BEFORE_ASYNC_WITH
-	BEGIN_FINALLY                            library/dis.html#opcode-BEGIN_FINALLY
 	BINARY_ADD                               library/dis.html#opcode-BINARY_ADD
 	BINARY_AND                               library/dis.html#opcode-BINARY_AND
 	BINARY_FLOOR_DIVIDE                      library/dis.html#opcode-BINARY_FLOOR_DIVIDE
@@ -12413,33 +12713,28 @@ std:opcode
 	BINARY_XOR                               library/dis.html#opcode-BINARY_XOR
 	BUILD_CONST_KEY_MAP                      library/dis.html#opcode-BUILD_CONST_KEY_MAP
 	BUILD_LIST                               library/dis.html#opcode-BUILD_LIST
-	BUILD_LIST_UNPACK                        library/dis.html#opcode-BUILD_LIST_UNPACK
 	BUILD_MAP                                library/dis.html#opcode-BUILD_MAP
-	BUILD_MAP_UNPACK                         library/dis.html#opcode-BUILD_MAP_UNPACK
-	BUILD_MAP_UNPACK_WITH_CALL               library/dis.html#opcode-BUILD_MAP_UNPACK_WITH_CALL
 	BUILD_SET                                library/dis.html#opcode-BUILD_SET
-	BUILD_SET_UNPACK                         library/dis.html#opcode-BUILD_SET_UNPACK
 	BUILD_SLICE                              library/dis.html#opcode-BUILD_SLICE
 	BUILD_STRING                             library/dis.html#opcode-BUILD_STRING
 	BUILD_TUPLE                              library/dis.html#opcode-BUILD_TUPLE
-	BUILD_TUPLE_UNPACK                       library/dis.html#opcode-BUILD_TUPLE_UNPACK
-	BUILD_TUPLE_UNPACK_WITH_CALL             library/dis.html#opcode-BUILD_TUPLE_UNPACK_WITH_CALL
-	CALL_FINALLY                             library/dis.html#opcode-CALL_FINALLY
 	CALL_FUNCTION                            library/dis.html#opcode-CALL_FUNCTION
 	CALL_FUNCTION_EX                         library/dis.html#opcode-CALL_FUNCTION_EX
 	CALL_FUNCTION_KW                         library/dis.html#opcode-CALL_FUNCTION_KW
 	CALL_METHOD                              library/dis.html#opcode-CALL_METHOD
 	COMPARE_OP                               library/dis.html#opcode-COMPARE_OP
+	CONTAINS_OP                              library/dis.html#opcode-CONTAINS_OP
 	DELETE_ATTR                              library/dis.html#opcode-DELETE_ATTR
 	DELETE_DEREF                             library/dis.html#opcode-DELETE_DEREF
 	DELETE_FAST                              library/dis.html#opcode-DELETE_FAST
 	DELETE_GLOBAL                            library/dis.html#opcode-DELETE_GLOBAL
 	DELETE_NAME                              library/dis.html#opcode-DELETE_NAME
 	DELETE_SUBSCR                            library/dis.html#opcode-DELETE_SUBSCR
+	DICT_MERGE                               library/dis.html#opcode-DICT_MERGE
+	DICT_UPDATE                              library/dis.html#opcode-DICT_UPDATE
 	DUP_TOP                                  library/dis.html#opcode-DUP_TOP
 	DUP_TOP_TWO                              library/dis.html#opcode-DUP_TOP_TWO
 	END_ASYNC_FOR                            library/dis.html#opcode-END_ASYNC_FOR
-	END_FINALLY                              library/dis.html#opcode-END_FINALLY
 	EXTENDED_ARG                             library/dis.html#opcode-EXTENDED_ARG
 	FORMAT_VALUE                             library/dis.html#opcode-FORMAT_VALUE
 	FOR_ITER                                 library/dis.html#opcode-FOR_ITER
@@ -12465,11 +12760,16 @@ std:opcode
 	INPLACE_SUBTRACT                         library/dis.html#opcode-INPLACE_SUBTRACT
 	INPLACE_TRUE_DIVIDE                      library/dis.html#opcode-INPLACE_TRUE_DIVIDE
 	INPLACE_XOR                              library/dis.html#opcode-INPLACE_XOR
+	IS_OP                                    library/dis.html#opcode-IS_OP
 	JUMP_ABSOLUTE                            library/dis.html#opcode-JUMP_ABSOLUTE
 	JUMP_FORWARD                             library/dis.html#opcode-JUMP_FORWARD
 	JUMP_IF_FALSE_OR_POP                     library/dis.html#opcode-JUMP_IF_FALSE_OR_POP
+	JUMP_IF_NOT_EXC_MATCH                    library/dis.html#opcode-JUMP_IF_NOT_EXC_MATCH
 	JUMP_IF_TRUE_OR_POP                      library/dis.html#opcode-JUMP_IF_TRUE_OR_POP
 	LIST_APPEND                              library/dis.html#opcode-LIST_APPEND
+	LIST_EXTEND                              library/dis.html#opcode-LIST_EXTEND
+	LIST_TO_TUPLE                            library/dis.html#opcode-LIST_TO_TUPLE
+	LOAD_ASSERTION_ERROR                     library/dis.html#opcode-LOAD_ASSERTION_ERROR
 	LOAD_ATTR                                library/dis.html#opcode-LOAD_ATTR
 	LOAD_BUILD_CLASS                         library/dis.html#opcode-LOAD_BUILD_CLASS
 	LOAD_CLASSDEREF                          library/dis.html#opcode-LOAD_CLASSDEREF
@@ -12485,12 +12785,12 @@ std:opcode
 	NOP                                      library/dis.html#opcode-NOP
 	POP_BLOCK                                library/dis.html#opcode-POP_BLOCK
 	POP_EXCEPT                               library/dis.html#opcode-POP_EXCEPT
-	POP_FINALLY                              library/dis.html#opcode-POP_FINALLY
 	POP_JUMP_IF_FALSE                        library/dis.html#opcode-POP_JUMP_IF_FALSE
 	POP_JUMP_IF_TRUE                         library/dis.html#opcode-POP_JUMP_IF_TRUE
 	POP_TOP                                  library/dis.html#opcode-POP_TOP
 	PRINT_EXPR                               library/dis.html#opcode-PRINT_EXPR
 	RAISE_VARARGS                            library/dis.html#opcode-RAISE_VARARGS
+	RERAISE                                  library/dis.html#opcode-RERAISE
 	RETURN_VALUE                             library/dis.html#opcode-RETURN_VALUE
 	ROT_FOUR                                 library/dis.html#opcode-ROT_FOUR
 	ROT_THREE                                library/dis.html#opcode-ROT_THREE
@@ -12500,6 +12800,7 @@ std:opcode
 	SETUP_FINALLY                            library/dis.html#opcode-SETUP_FINALLY
 	SETUP_WITH                               library/dis.html#opcode-SETUP_WITH
 	SET_ADD                                  library/dis.html#opcode-SET_ADD
+	SET_UPDATE                               library/dis.html#opcode-SET_UPDATE
 	STORE_ATTR                               library/dis.html#opcode-STORE_ATTR
 	STORE_DEREF                              library/dis.html#opcode-STORE_DEREF
 	STORE_FAST                               library/dis.html#opcode-STORE_FAST
@@ -12512,8 +12813,7 @@ std:opcode
 	UNARY_POSITIVE                           library/dis.html#opcode-UNARY_POSITIVE
 	UNPACK_EX                                library/dis.html#opcode-UNPACK_EX
 	UNPACK_SEQUENCE                          library/dis.html#opcode-UNPACK_SEQUENCE
-	WITH_CLEANUP_FINISH                      library/dis.html#opcode-WITH_CLEANUP_FINISH
-	WITH_CLEANUP_START                       library/dis.html#opcode-WITH_CLEANUP_START
+	WITH_EXCEPT_START                        library/dis.html#opcode-WITH_EXCEPT_START
 	YIELD_FROM                               library/dis.html#opcode-YIELD_FROM
 	YIELD_VALUE                              library/dis.html#opcode-YIELD_VALUE
 std:pdbcommand

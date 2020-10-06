@@ -363,6 +363,7 @@ py:function
 	jax.numpy.can_cast                       _autosummary/jax.numpy.can_cast.html#jax.numpy.can_cast
 	jax.numpy.cbrt                           _autosummary/jax.numpy.cbrt.html#jax.numpy.cbrt
 	jax.numpy.ceil                           _autosummary/jax.numpy.ceil.html#jax.numpy.ceil
+	jax.numpy.choose                         _autosummary/jax.numpy.choose.html#jax.numpy.choose
 	jax.numpy.clip                           _autosummary/jax.numpy.clip.html#jax.numpy.clip
 	jax.numpy.column_stack                   _autosummary/jax.numpy.column_stack.html#jax.numpy.column_stack
 	jax.numpy.compress                       _autosummary/jax.numpy.compress.html#jax.numpy.compress
@@ -451,6 +452,7 @@ py:function
 	jax.numpy.heaviside                      _autosummary/jax.numpy.heaviside.html#jax.numpy.heaviside
 	jax.numpy.histogram                      _autosummary/jax.numpy.histogram.html#jax.numpy.histogram
 	jax.numpy.histogram_bin_edges            _autosummary/jax.numpy.histogram_bin_edges.html#jax.numpy.histogram_bin_edges
+	jax.numpy.histogramdd                    _autosummary/jax.numpy.histogramdd.html#jax.numpy.histogramdd
 	jax.numpy.hsplit                         _autosummary/jax.numpy.hsplit.html#jax.numpy.hsplit
 	jax.numpy.hstack                         _autosummary/jax.numpy.hstack.html#jax.numpy.hstack
 	jax.numpy.hypot                          _autosummary/jax.numpy.hypot.html#jax.numpy.hypot
@@ -1081,6 +1083,7 @@ std:doc
 	_autosummary/jax.numpy.cdouble           jax.numpy.cdouble                       : _autosummary/jax.numpy.cdouble.html
 	_autosummary/jax.numpy.ceil              jax.numpy.ceil                          : _autosummary/jax.numpy.ceil.html
 	_autosummary/jax.numpy.character         jax.numpy.character                     : _autosummary/jax.numpy.character.html
+	_autosummary/jax.numpy.choose            jax.numpy.choose                        : _autosummary/jax.numpy.choose.html
 	_autosummary/jax.numpy.clip              jax.numpy.clip                          : _autosummary/jax.numpy.clip.html
 	_autosummary/jax.numpy.column_stack      jax.numpy.column_stack                  : _autosummary/jax.numpy.column_stack.html
 	_autosummary/jax.numpy.complex128        jax.numpy.complex128                    : _autosummary/jax.numpy.complex128.html
@@ -1182,6 +1185,7 @@ std:doc
 	_autosummary/jax.numpy.heaviside         jax.numpy.heaviside                     : _autosummary/jax.numpy.heaviside.html
 	_autosummary/jax.numpy.histogram         jax.numpy.histogram                     : _autosummary/jax.numpy.histogram.html
 	_autosummary/jax.numpy.histogram_bin_edges jax.numpy.histogram_bin_edges           : _autosummary/jax.numpy.histogram_bin_edges.html
+	_autosummary/jax.numpy.histogramdd       jax.numpy.histogramdd                   : _autosummary/jax.numpy.histogramdd.html
 	_autosummary/jax.numpy.hsplit            jax.numpy.hsplit                        : _autosummary/jax.numpy.hsplit.html
 	_autosummary/jax.numpy.hstack            jax.numpy.hstack                        : _autosummary/jax.numpy.hstack.html
 	_autosummary/jax.numpy.hypot             jax.numpy.hypot                         : _autosummary/jax.numpy.hypot.html
@@ -2173,6 +2177,9 @@ std:label
 	/_autosummary/jax.numpy.character.rst#jax-numpy-character jax.numpy.character                     : _autosummary/jax.numpy.character.html#jax-numpy-character
 	/_autosummary/jax.numpy.character.rst#jax.numpy.character jax.numpy.character                     : _autosummary/jax.numpy.character.html#jax.numpy.character
 	/_autosummary/jax.numpy.character.rst#jax.numpy.character.__init__ jax.numpy.character.__init__            : _autosummary/jax.numpy.character.html#jax.numpy.character.__init__
+	/_autosummary/jax.numpy.choose.rst       jax.numpy.choose                        : _autosummary/jax.numpy.choose.html
+	/_autosummary/jax.numpy.choose.rst#jax-numpy-choose jax.numpy.choose                        : _autosummary/jax.numpy.choose.html#jax-numpy-choose
+	/_autosummary/jax.numpy.choose.rst#jax.numpy.choose jax.numpy.choose                        : _autosummary/jax.numpy.choose.html#jax.numpy.choose
 	/_autosummary/jax.numpy.clip.rst         jax.numpy.clip                          : _autosummary/jax.numpy.clip.html
 	/_autosummary/jax.numpy.clip.rst#jax-numpy-clip jax.numpy.clip                          : _autosummary/jax.numpy.clip.html#jax-numpy-clip
 	/_autosummary/jax.numpy.clip.rst#jax.numpy.clip jax.numpy.clip                          : _autosummary/jax.numpy.clip.html#jax.numpy.clip
@@ -2488,6 +2495,9 @@ std:label
 	/_autosummary/jax.numpy.histogram_bin_edges.rst jax.numpy.histogram_bin_edges           : _autosummary/jax.numpy.histogram_bin_edges.html
 	/_autosummary/jax.numpy.histogram_bin_edges.rst#jax-numpy-histogram-bin-edges jax.numpy.histogram_bin_edges           : _autosummary/jax.numpy.histogram_bin_edges.html#jax-numpy-histogram-bin-edges
 	/_autosummary/jax.numpy.histogram_bin_edges.rst#jax.numpy.histogram_bin_edges jax.numpy.histogram_bin_edges           : _autosummary/jax.numpy.histogram_bin_edges.html#jax.numpy.histogram_bin_edges
+	/_autosummary/jax.numpy.histogramdd.rst  jax.numpy.histogramdd                   : _autosummary/jax.numpy.histogramdd.html
+	/_autosummary/jax.numpy.histogramdd.rst#jax-numpy-histogramdd jax.numpy.histogramdd                   : _autosummary/jax.numpy.histogramdd.html#jax-numpy-histogramdd
+	/_autosummary/jax.numpy.histogramdd.rst#jax.numpy.histogramdd jax.numpy.histogramdd                   : _autosummary/jax.numpy.histogramdd.html#jax.numpy.histogramdd
 	/_autosummary/jax.numpy.hsplit.rst       jax.numpy.hsplit                        : _autosummary/jax.numpy.hsplit.html
 	/_autosummary/jax.numpy.hsplit.rst#jax-numpy-hsplit jax.numpy.hsplit                        : _autosummary/jax.numpy.hsplit.html#jax-numpy-hsplit
 	/_autosummary/jax.numpy.hsplit.rst#jax.numpy.hsplit jax.numpy.hsplit                        : _autosummary/jax.numpy.hsplit.html#jax.numpy.hsplit
@@ -3421,6 +3431,7 @@ std:label
 	/changelog.rst#jax-0-1-76-september-8-2020 jax 0.1.76 (September 8, 2020)          : CHANGELOG.html#jax-0-1-76-september-8-2020
 	/changelog.rst#jax-0-1-77-september-15-2020 jax (0.1.77) (September 15 2020)        : CHANGELOG.html#jax-0-1-77-september-15-2020
 	/changelog.rst#jax-0-2-0-september-23-2020 jax (0.2.0) (September 23 2020)         : CHANGELOG.html#jax-0-2-0-september-23-2020
+	/changelog.rst#jax-0-2-1-not-yet-released jax 0.2.1 (not yet released)            : CHANGELOG.html#jax-0-2-1-not-yet-released
 	/changelog.rst#jaxlib-0-1-38-january-29-2020 jaxlib 0.1.38 (January 29, 2020)        : CHANGELOG.html#jaxlib-0-1-38-january-29-2020
 	/changelog.rst#jaxlib-0-1-39-february-11-2020 jaxlib 0.1.39 (February 11, 2020)       : CHANGELOG.html#jaxlib-0-1-39-february-11-2020
 	/changelog.rst#jaxlib-0-1-40-march-4-2020 jaxlib 0.1.40 (March 4, 2020)           : CHANGELOG.html#jaxlib-0-1-40-march-4-2020
@@ -3478,6 +3489,7 @@ std:label
 	/jax.experimental.host_callback.rst#jax.experimental.host_callback.id_tap jax.experimental.host_callback.id_tap   : jax.experimental.host_callback.html#jax.experimental.host_callback.id_tap
 	/jax.experimental.host_callback.rst#jax.experimental.host_callback.outfeed_receiver jax.experimental.host_callback.outfeed_receiver: jax.experimental.host_callback.html#jax.experimental.host_callback.outfeed_receiver
 	/jax.experimental.host_callback.rst#jax.experimental.host_callback.tapfunctionexception jax.experimental.host_callback.TapFunctionException: jax.experimental.host_callback.html#jax.experimental.host_callback.TapFunctionException
+	/jax.experimental.host_callback.rst#low-level-details-and-debugging Low-level details and debugging         : jax.experimental.host_callback.html#low-level-details-and-debugging
 	/jax.experimental.host_callback.rst#module-jax.experimental.host_callback jax.experimental.host_callback module   : jax.experimental.host_callback.html#module-jax.experimental.host_callback
 	/jax.experimental.loops.rst              jax.experimental.loops module           : jax.experimental.loops.html
 	/jax.experimental.loops.rst#jax.experimental.loops.scope jax.experimental.loops.Scope            : jax.experimental.loops.html#jax.experimental.loops.Scope
