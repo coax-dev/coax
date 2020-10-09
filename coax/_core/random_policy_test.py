@@ -54,7 +54,7 @@ class TestRandomPolicy(TestCase):
         del self.env
 
     def test_call(self):
-        pi = RandomPolicy(self.env.action_space)
+        pi = RandomPolicy(self.env)
         s = self.env.reset()
         for t in range(self.env.spec.max_episode_steps):
             a = pi(s)
@@ -63,7 +63,7 @@ class TestRandomPolicy(TestCase):
                 break
 
     def test_greedy(self):
-        pi = RandomPolicy(self.env.action_space)
+        pi = RandomPolicy(self.env)
         s = self.env.reset()
         for t in range(self.env.spec.max_episode_steps):
             a = pi.mode(s)
@@ -72,7 +72,7 @@ class TestRandomPolicy(TestCase):
                 break
 
     def test_dist_params(self):
-        pi = RandomPolicy(self.env.action_space)
+        pi = RandomPolicy(self.env)
         s = self.env.observation_space.sample()
         dist_params = pi.dist_params(s)
         print(onp.exp(dist_params['logits']))

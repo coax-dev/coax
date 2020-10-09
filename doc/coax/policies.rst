@@ -60,12 +60,12 @@ Random policy
 
 Before we discuss value-based policies and parametrized policies, let's discuss the simplest
 possible policy first, namely :class:`coax.RandomPolicy`. This policy doesn't require any function
-approximator. It simply calls ``action_space.sample()``. This policy may be useful for creating
-simple benchmarks.
+approximator. It simply calls :code:`env.action_space.sample()`. This policy may be useful for
+creating simple benchmarks.
 
 .. code:: python
 
-    pi = coax.RandomPolicy(env.action_space)
+    pi = coax.RandomPolicy(env)
 
 
 Value-based policies

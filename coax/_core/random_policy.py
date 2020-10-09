@@ -39,19 +39,19 @@ class RandomPolicy:
 
     Parameters
     ----------
-    action_space : gym.Space
+    env : gym.Env
 
-        The action space to sample from.
+        The gym-style environment. This is only used to get the :code:`env.action_space`.
 
     random_seed : int, optional
 
         Sets the random state to get reproducible results.
 
     """
-    def __init__(self, action_space, random_seed=None):
-        if not isinstance(action_space, gym.Space):
-            raise TypeError()
-        self.action_space = action_space
+    def __init__(self, env, random_seed=None):
+        if not isinstance(env.action_space, gym.Space):
+            raise TypeError(f"env.action_space must be a gym.Space, got: {type(env.action_space)}")
+        self.action_space = env.action_space
         self.action_space.seed(random_seed)
         self.random_seed = random_seed
 
