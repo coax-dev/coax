@@ -92,7 +92,7 @@ e.g.
 Parametrized policies
 ---------------------
 
-Now that we've discussed the value-based policies, let's start our discussion of parametrized
+Now that we've discussed value-based policies, let's start our discussion of parametrized
 (learnable) policies. We provide three examples:
 
 1. :ref:`Discrete actions <discrete>` (categorical dist)
@@ -156,9 +156,9 @@ If something goes wrong and you'd like to debug the forward-pass function, here'
 .. code:: python
 
     rngs = hk.PRNGSequence(42)
-    func = hk.transform_with_state(func)
-    params, function_state = func.init(next(rngs), *data.inputs)
-    output, function_state = func.apply(params, function_state, next(rngs), *data.inputs)
+    transformed = hk.transform_with_state(func)
+    params, function_state = transformed.init(next(rngs), *data.inputs.args)
+    output, function_state = transformed.apply(params, function_state, next(rngs), *data.inputs.args)
 
 
 .. _continuous:

@@ -109,7 +109,7 @@ class Policy(BaseStochasticFuncType2):
     def mean(self, s):
         r"""
 
-        Get the mean of the distribution :math:`\pi_\theta(.|s)}`.
+        Get the mean of the distribution :math:`\pi_\theta(.|s)`.
 
         Note that if the actions are discrete, this returns the :attr:`mode` instead.
 

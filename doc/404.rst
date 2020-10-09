@@ -3,5 +3,5 @@
 404: Page not found
 ===================
 
-Go back to the main page :doc:`here </index>`.
+Go back to the main page `here <https://coax.readthedocs.io>`_.
 

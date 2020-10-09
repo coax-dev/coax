@@ -144,9 +144,9 @@ the constructor runs under the hood:
 .. code:: python
 
     rngs = hk.PRNGSequence(42)
-    func = hk.transform_with_state(func_type2)
-    params, function_state = func.init(next(rngs), *data.type2.inputs)
-    output, function_state = func.apply(params, function_state, next(rngs), *data.type2.inputs)
+    transformed = hk.transform_with_state(func_type2)
+    params, function_state = transformed.init(next(rngs), *data.type2.inputs.args)
+    output, function_state = transformed.apply(params, function_state, next(rngs), *data.type2.inputs.args)
 
 
 

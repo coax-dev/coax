@@ -116,7 +116,7 @@ class BaseValueBasedPolicy(StochasticFuncType2Mixin):
     def mean(self, s):
         r"""
 
-        Get the mean of the distribution :math:`\pi_\theta(.|s)}`.
+        Get the mean of the distribution :math:`\pi_q(.|s)`.
 
         Note that if the actions are discrete, this returns the :attr:`mode` instead.
 
@@ -212,11 +212,11 @@ class EpsilonGreedy(BaseValueBasedPolicy):
 
             A_greedy = (Q_s == Q_s.max(axis=1, keepdims=True)).astype(Q_s.dtype)
             A_greedy /= A_greedy.sum(axis=1, keepdims=True)  # there may be multiple max's (ties)
-            A_greedy *= 1 - params['epsilon']
-            A_greedy += params['epsilon'] / self.q.action_space.n
+            A_greedy *= 1 - params['epsilon']                # take away ε from greedy action(s)
+            A_greedy += params['epsilon'] / self.q.action_space.n  # spread ε evenly to all actions
 
             dist_params = {'logits': jnp.log(A_greedy + 1e-15)}
-            return dist_params, None  # return dummy state
+            return dist_params, None  # return dummy function-state
 
         self._function = jax.jit(func, static_argnums=(4,))
 
@@ -275,7 +275,7 @@ class BoltzmannPolicy(BaseValueBasedPolicy):
         def func(params, state, rng, S, is_training):
             Q_s = self._Q_s(params, state, rng, S)
             dist_params = {'logits': Q_s / params['temperature']}
-            return dist_params, None  # return dummy state
+            return dist_params, None  # return dummy function-state
 
         self._function = jax.jit(func, static_argnums=(4,))
 
