@@ -53,13 +53,11 @@ class SuccessorStateQ:
 
     p : TransitionModel or StochasticTransitionModel
 
-        A dynamics model :math:`p(s'|s,a)`. This may also be a ordinary function with the signature:
-        :code:`(Observation, Action) -> Observation`.
+        A transition model.
 
     r : RewardFunction or StochasticRewardFunction
 
-        A reward function :math:`r(s,a)`. This may also be a ordinary function with the signature:
-        :code:`(Observation, Action) -> float`.
+        A reward function.
 
     gamma : float between 0 and 1, optional
 
