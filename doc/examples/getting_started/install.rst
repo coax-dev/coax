@@ -3,10 +3,11 @@
 Install
 =======
 
-Even though ``coax`` requires the ``jax``, it doesn't have an explicit dependence on it. The reason
-is that your version of ``jax`` and ``jaxlib`` will depend on your CUDA version.
+Coax is built on top of JAX, but it doesn't have an explicit dependence on the ``jax``
+python package. The reason is that your version of ``jaxlib`` will depend on your CUDA version.
 
-Please select the configuration that applies to your setup.
+To install ``coax`` and ``jax`` together, please select the configuration that applies to your
+setup.
 
 ----
 
