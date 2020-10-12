@@ -7,13 +7,6 @@ coax
 Plug-n-Play Reinforcement Learning in Python with `OpenAI Gym <https://gym.openai.com>`_ and
 `JAX <https://jax.readthedocs.io>`_
 
-
-|cartpole|
-
-
-Documentation
--------------
-
 |readthedocs|
 
 For the full documentation, including many examples, go to https://coax.readthedocs.io/
@@ -62,11 +55,7 @@ comments.
 
 ....................................................................................................
 
-.. |cartpole| image:: https://raw.githubusercontent.com/microsoft/coax/main/doc/_static/img/cartpole.gif
-    :target: https://coax.readthedocs.io/
-    :alt: cartpole gif
-
-.. |readthedocs| image:: https://raw.githubusercontent.com/microsoft/coax/main/doc/_static/img/readthedocs.png
+.. |readthedocs| image:: https://raw.githubusercontent.com/microsoft/coax/main/doc/_static/img/readthedocs.gif
     :target: https://coax.readthedocs.io/
     :width: 400
     :alt: readthedocs
