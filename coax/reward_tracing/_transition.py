@@ -233,6 +233,9 @@ class TransitionBatch(BaseTransition):
             **Note:** The iterator walks through the individual transitions *in reverse order*.
 
         """
+        if self.batch_size == 1:
+            return (self,)
+
         def lookup(i, pytree):
             s = slice(i, i + 1)  # ndim-preserving lookup
             return jax.tree_map(lambda leaf: leaf[s], pytree)
