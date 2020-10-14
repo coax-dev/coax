@@ -29,6 +29,7 @@ Replay <https://arxiv.org/abs/1511.05952>`_.
 
 import pytest
 import numpy as onp
+import pandas as pd
 
 from ._segment_tree import SumTree, MinTree
 
@@ -119,3 +120,59 @@ def test_partial_reduce_array_min(min_tree):
     i, j = onp.array([1, 6, 0]), onp.array([8, 7, 5])
     expected = onp.vectorize(lambda i, j: min_tree.array[i:j].min())
     onp.testing.assert_allclose(min_tree.partial_reduce(i, j), expected(i, j))
+
+
+@pytest.mark.parametrize('s', [slice(0, 1), [0, -1], slice(6, 9), slice(None), 0, 10, -1])
+def test_inverse_cdf(s):
+    tr = SumTree(capacity=8)
+    tr.array = onp.array([13, 7, 11, 17, 19, 5, 3, 23])
+
+    df = pd.DataFrame(
+        columns=['uniform', 'idx', 'value'],
+        data=onp.array([
+            [0, 0, 13],
+            [5, 0, 13],
+            [12, 0, 13],
+            [13, 1, 7],
+            [14, 1, 7],
+            [19, 1, 7],
+            [20, 2, 11],
+            [25, 2, 11],
+            [30, 2, 11],
+            [31, 3, 17],
+            [40, 3, 17],
+            [47, 3, 17],
+            [48, 4, 19],
+            [50, 4, 19],
+            [66, 4, 19],
+            [67, 5, 5],
+            [70, 5, 5],
+            [71, 5, 5],
+            [72, 6, 3],
+            [73, 6, 3],
+            [74, 6, 3],
+            [75, 7, 23],
+            [80, 7, 23],
+            [97, 7, 23],
+            [98, 7, 23],
+        ]))
+    df['uniform'] /= df['uniform'].max()  # normalize to unit interval [0, 1]
+
+    actual = tr.inverse_cdf(df['uniform'].values[s])
+    expected = df['idx'].values[s]
+
+    onp.testing.assert_allclose(actual, expected)
+
+
+def test_sample_distribution():
+    tr = SumTree(capacity=8, random_seed=13)
+    tr.array = onp.array([13, 7, 11, 17, 19, 5, 3, 23])
+
+    # this also demonstrates how fast the batched implementation is
+    idx = tr.sample(n=1000000)
+
+    empirical = pd.Series(idx).value_counts(normalize=True).sort_index()
+    expected = pd.Series(tr.array / tr.array.sum())
+
+    print(pd.concat((empirical.rename('empirical'), expected.rename('expected')), axis=1))
+    onp.testing.assert_allclose(empirical, expected, rtol=1e-2)

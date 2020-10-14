@@ -26,33 +26,34 @@ __all__ = (
     'SegmentTree',
     'SumTree',
     'MinTree',
+    'MaxTree',
 )
 
 
 class SegmentTree:
+    r"""
+
+    A `segment tree <https://en.wikipedia.org/wiki/Segment_tree>`_ data structure that allows
+    for batched updating and batched partial-range (segment) reductions.
+
+    Parameters
+    ----------
+    capacity : positive int
+
+        Number of values to accommodate.
+
+    reducer : function
+
+        The reducer function: :code:`(float, float) -> float`.
+
+    init_value : float
+
+        The unit element relative to the reducer function. Some typical examples are: 0 if reducer
+        is :data:`add <numpy.add>`, 1 for :data:`multiply <numpy.multiply>`, :math:`-\infty` for
+        :data:`maximum <numpy.maximum>`, :math:`\infty` for :data:`minimum <numpy.minimum>`.
+
+    """
     def __init__(self, capacity, reducer, init_value):
-        r"""
-
-        A `segment tree <https://en.wikipedia.org/wiki/Segment_tree>`_ data structure that allows
-        for batched sampling and updating.
-
-        Parameters
-        ----------
-        capacity : positive int
-
-            Number of values to accommodate.
-
-        reducer : function
-
-            The reducer function :math:`f: (float, float) \to float`.
-
-        init_value : float
-
-            The unit element relative to the reducer function. Some typical examples are: 0 if
-            reducer is :func:`operator.add`, 1 for :func:`operator.mul`, :math:`-\infty` for
-            :func:`max`, :math:`\infty` for :func:`min`.
-
-        """
         self.capacity = capacity
         self.reducer = reducer
         self.init_value = float(init_value)
@@ -61,10 +62,12 @@ class SegmentTree:
 
     @property
     def root_value(self):
+        r""" The aggregated value across the entire :attr:`array`. """
         return self._arr[0]
 
     @property
     def array(self):
+        r""" The values, which is a 1d array of floats. """
         return self[...]
 
     @array.setter
@@ -93,7 +96,7 @@ class SegmentTree:
     def partial_reduce(self, start=0, stop=None):
         r"""
 
-        Reduce values over a partial range of indices.
+        Reduce values over a partial range of indices: :math:`[\text{start}, \text{stop})`.
 
         Parameters
         ----------
@@ -103,7 +106,7 @@ class SegmentTree:
 
         stop : int or array of ints, optional
 
-            The lower bound of the range (exclusive). If left unpsecified, this defaults to
+            The lower bound of the range (exclusive). If left unspecified, this defaults to
             :attr:`depth`.
 
         Returns
@@ -112,9 +115,11 @@ class SegmentTree:
 
             The result of the partial reduction.
 
-
         """
-        # i and j are 1d arrays
+        # NOTE: This is an iterative implementation, which is a lot uglier than a recursive one.
+        # The reason why we use an iterative approach is that it's easier for batch-processing.
+
+        # i and j are 1d arrays (indices for self._arr)
         i, j = self._check_start_stop_to_i_j(start, stop)
 
         # trivial case
@@ -225,10 +230,163 @@ class SegmentTree:
 
 
 class SumTree(SegmentTree):
-    def __init__(self, capacity):
+    r"""
+
+    A sum-tree data structure that allows for batched updating and batched weighted sampling.
+
+    Both update and sampling operations have a time complexity of :math:`\mathcal{O}(\log N)` and a
+    memory footprint of :math:`\mathcal{O}(N)`, where :math:`N` is the length of the underlying
+    :attr:`array`.
+
+    Parameters
+    ----------
+    capacity : positive int
+
+        Number of values to accommodate.
+
+    reducer : function
+
+        The reducer function: :code:`(float, float) -> float`.
+
+    init_value : float
+
+        The unit element relative to the reducer function. Some typical examples are: 0 if
+        reducer is :func:`operator.add`, 1 for :func:`operator.mul`, :math:`-\infty` for
+        :func:`max`, :math:`\infty` for :func:`min`.
+
+    """
+    def __init__(self, capacity, random_seed=None):
         super().__init__(capacity=capacity, reducer=onp.add, init_value=0)
+        self.random_seed = random_seed
+
+    @property
+    def random_seed(self):
+        return self._random_seed
+
+    @random_seed.setter
+    def random_seed(self, new_random_seed):
+        self._rnd = onp.random.RandomState(new_random_seed)
+        self._random_seed = new_random_seed
+
+    def sample(self, n):
+        r"""
+
+        Sample array indices using weighted sampling, where the sample weights are proprotional to
+        the values stored in :attr:`array`.
+
+        Parameters
+        ----------
+        n : positive int
+
+            The number of samples to return.
+
+        Returns
+        -------
+        idx : array of ints
+
+            The sampled indices, shape: (n,)
+
+        """
+        if not (isinstance(n, int) and n > 0):
+            raise TypeError("n must be a positive integer")
+
+        return self.inverse_cdf(self._rnd.rand(n))
+
+    def inverse_cdf(self, u):
+        r"""
+
+        Inverse of the cumulative distribution function (CDF) of the categorical distribution
+        :math:`\text{Cat}(p)`, where :math:`p` are the normalized values :math:`p_i=`
+        :attr:`array[i] / sum(array) <array>`.
+
+        This function provides the machinery for the :attr:`sample` method.
+
+        Parameters
+        ----------
+        u : float or 1d array of floats
+
+            One of more numbers :math:`u\in[0,1]`. These are typically sampled from
+            :math:`\text{Unif([0, 1])}`.
+
+        Returns
+        -------
+        idx : array of ints
+
+            The indices associated with :math:`u`, shape: (n,)
+
+        """
+        # NOTE: This is an iterative implementation, which is a lot uglier than a recursive one.
+        # The reason why we use an iterative approach is that it's easier for batch-processing.
+
+        # init (will be updated in loop)
+        u, isscalar = self._check_u(u)
+        values = u * self.root_value
+        idx = onp.zeros_like(values, dtype='int32')  # this is ultimately what we'll returned
+        level_offset_parent = 0                      # number of nodes in levels above parent
+
+        # iterate down, from the root to the leaves
+        for level in range(1, self.depth):
+
+            # get child indices
+            level_offset = 2 ** level - 1
+            left_child_idx = (idx - level_offset_parent) * 2 + level_offset
+            right_child_idx = left_child_idx + 1
+
+            # update (idx, values, level_offset_parent)
+            left_child_values = self._arr[left_child_idx]
+            pick_left_child = left_child_values > values
+            idx = onp.where(pick_left_child, left_child_idx, right_child_idx)
+            values = onp.where(pick_left_child, values, values - left_child_values)
+            level_offset_parent = level_offset
+
+        idx = idx - level_offset_parent
+        return idx[0] if isscalar else idx
+
+    def _check_u(self, u):
+        """ some boilerplate to check validity of 'u' array """
+        isscalar = False
+        if isinstance(u, (float, int)):
+            u = onp.array([u], dtype='float')
+            isscalar = True
+        if isinstance(u, list) and all(isinstance(x, (float, int)) for x in u):
+            u = onp.asarray(u, dtype='float')
+        if not (isinstance(u, onp.ndarray)
+                and u.ndim == 1 and onp.issubdtype(u.dtype, onp.floating)):
+            raise TypeError("'u' must be a float or a 1d array of floats")
+        if onp.any(u > 1) or onp.any(u < 0):
+            raise ValueError("all values in 'u' must lie in the unit interval [0, 1]")
+        return u, isscalar
 
 
 class MinTree(SegmentTree):
+    r"""
+
+    A min-tree data structure, which is a :class:`SegmentTree` whose reducer is :data:`minimum
+    <numpy.minimum>`.
+
+    Parameters
+    ----------
+    capacity : positive int
+
+        Number of values to accommodate.
+
+    """
     def __init__(self, capacity):
         super().__init__(capacity=capacity, reducer=onp.minimum, init_value=float('inf'))
+
+
+class MaxTree(SegmentTree):
+    r"""
+
+    A max-tree data structure, which is a :class:`SegmentTree` whose reducer is :data:`maximum
+    <numpy.maximum>`.
+
+    Parameters
+    ----------
+    capacity : positive int
+
+        Number of values to accommodate.
+
+    """
+    def __init__(self, capacity):
+        super().__init__(capacity=capacity, reducer=onp.maximum, init_value=-float('inf'))
