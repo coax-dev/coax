@@ -70,6 +70,7 @@ class SimpleReplayBuffer:
     def __init__(self, capacity, random_seed=None):
         self.capacity = int(capacity)
         random.seed(random_seed)
+        self._random_state = random.getstate()
         self.clear()
 
     def add(self, transition_batch):
@@ -105,7 +106,11 @@ class SimpleReplayBuffer:
         def concatenate_leaves(pytrees):
             return jax.tree_multimap(lambda *leaves: onp.concatenate(leaves, axis=0), *pytrees)
 
+        # sandwich sample in between setstate/getstate in case global random state was tampered with
+        random.setstate(self._random_state)
         transitions = random.sample(self._deque, batch_size)
+        self._random_state = random.getstate()
+
         return TransitionBatch(
             S=concatenate_leaves(t.S for t in transitions),
             A=concatenate_leaves(t.A for t in transitions),
