@@ -43,24 +43,10 @@ class SimpleReplayBuffer:
 
     Parameters
     ----------
-    env : gym environment
-
-        The main gym environment. This is needed to extract some metadata such
-        as shapes and dtypes.
-
     capacity : positive int
 
         The capacity of the experience replay buffer. DQN typically uses
         ``capacity=1000000``.
-
-    n : positive int, optional
-
-        The number of steps over which to perform bootstrapping, i.e.
-        :math:`n`-step bootstrapping.
-
-    gamma : float between 0 and 1
-
-        Reward discount factor.
 
     random_seed : int or None
 
@@ -123,10 +109,7 @@ class SimpleReplayBuffer:
         )
 
     def clear(self):
-        r"""
-        Clear the experience replay buffer.
-
-        """
+        r""" Clear the experience replay buffer. """
         self._deque = deque(maxlen=self.capacity)
 
     def __len__(self):
