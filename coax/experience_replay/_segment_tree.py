@@ -57,35 +57,45 @@ class SegmentTree:
         self.capacity = capacity
         self.reducer = reducer
         self.init_value = float(init_value)
-        self.depth = int(onp.ceil(onp.log2(capacity))) + 1  # the +1 is for the values themselves
-        self._arr = onp.full(shape=(2 ** self.depth - 1), fill_value=self.init_value)
+        self._height = int(onp.ceil(onp.log2(capacity))) + 1  # the +1 is for the values themselves
+        self._arr = onp.full(shape=(2 ** self.height - 1), fill_value=self.init_value)
+
+    @property
+    def height(self):
+        r""" The height of the tree :math:`h\sim\log(\text{capacity})`. """
+        return self._height
 
     @property
     def root_value(self):
-        r""" The aggregated value across the entire :attr:`array`. """
+        r"""
+
+        The aggregated value, equivalent to
+        :func:`reduce(reducer, values, init_value) <functools.reduce>`.
+
+        """
         return self._arr[0]
 
     @property
-    def array(self):
-        r""" The values, which is a 1d array of floats. """
+    def values(self):
+        r""" The values stored at the leaves of the tree. """
         return self[...]
 
-    @array.setter
-    def array(self, new_values):
+    @values.setter
+    def values(self, new_values):
         self[...] = new_values
 
     def __array__(self):
-        return self.array
+        return self.values
 
     def __getitem__(self, idx):
-        idx = self._check_level_idx(self.depth - 1, idx, self.capacity)
+        idx = self._check_level_idx(self.height - 1, idx, self.capacity)
         return self._arr[idx]
 
     def __setitem__(self, idx, values):
-        idx = self._check_level_idx(self.depth - 1, idx, self.capacity)
+        idx = self._check_level_idx(self.height - 1, idx, self.capacity)
         self._arr[idx] = values                                # update leaf-node values
-        level_offset = 2 ** (self.depth - 1) - 1               # number of nodes in higher levels
-        for level in range(self.depth - 2, -1, -1):
+        level_offset = 2 ** (self.height - 1) - 1               # number of nodes in higher levels
+        for level in range(self.height - 2, -1, -1):
             level_idx = onp.unique((idx - level_offset) // 2)  # level index (without offset)
             left_child_idx = level_idx * 2 + level_offset      # indices for left children
             right_child_idx = left_child_idx + 1               # indices for right children
@@ -96,7 +106,8 @@ class SegmentTree:
     def partial_reduce(self, start=0, stop=None):
         r"""
 
-        Reduce values over a partial range of indices: :math:`[\text{start}, \text{stop})`.
+        Reduce values over a partial range of indices. This is an efficient, batched implementation
+        of :func:`reduce(reducer, values[state:stop], init_value) <functools.reduce>`.
 
         Parameters
         ----------
@@ -107,7 +118,7 @@ class SegmentTree:
         stop : int or array of ints, optional
 
             The lower bound of the range (exclusive). If left unspecified, this defaults to
-            :attr:`depth`.
+            :attr:`height`.
 
         Returns
         -------
@@ -131,10 +142,10 @@ class SegmentTree:
         a, b = self._arr[i], onp.where(done, self.init_value, self._arr[j])
 
         # number of nodes in higher levels
-        level_offset = 2 ** (self.depth - 1) - 1
+        level_offset = 2 ** (self.height - 1) - 1
 
         # we start from the leaves and work up towards the root
-        for level in range(self.depth - 2, -1, -1):
+        for level in range(self.height - 2, -1, -1):
 
             # get parent indices
             level_offset_parent = 2 ** level - 1
@@ -159,15 +170,15 @@ class SegmentTree:
 
     def __repr__(self):
         s = ""
-        for level in range(self.depth):
+        for level in range(self.height):
             idx = self._check_level_idx(level, ...)
             s += f"\n  level={level} : {repr(self._arr[idx])}"
         return f"{type(self).__name__}({s})"
 
     def _check_level(self, level):
-        if level < -self.depth or level >= self.depth:
-            raise IndexError(f"tree level index {level} out of range; tree depth: {self.depth}")
-        return level % self.depth
+        if level < -self.height or level >= self.height:
+            raise IndexError(f"tree level index {level} out of range; tree height: {self.height}")
+        return level % self.height
 
     def _check_level_idx(self, level, idx, level_size=None):
         """ some boilerplate to transform an index relative to a tree level into a global index """
@@ -219,8 +230,8 @@ class SegmentTree:
             raise ValueError(
                 f"shapes must be equal, got: start.shape: {start.shape}, stop.shape: {stop.shape}")
 
-        i = self._check_level_idx(self.depth - 1, start, self.capacity)
-        j = self._check_level_idx(self.depth - 1, stop - 1, self.capacity)
+        i = self._check_level_idx(self.height - 1, start, self.capacity)
+        j = self._check_level_idx(self.height - 1, stop - 1, self.capacity)
 
         if not onp.all(i <= j):
             raise IndexError(
@@ -236,7 +247,7 @@ class SumTree(SegmentTree):
 
     Both update and sampling operations have a time complexity of :math:`\mathcal{O}(\log N)` and a
     memory footprint of :math:`\mathcal{O}(N)`, where :math:`N` is the length of the underlying
-    :attr:`array`.
+    :attr:`values`.
 
     Parameters
     ----------
@@ -272,7 +283,7 @@ class SumTree(SegmentTree):
         r"""
 
         Sample array indices using weighted sampling, where the sample weights are proprotional to
-        the values stored in :attr:`array`.
+        the values stored in :attr:`values`.
 
         Parameters
         ----------
@@ -297,7 +308,7 @@ class SumTree(SegmentTree):
 
         Inverse of the cumulative distribution function (CDF) of the categorical distribution
         :math:`\text{Cat}(p)`, where :math:`p` are the normalized values :math:`p_i=`
-        :attr:`array[i] / sum(array) <array>`.
+        :attr:`values[i] / sum(values) <values>`.
 
         This function provides the machinery for the :attr:`sample` method.
 
@@ -325,7 +336,7 @@ class SumTree(SegmentTree):
         level_offset_parent = 0                      # number of nodes in levels above parent
 
         # iterate down, from the root to the leaves
-        for level in range(1, self.depth):
+        for level in range(1, self.height):
 
             # get child indices
             level_offset = 2 ** level - 1

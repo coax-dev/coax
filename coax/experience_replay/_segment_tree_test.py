@@ -42,51 +42,51 @@ def sum_tree():
 @pytest.fixture
 def min_tree():
     tr = MinTree(capacity=8)
-    tr.array = onp.array([13, 7, 11, 17, 19, 5, 3, 23])
+    tr.values = onp.array([13, 7, 11, 17, 19, 5, 3, 23])
     return tr
 
 
 def test_sum_tree_basic(sum_tree):
-    assert sum_tree.array.shape == (14,)
+    assert sum_tree.values.shape == (14,)
     assert sum_tree.depth == 5
-    assert sum_tree.array.sum() == sum_tree.root_value == 0
+    assert sum_tree.values.sum() == sum_tree.root_value == 0
 
 
 def test_min_tree_basic(min_tree):
-    assert min_tree.array.shape == (8,)
+    assert min_tree.values.shape == (8,)
     assert min_tree.depth == 4
-    assert min_tree.array.min() == min_tree.root_value == 3
+    assert min_tree.values.min() == min_tree.root_value == 3
 
 
 def test_set_values_emptyslice(sum_tree):
     values = onp.arange(1, 15)
     sum_tree[:] = values
-    assert sum_tree.array.sum() == sum_tree.root_value == values.sum() > 0
+    assert sum_tree.values.sum() == sum_tree.root_value == values.sum() > 0
 
 
 def test_set_values_none(sum_tree):
     values = onp.arange(1, 15)
     sum_tree[None] = values
-    assert sum_tree.array.sum() == sum_tree.root_value == values.sum() > 0
+    assert sum_tree.values.sum() == sum_tree.root_value == values.sum() > 0
 
 
 def test_set_values_ellipsis(sum_tree):
     values = onp.arange(1, 15)
     sum_tree[...] = values
-    assert sum_tree.array.sum() == sum_tree.root_value == values.sum() > 0
+    assert sum_tree.values.sum() == sum_tree.root_value == values.sum() > 0
 
 
-def test_set_values_array(sum_tree):
+def test_set_values_valueattr(sum_tree):
     values = onp.arange(1, 15)
-    sum_tree.array = values
-    assert sum_tree.array.sum() == sum_tree.root_value == values.sum() > 0
+    sum_tree.values = values
+    assert sum_tree.values.sum() == sum_tree.root_value == values.sum() > 0
 
 
 def test_set_values_with_idx(sum_tree):
     idx = onp.array([2, 6, 5, 12, 13])
     values = onp.array([7., 13., 11., 17., 5.])
     sum_tree[idx] = values
-    assert sum_tree.array.sum() == sum_tree.root_value == values.sum() > 0
+    assert sum_tree.values.sum() == sum_tree.root_value == values.sum() > 0
 
 
 def test_partial_reduce_empty_range(sum_tree):
@@ -97,35 +97,35 @@ def test_partial_reduce_empty_range(sum_tree):
 
 def test_partial_reduce_all(sum_tree):
     values = onp.arange(1, 15)
-    sum_tree.array = values
-    assert sum_tree.partial_reduce() == sum_tree.array.sum() == sum_tree.root_value == values.sum()
+    sum_tree.values = values
+    assert sum_tree.partial_reduce() == sum_tree.values.sum() == sum_tree.root_value == values.sum()
 
 
 @pytest.mark.parametrize('i,j', [(1, 2), (13, 14), (3, 8), (0, None), (0, 3), (7, None)])
 def test_partial_reduce(sum_tree, i, j):
     values = onp.arange(100, 114)
-    sum_tree.array = values
-    assert sum_tree.partial_reduce(i, j) == sum_tree.array[i:j].sum() == values[i:j].sum() > 0
+    sum_tree.values = values
+    assert sum_tree.partial_reduce(i, j) == sum_tree.values[i:j].sum() == values[i:j].sum() > 0
 
 
 def test_partial_reduce_array_sum(sum_tree):
     i, j = onp.array([0, 8, 3, 0, 0]), onp.array([1, 13, 14, 5, -1])
     values = onp.arange(100, 114)
-    sum_tree.array = values
+    sum_tree.values = values
     expected = onp.vectorize(lambda i, j: values[i:j].sum())
     onp.testing.assert_allclose(sum_tree.partial_reduce(i, j), expected(i, j))
 
 
 def test_partial_reduce_array_min(min_tree):
     i, j = onp.array([1, 6, 0]), onp.array([8, 7, 5])
-    expected = onp.vectorize(lambda i, j: min_tree.array[i:j].min())
+    expected = onp.vectorize(lambda i, j: min_tree.values[i:j].min())
     onp.testing.assert_allclose(min_tree.partial_reduce(i, j), expected(i, j))
 
 
 @pytest.mark.parametrize('s', [slice(0, 1), [0, -1], slice(6, 9), slice(None), 0, 10, -1])
 def test_inverse_cdf(s):
     tr = SumTree(capacity=8)
-    tr.array = onp.array([13, 7, 11, 17, 19, 5, 3, 23])
+    tr.values = onp.array([13, 7, 11, 17, 19, 5, 3, 23])
 
     df = pd.DataFrame(
         columns=['uniform', 'idx', 'value'],
@@ -166,13 +166,13 @@ def test_inverse_cdf(s):
 
 def test_sample_distribution():
     tr = SumTree(capacity=8, random_seed=13)
-    tr.array = onp.array([13, 7, 11, 17, 19, 5, 3, 23])
+    tr.values = onp.array([13, 7, 11, 17, 19, 5, 3, 23])
 
     # this also demonstrates how fast the batched implementation is
     idx = tr.sample(n=1000000)
 
     empirical = pd.Series(idx).value_counts(normalize=True).sort_index()
-    expected = pd.Series(tr.array / tr.array.sum())
+    expected = pd.Series(tr.values / tr.values.sum())
 
     print(pd.concat((empirical.rename('empirical'), expected.rename('expected')), axis=1))
     onp.testing.assert_allclose(empirical, expected, rtol=1e-2)
