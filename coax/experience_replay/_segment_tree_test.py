@@ -48,13 +48,13 @@ def min_tree():
 
 def test_sum_tree_basic(sum_tree):
     assert sum_tree.values.shape == (14,)
-    assert sum_tree.depth == 5
+    assert sum_tree.height == 5
     assert sum_tree.values.sum() == sum_tree.root_value == 0
 
 
 def test_min_tree_basic(min_tree):
     assert min_tree.values.shape == (8,)
-    assert min_tree.depth == 4
+    assert min_tree.height == 4
     assert min_tree.values.min() == min_tree.root_value == 3
 
 
