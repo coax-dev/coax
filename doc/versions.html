@@ -118,7 +118,7 @@ Command to run:
 
     function updateCommand() {
         var codecellName = 'codecell0';
-        var jaxlibVersion = '0.1.55';  // this is automatically updated from conf.py
+        var jaxlibVersion = '0.1.56';  // this is automatically updated from conf.py
 
         // get the selected os version
         var osVersion = null;
@@ -151,8 +151,8 @@ Command to run:
         if (cudaVersion === 'nocuda') {
             command.innerHTML = "$ pip install --upgrade jaxlib jax coax";
         } else {
-            command.innerHTML = `$ wget https://storage.googleapis.com/jax-releases/${cudaVersion}/jaxlib-${jaxlibVersion}-${pythonVersion}-none-${osVersion}.whl
-$ pip install jaxlib-${jaxlibVersion}-${pythonVersion}-none-${osVersion}.whl
+            command.innerHTML = `$ wget https://storage.googleapis.com/jax-releases/${cudaVersion}/jaxlib-${jaxlibVersion}+${cudaVersion}-${pythonVersion}-none-${osVersion}.whl
+$ pip install jaxlib-${jaxlibVersion}+${cudaVersion}-${pythonVersion}-none-${osVersion}.whl
 $ pip install --upgrade jax coax`
         }
     }

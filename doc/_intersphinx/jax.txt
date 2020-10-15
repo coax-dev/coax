@@ -451,6 +451,7 @@ py:function
 	jax.numpy.hanning                        _autosummary/jax.numpy.hanning.html#jax.numpy.hanning
 	jax.numpy.heaviside                      _autosummary/jax.numpy.heaviside.html#jax.numpy.heaviside
 	jax.numpy.histogram                      _autosummary/jax.numpy.histogram.html#jax.numpy.histogram
+	jax.numpy.histogram2d                    _autosummary/jax.numpy.histogram2d.html#jax.numpy.histogram2d
 	jax.numpy.histogram_bin_edges            _autosummary/jax.numpy.histogram_bin_edges.html#jax.numpy.histogram_bin_edges
 	jax.numpy.histogramdd                    _autosummary/jax.numpy.histogramdd.html#jax.numpy.histogramdd
 	jax.numpy.hsplit                         _autosummary/jax.numpy.hsplit.html#jax.numpy.hsplit
@@ -1184,6 +1185,7 @@ std:doc
 	_autosummary/jax.numpy.hanning           jax.numpy.hanning                       : _autosummary/jax.numpy.hanning.html
 	_autosummary/jax.numpy.heaviside         jax.numpy.heaviside                     : _autosummary/jax.numpy.heaviside.html
 	_autosummary/jax.numpy.histogram         jax.numpy.histogram                     : _autosummary/jax.numpy.histogram.html
+	_autosummary/jax.numpy.histogram2d       jax.numpy.histogram2d                   : _autosummary/jax.numpy.histogram2d.html
 	_autosummary/jax.numpy.histogram_bin_edges jax.numpy.histogram_bin_edges           : _autosummary/jax.numpy.histogram_bin_edges.html
 	_autosummary/jax.numpy.histogramdd       jax.numpy.histogramdd                   : _autosummary/jax.numpy.histogramdd.html
 	_autosummary/jax.numpy.hsplit            jax.numpy.hsplit                        : _autosummary/jax.numpy.hsplit.html
@@ -2492,6 +2494,9 @@ std:label
 	/_autosummary/jax.numpy.histogram.rst    jax.numpy.histogram                     : _autosummary/jax.numpy.histogram.html
 	/_autosummary/jax.numpy.histogram.rst#jax-numpy-histogram jax.numpy.histogram                     : _autosummary/jax.numpy.histogram.html#jax-numpy-histogram
 	/_autosummary/jax.numpy.histogram.rst#jax.numpy.histogram jax.numpy.histogram                     : _autosummary/jax.numpy.histogram.html#jax.numpy.histogram
+	/_autosummary/jax.numpy.histogram2d.rst  jax.numpy.histogram2d                   : _autosummary/jax.numpy.histogram2d.html
+	/_autosummary/jax.numpy.histogram2d.rst#jax-numpy-histogram2d jax.numpy.histogram2d                   : _autosummary/jax.numpy.histogram2d.html#jax-numpy-histogram2d
+	/_autosummary/jax.numpy.histogram2d.rst#jax.numpy.histogram2d jax.numpy.histogram2d                   : _autosummary/jax.numpy.histogram2d.html#jax.numpy.histogram2d
 	/_autosummary/jax.numpy.histogram_bin_edges.rst jax.numpy.histogram_bin_edges           : _autosummary/jax.numpy.histogram_bin_edges.html
 	/_autosummary/jax.numpy.histogram_bin_edges.rst#jax-numpy-histogram-bin-edges jax.numpy.histogram_bin_edges           : _autosummary/jax.numpy.histogram_bin_edges.html#jax-numpy-histogram-bin-edges
 	/_autosummary/jax.numpy.histogram_bin_edges.rst#jax.numpy.histogram_bin_edges jax.numpy.histogram_bin_edges           : _autosummary/jax.numpy.histogram_bin_edges.html#jax.numpy.histogram_bin_edges
@@ -3431,7 +3436,9 @@ std:label
 	/changelog.rst#jax-0-1-76-september-8-2020 jax 0.1.76 (September 8, 2020)          : CHANGELOG.html#jax-0-1-76-september-8-2020
 	/changelog.rst#jax-0-1-77-september-15-2020 jax (0.1.77) (September 15 2020)        : CHANGELOG.html#jax-0-1-77-september-15-2020
 	/changelog.rst#jax-0-2-0-september-23-2020 jax (0.2.0) (September 23 2020)         : CHANGELOG.html#jax-0-2-0-september-23-2020
-	/changelog.rst#jax-0-2-1-not-yet-released jax 0.2.1 (not yet released)            : CHANGELOG.html#jax-0-2-1-not-yet-released
+	/changelog.rst#jax-0-2-1-october-6-2020  jax 0.2.1 (October 6 2020)              : CHANGELOG.html#jax-0-2-1-october-6-2020
+	/changelog.rst#jax-0-2-2-october-13-2020 jax 0.2.2 (October 13 2020)             : CHANGELOG.html#jax-0-2-2-october-13-2020
+	/changelog.rst#jax-0-2-3-october-14-2020 jax 0.2.3 (October 14 2020)             : CHANGELOG.html#jax-0-2-3-october-14-2020
 	/changelog.rst#jaxlib-0-1-38-january-29-2020 jaxlib 0.1.38 (January 29, 2020)        : CHANGELOG.html#jaxlib-0-1-38-january-29-2020
 	/changelog.rst#jaxlib-0-1-39-february-11-2020 jaxlib 0.1.39 (February 11, 2020)       : CHANGELOG.html#jaxlib-0-1-39-february-11-2020
 	/changelog.rst#jaxlib-0-1-40-march-4-2020 jaxlib 0.1.40 (March 4, 2020)           : CHANGELOG.html#jaxlib-0-1-40-march-4-2020

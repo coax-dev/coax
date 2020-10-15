@@ -1,4 +1,4 @@
-Pillow>=7.2.0
+Pillow>=8.0.0
 gym>=0.17.3
 numpy>=1.19.2
 scipy>=1.5.2

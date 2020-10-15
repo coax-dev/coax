@@ -133,6 +133,7 @@ py:function
 	haiku.pad.valid                          api.html#haiku.pad.valid
 	haiku.remat                              api.html#haiku.remat
 	haiku.reserve_rng_keys                   api.html#haiku.reserve_rng_keys
+	haiku.running_init                       api.html#haiku.running_init
 	haiku.scan                               api.html#haiku.scan
 	haiku.set_state                          api.html#haiku.set_state
 	haiku.static_unroll                      api.html#haiku.static_unroll

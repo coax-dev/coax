@@ -23,7 +23,7 @@ sync: intersphinx get_pylintrc
 intersphinx:
 	mkdir -p doc/_intersphinx
 	wget -O doc/_intersphinx/python3.inv https://docs.python.org/3/objects.inv
-	wget -O doc/_intersphinx/numpy.inv https://docs.scipy.org/doc/numpy/objects.inv
+	wget -O doc/_intersphinx/numpy.inv https://numpy.org/doc/stable/objects.inv
 	wget -O doc/_intersphinx/sklearn.inv https://scikit-learn.org/stable/objects.inv
 	wget -O doc/_intersphinx/jax.inv https://jax.readthedocs.io/en/latest/objects.inv
 	wget -O doc/_intersphinx/haiku.inv https://dm-haiku.readthedocs.io/en/latest/objects.inv

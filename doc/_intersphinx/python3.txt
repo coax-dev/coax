@@ -12162,12 +12162,13 @@ std:label
 	queue-listener                           QueueListener                           : library/logging.handlers.html#queue-listener
 	queueobjects                             Queue Objects                           : library/queue.html#queueobjects
 	raise                                    The raise statement                     : reference/simple_stmts.html#raise
-	random-examples                          Examples and Recipes                    : library/random.html#random-examples
+	random-examples                          Examples                                : library/random.html#random-examples
 	rawconfigparser-objects                  RawConfigParser Objects                 : library/configparser.html#rawconfigparser-objects
 	re-examples                              Regular Expression Examples             : library/re.html#re-examples
 	re-objects                               Regular Expression Objects              : library/re.html#re-objects
 	re-syntax                                Regular Expression Syntax               : library/re.html#re-syntax
 	readline-example                         Example                                 : library/readline.html#readline-example
+	real-valued-distributions                Real-valued distributions               : library/random.html#real-valued-distributions
 	record-objects                           Record Objects                          : library/msilib.html#record-objects
 	recursion                                Recursion Control                       : c-api/exceptions.html#recursion
 	reducer_override                         Custom Reduction for Types, Functions, and Other Objects: library/pickle.html#reducer-override
