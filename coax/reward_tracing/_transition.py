@@ -44,9 +44,9 @@ class BaseTransition:
         s = self.to_series()
         df = s.rename('value').to_frame()
         df['shape'] = s.map(lambda x: jax.tree_map(
-            lambda y: getattr(y, 'shape'), x))
+            lambda y: getattr(y, 'shape', ()), x))
         df['dtype'] = s.map(lambda x: jax.tree_map(
-            lambda y: getattr(y, 'dtype'), x))
+            lambda y: getattr(y, 'dtype', type(x).__name__), x))
         return df
 
     def __repr__(self):
@@ -234,7 +234,8 @@ class TransitionBatch(BaseTransition):
 
         """
         if self.batch_size == 1:
-            return (self,)
+            yield self
+            return  # break out of generator
 
         def lookup(i, pytree):
             s = slice(i, i + 1)  # ndim-preserving lookup
