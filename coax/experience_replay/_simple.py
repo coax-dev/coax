@@ -19,8 +19,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+import random
 from collections import deque
-from random import sample
 
 import jax
 import numpy as onp
@@ -66,11 +66,10 @@ class SimpleReplayBuffer:
 
         To get reproducible results.
 
-
     """
     def __init__(self, capacity, random_seed=None):
         self.capacity = int(capacity)
-        self._rnd = onp.random.RandomState(random_seed)
+        random.seed(random_seed)
         self.clear()
 
     def add(self, transition_batch):
@@ -106,7 +105,7 @@ class SimpleReplayBuffer:
         def concatenate_leaves(pytrees):
             return jax.tree_multimap(lambda *leaves: onp.concatenate(leaves, axis=0), *pytrees)
 
-        transitions = sample(self._deque, batch_size)
+        transitions = random.sample(self._deque, batch_size)
         return TransitionBatch(
             S=concatenate_leaves(t.S for t in transitions),
             A=concatenate_leaves(t.A for t in transitions),
