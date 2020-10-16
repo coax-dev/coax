@@ -239,6 +239,7 @@ class BaseTDLearningV(BaseTDLearning):
             """
             rngs = hk.PRNGSequence(rng)
             S = self.v.observation_preprocessor(next(rngs), transition_batch.S)
+            W = jnp.clip(transition_batch.W, 0.1, 10.)  # clip importance weights to reduce variance
 
             # regularization term
             if self.policy_regularizer is None:
@@ -274,18 +275,18 @@ class BaseTDLearningV(BaseTDLearning):
                 V, state_new = self.v.function(params, state, next(rngs), S, True)
                 G = self.target_func(target_params, target_state, next(rngs), transition_batch)
                 G += regularizer
-                loss = self.loss_function(G, V)
+                loss = self.loss_function(G, V, W)
 
                 # only needed for metrics dict
                 V_targ, _ = self.v.function(
                     target_params['v_targ'], target_state['v_targ'], next(rngs), S, False)
 
             dLoss_dV = jax.grad(self.loss_function, argnums=1)
-            td_error = -dLoss_dV(G, V)  # e.g. (G - V) if loss function is MSE
+            td_error = -dLoss_dV(G, V, W)  # e.g. (G - V) if loss function is MSE
             metrics = {
                 f'{self.__class__.__name__}/loss': loss,
                 f'{self.__class__.__name__}/td_error': jnp.mean(td_error),
-                f'{self.__class__.__name__}/td_error_targ': jnp.mean(-dLoss_dV(V, V_targ)),
+                f'{self.__class__.__name__}/td_error_targ': jnp.mean(-dLoss_dV(V, V_targ, W)),
             }
             return loss, (td_error, state_new, metrics)
 
@@ -381,6 +382,7 @@ class BaseTDLearningQ(BaseTDLearning):
             rngs = hk.PRNGSequence(rng)
             S = self.q.observation_preprocessor(next(rngs), transition_batch.S)
             A = self.q.action_preprocessor(next(rngs), transition_batch.A)
+            W = jnp.clip(transition_batch.W, 0.1, 10.)  # clip importance weights to reduce variance
 
             # regularization term
             if self.policy_regularizer is None:
@@ -417,18 +419,18 @@ class BaseTDLearningQ(BaseTDLearning):
                 Q, state_new = self.q.function_type1(params, state, next(rngs), S, A, True)
                 G = self.target_func(target_params, target_state, next(rngs), transition_batch)
                 G += regularizer
-                loss = self.loss_function(G, Q)
+                loss = self.loss_function(G, Q, W)
 
                 # only needed for metrics dict
                 Q_targ, _ = self.q.function_type1(
                     target_params['q_targ'], target_state['q_targ'], next(rngs), S, A, False)
 
             dLoss_dQ = jax.grad(self.loss_function, argnums=1)
-            td_error = -dLoss_dQ(G, Q)  # e.g. (G - Q) if loss function is MSE
+            td_error = -dLoss_dQ(G, Q, W)  # e.g. (G - Q) if loss function is MSE
             metrics = {
                 f'{self.__class__.__name__}/loss': loss,
                 f'{self.__class__.__name__}/td_error': jnp.mean(td_error),
-                f'{self.__class__.__name__}/td_error_targ': jnp.mean(-dLoss_dQ(Q, Q_targ)),
+                f'{self.__class__.__name__}/td_error_targ': jnp.mean(-dLoss_dQ(Q, Q_targ, W)),
             }
             return loss, (td_error, state_new, metrics)
 

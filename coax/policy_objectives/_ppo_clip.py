@@ -21,6 +21,7 @@
 
 import jax.numpy as jnp
 import haiku as hk
+import chex
 
 from ._base import PolicyObjective
 
@@ -96,11 +97,13 @@ class PPOClip(PolicyObjective):
         ratio = jnp.exp(log_pi - transition_batch.logP)  # π_new / π_old
         ratio_clip = jnp.clip(ratio, 1 - hyperparams['epsilon'], 1 + hyperparams['epsilon'])
 
+        # clip importance weights to reduce variance
+        W = jnp.clip(transition_batch.W, 0.1, 10.)
+
         # ppo-clip objective
-        assert Adv.ndim == 1, f"bad shape: {Adv.shape}"
-        assert ratio.ndim == 1, f"bad shape: {ratio.shape}"
-        assert ratio_clip.ndim == 1, f"bad shape: {ratio_clip.shape}"
-        objective = jnp.sum(jnp.minimum(Adv * ratio, Adv * ratio_clip))
+        chex.assert_equal_shape([W, Adv, ratio, ratio_clip])
+        chex.assert_rank([W, Adv, ratio, ratio_clip], 1)
+        objective = W * jnp.minimum(Adv * ratio, Adv * ratio_clip)
 
         # also pass auxiliary data to avoid multiple forward passes
-        return objective, (dist_params, log_pi, state_new)
+        return jnp.mean(objective), (dist_params, log_pi, state_new)

@@ -21,6 +21,7 @@
 
 import jax.numpy as jnp
 import haiku as hk
+import chex
 
 from ._base import PolicyObjective
 
@@ -65,10 +66,13 @@ class VanillaPG(PolicyObjective):
         A = self.pi.proba_dist.preprocess_variate(next(rngs), transition_batch.A)
         log_pi = self.pi.proba_dist.log_proba(dist_params, A)
 
+        # clip importance weights to reduce variance
+        W = jnp.clip(transition_batch.W, 0.1, 10.)
+
         # some consistency checks
-        assert Adv.ndim == 1
-        assert log_pi.ndim == 1
-        objective = jnp.dot(Adv, log_pi)
+        chex.assert_equal_shape([W, Adv, log_pi])
+        chex.assert_rank([W, Adv, log_pi], 1)
+        objective = W * Adv * log_pi
 
         # also pass auxiliary data to avoid multiple forward passes
-        return objective, (dist_params, log_pi, state_new)
+        return jnp.mean(objective), (dist_params, log_pi, state_new)

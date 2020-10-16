@@ -23,6 +23,7 @@ import warnings
 
 import jax.numpy as jnp
 import haiku as hk
+import chex
 
 from ..utils import check_preprocessors
 from .._core.q import Q
@@ -117,10 +118,15 @@ class DeterministicPG(PolicyObjective):
         A = self.pi.proba_dist.mode(dist_params)
         log_pi = self.pi.proba_dist.log_proba(dist_params, A)
         params_q, state_q = hyperparams['q']['params'], hyperparams['q']['function_state']
-        objective, _ = self.q_targ.function_type1(params_q, state_q, next(rngs), S, A, True)
+        Q, _ = self.q_targ.function_type1(params_q, state_q, next(rngs), S, A, True)
 
-        # some consistency checks
-        assert objective.ndim == 1, f"bad shape: {objective.shape}"
+        # clip importance weights to reduce variance
+        W = jnp.clip(transition_batch.W, 0.1, 10.)
+
+        # the objective
+        chex.assert_equal_shape([W, Q])
+        chex.assert_rank([W, Q], 1)
+        objective = W * Q
 
         return jnp.mean(objective), (dist_params, log_pi, state_new)
 

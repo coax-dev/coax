@@ -91,10 +91,11 @@ class QLearning(BaseTDLearningQWithTargetPolicy):
 
         .. math::
 
-            L(y_\text{true}, y_\text{pred})\in\mathbb{R}
+            L(y_\text{true}, y_\text{pred}, w)\in\mathbb{R}
 
-        If left unspecified, this defaults to :func:`coax.value_losses.huber`. Check out the
-        :mod:`coax.value_losses` module for other predefined loss functions.
+        where :math:`w>0` are sample weights. If left unspecified, this defaults to
+        :func:`coax.value_losses.huber`. Check out the :mod:`coax.value_losses` module for other
+        predefined loss functions.
 
     policy_regularizer : Regularizer, optional
 

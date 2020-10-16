@@ -19,7 +19,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-from jax import numpy as jnp
+import jax.numpy as jnp
+import chex
 
 
 __all__ = (
@@ -30,7 +31,7 @@ __all__ = (
 )
 
 
-def mse(y_true, y_pred):
+def mse(y_true, y_pred, w=None):
     r"""
 
     Ordinary mean-squared error loss function.
@@ -54,6 +55,10 @@ def mse(y_true, y_pred):
 
         The predicted output :math:`\hat{y}\in\mathbb{R}`.
 
+    w : ndarray, optional
+
+        Sample weights.
+
     Returns
     -------
     loss : scalar ndarray
@@ -62,10 +67,13 @@ def mse(y_true, y_pred):
 
     """
     loss = 0.5 * jnp.square(y_pred - y_true)
+    if w is not None:
+        chex.assert_equal_shape([loss, w])
+        loss *= w
     return jnp.mean(loss)
 
 
-def huber(y_true, y_pred, delta=1.0):
+def huber(y_true, y_pred, w=None, delta=1.0):
     r"""
 
     `Huber <https://en.wikipedia.org/wiki/Huber_loss>`_ loss function.
@@ -94,6 +102,10 @@ def huber(y_true, y_pred, delta=1.0):
 
         The predicted output :math:`\hat{y}\in\mathbb{R}`.
 
+    w : ndarray, optional
+
+        Sample weights.
+
     delta : float, optional
 
         The scale of the quadratic-to-linear transition.
@@ -108,10 +120,13 @@ def huber(y_true, y_pred, delta=1.0):
     err = jnp.abs(y_pred - y_true)
     err_clipped = jnp.minimum(err, delta)
     loss = 0.5 * jnp.square(err_clipped) + delta * (err - err_clipped)
+    if w is not None:
+        chex.assert_equal_shape([loss, w])
+        loss *= w
     return jnp.mean(loss)
 
 
-def logloss(y_true, y_pred):
+def logloss(y_true, y_pred, w=None):
     r"""
 
     Logistic loss function for binary classification, `y_true` =
@@ -133,6 +148,10 @@ def logloss(y_true, y_pred):
         The predicted output, represented by a probablity
         :math:`\hat{y}\in[0,1]`.
 
+    w : ndarray, optional
+
+        Sample weights.
+
     Returns
     -------
     loss : scalar ndarray
@@ -141,10 +160,13 @@ def logloss(y_true, y_pred):
 
     """
     loss = -y_true * jnp.log(y_pred) - (1. - y_true) * jnp.log(1. - y_pred)
+    if w is not None:
+        chex.assert_equal_shape([loss, w])
+        loss *= w
     return jnp.mean(loss)
 
 
-def logloss_sign(y_true_sign, logits):
+def logloss_sign(y_true_sign, logits, w=None):
     r"""
 
     Logistic loss function specific to the case in which the target is a sign
@@ -170,6 +192,10 @@ def logloss_sign(y_true_sign, logits):
         The predicted output, represented by a logit
         :math:`\hat{z}\in\mathbb{R}`.
 
+    w : ndarray, optional
+
+        Sample weights.
+
     Returns
     -------
     loss : scalar ndarray
@@ -178,4 +204,7 @@ def logloss_sign(y_true_sign, logits):
 
     """
     loss = jnp.log(1.0 + jnp.exp(-y_true_sign * logits))
+    if w is not None:
+        chex.assert_equal_shape([loss, w])
+        loss *= w
     return jnp.mean(loss)
