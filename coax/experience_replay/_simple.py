@@ -35,20 +35,16 @@ __all__ = (
 
 class SimpleReplayBuffer:
     r"""
-    A simple numpy implementation of an experience replay buffer. This is
-    written primarily with computer game environments (Atari) in mind.
 
-    It implements a generic experience replay buffer for environments in which
-    individual observations (frames) are stacked to represent the state.
+    A simple ring buffer for experience replay.
 
     Parameters
     ----------
     capacity : positive int
 
-        The capacity of the experience replay buffer. DQN typically uses
-        ``capacity=1000000``.
+        The capacity of the experience replay buffer.
 
-    random_seed : int or None
+    random_seed : int, optional
 
         To get reproducible results.
 
@@ -61,6 +57,7 @@ class SimpleReplayBuffer:
 
     def add(self, transition_batch):
         r"""
+
         Add a transition to the experience replay buffer.
 
         Parameters

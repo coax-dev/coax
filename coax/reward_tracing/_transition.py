@@ -113,8 +113,55 @@ class TransitionBatch:
         self.W = onp.ones_like(Rn) if W is None else W
 
     @classmethod
-    def from_single(
-            cls, s, a, logp, r, done, gamma, s_next=None, a_next=None, logp_next=None, w=1.):
+    def from_single(cls, s, a, logp, r, done, gamma, s_next=None, a_next=None, logp_next=None, w=1):
+        r"""
+
+        Create a TransitionBatch (with batch_size=1) from a single transition.
+
+        Attributes
+        ----------
+        s : state observation
+
+            A single state observation :math:`S_t`.
+
+        a : action
+
+            A single action :math:`A_t`.
+
+        logp : non-positive float
+
+            The log-propensity :math:`\log\pi(A_t|S_t)`.
+
+        r : float or array of floats
+
+            A single reward :math:`R_t`.
+
+        done : bool
+
+            Whether the episode has finished.
+
+        info : dict or None
+
+            Some additional info about the current time step.
+
+        s_next : state observation
+
+            A single next-state observation :math:`S_{t+1}`.
+
+        a_next : action
+
+            A single next-action :math:`A_{t+1}`.
+
+        logp_next : non-positive float
+
+            The log-propensity :math:`\log\pi(A_{t+1}|S_{t+1})`.
+
+        w : positive float, optional
+
+            The importance weight associated with the sampling procedure that generated this
+            transition.
+
+        """
 
         # check types
         array = (int, float, onp.ndarray, jnp.ndarray)
