@@ -28,8 +28,6 @@ import numpy as onp
 import haiku as hk
 from scipy.linalg import pascal
 
-from .._base.errors import NumpyArrayCheckError
-
 
 __all__ = (
     'argmax',
@@ -44,6 +42,7 @@ __all__ = (
     'double_relu',
     'get_grads_diagnostics',
     'get_magnitude_quantiles',
+    'get_transition_batch',
     'idx',
     'isscalar',
     'merge_dicts',
@@ -150,63 +149,51 @@ def batch_to_single(pytree, index=0):
     return jax.tree_map(lambda arr: arr[index], pytree)
 
 
-def check_array(arr, ndim=None, ndim_min=None, ndim_max=None, dtype=None, shape=None, axis_size=None, axis=None):  # noqa: E501
-    """
+def check_array(
+        arr, ndim=None, ndim_min=None, ndim_max=None,
+        dtype=None, shape=None, axis_size=None, axis=None):
+    r"""
 
     This helper function is mostly for internal use. It is used to check a few
     common properties of a numpy array.
 
     Raises
     ------
-    NumpyArrayCheckError
+    TypeError
 
-        If one of the checks fails, it raises a :class:`NumpyArrayCheckError`.
+        If one of the checks fails.
 
     """
-
     if not isinstance(arr, jnp.ndarray):
-        raise NumpyArrayCheckError(
-            "expected input to be a numpy array, got type: {}"
-            .format(type(arr)))
+        raise TypeError("expected input to be a numpy array, got type: {}".format(type(arr)))
 
     check = ndim is not None
     ndims = [ndim] if not isinstance(ndim, (list, tuple, set)) else ndim
     if check and arr.ndim not in ndims:
-        raise NumpyArrayCheckError(
-            "expected input with ndim(s) {}, got ndim: {}"
-            .format(ndim, arr.ndim))
+        raise TypeError(f"expected input with ndim(s) {ndim}, got ndim: {arr.ndim}")
 
     check = ndim_min is not None
     if check and arr.ndim < ndim_min:
-        raise NumpyArrayCheckError(
-            "expected input with ndim at least {}, got ndim: {}"
-            .format(ndim_min, arr.ndim))
+        raise TypeError(f"expected input with ndim at least {ndim_min}, got ndim: {arr.ndim}")
 
     check = ndim_max is not None
     if check and arr.ndim > ndim_max:
-        raise NumpyArrayCheckError(
-            "expected input with ndim at most {}, got ndim: {}"
-            .format(ndim_max, arr.ndim))
+        raise TypeError(f"expected input with ndim at most {ndim_max}, got ndim: {arr.ndim}")
 
     check = dtype is not None
     dtypes = [dtype] if not isinstance(dtype, (list, tuple, set)) else dtype
     if check and arr.dtype not in dtypes:
-        raise NumpyArrayCheckError(
-            "expected input with dtype(s) {}, got dtype: {}"
-            .format(dtype, arr.dtype))
+        raise TypeError(f"expected input with dtype(s) {dtype}, got dtype: {arr.dtype}")
 
     check = shape is not None
     if check and arr.shape != shape:
-        raise NumpyArrayCheckError(
-            "expected input with shape {}, got shape: {}"
-            .format(shape, arr.shape))
+        raise TypeError(f"expected input with shape {shape}, got shape: {arr.shape}")
 
     check = axis_size is not None and axis is not None
-    sizes = [axis_size] if not isinstance(axis_size, (list, tuple, set)) else axis_size  # noqa: E501
+    sizes = [axis_size] if not isinstance(axis_size, (list, tuple, set)) else axis_size
     if check and arr.shape[axis] not in sizes:
-        raise NumpyArrayCheckError(
-            "expected input with size(s) {} along axis {}, got shape: {}"
-            .format(axis_size, axis, arr.shape))
+        raise TypeError(
+            f"expected input with size(s) {axis_size} along axis {axis}, got shape: {arr.shape}")
 
 
 def check_preprocessors(space, *preprocessors, num_samples=20, random_seed=None):
@@ -578,6 +565,64 @@ def get_magnitude_quantiles(pytree, key_prefix=''):
     return dict(zip(quantile_names, quantiles))
 
 
+def get_transition_batch(env, batch_size=1, gamma=0.9, random_seed=None):
+    r"""
+    Generate a single transition from the environment.
+
+    This basically does a single step on the environment and then closes it.
+
+    Parameters
+    ----------
+    env : gym environment
+
+        A gym-style environment.
+
+    batch_size : positive int, optional
+
+        The desired batch size of the sample.
+
+    random_seed : int, optional
+
+        In order to generate the transition, we do some random sampling from the provided spaces.
+        This `random_seed` set the seed for the pseudo-random number generators.
+
+    Returns
+    -------
+    transition_batch : TransitionBatch
+
+        A batch of transitions.
+
+    """
+    # import inline to avoid circular dependencies
+    from ..reward_tracing import TransitionBatch
+    from ._array import safe_sample
+
+    # check types
+    if not (isinstance(batch_size, int) and batch_size > 0):
+        raise TypeError(f"batch_size must be a positive int, got: {batch_size}")
+    if not (isinstance(gamma, (int, float)) and 0 <= gamma <= 1):
+        raise TypeError(f"gamma must be a float in the unit interval [0,1], got: {gamma}")
+
+    rnd = onp.random.RandomState(random_seed)
+
+    def batch_sample(space):
+        max_seed = onp.iinfo('int32').max
+        X = [safe_sample(space, seed=rnd.randint(max_seed)) for _ in range(batch_size)]
+        return jax.tree_multimap(lambda *leaves: onp.stack(leaves, axis=0), *X)
+
+    return TransitionBatch(
+        S=batch_sample(env.observation_space),
+        A=batch_sample(env.action_space),
+        logP=onp.log(onp.clip(rnd.rand(batch_size), 0.01, 0.99)),
+        Rn=onp.clip(rnd.randn(batch_size), -5., 5.),
+        In=rnd.choice((0, gamma), batch_size),
+        S_next=batch_sample(env.observation_space),
+        A_next=batch_sample(env.action_space),
+        logP_next=onp.log(onp.clip(rnd.rand(batch_size), 0.01, 0.99)),
+        W=onp.clip(rnd.rand(batch_size) / rnd.rand(batch_size), 0.01, 100.),
+    )
+
+
 def idx(arr, axis=0):
     r"""
     Given a numpy array, return its corresponding integer index array.
@@ -668,10 +713,8 @@ def _safe_sample(space, rnd):
     if isinstance(space, gym.spaces.Box):
         low = onp.clip(space.low, -1e9, 1e9)
         high = onp.clip(space.high, -1e9, 1e9)
-        midpoints = (low + high) / 2.
-        sizes = onp.clip(high - low, 0, 100)  # clip to reasonable range
-        low = midpoints - sizes / 2.
-        return low + rnd.rand(*space.shape) * sizes
+        x = low + rnd.rand(*space.shape) * (high - low)
+        return onp.sign(x) * onp.log(1. + onp.abs(x))  # log transform to avoid very large numbers
 
     if isinstance(space, gym.spaces.Tuple):
         return tuple(_safe_sample(sp, rnd) for sp in space.spaces)

@@ -25,7 +25,7 @@ from optax import sgd
 
 from .._base.test_case import TestCase
 from .._core.stochastic_transition_model import StochasticTransitionModel
-from ..utils import get_transition
+from ..utils import get_transition_batch
 from ..regularizers import EntropyRegularizer
 from ._model_updater import ModelUpdater
 
@@ -33,8 +33,8 @@ from ._model_updater import ModelUpdater
 class TestModelUpdater(TestCase):
 
     def setUp(self):
-        self.transition_discrete = get_transition(self.env_discrete).to_batch()
-        self.transition_boxspace = get_transition(self.env_boxspace).to_batch()
+        self.transition_discrete = get_transition_batch(self.env_discrete, random_seed=42)
+        self.transition_boxspace = get_transition_batch(self.env_boxspace, random_seed=42)
 
     def test_update_type1(self):
         env = self.env_discrete

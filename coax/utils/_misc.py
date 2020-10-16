@@ -22,20 +22,12 @@
 import os
 import time
 import logging
-import warnings
-from collections import namedtuple
 from importlib import reload, import_module
 from types import ModuleType
-from typing import Mapping
-from copy import deepcopy
 
-import gym
-import jax
 import jax.numpy as jnp
 import numpy as onp
 from PIL import Image
-
-from ..reward_tracing import TransitionSingle
 
 
 __all__ = (
@@ -43,7 +35,6 @@ __all__ = (
     'enable_logging',
     'generate_gif',
     'get_env_attr',
-    'get_transition',
     'getattr_safe',
     'has_env_attr',
     'is_policy',
@@ -55,8 +46,6 @@ __all__ = (
     'pretty_repr',
     'reload_recursive',
     'render_episode',
-    'strip_env_recursive',
-    'StrippedEnv',
 )
 
 
@@ -152,57 +141,6 @@ def enable_logging(name=None, level=logging.INFO, output_filepath=None, output_l
         fh = logging.FileHandler(output_filepath)
         fh.setLevel(level if output_level is None else output_level)
         logging.getLogger('').addHandler(fh)
-
-
-def get_transition(env, random_seed=None):
-    r"""
-    Generate a single transition from the environment.
-
-    This basically does a single step on the environment and then closes it.
-
-    Parameters
-    ----------
-    env : gym environment
-
-        A gym-style environment.
-
-    random_seed : int, optional
-
-        In order to generate the transition, we do some random sampling from the provided spaces.
-        This `random_seed` set the seed for the pseudo-random number generators.
-
-    Returns
-    -------
-    transition : TransitionSingle
-
-        A single transition. Note that this can be turned into a
-        :class:`TransitionBatch <coax.reward_tracing.TransitionBatch>` (with batchsize 1) by:
-
-        .. code:: python
-
-            transition_batch = transition.to_batch()
-
-    """
-    from ..wrappers import TrainMonitor
-    if isinstance(env, TrainMonitor):
-        env = env.env  # unwrap to strip off TrainMonitor
-
-    s = env.reset()
-    action_space = deepcopy(env.action_space)
-    action_space.seed(random_seed)
-    a = action_space.sample()
-    a_next = action_space.sample()
-    logp = None
-    if isinstance(action_space, gym.spaces.Discrete):
-        logp = -onp.log(action_space.n)
-    if isinstance(action_space, gym.spaces.Box):
-        sizes = action_space.high - action_space.low
-        logp = -onp.sum(onp.log(sizes))  # log(prod(1/sizes))
-    s_next, r, done, info = env.step(a)
-    tr = TransitionSingle(
-        s=s, a=a, logp=logp, r=r, done=done, info=info,
-        s_next=s_next, a_next=a_next, logp_next=logp)
-    return tr
 
 
 def _reload(module, reload_all, reloaded, logger):
@@ -632,7 +570,7 @@ def pretty_repr(o, d=0):
         sep = '\n' + i * (d + 1)
         body = sep + sep.join(f"{k}={pretty_repr(v, d + 1)}" for k, v in o._asdict().items())
         return f"{type(o).__name__}({body})"
-    if isinstance(o, Mapping):
+    if hasattr(o, 'items'):
         sep = '\n' + i * (d + 1)
         body = sep + sep.join(f"'{k}': {pretty_repr(v, d + 1)}" for k, v in o.items())
         return f"{{{body}}}"
@@ -673,194 +611,3 @@ def getattr_safe(obj, name, default=None):
     except Exception:
         pass
     return attr
-
-
-class StrippedEnv:
-    r"""
-
-    A version of an environment that both is static and respects the gym API.
-
-    This is useful for creating pickleable environments that have a significantly reduced memory
-    footprint.
-
-    Parameters
-    ----------
-    env : gym environment
-
-        The original (dynamic) gym-style environment.
-
-    random_seed : int, optional
-
-        The StrippedEnv creates a :class:`coax.TransitionSingle` to store its information
-        internally. In order to generate this transition, we do some random sampling from the
-        provided spaces. This `random_seed` set the seed for the pseudo-random number generators.
-
-    """
-    __slots__ = (
-        'observation_space',
-        'action_space',
-        'reward_range',
-        'spec',
-        'metadata',
-        # specific to StrippedEnv
-        'transition',
-        '_origname',
-    )
-
-    def __init__(self, env, random_seed=None):
-        self.observation_space = env.observation_space
-        self.action_space = env.action_space
-        self.reward_range = env.reward_range
-        self.spec = env.spec
-        self.metadata = env.metadata
-        if hasattr(env, 'transition'):
-            self.transition = env.transition
-        else:
-            self.transition = get_transition(env, random_seed=random_seed)
-        self._origname = str(env)
-
-    @classmethod
-    def from_spaces(
-            cls, observation_space, action_space,
-            reward_range=None, spec=None, metadata=None, random_seed=None):
-        r"""
-
-        Create a new instance from ``observation_space`` and ``action_space``.
-
-        Parameters
-        ----------
-        observation_space : gym-style space
-
-            The space of state observations :math:`s`.
-
-        action_space : gym-style space
-
-            The space of actions :math:`a`.
-
-        reward_range : pair of floats, optional
-
-            The range of the rewards generated by the environment.
-
-        spec : EnvSpec, optional
-
-            The environment's EnvSpec. See the :mod:`gym.envs.register` module form more details.
-
-        metadata : dict, optional
-
-            The metadata dict of the environment.
-
-        random_seed : int, optional
-
-            The StrippedEnv creates a :class:`coax.TransitionSingle` to store its information
-            internally. In order to generate this transition, we do some random sampling from the
-            provided spaces. This `random_seed` set the seed for the pseudo-random number
-            generators.
-
-        """
-        if reward_range is None:
-            reward_range = (-float('inf'), float('inf'))
-        if metadata is None:
-            metadata = {}
-        StaticEnv = namedtuple('StaticEnv', (
-            'observation_space',
-            'action_space',
-            'reward_range',
-            'spec',
-            'metadata',
-            'transition'))
-        rnd = onp.random.RandomState(random_seed)
-        observation_space.seed(random_seed)
-        action_space.seed(random_seed)
-        transition = TransitionSingle(
-            s=jax.tree_map(onp.asanyarray, observation_space.sample()),
-            a=jax.tree_map(onp.asanyarray, action_space.sample()),
-            logp=onp.log(onp.clip(rnd.rand(), 1e-16, 1)),
-            r=onp.clip(rnd.randn(), *reward_range),
-            done=rnd.randint(2, dtype='bool'),
-            info={},
-            s_next=jax.tree_map(onp.asanyarray, observation_space.sample()),
-            a_next=jax.tree_map(onp.asanyarray, action_space.sample()),
-            logp_next=onp.log(onp.clip(rnd.rand(), 1e-16, 1)),
-        )
-        static_env = StaticEnv(
-            observation_space=observation_space,
-            action_space=action_space,
-            reward_range=reward_range,
-            spec=spec,
-            metadata=metadata,
-            transition=transition)
-        return cls(static_env)
-
-    def reset(self):
-        return self.transition.s
-
-    def step(self, a):
-        t = self.transition
-        return t.s_next, t.r, t.done, t.info
-
-    def render(self, *args, **kwargs):
-        raise NotImplementedError(
-            "StrippedEnv is static; it cannot be rendered")
-
-    def close(self):
-        pass
-
-    def seed(self, seed=None):
-        warnings.warn("StrippedEnv is static; the seed will not be used")
-
-    @property
-    def unwrapped(self):
-        return self
-
-    def __str__(self):
-        return f'<StrippedEnv<{self._origname}>>'
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *args):
-        self.close()
-        # propagate exception
-        return False
-
-
-def strip_env_recursive(obj, depth=3):
-    """
-
-    Find all references to environments in an object and replace them by their stripped versions
-    (using :class:`coax.utils.StrippedEnv`):
-
-    .. code::
-
-        env = StrippedEnv(env)
-
-    Parameters
-    ----------
-    obj : FuncApprox or container object
-
-        This could be either a :class:`FuncApprox` (or subclass thereof) or a container object that
-        contains a :class:`FuncApprox` as one of its attributes.
-
-    depth : non-negative int, optional
-
-        How deep to recurse into the object to find an env to strip.
-
-    """
-    if depth < 0:
-        return
-
-    # import inline to avoid cyclic dependency
-    from .._core.func_approx import FuncApprox
-
-    if isinstance(obj, FuncApprox):
-        if not isinstance(obj.env, StrippedEnv):
-            obj.env = StrippedEnv(obj.env)
-    else:
-        for attr_name in dir(obj):
-            if attr_name.startswith('__'):
-                continue
-            attr = getattr_safe(obj, attr_name)
-            if attr is not None:
-                strip_env_recursive(attr, depth - 1)
-
-    return obj

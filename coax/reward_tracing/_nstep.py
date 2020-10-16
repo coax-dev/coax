@@ -26,7 +26,7 @@ import numpy as onp
 
 from .._base.errors import InsufficientCacheError, EpisodeDoneError
 from ._base import BaseShortTermCache
-from ._transition import TransitionSingle
+from ._transition import TransitionBatch
 
 
 __all__ = (
@@ -97,8 +97,6 @@ class NStep(BaseShortTermCache):
             # no more bootstrapping
             s_next, a_next, logp_next, done = s, a, logp, True
 
-        transition = TransitionSingle(
-            s=s, a=a, logp=logp, r=rn, done=done,
-            s_next=s_next, a_next=a_next, logp_next=logp_next)
-
-        return transition.to_batch(gamma=self._gamman)
+        return TransitionBatch.from_single(
+            s=s, a=a, logp=logp, r=rn, done=done, gamma=self._gamman,
+            s_next=s_next, a_next=a_next, logp_next=logp_next, w=1.)

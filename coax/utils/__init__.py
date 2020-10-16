@@ -33,6 +33,7 @@ Object Reference
 .. autosummary::
     :nosignatures:
 
+    coax.utils.OrnsteinUhlenbeckNoise
     coax.utils.argmax
     coax.utils.argmin
     coax.utils.batch_to_single
@@ -49,7 +50,7 @@ Object Reference
     coax.utils.get_env_attr
     coax.utils.get_grads_diagnostics
     coax.utils.get_magnitude_quantiles
-    coax.utils.get_transition
+    coax.utils.get_transition_batch
     coax.utils.has_env_attr
     coax.utils.idx
     coax.utils.is_policy
@@ -60,14 +61,11 @@ Object Reference
     coax.utils.is_vfunction
     coax.utils.isscalar
     coax.utils.merge_dicts
-    coax.utils.OrnsteinUhlenbeckNoise
     coax.utils.pretty_repr
     coax.utils.reload_recursive
     coax.utils.render_episode
     coax.utils.safe_sample
     coax.utils.single_to_batch
-    coax.utils.strip_env_recursive
-    coax.utils.StrippedEnv
     coax.utils.tree_ravel
 
 
@@ -87,13 +85,14 @@ from ._array import (
     diff_transform,
     diff_transform_matrix,
     double_relu,
+    get_grads_diagnostics,
     get_magnitude_quantiles,
+    get_transition_batch,
     idx,
     isscalar,
     merge_dicts,
-    single_to_batch,
     safe_sample,
-    get_grads_diagnostics,
+    single_to_batch,
     tree_ravel,
 )
 from ._misc import (
@@ -101,7 +100,6 @@ from ._misc import (
     enable_logging,
     generate_gif,
     get_env_attr,
-    get_transition,
     has_env_attr,
     is_policy,
     is_qfunction,
@@ -110,14 +108,13 @@ from ._misc import (
     is_transition_model,
     is_vfunction,
     pretty_repr,
-    render_episode,
     reload_recursive,
-    StrippedEnv,
-    strip_env_recursive,
+    render_episode,
 )
 
 
 __all__ = (
+    'OrnsteinUhlenbeckNoise',
     'argmax',
     'argmin',
     'batch_to_single',
@@ -132,9 +129,9 @@ __all__ = (
     'enable_logging',
     'generate_gif',
     'get_env_attr',
-    'get_transition',
     'get_grads_diagnostics',
     'get_magnitude_quantiles',
+    'get_transition_batch',
     'has_env_attr',
     'idx',
     'is_policy',
@@ -145,13 +142,10 @@ __all__ = (
     'is_vfunction',
     'isscalar',
     'merge_dicts',
-    'OrnsteinUhlenbeckNoise',
     'pretty_repr',
     'reload_recursive',
     'render_episode',
     'safe_sample',
     'single_to_batch',
-    'StrippedEnv',
-    'strip_env_recursive',
     'tree_ravel',
 )

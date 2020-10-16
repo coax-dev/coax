@@ -105,8 +105,8 @@ class MemoryProfiler(AbstractContextManager):
 class TestCase(unittest.TestCase):
     r""" adds some common properties to unittest.TestCase """
     seed = 42
-    margin = 0.1  # for robust comparison (x > 0) --> (x > margin)
-    decimal = 6
+    margin = 0.01  # for robust comparison (x > 0) --> (x > margin)
+    decimal = 6    # sets the absolute tolerance
 
     @property
     def env_discrete(self):

@@ -26,7 +26,7 @@ import jax.numpy as jnp
 import haiku as hk
 
 from .._base.test_case import TestCase
-from ..utils import get_transition
+from ..utils import get_transition_batch, safe_sample
 from .v import V
 
 
@@ -51,19 +51,17 @@ def func(S, is_training):
 
 
 class TestV(TestCase):
-    margin = 0.1
-    decimal = 6
 
     def setUp(self):
         self.v = V(func, self.env_discrete, random_seed=13)
-        self.transition = get_transition(self.env_discrete)
-        self.transition_batch = self.transition.to_batch()
+        self.transition_batch = get_transition_batch(self.env_discrete, random_seed=7)
 
     def tearDown(self):
-        del self.v, self.transition
+        del self.v, self.transition_batch
 
     def test_call(self):
-        v = self.v(self.transition.s)
+        s = safe_sample(self.env_discrete.observation_space)
+        v = self.v(s)
         self.assertAlmostEqual(v, 0.)
 
     def test_soft_update(self):

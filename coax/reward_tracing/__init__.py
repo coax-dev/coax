@@ -72,12 +72,11 @@ Object Reference
 
 """
 
-from ._transition import TransitionSingle, TransitionBatch
+from ._transition import TransitionBatch
 from ._montecarlo import MonteCarlo
 from ._nstep import NStep
 
 __all__ = (
-    'TransitionSingle',
     'TransitionBatch',
     'MonteCarlo',
     'NStep',

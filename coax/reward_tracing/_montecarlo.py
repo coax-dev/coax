@@ -21,7 +21,7 @@
 
 from .._base.errors import InsufficientCacheError, EpisodeDoneError
 from ._base import BaseShortTermCache
-from ._transition import TransitionSingle
+from ._transition import TransitionBatch
 
 
 __all__ = (
@@ -80,8 +80,6 @@ class MonteCarlo(BaseShortTermCache):
         # update return
         self._g = r + self.gamma * self._g
 
-        transition = TransitionSingle(
-            s=s, a=a, logp=logp, r=self._g, done=True,  # no bootstrapping
-            s_next=s, a_next=a, logp_next=logp)         # dummy values
-
-        return transition.to_batch(gamma=self.gamma)
+        return TransitionBatch.from_single(
+            s=s, a=a, logp=logp, r=self._g, done=True, gamma=self.gamma,  # no bootstrapping
+            s_next=s, a_next=a, logp_next=logp, w=1.)                     # dummy values for *_next

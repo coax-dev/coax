@@ -22,128 +22,18 @@
 from functools import partial
 
 import jax
+import jax.numpy as jnp
 import numpy as onp
-import pandas as pd
+
+from ..utils import single_to_batch, pretty_repr
 
 
 __all__ = (
-    'TransitionSingle',
     'TransitionBatch',
 )
 
 
-class BaseTransition:
-    def to_series(self):
-        d = {k: getattr(self, k) for k in self.__slots__}
-        d = {k: v for k, v in d.items() if v is not None}
-        s = pd.Series(d, name='', dtype='O')
-        s.index.name = self.__class__.__name__
-        return s
-
-    def to_frame(self):
-        s = self.to_series()
-        df = s.rename('value').to_frame()
-        df['shape'] = s.map(lambda x: jax.tree_map(
-            lambda y: getattr(y, 'shape', ()), x))
-        df['dtype'] = s.map(lambda x: jax.tree_map(
-            lambda y: getattr(y, 'dtype', type(x).__name__), x))
-        return df
-
-    def __repr__(self):
-        with pd.option_context("display.max_columns", None), \
-                pd.option_context("display.max_colwidth", 36):
-            return repr(self.to_frame())
-
-    def _repr_html_(self):
-        with pd.option_context("display.max_columns", None), \
-                pd.option_context("display.max_colwidth", 36):
-            return self.to_frame()._repr_html_()
-
-    def __iter__(self):
-        return (getattr(self, a) for a in self.__slots__)
-
-    def __getitem__(self, int_or_slice):
-        return tuple(self).__getitem__(int_or_slice)
-
-
-class TransitionSingle(BaseTransition):
-    r"""
-
-    A container object for a single transition in the MDP.
-
-    Attributes
-    ----------
-    s : state observation
-
-        A single state observation :math:`S_t`.
-
-    a : action
-
-        A single action :math:`A_t`.
-
-    logp : ndarray
-
-        The log-propensity :math:`\log\pi(A_t|S_t)`.
-
-    r : float or array of floats
-
-        A single reward :math:`R_t`.
-
-    done : bool
-
-        Whether the episode has finished.
-
-    info : dict or None
-
-        Some additional info about the current time step.
-
-    s_next : state observation
-
-        A single next-state observation :math:`S_{t+1}`.
-
-    a_next : action
-
-        A single next-action :math:`A_{t+1}`.
-
-    logp_next : ndarray
-
-        The log-propensity :math:`\log\pi(A_{t+1}|S_{t+1})`.
-
-    """
-    __slots__ = ('s', 'a', 'logp', 'r', 'done', 'info', 's_next', 'a_next', 'logp_next')
-
-    def __init__(self, s, a, logp, r, done, info=None, s_next=None, a_next=None, logp_next=None):
-        self.s = s
-        self.a = a
-        self.logp = logp
-        self.r = r
-        self.done = done
-        self.info = info
-        self.s_next = s_next
-        self.a_next = a_next
-        self.logp_next = logp_next
-
-    @staticmethod
-    def _to_batch(pytree):
-        if pytree is None:
-            return None
-        return jax.tree_map(lambda x: onp.expand_dims(x, axis=0), pytree)
-
-    def to_batch(self, gamma=0.9):
-        s, a, logp, r, done, info, s_next, a_next, logp_next = self
-        return TransitionBatch(
-            S=self._to_batch(s),
-            A=self._to_batch(a),
-            logP=self._to_batch(logp),
-            Rn=self._to_batch(r),
-            In=self._to_batch(gamma * (1 - done)),
-            S_next=self._to_batch(s_next),
-            A_next=self._to_batch(a_next),
-            logP_next=self._to_batch(logp_next),
-        )
-
-
-class TransitionBatch(BaseTransition):
+class TransitionBatch:
     r"""
 
     A container object for a batch of MDP transitions.
@@ -201,10 +91,17 @@ class TransitionBatch(BaseTransition):
 
         A batch of log-propensities :math:`\log\pi(A_{t+n}|S_{t+n})`.
 
-    """
-    __slots__ = ('S', 'A', 'logP', 'Rn', 'In', 'S_next', 'A_next', 'logP_next')
+    W : ndarray, optional
 
-    def __init__(self, S, A, logP, Rn, In, S_next, A_next=None, logP_next=None):
+        A batch of importance weights associated with the sampling procedure that generated each
+        transition. For example, we need these values when we sample transitions from a
+        :class:`PrioritizedReplayBuffer <coax.experience_replay.PrioritizedReplayBuffer>`.
+
+    """
+    __slots__ = ('S', 'A', 'logP', 'Rn', 'In', 'S_next', 'A_next', 'logP_next', 'W')
+
+    def __init__(self, S, A, logP, Rn, In, S_next, A_next=None, logP_next=None, W=None):
+
         self.S = S
         self.A = A
         self.logP = logP
@@ -213,6 +110,38 @@ class TransitionBatch(BaseTransition):
         self.S_next = S_next
         self.A_next = A_next
         self.logP_next = logP_next
+        self.W = onp.ones_like(Rn) if W is None else W
+
+    @classmethod
+    def from_single(
+            cls, s, a, logp, r, done, gamma, s_next=None, a_next=None, logp_next=None, w=1.):
+
+        # check types
+        array = (int, float, onp.ndarray, jnp.ndarray)
+        if not (isinstance(logp, array) and onp.all(logp) <= 0):
+            raise TypeError(f"logp must be non-positive float(s), got: {logp}")
+        if not isinstance(r, array):
+            raise TypeError(f"r must be a scalar or an array, got: {r}")
+        if not isinstance(done, bool):
+            raise TypeError(f"done must be a bool, got: {done}")
+        if not (isinstance(gamma, (float, int)) and 0 <= gamma <= 1):
+            raise TypeError(f"gamma must be a float in the unit interval [0, 1], got: {gamma}")
+        if not (logp_next is None or (isinstance(logp_next, array) and onp.all(logp_next) <= 0)):
+            raise TypeError(f"logp_next must be None or non-positive float(s), got: {logp_next}")
+        if not (isinstance(w, (float, int)) and w > 0):
+            raise TypeError(f"w must be a positive float, got: {w}")
+
+        return cls(
+            S=single_to_batch(s),
+            A=single_to_batch(a),
+            logP=single_to_batch(logp),
+            Rn=single_to_batch(r),
+            In=single_to_batch(float(gamma) * (1. - bool(done))),
+            S_next=single_to_batch(s_next) if s_next is not None else None,
+            A_next=single_to_batch(a_next) if a_next is not None else None,
+            logP_next=single_to_batch(logp_next) if logp_next is not None else None,
+            W=single_to_batch(float(w)),
+        )
 
     @property
     def batch_size(self):
@@ -244,11 +173,21 @@ class TransitionBatch(BaseTransition):
         for i in reversed(range(self.batch_size)):
             yield TransitionBatch(*map(partial(lookup, i), self))
 
+    def items(self):
+        for k in self.__slots__:
+            yield k, getattr(self, k)
 
-jax.tree_util.register_pytree_node(
-    TransitionSingle,
-    lambda tn: (tuple(tn), None),
-    lambda treedef, leaves: TransitionSingle(*leaves))
+    def _asdict(self):
+        return dict(self.items())
+
+    def __repr__(self):
+        return pretty_repr(self)
+
+    def __iter__(self):
+        return (getattr(self, a) for a in self.__slots__)
+
+    def __getitem__(self, int_or_slice):
+        return tuple(self).__getitem__(int_or_slice)
 
 
 jax.tree_util.register_pytree_node(
