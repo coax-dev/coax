@@ -25,6 +25,7 @@ import jax
 import jax.numpy as jnp
 import haiku as hk
 import optax
+import chex
 
 from .._base.mixins import RandomStateMixin
 from ..utils import get_grads_diagnostics, is_policy, is_stochastic, is_qfunction, is_vfunction
@@ -281,8 +282,10 @@ class BaseTDLearningV(BaseTDLearning):
                 V_targ, _ = self.v.function(
                     target_params['v_targ'], target_state['v_targ'], next(rngs), S, False)
 
+            chex.assert_equal_shape([G, V, V_targ, W])
+            chex.assert_rank([G, V, V_targ, W], 1)
             dLoss_dV = jax.grad(self.loss_function, argnums=1)
-            td_error = -dLoss_dV(G, V, W)  # e.g. (G - V) if loss function is MSE
+            td_error = -V.shape[0] * dLoss_dV(G, V, W)  # e.g. (G - V) if loss function is MSE
             metrics = {
                 f'{self.__class__.__name__}/loss': loss,
                 f'{self.__class__.__name__}/td_error': jnp.mean(td_error),
@@ -425,8 +428,10 @@ class BaseTDLearningQ(BaseTDLearning):
                 Q_targ, _ = self.q.function_type1(
                     target_params['q_targ'], target_state['q_targ'], next(rngs), S, A, False)
 
+            chex.assert_equal_shape([G, Q, Q_targ, W])
+            chex.assert_rank([G, Q, Q_targ, W], 1)
             dLoss_dQ = jax.grad(self.loss_function, argnums=1)
-            td_error = -dLoss_dQ(G, Q, W)  # e.g. (G - Q) if loss function is MSE
+            td_error = -Q.shape[0] * dLoss_dQ(G, Q, W)  # e.g. (G - Q) if loss function is MSE
             metrics = {
                 f'{self.__class__.__name__}/loss': loss,
                 f'{self.__class__.__name__}/td_error': jnp.mean(td_error),
