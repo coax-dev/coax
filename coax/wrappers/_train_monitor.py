@@ -45,25 +45,28 @@ __all__ = (
 class StreamingSample:
     def __init__(self, maxlen, random_seed=None):
         self._deque = deque(maxlen=maxlen)
+        self._count = 0
         self._rnd = np.random.RandomState(random_seed)
 
-    @property
-    def maxlen(self):
-        return self._deque.maxlen
-
     def reset(self):
-        self._deque = deque(maxlen=self.max_sample_size)
+        self._deque = deque(maxlen=self.maxlen)
+        self._count = 0
 
     def append(self, obj):
-        if len(self._deque) < self._deque.maxlen:
+        self._count += 1
+        if len(self) < self.maxlen:
             self._deque.append(obj)
-        elif self._rnd.rand() < self.max_sample_size / self._cnt:
-            i = self._rnd.randint(self.max_sample_size)
+        elif self._rnd.rand() < self.maxlen / self._count:
+            i = self._rnd.randint(self.maxlen)
             self._deque[i] = obj
 
     @property
     def values(self):
         return list(self._deque)  # shallow copy
+
+    @property
+    def maxlen(self):
+        return self._deque.maxlen
 
     def __len__(self):
         return len(self._deque)
@@ -176,7 +179,7 @@ class TrainMonitor(Wrapper, LoggerMixin, SerializationMixin):
         self._n_avg_G = 0.0
         self._ep_starttime = time.time()
         self._ep_metrics = {}
-        self._ep_actions = []
+        self._ep_actions = StreamingSample(maxlen=1000)
         self._period = {'T': {}, 'ep': {}}
 
     def reset(self):
@@ -193,7 +196,7 @@ class TrainMonitor(Wrapper, LoggerMixin, SerializationMixin):
         self.G = 0.0
         self._ep_starttime = time.time()
         self._ep_metrics = {}
-        self._ep_actions = StreamingSample(maxlen=1000)
+        self._ep_actions.reset()
 
         return self.env.reset()
 
