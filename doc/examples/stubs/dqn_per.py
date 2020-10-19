@@ -40,15 +40,18 @@ qlearning = coax.td_learning.QLearning(q, q_targ=q_targ, optimizer=optax.adam(0.
 
 # specify how to trace the transitions
 tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
-buffer = coax.experience_replay.SimpleReplayBuffer(capacity=1000000)
+buffer = coax.experience_replay.PrioritizedReplayBuffer(capacity=1000000, alpha=0.6, beta=0.4)
 
 
-# schedule for pi.epsilon (exploration)
+# schedules for pi.epsilon and buffer.beta
 epsilon = coax.utils.StepwiseLinearFunction((0, 1), (1000000, 0.1), (2000000, 0.01))
+beta = coax.utils.StepwiseLinearFunction((0, 0.4), (1000000, 1))
 
 
 while env.T < 3000000:
     pi.epsilon = epsilon(env.T)
+    buffer.beta = beta(env.T)
+
     s = env.reset()
 
     for t in range(env.spec.max_episode_steps):
@@ -59,11 +62,12 @@ while env.T < 3000000:
         tracer.add(s, a, r, done)
         while tracer:
             transition = tracer.pop()
-            buffer.add(transition)
+            buffer.add(transition, qlearning.td_error(transition))
 
         # update
         transition_batch = buffer.sample(batch_size=32)
         qlearning.update(transition_batch)
+        buffer.update(transition_batch.idx, qlearning.td_error(transition_batch))
 
         # periodically sync target model
         if env.ep % 10 == 0:

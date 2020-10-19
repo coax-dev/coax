@@ -18,6 +18,7 @@ an agent.
     sarsa
     qlearning
     dqn
+    Prioritized Experience Replay (PER) <dqn_per>
 
 
 .. toctree::
