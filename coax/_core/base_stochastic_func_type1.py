@@ -179,12 +179,13 @@ class BaseStochasticFuncType1(BaseFunc):
 
         def type2_func(type1_params, type1_state, rng, S, is_training):
             rngs = hk.PRNGSequence(rng)
+            batch_size = jax.tree_leaves(S)[0].shape[0]
 
             # example: let S = [7, 2, 5, 8] and num_actions = 3, then
             # S_rep = [7, 7, 7, 2, 2, 2, 5, 5, 5, 8, 8, 8]  # repeated
             # A_rep = [0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2]  # tiled
             S_rep = jax.tree_map(lambda x: jnp.repeat(x, n, axis=0), S)
-            A_rep = jnp.tile(jnp.arange(n), S.shape[0])
+            A_rep = jnp.tile(jnp.arange(n), batch_size)
             A_rep = self.action_preprocessor(next(rngs), A_rep)  # one-hot encoding
 
             # evaluate on replicas => output shape: (batch * num_actions, *shape)

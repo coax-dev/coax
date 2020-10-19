@@ -168,7 +168,8 @@ class TestQ(TestCase):
         n = env.action_space.n  # num_actions
 
         def q2_func(params, state, rng, S, is_training):
-            return jnp.tile(jnp.arange(n), reps=(S.shape[0], 1)), state
+            batch_size = jax.tree_leaves(S)[0].shape[0]
+            return jnp.tile(jnp.arange(n), reps=(batch_size, 1)), state
 
         q._function = q2_func
         rng = jax.random.PRNGKey(0)
