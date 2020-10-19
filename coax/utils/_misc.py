@@ -565,7 +565,19 @@ def pretty_repr(o, d=0):
     """
     i = "  "  # indentation string
     if isinstance(o, (jnp.ndarray, onp.ndarray)):
-        return f"array(shape={o.shape}, dtype={str(o.dtype)})"
+        try:
+            summary = f", min={onp.min(o):.3g}, median={onp.median(o):.3g}, max={onp.max(o):.3g}"
+        except Exception:
+            summary = ""
+        return f"array(shape={o.shape}, dtype={str(o.dtype)}{summary:s})"
+    if isinstance(o, tuple):
+        sep = ',\n' + i * (d + 1)
+        body = '\n' + i * (d + 1) + sep.join(f"{pretty_repr(v, d + 1)}" for v in o)
+        return f"({body})"
+    if isinstance(o, list):
+        sep = ',\n' + i * (d + 1)
+        body = '\n' + i * (d + 1) + sep.join(f"{pretty_repr(v, d + 1)}" for v in o)
+        return f"[{body}]"
     if hasattr(o, '_asdict'):
         sep = '\n' + i * (d + 1)
         body = sep + sep.join(f"{k}={pretty_repr(v, d + 1)}" for k, v in o._asdict().items())
