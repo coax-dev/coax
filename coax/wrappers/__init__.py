@@ -24,6 +24,7 @@ r"""
     :nosignatures:
 
     coax.wrappers.TrainMonitor
+    coax.wrappers.FrameStacking
     coax.wrappers.BoxActionsToReals
     coax.wrappers.BoxActionsToDiscrete
     coax.wrappers.MetaPolicyEnv
@@ -49,6 +50,7 @@ Object Reference
 ----------------
 
 .. autoclass:: coax.wrappers.TrainMonitor
+.. autoclass:: coax.wrappers.FrameStacking
 .. autoclass:: coax.wrappers.BoxActionsToReals
 .. autoclass:: coax.wrappers.BoxActionsToDiscrete
 .. autoclass:: coax.wrappers.MetaPolicyEnv
@@ -57,13 +59,15 @@ Object Reference
 """
 
 from ._train_monitor import TrainMonitor
+from ._frame_stacking import FrameStacking
 from ._box_spaces import BoxActionsToReals, BoxActionsToDiscrete
 from ._meta_policy import MetaPolicyEnv
 
 
 __all__ = (
+    'TrainMonitor',
+    'FrameStacking',
     'BoxActionsToReals',
     'BoxActionsToDiscrete',
-    'TrainMonitor',
     'MetaPolicyEnv',
 )
