@@ -17,9 +17,9 @@ from optax import adam
 name = 'dqn'
 
 # env with preprocessing
-env = gym.make('PongNoFrameskip-v4')  # wrap_deepmind will do frame skipping
+env = gym.make('PongNoFrameskip-v4')  # AtariPreprocessing will do frame skipping
 env = gym.wrappers.AtariPreprocessing(env)
-env = gym.wrappers.FrameStack(env, num_stack=3)
+env = coax.wrappers.FrameStacking(env, num_frames=3)
 env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 
 
@@ -33,7 +33,7 @@ def func(S, is_training):
         hk.Linear(256), jax.nn.relu,
         hk.Linear(env.action_space.n, w_init=jnp.zeros),
     ))
-    X = jnp.moveaxis(S / 255., 1, -1)  # shape: (batch, frames, h, w) --> (batch, h, w, frames)
+    X = jnp.stack(S, axis=-1) / 255.  # stack frames
     return seq(X)
 
 
@@ -53,13 +53,7 @@ buffer = coax.experience_replay.SimpleReplayBuffer(capacity=1000000)
 
 
 # DQN exploration schedule (stepwise linear annealing)
-def epsilon(T):
-    M = 1000000
-    if T < M:
-        return 1 - 0.9 * T / M
-    if T < 2 * M:
-        return 0.1 - 0.09 * (T - M) / M
-    return 0.01
+epsilon = coax.utils.StepwiseLinearFunction((0, 1), (1000000, 0.1), (2000000, 0.01))
 
 
 while env.T < 3000000:
@@ -92,5 +86,5 @@ while env.T < 3000000:
     if env.period(name='generate_gif', T_period=10000) and env.T > 50000:
         T = env.T - env.T % 10000  # round to 10000s
         coax.utils.generate_gif(
-            env=env, policy=pi.mode, resize_to=(320, 420),
+            env=env, policy=pi, resize_to=(320, 420),
             filepath=f"./data/gifs/{name}/T{T:08d}.gif")

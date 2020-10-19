@@ -77,4 +77,4 @@ while env.T < 100000:
 
 
 # run env one more time to render
-coax.utils.generate_gif(env, policy=pi.mode, filepath=f"./data/{name}.gif", duration=25)
+coax.utils.generate_gif(env, policy=pi, filepath=f"./data/{name}.gif", duration=25)

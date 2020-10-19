@@ -17,9 +17,9 @@ from optax import adam
 name = 'dqn_boltzmann'
 
 # env with preprocessing
-env = gym.make('PongNoFrameskip-v4')  # wrap_deepmind will do frame skipping
+env = gym.make('PongNoFrameskip-v4')  # AtariPreprocessing will do frame skipping
 env = gym.wrappers.AtariPreprocessing(env)
-env = gym.wrappers.FrameStack(env, num_stack=3)
+env = coax.wrappers.FrameStacking(env, num_frames=3)
 env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 
 
@@ -33,13 +33,13 @@ def func(S, is_training):
         hk.Linear(256), jax.nn.relu,
         hk.Linear(env.action_space.n, w_init=jnp.zeros),
     ))
-    X = jnp.moveaxis(S / 255., 1, -1)  # shape: (batch, frames, h, w) --> (batch, h, w, frames)
+    X = jnp.stack(S, axis=-1) / 255.  # stack frames
     return seq(X)
 
 
 # function approximator
 q = coax.Q(func, env)
-pi = coax.BoltzmannPolicy(q, temperature=0.015)  # <--- different from standard DQN
+pi = coax.BoltzmannPolicy(q, temperature=0.015)  # <--- different from standard DQN (ε-greedy)
 
 # target network
 q_targ = q.copy()
@@ -65,7 +65,7 @@ while env.T < 3000000:
             buffer.add(tracer.pop())
 
         # learn
-        if len(buffer) > 50000:  # buffer warm-up
+        if env.T % 4 == 0 and len(buffer) > 50000:  # buffer warm-up
             metrics = qlearning.update(buffer.sample(batch_size=32))
             env.record_metrics(metrics)
 
@@ -81,5 +81,5 @@ while env.T < 3000000:
     if env.period(name='generate_gif', T_period=10000) and env.T > 50000:
         T = env.T - env.T % 10000  # round to 10000s
         coax.utils.generate_gif(
-            env=env, policy=pi.mode, resize_to=(320, 420),
+            env=env, policy=pi, resize_to=(320, 420),
             filepath=f"./data/gifs/{name}/T{T:08d}.gif")
