@@ -30,6 +30,7 @@ from scipy.linalg import pascal
 
 
 __all__ = (
+    'StepwiseLinearFunction',
     'argmax',
     'argmin',
     'batch_to_single',
@@ -698,6 +699,78 @@ def merge_dicts(*dicts):
             warnings.warn(f"merge_dicts found overlapping keys: {tuple(overlap)}")
         merged.update(d)
     return merged
+
+
+class StepwiseLinearFunction:
+    r"""
+
+    Stepwise linear function. The function remains flat outside of the regions defined by
+    :code:`steps`.
+
+    Parameters
+    ----------
+    \*steps : sequence of tuples (int, float)
+
+        Each step :code:`(timestep, value)` fixes the output value at :code:`timestep` to the
+        provided :code:`value`.
+
+    Example
+    -------
+    Here's an example of the exploration schedule in a DQN agent:
+
+    .. code::
+
+        pi = coax.EpsilonGreedy(q, epsilon=1.0)
+        epsilon = StepwiseLinearFunction((0, 1.0), (1000000, 0.1), (2000000, 0.01))
+
+        for _ in range(num_episodes):
+            pi.epsilon = epsilon(T)  # T is a global step counter
+            ...
+
+    .. image:: /_static/img/piecewise_linear_function.svg
+        :alt: description
+        :width: 100%
+        :align: left
+
+
+    Notice that the function is flat outside the interpolation range provided by :code:`steps`.
+
+
+    """
+    def __init__(self, *steps):
+        if len(steps) < 2:
+            raise TypeError("need at least two steps")
+        if not all(
+                isinstance(s, tuple) and len(s) == 2                          # check if pair
+                and isinstance(s[0], int) and isinstance(s[1], (float, int))  # check types
+                for s in steps):
+            raise TypeError("all steps must be pairs (size-2 tuples) of (int, type(start_value))")
+        if not all(t1 < t2 for (t1, _), (t2, _) in zip(steps, steps[1:])):  # check if consecutive
+            raise ValueError(
+                "steps [(t1, value), ..., (t2, value)] must be provided in ascending order, i.e. "
+                "0 < t1 < t2 < ... < tn")
+
+        self._start_value = float(steps[0][1])
+        self._final_value = float(steps[-1][1])
+        self._offsets = onp.array([t for t, _ in steps])
+        self._intercepts = onp.array([v for _, v in steps])
+        self._index = onp.arange(len(steps))
+        self._slopes = onp.array([
+            (v_next - v) / (t_next - t) for (t, v), (t_next, v_next) in zip(steps, steps[1:])])
+
+    def __call__(self, timestep):
+        r"""
+
+        Return the value according to the provided schedule.
+
+        """
+        mask = self._offsets <= timestep
+        if not onp.any(mask):
+            return self._start_value
+        if onp.all(mask):
+            return self._final_value
+        i = onp.max(self._index[mask])
+        return self._intercepts[i] + self._slopes[i] * (timestep - self._offsets[i])
 
 
 def _safe_sample(space, rnd):

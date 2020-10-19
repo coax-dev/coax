@@ -34,6 +34,7 @@ Object Reference
     :nosignatures:
 
     coax.utils.OrnsteinUhlenbeckNoise
+    coax.utils.StepwiseLinearFunction
     coax.utils.argmax
     coax.utils.argmin
     coax.utils.batch_to_single
@@ -75,6 +76,7 @@ from ._action_noise import (
     OrnsteinUhlenbeckNoise,
 )
 from ._array import (
+    StepwiseLinearFunction,
     argmax,
     argmin,
     batch_to_single,
@@ -114,6 +116,7 @@ from ._misc import (
 
 
 __all__ = (
+    'StepwiseLinearFunction',
     'OrnsteinUhlenbeckNoise',
     'argmax',
     'argmin',
