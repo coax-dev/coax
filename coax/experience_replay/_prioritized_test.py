@@ -19,88 +19,48 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-r"""
-.. autosummary::
-    :nosignatures:
+import gym
+import pytest
+import numpy as onp
 
-    coax.experience_replay.SimpleReplayBuffer
-    coax.experience_replay.PrioritizedReplayBuffer
-    coax.experience_replay.SumTree
-    coax.experience_replay.MinTree
-    coax.experience_replay.MaxTree
-    coax.experience_replay.SegmentTree
-
-----
-
-Experience Replay
-=================
-
-This is where we keep our experience-replay buffer classes. Replay buffers are typically used as
-follows:
-
-.. code:: python
-
-    env = gym.make(...)
-
-    # function approximator
-    func = coax.FuncApprox(env)
-    q = coax.Q(func)
-    pi = coax.EpsilonGreedy(q, epsilon=0.1)
-
-    # updater
-    qlearning = coax.td_learning.QLearning(q)
-
-    # reward tracer and replay buffer
-    tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
-    buffer = coax.experience_replay.SimpleReplayBuffer(tracer, capacity=10000)
-
-
-    s = env.reset()
-
-    for t in range(env.spec.max_episode_steps):
-        a = pi(s)
-        s_next, r, done, info = env.step(a)
-
-        # trace n-step rewards and add to replay buffer
-        tracer.add(s, a, r, done)
-        while tracer:
-            transition_batch = tracer.pop()  # batch_size = 1
-            buffer.add(transition_batch)
-
-        # sample random transitions from replay buffer
-        transition_batch = buffer.sample(batch_size=32)
-        qlearning.update(transition_batch)
-
-        if done:
-            break
-
-        s = s_next
-
-
-
-Object Reference
-----------------
-
-.. autoclass:: coax.experience_replay.SimpleReplayBuffer
-.. autoclass:: coax.experience_replay.PrioritizedReplayBuffer
-.. autoclass:: coax.experience_replay.SumTree
-.. autoclass:: coax.experience_replay.MinTree
-.. autoclass:: coax.experience_replay.MaxTree
-.. autoclass:: coax.experience_replay.SegmentTree
-
-
-"""
-
+from ..utils import get_transition_batch
 from ._simple import SimpleReplayBuffer
 from ._prioritized import PrioritizedReplayBuffer
-from ._segment_tree import SegmentTree, SumTree, MinTree, MaxTree
 
 
-__all__ = (
-    'SimpleReplayBuffer',
-    'PrioritizedReplayBuffer',
-    'SumTree',
-    'MinTree',
-    'MaxTree',
-    'SegmentTree',
-)
+@pytest.mark.parametrize('n', [2, 4])  # 2 * batch_size < capacity, 4 * batch_size > capacity
+def test_consistency(n):
+    env = gym.make('FrozenLakeNonSlippery-v0')
+    buffer1 = SimpleReplayBuffer(capacity=100)
+    buffer2 = PrioritizedReplayBuffer(capacity=100)
+
+    for i in range(n):
+        transition_batch = get_transition_batch(env, batch_size=32, random_seed=i)
+        buffer1.add(transition_batch)
+        buffer2.add(transition_batch, Adv=transition_batch.Rn)
+
+    # test TransitionBatch.__eq__
+    assert buffer1._deque[0] == buffer1._deque[0]
+    assert buffer1._deque[0] != buffer1._deque[1]
+
+    # test consistency between two buffers
+    assert len(buffer1) == len(buffer2)
+    for i in range(len(buffer1)):
+        t1 = buffer1._deque[i]
+        t2 = buffer2._storage[(i + buffer2._index) % len(buffer2)]
+        assert t1 == t2
+
+
+def test_sample():
+    env = gym.make('FrozenLakeNonSlippery-v0')
+    buffer1 = SimpleReplayBuffer(capacity=100, random_seed=13)
+    buffer2 = PrioritizedReplayBuffer(capacity=100, random_seed=13)
+
+    for i in range(4):
+        transition_batch = get_transition_batch(env, batch_size=32, random_seed=i)
+        transition_batch.W = onp.ones_like(transition_batch.W)  # start with uniform weights
+        buffer1.add(transition_batch)
+        buffer2.add(transition_batch.copy(), Adv=transition_batch.Rn)
+
+    assert onp.allclose(buffer1.sample(batch_size=10).W, onp.ones(10))
+    assert not onp.allclose(buffer2.sample(batch_size=10).W, onp.ones(10))
