@@ -23,6 +23,7 @@ import os
 import re
 import datetime
 import time
+from collections import deque
 from tempfile import TemporaryDirectory
 from zipfile import ZipFile
 from typing import Mapping
@@ -39,6 +40,36 @@ from ..utils import enable_logging
 __all__ = (
     'TrainMonitor',
 )
+
+
+class StreamingSample:
+    def __init__(self, maxlen, random_seed=None):
+        self._deque = deque(maxlen=maxlen)
+        self._rnd = np.random.RandomState(random_seed)
+
+    @property
+    def maxlen(self):
+        return self._deque.maxlen
+
+    def reset(self):
+        self._deque = deque(maxlen=self.max_sample_size)
+
+    def append(self, obj):
+        if len(self._deque) < self._deque.maxlen:
+            self._deque.append(obj)
+        elif self._rnd.rand() < self.max_sample_size / self._cnt:
+            i = self._rnd.randint(self.max_sample_size)
+            self._deque[i] = obj
+
+    @property
+    def values(self):
+        return list(self._deque)  # shallow copy
+
+    def __len__(self):
+        return len(self._deque)
+
+    def __bool__(self):
+        return bool(self._deque)
 
 
 class TrainMonitor(Wrapper, LoggerMixin, SerializationMixin):
@@ -162,7 +193,7 @@ class TrainMonitor(Wrapper, LoggerMixin, SerializationMixin):
         self.G = 0.0
         self._ep_starttime = time.time()
         self._ep_metrics = {}
-        self._ep_actions = []
+        self._ep_actions = StreamingSample(maxlen=1000)
 
         return self.env.reset()
 
@@ -312,7 +343,7 @@ class TrainMonitor(Wrapper, LoggerMixin, SerializationMixin):
                 else:
                     bins = 'auto'  # see also: np.histogram_bin_edges.__doc__
                 self.tensorboard.add_histogram(
-                    tag='actions', values=self._ep_actions, global_step=self.T, bins=bins)
+                    tag='actions', values=self._ep_actions.values, global_step=self.T, bins=bins)
             if self._ep_metrics and not self.tensorboard_write_all:
                 for k, (x, n) in self._ep_metrics.items():
                     self.tensorboard.add_scalar(str(k), float(x) / n, global_step=self.T)
