@@ -19,13 +19,14 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+from copy import deepcopy
 from functools import partial
 
 import jax
 import jax.numpy as jnp
 import numpy as onp
 
-from ..utils import single_to_batch, pretty_repr
+from ..utils import pretty_repr
 
 
 __all__ = (
@@ -98,9 +99,9 @@ class TransitionBatch:
         :class:`PrioritizedReplayBuffer <coax.experience_replay.PrioritizedReplayBuffer>`.
 
     """
-    __slots__ = ('S', 'A', 'logP', 'Rn', 'In', 'S_next', 'A_next', 'logP_next', 'W')
+    __slots__ = ('S', 'A', 'logP', 'Rn', 'In', 'S_next', 'A_next', 'logP_next', 'W', 'idx')
 
-    def __init__(self, S, A, logP, Rn, In, S_next, A_next=None, logP_next=None, W=None):
+    def __init__(self, S, A, logP, Rn, In, S_next, A_next=None, logP_next=None, W=None, idx=None):
 
         self.S = S
         self.A = A
@@ -111,9 +112,13 @@ class TransitionBatch:
         self.A_next = A_next
         self.logP_next = logP_next
         self.W = onp.ones_like(Rn) if W is None else W
+        self.idx = onp.arange(Rn.shape[0], dtype='int32') if idx is None else idx
 
     @classmethod
-    def from_single(cls, s, a, logp, r, done, gamma, s_next=None, a_next=None, logp_next=None, w=1):
+    def from_single(
+            cls, s, a, logp, r, done, gamma,
+            s_next=None, a_next=None, logp_next=None, w=1, idx=None):
+
         r"""
 
         Create a TransitionBatch (with batch_size=1) from a single transition.
@@ -161,11 +166,15 @@ class TransitionBatch:
             The importance weight associated with the sampling procedure that generated this
             transition.
 
+        idx : int, optional
+
+            The identifier of this particular transition.
+
         """
 
         # check types
         array = (int, float, onp.ndarray, jnp.ndarray)
-        if not (isinstance(logp, array) and onp.all(logp) <= 0):
+        if not (isinstance(logp, array) and onp.all(logp <= 0)):
             raise TypeError(f"logp must be non-positive float(s), got: {logp}")
         if not isinstance(r, array):
             raise TypeError(f"r must be a scalar or an array, got: {r}")
@@ -173,21 +182,22 @@ class TransitionBatch:
             raise TypeError(f"done must be a bool, got: {done}")
         if not (isinstance(gamma, (float, int)) and 0 <= gamma <= 1):
             raise TypeError(f"gamma must be a float in the unit interval [0, 1], got: {gamma}")
-        if not (logp_next is None or (isinstance(logp_next, array) and onp.all(logp_next) <= 0)):
+        if not (logp_next is None or (isinstance(logp_next, array) and onp.all(logp_next <= 0))):
             raise TypeError(f"logp_next must be None or non-positive float(s), got: {logp_next}")
         if not (isinstance(w, (float, int)) and w > 0):
             raise TypeError(f"w must be a positive float, got: {w}")
 
         return cls(
-            S=single_to_batch(s),
-            A=single_to_batch(a),
-            logP=single_to_batch(logp),
-            Rn=single_to_batch(r),
-            In=single_to_batch(float(gamma) * (1. - bool(done))),
-            S_next=single_to_batch(s_next) if s_next is not None else None,
-            A_next=single_to_batch(a_next) if a_next is not None else None,
-            logP_next=single_to_batch(logp_next) if logp_next is not None else None,
-            W=single_to_batch(float(w)),
+            S=_single_to_batch(s),
+            A=_single_to_batch(a),
+            logP=_single_to_batch(logp),
+            Rn=_single_to_batch(r),
+            In=_single_to_batch(float(gamma) * (1. - bool(done))),
+            S_next=_single_to_batch(s_next) if s_next is not None else None,
+            A_next=_single_to_batch(a_next) if a_next is not None else None,
+            logP_next=_single_to_batch(logp_next) if logp_next is not None else None,
+            W=_single_to_batch(float(w)),
+            idx=_single_to_batch(idx) if idx is not None else None,
         )
 
     @property
@@ -217,8 +227,12 @@ class TransitionBatch:
             s = slice(i, i + 1)  # ndim-preserving lookup
             return jax.tree_map(lambda leaf: leaf[s], pytree)
 
-        for i in reversed(range(self.batch_size)):
+        for i in range(self.batch_size):
             yield TransitionBatch(*map(partial(lookup, i), self))
+
+    def copy(self):
+        r""" Create a deepcopy of the current instance. """
+        return deepcopy(self)
 
     def items(self):
         for k in self.__slots__:
@@ -235,6 +249,17 @@ class TransitionBatch:
 
     def __getitem__(self, int_or_slice):
         return tuple(self).__getitem__(int_or_slice)
+
+    def __eq__(self, other):
+        return (type(self) is type(other)) and all(
+            onp.allclose(a, b) if isinstance(a, (onp.ndarray, jnp.ndarray))
+            else (a is b if a is None else a == b)
+            for a, b in zip(jax.tree_leaves(self), jax.tree_leaves(other)))
+
+
+def _single_to_batch(pytree):
+    # notice that we're pulling eveyrthing out of jax.numpy and into ordinary numpy land
+    return jax.tree_map(lambda arr: onp.expand_dims(arr, axis=0), pytree)
 
 
 jax.tree_util.register_pytree_node(
