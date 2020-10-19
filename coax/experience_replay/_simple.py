@@ -50,10 +50,14 @@ class SimpleReplayBuffer:
 
     """
     def __init__(self, capacity, random_seed=None):
-        self.capacity = int(capacity)
+        self._capacity = int(capacity)
         random.seed(random_seed)
         self._random_state = random.getstate()
-        self.clear()
+        self.clear()  # sets self._deque
+
+    @property
+    def capacity(self):
+        return self._capacity
 
     def add(self, transition_batch):
         r"""
@@ -67,6 +71,12 @@ class SimpleReplayBuffer:
             A :class:`TransitionBatch <coax.reward_tracing.TransitionBatch>` object.
 
         """
+        if not isinstance(transition_batch, TransitionBatch):
+            raise TypeError(
+                f"transition_batch must be a TransitionBatch, got: {type(transition_batch)}")
+
+        transition_batch.idx = onp.arange(self._index, self._index + transition_batch.batch_size)
+        self._index += transition_batch.batch_size
         self._deque.extend(transition_batch.to_singles())
 
     def sample(self, batch_size=32):
@@ -86,28 +96,16 @@ class SimpleReplayBuffer:
             A :class:`TransitionBatch <coax.reward_tracing.TransitionBatch>` object.
 
         """
-        def concatenate_leaves(pytrees):
-            return jax.tree_multimap(lambda *leaves: onp.concatenate(leaves, axis=0), *pytrees)
-
         # sandwich sample in between setstate/getstate in case global random state was tampered with
         random.setstate(self._random_state)
         transitions = random.sample(self._deque, batch_size)
         self._random_state = random.getstate()
-
-        return TransitionBatch(
-            S=concatenate_leaves(t.S for t in transitions),
-            A=concatenate_leaves(t.A for t in transitions),
-            logP=concatenate_leaves(t.logP for t in transitions),
-            Rn=concatenate_leaves(t.Rn for t in transitions),
-            In=concatenate_leaves(t.In for t in transitions),
-            S_next=concatenate_leaves(t.S_next for t in transitions),
-            A_next=concatenate_leaves(t.A_next for t in transitions),
-            logP_next=concatenate_leaves(t.logP_next for t in transitions),
-        )
+        return jax.tree_multimap(lambda *leaves: onp.concatenate(leaves, axis=0), *transitions)
 
     def clear(self):
         r""" Clear the experience replay buffer. """
         self._deque = deque(maxlen=self.capacity)
+        self._index = 0
 
     def __len__(self):
         return len(self._deque)
