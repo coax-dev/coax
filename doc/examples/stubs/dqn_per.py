@@ -27,7 +27,7 @@ def func_type2(S, is_training):
 # function approximator
 func = ...  # func_type1 or func_type2
 q = coax.Q(func, env)
-pi = coax.EpsilonGreedy(q, epsilon=0.1)
+pi = coax.EpsilonGreedy(q, epsilon=1.0)  # epsilon will be updated
 
 
 # target network

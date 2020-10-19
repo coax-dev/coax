@@ -1,5 +1,5 @@
-DQN with Prioritized Experience Replay (PER)
-============================================
+Prioritized Experience Replay (PER)
+===================================
 
 This is essentially the same agent as the standard :doc:`DQN <dqn>` agent, except that this one uses
 a prioritized experience replay buffer (see `paper <https://arxiv.org/abs/1511.05952>`_).
