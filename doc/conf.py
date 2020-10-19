@@ -261,7 +261,7 @@ nbsphinx_execute = 'never'
 # Example configuration for intersphinx: refer to the Python standard library.
 intersphinx_mapping = {
     'python': ('https://docs.python.org/3/', ('_intersphinx/python3.inv',)),
-    'numpy': ('https://docs.scipy.org/doc/numpy/', ('_intersphinx/numpy.inv',)),
+    'numpy': ('https://numpy.org/doc/stable/', ('_intersphinx/numpy.inv',)),
     'sklearn': ('https://scikit-learn.org/stable/', ('_intersphinx/sklearn.inv',)),
     'jax': ('https://jax.readthedocs.io/en/latest/', ('_intersphinx/jax.inv',)),
     'haiku': ('https://dm-haiku.readthedocs.io/en/latest/', ('_intersphinx/haiku.inv',)),

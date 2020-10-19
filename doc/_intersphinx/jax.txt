@@ -188,6 +188,10 @@ py:function
 	jax.lax.convert_element_type             _autosummary/jax.lax.convert_element_type.html#jax.lax.convert_element_type
 	jax.lax.cos                              _autosummary/jax.lax.cos.html#jax.lax.cos
 	jax.lax.cosh                             _autosummary/jax.lax.cosh.html#jax.lax.cosh
+	jax.lax.cummax                           _autosummary/jax.lax.cummax.html#jax.lax.cummax
+	jax.lax.cummin                           _autosummary/jax.lax.cummin.html#jax.lax.cummin
+	jax.lax.cumprod                          _autosummary/jax.lax.cumprod.html#jax.lax.cumprod
+	jax.lax.cumsum                           _autosummary/jax.lax.cumsum.html#jax.lax.cumsum
 	jax.lax.custom_linear_solve              _autosummary/jax.lax.custom_linear_solve.html#jax.lax.custom_linear_solve
 	jax.lax.custom_root                      _autosummary/jax.lax.custom_root.html#jax.lax.custom_root
 	jax.lax.digamma                          _autosummary/jax.lax.digamma.html#jax.lax.digamma
@@ -198,6 +202,7 @@ py:function
 	jax.lax.dynamic_slice                    _autosummary/jax.lax.dynamic_slice.html#jax.lax.dynamic_slice
 	jax.lax.dynamic_slice_in_dim             _autosummary/jax.lax.dynamic_slice_in_dim.html#jax.lax.dynamic_slice_in_dim
 	jax.lax.dynamic_update_index_in_dim      _autosummary/jax.lax.dynamic_update_index_in_dim.html#jax.lax.dynamic_update_index_in_dim
+	jax.lax.dynamic_update_slice             _autosummary/jax.lax.dynamic_update_slice.html#jax.lax.dynamic_update_slice
 	jax.lax.dynamic_update_slice_in_dim      _autosummary/jax.lax.dynamic_update_slice_in_dim.html#jax.lax.dynamic_update_slice_in_dim
 	jax.lax.eq                               _autosummary/jax.lax.eq.html#jax.lax.eq
 	jax.lax.erf                              _autosummary/jax.lax.erf.html#jax.lax.erf
@@ -303,6 +308,7 @@ py:function
 	jax.nn.leaky_relu                        _autosummary/jax.nn.leaky_relu.html#jax.nn.leaky_relu
 	jax.nn.log_sigmoid                       _autosummary/jax.nn.log_sigmoid.html#jax.nn.log_sigmoid
 	jax.nn.log_softmax                       _autosummary/jax.nn.log_softmax.html#jax.nn.log_softmax
+	jax.nn.logsumexp                         _autosummary/jax.nn.logsumexp.html#jax.nn.logsumexp
 	jax.nn.normalize                         _autosummary/jax.nn.normalize.html#jax.nn.normalize
 	jax.nn.one_hot                           _autosummary/jax.nn.one_hot.html#jax.nn.one_hot
 	jax.nn.relu6                             _autosummary/jax.nn.relu6.html#jax.nn.relu6
@@ -908,6 +914,10 @@ std:doc
 	_autosummary/jax.lax.convert_element_type jax.lax.convert_element_type            : _autosummary/jax.lax.convert_element_type.html
 	_autosummary/jax.lax.cos                 jax.lax.cos                             : _autosummary/jax.lax.cos.html
 	_autosummary/jax.lax.cosh                jax.lax.cosh                            : _autosummary/jax.lax.cosh.html
+	_autosummary/jax.lax.cummax              jax.lax.cummax                          : _autosummary/jax.lax.cummax.html
+	_autosummary/jax.lax.cummin              jax.lax.cummin                          : _autosummary/jax.lax.cummin.html
+	_autosummary/jax.lax.cumprod             jax.lax.cumprod                         : _autosummary/jax.lax.cumprod.html
+	_autosummary/jax.lax.cumsum              jax.lax.cumsum                          : _autosummary/jax.lax.cumsum.html
 	_autosummary/jax.lax.custom_linear_solve jax.lax.custom_linear_solve             : _autosummary/jax.lax.custom_linear_solve.html
 	_autosummary/jax.lax.custom_root         jax.lax.custom_root                     : _autosummary/jax.lax.custom_root.html
 	_autosummary/jax.lax.digamma             jax.lax.digamma                         : _autosummary/jax.lax.digamma.html
@@ -918,6 +928,7 @@ std:doc
 	_autosummary/jax.lax.dynamic_slice       jax.lax.dynamic_slice                   : _autosummary/jax.lax.dynamic_slice.html
 	_autosummary/jax.lax.dynamic_slice_in_dim jax.lax.dynamic_slice_in_dim            : _autosummary/jax.lax.dynamic_slice_in_dim.html
 	_autosummary/jax.lax.dynamic_update_index_in_dim jax.lax.dynamic_update_index_in_dim     : _autosummary/jax.lax.dynamic_update_index_in_dim.html
+	_autosummary/jax.lax.dynamic_update_slice jax.lax.dynamic_update_slice            : _autosummary/jax.lax.dynamic_update_slice.html
 	_autosummary/jax.lax.dynamic_update_slice_in_dim jax.lax.dynamic_update_slice_in_dim     : _autosummary/jax.lax.dynamic_update_slice_in_dim.html
 	_autosummary/jax.lax.eq                  jax.lax.eq                              : _autosummary/jax.lax.eq.html
 	_autosummary/jax.lax.erf                 jax.lax.erf                             : _autosummary/jax.lax.erf.html
@@ -1019,6 +1030,7 @@ std:doc
 	_autosummary/jax.nn.leaky_relu           jax.nn.leaky_relu                       : _autosummary/jax.nn.leaky_relu.html
 	_autosummary/jax.nn.log_sigmoid          jax.nn.log_sigmoid                      : _autosummary/jax.nn.log_sigmoid.html
 	_autosummary/jax.nn.log_softmax          jax.nn.log_softmax                      : _autosummary/jax.nn.log_softmax.html
+	_autosummary/jax.nn.logsumexp            jax.nn.logsumexp                        : _autosummary/jax.nn.logsumexp.html
 	_autosummary/jax.nn.normalize            jax.nn.normalize                        : _autosummary/jax.nn.normalize.html
 	_autosummary/jax.nn.one_hot              jax.nn.one_hot                          : _autosummary/jax.nn.one_hot.html
 	_autosummary/jax.nn.relu                 jax.nn.relu                             : _autosummary/jax.nn.relu.html
@@ -1486,6 +1498,7 @@ std:doc
 	_autosummary/jax.scipy.stats.uniform.pdf jax.scipy.stats.uniform.pdf             : _autosummary/jax.scipy.stats.uniform.pdf.html
 	async_dispatch                           Asynchronous dispatch                   : async_dispatch.html
 	concurrency                              Concurrency                             : concurrency.html
+	custom_vjp_update                        custom_vjp and nondiff_argnums update guide: custom_vjp_update.html
 	developer                                Building from source                    : developer.html
 	device_memory_profiling                  Device Memory Profiling                 : device_memory_profiling.html
 	faq                                      JAX Frequently Asked Questions (FAQ)    : faq.html
@@ -1652,6 +1665,18 @@ std:label
 	/_autosummary/jax.lax.cosh.rst           jax.lax.cosh                            : _autosummary/jax.lax.cosh.html
 	/_autosummary/jax.lax.cosh.rst#jax-lax-cosh jax.lax.cosh                            : _autosummary/jax.lax.cosh.html#jax-lax-cosh
 	/_autosummary/jax.lax.cosh.rst#jax.lax.cosh jax.lax.cosh                            : _autosummary/jax.lax.cosh.html#jax.lax.cosh
+	/_autosummary/jax.lax.cummax.rst         jax.lax.cummax                          : _autosummary/jax.lax.cummax.html
+	/_autosummary/jax.lax.cummax.rst#jax-lax-cummax jax.lax.cummax                          : _autosummary/jax.lax.cummax.html#jax-lax-cummax
+	/_autosummary/jax.lax.cummax.rst#jax.lax.cummax jax.lax.cummax                          : _autosummary/jax.lax.cummax.html#jax.lax.cummax
+	/_autosummary/jax.lax.cummin.rst         jax.lax.cummin                          : _autosummary/jax.lax.cummin.html
+	/_autosummary/jax.lax.cummin.rst#jax-lax-cummin jax.lax.cummin                          : _autosummary/jax.lax.cummin.html#jax-lax-cummin
+	/_autosummary/jax.lax.cummin.rst#jax.lax.cummin jax.lax.cummin                          : _autosummary/jax.lax.cummin.html#jax.lax.cummin
+	/_autosummary/jax.lax.cumprod.rst        jax.lax.cumprod                         : _autosummary/jax.lax.cumprod.html
+	/_autosummary/jax.lax.cumprod.rst#jax-lax-cumprod jax.lax.cumprod                         : _autosummary/jax.lax.cumprod.html#jax-lax-cumprod
+	/_autosummary/jax.lax.cumprod.rst#jax.lax.cumprod jax.lax.cumprod                         : _autosummary/jax.lax.cumprod.html#jax.lax.cumprod
+	/_autosummary/jax.lax.cumsum.rst         jax.lax.cumsum                          : _autosummary/jax.lax.cumsum.html
+	/_autosummary/jax.lax.cumsum.rst#jax-lax-cumsum jax.lax.cumsum                          : _autosummary/jax.lax.cumsum.html#jax-lax-cumsum
+	/_autosummary/jax.lax.cumsum.rst#jax.lax.cumsum jax.lax.cumsum                          : _autosummary/jax.lax.cumsum.html#jax.lax.cumsum
 	/_autosummary/jax.lax.custom_linear_solve.rst jax.lax.custom_linear_solve             : _autosummary/jax.lax.custom_linear_solve.html
 	/_autosummary/jax.lax.custom_linear_solve.rst#jax-lax-custom-linear-solve jax.lax.custom_linear_solve             : _autosummary/jax.lax.custom_linear_solve.html#jax-lax-custom-linear-solve
 	/_autosummary/jax.lax.custom_linear_solve.rst#jax.lax.custom_linear_solve jax.lax.custom_linear_solve             : _autosummary/jax.lax.custom_linear_solve.html#jax.lax.custom_linear_solve
@@ -1682,6 +1707,9 @@ std:label
 	/_autosummary/jax.lax.dynamic_update_index_in_dim.rst jax.lax.dynamic_update_index_in_dim     : _autosummary/jax.lax.dynamic_update_index_in_dim.html
 	/_autosummary/jax.lax.dynamic_update_index_in_dim.rst#jax-lax-dynamic-update-index-in-dim jax.lax.dynamic_update_index_in_dim     : _autosummary/jax.lax.dynamic_update_index_in_dim.html#jax-lax-dynamic-update-index-in-dim
 	/_autosummary/jax.lax.dynamic_update_index_in_dim.rst#jax.lax.dynamic_update_index_in_dim jax.lax.dynamic_update_index_in_dim     : _autosummary/jax.lax.dynamic_update_index_in_dim.html#jax.lax.dynamic_update_index_in_dim
+	/_autosummary/jax.lax.dynamic_update_slice.rst jax.lax.dynamic_update_slice            : _autosummary/jax.lax.dynamic_update_slice.html
+	/_autosummary/jax.lax.dynamic_update_slice.rst#jax-lax-dynamic-update-slice jax.lax.dynamic_update_slice            : _autosummary/jax.lax.dynamic_update_slice.html#jax-lax-dynamic-update-slice
+	/_autosummary/jax.lax.dynamic_update_slice.rst#jax.lax.dynamic_update_slice jax.lax.dynamic_update_slice            : _autosummary/jax.lax.dynamic_update_slice.html#jax.lax.dynamic_update_slice
 	/_autosummary/jax.lax.dynamic_update_slice_in_dim.rst jax.lax.dynamic_update_slice_in_dim     : _autosummary/jax.lax.dynamic_update_slice_in_dim.html
 	/_autosummary/jax.lax.dynamic_update_slice_in_dim.rst#jax-lax-dynamic-update-slice-in-dim jax.lax.dynamic_update_slice_in_dim     : _autosummary/jax.lax.dynamic_update_slice_in_dim.html#jax-lax-dynamic-update-slice-in-dim
 	/_autosummary/jax.lax.dynamic_update_slice_in_dim.rst#jax.lax.dynamic_update_slice_in_dim jax.lax.dynamic_update_slice_in_dim     : _autosummary/jax.lax.dynamic_update_slice_in_dim.html#jax.lax.dynamic_update_slice_in_dim
@@ -1985,6 +2013,9 @@ std:label
 	/_autosummary/jax.nn.log_softmax.rst     jax.nn.log_softmax                      : _autosummary/jax.nn.log_softmax.html
 	/_autosummary/jax.nn.log_softmax.rst#jax-nn-log-softmax jax.nn.log_softmax                      : _autosummary/jax.nn.log_softmax.html#jax-nn-log-softmax
 	/_autosummary/jax.nn.log_softmax.rst#jax.nn.log_softmax jax.nn.log_softmax                      : _autosummary/jax.nn.log_softmax.html#jax.nn.log_softmax
+	/_autosummary/jax.nn.logsumexp.rst       jax.nn.logsumexp                        : _autosummary/jax.nn.logsumexp.html
+	/_autosummary/jax.nn.logsumexp.rst#jax-nn-logsumexp jax.nn.logsumexp                        : _autosummary/jax.nn.logsumexp.html#jax-nn-logsumexp
+	/_autosummary/jax.nn.logsumexp.rst#jax.nn.logsumexp jax.nn.logsumexp                        : _autosummary/jax.nn.logsumexp.html#jax.nn.logsumexp
 	/_autosummary/jax.nn.normalize.rst       jax.nn.normalize                        : _autosummary/jax.nn.normalize.html
 	/_autosummary/jax.nn.normalize.rst#jax-nn-normalize jax.nn.normalize                        : _autosummary/jax.nn.normalize.html#jax-nn-normalize
 	/_autosummary/jax.nn.normalize.rst#jax.nn.normalize jax.nn.normalize                        : _autosummary/jax.nn.normalize.html#jax.nn.normalize
@@ -3457,6 +3488,10 @@ std:label
 	/changelog.rst#notable-bug-fixes         Notable bug fixes                       : CHANGELOG.html#notable-bug-fixes
 	/concurrency.rst                         Concurrency                             : concurrency.html
 	/concurrency.rst#concurrency             Concurrency                             : concurrency.html#concurrency
+	/custom_vjp_update.md                    custom_vjp and nondiff_argnums update guide: custom_vjp_update.html
+	/custom_vjp_update.md#custom-vjp-and-nondiff-argnums-update-guide custom_vjp and nondiff_argnums update guide: custom_vjp_update.html#custom-vjp-and-nondiff-argnums-update-guide
+	/custom_vjp_update.md#explanation        Explanation                             : custom_vjp_update.html#explanation
+	/custom_vjp_update.md#what-to-update     What to update                          : custom_vjp_update.html#what-to-update
 	/developer.rst                           Building from source                    : developer.html
 	/developer.rst#building-from-source      Building from source                    : developer.html#building-from-source
 	/developer.rst#building-jaxlib-from-source Building jaxlib from source             : developer.html#building-jaxlib-from-source
@@ -3885,6 +3920,7 @@ std:label
 	/rank_promotion_warning.rst#rank-promotion-warning Rank promotion warning                  : rank_promotion_warning.html#rank-promotion-warning
 	/type_promotion.rst                      Type promotion semantics                : type_promotion.html
 	/type_promotion.rst#type-promotion-semantics Type promotion semantics                : type_promotion.html#type-promotion-semantics
+	ble1990                                  _autosummary/jax.lax.associative_scan.html#ble1990
 	boost                                    _autosummary/jax.scipy.special.gammaincc.html#boost
 	ct                                       _autosummary/jax.numpy.fft.fft.html#ct
 	dlmf                                     _autosummary/jax.scipy.special.zeta.html#dlmf
