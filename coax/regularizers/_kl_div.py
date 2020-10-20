@@ -37,7 +37,7 @@ class KLDivRegularizer(Regularizer):
 
         \text{loss}(\theta; s,a)\ =\
             -J(\theta; s,a)
-            + \beta\,KL[\pi_\text{prior}, \pi_\theta]
+            + \beta\,KL[\pi_\theta, \pi_\text{prior}]
 
     where :math:`J(\theta)` is the bare policy objective. Also, in order to unclutter the notation
     we abbreviated :math:`\pi(.|s)` by :math:`\pi`.
@@ -65,11 +65,11 @@ class KLDivRegularizer(Regularizer):
         self.priors = self.f.proba_dist.default_priors if priors is None else priors
 
         def function(dist_params, priors, beta):
-            kl_div = self.f.proba_dist.kl_divergence(priors, dist_params)
+            kl_div = self.f.proba_dist.kl_divergence(dist_params, priors)
             return beta * kl_div
 
         def metrics(dist_params, priors, beta):
-            kl_div = self.f.proba_dist.kl_divergence(priors, dist_params)
+            kl_div = self.f.proba_dist.kl_divergence(dist_params, priors)
             return {
                 'KLDivRegularizer/beta': beta,
                 'KLDivRegularizer/kl_div': jnp.mean(kl_div)}
