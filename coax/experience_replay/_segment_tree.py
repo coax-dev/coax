@@ -52,6 +52,13 @@ class SegmentTree:
         is :data:`add <numpy.add>`, 1 for :data:`multiply <numpy.multiply>`, :math:`-\infty` for
         :data:`maximum <numpy.maximum>`, :math:`\infty` for :data:`minimum <numpy.minimum>`.
 
+    Warning
+    -------
+
+    The :attr:`values` attribute and square-bracket lookups (:code:`tree[level, index]`) return
+    references of the underlying storage array. Therefore, make sure that downstream code doesn't
+    update these values in-place, which would corrupt the segment tree structure.
+
     """
     def __init__(self, capacity, reducer, init_value):
         self.capacity = capacity
@@ -78,30 +85,57 @@ class SegmentTree:
     @property
     def values(self):
         r""" The values stored at the leaves of the tree. """
-        return self[...]
+        start = 2 ** (self.height - 1) - 1
+        stop = start + self.capacity
+        return self._arr[start:stop]
 
-    @values.setter
-    def values(self, new_values):
-        self[...] = new_values
+    def __getitem__(self, lookup):
+        if isinstance(lookup, int):
+            level_offset, level_size = self._check_level_lookup(lookup)
+            return self._arr[level_offset:(level_offset + level_size)]
 
-    def __array__(self):
-        return self.values
+        if isinstance(lookup, tuple) and len(lookup) == 1:
+            level, = lookup
+            return self[level]
 
-    def __getitem__(self, idx):
-        idx = self._check_level_idx(self.height - 1, idx, self.capacity)
-        return self._arr[idx]
+        if isinstance(lookup, tuple) and len(lookup) == 2:
+            level, index = lookup
+            return self[level][index]
 
-    def __setitem__(self, idx, values):
-        idx = self._check_level_idx(self.height - 1, idx, self.capacity)
-        self._arr[idx] = values                                # update leaf-node values
-        level_offset = 2 ** (self.height - 1) - 1               # number of nodes in higher levels
+        raise IndexError(
+            "tree lookup must be of the form: tree[level] or tree[level, index], "
+            "where 'level' is an int and 'index' is a 1d array lookup")
+
+    def set_values(self, idx, values):
+        r"""
+
+        Set or update the :attr:`values`.
+
+        Parameters
+        ----------
+        idx : 1d array of ints
+
+            The indices of the values to be updated. If you wish to update all values use ellipses
+            instead, e.g. :code:`tree.set_values(..., values)`.
+
+        values : 1d array of floats
+
+            The new values.
+
+        """
+        idx, level_offset, level_size = self._check_idx(idx)
+
+        # update leaf-node values
+        self._arr[level_offset + (idx % level_size)] = values
+
         for level in range(self.height - 2, -1, -1):
-            level_idx = onp.unique((idx - level_offset) // 2)  # level index (without offset)
-            left_child_idx = level_idx * 2 + level_offset      # indices for left children
-            right_child_idx = left_child_idx + 1               # indices for right children
+            idx = onp.unique(idx // 2)
+            left_child = level_offset + 2 * idx
+            right_child = left_child + 1
+
             level_offset = 2 ** level - 1
-            idx = level_idx + level_offset                     # parent indices
-            self._arr[idx] = self.reducer(self._arr[left_child_idx], self._arr[right_child_idx])
+            parent = level_offset + idx
+            self._arr[parent] = self.reducer(self._arr[left_child], self._arr[right_child])
 
     def partial_reduce(self, start=0, stop=None):
         r"""
@@ -171,49 +205,61 @@ class SegmentTree:
     def __repr__(self):
         s = ""
         for level in range(self.height):
-            idx = self._check_level_idx(level, ...)
-            s += f"\n  level={level} : {repr(self._arr[idx])}"
+            s += f"\n  level={level} : {repr(self[level])}"
         return f"{type(self).__name__}({s})"
+
+    def _check_level_lookup(self, level):
+        if not isinstance(level, int):
+            raise IndexError(f"level lookup must be an int, got: {type(level)}")
+
+        if not (-self.height <= level < self.height):
+            raise IndexError(f"level index {level} is out of bounds; tree height: {self.height}")
+
+        level %= self.height
+        level_offset = 2 ** level - 1
+        level_size = min(2 ** level, self.capacity)
+        return level_offset, level_size
 
     def _check_level(self, level):
         if level < -self.height or level >= self.height:
             raise IndexError(f"tree level index {level} out of range; tree height: {self.height}")
         return level % self.height
 
-    def _check_level_idx(self, level, idx, level_size=None):
-        """ some boilerplate to transform an index relative to a tree level into a global index """
-        i = 2 ** level - 1                                    # level offset
-        n = 2 ** level if level_size is None else level_size  # level size
+    def _check_idx(self, idx):
+        """ some boiler plate to turn any compatible idx into a 1d integer array """
+        level_offset, level_size = self._check_level_lookup(self.height - 1)
 
+        if isinstance(idx, int):
+            idx = onp.asarray([idx], dtype='int32')
         if idx is None or idx is Ellipsis:
-            return onp.arange(i, i + n)
+            idx = onp.arange(level_size, dtype='int32')
+        elif isinstance(idx, list) and all(isinstance(x, int) for x in idx):
+            idx = onp.asarray(idx, dtype='int32')
+        elif (isinstance(idx, onp.ndarray)
+                and onp.issubdtype(idx.dtype, onp.integer)
+                and idx.ndim <= 1):
+            idx = idx.reshape(-1)
+        else:
+            raise IndexError("idx must be an int or a 1d integer array")
 
-        if isinstance(idx, slice):
-            if not (idx.step is None or idx.step == 1):
-                raise NotImplementedError("reverse indexing not implemented; feature request?")
-            if not (idx.start is None or 0 <= idx.start < n):
-                raise IndexError(f"index slice.start out of range: {idx.start} not in [0, {n})")
-            if not (idx.stop is None or 0 < idx.stop <= n):
-                raise IndexError(f"index slice.stop out of range: {idx.stop} not in (0, {n}]")
-            start = i if idx.start is None else idx.start + i
-            stop = i + n if idx.stop is None else idx.stop + i
-            return onp.arange(start, stop)
-
-        idx = onp.asarray(idx, dtype='int32')
-        if onp.any(idx >= n) or onp.any(idx < -level_size):
+        if not onp.all((idx < level_size) & (idx >= -level_size)):
             raise IndexError("one of more entries in idx are out or range")
-        return idx % level_size + i  # offset
+
+        return idx % level_size, level_offset, level_size
 
     def _check_start_stop_to_i_j(self, start, stop):
         """ some boiler plate to turn (start, stop) into left/right index arrays (i, j) """
         start_orig, stop_orig = start, stop
+
+        # convert 'start' index to 1d array
         if isinstance(start, int):
             start = onp.array([start])
         if not (isinstance(start, onp.ndarray)
                 and start.ndim == 1
                 and onp.issubdtype(start.dtype, onp.integer)):
-            raise TypeError("'start' must be an int or a 1d array of ints array")
+            raise TypeError("'start' must be an int or a 1d integer array")
 
+        # convert 'stop' index to 1d array
         if stop is None:
             stop = onp.full_like(start, self.capacity)
         if isinstance(stop, int):
@@ -221,19 +267,24 @@ class SegmentTree:
         if not (isinstance(stop, onp.ndarray)
                 and stop.ndim == 1
                 and onp.issubdtype(stop.dtype, onp.integer)):
-            raise TypeError("'stop' must be an int or a 1d array of ints array")
+            raise TypeError("'stop' must be an int or a 1d integer array")
 
+        # ensure that 'start' is the same size as 'stop'
         if start.size == 1 and stop.size > 1:
             start = onp.full_like(stop, start[0])
 
+        # check compatible shapes
         if start.shape != stop.shape:
             raise ValueError(
                 f"shapes must be equal, got: start.shape: {start.shape}, stop.shape: {stop.shape}")
 
-        i = self._check_level_idx(self.height - 1, start, self.capacity)
-        j = self._check_level_idx(self.height - 1, stop - 1, self.capacity)
+        # convert to (i, j), where j is the *inclusive* version of 'stop' (which is exclusive)
+        level_offset, level_size = self._check_level_lookup(self.height - 1)
+        i = level_offset + start % level_size
+        j = level_offset + (stop - 1) % level_size
 
-        if not onp.all(i <= j):
+        # check consistency of ranges
+        if not onp.all((i >= level_offset) & (j < level_offset + level_size) & (i <= j)):
             raise IndexError(
                 f"inconsistent ranges detected from (start, stop) = ({start_orig}, {stop_orig})")
 
@@ -297,6 +348,12 @@ class SumTree(SegmentTree):
 
             The sampled indices, shape: (n,)
 
+        Warning
+        -------
+
+        This method presumes (but doesn't check) that all :attr:`values` stored in the tree are
+        non-negative.
+
         """
         if not (isinstance(n, int) and n > 0):
             raise TypeError("n must be a positive integer")
@@ -324,6 +381,12 @@ class SumTree(SegmentTree):
         idx : array of ints
 
             The indices associated with :math:`u`, shape: (n,)
+
+        Warning
+        -------
+
+        This method presumes (but doesn't check) that all :attr:`values` stored in the tree are
+        non-negative.
 
         """
         # NOTE: This is an iterative implementation, which is a lot uglier than a recursive one.

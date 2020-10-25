@@ -38,27 +38,29 @@ class PrioritizedReplayBuffer:
     A simple ring buffer for experience replay, with prioritized sampling.
 
     This class uses *proportional* sampling, which means that the transitions are sampled with
-    relative probability :math:`P(i)\ =\ p_i^\alpha / \sum_jp_j^\alpha`, where :math:`p_i` is
-    defined as:
+    relative probability :math:`p_i` defined as:
 
     .. math::
 
-        p_i\ =\ |\mathcal{A}_i| + \epsilon
+        p_i\ =\ \frac
+            {\left(|\mathcal{A}_i| + \epsilon\right)^\alpha}
+            {\sum_{j=1}^N \left(|\mathcal{A}_j| + \epsilon\right)^\alpha}
 
-    Here :math:`\mathcal{A}_i` are advantages provided at insertion time. These are typically just
+    Here :math:`\mathcal{A}_i` are advantages provided at insertion time and :math:`N` is the
+    capacity of the buffer, which may be quite large. The :math:`\mathcal{A}_i` are typically just
     TD errors collected from a value-function updater, e.g. :func:`QLearning.td_error
     <coax.td_learning.QLearning.td_error>`.
 
     Since the prioritized samples are baised, the :attr:`sample` method also produces non-trivial
-    the importance weights (stored in the :class:`TransitionBatch.W
-    <coax.reward_tracing.TransitionBatch>` attribute). The logic for constructing these weights is:
+    importance weights (stored in the :class:`TransitionBatch.W
+    <coax.reward_tracing.TransitionBatch>` attribute). The logic for constructing these weights for
+    a sample of batch size :math:`n` (typically :math:`n\ll N`):
 
     .. math::
 
-        w_i\ \leftarrow\ \left(N\,P(i)\right)^{-\beta} / \max_j \left(N\,P(j)\right)^{-\beta}
+        w_i\ =\ \frac{\left(Np_i\right)^{-\beta}}{\max_{j=1}^n \left(Np_j\right)^{-\beta}}
 
-    where :math:`i,j` run over the batch indices and :math:`N` is the length of the buffer. See
-    section 3.4 of https://arxiv.org/abs/1511.05952 for more details.
+    See section 3.4 of https://arxiv.org/abs/1511.05952 for more details.
 
     Parameters
     ----------
@@ -72,7 +74,7 @@ class PrioritizedReplayBuffer:
 
     beta : positive float, optional
 
-        The importance-weight exponent :math:`\beta\approx1`.
+        The importance-weight exponent :math:`\beta>0`.
 
     epsilon : positive float, optional
 
@@ -114,9 +116,10 @@ class PrioritizedReplayBuffer:
             raise TypeError(f"alpha must be a positive float, got: {new_alpha}")
         if onp.isclose(new_alpha, self._alpha, rtol=0.01):
             return  # noop if new value is too close to old value (not worth the computation cost)
-        self._sumtree.values = onp.where(
+        new_values = onp.where(
             self._sumtree.values <= 0, 0.,  # only change exponents for positive values
             onp.exp(onp.log(onp.maximum(self._sumtree.values, 1e-15)) * (new_alpha / self._alpha)))
+        self._sumtree.set_values(..., new_values)
         self._alpha = float(new_alpha)
 
     @property
@@ -152,7 +155,7 @@ class PrioritizedReplayBuffer:
 
         Adv : ndarray
 
-            A batch of advantages, used to construct the sample weights.
+            A batch of advantages, used to construct the priorities :math:`p_i`.
 
         """
         if not isinstance(transition_batch, TransitionBatch):
@@ -162,8 +165,8 @@ class PrioritizedReplayBuffer:
         transition_batch.idx = self._index + onp.arange(transition_batch.batch_size)
         idx = transition_batch.idx % self.capacity  # wrap around
         chex.assert_equal_shape([idx, Adv])
-        self._storage[idx] = onp.array(list(transition_batch.to_singles()), dtype='object')
-        self._sumtree[idx] = onp.power(onp.abs(Adv) + self.epsilon, self.alpha)
+        self._storage[idx] = list(transition_batch.to_singles())
+        self._sumtree.set_values(idx, onp.power(onp.abs(Adv) + self.epsilon, self.alpha))
         self._index += transition_batch.batch_size
 
     def sample(self, batch_size=32):
@@ -185,8 +188,8 @@ class PrioritizedReplayBuffer:
 
         """
         idx = self._sumtree.sample(n=batch_size)
-        P = self._sumtree[idx] / self._sumtree.root_value  # prioritized (biased) propensities
-        W = onp.power(P * len(self), -self.beta)           # inverse propensity weights (β≈1)
+        P = self._sumtree.values[idx] / self._sumtree.root_value  # prioritized, biased propensities
+        W = onp.power(P * len(self), -self.beta)                  # inverse propensity weights (β≈1)
         W /= W.max()  # for stability, ensure only down-weighting (see sec. 3.4 of arxiv:1511.05952)
         transition_batch = _concatenate_leaves(self._storage[idx])
         chex.assert_equal_shape([transition_batch.W, W])
@@ -213,12 +216,13 @@ class PrioritizedReplayBuffer:
         Adv = onp.asarray(Adv, dtype='float32')
         chex.assert_equal_shape([idx, Adv])
         chex.assert_rank([idx, Adv], 1)
+
         idx_lookup = idx % self.capacity  # wrap around
-        match = _get_transition_batch_idx(self._storage[idx_lookup]) == idx
-        self._sumtree[idx_lookup] = onp.where(
-            match,  # only update if ids match
+        new_values = onp.where(
+            _get_transition_batch_idx(self._storage[idx_lookup]) == idx,  # only update if ids match
             onp.power(onp.abs(Adv) + self.epsilon, self.alpha),
-            self._sumtree[idx_lookup])
+            self._sumtree.values[idx_lookup])
+        self._sumtree.set_values(idx_lookup, new_values)
 
     def clear(self):
         r""" Clear the experience replay buffer. """
