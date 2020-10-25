@@ -26,6 +26,7 @@ import jax
 import numpy as onp
 
 from ..reward_tracing import TransitionBatch
+from ._base import BaseReplayBuffer
 
 
 __all__ = (
@@ -33,7 +34,7 @@ __all__ = (
 )
 
 
-class SimpleReplayBuffer:
+class SimpleReplayBuffer(BaseReplayBuffer):
     r"""
 
     A simple ring buffer for experience replay.

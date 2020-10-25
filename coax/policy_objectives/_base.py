@@ -19,12 +19,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+import os
 import warnings
 
 import jax
 import jax.numpy as jnp
 import optax
 import haiku as hk
+import lz4.frame
+import cloudpickle as pickle
 
 from .._core.policy import Policy
 from ..utils import get_grads_diagnostics
@@ -139,6 +142,38 @@ class PolicyObjective:
     def hyperparams(self):
         return hk.data_structures.to_immutable_dict({
             'regularizer': getattr(self.regularizer, 'hyperparams', {})})
+
+    def save_optimizer_state(self, filepath):
+        r"""
+
+        Store the optimizer state.
+
+        Parameters
+        ----------
+        filepath : str
+
+            The checkpoint file path.
+
+        """
+        if dirpath := os.path.dirname(filepath):
+            os.makedirs(dirpath, exist_ok=True)
+        with lz4.frame.open(filepath, 'wb') as f:
+            f.write(pickle.dumps((self.optimizer, self.optimizer_state)))
+
+    def load_optimizer_state(self, filepath):
+        r"""
+
+        Restore the optimizer state.
+
+        Parameters
+        ----------
+        filepath : str
+
+            The checkpoint file path.
+
+        """
+        with lz4.frame.open(filepath, 'rb') as f:
+            self.optimizer, self.optimizer_state = pickle.loads(f.read())
 
     def update(self, transition_batch, Adv):
         r"""

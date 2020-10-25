@@ -19,6 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+import os
 from abc import ABC, abstractmethod
 
 import jax
@@ -26,6 +27,8 @@ import jax.numpy as jnp
 import haiku as hk
 import optax
 import chex
+import lz4.frame
+import cloudpickle as pickle
 
 from .._base.mixins import RandomStateMixin
 from ..utils import get_grads_diagnostics, is_policy, is_stochastic, is_qfunction, is_vfunction
@@ -206,6 +209,38 @@ class BaseTDLearning(ABC, RandomStateMixin):
         if jax.tree_structure(new_optimizer_state) != jax.tree_structure(self.optimizer_state):
             raise AttributeError("cannot set optimizer_state attr: mismatch in tree structure")
         self._optimizer_state = new_optimizer_state
+
+    def save_optimizer_state(self, filepath):
+        r"""
+
+        Store the optimizer state.
+
+        Parameters
+        ----------
+        filepath : str
+
+            The checkpoint file path.
+
+        """
+        if dirpath := os.path.dirname(filepath):
+            os.makedirs(dirpath, exist_ok=True)
+        with lz4.frame.open(filepath, 'wb') as f:
+            f.write(pickle.dumps((self.optimizer, self.optimizer_state)))
+
+    def load_optimizer_state(self, filepath):
+        r"""
+
+        Restore the optimizer state.
+
+        Parameters
+        ----------
+        filepath : str
+
+            The checkpoint file path.
+
+        """
+        with lz4.frame.open(filepath, 'rb') as f:
+            self.optimizer, self.optimizer_state = pickle.loads(f.read())
 
 
 class BaseTDLearningV(BaseTDLearning):

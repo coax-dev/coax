@@ -24,13 +24,13 @@ import re
 import datetime
 import time
 from collections import deque
-from tempfile import TemporaryDirectory
-from zipfile import ZipFile
 from typing import Mapping
 
 import gym
 import numpy as np
 import tensorboardX
+import lz4.frame
+import cloudpickle as pickle
 from gym import Wrapper
 
 from .._base.mixins import LoggerMixin, SerializationMixin
@@ -153,6 +153,10 @@ class TrainMonitor(Wrapper, LoggerMixin, SerializationMixin):
         The average wall time of a single step, in milliseconds.
 
     """
+    _COUNTER_ATTRS = (
+        'T', 'ep', 't', 'G', 'avg_G', '_n_avg_G', '_ep_starttime', '_ep_metrics', '_ep_actions',
+        '_tensorboard_dir', '_period')
+
     def __init__(
             self, env,
             tensorboard_dir=None,
@@ -278,23 +282,6 @@ class TrainMonitor(Wrapper, LoggerMixin, SerializationMixin):
                 return True
         return False
 
-    def save_counters(self, filepath):
-        assert isinstance(filepath, str), 'filepath must be a string'
-        if not filepath.endswith('.zip'):
-            filepath += '.zip'
-
-        with TemporaryDirectory() as d, ZipFile(filepath, 'w') as z:
-            self._write_pickle_to_zipfile('_trainmonitorstate', d, z)
-
-        self.logger.info(f"saved TrainMonitor counters to: {filepath}")
-
-    def restore_counters(self, filepath):
-        with TemporaryDirectory() as d, ZipFile(filepath) as z:
-            self._load_pickle_from_zipfile('_trainmonitorstate', d, z, True)
-            self._init_tensorboard(self._tensorboard_dir)
-
-        self.logger.info(f"restored TrainMonitor counters from: {filepath}")
-
     def _init_tensorboard(self, tensorboard_dir):
         if tensorboard_dir is None:
             self.tensorboard = None
@@ -362,14 +349,67 @@ class TrainMonitor(Wrapper, LoggerMixin, SerializationMixin):
         if state['_tensorboard_dir'] is not None:
             self._init_tensorboard(state['_tensorboard_dir'])
 
-    @property
-    def _trainmonitorstate(self):
-        return {k: getattr(self, k) for k in (
-            'T', 'ep', 't', 'G', 'avg_G', '_n_avg_G', '_ep_starttime',
-            '_ep_metrics', '_ep_actions', '_tensorboard_dir',
-            '_period')}
+    def get_counters(self):
+        r"""
 
-    @_trainmonitorstate.setter
-    def _trainmonitorstate(self, counters):
+        Get the current state of all internal counters.
+
+        Returns
+        -------
+        counter : dict
+
+            The dict that contains the counters.
+
+        """
+        return {k: getattr(self, k) for k in self._COUNTER_ATTRS}
+
+    def set_counters(self, counters):
+        r"""
+
+        Restore the state of all internal counters.
+
+        Parameters
+        ----------
+        counter : dict
+
+            The dict that contains the counters.
+
+        """
+        if set(counters) != set(self._COUNTER_ATTRS):
+            raise TypeError("invalid counters")
         for k, v in counters.items():
             setattr(self, k, v)
+
+    def save_counters(self, filepath):
+        r"""
+
+        Store the current state of all internal counters.
+
+        Parameters
+        ----------
+        filepath : str
+
+            The checkpoint file path.
+
+        """
+        counters = self.get_counters()
+        if dirpath := os.path.dirname(filepath):
+            os.makedirs(dirpath, exist_ok=True)
+        with lz4.frame.open(filepath, 'wb') as f:
+            f.write(pickle.dumps(counters))
+
+    def load_counters(self, filepath):
+        r"""
+
+        Restore the state of all internal counters.
+
+        Parameters
+        ----------
+        filepath : str
+
+            The checkpoint file path.
+
+        """
+        with lz4.frame.open(filepath, 'rb') as f:
+            counters = pickle.loads(f.read())
+        self.set_counters(counters)

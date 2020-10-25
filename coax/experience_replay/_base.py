@@ -19,46 +19,40 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-import os
-
-import lz4.frame
-import cloudpickle as pickle
+from abc import ABC, abstractmethod
 
 
-class SerializationMixin:
+from .._base.mixins import SerializationMixin
 
-    @classmethod
-    def load(cls, filepath):
-        r"""
 
-        Load instance from a file.
+__all__ = (
+    'BaseReplayBuffer',
+)
 
-        Parameters
-        ----------
-        filepath : str
 
-            The filepath of the stored instance.
+class BaseReplayBuffer(ABC, SerializationMixin):
 
-        """
-        with lz4.frame.open(filepath, 'rb') as f:
-            obj = pickle.loads(f.read())
-        if not isinstance(obj, cls):
-            raise TypeError(f"loaded obj must be an instance of {cls.__name__}, got: {type(obj)}")
-        return obj
+    @property
+    @abstractmethod
+    def capacity(self):
+        pass
 
-    def save(self, filepath):
-        r"""
+    @abstractmethod
+    def add(self, transition_batch):
+        pass
 
-        Save instance to a file.
+    @abstractmethod
+    def sample(self, batch_size=32):
+        pass
 
-        Parameters
-        ----------
-        filepath : str
+    @abstractmethod
+    def clear(self):
+        pass
 
-            The filepath to store the instance.
+    @abstractmethod
+    def __len__(self):
+        pass
 
-        """
-        if dirpath := os.path.dirname(filepath):
-            os.makedirs(dirpath, exist_ok=True)
-        with lz4.frame.open(filepath, 'wb') as f:
-            f.write(pickle.dumps(self))
+    @abstractmethod
+    def __bool__(self):
+        pass

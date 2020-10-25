@@ -25,6 +25,7 @@ import chex
 
 from ..reward_tracing import TransitionBatch
 from ._segment_tree import SumTree
+from ._base import BaseReplayBuffer
 
 
 __all__ = (
@@ -32,7 +33,7 @@ __all__ = (
 )
 
 
-class PrioritizedReplayBuffer:
+class PrioritizedReplayBuffer(BaseReplayBuffer):
     r"""
 
     A simple ring buffer for experience replay, with prioritized sampling.
