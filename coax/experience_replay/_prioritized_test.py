@@ -42,13 +42,13 @@ def test_consistency(n):
         buffer2.add(transition_batch, Adv=transition_batch.Rn)
 
     # test TransitionBatch.__eq__
-    assert buffer1._deque[0] == buffer1._deque[0]
-    assert buffer1._deque[0] != buffer1._deque[1]
+    assert buffer1._storage[0] == buffer1._storage[0]
+    assert buffer1._storage[0] != buffer1._storage[1]
 
     # test consistency between two buffers
     assert len(buffer1) == len(buffer2)
     for i in range(len(buffer1)):
-        t1 = buffer1._deque[i]
+        t1 = buffer1._storage[i]
         t2 = buffer2._storage[(i + buffer2._index) % len(buffer2)]
         assert t1 == t2
 
