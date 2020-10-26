@@ -391,6 +391,8 @@ class SumTree(SegmentTree):
         """
         # NOTE: This is an iterative implementation, which is a lot uglier than a recursive one.
         # The reason why we use an iterative approach is that it's easier for batch-processing.
+        if self.root_value <= 0:
+            raise RuntimeError("the root_value must be positive")
 
         # init (will be updated in loop)
         u, isscalar = self._check_u(u)

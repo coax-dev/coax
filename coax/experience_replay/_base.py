@@ -21,7 +21,6 @@
 
 from abc import ABC, abstractmethod
 
-
 from .._base.mixins import SerializationMixin
 
 
@@ -55,4 +54,8 @@ class BaseReplayBuffer(ABC, SerializationMixin):
 
     @abstractmethod
     def __bool__(self):
+        pass
+
+    @abstractmethod
+    def __iter__(self):
         pass

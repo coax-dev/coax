@@ -100,6 +100,7 @@ class PrioritizedReplayBuffer(BaseReplayBuffer):
         self._alpha = float(alpha)
         self._beta = float(beta)
         self._epsilon = float(epsilon)
+        self._random_seed = random_seed
         self._rnd = onp.random.RandomState(random_seed)
         self.clear()  # sets: self._deque, self._index
 
@@ -236,6 +237,9 @@ class PrioritizedReplayBuffer(BaseReplayBuffer):
 
     def __bool__(self):
         return bool(len(self))
+
+    def __iter__(self):
+        return iter(self._storage[:len(self)])
 
 
 def _concatenate_leaves(pytrees):

@@ -54,7 +54,7 @@ class SimpleReplayBuffer(BaseReplayBuffer):
         self._capacity = int(capacity)
         random.seed(random_seed)
         self._random_state = random.getstate()
-        self.clear()  # sets self._deque
+        self.clear()  # sets self._storage
 
     @property
     def capacity(self):
@@ -78,7 +78,7 @@ class SimpleReplayBuffer(BaseReplayBuffer):
 
         transition_batch.idx = onp.arange(self._index, self._index + transition_batch.batch_size)
         self._index += transition_batch.batch_size
-        self._deque.extend(transition_batch.to_singles())
+        self._storage.extend(transition_batch.to_singles())
 
     def sample(self, batch_size=32):
         r"""
@@ -99,17 +99,20 @@ class SimpleReplayBuffer(BaseReplayBuffer):
         """
         # sandwich sample in between setstate/getstate in case global random state was tampered with
         random.setstate(self._random_state)
-        transitions = random.sample(self._deque, batch_size)
+        transitions = random.sample(self._storage, batch_size)
         self._random_state = random.getstate()
         return jax.tree_multimap(lambda *leaves: onp.concatenate(leaves, axis=0), *transitions)
 
     def clear(self):
         r""" Clear the experience replay buffer. """
-        self._deque = deque(maxlen=self.capacity)
+        self._storage = deque(maxlen=self.capacity)
         self._index = 0
 
     def __len__(self):
-        return len(self._deque)
+        return len(self._storage)
 
     def __bool__(self):
         return bool(len(self))
+
+    def __iter__(self):
+        return iter(self._storage)
