@@ -52,7 +52,8 @@ for ep in range(100):
         # update
         while cache:
             transition_batch = cache.pop()
-            qlearning.update(transition_batch)
+            metrics = qlearning.update(transition_batch)
+            env.record_metrics(metrics)
 
         if done:
             break

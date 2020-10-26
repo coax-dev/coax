@@ -32,7 +32,7 @@ pi_behavior = pi.copy()
 
 # specify how to update policy and value function
 ppo_clip = coax.policy_objectives.PPOClip(pi, optimizer=optax.adam(0.001))
-simpletd = coax.td_learning.SimpleTD(v, optimizer=optax.adam(0.001))
+simple_td = coax.td_learning.SimpleTD(v, optimizer=optax.adam(0.001))
 
 
 # specify how to trace the transitions
@@ -56,9 +56,10 @@ for ep in range(100):
         if len(buffer) == buffer.capacity:
             for _ in range(4 * buffer.capacity // 32):  # ~4 passes
                 transition_batch = buffer.sample(batch_size=32)
-                td_error = simpletd.td_error(transition_batch)
-                ppo_clip.update(transition_batch, Adv=td_error)
-                simpletd.update(transition_batch)
+                metrics_v, td_error = simple_td.update(transition_batch, return_td_error=True)
+                metrics_pi = ppo_clip.update(transition_batch, td_error)
+                env.record_metrics(metrics_v)
+                env.record_metrics(metrics_pi)
 
             buffer.clear()
             pi_behavior.soft_update(pi, tau=0.1)

@@ -90,9 +90,10 @@ while env.T < 3000000:
             num_batches = int(4 * buffer.capacity / 32)  # 4 epochs per round
             for _ in range(num_batches):
                 transition_batch = buffer.sample(32)
-                Adv = simpletd.td_error(transition_batch)
-                env.record_metrics(ppo_clip.update(transition_batch, Adv))
-                env.record_metrics(simpletd.update(transition_batch))
+                metrics_v, td_error = simpletd.update(transition_batch, return_td_error=True)
+                metrics_pi = ppo_clip.update(transition_batch, td_error)
+                env.record_metrics(metrics_v)
+                env.record_metrics(metrics_pi)
 
             buffer.clear()
 

@@ -62,8 +62,10 @@ for ep in range(100):
 
         # update
         transition_batch = buffer.sample(batch_size=32)
-        determ_pg.update(transition_batch)
-        qlearning.update(transition_batch)
+        metrics_q = qlearning.update(transition_batch)
+        metrics_pi = determ_pg.update(transition_batch)
+        env.record_metrics(metrics_q)
+        env.record_metrics(metrics_pi)
 
         # periodically sync target models
         if ep % 10 == 0:

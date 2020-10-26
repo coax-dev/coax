@@ -55,9 +55,8 @@ for ep in range(500):
         tracer.add(s, a, r, done, logp)
         while tracer:
             transition_batch = tracer.pop()
-            Adv = simple_td.td_error(transition_batch)
-            vanillapg.update(transition_batch, Adv)
-            simple_td.update(transition_batch)
+            _, td_error = simple_td.update(transition_batch, return_td_error=True)
+            vanillapg.update(transition_batch, td_error)
 
             # sync target network
             v_targ.soft_update(v, tau=0.01)

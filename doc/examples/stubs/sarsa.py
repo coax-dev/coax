@@ -52,7 +52,8 @@ for ep in range(100):
         # update
         while tracer:
             transition_batch = tracer.pop()
-            sarsa.update(transition_batch)
+            metrics = sarsa.update(transition_batch)
+            env.record_metrics(metrics)
 
         if done:
             break

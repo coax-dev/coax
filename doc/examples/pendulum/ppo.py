@@ -85,12 +85,10 @@ while env.T < 1000000:
         if len(buffer) >= buffer.capacity:
             for _ in range(int(4 * buffer.capacity / 32)):  # 4 passes per round
                 transition_batch = buffer.sample(batch_size=32)
-                Adv = simpletd.td_error(transition_batch)
-
-                metrics = {}
-                metrics.update(ppo_clip.update(transition_batch, Adv))
-                metrics.update(simpletd.update(transition_batch))
-                env.record_metrics(metrics)
+                metrics_v, td_error = simpletd.update(transition_batch, return_td_error=True)
+                metrics_pi = ppo_clip.update(transition_batch, td_error)
+                env.record_metrics(metrics_v)
+                env.record_metrics(metrics_pi)
 
             buffer.clear()
             pi_targ.soft_update(pi, tau=0.1)

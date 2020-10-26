@@ -141,66 +141,62 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
 
         def loss_func(params, target_params, state, target_state, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
-            S, A = transition_batch[:2]
-            S = self.q.observation_preprocessor(next(rngs), S)
-            A = self.q.action_preprocessor(next(rngs), A)
-            G = self.target_func(target_params, target_state, next(rngs), transition_batch)
+            S = self.q.observation_preprocessor(next(rngs), transition_batch.S)
+            A = self.q.action_preprocessor(next(rngs), transition_batch.A)
+            W = jnp.clip(transition_batch.W, 0.1, 10.)  # clip importance weights to reduce variance
+
+            # regularization term
+            if self.policy_regularizer is None:
+                regularizer = 0.
+            else:
+                # flip sign (typical example: regularizer = -beta * entropy)
+                regularizer = -self.policy_regularizer.batch_eval(
+                    target_params['reg'], target_params['reg_hparams'], target_state['reg'],
+                    next(rngs), transition_batch)
+
             Q, state_new = self.q.function_type1(params, state, next(rngs), S, A, True)
-            loss = self.loss_function(G, Q)
-            return loss, (loss, G, Q, S, A, state_new)
+            G = self.target_func(target_params, target_state, next(rngs), transition_batch)
+            G += regularizer
+            loss = self.loss_function(G, Q, W)
 
-        def grads_and_metrics_func(
-                params, target_params, state, target_state, rng, transition_batch):
+            dLoss_dQ = jax.grad(self.loss_function, argnums=1)
+            td_error = -Q.shape[0] * dLoss_dQ(G, Q, W)  # e.g. (G - Q) if loss function is MSE
 
-            rngs = hk.PRNGSequence(rng)
-            grads, (loss, G, Q, S, A, state_new) = jax.grad(loss_func, has_aux=True)(
-                params, target_params, state, target_state, next(rngs), transition_batch)
-
-            # target-network estimate
+            # target-network estimate (is this worth computing?)
             Q_targ_list = []
             qs = list(zip(self.q_targ_list, target_params['q_targ'], target_state['q_targ']))
             for q, pm, st in qs:
                 Q_targ, _ = q.function_type1(pm, st, next(rngs), S, A, False)
                 assert Q_targ.ndim == 1, f"bad shape: {Q_targ.shape}"
                 Q_targ_list.append(Q_targ)
-
-            # get min target estimate
             Q_targ_list = jnp.stack(Q_targ_list, axis=-1)
             assert Q_targ_list.ndim == 2, f"bad shape: {Q_targ_list.shape}"
             Q_targ = jnp.min(Q_targ_list, axis=-1)
 
-            # residuals: estimate - better_estimate
-            err = Q - G
-            err_targ = Q_targ - Q
-
-            name = self.__class__.__name__
             metrics = {
-                f'{name}/loss': loss,
-                f'{name}/bias': jnp.mean(err),
-                f'{name}/rmse': jnp.sqrt(jnp.mean(jnp.square(err))),
-                f'{name}/bias_targ': jnp.mean(err_targ),
-                f'{name}/rmse_targ': jnp.sqrt(jnp.mean(jnp.square(err_targ)))}
+                f'{self.__class__.__name__}/loss': loss,
+                f'{self.__class__.__name__}/td_error': jnp.mean(td_error),
+                f'{self.__class__.__name__}/td_error_targ': jnp.mean(-dLoss_dQ(Q, Q_targ, W)),
+            }
+            return loss, (td_error, state_new, metrics)
 
-            # add some diagnostics of the gradients
-            metrics.update(get_grads_diagnostics(grads, key_prefix=f'{name}/grads_'))
+        def grads_and_metrics_func(
+                params, target_params, state, target_state, rng, transition_batch):
 
-            return grads, state_new, metrics
+            rngs = hk.PRNGSequence(rng)
+            grads, (td_error, state_new, metrics) = jax.grad(loss_func, has_aux=True)(
+                params, target_params, state, target_state, next(rngs), transition_batch)
+
+            # add some diagnostics about the gradients
+            metrics.update(get_grads_diagnostics(grads, f'{self.__class__.__name__}/grads_'))
+
+            return grads, state_new, metrics, td_error
 
         def td_error_func(params, target_params, state, target_state, rng, transition_batch):
-            rngs = hk.PRNGSequence(rng)
-            S = self.q.observation_preprocessor(next(rngs), transition_batch.S)
-            A = self.q.action_preprocessor(next(rngs), transition_batch.A)
-            G = self.target_func(target_params, target_state, next(rngs), transition_batch)
-            Q, _ = self.q.function_type1(params, state, next(rngs), S, A, False)
-            dL_dQ = jax.grad(self.loss_function, argnums=1)
-            return -dL_dQ(G, Q)
+            loss, (td_error, state_new, metrics) =\
+                loss_func(params, target_params, state, target_state, rng, transition_batch)
+            return td_error
 
-        def apply_grads_func(opt, opt_state, params, grads):
-            updates, new_opt_state = opt.update(grads, opt_state)
-            new_params = optax.apply_updates(params, updates)
-            return new_opt_state, new_params
-
-        self._apply_grads_func = jax.jit(apply_grads_func, static_argnums=0)
         self._grads_and_metrics_func = jax.jit(grads_and_metrics_func)
         self._td_error_func = jax.jit(td_error_func)
 

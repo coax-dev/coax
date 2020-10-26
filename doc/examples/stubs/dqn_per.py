@@ -66,8 +66,9 @@ while env.T < 3000000:
 
         # update
         transition_batch = buffer.sample(batch_size=32)
-        qlearning.update(transition_batch)
-        buffer.update(transition_batch.idx, qlearning.td_error(transition_batch))
+        metrics, td_error = qlearning.update(transition_batch, return_td_error=True)
+        buffer.update(transition_batch.idx, td_error)
+        env.record_metrics(metrics)
 
         # periodically sync target model
         if env.ep % 10 == 0:

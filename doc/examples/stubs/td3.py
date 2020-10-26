@@ -72,11 +72,13 @@ for ep in range(100):
 
             # flip a coin to decide which of the q-functions to update
             qlearning = qlearning1 if jax.random.bernoulli(q1.rng) else qlearning2
-            qlearning.update(transition_batch)
+            metrics = qlearning.update(transition_batch)
+            env.record_metrics(metrics)
 
             # delay policy updates
             if env.T % 2 == 0:
-                determ_pg.update(transition_batch)
+                metrics = determ_pg.update(transition_batch)
+                env.record_metrics(metrics)
 
             # sync target models
             pi_targ.soft_update(pi, tau=0.01)

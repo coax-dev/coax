@@ -79,7 +79,7 @@ class BaseTDLearning(ABC, RandomStateMixin):
     def target_function_state(self):
         pass
 
-    def update(self, transition_batch):
+    def update(self, transition_batch, return_td_error=False):
         r"""
 
         Update the model parameters (weights) of the underlying function approximator.
@@ -90,18 +90,27 @@ class BaseTDLearning(ABC, RandomStateMixin):
 
             A batch of transitions.
 
+        return_td_error : bool, optional
+
+            Whether to return the TD-errors.
+
         Returns
         -------
         metrics : dict of scalar ndarrays
 
             The structure of the metrics dict is ``{name: score}``.
 
+        td_error : ndarray, optional
+
+            The non-aggregated TD-errors, :code:`shape == (batch_size,)`. This is only returned if
+            we set :code:`return_td_error=True`.
+
         """
-        grads, function_state, metrics = self.grads_and_metrics(transition_batch)
+        grads, function_state, metrics, td_error = self.grads_and_metrics(transition_batch)
         if any(jnp.any(jnp.isnan(g)) for g in jax.tree_leaves(grads)):
             raise RuntimeError(f"found nan's in grads: {grads}")
         self.update_from_grads(grads, function_state)
-        return metrics
+        return (metrics, td_error) if return_td_error else metrics
 
     def update_from_grads(self, grads, function_state):
         r"""
@@ -153,6 +162,10 @@ class BaseTDLearning(ABC, RandomStateMixin):
         metrics : dict of scalar ndarrays
 
             The structure of the metrics dict is ``{name: score}``.
+
+        td_error : ndarray
+
+            The non-aggregated TD-errors, :code:`shape == (batch_size,)`.
 
         """
         return self._grads_and_metrics_func(
@@ -338,7 +351,7 @@ class BaseTDLearningV(BaseTDLearning):
             # add some diagnostics about the gradients
             metrics.update(get_grads_diagnostics(grads, f'{self.__class__.__name__}/grads_'))
 
-            return grads, state_new, metrics
+            return grads, state_new, metrics, td_error
 
         def td_error_func(params, target_params, state, target_state, rng, transition_batch):
             loss, (td_error, state_new, metrics) =\
@@ -484,7 +497,7 @@ class BaseTDLearningQ(BaseTDLearning):
             # add some diagnostics about the gradients
             metrics.update(get_grads_diagnostics(grads, f'{self.__class__.__name__}/grads_'))
 
-            return grads, state_new, metrics
+            return grads, state_new, metrics, td_error
 
         def td_error_func(params, target_params, state, target_state, rng, transition_batch):
             loss, (td_error, state_new, metrics) =\

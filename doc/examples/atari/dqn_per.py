@@ -72,8 +72,7 @@ while env.T < 3000000:
         # learn
         if env.T % 4 == 0 and len(buffer) > 50000:  # buffer warm-up
             transition_batch = buffer.sample(batch_size=32)
-            td_error = qlearning.td_error(transition_batch)
-            metrics = qlearning.update(transition_batch)
+            metrics, td_error = qlearning.update(transition_batch, return_td_error=True)
             buffer.update(transition_batch.idx, td_error)
             env.record_metrics(metrics)
 

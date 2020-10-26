@@ -43,7 +43,8 @@ for ep in range(100):
         while tracer:
             transition_batch = tracer.pop()
             Gn = transition_batch.Rn  # 'Rn' is full return 'Gn' in MC-cache
-            vanilla_pg.update(transition_batch, Adv=Gn)
+            metrics = vanilla_pg.update(transition_batch, Adv=Gn)
+            env.record_metrics(metrics)
 
         if done:
             break
