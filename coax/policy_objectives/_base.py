@@ -155,8 +155,8 @@ class PolicyObjective:
             The checkpoint file path.
 
         """
-        if dirpath := os.path.dirname(filepath):
-            os.makedirs(dirpath, exist_ok=True)
+        os.makedirs(os.path.dirname(filepath) or '.', exist_ok=True)
+
         with lz4.frame.open(filepath, 'wb') as f:
             f.write(pickle.dumps((self.optimizer, self.optimizer_state)))
 

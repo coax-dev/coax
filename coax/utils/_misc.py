@@ -137,8 +137,7 @@ def enable_logging(name=None, level=logging.INFO, output_filepath=None, output_l
         fmt = f'[{name}|%(threadName)s|%(name)s|%(levelname)s] %(message)s'
     logging.basicConfig(level=level, format=fmt)
     if output_filepath is not None:
-        if dirpath := os.path.dirname(output_filepath):
-            os.makedirs(dirpath, exist_ok=True)
+        os.makedirs(os.path.dirname(output_filepath) or '.', exist_ok=True)
         fh = logging.FileHandler(output_filepath)
         fh.setLevel(level if output_level is None else output_level)
         logging.getLogger('').addHandler(fh)
@@ -381,10 +380,8 @@ def generate_gif(env, filepath, policy=None, resize_to=None, duration=50, max_ep
         frame = frame.resize(resize_to)
     frames.append(frame)
 
-    if dirpath := os.path.dirname(filepath):
-        os.makedirs(dirpath, exist_ok=True)
-
     # generate gif
+    os.makedirs(os.path.dirname(filepath) or '.', exist_ok=True)
     frames[0].save(
         fp=filepath, format='GIF', append_images=frames[1:], save_all=True,
         duration=duration, loop=0)
