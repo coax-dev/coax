@@ -28,6 +28,7 @@ r"""
     coax.td_learning.ExpectedSarsa
     coax.td_learning.QLearning
     coax.td_learning.DoubleQLearning
+    coax.td_learning.SoftQLearning
     coax.td_learning.ClippedDoubleQLearning
 
 ----
@@ -49,6 +50,7 @@ Object Reference
 .. autoclass:: coax.td_learning.ExpectedSarsa
 .. autoclass:: coax.td_learning.QLearning
 .. autoclass:: coax.td_learning.DoubleQLearning
+.. autoclass:: coax.td_learning.SoftQLearning
 .. autoclass:: coax.td_learning.ClippedDoubleQLearning
 
 
@@ -59,6 +61,7 @@ from ._sarsa import Sarsa
 from ._expectedsarsa import ExpectedSarsa
 from ._qlearning import QLearning
 from ._doubleqlearning import DoubleQLearning
+from ._softqlearning import SoftQLearning
 from ._clippeddoubleqlearning import ClippedDoubleQLearning
 
 
@@ -68,5 +71,6 @@ __all__ = (
     'ExpectedSarsa',
     'QLearning',
     'DoubleQLearning',
+    'SoftQLearning',
     'ClippedDoubleQLearning',
 )
