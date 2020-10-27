@@ -24,7 +24,6 @@ import warnings
 import jax
 import jax.numpy as jnp
 import haiku as hk
-import optax
 from gym.spaces import Discrete
 
 from .._core.q import Q
