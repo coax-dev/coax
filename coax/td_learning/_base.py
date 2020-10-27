@@ -333,10 +333,11 @@ class BaseTDLearningV(BaseTDLearning):
             chex.assert_equal_shape([G, V, V_targ, W])
             chex.assert_rank([G, V, V_targ, W], 1)
             dLoss_dV = jax.grad(self.loss_function, argnums=1)
-            td_error = -V.shape[0] * dLoss_dV(G, V, W)  # e.g. (G - V) if loss function is MSE
+            td_error = -V.shape[0] * dLoss_dV(G, V)  # e.g. (G - V) if loss function is MSE
+            chex.assert_equal_shape([td_error, W])
             metrics = {
                 f'{self.__class__.__name__}/loss': loss,
-                f'{self.__class__.__name__}/td_error': jnp.mean(td_error),
+                f'{self.__class__.__name__}/td_error': jnp.mean(W * td_error),
                 f'{self.__class__.__name__}/td_error_targ': jnp.mean(-dLoss_dV(V, V_targ, W)),
             }
             return loss, (td_error, state_new, metrics)
@@ -479,10 +480,11 @@ class BaseTDLearningQ(BaseTDLearning):
             chex.assert_equal_shape([G, Q, Q_targ, W])
             chex.assert_rank([G, Q, Q_targ, W], 1)
             dLoss_dQ = jax.grad(self.loss_function, argnums=1)
-            td_error = -Q.shape[0] * dLoss_dQ(G, Q, W)  # e.g. (G - Q) if loss function is MSE
+            td_error = -Q.shape[0] * dLoss_dQ(G, Q)  # e.g. (G - Q) if loss function is MSE
+            chex.assert_equal_shape([td_error, W])
             metrics = {
                 f'{self.__class__.__name__}/loss': loss,
-                f'{self.__class__.__name__}/td_error': jnp.mean(td_error),
+                f'{self.__class__.__name__}/td_error': jnp.mean(W * td_error),
                 f'{self.__class__.__name__}/td_error_targ': jnp.mean(-dLoss_dQ(Q, Q_targ, W)),
             }
             return loss, (td_error, state_new, metrics)

@@ -91,6 +91,8 @@ class ModelUpdater:
             rngs = hk.PRNGSequence(rng)
             S = self.model.observation_preprocessor(next(rngs), transition_batch.S)
             A = self.model.action_preprocessor(next(rngs), transition_batch.A)
+            W = jnp.clip(transition_batch.W, 0.1, 10.)  # clip importance weights to reduce variance
+
             if is_stochastic(self.model):
                 dist_params, new_state = \
                     self.model.function_type1(params, state, next(rngs), S, A, True)
@@ -105,28 +107,27 @@ class ModelUpdater:
             else:
                 raise AssertionError(f"unexpected model type: {type(self.model)}")
 
-            loss = self.loss_function(y_true, y_pred)
-            td_error = -jax.grad(self.loss_function, argnums=1)(y_true, y_pred)
+            loss = self.loss_function(y_true, y_pred, W)
+            metrics = {
+                f'{self.__class__.__name__}/loss': loss,
+                f'{self.__class__.__name__}/loss_bare': loss,
+            }
 
             # add regularization term
             if self.regularizer is not None:
                 hparams = hyperparams['regularizer']
-                loss = loss + jnp.mean(self.regularizer.function(dist_params, **hparams))
+                loss = loss + jnp.mean(W * self.regularizer.function(dist_params, **hparams))
+                metrics[f'{self.__class__.__name__}/loss'] = loss
+                metrics.update(self.regularizer.metrics_func(dist_params, **hparams))
 
-            return loss, (loss, td_error, new_state)
+            return loss, (metrics, new_state)
 
         def grads_and_metrics_func(params, state, hyperparams, rng, transition_batch):
-            grads, (loss, td_error, new_state) = \
+            grads, (metrics, new_state) = \
                 jax.grad(loss_func, has_aux=True)(params, state, hyperparams, rng, transition_batch)
 
-            name = self.__class__.__name__
-            metrics = {
-                f'{name}/loss': loss,
-                f'{name}/td_error': jnp.mean(td_error),
-            }
-
             # add some diagnostics of the gradients
-            metrics.update(get_grads_diagnostics(grads, key_prefix=f'{name}/grads_'))
+            metrics.update(get_grads_diagnostics(grads, f'{self.__class__.__name__}/grads_'))
 
             return grads, new_state, metrics
 

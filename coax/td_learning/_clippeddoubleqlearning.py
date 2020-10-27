@@ -24,6 +24,7 @@ import warnings
 import jax
 import jax.numpy as jnp
 import haiku as hk
+import chex
 from gym.spaces import Discrete
 
 from .._core.q import Q
@@ -159,7 +160,7 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
             loss = self.loss_function(G, Q, W)
 
             dLoss_dQ = jax.grad(self.loss_function, argnums=1)
-            td_error = -Q.shape[0] * dLoss_dQ(G, Q, W)  # e.g. (G - Q) if loss function is MSE
+            td_error = -Q.shape[0] * dLoss_dQ(G, Q)  # e.g. (G - Q) if loss function is MSE
 
             # target-network estimate (is this worth computing?)
             Q_targ_list = []
@@ -172,9 +173,10 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
             assert Q_targ_list.ndim == 2, f"bad shape: {Q_targ_list.shape}"
             Q_targ = jnp.min(Q_targ_list, axis=-1)
 
+            chex.assert_equal_shape([td_error, W, Q_targ])
             metrics = {
                 f'{self.__class__.__name__}/loss': loss,
-                f'{self.__class__.__name__}/td_error': jnp.mean(td_error),
+                f'{self.__class__.__name__}/td_error': jnp.mean(W * td_error),
                 f'{self.__class__.__name__}/td_error_targ': jnp.mean(-dLoss_dQ(Q, Q_targ, W)),
             }
             return loss, (td_error, state_new, metrics)

@@ -19,6 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+import jax
 import jax.numpy as jnp
 import chex
 
@@ -67,10 +68,7 @@ def mse(y_true, y_pred, w=None):
 
     """
     loss = 0.5 * jnp.square(y_pred - y_true)
-    if w is not None:
-        chex.assert_equal_shape([loss, w])
-        loss *= w
-    return jnp.mean(loss)
+    return _mean_with_weights(loss, w)
 
 
 def huber(y_true, y_pred, w=None, delta=1.0):
@@ -120,10 +118,7 @@ def huber(y_true, y_pred, w=None, delta=1.0):
     err = jnp.abs(y_pred - y_true)
     err_clipped = jnp.minimum(err, delta)
     loss = 0.5 * jnp.square(err_clipped) + delta * (err - err_clipped)
-    if w is not None:
-        chex.assert_equal_shape([loss, w])
-        loss *= w
-    return jnp.mean(loss)
+    return _mean_with_weights(loss, w)
 
 
 def logloss(y_true, y_pred, w=None):
@@ -160,10 +155,7 @@ def logloss(y_true, y_pred, w=None):
 
     """
     loss = -y_true * jnp.log(y_pred) - (1. - y_true) * jnp.log(1. - y_pred)
-    if w is not None:
-        chex.assert_equal_shape([loss, w])
-        loss *= w
-    return jnp.mean(loss)
+    return _mean_with_weights(loss, w)
 
 
 def logloss_sign(y_true_sign, logits, w=None):
@@ -204,7 +196,13 @@ def logloss_sign(y_true_sign, logits, w=None):
 
     """
     loss = jnp.log(1.0 + jnp.exp(-y_true_sign * logits))
+    return _mean_with_weights(loss, w)
+
+
+def _mean_with_weights(loss, w):
     if w is not None:
-        chex.assert_equal_shape([loss, w])
-        loss *= w
+        assert w.ndim == 1
+        assert loss.ndim >= 1
+        assert loss.shape[0] == w.shape[0]
+        loss = jax.vmap(jnp.multiply)(w, loss)
     return jnp.mean(loss)

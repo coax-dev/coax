@@ -71,35 +71,34 @@ class PolicyObjective:
                 self.objective_func(params, state, hyperparams, rng, transition_batch, Adv)
 
             # flip sign to turn objective into loss
-            loss = loss_bare = -objective
+            loss = -objective
+
+            # keep track of performance metrics
+            metrics = {
+                f'{self.__class__.__name__}/loss': loss,
+                f'{self.__class__.__name__}/loss_bare': loss,
+                f'{self.__class__.__name__}/kl_div_old':
+                    jnp.mean(jnp.exp(transition_batch.logP) * (transition_batch.logP - log_pi)),
+            }
 
             # add regularization term
             if self.regularizer is not None:
                 hparams = hyperparams['regularizer']
-                loss = loss + jnp.mean(self.regularizer.function(dist_params, **hparams))
+                W = jnp.clip(transition_batch.W, 0.1, 10.)  # clip imp. weights to reduce variance
+                loss = loss + jnp.mean(W * self.regularizer.function(dist_params, **hparams))
+                metrics[f'{self.__class__.__name__}/loss'] = loss
+                metrics.update(self.regularizer.metrics_func(dist_params, **hparams))
 
             # also pass auxiliary data to avoid multiple forward passes
-            return loss, (loss, loss_bare, dist_params, log_pi, state_new)
+            return loss, (metrics, state_new)
 
         def grads_and_metrics_func(params, state, hyperparams, rng, transition_batch, Adv):
             grads_func = jax.grad(loss_func, has_aux=True)
-            grads, (loss, loss_bare, dist_params, log_pi, state_new) = \
+            grads, (metrics, state_new) = \
                 grads_func(params, state, hyperparams, rng, transition_batch, Adv)
 
-            name = self.__class__.__name__
-            metrics = {f'{name}/loss': loss, f'{name}/loss_bare': loss_bare}
-
-            # add sampled KL-divergence of the current policy relative to the behavior policy
-            logP = transition_batch.logP  # log-propensities recorded from behavior policy
-            metrics[f'{name}/kl_div_old'] = jnp.mean(jnp.exp(logP) * (logP - log_pi))
-
             # add some diagnostics of the gradients
-            metrics.update(get_grads_diagnostics(grads, key_prefix=f'{name}/grads_'))
-
-            # add regularization metrics
-            if self.regularizer is not None:
-                hparams = hyperparams['regularizer']
-                metrics.update(self.regularizer.metrics_func(dist_params, **hparams))
+            metrics.update(get_grads_diagnostics(grads, f'{self.__class__.__name__}/grads_'))
 
             return grads, state_new, metrics
 
