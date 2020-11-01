@@ -35,8 +35,8 @@ class SoftQLearning(BaseTDLearningQ):
 
     .. math::
 
-        G^{(n)}_t\ =\
-            R^{(n)}_t + I^{(n)}_t\,\log\sum_{a'}\exp\left(q_\text{targ}(S_{t+n}, a') / \tau\right)
+        G^{(n)}_t\ =\ R^{(n)}_t
+            + I^{(n)}_t\,\tau\log\sum_{a'}\exp\left(q_\text{targ}(S_{t+n}, a') / \tau\right)
 
     where
 
