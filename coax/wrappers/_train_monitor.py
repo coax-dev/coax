@@ -282,10 +282,17 @@ class TrainMonitor(Wrapper, LoggerMixin, SerializationMixin):
                 return True
         return False
 
+    @property
+    def tensorboard(self):
+        if not hasattr(self, '_tensorboard'):
+            assert self._tensorboard_dir is not None
+            self._tensorboard = tensorboardX.SummaryWriter(self._tensorboard_dir)
+        return self._tensorboard
+
     def _init_tensorboard(self, tensorboard_dir):
         if tensorboard_dir is None:
-            self.tensorboard = None
             self._tensorboard_dir = None
+            self._tensorboard = None
             return
 
         # append timestamp to disambiguate instances
@@ -294,8 +301,11 @@ class TrainMonitor(Wrapper, LoggerMixin, SerializationMixin):
                 tensorboard_dir,
                 datetime.datetime.now().strftime('%Y%m%d_%H%M%S'))
 
-        self.tensorboard = tensorboardX.SummaryWriter(tensorboard_dir)
-        self._tensorboard_dir = tensorboard_dir
+        # only set/update if necessary
+        if tensorboard_dir != getattr(self, '_tensorboard_dir', None):
+            self._tensorboard_dir = tensorboard_dir
+            if hasattr(self, '_tensorboard'):
+                del self._tensorboard
 
     def _write_episode_logs(self):
         metrics = (
@@ -346,8 +356,7 @@ class TrainMonitor(Wrapper, LoggerMixin, SerializationMixin):
 
     def __setstate__(self, state):
         self.__dict__.update(state)
-        if state['_tensorboard_dir'] is not None:
-            self._init_tensorboard(state['_tensorboard_dir'])
+        self._init_tensorboard(state['_tensorboard_dir'])
 
     def get_counters(self):
         r"""
@@ -375,10 +384,9 @@ class TrainMonitor(Wrapper, LoggerMixin, SerializationMixin):
             The dict that contains the counters.
 
         """
-        if set(counters) != set(self._COUNTER_ATTRS):
-            raise TypeError("invalid counters")
-        for k, v in counters.items():
-            setattr(self, k, v)
+        if not (isinstance(counters, dict) and set(counters) == set(self._COUNTER_ATTRS)):
+            raise TypeError(f"invalid counters dict: {counters}")
+        self.__setstate__(counters)
 
     def save_counters(self, filepath):
         r"""
