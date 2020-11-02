@@ -63,6 +63,7 @@ Object Reference
     coax.utils.isscalar
     coax.utils.merge_dicts
     coax.utils.pretty_repr
+    coax.utils.pretty_print
     coax.utils.reload_recursive
     coax.utils.render_episode
     coax.utils.safe_sample
@@ -110,6 +111,7 @@ from ._misc import (
     is_transition_model,
     is_vfunction,
     pretty_repr,
+    pretty_print,
     reload_recursive,
     render_episode,
 )
@@ -146,6 +148,7 @@ __all__ = (
     'isscalar',
     'merge_dicts',
     'pretty_repr',
+    'pretty_print',
     'reload_recursive',
     'render_episode',
     'safe_sample',
