@@ -584,7 +584,7 @@ def pretty_repr(o, d=0):
     if hasattr(o, 'items'):
         sep = ',\n' + i * (d + 1)
         body = '\n' + i * (d + 1) + sep.join(
-            f"'{k}': {pretty_repr(v, d + 1)}" for k, v in o.items())
+            f"{repr(k)}: {pretty_repr(v, d + 1)}" for k, v in o.items())
         return f"{{{body}}}"
     return repr(o)
 
