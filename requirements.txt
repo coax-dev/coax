@@ -9,3 +9,4 @@ optax>=0.0.1
 tensorboard>=2.3.0
 tensorboardX>=2.1
 lz4>=3.0.2
+cloudpickle>=1.6.0
