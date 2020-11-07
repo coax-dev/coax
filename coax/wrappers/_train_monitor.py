@@ -26,14 +26,14 @@ import time
 from collections import deque
 from typing import Mapping
 
-import gym
 import numpy as np
-import tensorboardX
 import lz4.frame
 import cloudpickle as pickle
 from gym import Wrapper
+from gym.spaces import Discrete
+from tensorboardX import SummaryWriter
 
-from .._base.mixins import LoggerMixin, SerializationMixin
+from .._base.mixins import LoggerMixin
 from ..utils import enable_logging
 
 
@@ -75,7 +75,7 @@ class StreamingSample:
         return bool(self._deque)
 
 
-class TrainMonitor(Wrapper, LoggerMixin, SerializationMixin):
+class TrainMonitor(Wrapper, LoggerMixin):
     r"""
     Environment wrapper for monitoring the training process.
 
@@ -286,7 +286,7 @@ class TrainMonitor(Wrapper, LoggerMixin, SerializationMixin):
     def tensorboard(self):
         if not hasattr(self, '_tensorboard'):
             assert self._tensorboard_dir is not None
-            self._tensorboard = tensorboardX.SummaryWriter(self._tensorboard_dir)
+            self._tensorboard = SummaryWriter(self._tensorboard_dir)
         return self._tensorboard
 
     def _init_tensorboard(self, tensorboard_dir):
@@ -338,7 +338,7 @@ class TrainMonitor(Wrapper, LoggerMixin, SerializationMixin):
                 self.tensorboard.add_scalar(
                     str(name), float(metric), global_step=self.T)
             if self._ep_actions:
-                if isinstance(self.action_space, gym.spaces.Discrete):
+                if isinstance(self.action_space, Discrete):
                     bins = np.arange(self.action_space.n + 1)
                 else:
                     bins = 'auto'  # see also: np.histogram_bin_edges.__doc__
@@ -350,8 +350,9 @@ class TrainMonitor(Wrapper, LoggerMixin, SerializationMixin):
             self.tensorboard.flush()
 
     def __getstate__(self):
-        state = self.__dict__.copy()  # shallow copy
-        state['tensorboard'] = None   # remove reference to non-pickleable attr
+        state = self.__dict__.copy()   # shallow copy
+        if '_tensorboard' in state:
+            del state['_tensorboard']  # remove reference to non-pickleable attr
         return state
 
     def __setstate__(self, state):
