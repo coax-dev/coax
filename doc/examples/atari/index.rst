@@ -10,6 +10,7 @@ environment.
 
     DQN (standard) <dqn>
     DQN (Boltzmann policy) <dqn_boltzmann>
+    DQN (Soft Q-Learning) <dqn_soft>
     DQN (type-I q-function) <dqn_type1>
     DQN (Prioritized Experience Replay) <dqn_per>
     DDPG <ddpg>

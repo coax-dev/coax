@@ -17,6 +17,7 @@ an agent.
 
     sarsa
     qlearning
+    soft_qlearning
     dqn
     dqn_per
 
