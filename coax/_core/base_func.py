@@ -27,7 +27,6 @@ import jax
 import haiku as hk
 from gym.spaces import Space
 
-from .._base.mixins import SerializationMixin
 from ..typing import Batch, Observation, Action
 from ..utils import pretty_repr
 from .._base.mixins import RandomStateMixin
@@ -74,7 +73,7 @@ class ModelTypes(NamedTuple):
         return pretty_repr(self)
 
 
-class BaseFunc(ABC, RandomStateMixin, SerializationMixin):
+class BaseFunc(ABC, RandomStateMixin):
     """ Abstract base class for function approximators: coax.V, coax.Q, coax.Policy """
 
     def __init__(self, func, observation_space, action_space=None, random_seed=None):

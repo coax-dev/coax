@@ -21,15 +21,13 @@
 
 from abc import ABC, abstractmethod
 
-from .._base.mixins import SerializationMixin
-
 
 __all__ = (
     'BaseReplayBuffer',
 )
 
 
-class BaseReplayBuffer(ABC, SerializationMixin):
+class BaseReplayBuffer(ABC):
 
     @property
     @abstractmethod

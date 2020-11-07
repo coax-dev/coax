@@ -20,44 +20,49 @@
 # ------------------------------------------------------------------------------------------------ #
 
 import os
+import tempfile
 
-import lz4.frame
-import cloudpickle as pickle
+from ._misc import dump, dumps, load, loads
 
 
-class SerializationMixin:
+def test_dump_load():
+    with tempfile.TemporaryDirectory() as d:
+        a = [13]
+        b = {'a': a}
 
-    @classmethod
-    def load(cls, filepath):
-        r"""
+        # references preserved
+        dump((a, b), os.path.join(d, 'ab.pkl.lz4'))
+        a_new, b_new = load(os.path.join(d, 'ab.pkl.lz4'))
+        b_new['a'].append(7)
+        assert b_new['a'] == [13, 7]
+        assert a_new == [13, 7]
 
-        Load instance from a file.
+        # references not preserved
+        dump(a, os.path.join(d, 'a.pkl.lz4'))
+        dump(b, os.path.join(d, 'b.pkl.lz4'))
+        a_new = load(os.path.join(d, 'a.pkl.lz4'))
+        b_new = load(os.path.join(d, 'b.pkl.lz4'))
+        b_new['a'].append(7)
+        assert b_new['a'] == [13, 7]
+        assert a_new == [13]
 
-        Parameters
-        ----------
-        filepath : str
 
-            The filepath of the stored instance.
+def test_dumps_loads():
+    a = [13]
+    b = {'a': a}
 
-        """
-        with lz4.frame.open(filepath, 'rb') as f:
-            obj = pickle.loads(f.read())
-        if not isinstance(obj, cls):
-            raise TypeError(f"loaded obj must be an instance of {cls.__name__}, got: {type(obj)}")
-        return obj
+    # references preserved
+    s = dumps((a, b))
+    a_new, b_new = loads(s)
+    b_new['a'].append(7)
+    assert b_new['a'] == [13, 7]
+    assert a_new == [13, 7]
 
-    def save(self, filepath):
-        r"""
-
-        Save instance to a file.
-
-        Parameters
-        ----------
-        filepath : str
-
-            The filepath to store the instance.
-
-        """
-        os.makedirs(os.path.dirname(filepath) or '.', exist_ok=True)
-        with lz4.frame.open(filepath, 'wb') as f:
-            f.write(pickle.dumps(self))
+    # references not preserved
+    s_a = dumps(a)
+    s_b = dumps(b)
+    a_new = loads(s_a)
+    b_new = loads(s_b)
+    b_new['a'].append(7)
+    assert b_new['a'] == [13, 7]
+    assert a_new == [13]

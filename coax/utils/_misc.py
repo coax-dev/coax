@@ -27,12 +27,18 @@ from types import ModuleType
 
 import jax.numpy as jnp
 import numpy as onp
+import lz4.frame
+import cloudpickle as pickle
 from PIL import Image
 
 
 __all__ = (
     'docstring',
     'enable_logging',
+    'dump',
+    'dumps',
+    'load',
+    'loads',
     'generate_gif',
     'get_env_attr',
     'getattr_safe',
@@ -142,6 +148,143 @@ def enable_logging(name=None, level=logging.INFO, output_filepath=None, output_l
         fh = logging.FileHandler(output_filepath)
         fh.setLevel(level if output_level is None else output_level)
         logging.getLogger('').addHandler(fh)
+
+
+def dump(obj, filepath):
+    r"""
+
+    Save an object to disk.
+
+    Parameters
+    ----------
+    obj : object
+
+        Any python object.
+
+    filepath : str
+
+        Where to store the instance.
+
+    Warning
+    -------
+
+    References between objects are only preserved if they are stored as part of a single object, for
+    example:
+
+    .. code:: python
+
+        # b has a reference to a
+        a = [13]
+        b = {'a': a}
+
+        # references preserved
+        dump((a, b), 'ab.pkl.lz4')
+        a_new, b_new = load('ab.pkl.lz4')
+        b_new['a'].append(7)
+        print(b_new)  # {'a': [13, 7]}
+        print(a_new)  # [13, 7]         <-- updated
+
+        # references not preserved
+        dump(a, 'a.pkl.lz4')
+        dump(b, 'b.pkl.lz4')
+        a_new = load('a.pkl.lz4')
+        b_new = load('b.pkl.lz4')
+        b_new['a'].append(7)
+        print(b_new)  # {'a': [13, 7]}
+        print(a_new)  # [13]            <-- not updated!!
+
+    Therefore, the safest way to create checkpoints is to store the entire state as a single object
+    like a dict or a tuple.
+
+    """
+    dirpath = os.path.dirname(filepath)
+    if dirpath:
+        os.makedirs(dirpath, exist_ok=True)
+    with lz4.frame.open(filepath, 'wb') as f:
+        f.write(pickle.dumps(obj))
+
+
+def dumps(obj):
+    r"""
+
+    Serialize an object to an lz4-compressed pickle byte-string.
+
+    Parameters
+    ----------
+    obj : object
+
+        Any python object.
+
+    Returns
+    -------
+    s : bytes
+
+        An lz4-compressed pickle byte-string.
+
+    Warning
+    -------
+
+    References between objects are only preserved if they are stored as part of a single object, for
+    example:
+
+    .. code:: python
+
+        # b has a reference to a
+        a = [13]
+        b = {'a': a}
+
+        # references preserved
+        s = dumps((a, b))
+        a_new, b_new = loads(s)
+        b_new['a'].append(7)
+        print(b_new)  # {'a': [13, 7]}
+        print(a_new)  # [13, 7]         <-- updated
+
+        # references not preserved
+        s_a = dumps(a)
+        s_b = dumps(b)
+        a_new = loads(s_a)
+        b_new = loads(s_b)
+        b_new['a'].append(7)
+        print(b_new)  # {'a': [13, 7]}
+        print(a_new)  # [13]            <-- not updated!!
+
+    Therefore, the safest way to create checkpoints is to store the entire state as a single object
+    like a dict or a tuple.
+
+    """
+    return lz4.frame.compress(pickle.dumps(obj))
+
+
+def load(filepath):
+    r"""
+
+    Load an object from a file that was created by :func:`dump(obj, filepath) <dump>`.
+
+    Parameters
+    ----------
+    filepath : str
+
+        File to load.
+
+    """
+    with lz4.frame.open(filepath, 'rb') as f:
+        return pickle.loads(f.read())
+
+
+def loads(s):
+    r"""
+
+    Load an object from a byte-string that was created by :func:`dumps(obj) <dumps>`.
+
+    Parameters
+    ----------
+    s : str
+
+        An lz4-compressed pickle byte-string.
+
+    """
+    return pickle.loads(lz4.frame.decompress(s))
 
 
 def _reload(module, reload_all, reloaded, logger):

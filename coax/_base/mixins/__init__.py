@@ -22,12 +22,10 @@
 from ._add_orig_to_info import AddOrigToInfoDictMixin
 from ._logger import LoggerMixin
 from ._random_state import RandomStateMixin
-from ._serialization import SerializationMixin
 
 
 __all__ = (
     'AddOrigToInfoDictMixin',
     'LoggerMixin',
     'RandomStateMixin',
-    'SerializationMixin',
 )

@@ -46,6 +46,8 @@ Object Reference
     coax.utils.diff_transform_matrix
     coax.utils.docstring
     coax.utils.double_relu
+    coax.utils.dump
+    coax.utils.dumps
     coax.utils.enable_logging
     coax.utils.generate_gif
     coax.utils.get_env_attr
@@ -61,9 +63,11 @@ Object Reference
     coax.utils.is_transition_model
     coax.utils.is_vfunction
     coax.utils.isscalar
+    coax.utils.load
+    coax.utils.loads
     coax.utils.merge_dicts
-    coax.utils.pretty_repr
     coax.utils.pretty_print
+    coax.utils.pretty_repr
     coax.utils.reload_recursive
     coax.utils.render_episode
     coax.utils.safe_sample
@@ -100,6 +104,8 @@ from ._array import (
 )
 from ._misc import (
     docstring,
+    dump,
+    dumps,
     enable_logging,
     generate_gif,
     get_env_attr,
@@ -110,8 +116,10 @@ from ._misc import (
     is_stochastic,
     is_transition_model,
     is_vfunction,
-    pretty_repr,
+    load,
+    loads,
     pretty_print,
+    pretty_repr,
     reload_recursive,
     render_episode,
 )
@@ -131,6 +139,8 @@ __all__ = (
     'diff_transform_matrix',
     'docstring',
     'double_relu',
+    'dump',
+    'dumps',
     'enable_logging',
     'generate_gif',
     'get_env_attr',
@@ -146,9 +156,11 @@ __all__ = (
     'is_transition_model',
     'is_vfunction',
     'isscalar',
+    'load',
+    'loads',
     'merge_dicts',
-    'pretty_repr',
     'pretty_print',
+    'pretty_repr',
     'reload_recursive',
     'render_episode',
     'safe_sample',

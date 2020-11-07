@@ -223,38 +223,6 @@ class BaseTDLearning(ABC, RandomStateMixin):
             raise AttributeError("cannot set optimizer_state attr: mismatch in tree structure")
         self._optimizer_state = new_optimizer_state
 
-    def save_optimizer_state(self, filepath):
-        r"""
-
-        Store the optimizer state.
-
-        Parameters
-        ----------
-        filepath : str
-
-            The checkpoint file path.
-
-        """
-        os.makedirs(os.path.dirname(filepath) or '.', exist_ok=True)
-
-        with lz4.frame.open(filepath, 'wb') as f:
-            f.write(pickle.dumps((self.optimizer, self.optimizer_state)))
-
-    def load_optimizer_state(self, filepath):
-        r"""
-
-        Restore the optimizer state.
-
-        Parameters
-        ----------
-        filepath : str
-
-            The checkpoint file path.
-
-        """
-        with lz4.frame.open(filepath, 'rb') as f:
-            self.optimizer, self.optimizer_state = pickle.loads(f.read())
-
 
 class BaseTDLearningV(BaseTDLearning):
     def __init__(self, v, v_targ=None, optimizer=None, loss_function=None, policy_regularizer=None):
