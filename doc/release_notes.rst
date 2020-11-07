@@ -2,6 +2,15 @@ Release Notes
 =============
 
 
+v0.1.5
+------
+
+- Implemented :class:`coax.td_learning.SoftQLearning`.
+- Added soft q-learning :doc:`stub <examples/atari/dqn_soft>` and
+  :doc:`script <examples/stubs/soft_qlearning>`.
+- Added serialization utils: :func:`coax.utils.dump`, :func:`coax.utils.dumps`, :func:`coax.utils.load`, :func:`coax.utils.loads`.
+
+
 v0.1.4
 ------
 
