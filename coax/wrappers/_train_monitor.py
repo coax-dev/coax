@@ -262,6 +262,19 @@ class TrainMonitor(Wrapper, LoggerMixin):
                 x, n = self._ep_metrics[k]
                 self._ep_metrics[k] = x + v, n + 1
 
+    def get_metrics(self):
+        r"""
+        Return the current state of the metrics.
+
+        Returns
+        -------
+        metrics : dict
+
+            A dict of metrics, of type ``{name <str>: value <float>}``.
+
+        """
+        return {k: float(x) / n for k, (x, n) in self._ep_metrics.items()}
+
     def period(self, name, T_period=None, ep_period=None):
         if T_period is not None:
             T_period = int(T_period)
@@ -322,6 +335,7 @@ class TrainMonitor(Wrapper, LoggerMixin):
                 f'ep: {self.ep:d}',
                 f'T: {self.T:,d}',
                 f'G: {self.G:.3g}',
+                f'avg_r: {self.avg_r:.3g}',
                 f'avg_G: {self.avg_G:.3g}',
                 f't: {self.t:d}',
                 f'dt: {self.dt_ms:.3f}ms',
