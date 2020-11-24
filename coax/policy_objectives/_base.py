@@ -19,15 +19,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-import os
 import warnings
 
 import jax
 import jax.numpy as jnp
 import optax
 import haiku as hk
-import lz4.frame
-import cloudpickle as pickle
 
 from .._core.policy import Policy
 from ..utils import get_grads_diagnostics

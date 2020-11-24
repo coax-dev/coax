@@ -19,7 +19,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-import os
 from abc import ABC, abstractmethod
 
 import jax
@@ -27,8 +26,6 @@ import jax.numpy as jnp
 import haiku as hk
 import optax
 import chex
-import lz4.frame
-import cloudpickle as pickle
 
 from .._base.mixins import RandomStateMixin
 from ..utils import get_grads_diagnostics, is_policy, is_stochastic, is_qfunction, is_vfunction

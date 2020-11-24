@@ -20,7 +20,6 @@
 # ------------------------------------------------------------------------------------------------ #
 
 from abc import ABC, abstractmethod
-from copy import deepcopy
 from typing import Any, Tuple, NamedTuple
 
 import jax
