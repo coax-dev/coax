@@ -19,13 +19,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-from copy import deepcopy
 from functools import partial
 
 import jax
 import jax.numpy as jnp
 import numpy as onp
 
+from .._base.mixins import CopyMixin
 from ..utils import pretty_repr
 
 
@@ -34,7 +34,7 @@ __all__ = (
 )
 
 
-class TransitionBatch:
+class TransitionBatch(CopyMixin):
     r"""
 
     A container object for a batch of MDP transitions.
@@ -229,10 +229,6 @@ class TransitionBatch:
 
         for i in range(self.batch_size):
             yield TransitionBatch(*map(partial(lookup, i), self))
-
-    def copy(self):
-        r""" Create a deepcopy of the current instance. """
-        return deepcopy(self)
 
     def items(self):
         for k in self.__slots__:

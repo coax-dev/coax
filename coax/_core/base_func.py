@@ -29,7 +29,7 @@ from gym.spaces import Space
 
 from ..typing import Batch, Observation, Action
 from ..utils import pretty_repr
-from .._base.mixins import RandomStateMixin
+from .._base.mixins import RandomStateMixin, CopyMixin
 
 
 class Inputs(NamedTuple):
@@ -73,7 +73,7 @@ class ModelTypes(NamedTuple):
         return pretty_repr(self)
 
 
-class BaseFunc(ABC, RandomStateMixin):
+class BaseFunc(ABC, RandomStateMixin, CopyMixin):
     """ Abstract base class for function approximators: coax.V, coax.Q, coax.Policy """
 
     def __init__(self, func, observation_space, action_space=None, random_seed=None):
@@ -135,18 +135,6 @@ class BaseFunc(ABC, RandomStateMixin):
 
         self.params = self._soft_update_func(self.params, other.params, tau)
         self.function_state = self._soft_update_func(self.function_state, other.function_state, tau)
-
-    def copy(self):
-        """ Create a deep copy.
-
-        Returns
-        -------
-        copy
-
-            A deep copy of the current instance.
-
-        """
-        return deepcopy(self)
 
     @property
     def params(self):

@@ -19,15 +19,26 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-from ._add_orig_to_info import AddOrigToInfoDictMixin
-from ._copy import CopyMixin
-from ._logger import LoggerMixin
-from ._random_state import RandomStateMixin
+from copy import deepcopy, copy
 
 
-__all__ = (
-    'AddOrigToInfoDictMixin',
-    'CopyMixin',
-    'LoggerMixin',
-    'RandomStateMixin',
-)
+class CopyMixin:
+    def copy(self, deep=False):
+        r"""
+
+        Create a copy of the current instance.
+
+        Parameters
+        ----------
+        deep : bool, optional
+
+            Whether the copy should be a deep copy.
+
+        Returns
+        -------
+        copy
+
+            A deep copy of the current instance.
+
+        """
+        return deepcopy(self) if deep else copy(self)
