@@ -139,9 +139,9 @@ def enable_logging(name=None, level=logging.INFO, output_filepath=None, output_l
 
     """
     if name is None:
-        fmt = '[%(threadName)s|%(name)s|%(levelname)s] %(message)s'
+        fmt = '[%(name)s|%(levelname)s] %(message)s'
     else:
-        fmt = f'[{name}|%(threadName)s|%(name)s|%(levelname)s] %(message)s'
+        fmt = f'[{name}|%(name)s|%(levelname)s] %(message)s'
     logging.basicConfig(level=level, format=fmt)
     if output_filepath is not None:
         os.makedirs(os.path.dirname(output_filepath) or '.', exist_ok=True)
