@@ -43,7 +43,7 @@ class BaseShortTermCache(ABC):
         pass
 
     @abstractmethod
-    def add(self, s, a, r, done, logp=0.0):
+    def add(self, s, a, r, done, logp=0.0, w=1.0):
         r"""
         Add a transition to the experience cache.
 
@@ -68,6 +68,10 @@ class BaseShortTermCache(ABC):
         logp : float, optional
 
             The log-propensity :math:`\log\pi(a|s)`.
+
+        w : float, optional
+
+            Sample weight associated with the given state-action pair.
 
         """
         pass
@@ -100,8 +104,7 @@ class BaseShortTermCache(ABC):
         """
         if not self:
             raise InsufficientCacheError(
-                "cache needs to receive more transitions before it can be "
-                "flushed")
+                "cache needs to receive more transitions before it can be flushed")
 
         transitions = []
 

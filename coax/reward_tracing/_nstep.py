@@ -55,23 +55,23 @@ class NStep(BaseShortTermCache):
         self.reset()
 
     def reset(self):
-        self._deque_sap = deque([])
+        self._deque_s = deque([])
         self._deque_r = deque([])
         self._done = False
         self._gammas = onp.power(self.gamma, onp.arange(self.n))
         self._gamman = onp.power(self.gamma, self.n)
 
-    def add(self, s, a, r, done, logp=0.0):
+    def add(self, s, a, r, done, logp=0.0, w=1.0):
         if self._done and len(self):
             raise EpisodeDoneError(
                 "please flush cache (or repeatedly call popleft) before appending new transitions")
 
-        self._deque_sap.append((s, a, logp))
+        self._deque_s.append((s, a, logp, w))
         self._deque_r.append(r)
         self._done = bool(done)
 
     def __len__(self):
-        return len(self._deque_sap)
+        return len(self._deque_s)
 
     def __bool__(self):
         return bool(len(self)) and (self._done or len(self) > self.n)
@@ -82,7 +82,7 @@ class NStep(BaseShortTermCache):
                 "cache needs to receive more transitions before it can be popped from")
 
         # pop state-action (propensities) pair
-        s, a, logp = self._deque_sap.popleft()
+        s, a, logp, w = self._deque_s.popleft()
 
         # n-step partial return
         zipped = zip(self._gammas, self._deque_r)
@@ -91,7 +91,7 @@ class NStep(BaseShortTermCache):
 
         # keep in mind that we've already popped (s, a, logp)
         if len(self) >= self.n:
-            s_next, a_next, logp_next = self._deque_sap[self.n - 1]
+            s_next, a_next, logp_next, _ = self._deque_s[self.n - 1]
             done = False
         else:
             # no more bootstrapping
@@ -99,4 +99,4 @@ class NStep(BaseShortTermCache):
 
         return TransitionBatch.from_single(
             s=s, a=a, logp=logp, r=rn, done=done, gamma=self._gamman,
-            s_next=s_next, a_next=a_next, logp_next=logp_next, w=1.)
+            s_next=s_next, a_next=a_next, logp_next=logp_next, w=w)

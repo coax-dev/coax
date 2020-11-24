@@ -49,12 +49,12 @@ class MonteCarlo(BaseShortTermCache):
         self._done = False
         self._g = 0  # accumulator for return
 
-    def add(self, s, a, r, done, logp=0.0):
+    def add(self, s, a, r, done, logp=0.0, w=1.0):
         if self._done and len(self):
             raise EpisodeDoneError(
                 "please flush cache (or repeatedly pop) before appending new transitions")
 
-        self._list.append((s, a, r, logp))
+        self._list.append((s, a, r, logp, w))
         self._done = bool(done)
         if self._done:
             self._g = 0.  # init return
@@ -75,11 +75,11 @@ class MonteCarlo(BaseShortTermCache):
                     "cannot pop from cache before before receiving done=True")
 
         # pop state-action (propensities) pair
-        s, a, r, logp = self._list.pop()
+        s, a, r, logp, w = self._list.pop()
 
         # update return
         self._g = r + self.gamma * self._g
 
         return TransitionBatch.from_single(
             s=s, a=a, logp=logp, r=self._g, done=True, gamma=self.gamma,  # no bootstrapping
-            s_next=s, a_next=a, logp_next=logp, w=1.)                     # dummy values for *_next
+            s_next=s, a_next=a, logp_next=logp, w=w)                      # dummy values for *_next
