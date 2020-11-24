@@ -13,6 +13,8 @@ py:attribute
 py:class
 	jax.core.ClosedJaxpr                     _autosummary/jax.core.ClosedJaxpr.html#jax.core.ClosedJaxpr
 	jax.core.Jaxpr                           _autosummary/jax.core.Jaxpr.html#jax.core.Jaxpr
+	jax.custom_jvp                           jax.html#jax.custom_jvp
+	jax.custom_vjp                           jax.html#jax.custom_vjp
 	jax.experimental.loops.Scope             jax.experimental.loops.html#jax.experimental.loops.Scope
 	jax.experimental.optimizers.JoinPoint    jax.experimental.optimizers.html#jax.experimental.optimizers.JoinPoint
 	jax.experimental.optimizers.Optimizer    jax.experimental.optimizers.html#jax.experimental.optimizers.Optimizer
@@ -73,14 +75,10 @@ py:exception
 	jax.numpy.ComplexWarning                 _autosummary/jax.numpy.ComplexWarning.html#jax.numpy.ComplexWarning
 py:function
 	jax.checkpoint                           jax.html#jax.checkpoint
-	jax.custom_jvp                           jax.html#jax.custom_jvp
-	jax.custom_vjp                           jax.html#jax.custom_vjp
 	jax.device_count                         jax.html#jax.device_count
 	jax.device_put                           jax.html#jax.device_put
 	jax.devices                              jax.html#jax.devices
 	jax.disable_jit                          jax.html#jax.disable_jit
-	jax.dlpack.from_dlpack                   jax.dlpack.html#jax.dlpack.from_dlpack
-	jax.dlpack.to_dlpack                     jax.dlpack.html#jax.dlpack.to_dlpack
 	jax.eval_shape                           jax.html#jax.eval_shape
 	jax.experimental.host_callback.id_print  jax.experimental.host_callback.html#jax.experimental.host_callback.id_print
 	jax.experimental.host_callback.id_tap    jax.experimental.host_callback.html#jax.experimental.host_callback.id_tap
@@ -183,6 +181,7 @@ py:function
 	jax.lax.conj                             _autosummary/jax.lax.conj.html#jax.lax.conj
 	jax.lax.conv                             _autosummary/jax.lax.conv.html#jax.lax.conv
 	jax.lax.conv_general_dilated             _autosummary/jax.lax.conv_general_dilated.html#jax.lax.conv_general_dilated
+	jax.lax.conv_general_dilated_patches     _autosummary/jax.lax.conv_general_dilated_patches.html#jax.lax.conv_general_dilated_patches
 	jax.lax.conv_transpose                   _autosummary/jax.lax.conv_transpose.html#jax.lax.conv_transpose
 	jax.lax.conv_with_general_padding        _autosummary/jax.lax.conv_with_general_padding.html#jax.lax.conv_with_general_padding
 	jax.lax.convert_element_type             _autosummary/jax.lax.convert_element_type.html#jax.lax.convert_element_type
@@ -228,6 +227,13 @@ py:function
 	jax.lax.is_finite                        _autosummary/jax.lax.is_finite.html#jax.lax.is_finite
 	jax.lax.le                               _autosummary/jax.lax.le.html#jax.lax.le
 	jax.lax.lgamma                           _autosummary/jax.lax.lgamma.html#jax.lax.lgamma
+	jax.lax.linalg.cholesky                  _autosummary/jax.lax.linalg.cholesky.html#jax.lax.linalg.cholesky
+	jax.lax.linalg.eig                       _autosummary/jax.lax.linalg.eig.html#jax.lax.linalg.eig
+	jax.lax.linalg.eigh                      _autosummary/jax.lax.linalg.eigh.html#jax.lax.linalg.eigh
+	jax.lax.linalg.lu                        _autosummary/jax.lax.linalg.lu.html#jax.lax.linalg.lu
+	jax.lax.linalg.qr                        _autosummary/jax.lax.linalg.qr.html#jax.lax.linalg.qr
+	jax.lax.linalg.svd                       _autosummary/jax.lax.linalg.svd.html#jax.lax.linalg.svd
+	jax.lax.linalg.triangular_solve          _autosummary/jax.lax.linalg.triangular_solve.html#jax.lax.linalg.triangular_solve
 	jax.lax.log                              _autosummary/jax.lax.log.html#jax.lax.log
 	jax.lax.log1p                            _autosummary/jax.lax.log1p.html#jax.lax.log1p
 	jax.lax.lt                               _autosummary/jax.lax.lt.html#jax.lax.lt
@@ -282,6 +288,7 @@ py:function
 	jax.lax.top_k                            _autosummary/jax.lax.top_k.html#jax.lax.top_k
 	jax.lax.transpose                        _autosummary/jax.lax.transpose.html#jax.lax.transpose
 	jax.lax.while_loop                       _autosummary/jax.lax.while_loop.html#jax.lax.while_loop
+	jax.linear_transpose                     jax.html#jax.linear_transpose
 	jax.linearize                            jax.html#jax.linearize
 	jax.local_device_count                   jax.html#jax.local_device_count
 	jax.local_devices                        jax.html#jax.local_devices
@@ -600,6 +607,7 @@ py:function
 	jax.numpy.searchsorted                   _autosummary/jax.numpy.searchsorted.html#jax.numpy.searchsorted
 	jax.numpy.select                         _autosummary/jax.numpy.select.html#jax.numpy.select
 	jax.numpy.set_printoptions               _autosummary/jax.numpy.set_printoptions.html#jax.numpy.set_printoptions
+	jax.numpy.setdiff1d                      _autosummary/jax.numpy.setdiff1d.html#jax.numpy.setdiff1d
 	jax.numpy.shape                          _autosummary/jax.numpy.shape.html#jax.numpy.shape
 	jax.numpy.sign                           _autosummary/jax.numpy.sign.html#jax.numpy.sign
 	jax.numpy.signbit                        _autosummary/jax.numpy.signbit.html#jax.numpy.signbit
@@ -740,12 +748,20 @@ py:function
 	jax.scipy.special.xlog1py                _autosummary/jax.scipy.special.xlog1py.html#jax.scipy.special.xlog1py
 	jax.scipy.special.xlogy                  _autosummary/jax.scipy.special.xlogy.html#jax.scipy.special.xlogy
 	jax.scipy.special.zeta                   _autosummary/jax.scipy.special.zeta.html#jax.scipy.special.zeta
+	jax.scipy.stats.bernoulli.logpmf         _autosummary/jax.scipy.stats.bernoulli.logpmf.html#jax.scipy.stats.bernoulli.logpmf
+	jax.scipy.stats.bernoulli.pmf            _autosummary/jax.scipy.stats.bernoulli.pmf.html#jax.scipy.stats.bernoulli.pmf
 	jax.scipy.stats.beta.logpdf              _autosummary/jax.scipy.stats.beta.logpdf.html#jax.scipy.stats.beta.logpdf
 	jax.scipy.stats.beta.pdf                 _autosummary/jax.scipy.stats.beta.pdf.html#jax.scipy.stats.beta.pdf
+	jax.scipy.stats.cauchy.logpdf            _autosummary/jax.scipy.stats.cauchy.logpdf.html#jax.scipy.stats.cauchy.logpdf
+	jax.scipy.stats.cauchy.pdf               _autosummary/jax.scipy.stats.cauchy.pdf.html#jax.scipy.stats.cauchy.pdf
+	jax.scipy.stats.dirichlet.logpdf         _autosummary/jax.scipy.stats.dirichlet.logpdf.html#jax.scipy.stats.dirichlet.logpdf
+	jax.scipy.stats.dirichlet.pdf            _autosummary/jax.scipy.stats.dirichlet.pdf.html#jax.scipy.stats.dirichlet.pdf
 	jax.scipy.stats.expon.logpdf             _autosummary/jax.scipy.stats.expon.logpdf.html#jax.scipy.stats.expon.logpdf
 	jax.scipy.stats.expon.pdf                _autosummary/jax.scipy.stats.expon.pdf.html#jax.scipy.stats.expon.pdf
 	jax.scipy.stats.gamma.logpdf             _autosummary/jax.scipy.stats.gamma.logpdf.html#jax.scipy.stats.gamma.logpdf
 	jax.scipy.stats.gamma.pdf                _autosummary/jax.scipy.stats.gamma.pdf.html#jax.scipy.stats.gamma.pdf
+	jax.scipy.stats.geom.logpmf              _autosummary/jax.scipy.stats.geom.logpmf.html#jax.scipy.stats.geom.logpmf
+	jax.scipy.stats.geom.pmf                 _autosummary/jax.scipy.stats.geom.pmf.html#jax.scipy.stats.geom.pmf
 	jax.scipy.stats.laplace.cdf              _autosummary/jax.scipy.stats.laplace.cdf.html#jax.scipy.stats.laplace.cdf
 	jax.scipy.stats.laplace.logpdf           _autosummary/jax.scipy.stats.laplace.logpdf.html#jax.scipy.stats.laplace.logpdf
 	jax.scipy.stats.laplace.pdf              _autosummary/jax.scipy.stats.laplace.pdf.html#jax.scipy.stats.laplace.pdf
@@ -755,11 +771,19 @@ py:function
 	jax.scipy.stats.logistic.pdf             _autosummary/jax.scipy.stats.logistic.pdf.html#jax.scipy.stats.logistic.pdf
 	jax.scipy.stats.logistic.ppf             _autosummary/jax.scipy.stats.logistic.ppf.html#jax.scipy.stats.logistic.ppf
 	jax.scipy.stats.logistic.sf              _autosummary/jax.scipy.stats.logistic.sf.html#jax.scipy.stats.logistic.sf
+	jax.scipy.stats.multivariate_normal.logpdf _autosummary/jax.scipy.stats.multivariate_normal.logpdf.html#jax.scipy.stats.multivariate_normal.logpdf
+	jax.scipy.stats.multivariate_normal.pdf  _autosummary/jax.scipy.stats.multivariate_normal.pdf.html#jax.scipy.stats.multivariate_normal.pdf
 	jax.scipy.stats.norm.cdf                 _autosummary/jax.scipy.stats.norm.cdf.html#jax.scipy.stats.norm.cdf
 	jax.scipy.stats.norm.logcdf              _autosummary/jax.scipy.stats.norm.logcdf.html#jax.scipy.stats.norm.logcdf
 	jax.scipy.stats.norm.logpdf              _autosummary/jax.scipy.stats.norm.logpdf.html#jax.scipy.stats.norm.logpdf
 	jax.scipy.stats.norm.pdf                 _autosummary/jax.scipy.stats.norm.pdf.html#jax.scipy.stats.norm.pdf
 	jax.scipy.stats.norm.ppf                 _autosummary/jax.scipy.stats.norm.ppf.html#jax.scipy.stats.norm.ppf
+	jax.scipy.stats.pareto.logpdf            _autosummary/jax.scipy.stats.pareto.logpdf.html#jax.scipy.stats.pareto.logpdf
+	jax.scipy.stats.pareto.pdf               _autosummary/jax.scipy.stats.pareto.pdf.html#jax.scipy.stats.pareto.pdf
+	jax.scipy.stats.poisson.logpmf           _autosummary/jax.scipy.stats.poisson.logpmf.html#jax.scipy.stats.poisson.logpmf
+	jax.scipy.stats.poisson.pmf              _autosummary/jax.scipy.stats.poisson.pmf.html#jax.scipy.stats.poisson.pmf
+	jax.scipy.stats.t.logpdf                 _autosummary/jax.scipy.stats.t.logpdf.html#jax.scipy.stats.t.logpdf
+	jax.scipy.stats.t.pdf                    _autosummary/jax.scipy.stats.t.pdf.html#jax.scipy.stats.t.pdf
 	jax.scipy.stats.uniform.logpdf           _autosummary/jax.scipy.stats.uniform.logpdf.html#jax.scipy.stats.uniform.logpdf
 	jax.scipy.stats.uniform.pdf              _autosummary/jax.scipy.stats.uniform.pdf.html#jax.scipy.stats.uniform.pdf
 	jax.tree_util.all_leaves                 jax.tree_util.html#jax.tree_util.all_leaves
@@ -785,6 +809,9 @@ py:function
 py:method
 	jax.core.ClosedJaxpr.__init__            _autosummary/jax.core.ClosedJaxpr.html#jax.core.ClosedJaxpr.__init__
 	jax.core.Jaxpr.__init__                  _autosummary/jax.core.Jaxpr.html#jax.core.Jaxpr.__init__
+	jax.custom_jvp.defjvp                    jax.html#jax.custom_jvp.defjvp
+	jax.custom_jvp.defjvps                   jax.html#jax.custom_jvp.defjvps
+	jax.custom_vjp.defvjp                    jax.html#jax.custom_vjp.defvjp
 	jax.experimental.loops.Scope.cond_range  jax.experimental.loops.html#jax.experimental.loops.Scope.cond_range
 	jax.experimental.loops.Scope.range       jax.experimental.loops.html#jax.experimental.loops.Scope.range
 	jax.experimental.loops.Scope.start_subtrace jax.experimental.loops.html#jax.experimental.loops.Scope.start_subtrace
@@ -848,6 +875,7 @@ py:module
 	jax.experimental.stax                    jax.experimental.stax.html#module-jax.experimental.stax
 	jax.image                                jax.image.html#module-jax.image
 	jax.lax                                  jax.lax.html#module-jax.lax
+	jax.lax.linalg                           jax.lax.html#module-jax.lax.linalg
 	jax.nn                                   jax.nn.html#module-jax.nn
 	jax.nn.initializers                      jax.nn.initializers.html#module-jax.nn.initializers
 	jax.numpy                                jax.numpy.html#module-jax.numpy
@@ -861,12 +889,20 @@ py:module
 	jax.scipy.signal                         jax.scipy.html#module-jax.scipy.signal
 	jax.scipy.sparse.linalg                  jax.scipy.html#module-jax.scipy.sparse.linalg
 	jax.scipy.special                        jax.scipy.html#module-jax.scipy.special
+	jax.scipy.stats.bernoulli                jax.scipy.html#module-jax.scipy.stats.bernoulli
 	jax.scipy.stats.beta                     jax.scipy.html#module-jax.scipy.stats.beta
+	jax.scipy.stats.cauchy                   jax.scipy.html#module-jax.scipy.stats.cauchy
+	jax.scipy.stats.dirichlet                jax.scipy.html#module-jax.scipy.stats.dirichlet
 	jax.scipy.stats.expon                    jax.scipy.html#module-jax.scipy.stats.expon
 	jax.scipy.stats.gamma                    jax.scipy.html#module-jax.scipy.stats.gamma
+	jax.scipy.stats.geom                     jax.scipy.html#module-jax.scipy.stats.geom
 	jax.scipy.stats.laplace                  jax.scipy.html#module-jax.scipy.stats.laplace
 	jax.scipy.stats.logistic                 jax.scipy.html#module-jax.scipy.stats.logistic
+	jax.scipy.stats.multivariate_normal      jax.scipy.html#module-jax.scipy.stats.multivariate_normal
 	jax.scipy.stats.norm                     jax.scipy.html#module-jax.scipy.stats.norm
+	jax.scipy.stats.pareto                   jax.scipy.html#module-jax.scipy.stats.pareto
+	jax.scipy.stats.poisson                  jax.scipy.html#module-jax.scipy.stats.poisson
+	jax.scipy.stats.t                        jax.scipy.html#module-jax.scipy.stats.t
 	jax.scipy.stats.uniform                  jax.scipy.html#module-jax.scipy.stats.uniform
 	jax.tree_util                            jax.tree_util.html#module-jax.tree_util
 std:doc
@@ -909,6 +945,7 @@ std:doc
 	_autosummary/jax.lax.conj                jax.lax.conj                            : _autosummary/jax.lax.conj.html
 	_autosummary/jax.lax.conv                jax.lax.conv                            : _autosummary/jax.lax.conv.html
 	_autosummary/jax.lax.conv_general_dilated jax.lax.conv_general_dilated            : _autosummary/jax.lax.conv_general_dilated.html
+	_autosummary/jax.lax.conv_general_dilated_patches jax.lax.conv_general_dilated_patches    : _autosummary/jax.lax.conv_general_dilated_patches.html
 	_autosummary/jax.lax.conv_transpose      jax.lax.conv_transpose                  : _autosummary/jax.lax.conv_transpose.html
 	_autosummary/jax.lax.conv_with_general_padding jax.lax.conv_with_general_padding       : _autosummary/jax.lax.conv_with_general_padding.html
 	_autosummary/jax.lax.convert_element_type jax.lax.convert_element_type            : _autosummary/jax.lax.convert_element_type.html
@@ -954,6 +991,13 @@ std:doc
 	_autosummary/jax.lax.is_finite           jax.lax.is_finite                       : _autosummary/jax.lax.is_finite.html
 	_autosummary/jax.lax.le                  jax.lax.le                              : _autosummary/jax.lax.le.html
 	_autosummary/jax.lax.lgamma              jax.lax.lgamma                          : _autosummary/jax.lax.lgamma.html
+	_autosummary/jax.lax.linalg.cholesky     jax.lax.linalg.cholesky                 : _autosummary/jax.lax.linalg.cholesky.html
+	_autosummary/jax.lax.linalg.eig          jax.lax.linalg.eig                      : _autosummary/jax.lax.linalg.eig.html
+	_autosummary/jax.lax.linalg.eigh         jax.lax.linalg.eigh                     : _autosummary/jax.lax.linalg.eigh.html
+	_autosummary/jax.lax.linalg.lu           jax.lax.linalg.lu                       : _autosummary/jax.lax.linalg.lu.html
+	_autosummary/jax.lax.linalg.qr           jax.lax.linalg.qr                       : _autosummary/jax.lax.linalg.qr.html
+	_autosummary/jax.lax.linalg.svd          jax.lax.linalg.svd                      : _autosummary/jax.lax.linalg.svd.html
+	_autosummary/jax.lax.linalg.triangular_solve jax.lax.linalg.triangular_solve         : _autosummary/jax.lax.linalg.triangular_solve.html
 	_autosummary/jax.lax.log                 jax.lax.log                             : _autosummary/jax.lax.log.html
 	_autosummary/jax.lax.log1p               jax.lax.log1p                           : _autosummary/jax.lax.log1p.html
 	_autosummary/jax.lax.lt                  jax.lax.lt                              : _autosummary/jax.lax.lt.html
@@ -1356,6 +1400,7 @@ std:doc
 	_autosummary/jax.numpy.searchsorted      jax.numpy.searchsorted                  : _autosummary/jax.numpy.searchsorted.html
 	_autosummary/jax.numpy.select            jax.numpy.select                        : _autosummary/jax.numpy.select.html
 	_autosummary/jax.numpy.set_printoptions  jax.numpy.set_printoptions              : _autosummary/jax.numpy.set_printoptions.html
+	_autosummary/jax.numpy.setdiff1d         jax.numpy.setdiff1d                     : _autosummary/jax.numpy.setdiff1d.html
 	_autosummary/jax.numpy.shape             jax.numpy.shape                         : _autosummary/jax.numpy.shape.html
 	_autosummary/jax.numpy.sign              jax.numpy.sign                          : _autosummary/jax.numpy.sign.html
 	_autosummary/jax.numpy.signbit           jax.numpy.signbit                       : _autosummary/jax.numpy.signbit.html
@@ -1474,12 +1519,20 @@ std:doc
 	_autosummary/jax.scipy.special.xlog1py   jax.scipy.special.xlog1py               : _autosummary/jax.scipy.special.xlog1py.html
 	_autosummary/jax.scipy.special.xlogy     jax.scipy.special.xlogy                 : _autosummary/jax.scipy.special.xlogy.html
 	_autosummary/jax.scipy.special.zeta      jax.scipy.special.zeta                  : _autosummary/jax.scipy.special.zeta.html
+	_autosummary/jax.scipy.stats.bernoulli.logpmf jax.scipy.stats.bernoulli.logpmf        : _autosummary/jax.scipy.stats.bernoulli.logpmf.html
+	_autosummary/jax.scipy.stats.bernoulli.pmf jax.scipy.stats.bernoulli.pmf           : _autosummary/jax.scipy.stats.bernoulli.pmf.html
 	_autosummary/jax.scipy.stats.beta.logpdf jax.scipy.stats.beta.logpdf             : _autosummary/jax.scipy.stats.beta.logpdf.html
 	_autosummary/jax.scipy.stats.beta.pdf    jax.scipy.stats.beta.pdf                : _autosummary/jax.scipy.stats.beta.pdf.html
+	_autosummary/jax.scipy.stats.cauchy.logpdf jax.scipy.stats.cauchy.logpdf           : _autosummary/jax.scipy.stats.cauchy.logpdf.html
+	_autosummary/jax.scipy.stats.cauchy.pdf  jax.scipy.stats.cauchy.pdf              : _autosummary/jax.scipy.stats.cauchy.pdf.html
+	_autosummary/jax.scipy.stats.dirichlet.logpdf jax.scipy.stats.dirichlet.logpdf        : _autosummary/jax.scipy.stats.dirichlet.logpdf.html
+	_autosummary/jax.scipy.stats.dirichlet.pdf jax.scipy.stats.dirichlet.pdf           : _autosummary/jax.scipy.stats.dirichlet.pdf.html
 	_autosummary/jax.scipy.stats.expon.logpdf jax.scipy.stats.expon.logpdf            : _autosummary/jax.scipy.stats.expon.logpdf.html
 	_autosummary/jax.scipy.stats.expon.pdf   jax.scipy.stats.expon.pdf               : _autosummary/jax.scipy.stats.expon.pdf.html
 	_autosummary/jax.scipy.stats.gamma.logpdf jax.scipy.stats.gamma.logpdf            : _autosummary/jax.scipy.stats.gamma.logpdf.html
 	_autosummary/jax.scipy.stats.gamma.pdf   jax.scipy.stats.gamma.pdf               : _autosummary/jax.scipy.stats.gamma.pdf.html
+	_autosummary/jax.scipy.stats.geom.logpmf jax.scipy.stats.geom.logpmf             : _autosummary/jax.scipy.stats.geom.logpmf.html
+	_autosummary/jax.scipy.stats.geom.pmf    jax.scipy.stats.geom.pmf                : _autosummary/jax.scipy.stats.geom.pmf.html
 	_autosummary/jax.scipy.stats.laplace.cdf jax.scipy.stats.laplace.cdf             : _autosummary/jax.scipy.stats.laplace.cdf.html
 	_autosummary/jax.scipy.stats.laplace.logpdf jax.scipy.stats.laplace.logpdf          : _autosummary/jax.scipy.stats.laplace.logpdf.html
 	_autosummary/jax.scipy.stats.laplace.pdf jax.scipy.stats.laplace.pdf             : _autosummary/jax.scipy.stats.laplace.pdf.html
@@ -1489,11 +1542,19 @@ std:doc
 	_autosummary/jax.scipy.stats.logistic.pdf jax.scipy.stats.logistic.pdf            : _autosummary/jax.scipy.stats.logistic.pdf.html
 	_autosummary/jax.scipy.stats.logistic.ppf jax.scipy.stats.logistic.ppf            : _autosummary/jax.scipy.stats.logistic.ppf.html
 	_autosummary/jax.scipy.stats.logistic.sf jax.scipy.stats.logistic.sf             : _autosummary/jax.scipy.stats.logistic.sf.html
+	_autosummary/jax.scipy.stats.multivariate_normal.logpdf jax.scipy.stats.multivariate_normal.logpdf: _autosummary/jax.scipy.stats.multivariate_normal.logpdf.html
+	_autosummary/jax.scipy.stats.multivariate_normal.pdf jax.scipy.stats.multivariate_normal.pdf : _autosummary/jax.scipy.stats.multivariate_normal.pdf.html
 	_autosummary/jax.scipy.stats.norm.cdf    jax.scipy.stats.norm.cdf                : _autosummary/jax.scipy.stats.norm.cdf.html
 	_autosummary/jax.scipy.stats.norm.logcdf jax.scipy.stats.norm.logcdf             : _autosummary/jax.scipy.stats.norm.logcdf.html
 	_autosummary/jax.scipy.stats.norm.logpdf jax.scipy.stats.norm.logpdf             : _autosummary/jax.scipy.stats.norm.logpdf.html
 	_autosummary/jax.scipy.stats.norm.pdf    jax.scipy.stats.norm.pdf                : _autosummary/jax.scipy.stats.norm.pdf.html
 	_autosummary/jax.scipy.stats.norm.ppf    jax.scipy.stats.norm.ppf                : _autosummary/jax.scipy.stats.norm.ppf.html
+	_autosummary/jax.scipy.stats.pareto.logpdf jax.scipy.stats.pareto.logpdf           : _autosummary/jax.scipy.stats.pareto.logpdf.html
+	_autosummary/jax.scipy.stats.pareto.pdf  jax.scipy.stats.pareto.pdf              : _autosummary/jax.scipy.stats.pareto.pdf.html
+	_autosummary/jax.scipy.stats.poisson.logpmf jax.scipy.stats.poisson.logpmf          : _autosummary/jax.scipy.stats.poisson.logpmf.html
+	_autosummary/jax.scipy.stats.poisson.pmf jax.scipy.stats.poisson.pmf             : _autosummary/jax.scipy.stats.poisson.pmf.html
+	_autosummary/jax.scipy.stats.t.logpdf    jax.scipy.stats.t.logpdf                : _autosummary/jax.scipy.stats.t.logpdf.html
+	_autosummary/jax.scipy.stats.t.pdf       jax.scipy.stats.t.pdf                   : _autosummary/jax.scipy.stats.t.pdf.html
 	_autosummary/jax.scipy.stats.uniform.logpdf jax.scipy.stats.uniform.logpdf          : _autosummary/jax.scipy.stats.uniform.logpdf.html
 	_autosummary/jax.scipy.stats.uniform.pdf jax.scipy.stats.uniform.pdf             : _autosummary/jax.scipy.stats.uniform.pdf.html
 	async_dispatch                           Asynchronous dispatch                   : async_dispatch.html
@@ -1650,6 +1711,9 @@ std:label
 	/_autosummary/jax.lax.conv_general_dilated.rst jax.lax.conv_general_dilated            : _autosummary/jax.lax.conv_general_dilated.html
 	/_autosummary/jax.lax.conv_general_dilated.rst#jax-lax-conv-general-dilated jax.lax.conv_general_dilated            : _autosummary/jax.lax.conv_general_dilated.html#jax-lax-conv-general-dilated
 	/_autosummary/jax.lax.conv_general_dilated.rst#jax.lax.conv_general_dilated jax.lax.conv_general_dilated            : _autosummary/jax.lax.conv_general_dilated.html#jax.lax.conv_general_dilated
+	/_autosummary/jax.lax.conv_general_dilated_patches.rst jax.lax.conv_general_dilated_patches    : _autosummary/jax.lax.conv_general_dilated_patches.html
+	/_autosummary/jax.lax.conv_general_dilated_patches.rst#jax-lax-conv-general-dilated-patches jax.lax.conv_general_dilated_patches    : _autosummary/jax.lax.conv_general_dilated_patches.html#jax-lax-conv-general-dilated-patches
+	/_autosummary/jax.lax.conv_general_dilated_patches.rst#jax.lax.conv_general_dilated_patches jax.lax.conv_general_dilated_patches    : _autosummary/jax.lax.conv_general_dilated_patches.html#jax.lax.conv_general_dilated_patches
 	/_autosummary/jax.lax.conv_transpose.rst jax.lax.conv_transpose                  : _autosummary/jax.lax.conv_transpose.html
 	/_autosummary/jax.lax.conv_transpose.rst#jax-lax-conv-transpose jax.lax.conv_transpose                  : _autosummary/jax.lax.conv_transpose.html#jax-lax-conv-transpose
 	/_autosummary/jax.lax.conv_transpose.rst#jax.lax.conv_transpose jax.lax.conv_transpose                  : _autosummary/jax.lax.conv_transpose.html#jax.lax.conv_transpose
@@ -1785,6 +1849,27 @@ std:label
 	/_autosummary/jax.lax.lgamma.rst         jax.lax.lgamma                          : _autosummary/jax.lax.lgamma.html
 	/_autosummary/jax.lax.lgamma.rst#jax-lax-lgamma jax.lax.lgamma                          : _autosummary/jax.lax.lgamma.html#jax-lax-lgamma
 	/_autosummary/jax.lax.lgamma.rst#jax.lax.lgamma jax.lax.lgamma                          : _autosummary/jax.lax.lgamma.html#jax.lax.lgamma
+	/_autosummary/jax.lax.linalg.cholesky.rst jax.lax.linalg.cholesky                 : _autosummary/jax.lax.linalg.cholesky.html
+	/_autosummary/jax.lax.linalg.cholesky.rst#jax-lax-linalg-cholesky jax.lax.linalg.cholesky                 : _autosummary/jax.lax.linalg.cholesky.html#jax-lax-linalg-cholesky
+	/_autosummary/jax.lax.linalg.cholesky.rst#jax.lax.linalg.cholesky jax.lax.linalg.cholesky                 : _autosummary/jax.lax.linalg.cholesky.html#jax.lax.linalg.cholesky
+	/_autosummary/jax.lax.linalg.eig.rst     jax.lax.linalg.eig                      : _autosummary/jax.lax.linalg.eig.html
+	/_autosummary/jax.lax.linalg.eig.rst#jax-lax-linalg-eig jax.lax.linalg.eig                      : _autosummary/jax.lax.linalg.eig.html#jax-lax-linalg-eig
+	/_autosummary/jax.lax.linalg.eig.rst#jax.lax.linalg.eig jax.lax.linalg.eig                      : _autosummary/jax.lax.linalg.eig.html#jax.lax.linalg.eig
+	/_autosummary/jax.lax.linalg.eigh.rst    jax.lax.linalg.eigh                     : _autosummary/jax.lax.linalg.eigh.html
+	/_autosummary/jax.lax.linalg.eigh.rst#jax-lax-linalg-eigh jax.lax.linalg.eigh                     : _autosummary/jax.lax.linalg.eigh.html#jax-lax-linalg-eigh
+	/_autosummary/jax.lax.linalg.eigh.rst#jax.lax.linalg.eigh jax.lax.linalg.eigh                     : _autosummary/jax.lax.linalg.eigh.html#jax.lax.linalg.eigh
+	/_autosummary/jax.lax.linalg.lu.rst      jax.lax.linalg.lu                       : _autosummary/jax.lax.linalg.lu.html
+	/_autosummary/jax.lax.linalg.lu.rst#jax-lax-linalg-lu jax.lax.linalg.lu                       : _autosummary/jax.lax.linalg.lu.html#jax-lax-linalg-lu
+	/_autosummary/jax.lax.linalg.lu.rst#jax.lax.linalg.lu jax.lax.linalg.lu                       : _autosummary/jax.lax.linalg.lu.html#jax.lax.linalg.lu
+	/_autosummary/jax.lax.linalg.qr.rst      jax.lax.linalg.qr                       : _autosummary/jax.lax.linalg.qr.html
+	/_autosummary/jax.lax.linalg.qr.rst#jax-lax-linalg-qr jax.lax.linalg.qr                       : _autosummary/jax.lax.linalg.qr.html#jax-lax-linalg-qr
+	/_autosummary/jax.lax.linalg.qr.rst#jax.lax.linalg.qr jax.lax.linalg.qr                       : _autosummary/jax.lax.linalg.qr.html#jax.lax.linalg.qr
+	/_autosummary/jax.lax.linalg.svd.rst     jax.lax.linalg.svd                      : _autosummary/jax.lax.linalg.svd.html
+	/_autosummary/jax.lax.linalg.svd.rst#jax-lax-linalg-svd jax.lax.linalg.svd                      : _autosummary/jax.lax.linalg.svd.html#jax-lax-linalg-svd
+	/_autosummary/jax.lax.linalg.svd.rst#jax.lax.linalg.svd jax.lax.linalg.svd                      : _autosummary/jax.lax.linalg.svd.html#jax.lax.linalg.svd
+	/_autosummary/jax.lax.linalg.triangular_solve.rst jax.lax.linalg.triangular_solve         : _autosummary/jax.lax.linalg.triangular_solve.html
+	/_autosummary/jax.lax.linalg.triangular_solve.rst#jax-lax-linalg-triangular-solve jax.lax.linalg.triangular_solve         : _autosummary/jax.lax.linalg.triangular_solve.html#jax-lax-linalg-triangular-solve
+	/_autosummary/jax.lax.linalg.triangular_solve.rst#jax.lax.linalg.triangular_solve jax.lax.linalg.triangular_solve         : _autosummary/jax.lax.linalg.triangular_solve.html#jax.lax.linalg.triangular_solve
 	/_autosummary/jax.lax.log.rst            jax.lax.log                             : _autosummary/jax.lax.log.html
 	/_autosummary/jax.lax.log.rst#jax-lax-log jax.lax.log                             : _autosummary/jax.lax.log.html#jax-lax-log
 	/_autosummary/jax.lax.log.rst#jax.lax.log jax.lax.log                             : _autosummary/jax.lax.log.html#jax.lax.log
@@ -3015,6 +3100,9 @@ std:label
 	/_autosummary/jax.numpy.set_printoptions.rst jax.numpy.set_printoptions              : _autosummary/jax.numpy.set_printoptions.html
 	/_autosummary/jax.numpy.set_printoptions.rst#jax-numpy-set-printoptions jax.numpy.set_printoptions              : _autosummary/jax.numpy.set_printoptions.html#jax-numpy-set-printoptions
 	/_autosummary/jax.numpy.set_printoptions.rst#jax.numpy.set_printoptions jax.numpy.set_printoptions              : _autosummary/jax.numpy.set_printoptions.html#jax.numpy.set_printoptions
+	/_autosummary/jax.numpy.setdiff1d.rst    jax.numpy.setdiff1d                     : _autosummary/jax.numpy.setdiff1d.html
+	/_autosummary/jax.numpy.setdiff1d.rst#jax-numpy-setdiff1d jax.numpy.setdiff1d                     : _autosummary/jax.numpy.setdiff1d.html#jax-numpy-setdiff1d
+	/_autosummary/jax.numpy.setdiff1d.rst#jax.numpy.setdiff1d jax.numpy.setdiff1d                     : _autosummary/jax.numpy.setdiff1d.html#jax.numpy.setdiff1d
 	/_autosummary/jax.numpy.shape.rst        jax.numpy.shape                         : _autosummary/jax.numpy.shape.html
 	/_autosummary/jax.numpy.shape.rst#jax-numpy-shape jax.numpy.shape                         : _autosummary/jax.numpy.shape.html#jax-numpy-shape
 	/_autosummary/jax.numpy.shape.rst#jax.numpy.shape jax.numpy.shape                         : _autosummary/jax.numpy.shape.html#jax.numpy.shape
@@ -3376,12 +3464,30 @@ std:label
 	/_autosummary/jax.scipy.special.zeta.rst jax.scipy.special.zeta                  : _autosummary/jax.scipy.special.zeta.html
 	/_autosummary/jax.scipy.special.zeta.rst#jax-scipy-special-zeta jax.scipy.special.zeta                  : _autosummary/jax.scipy.special.zeta.html#jax-scipy-special-zeta
 	/_autosummary/jax.scipy.special.zeta.rst#jax.scipy.special.zeta jax.scipy.special.zeta                  : _autosummary/jax.scipy.special.zeta.html#jax.scipy.special.zeta
+	/_autosummary/jax.scipy.stats.bernoulli.logpmf.rst jax.scipy.stats.bernoulli.logpmf        : _autosummary/jax.scipy.stats.bernoulli.logpmf.html
+	/_autosummary/jax.scipy.stats.bernoulli.logpmf.rst#jax-scipy-stats-bernoulli-logpmf jax.scipy.stats.bernoulli.logpmf        : _autosummary/jax.scipy.stats.bernoulli.logpmf.html#jax-scipy-stats-bernoulli-logpmf
+	/_autosummary/jax.scipy.stats.bernoulli.logpmf.rst#jax.scipy.stats.bernoulli.logpmf jax.scipy.stats.bernoulli.logpmf        : _autosummary/jax.scipy.stats.bernoulli.logpmf.html#jax.scipy.stats.bernoulli.logpmf
+	/_autosummary/jax.scipy.stats.bernoulli.pmf.rst jax.scipy.stats.bernoulli.pmf           : _autosummary/jax.scipy.stats.bernoulli.pmf.html
+	/_autosummary/jax.scipy.stats.bernoulli.pmf.rst#jax-scipy-stats-bernoulli-pmf jax.scipy.stats.bernoulli.pmf           : _autosummary/jax.scipy.stats.bernoulli.pmf.html#jax-scipy-stats-bernoulli-pmf
+	/_autosummary/jax.scipy.stats.bernoulli.pmf.rst#jax.scipy.stats.bernoulli.pmf jax.scipy.stats.bernoulli.pmf           : _autosummary/jax.scipy.stats.bernoulli.pmf.html#jax.scipy.stats.bernoulli.pmf
 	/_autosummary/jax.scipy.stats.beta.logpdf.rst jax.scipy.stats.beta.logpdf             : _autosummary/jax.scipy.stats.beta.logpdf.html
 	/_autosummary/jax.scipy.stats.beta.logpdf.rst#jax-scipy-stats-beta-logpdf jax.scipy.stats.beta.logpdf             : _autosummary/jax.scipy.stats.beta.logpdf.html#jax-scipy-stats-beta-logpdf
 	/_autosummary/jax.scipy.stats.beta.logpdf.rst#jax.scipy.stats.beta.logpdf jax.scipy.stats.beta.logpdf             : _autosummary/jax.scipy.stats.beta.logpdf.html#jax.scipy.stats.beta.logpdf
 	/_autosummary/jax.scipy.stats.beta.pdf.rst jax.scipy.stats.beta.pdf                : _autosummary/jax.scipy.stats.beta.pdf.html
 	/_autosummary/jax.scipy.stats.beta.pdf.rst#jax-scipy-stats-beta-pdf jax.scipy.stats.beta.pdf                : _autosummary/jax.scipy.stats.beta.pdf.html#jax-scipy-stats-beta-pdf
 	/_autosummary/jax.scipy.stats.beta.pdf.rst#jax.scipy.stats.beta.pdf jax.scipy.stats.beta.pdf                : _autosummary/jax.scipy.stats.beta.pdf.html#jax.scipy.stats.beta.pdf
+	/_autosummary/jax.scipy.stats.cauchy.logpdf.rst jax.scipy.stats.cauchy.logpdf           : _autosummary/jax.scipy.stats.cauchy.logpdf.html
+	/_autosummary/jax.scipy.stats.cauchy.logpdf.rst#jax-scipy-stats-cauchy-logpdf jax.scipy.stats.cauchy.logpdf           : _autosummary/jax.scipy.stats.cauchy.logpdf.html#jax-scipy-stats-cauchy-logpdf
+	/_autosummary/jax.scipy.stats.cauchy.logpdf.rst#jax.scipy.stats.cauchy.logpdf jax.scipy.stats.cauchy.logpdf           : _autosummary/jax.scipy.stats.cauchy.logpdf.html#jax.scipy.stats.cauchy.logpdf
+	/_autosummary/jax.scipy.stats.cauchy.pdf.rst jax.scipy.stats.cauchy.pdf              : _autosummary/jax.scipy.stats.cauchy.pdf.html
+	/_autosummary/jax.scipy.stats.cauchy.pdf.rst#jax-scipy-stats-cauchy-pdf jax.scipy.stats.cauchy.pdf              : _autosummary/jax.scipy.stats.cauchy.pdf.html#jax-scipy-stats-cauchy-pdf
+	/_autosummary/jax.scipy.stats.cauchy.pdf.rst#jax.scipy.stats.cauchy.pdf jax.scipy.stats.cauchy.pdf              : _autosummary/jax.scipy.stats.cauchy.pdf.html#jax.scipy.stats.cauchy.pdf
+	/_autosummary/jax.scipy.stats.dirichlet.logpdf.rst jax.scipy.stats.dirichlet.logpdf        : _autosummary/jax.scipy.stats.dirichlet.logpdf.html
+	/_autosummary/jax.scipy.stats.dirichlet.logpdf.rst#jax-scipy-stats-dirichlet-logpdf jax.scipy.stats.dirichlet.logpdf        : _autosummary/jax.scipy.stats.dirichlet.logpdf.html#jax-scipy-stats-dirichlet-logpdf
+	/_autosummary/jax.scipy.stats.dirichlet.logpdf.rst#jax.scipy.stats.dirichlet.logpdf jax.scipy.stats.dirichlet.logpdf        : _autosummary/jax.scipy.stats.dirichlet.logpdf.html#jax.scipy.stats.dirichlet.logpdf
+	/_autosummary/jax.scipy.stats.dirichlet.pdf.rst jax.scipy.stats.dirichlet.pdf           : _autosummary/jax.scipy.stats.dirichlet.pdf.html
+	/_autosummary/jax.scipy.stats.dirichlet.pdf.rst#jax-scipy-stats-dirichlet-pdf jax.scipy.stats.dirichlet.pdf           : _autosummary/jax.scipy.stats.dirichlet.pdf.html#jax-scipy-stats-dirichlet-pdf
+	/_autosummary/jax.scipy.stats.dirichlet.pdf.rst#jax.scipy.stats.dirichlet.pdf jax.scipy.stats.dirichlet.pdf           : _autosummary/jax.scipy.stats.dirichlet.pdf.html#jax.scipy.stats.dirichlet.pdf
 	/_autosummary/jax.scipy.stats.expon.logpdf.rst jax.scipy.stats.expon.logpdf            : _autosummary/jax.scipy.stats.expon.logpdf.html
 	/_autosummary/jax.scipy.stats.expon.logpdf.rst#jax-scipy-stats-expon-logpdf jax.scipy.stats.expon.logpdf            : _autosummary/jax.scipy.stats.expon.logpdf.html#jax-scipy-stats-expon-logpdf
 	/_autosummary/jax.scipy.stats.expon.logpdf.rst#jax.scipy.stats.expon.logpdf jax.scipy.stats.expon.logpdf            : _autosummary/jax.scipy.stats.expon.logpdf.html#jax.scipy.stats.expon.logpdf
@@ -3394,6 +3500,12 @@ std:label
 	/_autosummary/jax.scipy.stats.gamma.pdf.rst jax.scipy.stats.gamma.pdf               : _autosummary/jax.scipy.stats.gamma.pdf.html
 	/_autosummary/jax.scipy.stats.gamma.pdf.rst#jax-scipy-stats-gamma-pdf jax.scipy.stats.gamma.pdf               : _autosummary/jax.scipy.stats.gamma.pdf.html#jax-scipy-stats-gamma-pdf
 	/_autosummary/jax.scipy.stats.gamma.pdf.rst#jax.scipy.stats.gamma.pdf jax.scipy.stats.gamma.pdf               : _autosummary/jax.scipy.stats.gamma.pdf.html#jax.scipy.stats.gamma.pdf
+	/_autosummary/jax.scipy.stats.geom.logpmf.rst jax.scipy.stats.geom.logpmf             : _autosummary/jax.scipy.stats.geom.logpmf.html
+	/_autosummary/jax.scipy.stats.geom.logpmf.rst#jax-scipy-stats-geom-logpmf jax.scipy.stats.geom.logpmf             : _autosummary/jax.scipy.stats.geom.logpmf.html#jax-scipy-stats-geom-logpmf
+	/_autosummary/jax.scipy.stats.geom.logpmf.rst#jax.scipy.stats.geom.logpmf jax.scipy.stats.geom.logpmf             : _autosummary/jax.scipy.stats.geom.logpmf.html#jax.scipy.stats.geom.logpmf
+	/_autosummary/jax.scipy.stats.geom.pmf.rst jax.scipy.stats.geom.pmf                : _autosummary/jax.scipy.stats.geom.pmf.html
+	/_autosummary/jax.scipy.stats.geom.pmf.rst#jax-scipy-stats-geom-pmf jax.scipy.stats.geom.pmf                : _autosummary/jax.scipy.stats.geom.pmf.html#jax-scipy-stats-geom-pmf
+	/_autosummary/jax.scipy.stats.geom.pmf.rst#jax.scipy.stats.geom.pmf jax.scipy.stats.geom.pmf                : _autosummary/jax.scipy.stats.geom.pmf.html#jax.scipy.stats.geom.pmf
 	/_autosummary/jax.scipy.stats.laplace.cdf.rst jax.scipy.stats.laplace.cdf             : _autosummary/jax.scipy.stats.laplace.cdf.html
 	/_autosummary/jax.scipy.stats.laplace.cdf.rst#jax-scipy-stats-laplace-cdf jax.scipy.stats.laplace.cdf             : _autosummary/jax.scipy.stats.laplace.cdf.html#jax-scipy-stats-laplace-cdf
 	/_autosummary/jax.scipy.stats.laplace.cdf.rst#jax.scipy.stats.laplace.cdf jax.scipy.stats.laplace.cdf             : _autosummary/jax.scipy.stats.laplace.cdf.html#jax.scipy.stats.laplace.cdf
@@ -3421,6 +3533,12 @@ std:label
 	/_autosummary/jax.scipy.stats.logistic.sf.rst jax.scipy.stats.logistic.sf             : _autosummary/jax.scipy.stats.logistic.sf.html
 	/_autosummary/jax.scipy.stats.logistic.sf.rst#jax-scipy-stats-logistic-sf jax.scipy.stats.logistic.sf             : _autosummary/jax.scipy.stats.logistic.sf.html#jax-scipy-stats-logistic-sf
 	/_autosummary/jax.scipy.stats.logistic.sf.rst#jax.scipy.stats.logistic.sf jax.scipy.stats.logistic.sf             : _autosummary/jax.scipy.stats.logistic.sf.html#jax.scipy.stats.logistic.sf
+	/_autosummary/jax.scipy.stats.multivariate_normal.logpdf.rst jax.scipy.stats.multivariate_normal.logpdf: _autosummary/jax.scipy.stats.multivariate_normal.logpdf.html
+	/_autosummary/jax.scipy.stats.multivariate_normal.logpdf.rst#jax-scipy-stats-multivariate-normal-logpdf jax.scipy.stats.multivariate_normal.logpdf: _autosummary/jax.scipy.stats.multivariate_normal.logpdf.html#jax-scipy-stats-multivariate-normal-logpdf
+	/_autosummary/jax.scipy.stats.multivariate_normal.logpdf.rst#jax.scipy.stats.multivariate_normal.logpdf jax.scipy.stats.multivariate_normal.logpdf: _autosummary/jax.scipy.stats.multivariate_normal.logpdf.html#jax.scipy.stats.multivariate_normal.logpdf
+	/_autosummary/jax.scipy.stats.multivariate_normal.pdf.rst jax.scipy.stats.multivariate_normal.pdf : _autosummary/jax.scipy.stats.multivariate_normal.pdf.html
+	/_autosummary/jax.scipy.stats.multivariate_normal.pdf.rst#jax-scipy-stats-multivariate-normal-pdf jax.scipy.stats.multivariate_normal.pdf : _autosummary/jax.scipy.stats.multivariate_normal.pdf.html#jax-scipy-stats-multivariate-normal-pdf
+	/_autosummary/jax.scipy.stats.multivariate_normal.pdf.rst#jax.scipy.stats.multivariate_normal.pdf jax.scipy.stats.multivariate_normal.pdf : _autosummary/jax.scipy.stats.multivariate_normal.pdf.html#jax.scipy.stats.multivariate_normal.pdf
 	/_autosummary/jax.scipy.stats.norm.cdf.rst jax.scipy.stats.norm.cdf                : _autosummary/jax.scipy.stats.norm.cdf.html
 	/_autosummary/jax.scipy.stats.norm.cdf.rst#jax-scipy-stats-norm-cdf jax.scipy.stats.norm.cdf                : _autosummary/jax.scipy.stats.norm.cdf.html#jax-scipy-stats-norm-cdf
 	/_autosummary/jax.scipy.stats.norm.cdf.rst#jax.scipy.stats.norm.cdf jax.scipy.stats.norm.cdf                : _autosummary/jax.scipy.stats.norm.cdf.html#jax.scipy.stats.norm.cdf
@@ -3436,6 +3554,24 @@ std:label
 	/_autosummary/jax.scipy.stats.norm.ppf.rst jax.scipy.stats.norm.ppf                : _autosummary/jax.scipy.stats.norm.ppf.html
 	/_autosummary/jax.scipy.stats.norm.ppf.rst#jax-scipy-stats-norm-ppf jax.scipy.stats.norm.ppf                : _autosummary/jax.scipy.stats.norm.ppf.html#jax-scipy-stats-norm-ppf
 	/_autosummary/jax.scipy.stats.norm.ppf.rst#jax.scipy.stats.norm.ppf jax.scipy.stats.norm.ppf                : _autosummary/jax.scipy.stats.norm.ppf.html#jax.scipy.stats.norm.ppf
+	/_autosummary/jax.scipy.stats.pareto.logpdf.rst jax.scipy.stats.pareto.logpdf           : _autosummary/jax.scipy.stats.pareto.logpdf.html
+	/_autosummary/jax.scipy.stats.pareto.logpdf.rst#jax-scipy-stats-pareto-logpdf jax.scipy.stats.pareto.logpdf           : _autosummary/jax.scipy.stats.pareto.logpdf.html#jax-scipy-stats-pareto-logpdf
+	/_autosummary/jax.scipy.stats.pareto.logpdf.rst#jax.scipy.stats.pareto.logpdf jax.scipy.stats.pareto.logpdf           : _autosummary/jax.scipy.stats.pareto.logpdf.html#jax.scipy.stats.pareto.logpdf
+	/_autosummary/jax.scipy.stats.pareto.pdf.rst jax.scipy.stats.pareto.pdf              : _autosummary/jax.scipy.stats.pareto.pdf.html
+	/_autosummary/jax.scipy.stats.pareto.pdf.rst#jax-scipy-stats-pareto-pdf jax.scipy.stats.pareto.pdf              : _autosummary/jax.scipy.stats.pareto.pdf.html#jax-scipy-stats-pareto-pdf
+	/_autosummary/jax.scipy.stats.pareto.pdf.rst#jax.scipy.stats.pareto.pdf jax.scipy.stats.pareto.pdf              : _autosummary/jax.scipy.stats.pareto.pdf.html#jax.scipy.stats.pareto.pdf
+	/_autosummary/jax.scipy.stats.poisson.logpmf.rst jax.scipy.stats.poisson.logpmf          : _autosummary/jax.scipy.stats.poisson.logpmf.html
+	/_autosummary/jax.scipy.stats.poisson.logpmf.rst#jax-scipy-stats-poisson-logpmf jax.scipy.stats.poisson.logpmf          : _autosummary/jax.scipy.stats.poisson.logpmf.html#jax-scipy-stats-poisson-logpmf
+	/_autosummary/jax.scipy.stats.poisson.logpmf.rst#jax.scipy.stats.poisson.logpmf jax.scipy.stats.poisson.logpmf          : _autosummary/jax.scipy.stats.poisson.logpmf.html#jax.scipy.stats.poisson.logpmf
+	/_autosummary/jax.scipy.stats.poisson.pmf.rst jax.scipy.stats.poisson.pmf             : _autosummary/jax.scipy.stats.poisson.pmf.html
+	/_autosummary/jax.scipy.stats.poisson.pmf.rst#jax-scipy-stats-poisson-pmf jax.scipy.stats.poisson.pmf             : _autosummary/jax.scipy.stats.poisson.pmf.html#jax-scipy-stats-poisson-pmf
+	/_autosummary/jax.scipy.stats.poisson.pmf.rst#jax.scipy.stats.poisson.pmf jax.scipy.stats.poisson.pmf             : _autosummary/jax.scipy.stats.poisson.pmf.html#jax.scipy.stats.poisson.pmf
+	/_autosummary/jax.scipy.stats.t.logpdf.rst jax.scipy.stats.t.logpdf                : _autosummary/jax.scipy.stats.t.logpdf.html
+	/_autosummary/jax.scipy.stats.t.logpdf.rst#jax-scipy-stats-t-logpdf jax.scipy.stats.t.logpdf                : _autosummary/jax.scipy.stats.t.logpdf.html#jax-scipy-stats-t-logpdf
+	/_autosummary/jax.scipy.stats.t.logpdf.rst#jax.scipy.stats.t.logpdf jax.scipy.stats.t.logpdf                : _autosummary/jax.scipy.stats.t.logpdf.html#jax.scipy.stats.t.logpdf
+	/_autosummary/jax.scipy.stats.t.pdf.rst  jax.scipy.stats.t.pdf                   : _autosummary/jax.scipy.stats.t.pdf.html
+	/_autosummary/jax.scipy.stats.t.pdf.rst#jax-scipy-stats-t-pdf jax.scipy.stats.t.pdf                   : _autosummary/jax.scipy.stats.t.pdf.html#jax-scipy-stats-t-pdf
+	/_autosummary/jax.scipy.stats.t.pdf.rst#jax.scipy.stats.t.pdf jax.scipy.stats.t.pdf                   : _autosummary/jax.scipy.stats.t.pdf.html#jax.scipy.stats.t.pdf
 	/_autosummary/jax.scipy.stats.uniform.logpdf.rst jax.scipy.stats.uniform.logpdf          : _autosummary/jax.scipy.stats.uniform.logpdf.html
 	/_autosummary/jax.scipy.stats.uniform.logpdf.rst#jax-scipy-stats-uniform-logpdf jax.scipy.stats.uniform.logpdf          : _autosummary/jax.scipy.stats.uniform.logpdf.html#jax-scipy-stats-uniform-logpdf
 	/_autosummary/jax.scipy.stats.uniform.logpdf.rst#jax.scipy.stats.uniform.logpdf jax.scipy.stats.uniform.logpdf          : _autosummary/jax.scipy.stats.uniform.logpdf.html#jax.scipy.stats.uniform.logpdf
@@ -3470,6 +3606,9 @@ std:label
 	/changelog.rst#jax-0-2-1-october-6-2020  jax 0.2.1 (October 6 2020)              : CHANGELOG.html#jax-0-2-1-october-6-2020
 	/changelog.rst#jax-0-2-2-october-13-2020 jax 0.2.2 (October 13 2020)             : CHANGELOG.html#jax-0-2-2-october-13-2020
 	/changelog.rst#jax-0-2-3-october-14-2020 jax 0.2.3 (October 14 2020)             : CHANGELOG.html#jax-0-2-3-october-14-2020
+	/changelog.rst#jax-0-2-4-october-19-2020 jax 0.2.4 (October 19 2020)             : CHANGELOG.html#jax-0-2-4-october-19-2020
+	/changelog.rst#jax-0-2-5-october-27-2020 jax 0.2.5 (October 27 2020)             : CHANGELOG.html#jax-0-2-5-october-27-2020
+	/changelog.rst#jax-0-2-6-unreleased      jax 0.2.6 (Unreleased)                  : CHANGELOG.html#jax-0-2-6-unreleased
 	/changelog.rst#jaxlib-0-1-38-january-29-2020 jaxlib 0.1.38 (January 29, 2020)        : CHANGELOG.html#jaxlib-0-1-38-january-29-2020
 	/changelog.rst#jaxlib-0-1-39-february-11-2020 jaxlib 0.1.39 (February 11, 2020)       : CHANGELOG.html#jaxlib-0-1-39-february-11-2020
 	/changelog.rst#jaxlib-0-1-40-march-4-2020 jaxlib 0.1.40 (March 4, 2020)           : CHANGELOG.html#jaxlib-0-1-40-march-4-2020
@@ -3485,6 +3624,9 @@ std:label
 	/changelog.rst#jaxlib-0-1-51-july-2-2020 jaxlib 0.1.51 (July 2, 2020)            : CHANGELOG.html#jaxlib-0-1-51-july-2-2020
 	/changelog.rst#jaxlib-0-1-52-july-22-2020 jaxlib 0.1.52 (July 22, 2020)           : CHANGELOG.html#jaxlib-0-1-52-july-22-2020
 	/changelog.rst#jaxlib-0-1-55-september-8-2020 jaxlib 0.1.55 (September 8, 2020)       : CHANGELOG.html#jaxlib-0-1-55-september-8-2020
+	/changelog.rst#jaxlib-0-1-56-october-14-2020 jaxlib 0.1.56 (October 14, 2020)        : CHANGELOG.html#jaxlib-0-1-56-october-14-2020
+	/changelog.rst#jaxlib-0-1-57-november-12-2021 jaxlib 0.1.57 (November 12 2021)        : CHANGELOG.html#jaxlib-0-1-57-november-12-2021
+	/changelog.rst#jaxlib-0-1-58-unreleased  jaxlib 0.1.58 (Unreleased)              : CHANGELOG.html#jaxlib-0-1-58-unreleased
 	/changelog.rst#notable-bug-fixes         Notable bug fixes                       : CHANGELOG.html#notable-bug-fixes
 	/concurrency.rst                         Concurrency                             : concurrency.html
 	/concurrency.rst#concurrency             Concurrency                             : concurrency.html#concurrency
@@ -3515,6 +3657,7 @@ std:label
 	/faq.rst#gradients-contain-nan-where-using-where Gradients contain NaN where using where : faq.html#gradients-contain-nan-where-using-where
 	/faq.rst#jax-frequently-asked-questions-faq JAX Frequently Asked Questions (FAQ)    : faq.html#jax-frequently-asked-questions-faq
 	/faq.rst#jit-changes-the-behavior-of-my-function jit changes the behavior of my function : faq.html#jit-changes-the-behavior-of-my-function
+	/faq.rst#jit-decorated-function-is-very-slow-to-compile jit decorated function is very slow to compile: faq.html#jit-decorated-function-is-very-slow-to-compile
 	/gpu_memory_allocation.rst               GPU memory allocation                   : gpu_memory_allocation.html
 	/gpu_memory_allocation.rst#common-causes-of-oom-failures Common causes of OOM failures           : gpu_memory_allocation.html#common-causes-of-oom-failures
 	/gpu_memory_allocation.rst#gpu-memory-allocation GPU memory allocation                   : gpu_memory_allocation.html#gpu-memory-allocation
@@ -3522,8 +3665,6 @@ std:label
 	/index.rst#indices-and-tables            Indices and tables                      : index.html#indices-and-tables
 	/index.rst#jax-reference-documentation   JAX reference documentation             : index.html#jax-reference-documentation
 	/jax.dlpack.rst                          jax.dlpack module                       : jax.dlpack.html
-	/jax.dlpack.rst#jax.dlpack.from_dlpack   jax.dlpack.from_dlpack                  : jax.dlpack.html#jax.dlpack.from_dlpack
-	/jax.dlpack.rst#jax.dlpack.to_dlpack     jax.dlpack.to_dlpack                    : jax.dlpack.html#jax.dlpack.to_dlpack
 	/jax.dlpack.rst#module-jax.dlpack        jax.dlpack module                       : jax.dlpack.html#module-jax.dlpack
 	/jax.experimental.host_callback.rst      jax.experimental.host_callback module   : jax.experimental.host_callback.html
 	/jax.experimental.host_callback.rst#api  API                                     : jax.experimental.host_callback.html#api
@@ -3643,6 +3784,7 @@ std:label
 	/jax.lax.rst#control-flow-operators      Control flow operators                  : jax.lax.html#control-flow-operators
 	/jax.lax.rst#custom-gradient-operators   Custom gradient operators               : jax.lax.html#custom-gradient-operators
 	/jax.lax.rst#module-jax.lax              jax.lax package                         : jax.lax.html#module-jax.lax
+	/jax.lax.rst#module-jax.lax.linalg       Linear algebra operators (jax.lax.linalg): jax.lax.html#module-jax.lax.linalg
 	/jax.lax.rst#operators                   Operators                               : jax.lax.html#operators
 	/jax.lax.rst#parallel-operators          Parallel operators                      : jax.lax.html#parallel-operators
 	/jax.nn.initializers.rst                 jax.nn.initializers package             : jax.nn.initializers.html
@@ -3704,7 +3846,10 @@ std:label
 	/jax.rst#automatic-differentiation       Automatic differentiation               : jax.html#automatic-differentiation
 	/jax.rst#jax.checkpoint                  jax.checkpoint                          : jax.html#jax.checkpoint
 	/jax.rst#jax.custom_jvp                  jax.custom_jvp                          : jax.html#jax.custom_jvp
+	/jax.rst#jax.custom_jvp.defjvp           jax.custom_jvp.defjvp                   : jax.html#jax.custom_jvp.defjvp
+	/jax.rst#jax.custom_jvp.defjvps          jax.custom_jvp.defjvps                  : jax.html#jax.custom_jvp.defjvps
 	/jax.rst#jax.custom_vjp                  jax.custom_vjp                          : jax.html#jax.custom_vjp
+	/jax.rst#jax.custom_vjp.defvjp           jax.custom_vjp.defvjp                   : jax.html#jax.custom_vjp.defvjp
 	/jax.rst#jax.device_count                jax.device_count                        : jax.html#jax.device_count
 	/jax.rst#jax.device_put                  jax.device_put                          : jax.html#jax.device_put
 	/jax.rst#jax.devices                     jax.devices                             : jax.html#jax.devices
@@ -3719,6 +3864,7 @@ std:label
 	/jax.rst#jax.jacrev                      jax.jacrev                              : jax.html#jax.jacrev
 	/jax.rst#jax.jit                         jax.jit                                 : jax.html#jax.jit
 	/jax.rst#jax.jvp                         jax.jvp                                 : jax.html#jax.jvp
+	/jax.rst#jax.linear_transpose            jax.linear_transpose                    : jax.html#jax.linear_transpose
 	/jax.rst#jax.linearize                   jax.linearize                           : jax.html#jax.linearize
 	/jax.rst#jax.local_device_count          jax.local_device_count                  : jax.html#jax.local_device_count
 	/jax.rst#jax.local_devices               jax.local_devices                       : jax.html#jax.local_devices
@@ -3737,6 +3883,11 @@ std:label
 	/jax.scipy.rst                           jax.scipy package                       : jax.scipy.html
 	/jax.scipy.rst#jax-scipy-package         jax.scipy package                       : jax.scipy.html#jax-scipy-package
 	/jax.scipy.rst#jax-scipy-stats           jax.scipy.stats                         : jax.scipy.html#jax-scipy-stats
+	/jax.scipy.rst#jax-scipy-stats-bernoulli jax.scipy.stats.bernoulli               : jax.scipy.html#jax-scipy-stats-bernoulli
+	/jax.scipy.rst#jax-scipy-stats-cauchy    jax.scipy.stats.cauchy                  : jax.scipy.html#jax-scipy-stats-cauchy
+	/jax.scipy.rst#jax-scipy-stats-dirichlet jax.scipy.stats.dirichlet               : jax.scipy.html#jax-scipy-stats-dirichlet
+	/jax.scipy.rst#jax-scipy-stats-multivariate-normal jax.scipy.stats.multivariate_normal     : jax.scipy.html#jax-scipy-stats-multivariate-normal
+	/jax.scipy.rst#jax-scipy-stats-pareto    jax.scipy.stats.pareto                  : jax.scipy.html#jax-scipy-stats-pareto
 	/jax.scipy.rst#module-jax.scipy.linalg   jax.scipy.linalg                        : jax.scipy.html#module-jax.scipy.linalg
 	/jax.scipy.rst#module-jax.scipy.ndimage  jax.scipy.ndimage                       : jax.scipy.html#module-jax.scipy.ndimage
 	/jax.scipy.rst#module-jax.scipy.signal   jax.scipy.signal                        : jax.scipy.html#module-jax.scipy.signal
@@ -3745,9 +3896,12 @@ std:label
 	/jax.scipy.rst#module-jax.scipy.stats.beta jax.scipy.stats.beta                    : jax.scipy.html#module-jax.scipy.stats.beta
 	/jax.scipy.rst#module-jax.scipy.stats.expon jax.scipy.stats.expon                   : jax.scipy.html#module-jax.scipy.stats.expon
 	/jax.scipy.rst#module-jax.scipy.stats.gamma jax.scipy.stats.gamma                   : jax.scipy.html#module-jax.scipy.stats.gamma
+	/jax.scipy.rst#module-jax.scipy.stats.geom jax.scipy.stats.geom                    : jax.scipy.html#module-jax.scipy.stats.geom
 	/jax.scipy.rst#module-jax.scipy.stats.laplace jax.scipy.stats.laplace                 : jax.scipy.html#module-jax.scipy.stats.laplace
 	/jax.scipy.rst#module-jax.scipy.stats.logistic jax.scipy.stats.logistic                : jax.scipy.html#module-jax.scipy.stats.logistic
 	/jax.scipy.rst#module-jax.scipy.stats.norm jax.scipy.stats.norm                    : jax.scipy.html#module-jax.scipy.stats.norm
+	/jax.scipy.rst#module-jax.scipy.stats.poisson jax.scipy.stats.poisson                 : jax.scipy.html#module-jax.scipy.stats.poisson
+	/jax.scipy.rst#module-jax.scipy.stats.t  jax.scipy.stats.t                       : jax.scipy.html#module-jax.scipy.stats.t
 	/jax.scipy.rst#module-jax.scipy.stats.uniform jax.scipy.stats.uniform                 : jax.scipy.html#module-jax.scipy.stats.uniform
 	/jax.tree_util.rst                       jax.tree_util package                   : jax.tree_util.html
 	/jax.tree_util.rst#jax.tree_util.all_leaves jax.tree_util.all_leaves                : jax.tree_util.html#jax.tree_util.all_leaves
@@ -3925,6 +4079,7 @@ std:label
 	ct                                       _autosummary/jax.numpy.fft.fft.html#ct
 	dlmf                                     _autosummary/jax.scipy.special.zeta.html#dlmf
 	faq-data-placement                       Controlling data and computation placement on devices: faq.html#faq-data-placement
+	faq-slow-compile                         jit decorated function is very slow to compile: faq.html#faq-slow-compile
 	genindex                                 Index                                   : genindex.html
 	modindex                                 Module Index                            : py-modindex.html
 	remote_profiling                         Profiling on a remote machine           : profiling.html#remote-profiling

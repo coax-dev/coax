@@ -9,12 +9,13 @@ py:attribute
 	haiku.Transformed.init                   api.html#haiku.Transformed.init
 	haiku.TransformedWithState.apply         api.html#haiku.TransformedWithState.apply
 	haiku.TransformedWithState.init          api.html#haiku.TransformedWithState.init
+	haiku.experimental.GetterContext.full_name api.html#haiku.experimental.GetterContext.full_name
+	haiku.experimental.GetterContext.module  api.html#haiku.experimental.GetterContext.module
+	haiku.experimental.GetterContext.original_dtype api.html#id17
 	haiku.experimental.MethodContext.method_name api.html#haiku.experimental.MethodContext.method_name
 	haiku.experimental.MethodContext.module  api.html#haiku.experimental.MethodContext.module
 	haiku.experimental.MethodContext.orig_method api.html#haiku.experimental.MethodContext.orig_method
-	haiku.experimental.ParamContext.full_name api.html#haiku.experimental.ParamContext.full_name
-	haiku.experimental.ParamContext.module   api.html#haiku.experimental.ParamContext.module
-	haiku.experimental.ParamContext.original_dtype api.html#haiku.experimental.ParamContext.original_dtype
+	haiku.experimental.ParamContext          api.html#haiku.experimental.ParamContext
 	haiku.initializers.Initializer           api.html#haiku.initializers.Initializer
 	haiku.nets.VectorQuantizer.commitment_cost api.html#haiku.nets.VectorQuantizer.commitment_cost
 	haiku.nets.VectorQuantizer.embedding_dim api.html#haiku.nets.VectorQuantizer.embedding_dim
@@ -42,7 +43,7 @@ py:class
 	haiku.ConvND                             api.html#haiku.ConvND
 	haiku.ConvNDTranspose                    api.html#haiku.ConvNDTranspose
 	haiku.DeepRNN                            api.html#haiku.DeepRNN
-	haiku.DepthwiseConv2D                    api.html#haiku.DepthwiseConv2D
+	haiku.DepthwiseConv2D                    api.html#id0
 	haiku.EMAParamsTree                      api.html#haiku.EMAParamsTree
 	haiku.Embed                              api.html#haiku.Embed
 	haiku.EmbedLookupStyle                   api.html#haiku.EmbedLookupStyle
@@ -68,8 +69,8 @@ py:class
 	haiku.Transformed                        api.html#haiku.Transformed
 	haiku.TransformedWithState               api.html#haiku.TransformedWithState
 	haiku.VanillaRNN                         api.html#haiku.VanillaRNN
+	haiku.experimental.GetterContext         api.html#haiku.experimental.GetterContext
 	haiku.experimental.MethodContext         api.html#haiku.experimental.MethodContext
-	haiku.experimental.ParamContext          api.html#haiku.experimental.ParamContext
 	haiku.initializers.Constant              api.html#haiku.initializers.Constant
 	haiku.initializers.Identity              api.html#haiku.initializers.Identity
 	haiku.initializers.Orthogonal            api.html#haiku.initializers.Orthogonal
@@ -106,10 +107,12 @@ py:function
 	haiku.dropout                            api.html#haiku.dropout
 	haiku.dynamic_unroll                     api.html#haiku.dynamic_unroll
 	haiku.expand_apply                       api.html#haiku.expand_apply
+	haiku.experimental.abstract_to_dot       api.html#haiku.experimental.abstract_to_dot
 	haiku.experimental.custom_creator        api.html#haiku.experimental.custom_creator
 	haiku.experimental.custom_getter         api.html#haiku.experimental.custom_getter
 	haiku.experimental.intercept_methods     api.html#haiku.experimental.intercept_methods
 	haiku.experimental.lift                  api.html#haiku.experimental.lift
+	haiku.experimental.name_scope            api.html#haiku.experimental.name_scope
 	haiku.experimental.named_call            api.html#haiku.experimental.named_call
 	haiku.experimental.optimize_rng_use      api.html#haiku.experimental.optimize_rng_use
 	haiku.experimental.profiler_name_scopes  api.html#haiku.experimental.profiler_name_scopes
@@ -145,6 +148,7 @@ py:function
 	haiku.transparent                        api.html#haiku.transparent
 	haiku.value_and_grad                     api.html#haiku.value_and_grad
 	haiku.vmap                               api.html#haiku.vmap
+	haiku.while_loop                         api.html#haiku.while_loop
 	haiku.with_rng                           api.html#haiku.with_rng
 	haiku.without_apply_rng                  api.html#haiku.without_apply_rng
 	haiku.without_state                      api.html#haiku.without_state
@@ -171,8 +175,8 @@ py:method
 	haiku.ConvNDTranspose.__call__           api.html#haiku.ConvNDTranspose.__call__
 	haiku.ConvNDTranspose.__init__           api.html#haiku.ConvNDTranspose.__init__
 	haiku.DeepRNN.__init__                   api.html#haiku.DeepRNN.__init__
-	haiku.DepthwiseConv2D.__call__           api.html#haiku.DepthwiseConv2D.__call__
-	haiku.DepthwiseConv2D.__init__           api.html#haiku.DepthwiseConv2D.__init__
+	haiku.DepthwiseConv2D.__call__           api.html#id6
+	haiku.DepthwiseConv2D.__init__           api.html#id5
 	haiku.EMAParamsTree.__call__             api.html#haiku.EMAParamsTree.__call__
 	haiku.EMAParamsTree.__init__             api.html#haiku.EMAParamsTree.__init__
 	haiku.Embed.__call__                     api.html#haiku.Embed.__call__
@@ -263,6 +267,7 @@ py:method
 	haiku.nets.VectorQuantizerEMA.__init__   api.html#haiku.nets.VectorQuantizerEMA.__init__
 	haiku.nets.VectorQuantizerEMA.quantize   api.html#haiku.nets.VectorQuantizerEMA.quantize
 py:module
+	haiku                                    api.html#module-0
 	haiku.data_structures                    api.html#module-haiku.data_structures
 	haiku.experimental                       api.html#module-haiku.experimental
 	haiku.initializers                       api.html#module-haiku.initializers
@@ -270,15 +275,455 @@ py:module
 	haiku.pad                                api.html#module-haiku.pad
 	haiku.testing                            api.html#module-haiku.testing
 std:doc
-	api                                      Base                                    : api.html
+	api                                      Haiku Fundamentals                      : api.html
 	index                                    Haiku Documentation                     : index.html
-	modules                                  Modules                                 : modules.html
-	transforms                               Limitations of using JAX transforms inside of networks: transforms.html
+	notebooks/basics                         Haiku Basics                            : notebooks/basics.html
+	notebooks/transforms                     Limitations of using JAX transforms inside of networks: notebooks/transforms.html
 std:label
+	/api.rst                                 Haiku Fundamentals                      : api.html
+	/api.rst#abstract-to-dot                 abstract_to_dot                         : api.html#abstract-to-dot
+	/api.rst#average-pool                    Average Pool                            : api.html#average-pool
+	/api.rst#batch                           Batch                                   : api.html#batch
+	/api.rst#batchapply                      BatchApply                              : api.html#batchapply
+	/api.rst#batchnorm                       BatchNorm                               : api.html#batchnorm
+	/api.rst#bias                            Bias                                    : api.html#bias
+	/api.rst#causal                          causal                                  : api.html#causal
+	/api.rst#combinator                      Combinator                              : api.html#combinator
+	/api.rst#common-modules                  Common Modules                          : api.html#common-modules
+	/api.rst#cond                            cond                                    : api.html#cond
+	/api.rst#constant                        Constant                                : api.html#constant
+	/api.rst#control-flow                    Control Flow                            : api.html#control-flow
+	/api.rst#conv1d                          Conv1D                                  : api.html#conv1d
+	/api.rst#conv1dlstm                      Conv1DLSTM                              : api.html#conv1dlstm
+	/api.rst#conv1dtranspose                 Conv1DTranspose                         : api.html#conv1dtranspose
+	/api.rst#conv2d                          Conv2D                                  : api.html#conv2d
+	/api.rst#conv2dlstm                      Conv2DLSTM                              : api.html#conv2dlstm
+	/api.rst#conv2dtranspose                 Conv2DTranspose                         : api.html#conv2dtranspose
+	/api.rst#conv3d                          Conv3D                                  : api.html#conv3d
+	/api.rst#conv3dlstm                      Conv3DLSTM                              : api.html#conv3dlstm
+	/api.rst#conv3dtranspose                 Conv3DTranspose                         : api.html#conv3dtranspose
+	/api.rst#convnd                          ConvND                                  : api.html#convnd
+	/api.rst#convndtranspose                 ConvNDTranspose                         : api.html#convndtranspose
+	/api.rst#convolutional                   Convolutional                           : api.html#convolutional
+	/api.rst#create                          create                                  : api.html#create
+	/api.rst#custom-creator                  custom_creator                          : api.html#custom-creator
+	/api.rst#custom-getter                   custom_getter                           : api.html#custom-getter
+	/api.rst#deeprnn                         DeepRNN                                 : api.html#deeprnn
+	/api.rst#depthwiseconv2d                 DepthwiseConv2D                         : api.html#depthwiseconv2d
+	/api.rst#dropout                         Dropout                                 : api.html#dropout
+	/api.rst#dynamic-unroll                  dynamic_unroll                          : api.html#dynamic-unroll
+	/api.rst#emaparamstree                   EMAParamsTree                           : api.html#emaparamstree
+	/api.rst#embed                           Embed                                   : api.html#embed
+	/api.rst#embedding                       Embedding                               : api.html#embedding
+	/api.rst#embedlookupstyle                EmbedLookupStyle                        : api.html#embedlookupstyle
+	/api.rst#expand-apply                    expand_apply                            : api.html#expand-apply
+	/api.rst#exponentialmovingaverage        ExponentialMovingAverage                : api.html#exponentialmovingaverage
+	/api.rst#filter                          filter                                  : api.html#filter
+	/api.rst#flatten                         Flatten                                 : api.html#flatten
+	/api.rst#fori-loop                       fori_loop                               : api.html#fori-loop
+	/api.rst#full                            full                                    : api.html#full
+	/api.rst#get-parameter                   get_parameter                           : api.html#get-parameter
+	/api.rst#get-state                       get_state                               : api.html#get-state
+	/api.rst#gettercontext                   GetterContext                           : api.html#gettercontext
+	/api.rst#grad                            grad                                    : api.html#grad
+	/api.rst#groupnorm                       GroupNorm                               : api.html#groupnorm
+	/api.rst#gru                             GRU                                     : api.html#gru
+	/api.rst#haiku-fundamentals              Haiku Fundamentals                      : api.html#haiku-fundamentals
+	/api.rst#haiku-transforms                Haiku Transforms                        : api.html#haiku-transforms
+	/api.rst#haiku.avg_pool                  haiku.avg_pool                          : api.html#haiku.avg_pool
+	/api.rst#haiku.avgpool                   haiku.AvgPool                           : api.html#haiku.AvgPool
+	/api.rst#haiku.avgpool.__call__          haiku.AvgPool.__call__                  : api.html#haiku.AvgPool.__call__
+	/api.rst#haiku.avgpool.__init__          haiku.AvgPool.__init__                  : api.html#haiku.AvgPool.__init__
+	/api.rst#haiku.batchapply                haiku.BatchApply                        : api.html#haiku.BatchApply
+	/api.rst#haiku.batchapply.__call__       haiku.BatchApply.__call__               : api.html#haiku.BatchApply.__call__
+	/api.rst#haiku.batchapply.__init__       haiku.BatchApply.__init__               : api.html#haiku.BatchApply.__init__
+	/api.rst#haiku.batchnorm                 haiku.BatchNorm                         : api.html#haiku.BatchNorm
+	/api.rst#haiku.batchnorm.__call__        haiku.BatchNorm.__call__                : api.html#haiku.BatchNorm.__call__
+	/api.rst#haiku.batchnorm.__init__        haiku.BatchNorm.__init__                : api.html#haiku.BatchNorm.__init__
+	/api.rst#haiku.bias                      haiku.Bias                              : api.html#haiku.Bias
+	/api.rst#haiku.bias.__call__             haiku.Bias.__call__                     : api.html#haiku.Bias.__call__
+	/api.rst#haiku.bias.__init__             haiku.Bias.__init__                     : api.html#haiku.Bias.__init__
+	/api.rst#haiku.cond                      haiku.cond                              : api.html#haiku.cond
+	/api.rst#haiku.conv1d                    haiku.Conv1D                            : api.html#haiku.Conv1D
+	/api.rst#haiku.conv1d.__init__           haiku.Conv1D.__init__                   : api.html#haiku.Conv1D.__init__
+	/api.rst#haiku.conv1dlstm                haiku.Conv1DLSTM                        : api.html#haiku.Conv1DLSTM
+	/api.rst#haiku.conv1dlstm.__init__       haiku.Conv1DLSTM.__init__               : api.html#haiku.Conv1DLSTM.__init__
+	/api.rst#haiku.conv1dtranspose           haiku.Conv1DTranspose                   : api.html#haiku.Conv1DTranspose
+	/api.rst#haiku.conv1dtranspose.__init__  haiku.Conv1DTranspose.__init__          : api.html#haiku.Conv1DTranspose.__init__
+	/api.rst#haiku.conv2d                    haiku.Conv2D                            : api.html#haiku.Conv2D
+	/api.rst#haiku.conv2d.__init__           haiku.Conv2D.__init__                   : api.html#haiku.Conv2D.__init__
+	/api.rst#haiku.conv2dlstm                haiku.Conv2DLSTM                        : api.html#haiku.Conv2DLSTM
+	/api.rst#haiku.conv2dlstm.__init__       haiku.Conv2DLSTM.__init__               : api.html#haiku.Conv2DLSTM.__init__
+	/api.rst#haiku.conv2dtranspose           haiku.Conv2DTranspose                   : api.html#haiku.Conv2DTranspose
+	/api.rst#haiku.conv2dtranspose.__init__  haiku.Conv2DTranspose.__init__          : api.html#haiku.Conv2DTranspose.__init__
+	/api.rst#haiku.conv3d                    haiku.Conv3D                            : api.html#haiku.Conv3D
+	/api.rst#haiku.conv3d.__init__           haiku.Conv3D.__init__                   : api.html#haiku.Conv3D.__init__
+	/api.rst#haiku.conv3dlstm                haiku.Conv3DLSTM                        : api.html#haiku.Conv3DLSTM
+	/api.rst#haiku.conv3dlstm.__init__       haiku.Conv3DLSTM.__init__               : api.html#haiku.Conv3DLSTM.__init__
+	/api.rst#haiku.conv3dtranspose           haiku.Conv3DTranspose                   : api.html#haiku.Conv3DTranspose
+	/api.rst#haiku.conv3dtranspose.__init__  haiku.Conv3DTranspose.__init__          : api.html#haiku.Conv3DTranspose.__init__
+	/api.rst#haiku.convnd                    haiku.ConvND                            : api.html#haiku.ConvND
+	/api.rst#haiku.convnd.__call__           haiku.ConvND.__call__                   : api.html#haiku.ConvND.__call__
+	/api.rst#haiku.convnd.__init__           haiku.ConvND.__init__                   : api.html#haiku.ConvND.__init__
+	/api.rst#haiku.convndtranspose           haiku.ConvNDTranspose                   : api.html#haiku.ConvNDTranspose
+	/api.rst#haiku.convndtranspose.__call__  haiku.ConvNDTranspose.__call__          : api.html#haiku.ConvNDTranspose.__call__
+	/api.rst#haiku.convndtranspose.__init__  haiku.ConvNDTranspose.__init__          : api.html#haiku.ConvNDTranspose.__init__
+	/api.rst#haiku.data_structures.filter    haiku.data_structures.filter            : api.html#haiku.data_structures.filter
+	/api.rst#haiku.data_structures.merge     haiku.data_structures.merge             : api.html#haiku.data_structures.merge
+	/api.rst#haiku.data_structures.partition haiku.data_structures.partition         : api.html#haiku.data_structures.partition
+	/api.rst#haiku.data_structures.to_immutable_dict haiku.data_structures.to_immutable_dict : api.html#haiku.data_structures.to_immutable_dict
+	/api.rst#haiku.data_structures.to_mutable_dict haiku.data_structures.to_mutable_dict   : api.html#haiku.data_structures.to_mutable_dict
+	/api.rst#haiku.data_structures.tree_bytes haiku.data_structures.tree_bytes        : api.html#haiku.data_structures.tree_bytes
+	/api.rst#haiku.data_structures.tree_size haiku.data_structures.tree_size         : api.html#haiku.data_structures.tree_size
+	/api.rst#haiku.deep_rnn_with_skip_connections haiku.deep_rnn_with_skip_connections    : api.html#haiku.deep_rnn_with_skip_connections
+	/api.rst#haiku.deeprnn                   haiku.DeepRNN                           : api.html#haiku.DeepRNN
+	/api.rst#haiku.deeprnn.__init__          haiku.DeepRNN.__init__                  : api.html#haiku.DeepRNN.__init__
+	/api.rst#haiku.depthwiseconv2d           haiku.DepthwiseConv2D                   : api.html#haiku.DepthwiseConv2D
+	/api.rst#haiku.depthwiseconv2d.__call__  haiku.DepthwiseConv2D.__call__          : api.html#haiku.DepthwiseConv2D.__call__
+	/api.rst#haiku.depthwiseconv2d.__init__  haiku.DepthwiseConv2D.__init__          : api.html#haiku.DepthwiseConv2D.__init__
+	/api.rst#haiku.dropout                   haiku.dropout                           : api.html#haiku.dropout
+	/api.rst#haiku.dynamic_unroll            haiku.dynamic_unroll                    : api.html#haiku.dynamic_unroll
+	/api.rst#haiku.emaparamstree             haiku.EMAParamsTree                     : api.html#haiku.EMAParamsTree
+	/api.rst#haiku.emaparamstree.__call__    haiku.EMAParamsTree.__call__            : api.html#haiku.EMAParamsTree.__call__
+	/api.rst#haiku.emaparamstree.__init__    haiku.EMAParamsTree.__init__            : api.html#haiku.EMAParamsTree.__init__
+	/api.rst#haiku.embed                     haiku.Embed                             : api.html#haiku.Embed
+	/api.rst#haiku.embed.__call__            haiku.Embed.__call__                    : api.html#haiku.Embed.__call__
+	/api.rst#haiku.embed.__init__            haiku.Embed.__init__                    : api.html#haiku.Embed.__init__
+	/api.rst#haiku.embedlookupstyle          haiku.EmbedLookupStyle                  : api.html#haiku.EmbedLookupStyle
+	/api.rst#haiku.embedlookupstyle.array_index haiku.EmbedLookupStyle.ARRAY_INDEX      : api.html#haiku.EmbedLookupStyle.ARRAY_INDEX
+	/api.rst#haiku.embedlookupstyle.one_hot  haiku.EmbedLookupStyle.ONE_HOT          : api.html#haiku.EmbedLookupStyle.ONE_HOT
+	/api.rst#haiku.expand_apply              haiku.expand_apply                      : api.html#haiku.expand_apply
+	/api.rst#haiku.experimental.abstract_to_dot haiku.experimental.abstract_to_dot      : api.html#haiku.experimental.abstract_to_dot
+	/api.rst#haiku.experimental.custom_creator haiku.experimental.custom_creator       : api.html#haiku.experimental.custom_creator
+	/api.rst#haiku.experimental.custom_getter haiku.experimental.custom_getter        : api.html#haiku.experimental.custom_getter
+	/api.rst#haiku.experimental.gettercontext haiku.experimental.GetterContext        : api.html#haiku.experimental.GetterContext
+	/api.rst#haiku.experimental.gettercontext.full_name haiku.experimental.GetterContext.full_name: api.html#haiku.experimental.GetterContext.full_name
+	/api.rst#haiku.experimental.gettercontext.module haiku.experimental.GetterContext.module : api.html#haiku.experimental.GetterContext.module
+	/api.rst#haiku.experimental.gettercontext.original_dtype haiku.experimental.GetterContext.original_dtype: api.html#haiku.experimental.GetterContext.original_dtype
+	/api.rst#haiku.experimental.intercept_methods haiku.experimental.intercept_methods    : api.html#haiku.experimental.intercept_methods
+	/api.rst#haiku.experimental.lift         haiku.experimental.lift                 : api.html#haiku.experimental.lift
+	/api.rst#haiku.experimental.methodcontext haiku.experimental.MethodContext        : api.html#haiku.experimental.MethodContext
+	/api.rst#haiku.experimental.methodcontext.method_name haiku.experimental.MethodContext.method_name: api.html#haiku.experimental.MethodContext.method_name
+	/api.rst#haiku.experimental.methodcontext.module haiku.experimental.MethodContext.module : api.html#haiku.experimental.MethodContext.module
+	/api.rst#haiku.experimental.methodcontext.orig_method haiku.experimental.MethodContext.orig_method: api.html#haiku.experimental.MethodContext.orig_method
+	/api.rst#haiku.experimental.name_scope   haiku.experimental.name_scope           : api.html#haiku.experimental.name_scope
+	/api.rst#haiku.experimental.named_call   haiku.experimental.named_call           : api.html#haiku.experimental.named_call
+	/api.rst#haiku.experimental.optimize_rng_use haiku.experimental.optimize_rng_use     : api.html#haiku.experimental.optimize_rng_use
+	/api.rst#haiku.experimental.paramcontext haiku.experimental.ParamContext         : api.html#haiku.experimental.ParamContext
+	/api.rst#haiku.experimental.profiler_name_scopes haiku.experimental.profiler_name_scopes : api.html#haiku.experimental.profiler_name_scopes
+	/api.rst#haiku.experimental.to_dot       haiku.experimental.to_dot               : api.html#haiku.experimental.to_dot
+	/api.rst#haiku.exponentialmovingaverage  haiku.ExponentialMovingAverage          : api.html#haiku.ExponentialMovingAverage
+	/api.rst#haiku.exponentialmovingaverage.__call__ haiku.ExponentialMovingAverage.__call__ : api.html#haiku.ExponentialMovingAverage.__call__
+	/api.rst#haiku.exponentialmovingaverage.__init__ haiku.ExponentialMovingAverage.__init__ : api.html#haiku.ExponentialMovingAverage.__init__
+	/api.rst#haiku.exponentialmovingaverage.initialize haiku.ExponentialMovingAverage.initialize: api.html#haiku.ExponentialMovingAverage.initialize
+	/api.rst#haiku.flatten                   haiku.Flatten                           : api.html#haiku.Flatten
+	/api.rst#haiku.flatten.__init__          haiku.Flatten.__init__                  : api.html#haiku.Flatten.__init__
+	/api.rst#haiku.fori_loop                 haiku.fori_loop                         : api.html#haiku.fori_loop
+	/api.rst#haiku.get_parameter             haiku.get_parameter                     : api.html#haiku.get_parameter
+	/api.rst#haiku.get_state                 haiku.get_state                         : api.html#haiku.get_state
+	/api.rst#haiku.grad                      haiku.grad                              : api.html#haiku.grad
+	/api.rst#haiku.groupnorm                 haiku.GroupNorm                         : api.html#haiku.GroupNorm
+	/api.rst#haiku.groupnorm.__call__        haiku.GroupNorm.__call__                : api.html#haiku.GroupNorm.__call__
+	/api.rst#haiku.groupnorm.__init__        haiku.GroupNorm.__init__                : api.html#haiku.GroupNorm.__init__
+	/api.rst#haiku.gru                       haiku.GRU                               : api.html#haiku.GRU
+	/api.rst#haiku.gru.__call__              haiku.GRU.__call__                      : api.html#haiku.GRU.__call__
+	/api.rst#haiku.gru.__init__              haiku.GRU.__init__                      : api.html#haiku.GRU.__init__
+	/api.rst#haiku.gru.initial_state         haiku.GRU.initial_state                 : api.html#haiku.GRU.initial_state
+	/api.rst#haiku.identitycore              haiku.IdentityCore                      : api.html#haiku.IdentityCore
+	/api.rst#haiku.identitycore.__call__     haiku.IdentityCore.__call__             : api.html#haiku.IdentityCore.__call__
+	/api.rst#haiku.identitycore.initial_state haiku.IdentityCore.initial_state        : api.html#haiku.IdentityCore.initial_state
+	/api.rst#haiku.initializers.constant     haiku.initializers.Constant             : api.html#haiku.initializers.Constant
+	/api.rst#haiku.initializers.constant.__call__ haiku.initializers.Constant.__call__    : api.html#haiku.initializers.Constant.__call__
+	/api.rst#haiku.initializers.constant.__init__ haiku.initializers.Constant.__init__    : api.html#haiku.initializers.Constant.__init__
+	/api.rst#haiku.initializers.identity     haiku.initializers.Identity             : api.html#haiku.initializers.Identity
+	/api.rst#haiku.initializers.identity.__call__ haiku.initializers.Identity.__call__    : api.html#haiku.initializers.Identity.__call__
+	/api.rst#haiku.initializers.identity.__init__ haiku.initializers.Identity.__init__    : api.html#haiku.initializers.Identity.__init__
+	/api.rst#haiku.initializers.initializer  haiku.initializers.Initializer          : api.html#haiku.initializers.Initializer
+	/api.rst#haiku.initializers.orthogonal   haiku.initializers.Orthogonal           : api.html#haiku.initializers.Orthogonal
+	/api.rst#haiku.initializers.orthogonal.__call__ haiku.initializers.Orthogonal.__call__  : api.html#haiku.initializers.Orthogonal.__call__
+	/api.rst#haiku.initializers.orthogonal.__init__ haiku.initializers.Orthogonal.__init__  : api.html#haiku.initializers.Orthogonal.__init__
+	/api.rst#haiku.initializers.randomnormal haiku.initializers.RandomNormal         : api.html#haiku.initializers.RandomNormal
+	/api.rst#haiku.initializers.randomnormal.__call__ haiku.initializers.RandomNormal.__call__: api.html#haiku.initializers.RandomNormal.__call__
+	/api.rst#haiku.initializers.randomnormal.__init__ haiku.initializers.RandomNormal.__init__: api.html#haiku.initializers.RandomNormal.__init__
+	/api.rst#haiku.initializers.randomuniform haiku.initializers.RandomUniform        : api.html#haiku.initializers.RandomUniform
+	/api.rst#haiku.initializers.randomuniform.__call__ haiku.initializers.RandomUniform.__call__: api.html#haiku.initializers.RandomUniform.__call__
+	/api.rst#haiku.initializers.randomuniform.__init__ haiku.initializers.RandomUniform.__init__: api.html#haiku.initializers.RandomUniform.__init__
+	/api.rst#haiku.initializers.truncatednormal haiku.initializers.TruncatedNormal      : api.html#haiku.initializers.TruncatedNormal
+	/api.rst#haiku.initializers.truncatednormal.__call__ haiku.initializers.TruncatedNormal.__call__: api.html#haiku.initializers.TruncatedNormal.__call__
+	/api.rst#haiku.initializers.truncatednormal.__init__ haiku.initializers.TruncatedNormal.__init__: api.html#haiku.initializers.TruncatedNormal.__init__
+	/api.rst#haiku.initializers.uniformscaling haiku.initializers.UniformScaling       : api.html#haiku.initializers.UniformScaling
+	/api.rst#haiku.initializers.uniformscaling.__call__ haiku.initializers.UniformScaling.__call__: api.html#haiku.initializers.UniformScaling.__call__
+	/api.rst#haiku.initializers.uniformscaling.__init__ haiku.initializers.UniformScaling.__init__: api.html#haiku.initializers.UniformScaling.__init__
+	/api.rst#haiku.initializers.variancescaling haiku.initializers.VarianceScaling      : api.html#haiku.initializers.VarianceScaling
+	/api.rst#haiku.initializers.variancescaling.__call__ haiku.initializers.VarianceScaling.__call__: api.html#haiku.initializers.VarianceScaling.__call__
+	/api.rst#haiku.initializers.variancescaling.__init__ haiku.initializers.VarianceScaling.__init__: api.html#haiku.initializers.VarianceScaling.__init__
+	/api.rst#haiku.instancenorm              haiku.InstanceNorm                      : api.html#haiku.InstanceNorm
+	/api.rst#haiku.instancenorm.__init__     haiku.InstanceNorm.__init__             : api.html#haiku.InstanceNorm.__init__
+	/api.rst#haiku.jit                       haiku.jit                               : api.html#haiku.jit
+	/api.rst#haiku.layernorm                 haiku.LayerNorm                         : api.html#haiku.LayerNorm
+	/api.rst#haiku.layernorm.__call__        haiku.LayerNorm.__call__                : api.html#haiku.LayerNorm.__call__
+	/api.rst#haiku.layernorm.__init__        haiku.LayerNorm.__init__                : api.html#haiku.LayerNorm.__init__
+	/api.rst#haiku.linear                    haiku.Linear                            : api.html#haiku.Linear
+	/api.rst#haiku.linear.__call__           haiku.Linear.__call__                   : api.html#haiku.Linear.__call__
+	/api.rst#haiku.linear.__init__           haiku.Linear.__init__                   : api.html#haiku.Linear.__init__
+	/api.rst#haiku.lstm                      haiku.LSTM                              : api.html#haiku.LSTM
+	/api.rst#haiku.lstm.__call__             haiku.LSTM.__call__                     : api.html#haiku.LSTM.__call__
+	/api.rst#haiku.lstm.__init__             haiku.LSTM.__init__                     : api.html#haiku.LSTM.__init__
+	/api.rst#haiku.lstm.initial_state        haiku.LSTM.initial_state                : api.html#haiku.LSTM.initial_state
+	/api.rst#haiku.lstmstate                 haiku.LSTMState                         : api.html#haiku.LSTMState
+	/api.rst#haiku.lstmstate.cell            haiku.LSTMState.cell                    : api.html#haiku.LSTMState.cell
+	/api.rst#haiku.lstmstate.hidden          haiku.LSTMState.hidden                  : api.html#haiku.LSTMState.hidden
+	/api.rst#haiku.max_pool                  haiku.max_pool                          : api.html#haiku.max_pool
+	/api.rst#haiku.maxpool                   haiku.MaxPool                           : api.html#haiku.MaxPool
+	/api.rst#haiku.maxpool.__call__          haiku.MaxPool.__call__                  : api.html#haiku.MaxPool.__call__
+	/api.rst#haiku.maxpool.__init__          haiku.MaxPool.__init__                  : api.html#haiku.MaxPool.__init__
+	/api.rst#haiku.maybe_next_rng_key        haiku.maybe_next_rng_key                : api.html#haiku.maybe_next_rng_key
+	/api.rst#haiku.module                    haiku.Module                            : api.html#haiku.Module
+	/api.rst#haiku.module.__init__           haiku.Module.__init__                   : api.html#haiku.Module.__init__
+	/api.rst#haiku.module.__post_init__      haiku.Module.__post_init__              : api.html#haiku.Module.__post_init__
+	/api.rst#haiku.module.params_dict        haiku.Module.params_dict                : api.html#haiku.Module.params_dict
+	/api.rst#haiku.multinomial               haiku.multinomial                       : api.html#haiku.multinomial
+	/api.rst#haiku.nets.mlp                  haiku.nets.MLP                          : api.html#haiku.nets.MLP
+	/api.rst#haiku.nets.mlp.__call__         haiku.nets.MLP.__call__                 : api.html#haiku.nets.MLP.__call__
+	/api.rst#haiku.nets.mlp.__init__         haiku.nets.MLP.__init__                 : api.html#haiku.nets.MLP.__init__
+	/api.rst#haiku.nets.mlp.reverse          haiku.nets.MLP.reverse                  : api.html#haiku.nets.MLP.reverse
+	/api.rst#haiku.nets.mobilenetv1          haiku.nets.MobileNetV1                  : api.html#haiku.nets.MobileNetV1
+	/api.rst#haiku.nets.mobilenetv1.__call__ haiku.nets.MobileNetV1.__call__         : api.html#haiku.nets.MobileNetV1.__call__
+	/api.rst#haiku.nets.mobilenetv1.__init__ haiku.nets.MobileNetV1.__init__         : api.html#haiku.nets.MobileNetV1.__init__
+	/api.rst#haiku.nets.resnet               haiku.nets.ResNet                       : api.html#haiku.nets.ResNet
+	/api.rst#haiku.nets.resnet.__call__      haiku.nets.ResNet.__call__              : api.html#haiku.nets.ResNet.__call__
+	/api.rst#haiku.nets.resnet.__init__      haiku.nets.ResNet.__init__              : api.html#haiku.nets.ResNet.__init__
+	/api.rst#haiku.nets.resnet.blockgroup    haiku.nets.ResNet.BlockGroup            : api.html#haiku.nets.ResNet.BlockGroup
+	/api.rst#haiku.nets.resnet.blockgroup.__call__ haiku.nets.ResNet.BlockGroup.__call__   : api.html#haiku.nets.ResNet.BlockGroup.__call__
+	/api.rst#haiku.nets.resnet.blockgroup.__init__ haiku.nets.ResNet.BlockGroup.__init__   : api.html#haiku.nets.ResNet.BlockGroup.__init__
+	/api.rst#haiku.nets.resnet.blockv1       haiku.nets.ResNet.BlockV1               : api.html#haiku.nets.ResNet.BlockV1
+	/api.rst#haiku.nets.resnet.blockv1.__call__ haiku.nets.ResNet.BlockV1.__call__      : api.html#haiku.nets.ResNet.BlockV1.__call__
+	/api.rst#haiku.nets.resnet.blockv1.__init__ haiku.nets.ResNet.BlockV1.__init__      : api.html#haiku.nets.ResNet.BlockV1.__init__
+	/api.rst#haiku.nets.resnet.blockv2       haiku.nets.ResNet.BlockV2               : api.html#haiku.nets.ResNet.BlockV2
+	/api.rst#haiku.nets.resnet.blockv2.__call__ haiku.nets.ResNet.BlockV2.__call__      : api.html#haiku.nets.ResNet.BlockV2.__call__
+	/api.rst#haiku.nets.resnet.blockv2.__init__ haiku.nets.ResNet.BlockV2.__init__      : api.html#haiku.nets.ResNet.BlockV2.__init__
+	/api.rst#haiku.nets.resnet101            haiku.nets.ResNet101                    : api.html#haiku.nets.ResNet101
+	/api.rst#haiku.nets.resnet101.__init__   haiku.nets.ResNet101.__init__           : api.html#haiku.nets.ResNet101.__init__
+	/api.rst#haiku.nets.resnet152            haiku.nets.ResNet152                    : api.html#haiku.nets.ResNet152
+	/api.rst#haiku.nets.resnet152.__init__   haiku.nets.ResNet152.__init__           : api.html#haiku.nets.ResNet152.__init__
+	/api.rst#haiku.nets.resnet18             haiku.nets.ResNet18                     : api.html#haiku.nets.ResNet18
+	/api.rst#haiku.nets.resnet18.__init__    haiku.nets.ResNet18.__init__            : api.html#haiku.nets.ResNet18.__init__
+	/api.rst#haiku.nets.resnet200            haiku.nets.ResNet200                    : api.html#haiku.nets.ResNet200
+	/api.rst#haiku.nets.resnet200.__init__   haiku.nets.ResNet200.__init__           : api.html#haiku.nets.ResNet200.__init__
+	/api.rst#haiku.nets.resnet34             haiku.nets.ResNet34                     : api.html#haiku.nets.ResNet34
+	/api.rst#haiku.nets.resnet34.__init__    haiku.nets.ResNet34.__init__            : api.html#haiku.nets.ResNet34.__init__
+	/api.rst#haiku.nets.resnet50             haiku.nets.ResNet50                     : api.html#haiku.nets.ResNet50
+	/api.rst#haiku.nets.resnet50.__init__    haiku.nets.ResNet50.__init__            : api.html#haiku.nets.ResNet50.__init__
+	/api.rst#haiku.nets.vectorquantizer      haiku.nets.VectorQuantizer              : api.html#haiku.nets.VectorQuantizer
+	/api.rst#haiku.nets.vectorquantizer.__call__ haiku.nets.VectorQuantizer.__call__     : api.html#haiku.nets.VectorQuantizer.__call__
+	/api.rst#haiku.nets.vectorquantizer.__init__ haiku.nets.VectorQuantizer.__init__     : api.html#haiku.nets.VectorQuantizer.__init__
+	/api.rst#haiku.nets.vectorquantizer.commitment_cost haiku.nets.VectorQuantizer.commitment_cost: api.html#haiku.nets.VectorQuantizer.commitment_cost
+	/api.rst#haiku.nets.vectorquantizer.embedding_dim haiku.nets.VectorQuantizer.embedding_dim: api.html#haiku.nets.VectorQuantizer.embedding_dim
+	/api.rst#haiku.nets.vectorquantizer.num_embeddings haiku.nets.VectorQuantizer.num_embeddings: api.html#haiku.nets.VectorQuantizer.num_embeddings
+	/api.rst#haiku.nets.vectorquantizer.quantize haiku.nets.VectorQuantizer.quantize     : api.html#haiku.nets.VectorQuantizer.quantize
+	/api.rst#haiku.nets.vectorquantizerema   haiku.nets.VectorQuantizerEMA           : api.html#haiku.nets.VectorQuantizerEMA
+	/api.rst#haiku.nets.vectorquantizerema.__call__ haiku.nets.VectorQuantizerEMA.__call__  : api.html#haiku.nets.VectorQuantizerEMA.__call__
+	/api.rst#haiku.nets.vectorquantizerema.__init__ haiku.nets.VectorQuantizerEMA.__init__  : api.html#haiku.nets.VectorQuantizerEMA.__init__
+	/api.rst#haiku.nets.vectorquantizerema.commitment_cost haiku.nets.VectorQuantizerEMA.commitment_cost: api.html#haiku.nets.VectorQuantizerEMA.commitment_cost
+	/api.rst#haiku.nets.vectorquantizerema.decay haiku.nets.VectorQuantizerEMA.decay     : api.html#haiku.nets.VectorQuantizerEMA.decay
+	/api.rst#haiku.nets.vectorquantizerema.embedding_dim haiku.nets.VectorQuantizerEMA.embedding_dim: api.html#haiku.nets.VectorQuantizerEMA.embedding_dim
+	/api.rst#haiku.nets.vectorquantizerema.epsilon haiku.nets.VectorQuantizerEMA.epsilon   : api.html#haiku.nets.VectorQuantizerEMA.epsilon
+	/api.rst#haiku.nets.vectorquantizerema.num_embeddings haiku.nets.VectorQuantizerEMA.num_embeddings: api.html#haiku.nets.VectorQuantizerEMA.num_embeddings
+	/api.rst#haiku.nets.vectorquantizerema.quantize haiku.nets.VectorQuantizerEMA.quantize  : api.html#haiku.nets.VectorQuantizerEMA.quantize
+	/api.rst#haiku.next_rng_key              haiku.next_rng_key                      : api.html#haiku.next_rng_key
+	/api.rst#haiku.next_rng_keys             haiku.next_rng_keys                     : api.html#haiku.next_rng_keys
+	/api.rst#haiku.one_hot                   haiku.one_hot                           : api.html#haiku.one_hot
+	/api.rst#haiku.pad.causal                haiku.pad.causal                        : api.html#haiku.pad.causal
+	/api.rst#haiku.pad.create                haiku.pad.create                        : api.html#haiku.pad.create
+	/api.rst#haiku.pad.full                  haiku.pad.full                          : api.html#haiku.pad.full
+	/api.rst#haiku.pad.padfn                 haiku.pad.PadFn                         : api.html#haiku.pad.PadFn
+	/api.rst#haiku.pad.reverse_causal        haiku.pad.reverse_causal                : api.html#haiku.pad.reverse_causal
+	/api.rst#haiku.pad.same                  haiku.pad.same                          : api.html#haiku.pad.same
+	/api.rst#haiku.pad.valid                 haiku.pad.valid                         : api.html#haiku.pad.valid
+	/api.rst#haiku.params                    haiku.Params                            : api.html#haiku.Params
+	/api.rst#haiku.prngsequence              haiku.PRNGSequence                      : api.html#haiku.PRNGSequence
+	/api.rst#haiku.prngsequence.__init__     haiku.PRNGSequence.__init__             : api.html#haiku.PRNGSequence.__init__
+	/api.rst#haiku.prngsequence.__next__     haiku.PRNGSequence.__next__             : api.html#haiku.PRNGSequence.__next__
+	/api.rst#haiku.prngsequence.next         haiku.PRNGSequence.next                 : api.html#haiku.PRNGSequence.next
+	/api.rst#haiku.prngsequence.reserve      haiku.PRNGSequence.reserve              : api.html#haiku.PRNGSequence.reserve
+	/api.rst#haiku.remat                     haiku.remat                             : api.html#haiku.remat
+	/api.rst#haiku.reserve_rng_keys          haiku.reserve_rng_keys                  : api.html#haiku.reserve_rng_keys
+	/api.rst#haiku.resetcore                 haiku.ResetCore                         : api.html#haiku.ResetCore
+	/api.rst#haiku.resetcore.__call__        haiku.ResetCore.__call__                : api.html#haiku.ResetCore.__call__
+	/api.rst#haiku.resetcore.__init__        haiku.ResetCore.__init__                : api.html#haiku.ResetCore.__init__
+	/api.rst#haiku.resetcore.initial_state   haiku.ResetCore.initial_state           : api.html#haiku.ResetCore.initial_state
+	/api.rst#haiku.reshape                   haiku.Reshape                           : api.html#haiku.Reshape
+	/api.rst#haiku.reshape.__call__          haiku.Reshape.__call__                  : api.html#haiku.Reshape.__call__
+	/api.rst#haiku.reshape.__init__          haiku.Reshape.__init__                  : api.html#haiku.Reshape.__init__
+	/api.rst#haiku.rnncore                   haiku.RNNCore                           : api.html#haiku.RNNCore
+	/api.rst#haiku.rnncore.__call__          haiku.RNNCore.__call__                  : api.html#haiku.RNNCore.__call__
+	/api.rst#haiku.rnncore.initial_state     haiku.RNNCore.initial_state             : api.html#haiku.RNNCore.initial_state
+	/api.rst#haiku.running_init              haiku.running_init                      : api.html#haiku.running_init
+	/api.rst#haiku.scan                      haiku.scan                              : api.html#haiku.scan
+	/api.rst#haiku.sequential                haiku.Sequential                        : api.html#haiku.Sequential
+	/api.rst#haiku.sequential.__call__       haiku.Sequential.__call__               : api.html#haiku.Sequential.__call__
+	/api.rst#haiku.sequential.__init__       haiku.Sequential.__init__               : api.html#haiku.Sequential.__init__
+	/api.rst#haiku.set_state                 haiku.set_state                         : api.html#haiku.set_state
+	/api.rst#haiku.snparamstree              haiku.SNParamsTree                      : api.html#haiku.SNParamsTree
+	/api.rst#haiku.snparamstree.__call__     haiku.SNParamsTree.__call__             : api.html#haiku.SNParamsTree.__call__
+	/api.rst#haiku.snparamstree.__init__     haiku.SNParamsTree.__init__             : api.html#haiku.SNParamsTree.__init__
+	/api.rst#haiku.spectralnorm              haiku.SpectralNorm                      : api.html#haiku.SpectralNorm
+	/api.rst#haiku.spectralnorm.__call__     haiku.SpectralNorm.__call__             : api.html#haiku.SpectralNorm.__call__
+	/api.rst#haiku.spectralnorm.__init__     haiku.SpectralNorm.__init__             : api.html#haiku.SpectralNorm.__init__
+	/api.rst#haiku.state                     haiku.State                             : api.html#haiku.State
+	/api.rst#haiku.static_unroll             haiku.static_unroll                     : api.html#haiku.static_unroll
+	/api.rst#haiku.switch                    haiku.switch                            : api.html#haiku.switch
+	/api.rst#haiku.testing.transform_and_run haiku.testing.transform_and_run         : api.html#haiku.testing.transform_and_run
+	/api.rst#haiku.to_module                 haiku.to_module                         : api.html#haiku.to_module
+	/api.rst#haiku.transform                 haiku.transform                         : api.html#haiku.transform
+	/api.rst#haiku.transform_with_state      haiku.transform_with_state              : api.html#haiku.transform_with_state
+	/api.rst#haiku.transformed               haiku.Transformed                       : api.html#haiku.Transformed
+	/api.rst#haiku.transformed.apply         haiku.Transformed.apply                 : api.html#haiku.Transformed.apply
+	/api.rst#haiku.transformed.init          haiku.Transformed.init                  : api.html#haiku.Transformed.init
+	/api.rst#haiku.transformedwithstate      haiku.TransformedWithState              : api.html#haiku.TransformedWithState
+	/api.rst#haiku.transformedwithstate.apply haiku.TransformedWithState.apply        : api.html#haiku.TransformedWithState.apply
+	/api.rst#haiku.transformedwithstate.init haiku.TransformedWithState.init         : api.html#haiku.TransformedWithState.init
+	/api.rst#haiku.transparent               haiku.transparent                       : api.html#haiku.transparent
+	/api.rst#haiku.value_and_grad            haiku.value_and_grad                    : api.html#haiku.value_and_grad
+	/api.rst#haiku.vanillarnn                haiku.VanillaRNN                        : api.html#haiku.VanillaRNN
+	/api.rst#haiku.vanillarnn.__call__       haiku.VanillaRNN.__call__               : api.html#haiku.VanillaRNN.__call__
+	/api.rst#haiku.vanillarnn.__init__       haiku.VanillaRNN.__init__               : api.html#haiku.VanillaRNN.__init__
+	/api.rst#haiku.vanillarnn.initial_state  haiku.VanillaRNN.initial_state          : api.html#haiku.VanillaRNN.initial_state
+	/api.rst#haiku.vmap                      haiku.vmap                              : api.html#haiku.vmap
+	/api.rst#haiku.while_loop                haiku.while_loop                        : api.html#haiku.while_loop
+	/api.rst#haiku.with_rng                  haiku.with_rng                          : api.html#haiku.with_rng
+	/api.rst#haiku.without_apply_rng         haiku.without_apply_rng                 : api.html#haiku.without_apply_rng
+	/api.rst#haiku.without_state             haiku.without_state                     : api.html#haiku.without_state
+	/api.rst#id0                             id0                                     : api.html#id0
+	/api.rst#id1                             Linear                                  : api.html#id1
+	/api.rst#id15                            ResNet                                  : api.html#id15
+	/api.rst#id16                            VectorQuantizer                         : api.html#id16
+	/api.rst#id17                            id17                                    : api.html#id17
+	/api.rst#id2                             dropout                                 : api.html#id2
+	/api.rst#id5                             id5                                     : api.html#id5
+	/api.rst#id6                             id6                                     : api.html#id6
+	/api.rst#identity                        Identity                                : api.html#identity
+	/api.rst#identitycore                    IdentityCore                            : api.html#identitycore
+	/api.rst#initializer                     Initializer                             : api.html#initializer
+	/api.rst#instancenorm                    InstanceNorm                            : api.html#instancenorm
+	/api.rst#intercept-methods               intercept_methods                       : api.html#intercept-methods
+	/api.rst#jax-fundamentals                JAX Fundamentals                        : api.html#jax-fundamentals
+	/api.rst#jax-transforms                  JAX Transforms                          : api.html#jax-transforms
+	/api.rst#jit                             jit                                     : api.html#jit
+	/api.rst#layernorm                       LayerNorm                               : api.html#layernorm
+	/api.rst#lift                            lift                                    : api.html#lift
+	/api.rst#linear                          Linear                                  : api.html#linear
+	/api.rst#lstm                            LSTM                                    : api.html#lstm
+	/api.rst#lstmstate                       LSTMState                               : api.html#lstmstate
+	/api.rst#max-pool                        Max Pool                                : api.html#max-pool
+	/api.rst#maybe-next-rng-key              maybe_next_rng_key                      : api.html#maybe-next-rng-key
+	/api.rst#merge                           merge                                   : api.html#merge
+	/api.rst#methodcontext                   MethodContext                           : api.html#methodcontext
+	/api.rst#mlp                             MLP                                     : api.html#mlp
+	/api.rst#mobilenet                       MobileNet                               : api.html#mobilenet
+	/api.rst#mobilenetv1                     MobileNetV1                             : api.html#mobilenetv1
+	/api.rst#module                          Module                                  : api.html#module
+	/api.rst#module-0                        Functions                               : api.html#module-0
+	/api.rst#module-haiku                    Conditional Computation                 : api.html#module-haiku
+	/api.rst#module-haiku.data_structures    Data Structures                         : api.html#module-haiku.data_structures
+	/api.rst#module-haiku.experimental       🚧 Experimental                          : api.html#module-haiku.experimental
+	/api.rst#module-haiku.initializers       Initializers                            : api.html#module-haiku.initializers
+	/api.rst#module-haiku.nets               Full Networks                           : api.html#module-haiku.nets
+	/api.rst#module-haiku.pad                Paddings                                : api.html#module-haiku.pad
+	/api.rst#module-haiku.testing            Testing                                 : api.html#module-haiku.testing
+	/api.rst#modules-parameters-and-state    Modules, Parameters and State           : api.html#modules-parameters-and-state
+	/api.rst#multinomial                     multinomial                             : api.html#multinomial
+	/api.rst#name-scope                      name_scope                              : api.html#name-scope
+	/api.rst#named-call                      named_call                              : api.html#named-call
+	/api.rst#next-rng-key                    next_rng_key                            : api.html#next-rng-key
+	/api.rst#next-rng-keys                   next_rng_keys                           : api.html#next-rng-keys
+	/api.rst#normalization                   Normalization                           : api.html#normalization
+	/api.rst#one-hot                         one_hot                                 : api.html#one-hot
+	/api.rst#optimize-rng-use                optimize_rng_use                        : api.html#optimize-rng-use
+	/api.rst#orthogonal                      Orthogonal                              : api.html#orthogonal
+	/api.rst#padfn                           PadFn                                   : api.html#padfn
+	/api.rst#paramcontext                    ParamContext                            : api.html#paramcontext
+	/api.rst#params                          Params                                  : api.html#params
+	/api.rst#partition                       partition                               : api.html#partition
+	/api.rst#pooling                         Pooling                                 : api.html#pooling
+	/api.rst#prngsequence                    PRNGSequence                            : api.html#prngsequence
+	/api.rst#profiler-name-scopes            profiler_name_scopes                    : api.html#profiler-name-scopes
+	/api.rst#random-numbers                  Random Numbers                          : api.html#random-numbers
+	/api.rst#randomnormal                    RandomNormal                            : api.html#randomnormal
+	/api.rst#randomuniform                   RandomUniform                           : api.html#randomuniform
+	/api.rst#recurrent                       Recurrent                               : api.html#recurrent
+	/api.rst#references                      References                              : api.html#references
+	/api.rst#remat                           remat                                   : api.html#remat
+	/api.rst#reserve-rng-keys                reserve_rng_keys                        : api.html#reserve-rng-keys
+	/api.rst#resetcore                       ResetCore                               : api.html#resetcore
+	/api.rst#reshape                         Reshape                                 : api.html#reshape
+	/api.rst#resnet                          ResNet                                  : api.html#resnet
+	/api.rst#resnet101                       ResNet101                               : api.html#resnet101
+	/api.rst#resnet152                       ResNet152                               : api.html#resnet152
+	/api.rst#resnet18                        ResNet18                                : api.html#resnet18
+	/api.rst#resnet200                       ResNet200                               : api.html#resnet200
+	/api.rst#resnet34                        ResNet34                                : api.html#resnet34
+	/api.rst#resnet50                        ResNet50                                : api.html#resnet50
+	/api.rst#reverse-causal                  reverse_causal                          : api.html#reverse-causal
+	/api.rst#rnncore                         RNNCore                                 : api.html#rnncore
+	/api.rst#running-init                    running_init                            : api.html#running-init
+	/api.rst#same                            same                                    : api.html#same
+	/api.rst#scan                            scan                                    : api.html#scan
+	/api.rst#separabledepthwiseconv2d        SeparableDepthwiseConv2D                : api.html#separabledepthwiseconv2d
+	/api.rst#sequential                      Sequential                              : api.html#sequential
+	/api.rst#set-state                       set_state                               : api.html#set-state
+	/api.rst#snparamstree                    SNParamsTree                            : api.html#snparamstree
+	/api.rst#spectralnorm                    SpectralNorm                            : api.html#spectralnorm
+	/api.rst#state                           State                                   : api.html#state
+	/api.rst#static-unroll                   static_unroll                           : api.html#static-unroll
+	/api.rst#switch                          switch                                  : api.html#switch
+	/api.rst#to-dot                          to_dot                                  : api.html#to-dot
+	/api.rst#to-immutable-dict               to_immutable_dict                       : api.html#to-immutable-dict
+	/api.rst#to-module                       to_module                               : api.html#to-module
+	/api.rst#to-mutable-dict                 to_mutable_dict                         : api.html#to-mutable-dict
+	/api.rst#transform                       transform                               : api.html#transform
+	/api.rst#transform-and-run               transform_and_run                       : api.html#transform-and-run
+	/api.rst#transform-with-state            transform_with_state                    : api.html#transform-with-state
+	/api.rst#transformed                     Transformed                             : api.html#transformed
+	/api.rst#transformedwithstate            TransformedWithState                    : api.html#transformedwithstate
+	/api.rst#transparent                     transparent                             : api.html#transparent
+	/api.rst#tree-bytes                      tree_bytes                              : api.html#tree-bytes
+	/api.rst#tree-size                       tree_size                               : api.html#tree-size
+	/api.rst#truncatednormal                 TruncatedNormal                         : api.html#truncatednormal
+	/api.rst#type-hints                      Type Hints                              : api.html#type-hints
+	/api.rst#uniformscaling                  UniformScaling                          : api.html#uniformscaling
+	/api.rst#utilities                       Utilities                               : api.html#utilities
+	/api.rst#valid                           valid                                   : api.html#valid
+	/api.rst#value-and-grad                  value_and_grad                          : api.html#value-and-grad
+	/api.rst#vanillarnn                      VanillaRNN                              : api.html#vanillarnn
+	/api.rst#variancescaling                 VarianceScaling                         : api.html#variancescaling
+	/api.rst#vectorquantizer                 VectorQuantizer                         : api.html#vectorquantizer
+	/api.rst#vectorquantizerema              VectorQuantizerEMA                      : api.html#vectorquantizerema
+	/api.rst#vmap                            vmap                                    : api.html#vmap
+	/api.rst#while-loop                      while_loop                              : api.html#while-loop
+	/api.rst#with-rng                        with_rng                                : api.html#with-rng
+	/api.rst#without-apply-rng               without_apply_rng                       : api.html#without-apply-rng
+	/api.rst#without-state                   without_state                           : api.html#without-state
+	/index.rst                               Haiku Documentation                     : index.html
+	/index.rst#contribute                    Contribute                              : index.html#contribute
+	/index.rst#haiku-documentation           Haiku Documentation                     : index.html#haiku-documentation
+	/index.rst#indices-and-tables            Indices and tables                      : index.html#indices-and-tables
+	/index.rst#installation                  Installation                            : index.html#installation
+	/index.rst#known-issues                  Known issues                            : index.html#known-issues
+	/index.rst#license                       License                                 : index.html#license
+	/index.rst#support                       Support                                 : index.html#support
+	/notebooks/basics.ipynb                  Haiku Basics                            : notebooks/basics.html
+	/notebooks/basics.ipynb#a-first-example-with-hk.transform A first example with hk.transform       : notebooks/basics.html#A-first-example-with-hk.transform
+	/notebooks/basics.ipynb#built-in-haiku-nets-and-nested-modules Built-in Haiku nets and nested modules  : notebooks/basics.html#Built-in-Haiku-nets-and-nested-modules
+	/notebooks/basics.ipynb#haiku-basics     Haiku Basics                            : notebooks/basics.html#Haiku-Basics
+	/notebooks/basics.ipynb#rng-keys-with-hk.next_rng_key() Rng Keys with hk.next_rng_key()         : notebooks/basics.html#Rng-Keys-with-hk.next_rng_key()
+	/notebooks/basics.ipynb#stateful-inference-in-haiku Stateful Inference in Haiku             : notebooks/basics.html#Stateful-Inference-in-Haiku
+	/notebooks/transforms.ipynb              Limitations of using JAX transforms inside of networks: notebooks/transforms.html
+	/notebooks/transforms.ipynb#limitations-of-using-jax-transforms-inside-of-networks Limitations of using JAX transforms inside of networks: notebooks/transforms.html#Limitations-of-using-JAX-transforms-inside-of-networks
 	genindex                                 Index                                   : genindex.html
 	jozefowicz2015empirical                  api.html#jozefowicz2015empirical
 	modindex                                 Module Index                            : py-modindex.html
+	py-modindex                              Python Module Index                     : py-modindex.html
 	search                                   Search Page                             : search.html
-	transforms-caveats                       Limitations of using JAX transforms inside of networks: transforms.html#transforms-caveats
 	xingjian2015convolutional                api.html#xingjian2015convolutional
 	zaremba2014recurrent                     api.html#zaremba2014recurrent

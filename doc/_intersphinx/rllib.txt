@@ -614,6 +614,8 @@ py:method
 	ray.tune.schedulers.TrialScheduler.on_trial_remove tune/api_docs/schedulers.html#ray.tune.schedulers.TrialScheduler.on_trial_remove
 	ray.tune.schedulers.TrialScheduler.on_trial_result tune/api_docs/schedulers.html#ray.tune.schedulers.TrialScheduler.on_trial_result
 	ray.tune.schedulers.TrialScheduler.set_search_properties tune/api_docs/schedulers.html#ray.tune.schedulers.TrialScheduler.set_search_properties
+	ray.tune.sklearn.TuneGridSearchCV.best_estimator_ tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV.best_estimator_
+	ray.tune.sklearn.TuneGridSearchCV.best_index_ tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV.best_index_
 	ray.tune.sklearn.TuneGridSearchCV.best_params_ tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV.best_params_
 	ray.tune.sklearn.TuneGridSearchCV.best_score_ tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV.best_score_
 	ray.tune.sklearn.TuneGridSearchCV.classes_ tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV.classes_
@@ -621,12 +623,18 @@ py:method
 	ray.tune.sklearn.TuneGridSearchCV.fit    tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV.fit
 	ray.tune.sklearn.TuneGridSearchCV.get_params tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV.get_params
 	ray.tune.sklearn.TuneGridSearchCV.inverse_transform tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV.inverse_transform
+	ray.tune.sklearn.TuneGridSearchCV.multimetric_ tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV.multimetric_
+	ray.tune.sklearn.TuneGridSearchCV.n_splits_ tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV.n_splits_
 	ray.tune.sklearn.TuneGridSearchCV.predict tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV.predict
 	ray.tune.sklearn.TuneGridSearchCV.predict_log_proba tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV.predict_log_proba
 	ray.tune.sklearn.TuneGridSearchCV.predict_proba tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV.predict_proba
+	ray.tune.sklearn.TuneGridSearchCV.refit_time_ tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV.refit_time_
 	ray.tune.sklearn.TuneGridSearchCV.score  tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV.score
+	ray.tune.sklearn.TuneGridSearchCV.scorer_ tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV.scorer_
 	ray.tune.sklearn.TuneGridSearchCV.set_params tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV.set_params
 	ray.tune.sklearn.TuneGridSearchCV.transform tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV.transform
+	ray.tune.sklearn.TuneSearchCV.best_estimator_ tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV.best_estimator_
+	ray.tune.sklearn.TuneSearchCV.best_index_ tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV.best_index_
 	ray.tune.sklearn.TuneSearchCV.best_params_ tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV.best_params_
 	ray.tune.sklearn.TuneSearchCV.best_score_ tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV.best_score_
 	ray.tune.sklearn.TuneSearchCV.classes_   tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV.classes_
@@ -634,10 +642,14 @@ py:method
 	ray.tune.sklearn.TuneSearchCV.fit        tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV.fit
 	ray.tune.sklearn.TuneSearchCV.get_params tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV.get_params
 	ray.tune.sklearn.TuneSearchCV.inverse_transform tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV.inverse_transform
+	ray.tune.sklearn.TuneSearchCV.multimetric_ tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV.multimetric_
+	ray.tune.sklearn.TuneSearchCV.n_splits_  tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV.n_splits_
 	ray.tune.sklearn.TuneSearchCV.predict    tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV.predict
 	ray.tune.sklearn.TuneSearchCV.predict_log_proba tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV.predict_log_proba
 	ray.tune.sklearn.TuneSearchCV.predict_proba tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV.predict_proba
+	ray.tune.sklearn.TuneSearchCV.refit_time_ tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV.refit_time_
 	ray.tune.sklearn.TuneSearchCV.score      tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV.score
+	ray.tune.sklearn.TuneSearchCV.scorer_    tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV.scorer_
 	ray.tune.sklearn.TuneSearchCV.set_params tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV.set_params
 	ray.tune.sklearn.TuneSearchCV.transform  tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV.transform
 	ray.tune.suggest.Searcher.metric         tune/api_docs/suggestion.html#ray.tune.suggest.Searcher.metric

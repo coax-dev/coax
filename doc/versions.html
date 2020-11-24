@@ -42,19 +42,9 @@
     </td>
   </tr>
   <tr>
-    <td class="version title python">Python version:</td>
-    <td class="version options python" style="column-count: 3">
-      <div id="cp36" class="version option python">3.6</div>
-      <div id="cp37" class="version option python">3.7</div>
-      <div id="cp38" class="version option python selected">3.8</div>
-      <!-- if you add a row here, make sure to update 'column-count' as well -->
-    </td>
-  </tr>
-  <tr>
     <td class="version title cuda">CUDA version:</td>
-    <td class="version options cuda" style="column-count: 6">
+    <td class="version options cuda" style="column-count: 5">
       <div id="nocuda"  class="version option cuda selected">none</div>
-      <div id="cuda100" class="version option cuda">10.0</div>
       <div id="cuda101" class="version option cuda">10.1</div>
       <div id="cuda102" class="version option cuda">10.2</div>
       <div id="cuda110" class="version option cuda">11.0</div>
@@ -119,22 +109,13 @@ Command to run:
 
     function updateCommand() {
         var codecellName = 'codecell0';
-        var jaxlibVersion = '0.1.56';  // this is automatically updated from conf.py
+        var jaxlibVersion = '0.1.57';  // this is automatically updated from conf.py
 
         // get the selected os version
         var osVersion = null;
         for (var i=0, len=osVersions.length; i<len; i++) {
             if (osVersions[i].classList.contains('selected')) {
                 osVersion = osVersions[i].id;
-                break;
-            }
-        }
-
-        // get the selected python version
-        var pythonVersion = null;
-        for (var i=0, len=pythonVersions.length; i<len; i++) {
-            if (pythonVersions[i].classList.contains('selected')) {
-                pythonVersion = pythonVersions[i].id;
                 break;
             }
         }
@@ -150,11 +131,10 @@ Command to run:
 
         var command = document.getElementById(codecellName);
         if (cudaVersion === 'nocuda') {
-            command.innerHTML = "$ pip install --upgrade jaxlib jax coax";
+            command.innerHTML = "$ pip install --upgrade coax jax jaxlib";
         } else {
-            command.innerHTML = `$ wget https://storage.googleapis.com/jax-releases/${cudaVersion}/jaxlib-${jaxlibVersion}+${cudaVersion}-${pythonVersion}-none-${osVersion}.whl
-$ pip install jaxlib-${jaxlibVersion}+${cudaVersion}-${pythonVersion}-none-${osVersion}.whl
-$ pip install --upgrade jax coax`
+            command.innerHTML = `$ pip install --upgrade coax jax jaxlib==${jaxlibVersion}+${cudaVersion} -f https://storage.googleapis.com/jax-releases/jax_releases.html
+`
         }
     }
 

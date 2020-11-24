@@ -1631,6 +1631,9 @@ py:attribute
 	functools.partial.args                   library/functools.html#functools.partial.args
 	functools.partial.func                   library/functools.html#functools.partial.func
 	functools.partial.keywords               library/functools.html#functools.partial.keywords
+	genericalias.__args__                    library/stdtypes.html#genericalias.__args__
+	genericalias.__origin__                  library/stdtypes.html#genericalias.__origin__
+	genericalias.__parameters__              library/stdtypes.html#genericalias.__parameters__
 	gzip.GzipFile.mtime                      library/gzip.html#gzip.GzipFile.mtime
 	hashlib.hash.name                        library/hashlib.html#hashlib.hash.name
 	hmac.HMAC.block_size                     library/hmac.html#hmac.HMAC.block_size
@@ -3096,6 +3099,7 @@ py:class
 	turtle.Vec2D                             library/turtle.html#turtle.Vec2D
 	type                                     library/functions.html#type
 	types.CodeType                           library/types.html#types.CodeType
+	types.GenericAlias                       library/types.html#types.GenericAlias
 	types.MappingProxyType                   library/types.html#types.MappingProxyType
 	types.ModuleType                         library/types.html#types.ModuleType
 	types.SimpleNamespace                    library/types.html#types.SimpleNamespace
@@ -3299,6 +3303,9 @@ py:data
 	_thread.LockType                         library/_thread.html#_thread.LockType
 	_thread.TIMEOUT_MAX                      library/_thread.html#_thread.TIMEOUT_MAX
 	array.typecodes                          library/array.html#array.typecodes
+	ast.PyCF_ALLOW_TOP_LEVEL_AWAIT           library/ast.html#ast.PyCF_ALLOW_TOP_LEVEL_AWAIT
+	ast.PyCF_ONLY_AST                        library/ast.html#ast.PyCF_ONLY_AST
+	ast.PyCF_TYPE_COMMENTS                   library/ast.html#ast.PyCF_TYPE_COMMENTS
 	asynchat.async_chat.ac_in_buffer_size    library/asynchat.html#asynchat.async_chat.ac_in_buffer_size
 	asynchat.async_chat.ac_out_buffer_size   library/asynchat.html#asynchat.async_chat.ac_out_buffer_size
 	asyncio.asyncio.subprocess.DEVNULL       library/asyncio-subprocess.html#asyncio.asyncio.subprocess.DEVNULL
@@ -8356,6 +8363,7 @@ py:method
 	io.TextIOBase.tell                       library/io.html#io.TextIOBase.tell
 	io.TextIOBase.write                      library/io.html#io.TextIOBase.write
 	io.TextIOWrapper.reconfigure             library/io.html#io.TextIOWrapper.reconfigure
+	ipaddress.IPv4Address.__format__         library/ipaddress.html#ipaddress.IPv4Address.__format__
 	ipaddress.IPv4Network.address_exclude    library/ipaddress.html#ipaddress.IPv4Network.address_exclude
 	ipaddress.IPv4Network.compare_networks   library/ipaddress.html#ipaddress.IPv4Network.compare_networks
 	ipaddress.IPv4Network.hosts              library/ipaddress.html#ipaddress.IPv4Network.hosts
@@ -8364,6 +8372,7 @@ py:method
 	ipaddress.IPv4Network.subnets            library/ipaddress.html#ipaddress.IPv4Network.subnets
 	ipaddress.IPv4Network.supernet           library/ipaddress.html#ipaddress.IPv4Network.supernet
 	ipaddress.IPv4Network.supernet_of        library/ipaddress.html#ipaddress.IPv4Network.supernet_of
+	ipaddress.IPv6Address.__format__         library/ipaddress.html#ipaddress.IPv6Address.__format__
 	ipaddress.IPv6Network.address_exclude    library/ipaddress.html#ipaddress.IPv6Network.address_exclude
 	ipaddress.IPv6Network.compare_networks   library/ipaddress.html#ipaddress.IPv6Network.compare_networks
 	ipaddress.IPv6Network.hosts              library/ipaddress.html#ipaddress.IPv6Network.hosts
@@ -11197,6 +11206,7 @@ std:label
 	assert-methods                           library/unittest.html#assert-methods
 	assignment                               Assignment statements                   : reference/simple_stmts.html#assignment
 	ast-cli                                  Command-Line Usage                      : library/ast.html#ast-cli
+	ast-compiler-flags                       Compiler Flags                          : library/ast.html#ast-compiler-flags
 	async                                    Coroutines                              : reference/compound_stmts.html#async
 	async def                                Coroutine function definition           : reference/compound_stmts.html#async-def
 	async for                                The async for statement                 : reference/compound_stmts.html#async-for
@@ -11500,6 +11510,7 @@ std:label
 	describing-warning-filters               Describing Warning Filters              : library/warnings.html#describing-warning-filters
 	descriptor-invocation                    Invoking Descriptors                    : reference/datamodel.html#descriptor-invocation
 	descriptor-objects                       Descriptor Objects                      : c-api/descriptor.html#descriptor-objects
+	descriptorhowto                          Descriptor HowTo Guide                  : howto/descriptor.html#descriptorhowto
 	descriptors                              Implementing Descriptors                : reference/datamodel.html#descriptors
 	deterministic-profiling                  What Is Deterministic Profiling?        : library/profile.html#deterministic-profiling
 	development                              Development Tools                       : library/development.html#development
@@ -12493,6 +12504,7 @@ std:label
 	typememoryview                           Memory Views                            : library/stdtypes.html#typememoryview
 	typeobjects                              Type Objects                            : c-api/type.html#typeobjects
 	types                                    The standard type hierarchy             : reference/datamodel.html#types
+	types-genericalias                       Generic Alias Type                      : library/stdtypes.html#types-genericalias
 	types-set                                Set Types — set, frozenset              : library/stdtypes.html#types-set
 	typesfunctions                           Functions                               : library/stdtypes.html#typesfunctions
 	typesinternal                            Internal Objects                        : library/stdtypes.html#typesinternal
@@ -12888,6 +12900,7 @@ std:term
 	decorator                                glossary.html#term-decorator
 	descriptor                               glossary.html#term-descriptor
 	dictionary                               glossary.html#term-dictionary
+	dictionary comprehension                 glossary.html#term-dictionary-comprehension
 	dictionary view                          glossary.html#term-dictionary-view
 	docstring                                glossary.html#term-docstring
 	duck-typing                              glossary.html#term-duck-typing
@@ -12906,6 +12919,7 @@ std:term
 	generator expression                     glossary.html#term-generator-expression
 	generator iterator                       glossary.html#term-generator-iterator
 	generic function                         glossary.html#term-generic-function
+	generic type                             glossary.html#term-generic-type
 	gil                                      glossary.html#term-gil
 	global interpreter lock                  glossary.html#term-global-interpreter-lock
 	hash-based pyc                           glossary.html#term-hash-based-pyc
@@ -12961,6 +12975,7 @@ std:term
 	reference count                          glossary.html#term-reference-count
 	regular package                          glossary.html#term-regular-package
 	sequence                                 glossary.html#term-sequence
+	set comprehension                        glossary.html#term-set-comprehension
 	single dispatch                          glossary.html#term-single-dispatch
 	slice                                    glossary.html#term-slice
 	special method                           glossary.html#term-special-method
