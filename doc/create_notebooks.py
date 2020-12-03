@@ -16,7 +16,9 @@ nb_template = {
             "execution_count": None,
             "metadata": {},
             "outputs": [],
-            "source": ["!pip install --upgrade coax"]
+            "source": [
+                "!pip install git+https://github.com/microsoft/coax.git@main",
+            ]
         },
         {
             "cell_type": "code",
