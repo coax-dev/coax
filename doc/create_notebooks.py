@@ -49,6 +49,17 @@ nb_template = {
     "nbformat_minor": 2
 }
 
+tensorboard_cell = {
+    "cell_type": "code",
+    "execution_count": None,
+    "metadata": {},
+    "outputs": [],
+    "source": [
+        "%load_ext tensorboard\n",
+        "%tensorboard --logdir ./data/tensorboard",
+    ]
+}
+
 
 for d_in in glob(os.path.join(PACKAGEDIR, 'doc', 'examples', '*')):
     if not os.path.isdir(d_in) or 'search' in d_in:
@@ -64,7 +75,10 @@ for d_in in glob(os.path.join(PACKAGEDIR, 'doc', 'examples', '*')):
         nb = deepcopy(nb_template)
 
         with open(f_in) as r, open(f'{f_out}', 'w') as w:
-            nb['cells'][-1]['source'] = list(r)  # the actual code
+            lines = list(r)
+            nb['cells'][-1]['source'] = lines  # the actual code
+            if any("tensorboard_dir=" in line for line in lines):
+                nb['cells'].insert(1, tensorboard_cell)
             json.dump(nb, w, indent=1)
 
         print(f"converted: {f_in} --> {f_out}")
