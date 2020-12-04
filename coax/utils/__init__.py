@@ -35,6 +35,10 @@ Object Reference
 
     coax.utils.OrnsteinUhlenbeckNoise
     coax.utils.StepwiseLinearFunction
+    coax.utils.SegmentTree
+    coax.utils.SumTree
+    coax.utils.MinTree
+    coax.utils.MaxTree
     coax.utils.argmax
     coax.utils.argmin
     coax.utils.batch_to_single
@@ -123,11 +127,16 @@ from ._misc import (
     reload_recursive,
     render_episode,
 )
+from ._segment_tree import SegmentTree, SumTree, MinTree, MaxTree
 
 
 __all__ = (
     'StepwiseLinearFunction',
     'OrnsteinUhlenbeckNoise',
+    'SegmentTree',
+    'SumTree',
+    'MinTree',
+    'MaxTree',
     'argmax',
     'argmin',
     'batch_to_single',

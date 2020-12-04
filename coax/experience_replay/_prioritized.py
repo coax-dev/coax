@@ -24,7 +24,7 @@ import numpy as onp
 import chex
 
 from ..reward_tracing import TransitionBatch
-from ._segment_tree import SumTree
+from ..utils import SumTree
 from ._base import BaseReplayBuffer
 
 

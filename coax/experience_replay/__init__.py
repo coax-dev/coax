@@ -25,10 +25,6 @@ r"""
 
     coax.experience_replay.SimpleReplayBuffer
     coax.experience_replay.PrioritizedReplayBuffer
-    coax.experience_replay.SumTree
-    coax.experience_replay.MinTree
-    coax.experience_replay.MaxTree
-    coax.experience_replay.SegmentTree
 
 ----
 
@@ -83,24 +79,15 @@ Object Reference
 
 .. autoclass:: coax.experience_replay.SimpleReplayBuffer
 .. autoclass:: coax.experience_replay.PrioritizedReplayBuffer
-.. autoclass:: coax.experience_replay.SumTree
-.. autoclass:: coax.experience_replay.MinTree
-.. autoclass:: coax.experience_replay.MaxTree
-.. autoclass:: coax.experience_replay.SegmentTree
 
 
 """
 
 from ._simple import SimpleReplayBuffer
 from ._prioritized import PrioritizedReplayBuffer
-from ._segment_tree import SegmentTree, SumTree, MinTree, MaxTree
 
 
 __all__ = (
     'SimpleReplayBuffer',
     'PrioritizedReplayBuffer',
-    'SumTree',
-    'MinTree',
-    'MaxTree',
-    'SegmentTree',
 )
