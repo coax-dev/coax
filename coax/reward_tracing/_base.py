@@ -28,11 +28,11 @@ from .._base.errors import InsufficientCacheError
 
 
 __all__ = (
-    'BaseShortTermCache',
+    'BaseRewardTracer',
 )
 
 
-class BaseShortTermCache(ABC):
+class BaseRewardTracer(ABC):
 
     @abstractmethod
     def reset(self):

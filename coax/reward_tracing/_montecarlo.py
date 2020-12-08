@@ -20,7 +20,7 @@
 # ------------------------------------------------------------------------------------------------ #
 
 from .._base.errors import InsufficientCacheError, EpisodeDoneError
-from ._base import BaseShortTermCache
+from ._base import BaseRewardTracer
 from ._transition import TransitionBatch
 
 
@@ -29,7 +29,7 @@ __all__ = (
 )
 
 
-class MonteCarlo(BaseShortTermCache):
+class MonteCarlo(BaseRewardTracer):
     r"""
     A short-term cache for episodic Monte Carlo sampling.
 

@@ -25,7 +25,7 @@ from itertools import islice
 import numpy as onp
 
 from .._base.errors import InsufficientCacheError, EpisodeDoneError
-from ._base import BaseShortTermCache
+from ._base import BaseRewardTracer
 from ._transition import TransitionBatch
 
 
@@ -34,7 +34,7 @@ __all__ = (
 )
 
 
-class NStep(BaseShortTermCache):
+class NStep(BaseRewardTracer):
     r"""
     A short-term cache for :math:`n`-step bootstrapping.
 
