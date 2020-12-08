@@ -26,8 +26,14 @@ import numpy as onp
 from haiku import PRNGSequence
 
 from .._base.test_case import TestCase
-from ._array import argmax, check_preprocessors, default_preprocessor
 from ..proba_dists import NormalDist
+from ._array import (
+    argmax,
+    check_preprocessors,
+    chunks_pow2,
+    default_preprocessor,
+    get_transition_batch,
+)
 
 
 class TestArrayUtils(TestCase):
@@ -107,3 +113,10 @@ class TestArrayUtils(TestCase):
         self.assertArrayShape(default_preprocessor(dct)(next(rngs), dct.sample())['mbn'], (1, 11))
         self.assertArrayShape(default_preprocessor(dct)(next(rngs), dct.sample())['mds'][0], (1, 3))
         self.assertArrayShape(default_preprocessor(dct)(next(rngs), dct.sample())['mds'][1], (1, 5))
+
+    def test_chunks_pow2(self):
+        chunk_sizes = (2048, 1024, 512, 64, 32, 1)
+        tn = get_transition_batch(self.env_discrete, batch_size=sum(chunk_sizes))
+
+        for chunk, chunk_size in zip(chunks_pow2(tn), chunk_sizes):
+            self.assertEqual(chunk.batch_size, chunk_size)

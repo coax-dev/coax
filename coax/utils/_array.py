@@ -36,6 +36,7 @@ __all__ = (
     'batch_to_single',
     'check_array',
     'check_preprocessors',
+    'chunks_pow2',
     'clipped_logit',
     'default_preprocessor',
     'diff_transform',
@@ -247,6 +248,37 @@ def check_preprocessors(space, *preprocessors, num_samples=20, random_seed=None)
                 except AssertionError:
                     return False
     return True
+
+
+def chunks_pow2(transition_batch):
+    r"""
+
+    Split up a :class:`TransitionBatch <coax.reward_tracing.TransitionBatch>`
+    into smaller batches with sizes equal to powers of 2. This is useful
+    to recude overhead due to repeated JIT compilation due to varying batch sizes.
+
+    Yields
+    ------
+    chunk : TransitionBatch
+
+        A smaller chunk with batch_size equal to a power of 2.
+
+    """
+    def leafslice(start, stop):
+        def func(leaf):
+            if leaf is None:
+                return None
+            return leaf[start:stop]
+        return func
+
+    binary = bin(transition_batch.batch_size).replace('0b', '')
+    start = 0
+    for i, b in enumerate(binary, 1):
+        if b == '0':
+            continue
+        stop = start + 2 ** (len(binary) - i)
+        yield jax.tree_map(leafslice(start, stop), transition_batch)
+        start = stop
 
 
 def clipped_logit(x, epsilon=1e-15):
