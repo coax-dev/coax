@@ -39,8 +39,8 @@ policy.
 Object Reference
 ----------------
 
-..autoclass:: coax.regularizers.EntropyRegularizer
-..autoclass:: coax.regularizers.KLDivRegularizer
+.. autoclass:: coax.regularizers.EntropyRegularizer
+.. autoclass:: coax.regularizers.KLDivRegularizer
 
 """
 
