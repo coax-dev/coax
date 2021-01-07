@@ -1,5 +1,5 @@
 py:attribute
-	jax.experimental.optix.InitUpdate        jax.experimental.optix.html#jax.experimental.optix.InitUpdate
+	jax.lax.Precision                        jax.lax.html#jax.lax.Precision
 	jax.numpy.cdouble                        _autosummary/jax.numpy.cdouble.html#jax.numpy.cdouble
 	jax.numpy.complex_                       _autosummary/jax.numpy.complex_.html#jax.numpy.complex_
 	jax.numpy.csingle                        _autosummary/jax.numpy.csingle.html#jax.numpy.csingle
@@ -19,17 +19,10 @@ py:class
 	jax.experimental.optimizers.JoinPoint    jax.experimental.optimizers.html#jax.experimental.optimizers.JoinPoint
 	jax.experimental.optimizers.Optimizer    jax.experimental.optimizers.html#jax.experimental.optimizers.Optimizer
 	jax.experimental.optimizers.OptimizerState jax.experimental.optimizers.html#jax.experimental.optimizers.OptimizerState
-	jax.experimental.optix.AddNoiseState     jax.experimental.optix.html#jax.experimental.optix.AddNoiseState
-	jax.experimental.optix.ApplyEvery        jax.experimental.optix.html#jax.experimental.optix.ApplyEvery
-	jax.experimental.optix.ClipByGlobalNormState jax.experimental.optix.html#jax.experimental.optix.ClipByGlobalNormState
-	jax.experimental.optix.ClipState         jax.experimental.optix.html#jax.experimental.optix.ClipState
-	jax.experimental.optix.GradientTransformation jax.experimental.optix.html#jax.experimental.optix.GradientTransformation
-	jax.experimental.optix.ScaleByAdamState  jax.experimental.optix.html#jax.experimental.optix.ScaleByAdamState
-	jax.experimental.optix.ScaleByRStdDevState jax.experimental.optix.html#jax.experimental.optix.ScaleByRStdDevState
-	jax.experimental.optix.ScaleByRmsState   jax.experimental.optix.html#jax.experimental.optix.ScaleByRmsState
-	jax.experimental.optix.ScaleByScheduleState jax.experimental.optix.html#jax.experimental.optix.ScaleByScheduleState
-	jax.experimental.optix.ScaleState        jax.experimental.optix.html#jax.experimental.optix.ScaleState
-	jax.experimental.optix.TraceState        jax.experimental.optix.html#jax.experimental.optix.TraceState
+	jax.lax.ConvDimensionNumbers             jax.lax.html#jax.lax.ConvDimensionNumbers
+	jax.lax.GatherDimensionNumbers           jax.lax.html#jax.lax.GatherDimensionNumbers
+	jax.lax.RoundingMethod                   jax.lax.html#jax.lax.RoundingMethod
+	jax.lax.ScatterDimensionNumbers          jax.lax.html#jax.lax.ScatterDimensionNumbers
 	jax.numpy.bool_                          _autosummary/jax.numpy.bool_.html#jax.numpy.bool_
 	jax.numpy.character                      _autosummary/jax.numpy.character.html#jax.numpy.character
 	jax.numpy.complex128                     _autosummary/jax.numpy.complex128.html#jax.numpy.complex128
@@ -71,7 +64,7 @@ py:data
 	jax.scipy.special.log_ndtr               _autosummary/jax.scipy.special.log_ndtr.html#jax.scipy.special.log_ndtr
 	jax.scipy.special.logit                  _autosummary/jax.scipy.special.logit.html#jax.scipy.special.logit
 py:exception
-	jax.experimental.host_callback.TapFunctionException jax.experimental.host_callback.html#jax.experimental.host_callback.TapFunctionException
+	jax.experimental.host_callback.CallbackException jax.experimental.host_callback.html#jax.experimental.host_callback.CallbackException
 	jax.numpy.ComplexWarning                 _autosummary/jax.numpy.ComplexWarning.html#jax.numpy.ComplexWarning
 py:function
 	jax.checkpoint                           jax.html#jax.checkpoint
@@ -80,9 +73,10 @@ py:function
 	jax.devices                              jax.html#jax.devices
 	jax.disable_jit                          jax.html#jax.disable_jit
 	jax.eval_shape                           jax.html#jax.eval_shape
+	jax.experimental.host_callback.barrier_wait jax.experimental.host_callback.html#jax.experimental.host_callback.barrier_wait
+	jax.experimental.host_callback.call      jax.experimental.host_callback.html#jax.experimental.host_callback.call
 	jax.experimental.host_callback.id_print  jax.experimental.host_callback.html#jax.experimental.host_callback.id_print
 	jax.experimental.host_callback.id_tap    jax.experimental.host_callback.html#jax.experimental.host_callback.id_tap
-	jax.experimental.host_callback.outfeed_receiver jax.experimental.host_callback.html#jax.experimental.host_callback.outfeed_receiver
 	jax.experimental.optimizers.adagrad      jax.experimental.optimizers.html#jax.experimental.optimizers.adagrad
 	jax.experimental.optimizers.adam         jax.experimental.optimizers.html#jax.experimental.optimizers.adam
 	jax.experimental.optimizers.adamax       jax.experimental.optimizers.html#jax.experimental.optimizers.adamax
@@ -103,23 +97,6 @@ py:function
 	jax.experimental.optimizers.sgd          jax.experimental.optimizers.html#jax.experimental.optimizers.sgd
 	jax.experimental.optimizers.sm3          jax.experimental.optimizers.html#jax.experimental.optimizers.sm3
 	jax.experimental.optimizers.unpack_optimizer_state jax.experimental.optimizers.html#jax.experimental.optimizers.unpack_optimizer_state
-	jax.experimental.optix.adam              jax.experimental.optix.html#jax.experimental.optix.adam
-	jax.experimental.optix.add_noise         jax.experimental.optix.html#jax.experimental.optix.add_noise
-	jax.experimental.optix.apply_every       jax.experimental.optix.html#jax.experimental.optix.apply_every
-	jax.experimental.optix.apply_updates     jax.experimental.optix.html#jax.experimental.optix.apply_updates
-	jax.experimental.optix.chain             jax.experimental.optix.html#jax.experimental.optix.chain
-	jax.experimental.optix.clip              jax.experimental.optix.html#jax.experimental.optix.clip
-	jax.experimental.optix.clip_by_global_norm jax.experimental.optix.html#jax.experimental.optix.clip_by_global_norm
-	jax.experimental.optix.global_norm       jax.experimental.optix.html#jax.experimental.optix.global_norm
-	jax.experimental.optix.noisy_sgd         jax.experimental.optix.html#jax.experimental.optix.noisy_sgd
-	jax.experimental.optix.rmsprop           jax.experimental.optix.html#jax.experimental.optix.rmsprop
-	jax.experimental.optix.scale             jax.experimental.optix.html#jax.experimental.optix.scale
-	jax.experimental.optix.scale_by_adam     jax.experimental.optix.html#jax.experimental.optix.scale_by_adam
-	jax.experimental.optix.scale_by_rms      jax.experimental.optix.html#jax.experimental.optix.scale_by_rms
-	jax.experimental.optix.scale_by_schedule jax.experimental.optix.html#jax.experimental.optix.scale_by_schedule
-	jax.experimental.optix.scale_by_stddev   jax.experimental.optix.html#jax.experimental.optix.scale_by_stddev
-	jax.experimental.optix.sgd               jax.experimental.optix.html#jax.experimental.optix.sgd
-	jax.experimental.optix.trace             jax.experimental.optix.html#jax.experimental.optix.trace
 	jax.experimental.stax.AvgPool            jax.experimental.stax.html#jax.experimental.stax.AvgPool
 	jax.experimental.stax.BatchNorm          jax.experimental.stax.html#jax.experimental.stax.BatchNorm
 	jax.experimental.stax.Conv               jax.experimental.stax.html#jax.experimental.stax.Conv
@@ -293,6 +270,7 @@ py:function
 	jax.local_device_count                   jax.html#jax.local_device_count
 	jax.local_devices                        jax.html#jax.local_devices
 	jax.make_jaxpr                           jax.html#jax.make_jaxpr
+	jax.named_call                           jax.html#jax.named_call
 	jax.nn.celu                              _autosummary/jax.nn.celu.html#jax.nn.celu
 	jax.nn.elu                               _autosummary/jax.nn.elu.html#jax.nn.elu
 	jax.nn.gelu                              _autosummary/jax.nn.gelu.html#jax.nn.gelu
@@ -670,39 +648,34 @@ py:function
 	jax.profiler.save_device_memory_profile  _autosummary/jax.profiler.save_device_memory_profile.html#jax.profiler.save_device_memory_profile
 	jax.profiler.start_server                _autosummary/jax.profiler.start_server.html#jax.profiler.start_server
 	jax.profiler.trace_function              _autosummary/jax.profiler.trace_function.html#jax.profiler.trace_function
-	jax.random.PRNGKey                       jax.random.html#jax.random.PRNGKey
-	jax.random.apply_round                   jax.random.html#jax.random.apply_round
-	jax.random.bernoulli                     jax.random.html#jax.random.bernoulli
-	jax.random.beta                          jax.random.html#jax.random.beta
-	jax.random.categorical                   jax.random.html#jax.random.categorical
-	jax.random.cauchy                        jax.random.html#jax.random.cauchy
-	jax.random.choice                        jax.random.html#jax.random.choice
-	jax.random.dirichlet                     jax.random.html#jax.random.dirichlet
-	jax.random.double_sided_maxwell          jax.random.html#jax.random.double_sided_maxwell
-	jax.random.exponential                   jax.random.html#jax.random.exponential
-	jax.random.fold_in                       jax.random.html#jax.random.fold_in
-	jax.random.gamma                         jax.random.html#jax.random.gamma
-	jax.random.gumbel                        jax.random.html#jax.random.gumbel
-	jax.random.laplace                       jax.random.html#jax.random.laplace
-	jax.random.logistic                      jax.random.html#jax.random.logistic
-	jax.random.maxwell                       jax.random.html#jax.random.maxwell
-	jax.random.multivariate_normal           jax.random.html#jax.random.multivariate_normal
-	jax.random.normal                        jax.random.html#jax.random.normal
-	jax.random.pareto                        jax.random.html#jax.random.pareto
-	jax.random.permutation                   jax.random.html#jax.random.permutation
-	jax.random.poisson                       jax.random.html#jax.random.poisson
-	jax.random.rademacher                    jax.random.html#jax.random.rademacher
-	jax.random.randint                       jax.random.html#jax.random.randint
-	jax.random.rolled_loop_step              jax.random.html#jax.random.rolled_loop_step
-	jax.random.rotate_left                   jax.random.html#jax.random.rotate_left
-	jax.random.rotate_list                   jax.random.html#jax.random.rotate_list
-	jax.random.shuffle                       jax.random.html#jax.random.shuffle
-	jax.random.split                         jax.random.html#jax.random.split
-	jax.random.t                             jax.random.html#jax.random.t
-	jax.random.threefry_2x32                 jax.random.html#jax.random.threefry_2x32
-	jax.random.truncated_normal              jax.random.html#jax.random.truncated_normal
-	jax.random.uniform                       jax.random.html#jax.random.uniform
-	jax.random.weibull_min                   jax.random.html#jax.random.weibull_min
+	jax.random.PRNGKey                       _autosummary/jax.random.PRNGKey.html#jax.random.PRNGKey
+	jax.random.bernoulli                     _autosummary/jax.random.bernoulli.html#jax.random.bernoulli
+	jax.random.beta                          _autosummary/jax.random.beta.html#jax.random.beta
+	jax.random.categorical                   _autosummary/jax.random.categorical.html#jax.random.categorical
+	jax.random.cauchy                        _autosummary/jax.random.cauchy.html#jax.random.cauchy
+	jax.random.choice                        _autosummary/jax.random.choice.html#jax.random.choice
+	jax.random.dirichlet                     _autosummary/jax.random.dirichlet.html#jax.random.dirichlet
+	jax.random.double_sided_maxwell          _autosummary/jax.random.double_sided_maxwell.html#jax.random.double_sided_maxwell
+	jax.random.exponential                   _autosummary/jax.random.exponential.html#jax.random.exponential
+	jax.random.fold_in                       _autosummary/jax.random.fold_in.html#jax.random.fold_in
+	jax.random.gamma                         _autosummary/jax.random.gamma.html#jax.random.gamma
+	jax.random.gumbel                        _autosummary/jax.random.gumbel.html#jax.random.gumbel
+	jax.random.laplace                       _autosummary/jax.random.laplace.html#jax.random.laplace
+	jax.random.logistic                      _autosummary/jax.random.logistic.html#jax.random.logistic
+	jax.random.maxwell                       _autosummary/jax.random.maxwell.html#jax.random.maxwell
+	jax.random.multivariate_normal           _autosummary/jax.random.multivariate_normal.html#jax.random.multivariate_normal
+	jax.random.normal                        _autosummary/jax.random.normal.html#jax.random.normal
+	jax.random.pareto                        _autosummary/jax.random.pareto.html#jax.random.pareto
+	jax.random.permutation                   _autosummary/jax.random.permutation.html#jax.random.permutation
+	jax.random.poisson                       _autosummary/jax.random.poisson.html#jax.random.poisson
+	jax.random.rademacher                    _autosummary/jax.random.rademacher.html#jax.random.rademacher
+	jax.random.randint                       _autosummary/jax.random.randint.html#jax.random.randint
+	jax.random.shuffle                       _autosummary/jax.random.shuffle.html#jax.random.shuffle
+	jax.random.split                         _autosummary/jax.random.split.html#jax.random.split
+	jax.random.t                             _autosummary/jax.random.t.html#jax.random.t
+	jax.random.truncated_normal              _autosummary/jax.random.truncated_normal.html#jax.random.truncated_normal
+	jax.random.uniform                       _autosummary/jax.random.uniform.html#jax.random.uniform
+	jax.random.weibull_min                   _autosummary/jax.random.weibull_min.html#jax.random.weibull_min
 	jax.scipy.linalg.block_diag              _autosummary/jax.scipy.linalg.block_diag.html#jax.scipy.linalg.block_diag
 	jax.scipy.linalg.cho_factor              _autosummary/jax.scipy.linalg.cho_factor.html#jax.scipy.linalg.cho_factor
 	jax.scipy.linalg.cho_solve               _autosummary/jax.scipy.linalg.cho_solve.html#jax.scipy.linalg.cho_solve
@@ -722,11 +695,13 @@ py:function
 	jax.scipy.linalg.tril                    _autosummary/jax.scipy.linalg.tril.html#jax.scipy.linalg.tril
 	jax.scipy.linalg.triu                    _autosummary/jax.scipy.linalg.triu.html#jax.scipy.linalg.triu
 	jax.scipy.ndimage.map_coordinates        _autosummary/jax.scipy.ndimage.map_coordinates.html#jax.scipy.ndimage.map_coordinates
+	jax.scipy.optimize.minimize              _autosummary/jax.scipy.optimize.minimize.html#jax.scipy.optimize.minimize
 	jax.scipy.signal.convolve                _autosummary/jax.scipy.signal.convolve.html#jax.scipy.signal.convolve
 	jax.scipy.signal.convolve2d              _autosummary/jax.scipy.signal.convolve2d.html#jax.scipy.signal.convolve2d
 	jax.scipy.signal.correlate               _autosummary/jax.scipy.signal.correlate.html#jax.scipy.signal.correlate
 	jax.scipy.signal.correlate2d             _autosummary/jax.scipy.signal.correlate2d.html#jax.scipy.signal.correlate2d
 	jax.scipy.sparse.linalg.cg               _autosummary/jax.scipy.sparse.linalg.cg.html#jax.scipy.sparse.linalg.cg
+	jax.scipy.sparse.linalg.gmres            _autosummary/jax.scipy.sparse.linalg.gmres.html#jax.scipy.sparse.linalg.gmres
 	jax.scipy.special.betainc                _autosummary/jax.scipy.special.betainc.html#jax.scipy.special.betainc
 	jax.scipy.special.digamma                _autosummary/jax.scipy.special.digamma.html#jax.scipy.special.digamma
 	jax.scipy.special.entr                   _autosummary/jax.scipy.special.entr.html#jax.scipy.special.entr
@@ -822,20 +797,6 @@ py:method
 	jax.experimental.optimizers.OptimizerState.packed_state jax.experimental.optimizers.html#jax.experimental.optimizers.OptimizerState.packed_state
 	jax.experimental.optimizers.OptimizerState.subtree_defs jax.experimental.optimizers.html#jax.experimental.optimizers.OptimizerState.subtree_defs
 	jax.experimental.optimizers.OptimizerState.tree_def jax.experimental.optimizers.html#jax.experimental.optimizers.OptimizerState.tree_def
-	jax.experimental.optix.AddNoiseState.count jax.experimental.optix.html#jax.experimental.optix.AddNoiseState.count
-	jax.experimental.optix.AddNoiseState.rng_key jax.experimental.optix.html#jax.experimental.optix.AddNoiseState.rng_key
-	jax.experimental.optix.ApplyEvery.count  jax.experimental.optix.html#jax.experimental.optix.ApplyEvery.count
-	jax.experimental.optix.ApplyEvery.grad_acc jax.experimental.optix.html#jax.experimental.optix.ApplyEvery.grad_acc
-	jax.experimental.optix.GradientTransformation.init jax.experimental.optix.html#jax.experimental.optix.GradientTransformation.init
-	jax.experimental.optix.GradientTransformation.update jax.experimental.optix.html#jax.experimental.optix.GradientTransformation.update
-	jax.experimental.optix.ScaleByAdamState.count jax.experimental.optix.html#jax.experimental.optix.ScaleByAdamState.count
-	jax.experimental.optix.ScaleByAdamState.mu jax.experimental.optix.html#jax.experimental.optix.ScaleByAdamState.mu
-	jax.experimental.optix.ScaleByAdamState.nu jax.experimental.optix.html#jax.experimental.optix.ScaleByAdamState.nu
-	jax.experimental.optix.ScaleByRStdDevState.mu jax.experimental.optix.html#jax.experimental.optix.ScaleByRStdDevState.mu
-	jax.experimental.optix.ScaleByRStdDevState.nu jax.experimental.optix.html#jax.experimental.optix.ScaleByRStdDevState.nu
-	jax.experimental.optix.ScaleByRmsState.nu jax.experimental.optix.html#jax.experimental.optix.ScaleByRmsState.nu
-	jax.experimental.optix.ScaleByScheduleState.count jax.experimental.optix.html#jax.experimental.optix.ScaleByScheduleState.count
-	jax.experimental.optix.TraceState.trace  jax.experimental.optix.html#jax.experimental.optix.TraceState.trace
 	jax.numpy.bool_.__init__                 _autosummary/jax.numpy.bool_.html#jax.numpy.bool_.__init__
 	jax.numpy.character.__init__             _autosummary/jax.numpy.character.html#jax.numpy.character.__init__
 	jax.numpy.complex128.__init__            _autosummary/jax.numpy.complex128.html#jax.numpy.complex128.__init__
@@ -871,7 +832,6 @@ py:module
 	jax.experimental.host_callback           jax.experimental.host_callback.html#module-jax.experimental.host_callback
 	jax.experimental.loops                   jax.experimental.loops.html#module-jax.experimental.loops
 	jax.experimental.optimizers              jax.experimental.optimizers.html#module-jax.experimental.optimizers
-	jax.experimental.optix                   jax.experimental.optix.html#module-jax.experimental.optix
 	jax.experimental.stax                    jax.experimental.stax.html#module-jax.experimental.stax
 	jax.image                                jax.image.html#module-jax.image
 	jax.lax                                  jax.lax.html#module-jax.lax
@@ -886,6 +846,7 @@ py:module
 	jax.random                               jax.random.html#module-jax.random
 	jax.scipy.linalg                         jax.scipy.html#module-jax.scipy.linalg
 	jax.scipy.ndimage                        jax.scipy.html#module-jax.scipy.ndimage
+	jax.scipy.optimize                       jax.scipy.html#module-jax.scipy.optimize
 	jax.scipy.signal                         jax.scipy.html#module-jax.scipy.signal
 	jax.scipy.sparse.linalg                  jax.scipy.html#module-jax.scipy.sparse.linalg
 	jax.scipy.special                        jax.scipy.html#module-jax.scipy.special
@@ -1471,6 +1432,34 @@ std:doc
 	_autosummary/jax.profiler.save_device_memory_profile jax.profiler.save_device_memory_profile : _autosummary/jax.profiler.save_device_memory_profile.html
 	_autosummary/jax.profiler.start_server   jax.profiler.start_server               : _autosummary/jax.profiler.start_server.html
 	_autosummary/jax.profiler.trace_function jax.profiler.trace_function             : _autosummary/jax.profiler.trace_function.html
+	_autosummary/jax.random.PRNGKey          jax.random.PRNGKey                      : _autosummary/jax.random.PRNGKey.html
+	_autosummary/jax.random.bernoulli        jax.random.bernoulli                    : _autosummary/jax.random.bernoulli.html
+	_autosummary/jax.random.beta             jax.random.beta                         : _autosummary/jax.random.beta.html
+	_autosummary/jax.random.categorical      jax.random.categorical                  : _autosummary/jax.random.categorical.html
+	_autosummary/jax.random.cauchy           jax.random.cauchy                       : _autosummary/jax.random.cauchy.html
+	_autosummary/jax.random.choice           jax.random.choice                       : _autosummary/jax.random.choice.html
+	_autosummary/jax.random.dirichlet        jax.random.dirichlet                    : _autosummary/jax.random.dirichlet.html
+	_autosummary/jax.random.double_sided_maxwell jax.random.double_sided_maxwell         : _autosummary/jax.random.double_sided_maxwell.html
+	_autosummary/jax.random.exponential      jax.random.exponential                  : _autosummary/jax.random.exponential.html
+	_autosummary/jax.random.fold_in          jax.random.fold_in                      : _autosummary/jax.random.fold_in.html
+	_autosummary/jax.random.gamma            jax.random.gamma                        : _autosummary/jax.random.gamma.html
+	_autosummary/jax.random.gumbel           jax.random.gumbel                       : _autosummary/jax.random.gumbel.html
+	_autosummary/jax.random.laplace          jax.random.laplace                      : _autosummary/jax.random.laplace.html
+	_autosummary/jax.random.logistic         jax.random.logistic                     : _autosummary/jax.random.logistic.html
+	_autosummary/jax.random.maxwell          jax.random.maxwell                      : _autosummary/jax.random.maxwell.html
+	_autosummary/jax.random.multivariate_normal jax.random.multivariate_normal          : _autosummary/jax.random.multivariate_normal.html
+	_autosummary/jax.random.normal           jax.random.normal                       : _autosummary/jax.random.normal.html
+	_autosummary/jax.random.pareto           jax.random.pareto                       : _autosummary/jax.random.pareto.html
+	_autosummary/jax.random.permutation      jax.random.permutation                  : _autosummary/jax.random.permutation.html
+	_autosummary/jax.random.poisson          jax.random.poisson                      : _autosummary/jax.random.poisson.html
+	_autosummary/jax.random.rademacher       jax.random.rademacher                   : _autosummary/jax.random.rademacher.html
+	_autosummary/jax.random.randint          jax.random.randint                      : _autosummary/jax.random.randint.html
+	_autosummary/jax.random.shuffle          jax.random.shuffle                      : _autosummary/jax.random.shuffle.html
+	_autosummary/jax.random.split            jax.random.split                        : _autosummary/jax.random.split.html
+	_autosummary/jax.random.t                jax.random.t                            : _autosummary/jax.random.t.html
+	_autosummary/jax.random.truncated_normal jax.random.truncated_normal             : _autosummary/jax.random.truncated_normal.html
+	_autosummary/jax.random.uniform          jax.random.uniform                      : _autosummary/jax.random.uniform.html
+	_autosummary/jax.random.weibull_min      jax.random.weibull_min                  : _autosummary/jax.random.weibull_min.html
 	_autosummary/jax.scipy.linalg.block_diag jax.scipy.linalg.block_diag             : _autosummary/jax.scipy.linalg.block_diag.html
 	_autosummary/jax.scipy.linalg.cho_factor jax.scipy.linalg.cho_factor             : _autosummary/jax.scipy.linalg.cho_factor.html
 	_autosummary/jax.scipy.linalg.cho_solve  jax.scipy.linalg.cho_solve              : _autosummary/jax.scipy.linalg.cho_solve.html
@@ -1490,11 +1479,13 @@ std:doc
 	_autosummary/jax.scipy.linalg.tril       jax.scipy.linalg.tril                   : _autosummary/jax.scipy.linalg.tril.html
 	_autosummary/jax.scipy.linalg.triu       jax.scipy.linalg.triu                   : _autosummary/jax.scipy.linalg.triu.html
 	_autosummary/jax.scipy.ndimage.map_coordinates jax.scipy.ndimage.map_coordinates       : _autosummary/jax.scipy.ndimage.map_coordinates.html
+	_autosummary/jax.scipy.optimize.minimize jax.scipy.optimize.minimize             : _autosummary/jax.scipy.optimize.minimize.html
 	_autosummary/jax.scipy.signal.convolve   jax.scipy.signal.convolve               : _autosummary/jax.scipy.signal.convolve.html
 	_autosummary/jax.scipy.signal.convolve2d jax.scipy.signal.convolve2d             : _autosummary/jax.scipy.signal.convolve2d.html
 	_autosummary/jax.scipy.signal.correlate  jax.scipy.signal.correlate              : _autosummary/jax.scipy.signal.correlate.html
 	_autosummary/jax.scipy.signal.correlate2d jax.scipy.signal.correlate2d            : _autosummary/jax.scipy.signal.correlate2d.html
 	_autosummary/jax.scipy.sparse.linalg.cg  jax.scipy.sparse.linalg.cg              : _autosummary/jax.scipy.sparse.linalg.cg.html
+	_autosummary/jax.scipy.sparse.linalg.gmres jax.scipy.sparse.linalg.gmres           : _autosummary/jax.scipy.sparse.linalg.gmres.html
 	_autosummary/jax.scipy.special.betainc   jax.scipy.special.betainc               : _autosummary/jax.scipy.special.betainc.html
 	_autosummary/jax.scipy.special.digamma   jax.scipy.special.digamma               : _autosummary/jax.scipy.special.digamma.html
 	_autosummary/jax.scipy.special.entr      jax.scipy.special.entr                  : _autosummary/jax.scipy.special.entr.html
@@ -1571,7 +1562,6 @@ std:doc
 	jax.experimental.host_callback           jax.experimental.host_callback module   : jax.experimental.host_callback.html
 	jax.experimental.loops                   jax.experimental.loops module           : jax.experimental.loops.html
 	jax.experimental.optimizers              jax.experimental.optimizers module      : jax.experimental.optimizers.html
-	jax.experimental.optix                   jax.experimental.optix module           : jax.experimental.optix.html
 	jax.experimental.stax                    jax.experimental.stax module            : jax.experimental.stax.html
 	jax.image                                jax.image package                       : jax.image.html
 	jax.lax                                  jax.lax package                         : jax.lax.html
@@ -3320,6 +3310,90 @@ std:label
 	/_autosummary/jax.profiler.tracecontext.rst#jax-profiler-tracecontext jax.profiler.TraceContext               : _autosummary/jax.profiler.TraceContext.html#jax-profiler-tracecontext
 	/_autosummary/jax.profiler.tracecontext.rst#jax.profiler.tracecontext jax.profiler.TraceContext               : _autosummary/jax.profiler.TraceContext.html#jax.profiler.TraceContext
 	/_autosummary/jax.profiler.tracecontext.rst#jax.profiler.tracecontext.__init__ jax.profiler.TraceContext.__init__      : _autosummary/jax.profiler.TraceContext.html#jax.profiler.TraceContext.__init__
+	/_autosummary/jax.random.bernoulli.rst   jax.random.bernoulli                    : _autosummary/jax.random.bernoulli.html
+	/_autosummary/jax.random.bernoulli.rst#jax-random-bernoulli jax.random.bernoulli                    : _autosummary/jax.random.bernoulli.html#jax-random-bernoulli
+	/_autosummary/jax.random.bernoulli.rst#jax.random.bernoulli jax.random.bernoulli                    : _autosummary/jax.random.bernoulli.html#jax.random.bernoulli
+	/_autosummary/jax.random.beta.rst        jax.random.beta                         : _autosummary/jax.random.beta.html
+	/_autosummary/jax.random.beta.rst#jax-random-beta jax.random.beta                         : _autosummary/jax.random.beta.html#jax-random-beta
+	/_autosummary/jax.random.beta.rst#jax.random.beta jax.random.beta                         : _autosummary/jax.random.beta.html#jax.random.beta
+	/_autosummary/jax.random.categorical.rst jax.random.categorical                  : _autosummary/jax.random.categorical.html
+	/_autosummary/jax.random.categorical.rst#jax-random-categorical jax.random.categorical                  : _autosummary/jax.random.categorical.html#jax-random-categorical
+	/_autosummary/jax.random.categorical.rst#jax.random.categorical jax.random.categorical                  : _autosummary/jax.random.categorical.html#jax.random.categorical
+	/_autosummary/jax.random.cauchy.rst      jax.random.cauchy                       : _autosummary/jax.random.cauchy.html
+	/_autosummary/jax.random.cauchy.rst#jax-random-cauchy jax.random.cauchy                       : _autosummary/jax.random.cauchy.html#jax-random-cauchy
+	/_autosummary/jax.random.cauchy.rst#jax.random.cauchy jax.random.cauchy                       : _autosummary/jax.random.cauchy.html#jax.random.cauchy
+	/_autosummary/jax.random.choice.rst      jax.random.choice                       : _autosummary/jax.random.choice.html
+	/_autosummary/jax.random.choice.rst#jax-random-choice jax.random.choice                       : _autosummary/jax.random.choice.html#jax-random-choice
+	/_autosummary/jax.random.choice.rst#jax.random.choice jax.random.choice                       : _autosummary/jax.random.choice.html#jax.random.choice
+	/_autosummary/jax.random.dirichlet.rst   jax.random.dirichlet                    : _autosummary/jax.random.dirichlet.html
+	/_autosummary/jax.random.dirichlet.rst#jax-random-dirichlet jax.random.dirichlet                    : _autosummary/jax.random.dirichlet.html#jax-random-dirichlet
+	/_autosummary/jax.random.dirichlet.rst#jax.random.dirichlet jax.random.dirichlet                    : _autosummary/jax.random.dirichlet.html#jax.random.dirichlet
+	/_autosummary/jax.random.double_sided_maxwell.rst jax.random.double_sided_maxwell         : _autosummary/jax.random.double_sided_maxwell.html
+	/_autosummary/jax.random.double_sided_maxwell.rst#jax-random-double-sided-maxwell jax.random.double_sided_maxwell         : _autosummary/jax.random.double_sided_maxwell.html#jax-random-double-sided-maxwell
+	/_autosummary/jax.random.double_sided_maxwell.rst#jax.random.double_sided_maxwell jax.random.double_sided_maxwell         : _autosummary/jax.random.double_sided_maxwell.html#jax.random.double_sided_maxwell
+	/_autosummary/jax.random.exponential.rst jax.random.exponential                  : _autosummary/jax.random.exponential.html
+	/_autosummary/jax.random.exponential.rst#jax-random-exponential jax.random.exponential                  : _autosummary/jax.random.exponential.html#jax-random-exponential
+	/_autosummary/jax.random.exponential.rst#jax.random.exponential jax.random.exponential                  : _autosummary/jax.random.exponential.html#jax.random.exponential
+	/_autosummary/jax.random.fold_in.rst     jax.random.fold_in                      : _autosummary/jax.random.fold_in.html
+	/_autosummary/jax.random.fold_in.rst#jax-random-fold-in jax.random.fold_in                      : _autosummary/jax.random.fold_in.html#jax-random-fold-in
+	/_autosummary/jax.random.fold_in.rst#jax.random.fold_in jax.random.fold_in                      : _autosummary/jax.random.fold_in.html#jax.random.fold_in
+	/_autosummary/jax.random.gamma.rst       jax.random.gamma                        : _autosummary/jax.random.gamma.html
+	/_autosummary/jax.random.gamma.rst#jax-random-gamma jax.random.gamma                        : _autosummary/jax.random.gamma.html#jax-random-gamma
+	/_autosummary/jax.random.gamma.rst#jax.random.gamma jax.random.gamma                        : _autosummary/jax.random.gamma.html#jax.random.gamma
+	/_autosummary/jax.random.gumbel.rst      jax.random.gumbel                       : _autosummary/jax.random.gumbel.html
+	/_autosummary/jax.random.gumbel.rst#jax-random-gumbel jax.random.gumbel                       : _autosummary/jax.random.gumbel.html#jax-random-gumbel
+	/_autosummary/jax.random.gumbel.rst#jax.random.gumbel jax.random.gumbel                       : _autosummary/jax.random.gumbel.html#jax.random.gumbel
+	/_autosummary/jax.random.laplace.rst     jax.random.laplace                      : _autosummary/jax.random.laplace.html
+	/_autosummary/jax.random.laplace.rst#jax-random-laplace jax.random.laplace                      : _autosummary/jax.random.laplace.html#jax-random-laplace
+	/_autosummary/jax.random.laplace.rst#jax.random.laplace jax.random.laplace                      : _autosummary/jax.random.laplace.html#jax.random.laplace
+	/_autosummary/jax.random.logistic.rst    jax.random.logistic                     : _autosummary/jax.random.logistic.html
+	/_autosummary/jax.random.logistic.rst#jax-random-logistic jax.random.logistic                     : _autosummary/jax.random.logistic.html#jax-random-logistic
+	/_autosummary/jax.random.logistic.rst#jax.random.logistic jax.random.logistic                     : _autosummary/jax.random.logistic.html#jax.random.logistic
+	/_autosummary/jax.random.maxwell.rst     jax.random.maxwell                      : _autosummary/jax.random.maxwell.html
+	/_autosummary/jax.random.maxwell.rst#jax-random-maxwell jax.random.maxwell                      : _autosummary/jax.random.maxwell.html#jax-random-maxwell
+	/_autosummary/jax.random.maxwell.rst#jax.random.maxwell jax.random.maxwell                      : _autosummary/jax.random.maxwell.html#jax.random.maxwell
+	/_autosummary/jax.random.multivariate_normal.rst jax.random.multivariate_normal          : _autosummary/jax.random.multivariate_normal.html
+	/_autosummary/jax.random.multivariate_normal.rst#jax-random-multivariate-normal jax.random.multivariate_normal          : _autosummary/jax.random.multivariate_normal.html#jax-random-multivariate-normal
+	/_autosummary/jax.random.multivariate_normal.rst#jax.random.multivariate_normal jax.random.multivariate_normal          : _autosummary/jax.random.multivariate_normal.html#jax.random.multivariate_normal
+	/_autosummary/jax.random.normal.rst      jax.random.normal                       : _autosummary/jax.random.normal.html
+	/_autosummary/jax.random.normal.rst#jax-random-normal jax.random.normal                       : _autosummary/jax.random.normal.html#jax-random-normal
+	/_autosummary/jax.random.normal.rst#jax.random.normal jax.random.normal                       : _autosummary/jax.random.normal.html#jax.random.normal
+	/_autosummary/jax.random.pareto.rst      jax.random.pareto                       : _autosummary/jax.random.pareto.html
+	/_autosummary/jax.random.pareto.rst#jax-random-pareto jax.random.pareto                       : _autosummary/jax.random.pareto.html#jax-random-pareto
+	/_autosummary/jax.random.pareto.rst#jax.random.pareto jax.random.pareto                       : _autosummary/jax.random.pareto.html#jax.random.pareto
+	/_autosummary/jax.random.permutation.rst jax.random.permutation                  : _autosummary/jax.random.permutation.html
+	/_autosummary/jax.random.permutation.rst#jax-random-permutation jax.random.permutation                  : _autosummary/jax.random.permutation.html#jax-random-permutation
+	/_autosummary/jax.random.permutation.rst#jax.random.permutation jax.random.permutation                  : _autosummary/jax.random.permutation.html#jax.random.permutation
+	/_autosummary/jax.random.poisson.rst     jax.random.poisson                      : _autosummary/jax.random.poisson.html
+	/_autosummary/jax.random.poisson.rst#jax-random-poisson jax.random.poisson                      : _autosummary/jax.random.poisson.html#jax-random-poisson
+	/_autosummary/jax.random.poisson.rst#jax.random.poisson jax.random.poisson                      : _autosummary/jax.random.poisson.html#jax.random.poisson
+	/_autosummary/jax.random.prngkey.rst     jax.random.PRNGKey                      : _autosummary/jax.random.PRNGKey.html
+	/_autosummary/jax.random.prngkey.rst#jax-random-prngkey jax.random.PRNGKey                      : _autosummary/jax.random.PRNGKey.html#jax-random-prngkey
+	/_autosummary/jax.random.prngkey.rst#jax.random.prngkey jax.random.PRNGKey                      : _autosummary/jax.random.PRNGKey.html#jax.random.PRNGKey
+	/_autosummary/jax.random.rademacher.rst  jax.random.rademacher                   : _autosummary/jax.random.rademacher.html
+	/_autosummary/jax.random.rademacher.rst#jax-random-rademacher jax.random.rademacher                   : _autosummary/jax.random.rademacher.html#jax-random-rademacher
+	/_autosummary/jax.random.rademacher.rst#jax.random.rademacher jax.random.rademacher                   : _autosummary/jax.random.rademacher.html#jax.random.rademacher
+	/_autosummary/jax.random.randint.rst     jax.random.randint                      : _autosummary/jax.random.randint.html
+	/_autosummary/jax.random.randint.rst#jax-random-randint jax.random.randint                      : _autosummary/jax.random.randint.html#jax-random-randint
+	/_autosummary/jax.random.randint.rst#jax.random.randint jax.random.randint                      : _autosummary/jax.random.randint.html#jax.random.randint
+	/_autosummary/jax.random.shuffle.rst     jax.random.shuffle                      : _autosummary/jax.random.shuffle.html
+	/_autosummary/jax.random.shuffle.rst#jax-random-shuffle jax.random.shuffle                      : _autosummary/jax.random.shuffle.html#jax-random-shuffle
+	/_autosummary/jax.random.shuffle.rst#jax.random.shuffle jax.random.shuffle                      : _autosummary/jax.random.shuffle.html#jax.random.shuffle
+	/_autosummary/jax.random.split.rst       jax.random.split                        : _autosummary/jax.random.split.html
+	/_autosummary/jax.random.split.rst#jax-random-split jax.random.split                        : _autosummary/jax.random.split.html#jax-random-split
+	/_autosummary/jax.random.split.rst#jax.random.split jax.random.split                        : _autosummary/jax.random.split.html#jax.random.split
+	/_autosummary/jax.random.t.rst           jax.random.t                            : _autosummary/jax.random.t.html
+	/_autosummary/jax.random.t.rst#jax-random-t jax.random.t                            : _autosummary/jax.random.t.html#jax-random-t
+	/_autosummary/jax.random.t.rst#jax.random.t jax.random.t                            : _autosummary/jax.random.t.html#jax.random.t
+	/_autosummary/jax.random.truncated_normal.rst jax.random.truncated_normal             : _autosummary/jax.random.truncated_normal.html
+	/_autosummary/jax.random.truncated_normal.rst#jax-random-truncated-normal jax.random.truncated_normal             : _autosummary/jax.random.truncated_normal.html#jax-random-truncated-normal
+	/_autosummary/jax.random.truncated_normal.rst#jax.random.truncated_normal jax.random.truncated_normal             : _autosummary/jax.random.truncated_normal.html#jax.random.truncated_normal
+	/_autosummary/jax.random.uniform.rst     jax.random.uniform                      : _autosummary/jax.random.uniform.html
+	/_autosummary/jax.random.uniform.rst#jax-random-uniform jax.random.uniform                      : _autosummary/jax.random.uniform.html#jax-random-uniform
+	/_autosummary/jax.random.uniform.rst#jax.random.uniform jax.random.uniform                      : _autosummary/jax.random.uniform.html#jax.random.uniform
+	/_autosummary/jax.random.weibull_min.rst jax.random.weibull_min                  : _autosummary/jax.random.weibull_min.html
+	/_autosummary/jax.random.weibull_min.rst#jax-random-weibull-min jax.random.weibull_min                  : _autosummary/jax.random.weibull_min.html#jax-random-weibull-min
+	/_autosummary/jax.random.weibull_min.rst#jax.random.weibull_min jax.random.weibull_min                  : _autosummary/jax.random.weibull_min.html#jax.random.weibull_min
 	/_autosummary/jax.scipy.linalg.block_diag.rst jax.scipy.linalg.block_diag             : _autosummary/jax.scipy.linalg.block_diag.html
 	/_autosummary/jax.scipy.linalg.block_diag.rst#jax-scipy-linalg-block-diag jax.scipy.linalg.block_diag             : _autosummary/jax.scipy.linalg.block_diag.html#jax-scipy-linalg-block-diag
 	/_autosummary/jax.scipy.linalg.block_diag.rst#jax.scipy.linalg.block_diag jax.scipy.linalg.block_diag             : _autosummary/jax.scipy.linalg.block_diag.html#jax.scipy.linalg.block_diag
@@ -3377,6 +3451,9 @@ std:label
 	/_autosummary/jax.scipy.ndimage.map_coordinates.rst jax.scipy.ndimage.map_coordinates       : _autosummary/jax.scipy.ndimage.map_coordinates.html
 	/_autosummary/jax.scipy.ndimage.map_coordinates.rst#jax-scipy-ndimage-map-coordinates jax.scipy.ndimage.map_coordinates       : _autosummary/jax.scipy.ndimage.map_coordinates.html#jax-scipy-ndimage-map-coordinates
 	/_autosummary/jax.scipy.ndimage.map_coordinates.rst#jax.scipy.ndimage.map_coordinates jax.scipy.ndimage.map_coordinates       : _autosummary/jax.scipy.ndimage.map_coordinates.html#jax.scipy.ndimage.map_coordinates
+	/_autosummary/jax.scipy.optimize.minimize.rst jax.scipy.optimize.minimize             : _autosummary/jax.scipy.optimize.minimize.html
+	/_autosummary/jax.scipy.optimize.minimize.rst#jax-scipy-optimize-minimize jax.scipy.optimize.minimize             : _autosummary/jax.scipy.optimize.minimize.html#jax-scipy-optimize-minimize
+	/_autosummary/jax.scipy.optimize.minimize.rst#jax.scipy.optimize.minimize jax.scipy.optimize.minimize             : _autosummary/jax.scipy.optimize.minimize.html#jax.scipy.optimize.minimize
 	/_autosummary/jax.scipy.signal.convolve.rst jax.scipy.signal.convolve               : _autosummary/jax.scipy.signal.convolve.html
 	/_autosummary/jax.scipy.signal.convolve.rst#jax-scipy-signal-convolve jax.scipy.signal.convolve               : _autosummary/jax.scipy.signal.convolve.html#jax-scipy-signal-convolve
 	/_autosummary/jax.scipy.signal.convolve.rst#jax.scipy.signal.convolve jax.scipy.signal.convolve               : _autosummary/jax.scipy.signal.convolve.html#jax.scipy.signal.convolve
@@ -3392,6 +3469,9 @@ std:label
 	/_autosummary/jax.scipy.sparse.linalg.cg.rst jax.scipy.sparse.linalg.cg              : _autosummary/jax.scipy.sparse.linalg.cg.html
 	/_autosummary/jax.scipy.sparse.linalg.cg.rst#jax-scipy-sparse-linalg-cg jax.scipy.sparse.linalg.cg              : _autosummary/jax.scipy.sparse.linalg.cg.html#jax-scipy-sparse-linalg-cg
 	/_autosummary/jax.scipy.sparse.linalg.cg.rst#jax.scipy.sparse.linalg.cg jax.scipy.sparse.linalg.cg              : _autosummary/jax.scipy.sparse.linalg.cg.html#jax.scipy.sparse.linalg.cg
+	/_autosummary/jax.scipy.sparse.linalg.gmres.rst jax.scipy.sparse.linalg.gmres           : _autosummary/jax.scipy.sparse.linalg.gmres.html
+	/_autosummary/jax.scipy.sparse.linalg.gmres.rst#jax-scipy-sparse-linalg-gmres jax.scipy.sparse.linalg.gmres           : _autosummary/jax.scipy.sparse.linalg.gmres.html#jax-scipy-sparse-linalg-gmres
+	/_autosummary/jax.scipy.sparse.linalg.gmres.rst#jax.scipy.sparse.linalg.gmres jax.scipy.sparse.linalg.gmres           : _autosummary/jax.scipy.sparse.linalg.gmres.html#jax.scipy.sparse.linalg.gmres
 	/_autosummary/jax.scipy.special.betainc.rst jax.scipy.special.betainc               : _autosummary/jax.scipy.special.betainc.html
 	/_autosummary/jax.scipy.special.betainc.rst#jax-scipy-special-betainc jax.scipy.special.betainc               : _autosummary/jax.scipy.special.betainc.html#jax-scipy-special-betainc
 	/_autosummary/jax.scipy.special.betainc.rst#jax.scipy.special.betainc jax.scipy.special.betainc               : _autosummary/jax.scipy.special.betainc.html#jax.scipy.special.betainc
@@ -3608,7 +3688,9 @@ std:label
 	/changelog.rst#jax-0-2-3-october-14-2020 jax 0.2.3 (October 14 2020)             : CHANGELOG.html#jax-0-2-3-october-14-2020
 	/changelog.rst#jax-0-2-4-october-19-2020 jax 0.2.4 (October 19 2020)             : CHANGELOG.html#jax-0-2-4-october-19-2020
 	/changelog.rst#jax-0-2-5-october-27-2020 jax 0.2.5 (October 27 2020)             : CHANGELOG.html#jax-0-2-5-october-27-2020
-	/changelog.rst#jax-0-2-6-unreleased      jax 0.2.6 (Unreleased)                  : CHANGELOG.html#jax-0-2-6-unreleased
+	/changelog.rst#jax-0-2-6-nov-18-2020     jax 0.2.6 (Nov 18 2020)                 : CHANGELOG.html#jax-0-2-6-nov-18-2020
+	/changelog.rst#jax-0-2-7-dec-4-2020      jax 0.2.7 (Dec 4 2020)                  : CHANGELOG.html#jax-0-2-7-dec-4-2020
+	/changelog.rst#jax-0-2-8-unreleased      jax 0.2.8 (Unreleased)                  : CHANGELOG.html#jax-0-2-8-unreleased
 	/changelog.rst#jaxlib-0-1-38-january-29-2020 jaxlib 0.1.38 (January 29, 2020)        : CHANGELOG.html#jaxlib-0-1-38-january-29-2020
 	/changelog.rst#jaxlib-0-1-39-february-11-2020 jaxlib 0.1.39 (February 11, 2020)       : CHANGELOG.html#jaxlib-0-1-39-february-11-2020
 	/changelog.rst#jaxlib-0-1-40-march-4-2020 jaxlib 0.1.40 (March 4, 2020)           : CHANGELOG.html#jaxlib-0-1-40-march-4-2020
@@ -3625,7 +3707,7 @@ std:label
 	/changelog.rst#jaxlib-0-1-52-july-22-2020 jaxlib 0.1.52 (July 22, 2020)           : CHANGELOG.html#jaxlib-0-1-52-july-22-2020
 	/changelog.rst#jaxlib-0-1-55-september-8-2020 jaxlib 0.1.55 (September 8, 2020)       : CHANGELOG.html#jaxlib-0-1-55-september-8-2020
 	/changelog.rst#jaxlib-0-1-56-october-14-2020 jaxlib 0.1.56 (October 14, 2020)        : CHANGELOG.html#jaxlib-0-1-56-october-14-2020
-	/changelog.rst#jaxlib-0-1-57-november-12-2021 jaxlib 0.1.57 (November 12 2021)        : CHANGELOG.html#jaxlib-0-1-57-november-12-2021
+	/changelog.rst#jaxlib-0-1-57-november-12-2020 jaxlib 0.1.57 (November 12 2020)        : CHANGELOG.html#jaxlib-0-1-57-november-12-2020
 	/changelog.rst#jaxlib-0-1-58-unreleased  jaxlib 0.1.58 (Unreleased)              : CHANGELOG.html#jaxlib-0-1-58-unreleased
 	/changelog.rst#notable-bug-fixes         Notable bug fixes                       : CHANGELOG.html#notable-bug-fixes
 	/concurrency.rst                         Concurrency                             : concurrency.html
@@ -3635,6 +3717,7 @@ std:label
 	/custom_vjp_update.md#explanation        Explanation                             : custom_vjp_update.html#explanation
 	/custom_vjp_update.md#what-to-update     What to update                          : custom_vjp_update.html#what-to-update
 	/developer.rst                           Building from source                    : developer.html
+	/developer.rst#additional-notes-for-building-jaxlib-from-source-on-windows Additional Notes for Building jaxlib from source on Windows: developer.html#additional-notes-for-building-jaxlib-from-source-on-windows
 	/developer.rst#building-from-source      Building from source                    : developer.html#building-from-source
 	/developer.rst#building-jaxlib-from-source Building jaxlib from source             : developer.html#building-jaxlib-from-source
 	/developer.rst#building-or-installing-jaxlib Building or installing jaxlib           : developer.html#building-or-installing-jaxlib
@@ -3668,12 +3751,18 @@ std:label
 	/jax.dlpack.rst#module-jax.dlpack        jax.dlpack module                       : jax.dlpack.html#module-jax.dlpack
 	/jax.experimental.host_callback.rst      jax.experimental.host_callback module   : jax.experimental.host_callback.html
 	/jax.experimental.host_callback.rst#api  API                                     : jax.experimental.host_callback.html#api
+	/jax.experimental.host_callback.rst#behavior-under-jax-transformations Behavior under JAX transformations      : jax.experimental.host_callback.html#behavior-under-jax-transformations
+	/jax.experimental.host_callback.rst#jax.experimental.host_callback.barrier_wait jax.experimental.host_callback.barrier_wait: jax.experimental.host_callback.html#jax.experimental.host_callback.barrier_wait
+	/jax.experimental.host_callback.rst#jax.experimental.host_callback.call jax.experimental.host_callback.call     : jax.experimental.host_callback.html#jax.experimental.host_callback.call
+	/jax.experimental.host_callback.rst#jax.experimental.host_callback.callbackexception jax.experimental.host_callback.CallbackException: jax.experimental.host_callback.html#jax.experimental.host_callback.CallbackException
 	/jax.experimental.host_callback.rst#jax.experimental.host_callback.id_print jax.experimental.host_callback.id_print : jax.experimental.host_callback.html#jax.experimental.host_callback.id_print
 	/jax.experimental.host_callback.rst#jax.experimental.host_callback.id_tap jax.experimental.host_callback.id_tap   : jax.experimental.host_callback.html#jax.experimental.host_callback.id_tap
-	/jax.experimental.host_callback.rst#jax.experimental.host_callback.outfeed_receiver jax.experimental.host_callback.outfeed_receiver: jax.experimental.host_callback.html#jax.experimental.host_callback.outfeed_receiver
-	/jax.experimental.host_callback.rst#jax.experimental.host_callback.tapfunctionexception jax.experimental.host_callback.TapFunctionException: jax.experimental.host_callback.html#jax.experimental.host_callback.TapFunctionException
 	/jax.experimental.host_callback.rst#low-level-details-and-debugging Low-level details and debugging         : jax.experimental.host_callback.html#low-level-details-and-debugging
 	/jax.experimental.host_callback.rst#module-jax.experimental.host_callback jax.experimental.host_callback module   : jax.experimental.host_callback.html#module-jax.experimental.host_callback
+	/jax.experimental.host_callback.rst#using-call-to-call-a-host-function-and-return-results-to-device Using call() to call a host function and return results to device: jax.experimental.host_callback.html#using-call-to-call-a-host-function-and-return-results-to-device
+	/jax.experimental.host_callback.rst#using-call-to-call-a-jax-function-on-another-device-with-reverse-mode-autodiff-support Using call() to call a JAX function on another device, with reverse-mode autodiff support: jax.experimental.host_callback.html#using-call-to-call-a-jax-function-on-another-device-with-reverse-mode-autodiff-support
+	/jax.experimental.host_callback.rst#using-call-to-call-a-tensorflow-function-with-reverse-mode-autodiff-support Using call() to call a TensorFlow function, with reverse-mode autodiff support: jax.experimental.host_callback.html#using-call-to-call-a-tensorflow-function-with-reverse-mode-autodiff-support
+	/jax.experimental.host_callback.rst#using-id-tap-to-call-a-jax-function-on-another-device-with-no-returned-values-but-full-jax-transformation-support Using id_tap() to call a JAX function on another device, with no returned values, but full JAX transformation support: jax.experimental.host_callback.html#using-id-tap-to-call-a-jax-function-on-another-device-with-no-returned-values-but-full-jax-transformation-support
 	/jax.experimental.loops.rst              jax.experimental.loops module           : jax.experimental.loops.html
 	/jax.experimental.loops.rst#jax.experimental.loops.scope jax.experimental.loops.Scope            : jax.experimental.loops.html#jax.experimental.loops.Scope
 	/jax.experimental.loops.rst#jax.experimental.loops.scope.cond_range jax.experimental.loops.Scope.cond_range : jax.experimental.loops.html#jax.experimental.loops.Scope.cond_range
@@ -3711,51 +3800,6 @@ std:label
 	/jax.experimental.optimizers.rst#jax.experimental.optimizers.sm3 jax.experimental.optimizers.sm3         : jax.experimental.optimizers.html#jax.experimental.optimizers.sm3
 	/jax.experimental.optimizers.rst#jax.experimental.optimizers.unpack_optimizer_state jax.experimental.optimizers.unpack_optimizer_state: jax.experimental.optimizers.html#jax.experimental.optimizers.unpack_optimizer_state
 	/jax.experimental.optimizers.rst#module-jax.experimental.optimizers jax.experimental.optimizers module      : jax.experimental.optimizers.html#module-jax.experimental.optimizers
-	/jax.experimental.optix.rst              jax.experimental.optix module           : jax.experimental.optix.html
-	/jax.experimental.optix.rst#jax.experimental.optix.adam jax.experimental.optix.adam             : jax.experimental.optix.html#jax.experimental.optix.adam
-	/jax.experimental.optix.rst#jax.experimental.optix.add_noise jax.experimental.optix.add_noise        : jax.experimental.optix.html#jax.experimental.optix.add_noise
-	/jax.experimental.optix.rst#jax.experimental.optix.addnoisestate jax.experimental.optix.AddNoiseState    : jax.experimental.optix.html#jax.experimental.optix.AddNoiseState
-	/jax.experimental.optix.rst#jax.experimental.optix.addnoisestate.count jax.experimental.optix.AddNoiseState.count: jax.experimental.optix.html#jax.experimental.optix.AddNoiseState.count
-	/jax.experimental.optix.rst#jax.experimental.optix.addnoisestate.rng_key jax.experimental.optix.AddNoiseState.rng_key: jax.experimental.optix.html#jax.experimental.optix.AddNoiseState.rng_key
-	/jax.experimental.optix.rst#jax.experimental.optix.apply_every jax.experimental.optix.apply_every      : jax.experimental.optix.html#jax.experimental.optix.apply_every
-	/jax.experimental.optix.rst#jax.experimental.optix.apply_updates jax.experimental.optix.apply_updates    : jax.experimental.optix.html#jax.experimental.optix.apply_updates
-	/jax.experimental.optix.rst#jax.experimental.optix.applyevery jax.experimental.optix.ApplyEvery       : jax.experimental.optix.html#jax.experimental.optix.ApplyEvery
-	/jax.experimental.optix.rst#jax.experimental.optix.applyevery.count jax.experimental.optix.ApplyEvery.count : jax.experimental.optix.html#jax.experimental.optix.ApplyEvery.count
-	/jax.experimental.optix.rst#jax.experimental.optix.applyevery.grad_acc jax.experimental.optix.ApplyEvery.grad_acc: jax.experimental.optix.html#jax.experimental.optix.ApplyEvery.grad_acc
-	/jax.experimental.optix.rst#jax.experimental.optix.chain jax.experimental.optix.chain            : jax.experimental.optix.html#jax.experimental.optix.chain
-	/jax.experimental.optix.rst#jax.experimental.optix.clip jax.experimental.optix.clip             : jax.experimental.optix.html#jax.experimental.optix.clip
-	/jax.experimental.optix.rst#jax.experimental.optix.clip_by_global_norm jax.experimental.optix.clip_by_global_norm: jax.experimental.optix.html#jax.experimental.optix.clip_by_global_norm
-	/jax.experimental.optix.rst#jax.experimental.optix.clipbyglobalnormstate jax.experimental.optix.ClipByGlobalNormState: jax.experimental.optix.html#jax.experimental.optix.ClipByGlobalNormState
-	/jax.experimental.optix.rst#jax.experimental.optix.clipstate jax.experimental.optix.ClipState        : jax.experimental.optix.html#jax.experimental.optix.ClipState
-	/jax.experimental.optix.rst#jax.experimental.optix.global_norm jax.experimental.optix.global_norm      : jax.experimental.optix.html#jax.experimental.optix.global_norm
-	/jax.experimental.optix.rst#jax.experimental.optix.gradienttransformation jax.experimental.optix.GradientTransformation: jax.experimental.optix.html#jax.experimental.optix.GradientTransformation
-	/jax.experimental.optix.rst#jax.experimental.optix.gradienttransformation.init jax.experimental.optix.GradientTransformation.init: jax.experimental.optix.html#jax.experimental.optix.GradientTransformation.init
-	/jax.experimental.optix.rst#jax.experimental.optix.gradienttransformation.update jax.experimental.optix.GradientTransformation.update: jax.experimental.optix.html#jax.experimental.optix.GradientTransformation.update
-	/jax.experimental.optix.rst#jax.experimental.optix.initupdate jax.experimental.optix.InitUpdate       : jax.experimental.optix.html#jax.experimental.optix.InitUpdate
-	/jax.experimental.optix.rst#jax.experimental.optix.noisy_sgd jax.experimental.optix.noisy_sgd        : jax.experimental.optix.html#jax.experimental.optix.noisy_sgd
-	/jax.experimental.optix.rst#jax.experimental.optix.rmsprop jax.experimental.optix.rmsprop          : jax.experimental.optix.html#jax.experimental.optix.rmsprop
-	/jax.experimental.optix.rst#jax.experimental.optix.scale jax.experimental.optix.scale            : jax.experimental.optix.html#jax.experimental.optix.scale
-	/jax.experimental.optix.rst#jax.experimental.optix.scale_by_adam jax.experimental.optix.scale_by_adam    : jax.experimental.optix.html#jax.experimental.optix.scale_by_adam
-	/jax.experimental.optix.rst#jax.experimental.optix.scale_by_rms jax.experimental.optix.scale_by_rms     : jax.experimental.optix.html#jax.experimental.optix.scale_by_rms
-	/jax.experimental.optix.rst#jax.experimental.optix.scale_by_schedule jax.experimental.optix.scale_by_schedule: jax.experimental.optix.html#jax.experimental.optix.scale_by_schedule
-	/jax.experimental.optix.rst#jax.experimental.optix.scale_by_stddev jax.experimental.optix.scale_by_stddev  : jax.experimental.optix.html#jax.experimental.optix.scale_by_stddev
-	/jax.experimental.optix.rst#jax.experimental.optix.scalebyadamstate jax.experimental.optix.ScaleByAdamState : jax.experimental.optix.html#jax.experimental.optix.ScaleByAdamState
-	/jax.experimental.optix.rst#jax.experimental.optix.scalebyadamstate.count jax.experimental.optix.ScaleByAdamState.count: jax.experimental.optix.html#jax.experimental.optix.ScaleByAdamState.count
-	/jax.experimental.optix.rst#jax.experimental.optix.scalebyadamstate.mu jax.experimental.optix.ScaleByAdamState.mu: jax.experimental.optix.html#jax.experimental.optix.ScaleByAdamState.mu
-	/jax.experimental.optix.rst#jax.experimental.optix.scalebyadamstate.nu jax.experimental.optix.ScaleByAdamState.nu: jax.experimental.optix.html#jax.experimental.optix.ScaleByAdamState.nu
-	/jax.experimental.optix.rst#jax.experimental.optix.scalebyrmsstate jax.experimental.optix.ScaleByRmsState  : jax.experimental.optix.html#jax.experimental.optix.ScaleByRmsState
-	/jax.experimental.optix.rst#jax.experimental.optix.scalebyrmsstate.nu jax.experimental.optix.ScaleByRmsState.nu: jax.experimental.optix.html#jax.experimental.optix.ScaleByRmsState.nu
-	/jax.experimental.optix.rst#jax.experimental.optix.scalebyrstddevstate jax.experimental.optix.ScaleByRStdDevState: jax.experimental.optix.html#jax.experimental.optix.ScaleByRStdDevState
-	/jax.experimental.optix.rst#jax.experimental.optix.scalebyrstddevstate.mu jax.experimental.optix.ScaleByRStdDevState.mu: jax.experimental.optix.html#jax.experimental.optix.ScaleByRStdDevState.mu
-	/jax.experimental.optix.rst#jax.experimental.optix.scalebyrstddevstate.nu jax.experimental.optix.ScaleByRStdDevState.nu: jax.experimental.optix.html#jax.experimental.optix.ScaleByRStdDevState.nu
-	/jax.experimental.optix.rst#jax.experimental.optix.scalebyschedulestate jax.experimental.optix.ScaleByScheduleState: jax.experimental.optix.html#jax.experimental.optix.ScaleByScheduleState
-	/jax.experimental.optix.rst#jax.experimental.optix.scalebyschedulestate.count jax.experimental.optix.ScaleByScheduleState.count: jax.experimental.optix.html#jax.experimental.optix.ScaleByScheduleState.count
-	/jax.experimental.optix.rst#jax.experimental.optix.scalestate jax.experimental.optix.ScaleState       : jax.experimental.optix.html#jax.experimental.optix.ScaleState
-	/jax.experimental.optix.rst#jax.experimental.optix.sgd jax.experimental.optix.sgd              : jax.experimental.optix.html#jax.experimental.optix.sgd
-	/jax.experimental.optix.rst#jax.experimental.optix.trace jax.experimental.optix.trace            : jax.experimental.optix.html#jax.experimental.optix.trace
-	/jax.experimental.optix.rst#jax.experimental.optix.tracestate jax.experimental.optix.TraceState       : jax.experimental.optix.html#jax.experimental.optix.TraceState
-	/jax.experimental.optix.rst#jax.experimental.optix.tracestate.trace jax.experimental.optix.TraceState.trace : jax.experimental.optix.html#jax.experimental.optix.TraceState.trace
-	/jax.experimental.optix.rst#module-jax.experimental.optix jax.experimental.optix module           : jax.experimental.optix.html#module-jax.experimental.optix
 	/jax.experimental.rst                    jax.experimental package                : jax.experimental.html
 	/jax.experimental.rst#jax-experimental-package jax.experimental package                : jax.experimental.html#jax-experimental-package
 	/jax.experimental.stax.rst               jax.experimental.stax module            : jax.experimental.stax.html
@@ -3783,7 +3827,12 @@ std:label
 	/jax.lax.rst                             jax.lax package                         : jax.lax.html
 	/jax.lax.rst#control-flow-operators      Control flow operators                  : jax.lax.html#control-flow-operators
 	/jax.lax.rst#custom-gradient-operators   Custom gradient operators               : jax.lax.html#custom-gradient-operators
-	/jax.lax.rst#module-jax.lax              jax.lax package                         : jax.lax.html#module-jax.lax
+	/jax.lax.rst#jax.lax.convdimensionnumbers jax.lax.ConvDimensionNumbers            : jax.lax.html#jax.lax.ConvDimensionNumbers
+	/jax.lax.rst#jax.lax.gatherdimensionnumbers jax.lax.GatherDimensionNumbers          : jax.lax.html#jax.lax.GatherDimensionNumbers
+	/jax.lax.rst#jax.lax.precision           jax.lax.Precision                       : jax.lax.html#jax.lax.Precision
+	/jax.lax.rst#jax.lax.roundingmethod      jax.lax.RoundingMethod                  : jax.lax.html#jax.lax.RoundingMethod
+	/jax.lax.rst#jax.lax.scatterdimensionnumbers jax.lax.ScatterDimensionNumbers         : jax.lax.html#jax.lax.ScatterDimensionNumbers
+	/jax.lax.rst#module-jax.lax              Argument classes                        : jax.lax.html#module-jax.lax
 	/jax.lax.rst#module-jax.lax.linalg       Linear algebra operators (jax.lax.linalg): jax.lax.html#module-jax.lax.linalg
 	/jax.lax.rst#operators                   Operators                               : jax.lax.html#operators
 	/jax.lax.rst#parallel-operators          Parallel operators                      : jax.lax.html#parallel-operators
@@ -3808,40 +3857,11 @@ std:label
 	/jax.profiler.rst#module-jax.profiler    jax.profiler module                     : jax.profiler.html#module-jax.profiler
 	/jax.profiler.rst#tracing-and-time-profiling Tracing and time profiling              : jax.profiler.html#tracing-and-time-profiling
 	/jax.random.rst                          jax.random package                      : jax.random.html
-	/jax.random.rst#jax.random.apply_round   jax.random.apply_round                  : jax.random.html#jax.random.apply_round
-	/jax.random.rst#jax.random.bernoulli     jax.random.bernoulli                    : jax.random.html#jax.random.bernoulli
-	/jax.random.rst#jax.random.beta          jax.random.beta                         : jax.random.html#jax.random.beta
-	/jax.random.rst#jax.random.categorical   jax.random.categorical                  : jax.random.html#jax.random.categorical
-	/jax.random.rst#jax.random.cauchy        jax.random.cauchy                       : jax.random.html#jax.random.cauchy
-	/jax.random.rst#jax.random.choice        jax.random.choice                       : jax.random.html#jax.random.choice
-	/jax.random.rst#jax.random.dirichlet     jax.random.dirichlet                    : jax.random.html#jax.random.dirichlet
-	/jax.random.rst#jax.random.double_sided_maxwell jax.random.double_sided_maxwell         : jax.random.html#jax.random.double_sided_maxwell
-	/jax.random.rst#jax.random.exponential   jax.random.exponential                  : jax.random.html#jax.random.exponential
-	/jax.random.rst#jax.random.fold_in       jax.random.fold_in                      : jax.random.html#jax.random.fold_in
-	/jax.random.rst#jax.random.gamma         jax.random.gamma                        : jax.random.html#jax.random.gamma
-	/jax.random.rst#jax.random.gumbel        jax.random.gumbel                       : jax.random.html#jax.random.gumbel
-	/jax.random.rst#jax.random.laplace       jax.random.laplace                      : jax.random.html#jax.random.laplace
-	/jax.random.rst#jax.random.logistic      jax.random.logistic                     : jax.random.html#jax.random.logistic
-	/jax.random.rst#jax.random.maxwell       jax.random.maxwell                      : jax.random.html#jax.random.maxwell
-	/jax.random.rst#jax.random.multivariate_normal jax.random.multivariate_normal          : jax.random.html#jax.random.multivariate_normal
-	/jax.random.rst#jax.random.normal        jax.random.normal                       : jax.random.html#jax.random.normal
-	/jax.random.rst#jax.random.pareto        jax.random.pareto                       : jax.random.html#jax.random.pareto
-	/jax.random.rst#jax.random.permutation   jax.random.permutation                  : jax.random.html#jax.random.permutation
-	/jax.random.rst#jax.random.poisson       jax.random.poisson                      : jax.random.html#jax.random.poisson
-	/jax.random.rst#jax.random.prngkey       jax.random.PRNGKey                      : jax.random.html#jax.random.PRNGKey
-	/jax.random.rst#jax.random.rademacher    jax.random.rademacher                   : jax.random.html#jax.random.rademacher
-	/jax.random.rst#jax.random.randint       jax.random.randint                      : jax.random.html#jax.random.randint
-	/jax.random.rst#jax.random.rolled_loop_step jax.random.rolled_loop_step             : jax.random.html#jax.random.rolled_loop_step
-	/jax.random.rst#jax.random.rotate_left   jax.random.rotate_left                  : jax.random.html#jax.random.rotate_left
-	/jax.random.rst#jax.random.rotate_list   jax.random.rotate_list                  : jax.random.html#jax.random.rotate_list
-	/jax.random.rst#jax.random.shuffle       jax.random.shuffle                      : jax.random.html#jax.random.shuffle
-	/jax.random.rst#jax.random.split         jax.random.split                        : jax.random.html#jax.random.split
-	/jax.random.rst#jax.random.t             jax.random.t                            : jax.random.html#jax.random.t
-	/jax.random.rst#jax.random.threefry_2x32 jax.random.threefry_2x32                : jax.random.html#jax.random.threefry_2x32
-	/jax.random.rst#jax.random.truncated_normal jax.random.truncated_normal             : jax.random.html#jax.random.truncated_normal
-	/jax.random.rst#jax.random.uniform       jax.random.uniform                      : jax.random.html#jax.random.uniform
-	/jax.random.rst#jax.random.weibull_min   jax.random.weibull_min                  : jax.random.html#jax.random.weibull_min
+	/jax.random.rst#basic-usage              Basic usage                             : jax.random.html#basic-usage
+	/jax.random.rst#design-and-context       Design and Context                      : jax.random.html#design-and-context
+	/jax.random.rst#list-of-available-functions List of Available Functions             : jax.random.html#list-of-available-functions
 	/jax.random.rst#module-jax.random        jax.random package                      : jax.random.html#module-jax.random
+	/jax.random.rst#prng-keys                PRNG Keys                               : jax.random.html#prng-keys
 	/jax.rst                                 Public API: jax package                 : jax.html
 	/jax.rst#automatic-differentiation       Automatic differentiation               : jax.html#automatic-differentiation
 	/jax.rst#jax.checkpoint                  jax.checkpoint                          : jax.html#jax.checkpoint
@@ -3869,6 +3889,7 @@ std:label
 	/jax.rst#jax.local_device_count          jax.local_device_count                  : jax.html#jax.local_device_count
 	/jax.rst#jax.local_devices               jax.local_devices                       : jax.html#jax.local_devices
 	/jax.rst#jax.make_jaxpr                  jax.make_jaxpr                          : jax.html#jax.make_jaxpr
+	/jax.rst#jax.named_call                  jax.named_call                          : jax.html#jax.named_call
 	/jax.rst#jax.numpy.vectorize             jax.numpy.vectorize                     : jax.html#jax.numpy.vectorize
 	/jax.rst#jax.pmap                        jax.pmap                                : jax.html#jax.pmap
 	/jax.rst#jax.value_and_grad              jax.value_and_grad                      : jax.html#jax.value_and_grad
@@ -3890,6 +3911,7 @@ std:label
 	/jax.scipy.rst#jax-scipy-stats-pareto    jax.scipy.stats.pareto                  : jax.scipy.html#jax-scipy-stats-pareto
 	/jax.scipy.rst#module-jax.scipy.linalg   jax.scipy.linalg                        : jax.scipy.html#module-jax.scipy.linalg
 	/jax.scipy.rst#module-jax.scipy.ndimage  jax.scipy.ndimage                       : jax.scipy.html#module-jax.scipy.ndimage
+	/jax.scipy.rst#module-jax.scipy.optimize jax.scipy.optimize                      : jax.scipy.html#module-jax.scipy.optimize
 	/jax.scipy.rst#module-jax.scipy.signal   jax.scipy.signal                        : jax.scipy.html#module-jax.scipy.signal
 	/jax.scipy.rst#module-jax.scipy.sparse.linalg jax.scipy.sparse.linalg                 : jax.scipy.html#module-jax.scipy.sparse.linalg
 	/jax.scipy.rst#module-jax.scipy.special  jax.scipy.special                       : jax.scipy.html#module-jax.scipy.special
@@ -3955,6 +3977,7 @@ std:label
 	/notebooks/autodiff_cookbook.ipynb#the-autodiff-cookbook The Autodiff Cookbook                   : notebooks/autodiff_cookbook.html#The-Autodiff-Cookbook
 	/notebooks/autodiff_cookbook.ipynb#the-implementation-of-jacfwd-and-jacrev The implementation of jacfwd and jacrev : notebooks/autodiff_cookbook.html#The-implementation-of-jacfwd-and-jacrev
 	/notebooks/autodiff_cookbook.ipynb#vector-jacobian-products-(vjps,-aka-reverse-mode-autodiff) Vector-Jacobian products (VJPs, aka reverse-mode autodiff): notebooks/autodiff_cookbook.html#Vector-Jacobian-products-(VJPs,-aka-reverse-mode-autodiff)
+	/notebooks/autodiff_cookbook.ipynb#vector-valued-gradients-with-vjps Vector-valued gradients with VJPs       : notebooks/autodiff_cookbook.html#Vector-valued-gradients-with-VJPs
 	/notebooks/autodiff_cookbook.ipynb#vjps-in-jax-code VJPs in JAX code                        : notebooks/autodiff_cookbook.html#VJPs-in-JAX-code
 	/notebooks/autodiff_cookbook.ipynb#vjps-in-math VJPs in math                            : notebooks/autodiff_cookbook.html#VJPs-in-math
 	/notebooks/common_gotchas_in_jax.ipynb   🔪 JAX - The Sharp Bits 🔪                : notebooks/Common_Gotchas_in_JAX.html
@@ -4069,6 +4092,7 @@ std:label
 	/pytrees.rst#internal-pytree-handling    Internal pytree handling                : pytrees.html#internal-pytree-handling
 	/pytrees.rst#pytrees                     Pytrees                                 : pytrees.html#pytrees
 	/pytrees.rst#pytrees-and-jax-functions   Pytrees and JAX functions               : pytrees.html#pytrees-and-jax-functions
+	/pytrees.rst#viewing-the-pytree-definition-of-an-object Viewing the pytree definition of an object: pytrees.html#viewing-the-pytree-definition-of-an-object
 	/pytrees.rst#what-is-a-pytree            What is a pytree?                       : pytrees.html#what-is-a-pytree
 	/rank_promotion_warning.rst              Rank promotion warning                  : rank_promotion_warning.html
 	/rank_promotion_warning.rst#rank-promotion-warning Rank promotion warning                  : rank_promotion_warning.html#rank-promotion-warning

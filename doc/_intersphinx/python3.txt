@@ -1580,6 +1580,7 @@ py:attribute
 	email.headerregistry.BaseHeader.defects  library/email.headerregistry.html#email.headerregistry.BaseHeader.defects
 	email.headerregistry.BaseHeader.max_count library/email.headerregistry.html#email.headerregistry.BaseHeader.max_count
 	email.headerregistry.BaseHeader.name     library/email.headerregistry.html#email.headerregistry.BaseHeader.name
+	email.headerregistry.ContentDispositionHeader.content_disposition library/email.headerregistry.html#email.headerregistry.ContentDispositionHeader.content_disposition
 	email.headerregistry.ContentTransferEncoding.cte library/email.headerregistry.html#email.headerregistry.ContentTransferEncoding.cte
 	email.headerregistry.ContentTypeHeader.content_type library/email.headerregistry.html#email.headerregistry.ContentTypeHeader.content_type
 	email.headerregistry.ContentTypeHeader.maintype library/email.headerregistry.html#email.headerregistry.ContentTypeHeader.maintype
@@ -2887,6 +2888,7 @@ py:class
 	multiprocessing.managers.SyncManager     library/multiprocessing.html#multiprocessing.managers.SyncManager
 	multiprocessing.pool.AsyncResult         library/multiprocessing.html#multiprocessing.pool.AsyncResult
 	multiprocessing.pool.Pool                library/multiprocessing.html#multiprocessing.pool.Pool
+	multiprocessing.pool.ThreadPool          library/multiprocessing.html#multiprocessing.pool.ThreadPool
 	multiprocessing.shared_memory.ShareableList library/multiprocessing.shared_memory.html#multiprocessing.shared_memory.ShareableList
 	multiprocessing.shared_memory.SharedMemory library/multiprocessing.shared_memory.html#multiprocessing.shared_memory.SharedMemory
 	netrc.netrc                              library/netrc.html#netrc.netrc
@@ -2956,6 +2958,7 @@ py:class
 	smtpd.PureProxy                          library/smtpd.html#smtpd.PureProxy
 	smtpd.SMTPChannel                        library/smtpd.html#smtpd.SMTPChannel
 	smtpd.SMTPServer                         library/smtpd.html#smtpd.SMTPServer
+	smtplib.LMTP                             library/smtplib.html#smtplib.LMTP
 	smtplib.SMTP                             library/smtplib.html#smtplib.SMTP
 	smtplib.SMTP_SSL                         library/smtplib.html#smtplib.SMTP_SSL
 	socketserver.BaseRequestHandler          library/socketserver.html#socketserver.BaseRequestHandler
@@ -9345,6 +9348,7 @@ py:method
 	symtable.Symbol.get_name                 library/symtable.html#symtable.Symbol.get_name
 	symtable.Symbol.get_namespace            library/symtable.html#symtable.Symbol.get_namespace
 	symtable.Symbol.get_namespaces           library/symtable.html#symtable.Symbol.get_namespaces
+	symtable.Symbol.is_annotated             library/symtable.html#symtable.Symbol.is_annotated
 	symtable.Symbol.is_assigned              library/symtable.html#symtable.Symbol.is_assigned
 	symtable.Symbol.is_declared_global       library/symtable.html#symtable.Symbol.is_declared_global
 	symtable.Symbol.is_free                  library/symtable.html#symtable.Symbol.is_free
@@ -9881,8 +9885,10 @@ py:method
 	xml.dom.Node.removeChild                 library/xml.dom.html#xml.dom.Node.removeChild
 	xml.dom.Node.replaceChild                library/xml.dom.html#xml.dom.Node.replaceChild
 	xml.dom.NodeList.item                    library/xml.dom.html#xml.dom.NodeList.item
+	xml.dom.minidom.Node.toprettyxml         library/xml.dom.minidom.html#xml.dom.minidom.Node.toprettyxml
 	xml.dom.minidom.Node.toxml               library/xml.dom.minidom.html#xml.dom.minidom.Node.toxml
 	xml.dom.minidom.Node.unlink              library/xml.dom.minidom.html#xml.dom.minidom.Node.unlink
+	xml.dom.minidom.Node.writexml            library/xml.dom.minidom.html#xml.dom.minidom.Node.writexml
 	xml.dom.pulldom.DOMEventStream.expandNode library/xml.dom.pulldom.html#xml.dom.pulldom.DOMEventStream.expandNode
 	xml.dom.pulldom.DOMEventStream.getEvent  library/xml.dom.pulldom.html#xml.dom.pulldom.DOMEventStream.getEvent
 	xml.dom.pulldom.DOMEventStream.reset     library/xml.dom.pulldom.html#xml.dom.pulldom.DOMEventStream.reset
@@ -11317,7 +11323,7 @@ std:label
 	bpo-36085-whatsnew                       whatsnew/3.8.html#bpo-36085-whatsnew
 	break                                    The break statement                     : reference/simple_stmts.html#break
 	browser-controllers                      Browser Controller Objects              : library/webbrowser.html#browser-controllers
-	bsd0                                     ZERO-CLAUSE BSD LICENSE FOR CODE IN THE PYTHON 3.9.0 DOCUMENTATION: license.html#bsd0
+	bsd0                                     ZERO-CLAUSE BSD LICENSE FOR CODE IN THE PYTHON 3.9.1 DOCUMENTATION: license.html#bsd0
 	buffer-request-types                     Buffer request types                    : c-api/buffer.html#buffer-request-types
 	buffer-structs                           Buffer Object Structures                : c-api/typeobj.html#buffer-structs
 	buffer-structure                         Buffer structure                        : c-api/buffer.html#buffer-structure
@@ -12148,7 +12154,7 @@ std:label
 	proxy-basic-auth-handler                 ProxyBasicAuthHandler Objects           : library/urllib.request.html#proxy-basic-auth-handler
 	proxy-digest-auth-handler                ProxyDigestAuthHandler Objects          : library/urllib.request.html#proxy-digest-auth-handler
 	proxy-handler                            ProxyHandler Objects                    : library/urllib.request.html#proxy-handler
-	psf-license                              PSF LICENSE AGREEMENT FOR PYTHON 3.9.0  : license.html#psf-license
+	psf-license                              PSF LICENSE AGREEMENT FOR PYTHON 3.9.1  : license.html#psf-license
 	publishing-python-packages               Reading the Python Packaging User Guide : distributing/index.html#publishing-python-packages
 	pure-embedding                           Pure Embedding                          : extending/embedding.html#pure-embedding
 	pure-mod                                 Pure Python distribution (by module)    : distutils/examples.html#pure-mod
