@@ -26,8 +26,8 @@ import jax.numpy as jnp
 import numpy as onp
 from gym.spaces import Box
 
+from ..utils import clipped_logit, jit
 from ._base import BaseProbaDist
-from ..utils import clipped_logit
 
 
 __all__ = (
@@ -176,14 +176,14 @@ class NormalDist(BaseProbaDist):
             var_new = f(f_inv(jnp.exp(logvar)) * jnp.square(scale))
             return {'mu': f(f_inv(mu) + shift), 'logvar': jnp.log(var_new)}
 
-        self._sample_func = jax.jit(sample)
-        self._mean_func = jax.jit(mean)
-        self._mode_func = jax.jit(mode)
-        self._log_proba_func = jax.jit(log_proba)
-        self._entropy_func = jax.jit(entropy)
-        self._cross_entropy_func = jax.jit(cross_entropy)
-        self._kl_divergence_func = jax.jit(kl_divergence)
-        self._affine_transform_func = jax.jit(affine_transform_func, static_argnums=(3,))
+        self._sample_func = jit(sample)
+        self._mean_func = jit(mean)
+        self._mode_func = jit(mode)
+        self._log_proba_func = jit(log_proba)
+        self._entropy_func = jit(entropy)
+        self._cross_entropy_func = jit(cross_entropy)
+        self._kl_divergence_func = jit(kl_divergence)
+        self._affine_transform_func = jit(affine_transform_func, static_argnums=(3,))
 
     @property
     def default_priors(self):

@@ -67,6 +67,7 @@ Object Reference
     coax.utils.is_transition_model
     coax.utils.is_vfunction
     coax.utils.isscalar
+    coax.utils.jit
     coax.utils.load
     coax.utils.loads
     coax.utils.merge_dicts
@@ -81,9 +82,7 @@ Object Reference
 
 """
 
-from ._action_noise import (
-    OrnsteinUhlenbeckNoise,
-)
+from ._action_noise import OrnsteinUhlenbeckNoise
 from ._array import (
     StepwiseLinearFunction,
     argmax,
@@ -107,6 +106,7 @@ from ._array import (
     single_to_batch,
     tree_ravel,
 )
+from ._jit import jit
 from ._misc import (
     docstring,
     dump,
@@ -167,6 +167,7 @@ __all__ = (
     'is_transition_model',
     'is_vfunction',
     'isscalar',
+    'jit',
     'load',
     'loads',
     'merge_dicts',

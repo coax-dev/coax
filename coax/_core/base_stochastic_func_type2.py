@@ -28,7 +28,7 @@ import numpy as onp
 import haiku as hk
 from gym.spaces import Space
 
-from ..utils import safe_sample, batch_to_single
+from ..utils import safe_sample, batch_to_single, jit
 from .base_func import BaseFunc, ExampleData, Inputs, ArgsType2
 
 
@@ -90,7 +90,7 @@ class StochasticFuncType2Mixin:
                 X = self.proba_dist.sample(dist_params, next(rngs))
                 logP = self.proba_dist.log_proba(dist_params, X)
                 return X, logP
-            self._sample_func = jax.jit(sample_func)
+            self._sample_func = jit(sample_func)
         return self._sample_func
 
     @property
@@ -109,7 +109,7 @@ class StochasticFuncType2Mixin:
             def mean_func(params, state, rng, S):
                 dist_params, _ = self.function(params, state, rng, S, False)
                 return self.proba_dist.mean(dist_params)
-            self._mean_func = jax.jit(mean_func)
+            self._mean_func = jit(mean_func)
         return self._mean_func
 
     @property
@@ -128,7 +128,7 @@ class StochasticFuncType2Mixin:
             def mode_func(params, state, rng, S):
                 dist_params, _ = self.function(params, state, rng, S, False)
                 return self.proba_dist.mode(dist_params)
-            self._mode_func = jax.jit(mode_func)
+            self._mode_func = jit(mode_func)
         return self._mode_func
 
 

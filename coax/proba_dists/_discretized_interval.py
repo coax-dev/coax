@@ -25,7 +25,7 @@ import numpy as onp
 import chex
 from gym.spaces import Box, Discrete
 
-from ..utils import isscalar
+from ..utils import isscalar, jit
 from ._categorical import CategoricalDist
 
 
@@ -139,7 +139,7 @@ class DiscretizedIntervalDist(CategoricalDist):
             # chex.assert_tree_all_close(m, m_alt, rtol=1e-6)
             return {'logits': jnp.log(jnp.maximum(m, 1e-16))}
 
-        self._affine_transform_func = jax.jit(affine_transform, static_argnums=(3,))
+        self._affine_transform_func = jit(affine_transform, static_argnums=(3,))
 
     @property
     def space_orig(self):

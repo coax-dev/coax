@@ -27,7 +27,7 @@ import optax
 import haiku as hk
 
 from .._core.policy import Policy
-from ..utils import get_grads_diagnostics
+from ..utils import get_grads_diagnostics, jit
 from ..regularizers import Regularizer
 
 
@@ -104,8 +104,8 @@ class PolicyObjective:
             new_params = optax.apply_updates(params, updates)
             return new_opt_state, new_params
 
-        self._grad_and_metrics_func = jax.jit(grads_and_metrics_func)
-        self._apply_grads_func = jax.jit(apply_grads_func, static_argnums=0)
+        self._grad_and_metrics_func = jit(grads_and_metrics_func)
+        self._apply_grads_func = jit(apply_grads_func, static_argnums=0)
 
     @property
     def pi(self):

@@ -19,9 +19,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-import jax
 import jax.numpy as jnp
 
+from ..utils import jit
 from ._base import Regularizer
 
 
@@ -74,8 +74,8 @@ class KLDivRegularizer(Regularizer):
                 'KLDivRegularizer/beta': beta,
                 'KLDivRegularizer/kl_div': jnp.mean(kl_div)}
 
-        self._function = jax.jit(function)
-        self._metrics_func = jax.jit(metrics)
+        self._function = jit(function)
+        self._metrics_func = jit(metrics)
 
     @property
     def hyperparams(self):

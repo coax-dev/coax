@@ -28,7 +28,7 @@ import numpy as onp
 import haiku as hk
 from gym.spaces import Space, Discrete
 
-from ..utils import safe_sample, batch_to_single
+from ..utils import safe_sample, batch_to_single, jit
 from .base_func import BaseFunc, ExampleData, Inputs, ArgsType1, ArgsType2, ModelTypes
 
 
@@ -284,7 +284,7 @@ class BaseStochasticFuncType1(BaseFunc):
                 S_next = self.proba_dist.sample(dist_params, next(rngs))
                 logP = self.proba_dist.log_proba(dist_params, S_next)
                 return S_next, logP
-            self._sample_func_type1 = jax.jit(sample_func_type1)
+            self._sample_func_type1 = jit(sample_func_type1)
         return self._sample_func_type1
 
     @property
@@ -309,7 +309,7 @@ class BaseStochasticFuncType1(BaseFunc):
                 X = jax.tree_map(self._reshape_from_replicas, X)       # (batch, n, *shape)
                 logP = self._reshape_from_replicas(logP)               # (batch, n)
                 return X, logP
-            self._sample_func_type2 = jax.jit(sample_func_type2)
+            self._sample_func_type2 = jit(sample_func_type2)
         return self._sample_func_type2
 
     @property
@@ -329,7 +329,7 @@ class BaseStochasticFuncType1(BaseFunc):
                 dist_params, _ = self.function_type1(params, state, rng, S, A, False)
                 X = self.proba_dist.mode(dist_params)
                 return X
-            self._mode_func_type1 = jax.jit(mode_func_type1)
+            self._mode_func_type1 = jit(mode_func_type1)
         return self._mode_func_type1
 
     @property
@@ -351,7 +351,7 @@ class BaseStochasticFuncType1(BaseFunc):
                 X = self.proba_dist.mode(dist_params)             # (batch x n, *shape)
                 X = jax.tree_map(self._reshape_from_replicas, X)  # (batch, n, *shape)
                 return X
-            self._mode_func_type2 = jax.jit(mode_func_type2)
+            self._mode_func_type2 = jit(mode_func_type2)
         return self._mode_func_type2
 
     @property
@@ -371,7 +371,7 @@ class BaseStochasticFuncType1(BaseFunc):
                 dist_params, _ = self.function_type1(params, state, rng, S, A, False)
                 X = self.proba_dist.mean(dist_params)
                 return X
-            self._mean_func_type1 = jax.jit(mean_func_type1)
+            self._mean_func_type1 = jit(mean_func_type1)
         return self._mean_func_type1
 
     @property
@@ -393,7 +393,7 @@ class BaseStochasticFuncType1(BaseFunc):
                 X = self.proba_dist.mean(dist_params)             # (batch x n, *shape)
                 X = jax.tree_map(self._reshape_from_replicas, X)  # (batch, n, *shape)
                 return X
-            self._mean_func_type2 = jax.jit(mean_func_type2)
+            self._mean_func_type2 = jit(mean_func_type2)
         return self._mean_func_type2
 
     def _check_signature(self, func):

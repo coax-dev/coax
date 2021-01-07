@@ -28,7 +28,7 @@ import chex
 from gym.spaces import Discrete
 
 from .._core.q import Q
-from ..utils import get_grads_diagnostics, is_policy, is_stochastic
+from ..utils import get_grads_diagnostics, is_policy, is_stochastic, jit
 from ._base import BaseTDLearning
 
 
@@ -198,8 +198,8 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
                 loss_func(params, target_params, state, target_state, rng, transition_batch)
             return td_error
 
-        self._grads_and_metrics_func = jax.jit(grads_and_metrics_func)
-        self._td_error_func = jax.jit(td_error_func)
+        self._grads_and_metrics_func = jit(grads_and_metrics_func)
+        self._td_error_func = jit(td_error_func)
 
     @property
     def q(self):

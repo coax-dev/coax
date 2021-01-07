@@ -223,12 +223,13 @@ class TestNStep:
                         transitions.A_next.shape, (self.n + 1,))
                 else:
                     slc = slice(i - self.n, i - self.n + 1)
+                    slc_next = slice(i, i + 1)
                     assert_array_almost_equal(transitions.S, self.S[slc])
                     assert_array_almost_equal(transitions.A, self.A[slc])
                     assert_array_almost_equal(transitions.Rn, self.Rn[slc])
                     assert_array_almost_equal(transitions.In, self.In[slc])
-                    assert_array_almost_equal(transitions.S_next, self.S[[i]])
-                    assert_array_almost_equal(transitions.A_next, self.A[[i]])
+                    assert_array_almost_equal(transitions.S_next, self.S[slc_next])
+                    assert_array_almost_equal(transitions.A_next, self.A[slc_next])
             else:
                 assert i + 1 <= self.n
 

@@ -19,9 +19,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-import jax
 import jax.numpy as jnp
 
+from ..utils import jit
 from ._base import Regularizer
 
 
@@ -63,8 +63,8 @@ class EntropyRegularizer(Regularizer):
                 'EntropyRegularizer/beta': beta,
                 'EntropyRegularizer/entropy': jnp.mean(entropy)}
 
-        self._function = jax.jit(function)
-        self._metrics_func = jax.jit(metrics)
+        self._function = jit(function)
+        self._metrics_func = jit(metrics)
 
     @property
     def hyperparams(self):

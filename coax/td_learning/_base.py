@@ -28,7 +28,7 @@ import optax
 import chex
 
 from .._base.mixins import RandomStateMixin
-from ..utils import get_grads_diagnostics, is_policy, is_stochastic, is_qfunction, is_vfunction
+from ..utils import get_grads_diagnostics, is_policy, is_stochastic, is_qfunction, is_vfunction, jit
 from ..value_losses import huber
 from ..regularizers import Regularizer
 
@@ -60,7 +60,7 @@ class BaseTDLearning(ABC, RandomStateMixin):
             new_params = optax.apply_updates(params, updates)
             return new_opt_state, new_params
 
-        self._apply_grads_func = jax.jit(apply_grads_func, static_argnums=0)
+        self._apply_grads_func = jit(apply_grads_func, static_argnums=0)
 
     @abstractmethod
     def target_func(self, target_params, target_state, rng, transition_batch):
@@ -324,8 +324,8 @@ class BaseTDLearningV(BaseTDLearning):
                 loss_func(params, target_params, state, target_state, rng, transition_batch)
             return td_error
 
-        self._grads_and_metrics_func = jax.jit(grads_and_metrics_func)
-        self._td_error_func = jax.jit(td_error_func)
+        self._grads_and_metrics_func = jit(grads_and_metrics_func)
+        self._td_error_func = jit(td_error_func)
 
     @property
     def v(self):
@@ -471,8 +471,8 @@ class BaseTDLearningQ(BaseTDLearning):
                 loss_func(params, target_params, state, target_state, rng, transition_batch)
             return td_error
 
-        self._grads_and_metrics_func = jax.jit(grads_and_metrics_func)
-        self._td_error_func = jax.jit(td_error_func)
+        self._grads_and_metrics_func = jit(grads_and_metrics_func)
+        self._td_error_func = jit(td_error_func)
 
     @property
     def q(self):

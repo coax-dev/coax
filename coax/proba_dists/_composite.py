@@ -22,10 +22,10 @@
 from enum import Enum
 
 import gym
-import jax
 import numpy as onp
 import haiku as hk
 
+from ..utils import jit
 from ._base import BaseProbaDist
 from ._categorical import CategoricalDist
 from ._normal import NormalDist
@@ -214,14 +214,14 @@ class ProbaDist(BaseProbaDist):
 
             raise AssertionError(f"bad structure_type: {self._structure_type}")
 
-        self._sample_func = jax.jit(sample)
-        self._mean_func = jax.jit(mean)
-        self._mode_func = jax.jit(mode)
-        self._log_proba_func = jax.jit(log_proba)
-        self._entropy_func = jax.jit(entropy)
-        self._cross_entropy_func = jax.jit(cross_entropy)
-        self._kl_divergence_func = jax.jit(kl_divergence)
-        self._affine_transform_func = jax.jit(affine_transform)
+        self._sample_func = jit(sample)
+        self._mean_func = jit(mean)
+        self._mode_func = jit(mode)
+        self._log_proba_func = jit(log_proba)
+        self._entropy_func = jit(entropy)
+        self._cross_entropy_func = jit(cross_entropy)
+        self._kl_divergence_func = jit(kl_divergence)
+        self._affine_transform_func = jit(affine_transform)
 
     @property
     def hyperparams(self):

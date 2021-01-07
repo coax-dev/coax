@@ -27,7 +27,7 @@ import haiku as hk
 from gym.spaces import Space
 
 from ..typing import Batch, Observation, Action
-from ..utils import pretty_repr
+from ..utils import pretty_repr, jit
 from .._base.mixins import RandomStateMixin, CopyMixin
 
 
@@ -88,13 +88,14 @@ class BaseFunc(ABC, RandomStateMixin, CopyMixin):
                     f"action_space must be derived from gym.Space, got: {type(action_space)}")
             self.action_space = action_space
 
-        self.random_seed = random_seed
+        self.random_seed = random_seed  # also initializes self.rng via RandomStateMixin
+        self._jitted_funcs = {}
 
         # Haiku-transform the provided func
         example_data = self._check_signature(func)
         static_argnums = tuple(i + 3 for i in example_data.inputs.static_argnums)
         transformed = hk.transform_with_state(func)
-        self._function = jax.jit(transformed.apply, static_argnums=static_argnums)
+        self._function = jit(transformed.apply, static_argnums=static_argnums)
 
         # init function params and state
         self._params, self._function_state = transformed.init(self.rng, *example_data.inputs.args)
@@ -107,7 +108,7 @@ class BaseFunc(ABC, RandomStateMixin, CopyMixin):
         def soft_update_func(old, new, tau):
             return jax.tree_multimap(lambda a, b: (1 - tau) * a + tau * b, old, new)
 
-        self._soft_update_func = jax.jit(soft_update_func)
+        self._soft_update_func = jit(soft_update_func)
 
     def soft_update(self, other, tau):
         r""" Synchronize the current instance with ``other`` through exponential smoothing:

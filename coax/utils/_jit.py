@@ -19,62 +19,50 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-import os
-import tempfile
 
-from ..utils import jit
-from ._misc import dump, dumps, load, loads
+from inspect import signature
 
-
-def test_dump_load():
-    with tempfile.TemporaryDirectory() as d:
-        a = [13]
-        b = {'a': a}
-
-        # references preserved
-        dump((a, b), os.path.join(d, 'ab.pkl.lz4'))
-        a_new, b_new = load(os.path.join(d, 'ab.pkl.lz4'))
-        b_new['a'].append(7)
-        assert b_new['a'] == [13, 7]
-        assert a_new == [13, 7]
-
-        # references not preserved
-        dump(a, os.path.join(d, 'a.pkl.lz4'))
-        dump(b, os.path.join(d, 'b.pkl.lz4'))
-        a_new = load(os.path.join(d, 'a.pkl.lz4'))
-        b_new = load(os.path.join(d, 'b.pkl.lz4'))
-        b_new['a'].append(7)
-        assert b_new['a'] == [13, 7]
-        assert a_new == [13]
+import jax
 
 
-def test_dumps_loads():
-    a = [13]
-    b = {'a': a}
-
-    # references preserved
-    s = dumps((a, b))
-    a_new, b_new = loads(s)
-    b_new['a'].append(7)
-    assert b_new['a'] == [13, 7]
-    assert a_new == [13, 7]
-
-    # references not preserved
-    s_a = dumps(a)
-    s_b = dumps(b)
-    a_new = loads(s_a)
-    b_new = loads(s_b)
-    b_new['a'].append(7)
-    assert b_new['a'] == [13, 7]
-    assert a_new == [13]
+__all__ = (
+    'JittedFunc',
+    'jit',
+)
 
 
-def test_dumps_loads_jitted_function():
-    @jit
-    def f(x):
-        return 13 * x
+def jit(func, static_argnums=(), donate_argnums=()):
+    return JittedFunc(func, static_argnums, donate_argnums)
 
-    # references preserved
-    s = dumps(f)
-    f_new = loads(s)
-    assert f_new(11) == f(11) == 143
+
+class JittedFunc:
+    __slots__ = ('func', 'static_argnums', 'donate_argnums', '_jitted_func')
+
+    def __init__(self, func, static_argnums=(), donate_argnums=()):
+        self.func = func
+        self.static_argnums = static_argnums
+        self.donate_argnums = donate_argnums
+        self._init_jitted_func()
+
+    def __call__(self, *args, **kwargs):
+        return self._jitted_func(*args, **kwargs)
+
+    @property
+    def __signature__(self):
+        return signature(self.func)
+
+    def __repr__(self):
+        return self.__class__.__name__ + str(self.__signature__)
+
+    def __getstate__(self):
+        return self.func, self.static_argnums, self.donate_argnums
+
+    def __setstate__(self, state):
+        self.func, self.static_argnums, self.donate_argnums = state
+        self._init_jitted_func()
+
+    def _init_jitted_func(self):
+        self._jitted_func = jax.jit(
+            self.func,
+            static_argnums=self.static_argnums,
+            donate_argnums=self.donate_argnums)

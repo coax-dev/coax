@@ -24,7 +24,8 @@ import jax.numpy as jnp
 import haiku as hk
 import optax
 
-from ..utils import get_grads_diagnostics, is_stochastic, is_reward_function, is_transition_model
+from ..utils import (
+    get_grads_diagnostics, is_stochastic, is_reward_function, is_transition_model, jit)
 from ..value_losses import huber
 from ..regularizers import Regularizer
 
@@ -131,8 +132,8 @@ class ModelUpdater:
 
             return grads, new_state, metrics
 
-        self._apply_grads_func = jax.jit(apply_grads_func, static_argnums=0)
-        self._grads_and_metrics_func = jax.jit(grads_and_metrics_func)
+        self._apply_grads_func = jit(apply_grads_func, static_argnums=0)
+        self._grads_and_metrics_func = jit(grads_and_metrics_func)
 
     def update(self, transition_batch):
         r"""

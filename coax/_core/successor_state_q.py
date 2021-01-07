@@ -27,7 +27,7 @@ import haiku as hk
 from .._core.q import Q
 from .._core.base_stochastic_func_type1 import BaseStochasticFuncType1
 from ..utils import (
-    check_preprocessors, is_vfunction, is_reward_function, is_transition_model, is_stochastic)
+    check_preprocessors, is_vfunction, is_reward_function, is_transition_model, is_stochastic, jit)
 
 
 __all__ = (
@@ -168,7 +168,7 @@ class SuccessorStateQ:
 
                 return Q_sa, new_state
 
-            self._function_type1 = jax.jit(func, static_argnums=(5,))
+            self._function_type1 = jit(func, static_argnums=(5,))
 
         return self._function_type1
 
@@ -228,7 +228,7 @@ class SuccessorStateQ:
 
                 return Q_s, new_state
 
-            self._function_type2 = jax.jit(func, static_argnums=(4,))
+            self._function_type2 = jit(func, static_argnums=(4,))
 
         return self._function_type2
 

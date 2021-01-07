@@ -25,7 +25,7 @@ import jax.numpy as jnp
 import haiku as hk
 import chex
 
-from ..utils import docstring, is_qfunction, is_stochastic
+from ..utils import docstring, is_qfunction, is_stochastic, jit
 from ..proba_dists import CategoricalDist
 from .base_stochastic_func_type2 import StochasticFuncType2Mixin
 from .q import Q
@@ -64,7 +64,7 @@ class BaseValueBasedPolicy(StochasticFuncType2Mixin):
             assert Q_s.shape[1] == self.q.action_space.n
             return Q_s
 
-        self._Q_s = jax.jit(Q_s)
+        self._Q_s = jit(Q_s)
 
     @property
     def rng(self):
@@ -218,7 +218,7 @@ class EpsilonGreedy(BaseValueBasedPolicy):
             dist_params = {'logits': jnp.log(A_greedy + 1e-15)}
             return dist_params, None  # return dummy function-state
 
-        self._function = jax.jit(func, static_argnums=(4,))
+        self._function = jit(func, static_argnums=(4,))
 
     @property
     @docstring(Q.params)
@@ -277,7 +277,7 @@ class BoltzmannPolicy(BaseValueBasedPolicy):
             dist_params = {'logits': Q_s / params['temperature']}
             return dist_params, None  # return dummy function-state
 
-        self._function = jax.jit(func, static_argnums=(4,))
+        self._function = jit(func, static_argnums=(4,))
 
     @property
     @docstring(Q.params)

@@ -19,10 +19,9 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-import jax
 import haiku as hk
 
-from ..utils import is_stochastic
+from ..utils import is_stochastic, jit
 from .._core.base_stochastic_func_type1 import BaseStochasticFuncType1
 from .._core.base_stochastic_func_type2 import BaseStochasticFuncType2
 
@@ -105,6 +104,6 @@ class Regularizer:
                         "f must be derived from BaseStochasticFuncType1 or BaseStochasticFuncType2")
                 return self.function(dist_params, **hyperparams)
 
-            self._batch_eval_func = jax.jit(batch_eval_func)
+            self._batch_eval_func = jit(batch_eval_func)
 
         return self._batch_eval_func
