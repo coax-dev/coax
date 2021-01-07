@@ -32,6 +32,38 @@ __all__ = (
 
 
 def jit(func, static_argnums=(), donate_argnums=()):
+    r"""
+
+    An alternative of :func:`jax.jit` that returns a picklable JIT-compiled function.
+
+    Note that :func:`jax.jit` produces non-picklable functions, because the JIT compilation depends
+    on the :code:`device` and :code:`backend`. In order to facilitate serialization, this function
+    does not for the user to specify :code:`device` or :code:`backend`. Instead :func:`jax.jit` is
+    called with the default: :code:`jax.jit(..., device=None, backend=None)`.
+
+    Check out the original :func:`jax.jit` docs for a more detailed description of the arguments.
+
+    Parameters
+    ----------
+    func : function
+
+        Function to be JIT compiled.
+
+    static_argnums : int or tuple of ints
+
+        Arguments to exclude from JIT compilation.
+
+    donate_argnums : int or tuple of ints
+
+        To be donated arguments, see :func:`jax.jit`.
+
+    Returns
+    -------
+    jitted_func : JittedFunc
+
+        A picklable JIT-compiled function.
+
+    """
     return JittedFunc(func, static_argnums, donate_argnums)
 
 
