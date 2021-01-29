@@ -6,7 +6,7 @@ Prerequisite: JAX
 
 The **coax** RL package is build on top of JAX, which is an alternative implementation of numpy that
 includes auto-differentiation and hardware-specific acceleration. Think of it as Tensorflow or
-Pytorch, but without the complications a computation graph or eager execution.
+Pytorch, but without the complications of a computation graph or eager execution.
 
 In this example we briefly introduce the basics of JAX by implementing a linear regression model
 from scratch.
