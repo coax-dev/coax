@@ -20,6 +20,9 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
+Value Losses
+============
+
 .. autosummary::
     :nosignatures:
 
@@ -29,9 +32,6 @@ r"""
     coax.value_losses.logloss_sign
 
 ----
-
-Value Losses
-============
 
 This is a collection of loss functions that may be used for learning a value function. They are just
 ordinary loss functions known from supervised learning.

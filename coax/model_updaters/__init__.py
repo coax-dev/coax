@@ -20,15 +20,15 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
+Model Updaters
+==============
+
 .. autosummary::
     :nosignatures:
 
     coax.model_updaters.ModelUpdater
 
 ----
-
-Model Updaters
-==============
 
 This is a collection of objects that are used to update dynamics models, i.e. transition models and
 reward functions.

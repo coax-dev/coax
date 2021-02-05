@@ -20,6 +20,9 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
+Wrappers
+========
+
 .. autosummary::
     :nosignatures:
 
@@ -30,9 +33,6 @@ r"""
     coax.wrappers.MetaPolicyEnv
 
 ----
-
-Wrappers
-========
 
 OpenAI gym provides a nice modular interface to extend existing environments
 using `environment wrappers

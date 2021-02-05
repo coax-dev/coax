@@ -19,38 +19,40 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-r"""
-Regularizers
-============
-
-.. autosummary::
-    :nosignatures:
-
-    coax.regularizers.EntropyRegularizer
-    coax.regularizers.KLDivRegularizer
-
-----
-
-This is a collection of regularizers that can be used to put soft constraints on stochastic function
-approximators. These is typically added to the loss/objective to avoid premature exploitation of a
-policy.
+from collections import deque
 
 
-Object Reference
-----------------
+class RollingAverage:
+    def __init__(self, n=100):
+        self._value = 0.
+        self._deque = deque(maxlen=n)
 
-.. autoclass:: coax.regularizers.EntropyRegularizer
-.. autoclass:: coax.regularizers.KLDivRegularizer
+    @property
+    def value(self):
+        return self._value
 
-"""
+    def update(self, observed_value):
+        if len(self._deque) == self._deque.maxlen:
+            self._value += (observed_value - self._deque.popleft()) / self._deque.maxlen
+            self._deque.append(observed_value)
+        else:
+            self._deque.append(observed_value)
+            self._value += (observed_value - self._value) / len(self._deque)
+        return self._value
 
-from ._entropy import Regularizer
-from ._entropy import EntropyRegularizer
-from ._kl_div import KLDivRegularizer
 
+class ExponentialAverage:
+    def __init__(self, n=100):
+        self._value = 0.
+        self._len = 0
+        self._maxlen = n
 
-__all__ = (
-    'Regularizer',
-    'EntropyRegularizer',
-    'KLDivRegularizer',
-)
+    @property
+    def value(self):
+        return self._value
+
+    def update(self, observed_value):
+        if self._len < self._maxlen:
+            self._len += 1
+        self._value += (observed_value - self._value) / self._len
+        return self._value

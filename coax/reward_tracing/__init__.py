@@ -20,6 +20,9 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
+Reward Tracing
+==============
+
 .. autosummary::
     :nosignatures:
 
@@ -28,9 +31,6 @@ r"""
     coax.reward_tracing.TransitionBatch
 
 ----
-
-Reward Tracing
-==============
 
 The term **reward tracing** refers to the process of turning raw experience into
 :class:`TransitionBatch <coax.reward_tracing.TransitionBatch>` objects. These

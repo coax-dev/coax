@@ -1,3 +1,6 @@
+Value Functions
+===============
+
 .. autosummary::
     :nosignatures:
 
@@ -9,9 +12,6 @@
 
 ----
 
-
-Value Functions
-===============
 
 There are two kinds of value functions, state value functions :math:`v(s)` and state-action value
 functions (or q-functions) :math:`q(s,a)`. The state value function evaluates the expected

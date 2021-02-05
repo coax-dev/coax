@@ -20,6 +20,9 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
+TD Learning
+===========
+
 .. autosummary::
     :nosignatures:
 
@@ -32,9 +35,6 @@ r"""
     coax.td_learning.ClippedDoubleQLearning
 
 ----
-
-TD Learning
-===========
 
 This is a collection of objects that are used to update value functions via *Temporal Difference*
 (TD) learning. A state value function :class:`coax.V` is using :class:`coax.td_learning.SimpleTD`.

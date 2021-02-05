@@ -7,6 +7,7 @@ environment.
 
 .. toctree::
     :maxdepth: 1
+    :caption: Single Agents
 
     DQN (standard) <dqn>
     DQN (Boltzmann policy) <dqn_boltzmann>
@@ -15,3 +16,10 @@ environment.
     DQN (Prioritized Experience Replay) <dqn_per>
     DDPG <ddpg>
     PPO <ppo>
+
+
+.. toctree::
+    :maxdepth: 1
+    :caption: Distributed Agents
+
+    Ape-X DQN <apex_dqn>

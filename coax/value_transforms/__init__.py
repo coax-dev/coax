@@ -20,6 +20,9 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
+Value Transforms
+================
+
 .. autosummary::
     :nosignatures:
 
@@ -27,9 +30,6 @@ r"""
     coax.value_transforms.LogTransform
 
 ----
-
-Value Transforms
-================
 
 This module contains some useful **value transforms**. These are functions
 that can be used to rescale or warp the returns for more a more robust training

@@ -20,6 +20,9 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
+Policy Objectives
+=================
+
 .. autosummary::
     :nosignatures:
 
@@ -29,9 +32,6 @@ r"""
 
 
 ----
-
-Policy Objectives
-=================
 
 This is a collection of policy objectives that can be used in policy-gradient
 methods.

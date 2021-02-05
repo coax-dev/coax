@@ -1,3 +1,6 @@
+Policies
+========
+
 .. autosummary::
     :nosignatures:
 
@@ -7,9 +10,6 @@
     coax.RandomPolicy
 
 ----
-
-Policies
-========
 
 There are generally two distinct ways of constructing a policy :math:`\pi(a|s)`. One method uses a
 function approximator to parametrize a state-action value function :math:`q_\theta(s,a)` and then

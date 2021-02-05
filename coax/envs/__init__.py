@@ -20,15 +20,15 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
+Environments
+============
+
 .. autosummary::
     :nosignatures:
 
     coax.envs.ConnectFourEnv
 
 ----
-
-Environments
-============
 
 This is a collection of environments currently not included in `OpenAI Gym
 <https://gym.openai.com/>`_.

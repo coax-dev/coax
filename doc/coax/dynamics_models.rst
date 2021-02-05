@@ -1,3 +1,6 @@
+Dynamics Models
+===============
+
 .. autosummary::
     :nosignatures:
 
@@ -8,9 +11,6 @@
 
 ----
 
-
-Dynamics Models
-===============
 
 Model-based methods make use of models that estimate the dynamics of transitions in a Markov
 decision process. In coax we offers two types of such models: a **transition model**

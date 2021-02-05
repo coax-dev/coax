@@ -20,6 +20,9 @@
 # ------------------------------------------------------------------------------------------------ #
 
 r"""
+Experience Replay
+=================
+
 .. autosummary::
     :nosignatures:
 
@@ -27,9 +30,6 @@ r"""
     coax.experience_replay.PrioritizedReplayBuffer
 
 ----
-
-Experience Replay
-=================
 
 This is where we keep our experience-replay buffer classes. Replay buffers are typically used as
 follows:

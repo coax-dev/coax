@@ -302,6 +302,7 @@ If this ain't your first rodeo, head over the examples listed :doc:`here <exampl
     :hidden:
 
     coax/wrappers
+    coax/worker
     coax/utils
     coax/envs
 

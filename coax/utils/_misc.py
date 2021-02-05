@@ -24,9 +24,11 @@ import time
 import logging
 from importlib import reload, import_module
 from types import ModuleType
+from typing import NamedTuple
 
 import jax.numpy as jnp
 import numpy as onp
+import pandas as pd
 import lz4.frame
 import cloudpickle as pickle
 from PIL import Image
@@ -706,12 +708,21 @@ def pretty_repr(o, d=0):
 
     """
     i = "  "  # indentation string
-    if isinstance(o, (jnp.ndarray, onp.ndarray)):
+    if isinstance(o, (jnp.ndarray, onp.ndarray, pd.Index)):
         try:
             summary = f", min={onp.min(o):.3g}, median={onp.median(o):.3g}, max={onp.max(o):.3g}"
         except Exception:
             summary = ""
         return f"array(shape={o.shape}, dtype={str(o.dtype)}{summary:s})"
+    if isinstance(o, (pd.Series, pd.DataFrame)):
+        sep = ',\n' + i * (d + 1)
+        items = zip(('index', 'data'), (o.index, o.values))
+        body = sep + sep.join(f"{k}={pretty_repr(v, d + 1)}" for k, v in items)
+        return f"{type(o).__name__}({body})"
+    if isinstance(o, NamedTuple) or hasattr(o, '_asdict'):
+        sep = '\n' + i * (d + 1)
+        body = sep + sep.join(f"{k}={pretty_repr(v, d + 1)}" for k, v in o._asdict().items())
+        return f"{type(o).__name__}({body})"
     if isinstance(o, tuple):
         sep = ',\n' + i * (d + 1)
         body = '\n' + i * (d + 1) + sep.join(f"{pretty_repr(v, d + 1)}" for v in o)
@@ -720,10 +731,7 @@ def pretty_repr(o, d=0):
         sep = ',\n' + i * (d + 1)
         body = '\n' + i * (d + 1) + sep.join(f"{pretty_repr(v, d + 1)}" for v in o)
         return f"[{body}]"
-    if hasattr(o, '_asdict'):
-        sep = '\n' + i * (d + 1)
-        body = sep + sep.join(f"{k}={pretty_repr(v, d + 1)}" for k, v in o._asdict().items())
-        return f"{type(o).__name__}({body})"
+
     if hasattr(o, 'items'):
         sep = ',\n' + i * (d + 1)
         body = '\n' + i * (d + 1) + sep.join(

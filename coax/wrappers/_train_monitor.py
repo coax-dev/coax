@@ -328,6 +328,7 @@ class TrainMonitor(Wrapper, LoggerMixin):
                 or str(k).endswith('/loss')
                 or str(k).endswith('/entropy')
                 or str(k).endswith('/kl_div')
+                or str(k).startswith('throughput/')
             )
         )
         self.logger.info(

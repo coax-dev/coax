@@ -26,6 +26,7 @@ __version__ = '0.1.5'
 from ._core.v import V
 from ._core.q import Q
 from ._core.policy import Policy
+from ._core.worker import Worker
 from ._core.reward_function import RewardFunction
 from ._core.transition_model import TransitionModel
 from ._core.stochastic_v import StochasticV
@@ -57,6 +58,7 @@ __all__ = (
     'V',
     'Q',
     'Policy',
+    'Worker',
     'RewardFunction',
     'TransitionModel',
     'StochasticV',
