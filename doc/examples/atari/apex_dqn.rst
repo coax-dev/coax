@@ -2,7 +2,7 @@ Atari 2600: Pong with Ape-X DQN
 ===============================
 
 In this notebook we solve the `Pong <https://gym.openai.com/envs/Pong-v0/>`_ environment using a
-distrbuted agent known as `Ape-X DQN <https://arxiv.org/abs/1803.00933>`. This agent has multiple rollout workers (actors), one learner and a parameter server.
+distrbuted agent known as `Ape-X DQN <https://arxiv.org/abs/1803.00933>`_. This agent has multiple rollout workers (actors), one learner and a parameter server.
 
 This notebook periodically generates GIFs, so that we can inspect how the training is progressing.
 
