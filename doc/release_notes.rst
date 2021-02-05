@@ -2,6 +2,15 @@ Release Notes
 =============
 
 
+v0.1.6
+------
+
+- Add basic support for distributed agents, see example: :doc:`Ape-X DQN <examples/atari/apex_dqn>`
+- Fixed issues with serialization of jit-compiled functions, see `jax#5043 <https://github.com/google/jax/issues/5043>`_ and `jax#5153 <https://github.com/google/jax/pull/5153#issuecomment-755930540>`
+- Add support for sample weights in reward tracers
+
+
+
 v0.1.5
 ------
 
