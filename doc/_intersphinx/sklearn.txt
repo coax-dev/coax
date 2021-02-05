@@ -3145,7 +3145,7 @@ std:doc
 	whats_new/v0.21                          Version 0.21.3                          : whats_new/v0.21.html
 	whats_new/v0.22                          Version 0.22.2.post1                    : whats_new/v0.22.html
 	whats_new/v0.23                          Version 0.23.2                          : whats_new/v0.23.html
-	whats_new/v0.24                          Version 0.24.0                          : whats_new/v0.24.html
+	whats_new/v0.24                          Version 0.24.1                          : whats_new/v0.24.html
 std:label
 	20newsgroups_dataset                     The 20 newsgroups text dataset          : datasets/real_world.html#newsgroups-dataset
 	about                                    About us                                : about.html#about
@@ -3232,6 +3232,7 @@ std:label
 	changes_0_23_1                           Version 0.23.1                          : whats_new/v0.23.html#changes-0-23-1
 	changes_0_23_2                           Version 0.23.2                          : whats_new/v0.23.html#changes-0-23-2
 	changes_0_24                             Version 0.24.0                          : whats_new/v0.24.html#changes-0-24
+	changes_0_24_1                           Version 0.24.1                          : whats_new/v0.24.html#changes-0-24-1
 	changes_0_5                              Version 0.5                             : whats_new/older_versions.html#changes-0-5
 	changes_0_6                              Version 0.6                             : whats_new/older_versions.html#changes-0-6
 	changes_0_7                              Version 0.7                             : whats_new/older_versions.html#changes-0-7
@@ -3416,6 +3417,7 @@ std:label
 	install_by_distribution                  Third party distributions of scikit-learn: install.html#install-by-distribution
 	install_nightly_builds                   Installing nightly builds               : developers/advanced_installation.html#install-nightly-builds
 	install_official_release                 Installing the latest release           : install.html#install-official-release
+	install_on_apple_silicon_m1              Installing on Apple Silicon M1 hardware : install.html#install-on-apple-silicon-m1
 	installation-instructions                Installing scikit-learn                 : install.html#installation-instructions
 	introduction                             An introduction to machine learning with scikit-learn: tutorial/basic/tutorial.html#introduction
 	iris_dataset                             Iris plants dataset                     : datasets/toy_dataset.html#iris-dataset

@@ -4,6 +4,22 @@ py:attribute
 	jax.numpy.complex_                       _autosummary/jax.numpy.complex_.html#jax.numpy.complex_
 	jax.numpy.csingle                        _autosummary/jax.numpy.csingle.html#jax.numpy.csingle
 	jax.numpy.double                         _autosummary/jax.numpy.double.html#jax.numpy.double
+	jax.numpy.finfo.bits                     _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.bits
+	jax.numpy.finfo.eps                      _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.eps
+	jax.numpy.finfo.epsneg                   _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.epsneg
+	jax.numpy.finfo.iexp                     _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.iexp
+	jax.numpy.finfo.machar                   _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.machar
+	jax.numpy.finfo.machep                   _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.machep
+	jax.numpy.finfo.max                      _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.max
+	jax.numpy.finfo.maxexp                   _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.maxexp
+	jax.numpy.finfo.min                      _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.min
+	jax.numpy.finfo.minexp                   _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.minexp
+	jax.numpy.finfo.negep                    _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.negep
+	jax.numpy.finfo.nexp                     _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.nexp
+	jax.numpy.finfo.nmant                    _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.nmant
+	jax.numpy.finfo.precision                _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.precision
+	jax.numpy.finfo.resolution               _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.resolution
+	jax.numpy.finfo.tiny                     _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.tiny
 	jax.numpy.float_                         _autosummary/jax.numpy.float_.html#jax.numpy.float_
 	jax.numpy.iinfo.bits                     _autosummary/jax.numpy.iinfo.html#jax.numpy.iinfo.bits
 	jax.numpy.iinfo.max                      _autosummary/jax.numpy.iinfo.html#jax.numpy.iinfo.max
@@ -29,6 +45,7 @@ py:class
 	jax.numpy.complex64                      _autosummary/jax.numpy.complex64.html#jax.numpy.complex64
 	jax.numpy.complexfloating                _autosummary/jax.numpy.complexfloating.html#jax.numpy.complexfloating
 	jax.numpy.dtype                          _autosummary/jax.numpy.dtype.html#jax.numpy.dtype
+	jax.numpy.finfo                          _autosummary/jax.numpy.finfo.html#jax.numpy.finfo
 	jax.numpy.flexible                       _autosummary/jax.numpy.flexible.html#jax.numpy.flexible
 	jax.numpy.float16                        _autosummary/jax.numpy.float16.html#jax.numpy.float16
 	jax.numpy.float32                        _autosummary/jax.numpy.float32.html#jax.numpy.float32
@@ -68,15 +85,20 @@ py:exception
 	jax.numpy.ComplexWarning                 _autosummary/jax.numpy.ComplexWarning.html#jax.numpy.ComplexWarning
 py:function
 	jax.checkpoint                           jax.html#jax.checkpoint
+	jax.closure_convert                      jax.html#jax.closure_convert
 	jax.device_count                         jax.html#jax.device_count
 	jax.device_put                           jax.html#jax.device_put
 	jax.devices                              jax.html#jax.devices
 	jax.disable_jit                          jax.html#jax.disable_jit
 	jax.eval_shape                           jax.html#jax.eval_shape
+	jax.experimental.disable_x64             jax.experimental.html#jax.experimental.disable_x64
+	jax.experimental.enable_x64              jax.experimental.html#jax.experimental.enable_x64
 	jax.experimental.host_callback.barrier_wait jax.experimental.host_callback.html#jax.experimental.host_callback.barrier_wait
 	jax.experimental.host_callback.call      jax.experimental.host_callback.html#jax.experimental.host_callback.call
 	jax.experimental.host_callback.id_print  jax.experimental.host_callback.html#jax.experimental.host_callback.id_print
 	jax.experimental.host_callback.id_tap    jax.experimental.host_callback.html#jax.experimental.host_callback.id_tap
+	jax.experimental.maps.mesh               jax.experimental.maps.html#jax.experimental.maps.mesh
+	jax.experimental.maps.xmap               jax.experimental.maps.html#jax.experimental.maps.xmap
 	jax.experimental.optimizers.adagrad      jax.experimental.optimizers.html#jax.experimental.optimizers.adagrad
 	jax.experimental.optimizers.adam         jax.experimental.optimizers.html#jax.experimental.optimizers.adam
 	jax.experimental.optimizers.adamax       jax.experimental.optimizers.html#jax.experimental.optimizers.adamax
@@ -418,7 +440,6 @@ py:function
 	jax.numpy.fft.rfft2                      _autosummary/jax.numpy.fft.rfft2.html#jax.numpy.fft.rfft2
 	jax.numpy.fft.rfftfreq                   _autosummary/jax.numpy.fft.rfftfreq.html#jax.numpy.fft.rfftfreq
 	jax.numpy.fft.rfftn                      _autosummary/jax.numpy.fft.rfftn.html#jax.numpy.fft.rfftn
-	jax.numpy.finfo                          _autosummary/jax.numpy.finfo.html#jax.numpy.finfo
 	jax.numpy.fix                            _autosummary/jax.numpy.fix.html#jax.numpy.fix
 	jax.numpy.flatnonzero                    _autosummary/jax.numpy.flatnonzero.html#jax.numpy.flatnonzero
 	jax.numpy.flip                           _autosummary/jax.numpy.flip.html#jax.numpy.flip
@@ -729,6 +750,8 @@ py:function
 	jax.scipy.stats.beta.pdf                 _autosummary/jax.scipy.stats.beta.pdf.html#jax.scipy.stats.beta.pdf
 	jax.scipy.stats.cauchy.logpdf            _autosummary/jax.scipy.stats.cauchy.logpdf.html#jax.scipy.stats.cauchy.logpdf
 	jax.scipy.stats.cauchy.pdf               _autosummary/jax.scipy.stats.cauchy.pdf.html#jax.scipy.stats.cauchy.pdf
+	jax.scipy.stats.chi2.logpdf              _autosummary/jax.scipy.stats.chi2.logpdf.html#jax.scipy.stats.chi2.logpdf
+	jax.scipy.stats.chi2.pdf                 _autosummary/jax.scipy.stats.chi2.pdf.html#jax.scipy.stats.chi2.pdf
 	jax.scipy.stats.dirichlet.logpdf         _autosummary/jax.scipy.stats.dirichlet.logpdf.html#jax.scipy.stats.dirichlet.logpdf
 	jax.scipy.stats.dirichlet.pdf            _autosummary/jax.scipy.stats.dirichlet.pdf.html#jax.scipy.stats.dirichlet.pdf
 	jax.scipy.stats.expon.logpdf             _autosummary/jax.scipy.stats.expon.logpdf.html#jax.scipy.stats.expon.logpdf
@@ -803,6 +826,7 @@ py:method
 	jax.numpy.complex64.__init__             _autosummary/jax.numpy.complex64.html#jax.numpy.complex64.__init__
 	jax.numpy.complexfloating.__init__       _autosummary/jax.numpy.complexfloating.html#jax.numpy.complexfloating.__init__
 	jax.numpy.dtype.__init__                 _autosummary/jax.numpy.dtype.html#jax.numpy.dtype.__init__
+	jax.numpy.finfo.__init__                 _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.__init__
 	jax.numpy.flexible.__init__              _autosummary/jax.numpy.flexible.html#jax.numpy.flexible.__init__
 	jax.numpy.float16.__init__               _autosummary/jax.numpy.float16.html#jax.numpy.float16.__init__
 	jax.numpy.float32.__init__               _autosummary/jax.numpy.float32.html#jax.numpy.float32.__init__
@@ -831,6 +855,7 @@ py:module
 	jax.experimental                         jax.experimental.html#module-jax.experimental
 	jax.experimental.host_callback           jax.experimental.host_callback.html#module-jax.experimental.host_callback
 	jax.experimental.loops                   jax.experimental.loops.html#module-jax.experimental.loops
+	jax.experimental.maps                    jax.experimental.maps.html#module-jax.experimental.maps
 	jax.experimental.optimizers              jax.experimental.optimizers.html#module-jax.experimental.optimizers
 	jax.experimental.stax                    jax.experimental.stax.html#module-jax.experimental.stax
 	jax.image                                jax.image.html#module-jax.image
@@ -853,6 +878,7 @@ py:module
 	jax.scipy.stats.bernoulli                jax.scipy.html#module-jax.scipy.stats.bernoulli
 	jax.scipy.stats.beta                     jax.scipy.html#module-jax.scipy.stats.beta
 	jax.scipy.stats.cauchy                   jax.scipy.html#module-jax.scipy.stats.cauchy
+	jax.scipy.stats.chi2                     jax.scipy.html#module-jax.scipy.stats.chi2
 	jax.scipy.stats.dirichlet                jax.scipy.html#module-jax.scipy.stats.dirichlet
 	jax.scipy.stats.expon                    jax.scipy.html#module-jax.scipy.stats.expon
 	jax.scipy.stats.gamma                    jax.scipy.html#module-jax.scipy.stats.gamma
@@ -868,7 +894,6 @@ py:module
 	jax.tree_util                            jax.tree_util.html#module-jax.tree_util
 std:doc
 	CHANGELOG                                Change Log                              : CHANGELOG.html
-	README                                   <no title>                              : README.html
 	_autosummary/jax.core.ClosedJaxpr        jax.core.ClosedJaxpr                    : _autosummary/jax.core.ClosedJaxpr.html
 	_autosummary/jax.core.Jaxpr              jax.core.Jaxpr                          : _autosummary/jax.core.Jaxpr.html
 	_autosummary/jax.image.resize            jax.image.resize                        : _autosummary/jax.image.resize.html
@@ -1516,6 +1541,8 @@ std:doc
 	_autosummary/jax.scipy.stats.beta.pdf    jax.scipy.stats.beta.pdf                : _autosummary/jax.scipy.stats.beta.pdf.html
 	_autosummary/jax.scipy.stats.cauchy.logpdf jax.scipy.stats.cauchy.logpdf           : _autosummary/jax.scipy.stats.cauchy.logpdf.html
 	_autosummary/jax.scipy.stats.cauchy.pdf  jax.scipy.stats.cauchy.pdf              : _autosummary/jax.scipy.stats.cauchy.pdf.html
+	_autosummary/jax.scipy.stats.chi2.logpdf jax.scipy.stats.chi2.logpdf             : _autosummary/jax.scipy.stats.chi2.logpdf.html
+	_autosummary/jax.scipy.stats.chi2.pdf    jax.scipy.stats.chi2.pdf                : _autosummary/jax.scipy.stats.chi2.pdf.html
 	_autosummary/jax.scipy.stats.dirichlet.logpdf jax.scipy.stats.dirichlet.logpdf        : _autosummary/jax.scipy.stats.dirichlet.logpdf.html
 	_autosummary/jax.scipy.stats.dirichlet.pdf jax.scipy.stats.dirichlet.pdf           : _autosummary/jax.scipy.stats.dirichlet.pdf.html
 	_autosummary/jax.scipy.stats.expon.logpdf jax.scipy.stats.expon.logpdf            : _autosummary/jax.scipy.stats.expon.logpdf.html
@@ -1561,6 +1588,7 @@ std:doc
 	jax.experimental                         jax.experimental package                : jax.experimental.html
 	jax.experimental.host_callback           jax.experimental.host_callback module   : jax.experimental.host_callback.html
 	jax.experimental.loops                   jax.experimental.loops module           : jax.experimental.loops.html
+	jax.experimental.maps                    jax.experimental.maps module            : jax.experimental.maps.html
 	jax.experimental.optimizers              jax.experimental.optimizers module      : jax.experimental.optimizers.html
 	jax.experimental.stax                    jax.experimental.stax module            : jax.experimental.stax.html
 	jax.image                                jax.image package                       : jax.image.html
@@ -1578,10 +1606,10 @@ std:doc
 	notebooks/Common_Gotchas_in_JAX          🔪 JAX - The Sharp Bits 🔪                : notebooks/Common_Gotchas_in_JAX.html
 	notebooks/Custom_derivative_rules_for_Python_code Custom derivative rules for JAX-transformable Python functions: notebooks/Custom_derivative_rules_for_Python_code.html
 	notebooks/How_JAX_primitives_work        How JAX primitives work                 : notebooks/How_JAX_primitives_work.html
-	notebooks/README                         <no title>                              : notebooks/README.html
 	notebooks/Writing_custom_interpreters_in_Jax Writing custom Jaxpr interpreters in JAX: notebooks/Writing_custom_interpreters_in_Jax.html
 	notebooks/autodiff_cookbook              The Autodiff Cookbook                   : notebooks/autodiff_cookbook.html
 	notebooks/quickstart                     JAX Quickstart                          : notebooks/quickstart.html
+	notebooks/thinking_in_jax                How to Think in JAX                     : notebooks/thinking_in_jax.html
 	notebooks/vmapped_log_probs              Autobatching log-densities example      : notebooks/vmapped_log_probs.html
 	profiling                                Profiling JAX programs                  : profiling.html
 	pytrees                                  Pytrees                                 : pytrees.html
@@ -2508,6 +2536,23 @@ std:label
 	/_autosummary/jax.numpy.finfo.rst        jax.numpy.finfo                         : _autosummary/jax.numpy.finfo.html
 	/_autosummary/jax.numpy.finfo.rst#jax-numpy-finfo jax.numpy.finfo                         : _autosummary/jax.numpy.finfo.html#jax-numpy-finfo
 	/_autosummary/jax.numpy.finfo.rst#jax.numpy.finfo jax.numpy.finfo                         : _autosummary/jax.numpy.finfo.html#jax.numpy.finfo
+	/_autosummary/jax.numpy.finfo.rst#jax.numpy.finfo.__init__ jax.numpy.finfo.__init__                : _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.__init__
+	/_autosummary/jax.numpy.finfo.rst#jax.numpy.finfo.bits jax.numpy.finfo.bits                    : _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.bits
+	/_autosummary/jax.numpy.finfo.rst#jax.numpy.finfo.eps jax.numpy.finfo.eps                     : _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.eps
+	/_autosummary/jax.numpy.finfo.rst#jax.numpy.finfo.epsneg jax.numpy.finfo.epsneg                  : _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.epsneg
+	/_autosummary/jax.numpy.finfo.rst#jax.numpy.finfo.iexp jax.numpy.finfo.iexp                    : _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.iexp
+	/_autosummary/jax.numpy.finfo.rst#jax.numpy.finfo.machar jax.numpy.finfo.machar                  : _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.machar
+	/_autosummary/jax.numpy.finfo.rst#jax.numpy.finfo.machep jax.numpy.finfo.machep                  : _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.machep
+	/_autosummary/jax.numpy.finfo.rst#jax.numpy.finfo.max jax.numpy.finfo.max                     : _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.max
+	/_autosummary/jax.numpy.finfo.rst#jax.numpy.finfo.maxexp jax.numpy.finfo.maxexp                  : _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.maxexp
+	/_autosummary/jax.numpy.finfo.rst#jax.numpy.finfo.min jax.numpy.finfo.min                     : _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.min
+	/_autosummary/jax.numpy.finfo.rst#jax.numpy.finfo.minexp jax.numpy.finfo.minexp                  : _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.minexp
+	/_autosummary/jax.numpy.finfo.rst#jax.numpy.finfo.negep jax.numpy.finfo.negep                   : _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.negep
+	/_autosummary/jax.numpy.finfo.rst#jax.numpy.finfo.nexp jax.numpy.finfo.nexp                    : _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.nexp
+	/_autosummary/jax.numpy.finfo.rst#jax.numpy.finfo.nmant jax.numpy.finfo.nmant                   : _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.nmant
+	/_autosummary/jax.numpy.finfo.rst#jax.numpy.finfo.precision jax.numpy.finfo.precision               : _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.precision
+	/_autosummary/jax.numpy.finfo.rst#jax.numpy.finfo.resolution jax.numpy.finfo.resolution              : _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.resolution
+	/_autosummary/jax.numpy.finfo.rst#jax.numpy.finfo.tiny jax.numpy.finfo.tiny                    : _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.tiny
 	/_autosummary/jax.numpy.fix.rst          jax.numpy.fix                           : _autosummary/jax.numpy.fix.html
 	/_autosummary/jax.numpy.fix.rst#jax-numpy-fix jax.numpy.fix                           : _autosummary/jax.numpy.fix.html#jax-numpy-fix
 	/_autosummary/jax.numpy.fix.rst#jax.numpy.fix jax.numpy.fix                           : _autosummary/jax.numpy.fix.html#jax.numpy.fix
@@ -3562,6 +3607,12 @@ std:label
 	/_autosummary/jax.scipy.stats.cauchy.pdf.rst jax.scipy.stats.cauchy.pdf              : _autosummary/jax.scipy.stats.cauchy.pdf.html
 	/_autosummary/jax.scipy.stats.cauchy.pdf.rst#jax-scipy-stats-cauchy-pdf jax.scipy.stats.cauchy.pdf              : _autosummary/jax.scipy.stats.cauchy.pdf.html#jax-scipy-stats-cauchy-pdf
 	/_autosummary/jax.scipy.stats.cauchy.pdf.rst#jax.scipy.stats.cauchy.pdf jax.scipy.stats.cauchy.pdf              : _autosummary/jax.scipy.stats.cauchy.pdf.html#jax.scipy.stats.cauchy.pdf
+	/_autosummary/jax.scipy.stats.chi2.logpdf.rst jax.scipy.stats.chi2.logpdf             : _autosummary/jax.scipy.stats.chi2.logpdf.html
+	/_autosummary/jax.scipy.stats.chi2.logpdf.rst#jax-scipy-stats-chi2-logpdf jax.scipy.stats.chi2.logpdf             : _autosummary/jax.scipy.stats.chi2.logpdf.html#jax-scipy-stats-chi2-logpdf
+	/_autosummary/jax.scipy.stats.chi2.logpdf.rst#jax.scipy.stats.chi2.logpdf jax.scipy.stats.chi2.logpdf             : _autosummary/jax.scipy.stats.chi2.logpdf.html#jax.scipy.stats.chi2.logpdf
+	/_autosummary/jax.scipy.stats.chi2.pdf.rst jax.scipy.stats.chi2.pdf                : _autosummary/jax.scipy.stats.chi2.pdf.html
+	/_autosummary/jax.scipy.stats.chi2.pdf.rst#jax-scipy-stats-chi2-pdf jax.scipy.stats.chi2.pdf                : _autosummary/jax.scipy.stats.chi2.pdf.html#jax-scipy-stats-chi2-pdf
+	/_autosummary/jax.scipy.stats.chi2.pdf.rst#jax.scipy.stats.chi2.pdf jax.scipy.stats.chi2.pdf                : _autosummary/jax.scipy.stats.chi2.pdf.html#jax.scipy.stats.chi2.pdf
 	/_autosummary/jax.scipy.stats.dirichlet.logpdf.rst jax.scipy.stats.dirichlet.logpdf        : _autosummary/jax.scipy.stats.dirichlet.logpdf.html
 	/_autosummary/jax.scipy.stats.dirichlet.logpdf.rst#jax-scipy-stats-dirichlet-logpdf jax.scipy.stats.dirichlet.logpdf        : _autosummary/jax.scipy.stats.dirichlet.logpdf.html#jax-scipy-stats-dirichlet-logpdf
 	/_autosummary/jax.scipy.stats.dirichlet.logpdf.rst#jax.scipy.stats.dirichlet.logpdf jax.scipy.stats.dirichlet.logpdf        : _autosummary/jax.scipy.stats.dirichlet.logpdf.html#jax.scipy.stats.dirichlet.logpdf
@@ -3684,13 +3735,15 @@ std:label
 	/changelog.rst#jax-0-1-77-september-15-2020 jax (0.1.77) (September 15 2020)        : CHANGELOG.html#jax-0-1-77-september-15-2020
 	/changelog.rst#jax-0-2-0-september-23-2020 jax (0.2.0) (September 23 2020)         : CHANGELOG.html#jax-0-2-0-september-23-2020
 	/changelog.rst#jax-0-2-1-october-6-2020  jax 0.2.1 (October 6 2020)              : CHANGELOG.html#jax-0-2-1-october-6-2020
+	/changelog.rst#jax-0-2-10-unreleased     jax 0.2.10 (Unreleased)                 : CHANGELOG.html#jax-0-2-10-unreleased
 	/changelog.rst#jax-0-2-2-october-13-2020 jax 0.2.2 (October 13 2020)             : CHANGELOG.html#jax-0-2-2-october-13-2020
 	/changelog.rst#jax-0-2-3-october-14-2020 jax 0.2.3 (October 14 2020)             : CHANGELOG.html#jax-0-2-3-october-14-2020
 	/changelog.rst#jax-0-2-4-october-19-2020 jax 0.2.4 (October 19 2020)             : CHANGELOG.html#jax-0-2-4-october-19-2020
 	/changelog.rst#jax-0-2-5-october-27-2020 jax 0.2.5 (October 27 2020)             : CHANGELOG.html#jax-0-2-5-october-27-2020
 	/changelog.rst#jax-0-2-6-nov-18-2020     jax 0.2.6 (Nov 18 2020)                 : CHANGELOG.html#jax-0-2-6-nov-18-2020
 	/changelog.rst#jax-0-2-7-dec-4-2020      jax 0.2.7 (Dec 4 2020)                  : CHANGELOG.html#jax-0-2-7-dec-4-2020
-	/changelog.rst#jax-0-2-8-unreleased      jax 0.2.8 (Unreleased)                  : CHANGELOG.html#jax-0-2-8-unreleased
+	/changelog.rst#jax-0-2-8-january-12-2021 jax 0.2.8 (January 12 2021)             : CHANGELOG.html#jax-0-2-8-january-12-2021
+	/changelog.rst#jax-0-2-9-january-26-2021 jax 0.2.9 (January 26 2021)             : CHANGELOG.html#jax-0-2-9-january-26-2021
 	/changelog.rst#jaxlib-0-1-38-january-29-2020 jaxlib 0.1.38 (January 29, 2020)        : CHANGELOG.html#jaxlib-0-1-38-january-29-2020
 	/changelog.rst#jaxlib-0-1-39-february-11-2020 jaxlib 0.1.39 (February 11, 2020)       : CHANGELOG.html#jaxlib-0-1-39-february-11-2020
 	/changelog.rst#jaxlib-0-1-40-march-4-2020 jaxlib 0.1.40 (March 4, 2020)           : CHANGELOG.html#jaxlib-0-1-40-march-4-2020
@@ -3708,7 +3761,10 @@ std:label
 	/changelog.rst#jaxlib-0-1-55-september-8-2020 jaxlib 0.1.55 (September 8, 2020)       : CHANGELOG.html#jaxlib-0-1-55-september-8-2020
 	/changelog.rst#jaxlib-0-1-56-october-14-2020 jaxlib 0.1.56 (October 14, 2020)        : CHANGELOG.html#jaxlib-0-1-56-october-14-2020
 	/changelog.rst#jaxlib-0-1-57-november-12-2020 jaxlib 0.1.57 (November 12 2020)        : CHANGELOG.html#jaxlib-0-1-57-november-12-2020
-	/changelog.rst#jaxlib-0-1-58-unreleased  jaxlib 0.1.58 (Unreleased)              : CHANGELOG.html#jaxlib-0-1-58-unreleased
+	/changelog.rst#jaxlib-0-1-58-january-12ish-2021 jaxlib 0.1.58 (January 12ish 2021)      : CHANGELOG.html#jaxlib-0-1-58-january-12ish-2021
+	/changelog.rst#jaxlib-0-1-59-january-15-2021 jaxlib 0.1.59 (January 15 2021)         : CHANGELOG.html#jaxlib-0-1-59-january-15-2021
+	/changelog.rst#jaxlib-0-1-60-febuary-3-2021 jaxlib 0.1.60 (Febuary 3 2021)          : CHANGELOG.html#jaxlib-0-1-60-febuary-3-2021
+	/changelog.rst#jaxlib-0-1-61-unreleased  jaxlib 0.1.61 (Unreleased)              : CHANGELOG.html#jaxlib-0-1-61-unreleased
 	/changelog.rst#notable-bug-fixes         Notable bug fixes                       : CHANGELOG.html#notable-bug-fixes
 	/concurrency.rst                         Concurrency                             : concurrency.html
 	/concurrency.rst#concurrency             Concurrency                             : concurrency.html#concurrency
@@ -3770,6 +3826,11 @@ std:label
 	/jax.experimental.loops.rst#jax.experimental.loops.scope.start_subtrace jax.experimental.loops.Scope.start_subtrace: jax.experimental.loops.html#jax.experimental.loops.Scope.start_subtrace
 	/jax.experimental.loops.rst#jax.experimental.loops.scope.while_range jax.experimental.loops.Scope.while_range: jax.experimental.loops.html#jax.experimental.loops.Scope.while_range
 	/jax.experimental.loops.rst#module-jax.experimental.loops jax.experimental.loops module           : jax.experimental.loops.html#module-jax.experimental.loops
+	/jax.experimental.maps.rst               jax.experimental.maps module            : jax.experimental.maps.html
+	/jax.experimental.maps.rst#api           API                                     : jax.experimental.maps.html#api
+	/jax.experimental.maps.rst#jax.experimental.maps.mesh jax.experimental.maps.mesh              : jax.experimental.maps.html#jax.experimental.maps.mesh
+	/jax.experimental.maps.rst#jax.experimental.maps.xmap jax.experimental.maps.xmap              : jax.experimental.maps.html#jax.experimental.maps.xmap
+	/jax.experimental.maps.rst#module-jax.experimental.maps jax.experimental.maps module            : jax.experimental.maps.html#module-jax.experimental.maps
 	/jax.experimental.optimizers.rst         jax.experimental.optimizers module      : jax.experimental.optimizers.html
 	/jax.experimental.optimizers.rst#jax.experimental.optimizers.adagrad jax.experimental.optimizers.adagrad     : jax.experimental.optimizers.html#jax.experimental.optimizers.adagrad
 	/jax.experimental.optimizers.rst#jax.experimental.optimizers.adam jax.experimental.optimizers.adam        : jax.experimental.optimizers.html#jax.experimental.optimizers.adam
@@ -3802,6 +3863,8 @@ std:label
 	/jax.experimental.optimizers.rst#module-jax.experimental.optimizers jax.experimental.optimizers module      : jax.experimental.optimizers.html#module-jax.experimental.optimizers
 	/jax.experimental.rst                    jax.experimental package                : jax.experimental.html
 	/jax.experimental.rst#jax-experimental-package jax.experimental package                : jax.experimental.html#jax-experimental-package
+	/jax.experimental.rst#jax.experimental.disable_x64 jax.experimental.disable_x64            : jax.experimental.html#jax.experimental.disable_x64
+	/jax.experimental.rst#jax.experimental.enable_x64 jax.experimental.enable_x64             : jax.experimental.html#jax.experimental.enable_x64
 	/jax.experimental.stax.rst               jax.experimental.stax module            : jax.experimental.stax.html
 	/jax.experimental.stax.rst#jax.experimental.stax.avgpool jax.experimental.stax.AvgPool           : jax.experimental.stax.html#jax.experimental.stax.AvgPool
 	/jax.experimental.stax.rst#jax.experimental.stax.batchnorm jax.experimental.stax.BatchNorm         : jax.experimental.stax.html#jax.experimental.stax.BatchNorm
@@ -3865,6 +3928,7 @@ std:label
 	/jax.rst                                 Public API: jax package                 : jax.html
 	/jax.rst#automatic-differentiation       Automatic differentiation               : jax.html#automatic-differentiation
 	/jax.rst#jax.checkpoint                  jax.checkpoint                          : jax.html#jax.checkpoint
+	/jax.rst#jax.closure_convert             jax.closure_convert                     : jax.html#jax.closure_convert
 	/jax.rst#jax.custom_jvp                  jax.custom_jvp                          : jax.html#jax.custom_jvp
 	/jax.rst#jax.custom_jvp.defjvp           jax.custom_jvp.defjvp                   : jax.html#jax.custom_jvp.defjvp
 	/jax.rst#jax.custom_jvp.defjvps          jax.custom_jvp.defjvps                  : jax.html#jax.custom_jvp.defjvps
@@ -3904,24 +3968,25 @@ std:label
 	/jax.scipy.rst                           jax.scipy package                       : jax.scipy.html
 	/jax.scipy.rst#jax-scipy-package         jax.scipy package                       : jax.scipy.html#jax-scipy-package
 	/jax.scipy.rst#jax-scipy-stats           jax.scipy.stats                         : jax.scipy.html#jax-scipy-stats
-	/jax.scipy.rst#jax-scipy-stats-bernoulli jax.scipy.stats.bernoulli               : jax.scipy.html#jax-scipy-stats-bernoulli
-	/jax.scipy.rst#jax-scipy-stats-cauchy    jax.scipy.stats.cauchy                  : jax.scipy.html#jax-scipy-stats-cauchy
-	/jax.scipy.rst#jax-scipy-stats-dirichlet jax.scipy.stats.dirichlet               : jax.scipy.html#jax-scipy-stats-dirichlet
-	/jax.scipy.rst#jax-scipy-stats-multivariate-normal jax.scipy.stats.multivariate_normal     : jax.scipy.html#jax-scipy-stats-multivariate-normal
-	/jax.scipy.rst#jax-scipy-stats-pareto    jax.scipy.stats.pareto                  : jax.scipy.html#jax-scipy-stats-pareto
 	/jax.scipy.rst#module-jax.scipy.linalg   jax.scipy.linalg                        : jax.scipy.html#module-jax.scipy.linalg
 	/jax.scipy.rst#module-jax.scipy.ndimage  jax.scipy.ndimage                       : jax.scipy.html#module-jax.scipy.ndimage
 	/jax.scipy.rst#module-jax.scipy.optimize jax.scipy.optimize                      : jax.scipy.html#module-jax.scipy.optimize
 	/jax.scipy.rst#module-jax.scipy.signal   jax.scipy.signal                        : jax.scipy.html#module-jax.scipy.signal
 	/jax.scipy.rst#module-jax.scipy.sparse.linalg jax.scipy.sparse.linalg                 : jax.scipy.html#module-jax.scipy.sparse.linalg
 	/jax.scipy.rst#module-jax.scipy.special  jax.scipy.special                       : jax.scipy.html#module-jax.scipy.special
+	/jax.scipy.rst#module-jax.scipy.stats.bernoulli jax.scipy.stats.bernoulli               : jax.scipy.html#module-jax.scipy.stats.bernoulli
 	/jax.scipy.rst#module-jax.scipy.stats.beta jax.scipy.stats.beta                    : jax.scipy.html#module-jax.scipy.stats.beta
+	/jax.scipy.rst#module-jax.scipy.stats.cauchy jax.scipy.stats.cauchy                  : jax.scipy.html#module-jax.scipy.stats.cauchy
+	/jax.scipy.rst#module-jax.scipy.stats.chi2 jax.scipy.stats.chi2                    : jax.scipy.html#module-jax.scipy.stats.chi2
+	/jax.scipy.rst#module-jax.scipy.stats.dirichlet jax.scipy.stats.dirichlet               : jax.scipy.html#module-jax.scipy.stats.dirichlet
 	/jax.scipy.rst#module-jax.scipy.stats.expon jax.scipy.stats.expon                   : jax.scipy.html#module-jax.scipy.stats.expon
 	/jax.scipy.rst#module-jax.scipy.stats.gamma jax.scipy.stats.gamma                   : jax.scipy.html#module-jax.scipy.stats.gamma
 	/jax.scipy.rst#module-jax.scipy.stats.geom jax.scipy.stats.geom                    : jax.scipy.html#module-jax.scipy.stats.geom
 	/jax.scipy.rst#module-jax.scipy.stats.laplace jax.scipy.stats.laplace                 : jax.scipy.html#module-jax.scipy.stats.laplace
 	/jax.scipy.rst#module-jax.scipy.stats.logistic jax.scipy.stats.logistic                : jax.scipy.html#module-jax.scipy.stats.logistic
+	/jax.scipy.rst#module-jax.scipy.stats.multivariate_normal jax.scipy.stats.multivariate_normal     : jax.scipy.html#module-jax.scipy.stats.multivariate_normal
 	/jax.scipy.rst#module-jax.scipy.stats.norm jax.scipy.stats.norm                    : jax.scipy.html#module-jax.scipy.stats.norm
+	/jax.scipy.rst#module-jax.scipy.stats.pareto jax.scipy.stats.pareto                  : jax.scipy.html#module-jax.scipy.stats.pareto
 	/jax.scipy.rst#module-jax.scipy.stats.poisson jax.scipy.stats.poisson                 : jax.scipy.html#module-jax.scipy.stats.poisson
 	/jax.scipy.rst#module-jax.scipy.stats.t  jax.scipy.stats.t                       : jax.scipy.html#module-jax.scipy.stats.t
 	/jax.scipy.rst#module-jax.scipy.stats.uniform jax.scipy.stats.uniform                 : jax.scipy.html#module-jax.scipy.stats.uniform
@@ -4053,6 +4118,13 @@ std:label
 	/notebooks/quickstart.ipynb#multiplying-matrices Multiplying Matrices                    : notebooks/quickstart.html#Multiplying-Matrices
 	/notebooks/quickstart.ipynb#taking-derivatives-with-grad Taking derivatives with grad            : notebooks/quickstart.html#Taking-derivatives-with-grad
 	/notebooks/quickstart.ipynb#using-jit-to-speed-up-functions Using jit to speed up functions         : notebooks/quickstart.html#Using-jit-to-speed-up-functions
+	/notebooks/thinking_in_jax.ipynb         How to Think in JAX                     : notebooks/thinking_in_jax.html
+	/notebooks/thinking_in_jax.ipynb#how-to-think-in-jax How to Think in JAX                     : notebooks/thinking_in_jax.html#How-to-Think-in-JAX
+	/notebooks/thinking_in_jax.ipynb#jax-vs.-numpy JAX vs. NumPy                           : notebooks/thinking_in_jax.html#JAX-vs.-NumPy
+	/notebooks/thinking_in_jax.ipynb#jit-mechanics:-tracing-and-static-variables JIT mechanics: tracing and static variables: notebooks/thinking_in_jax.html#JIT-mechanics:-tracing-and-static-variables
+	/notebooks/thinking_in_jax.ipynb#numpy,-lax-&-xla:-jax-api-layering NumPy, lax & XLA: JAX API layering      : notebooks/thinking_in_jax.html#NumPy,-lax-&-XLA:-JAX-API-layering
+	/notebooks/thinking_in_jax.ipynb#static-vs-traced-operations Static vs Traced Operations             : notebooks/thinking_in_jax.html#Static-vs-Traced-Operations
+	/notebooks/thinking_in_jax.ipynb#to-jit-or-not-to-jit To JIT or not to JIT                    : notebooks/thinking_in_jax.html#To-JIT-or-not-to-JIT
 	/notebooks/vmapped_log_probs.ipynb       Autobatching log-densities example      : notebooks/vmapped_log_probs.html
 	/notebooks/vmapped_log_probs.ipynb#autobatched-with-vmap Autobatched with vmap                   : notebooks/vmapped_log_probs.html#Autobatched-with-vmap
 	/notebooks/vmapped_log_probs.ipynb#autobatching-log-densities-example Autobatching log-densities example      : notebooks/vmapped_log_probs.html#Autobatching-log-densities-example
@@ -4089,8 +4161,8 @@ std:label
 	/pytrees.rst#applying-optional-parameters-to-pytrees Applying optional parameters to pytrees : pytrees.html#applying-optional-parameters-to-pytrees
 	/pytrees.rst#developer-information       Developer information                   : pytrees.html#developer-information
 	/pytrees.rst#extending-pytrees           Extending pytrees                       : pytrees.html#extending-pytrees
+	/pytrees.rst#id1                         Pytrees                                 : pytrees.html#id1
 	/pytrees.rst#internal-pytree-handling    Internal pytree handling                : pytrees.html#internal-pytree-handling
-	/pytrees.rst#pytrees                     Pytrees                                 : pytrees.html#pytrees
 	/pytrees.rst#pytrees-and-jax-functions   Pytrees and JAX functions               : pytrees.html#pytrees-and-jax-functions
 	/pytrees.rst#viewing-the-pytree-definition-of-an-object Viewing the pytree definition of an object: pytrees.html#viewing-the-pytree-definition-of-an-object
 	/pytrees.rst#what-is-a-pytree            What is a pytree?                       : pytrees.html#what-is-a-pytree
@@ -4106,6 +4178,7 @@ std:label
 	faq-slow-compile                         jit decorated function is very slow to compile: faq.html#faq-slow-compile
 	genindex                                 Index                                   : genindex.html
 	modindex                                 Module Index                            : py-modindex.html
+	pytrees                                  Pytrees                                 : pytrees.html#pytrees
 	remote_profiling                         Profiling on a remote machine           : profiling.html#remote-profiling
 	search                                   Search Page                             : search.html
 	type-promotion                           Type promotion semantics                : type_promotion.html#type-promotion

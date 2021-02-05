@@ -77,13 +77,13 @@ install_dev: install_requirements
 
 install_requirements: __install_requirements intersphinx
 
-upgrade_requirements: __upgrade_requirements intersphinx
+upgrade_requirements: __upgrade_requirements install_requirements
 
 __install_requirements:
 	for r in requirements.txt requirements.dev.txt requirements.doc.txt; do $(PYTHON_EXECUTABLE) -m pip install -r $$r --use-feature=2020-resolver; done
 
 __upgrade_requirements:
-	for r in requirements.txt requirements.dev.txt requirements.doc.txt; do $(PYTHON_EXECUTABLE) -m pur -r $$r; $(PYTHON_EXECUTABLE) -m pip install -r $$r --use-feature=2020-resolver; done
+	$(PYTHON_EXECUTABLE) upgrade_requirements.py
 
 rm_pycache:
 	find -regex '.*__pycache__[^/]*' -type d -exec rm -rf '{}' \;

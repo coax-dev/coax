@@ -28,6 +28,7 @@ py:attribute
 	haiku.experimental.ModuleDetails.method_name api.html#haiku.experimental.ModuleDetails.method_name
 	haiku.experimental.ModuleDetails.module  api.html#haiku.experimental.ModuleDetails.module
 	haiku.experimental.ModuleDetails.params  api.html#haiku.experimental.ModuleDetails.params
+	haiku.experimental.ModuleDetails.state   api.html#haiku.experimental.ModuleDetails.state
 	haiku.experimental.ParamContext          api.html#haiku.experimental.ParamContext
 	haiku.initializers.Initializer           api.html#haiku.initializers.Initializer
 	haiku.nets.VectorQuantizer.commitment_cost api.html#haiku.nets.VectorQuantizer.commitment_cost
@@ -227,6 +228,7 @@ py:method
 	haiku.Module.__init__                    api.html#haiku.Module.__init__
 	haiku.Module.__post_init__               api.html#haiku.Module.__post_init__
 	haiku.Module.params_dict                 api.html#haiku.Module.params_dict
+	haiku.Module.state_dict                  api.html#haiku.Module.state_dict
 	haiku.MultiHeadAttention.__call__        api.html#haiku.MultiHeadAttention.__call__
 	haiku.MultiHeadAttention.__init__        api.html#haiku.MultiHeadAttention.__init__
 	haiku.PRNGSequence.__init__              api.html#haiku.PRNGSequence.__init__
@@ -306,6 +308,7 @@ std:doc
 	notebooks/basics                         Haiku Basics                            : notebooks/basics.html
 	notebooks/build_your_own_haiku           Build your own Haiku                    : notebooks/build_your_own_haiku.html
 	notebooks/jax2tf                         Haiku and jax2tf                        : notebooks/jax2tf.html
+	notebooks/non_trainable                  Training a subset of parameters         : notebooks/non_trainable.html
 	notebooks/transforms                     Limitations of using JAX transforms inside of networks: notebooks/transforms.html
 	notebooks/visualization                  Visualization                           : notebooks/visualization.html
 std:label
@@ -460,6 +463,7 @@ std:label
 	/api.rst#haiku.experimental.moduledetails.method_name haiku.experimental.ModuleDetails.method_name: api.html#haiku.experimental.ModuleDetails.method_name
 	/api.rst#haiku.experimental.moduledetails.module haiku.experimental.ModuleDetails.module : api.html#haiku.experimental.ModuleDetails.module
 	/api.rst#haiku.experimental.moduledetails.params haiku.experimental.ModuleDetails.params : api.html#haiku.experimental.ModuleDetails.params
+	/api.rst#haiku.experimental.moduledetails.state haiku.experimental.ModuleDetails.state  : api.html#haiku.experimental.ModuleDetails.state
 	/api.rst#haiku.experimental.name_scope   haiku.experimental.name_scope           : api.html#haiku.experimental.name_scope
 	/api.rst#haiku.experimental.named_call   haiku.experimental.named_call           : api.html#haiku.experimental.named_call
 	/api.rst#haiku.experimental.optimize_rng_use haiku.experimental.optimize_rng_use     : api.html#haiku.experimental.optimize_rng_use
@@ -537,6 +541,7 @@ std:label
 	/api.rst#haiku.module.__init__           haiku.Module.__init__                   : api.html#haiku.Module.__init__
 	/api.rst#haiku.module.__post_init__      haiku.Module.__post_init__              : api.html#haiku.Module.__post_init__
 	/api.rst#haiku.module.params_dict        haiku.Module.params_dict                : api.html#haiku.Module.params_dict
+	/api.rst#haiku.module.state_dict         haiku.Module.state_dict                 : api.html#haiku.Module.state_dict
 	/api.rst#haiku.multiheadattention        haiku.MultiHeadAttention                : api.html#haiku.MultiHeadAttention
 	/api.rst#haiku.multiheadattention.__call__ haiku.MultiHeadAttention.__call__       : api.html#haiku.MultiHeadAttention.__call__
 	/api.rst#haiku.multiheadattention.__init__ haiku.MultiHeadAttention.__init__       : api.html#haiku.MultiHeadAttention.__init__
@@ -800,6 +805,8 @@ std:label
 	/notebooks/jax2tf.ipynb#save-to-disk-as-a-tensorflow-savedmodel Save to disk as a TensorFlow SavedModel : notebooks/jax2tf.html#Save-to-disk-as-a-TensorFlow-SavedModel
 	/notebooks/jax2tf.ipynb#saving           Saving                                  : notebooks/jax2tf.html#Saving
 	/notebooks/jax2tf.ipynb#train-using-tensorflow Train using TensorFlow                  : notebooks/jax2tf.html#Train-using-TensorFlow
+	/notebooks/non_trainable.ipynb           Training a subset of parameters         : notebooks/non_trainable.html
+	/notebooks/non_trainable.ipynb#training-a-subset-of-parameters Training a subset of parameters         : notebooks/non_trainable.html#Training-a-subset-of-parameters
 	/notebooks/transforms.ipynb              Limitations of using JAX transforms inside of networks: notebooks/transforms.html
 	/notebooks/transforms.ipynb#limitations-of-using-jax-transforms-inside-of-networks Limitations of using JAX transforms inside of networks: notebooks/transforms.html#Limitations-of-using-JAX-transforms-inside-of-networks
 	/notebooks/visualization.ipynb           Visualization                           : notebooks/visualization.html

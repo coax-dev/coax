@@ -949,6 +949,7 @@ c:function
 	Py_XINCREF                               c-api/refcounting.html#c.Py_XINCREF
 	_PyBytes_Resize                          c-api/bytes.html#c._PyBytes_Resize
 	_PyInterpreterState_GetEvalFrameFunc     c-api/init.html#c._PyInterpreterState_GetEvalFrameFunc
+	_PyInterpreterState_SetEvalFrameFunc     c-api/init.html#c._PyInterpreterState_SetEvalFrameFunc
 	_PyObject_New                            c-api/allocation.html#c._PyObject_New
 	_PyObject_NewVar                         c-api/allocation.html#c._PyObject_NewVar
 	_PyTuple_Resize                          c-api/tuple.html#c._PyTuple_Resize
