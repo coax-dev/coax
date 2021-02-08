@@ -52,7 +52,7 @@ class PrioritizedReplayBuffer(BaseReplayBuffer):
     TD errors collected from a value-function updater, e.g. :func:`QLearning.td_error
     <coax.td_learning.QLearning.td_error>`.
 
-    Since the prioritized samples are baised, the :attr:`sample` method also produces non-trivial
+    Since the prioritized samples are biased, the :attr:`sample` method also produces non-trivial
     importance weights (stored in the :class:`TransitionBatch.W
     <coax.reward_tracing.TransitionBatch>` attribute). The logic for constructing these weights for
     a sample of batch size :math:`n` (typically :math:`n\ll N`):
