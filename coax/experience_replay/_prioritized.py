@@ -55,7 +55,7 @@ class PrioritizedReplayBuffer(BaseReplayBuffer):
     Since the prioritized samples are biased, the :attr:`sample` method also produces non-trivial
     importance weights (stored in the :class:`TransitionBatch.W
     <coax.reward_tracing.TransitionBatch>` attribute). The logic for constructing these weights for
-    a sample of batch size :math:`n` (typically :math:`n\ll N`):
+    a sample of batch size :math:`n` is:
 
     .. math::
 

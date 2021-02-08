@@ -31,47 +31,13 @@ Experience Replay
 
 ----
 
-This is where we keep our experience-replay buffer classes. Replay buffers are typically used as
-follows:
+This is where we keep our experience-replay buffer classes. Some examples of agents that use a
+replay buffer are:
 
-.. code:: python
+- :doc:`/examples/stubs/dqn`
+- :doc:`/examples/stubs/dqn_per`.
 
-    env = gym.make(...)
-
-    # function approximator
-    func = coax.FuncApprox(env)
-    q = coax.Q(func)
-    pi = coax.EpsilonGreedy(q, epsilon=0.1)
-
-    # updater
-    qlearning = coax.td_learning.QLearning(q)
-
-    # reward tracer and replay buffer
-    tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
-    buffer = coax.experience_replay.SimpleReplayBuffer(tracer, capacity=10000)
-
-
-    s = env.reset()
-
-    for t in range(env.spec.max_episode_steps):
-        a = pi(s)
-        s_next, r, done, info = env.step(a)
-
-        # trace n-step rewards and add to replay buffer
-        tracer.add(s, a, r, done)
-        while tracer:
-            transition_batch = tracer.pop()  # batch_size = 1
-            buffer.add(transition_batch)
-
-        # sample random transitions from replay buffer
-        transition_batch = buffer.sample(batch_size=32)
-        qlearning.update(transition_batch)
-
-        if done:
-            break
-
-        s = s_next
-
+For specific examples, have a look at the :doc:`agents for Atari games </examples/atari/index>`.
 
 
 Object Reference
