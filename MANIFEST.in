@@ -1,2 +1,4 @@
 global-exclude *_test.py
 global-exclude data/
+
+include requirements*.txt
