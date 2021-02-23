@@ -134,7 +134,7 @@ def test_update():
     u = t.idx[t.idx >= 50]
     diff = 2 * (new_values[u] - old_values[u]) / (new_values[u] + old_values[u])
     print(onp.abs(diff))
-    assert onp.min(onp.abs(diff)) > 1e-3
+    assert onp.min(onp.abs(diff)) > 1e-4
 
     # neither replaced by buffer.add() nor updated by buffer.update()
     n = ~onp.isin(onp.arange(100), t.idx) & (onp.arange(100) >= 50)
