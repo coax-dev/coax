@@ -164,10 +164,10 @@ class PolicyObjective:
         grads, function_state, metrics = self.grads_and_metrics(transition_batch, Adv)
         if any(jnp.any(jnp.isnan(g)) for g in jax.tree_leaves(grads)):
             raise RuntimeError(f"found nan's in grads: {grads}")
-        self.update_from_grads(grads, function_state)
+        self.apply_grads(grads, function_state)
         return metrics
 
-    def update_from_grads(self, grads, function_state):
+    def apply_grads(self, grads, function_state):
         r"""
 
         Update the model parameters (weights) of the underlying function approximator given
