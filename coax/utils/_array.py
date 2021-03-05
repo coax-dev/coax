@@ -51,6 +51,7 @@ __all__ = (
     'single_to_batch',
     'safe_sample',
     'tree_ravel',
+    'tree_sample',
 )
 
 
@@ -904,3 +905,66 @@ def tree_ravel(pytree):
 
     """
     return jnp.concatenate([jnp.ravel(leaf) for leaf in jax.tree_leaves(pytree)])
+
+
+def tree_sample(pytree, rng, n=1, replace=False, axis=0, p=None):
+    r"""
+
+    Flatten and concatenate all leaves into a single flat ndarray.
+
+    Parameters
+    ----------
+    pytree : a pytree with ndarray leaves
+
+        A typical example is a pytree of model parameters (weights) or gradients with respect to
+        such model params.
+
+    rng : jax.random.PRNGKey
+
+        A pseudo-random number generator key.
+
+    n : int, optional
+
+        The sample size. Note that the smaple size cannot exceed the batch size of the provided
+        :code:`pytree` if :code:`with_replacement=False`.
+
+    replace : bool, optional
+
+        Whether to sample with replacement.
+
+    axis : int, optional
+
+        The axis along which to sample.
+
+    p : 1d array, optional
+
+        The sampling propensities.
+
+    Returns
+    -------
+    arr : ndarray with ndim=1
+
+        A single flat array.
+
+    """
+    batch_size = _check_leaf_batch_size(pytree)
+    idx = jax.random.choice(rng, batch_size, shape=(n,), replace=replace, p=p)
+    return jax.tree_map(lambda x: jnp.take(x, idx, axis=0), pytree)
+
+
+def _check_leaf_batch_size(pytree):
+    """ some boilerplate to extract the batch size with some consistency checks """
+    leaf, *leaves = jax.tree_leaves(pytree)
+    if not isinstance(leaf, (onp.ndarray, jnp.ndarray)) and leaf.ndim >= 1:
+        raise TypeError(f"all leaves must be arrays; got type: {type(leaf)}")
+    if leaf.ndim < 1:
+        raise TypeError("all leaves must be at least 1d, i.e. (batch_size, ...)")
+    batch_size = leaf.shape[0]
+    for leaf in leaves:
+        if not isinstance(leaf, (onp.ndarray, jnp.ndarray)) and leaf.ndim >= 1:
+            raise TypeError(f"all leaves must be arrays; got type: {type(leaf)}")
+        if leaf.ndim < 1:
+            raise TypeError("all leaves must be at least 1d, i.e. (batch_size, ...)")
+        if leaf.shape[0] != batch_size:
+            raise TypeError("all leaves must have the same batch_size")
+    return batch_size

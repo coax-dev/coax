@@ -33,6 +33,7 @@ from ._array import (
     chunks_pow2,
     default_preprocessor,
     get_transition_batch,
+    tree_sample,
 )
 
 
@@ -120,3 +121,17 @@ class TestArrayUtils(TestCase):
 
         for chunk, chunk_size in zip(chunks_pow2(tn), chunk_sizes):
             self.assertEqual(chunk.batch_size, chunk_size)
+
+    def test_tree_sample(self):
+        rngs = PRNGSequence(42)
+        tn = get_transition_batch(self.env_discrete, batch_size=5)
+
+        tn_sample = tree_sample(tn, next(rngs), n=3)
+        assert tn_sample.batch_size == 3
+
+        tn_sample = tree_sample(tn, next(rngs), n=7, replace=True)
+        assert tn_sample.batch_size == 7
+
+        msg = r"Cannot take a larger sample than population when 'replace=False'"
+        with self.assertRaisesRegex(ValueError, msg):
+            tree_sample(tn, next(rngs), n=7, replace=False)
