@@ -38,6 +38,6 @@ natural connection between soft q-learning and actor-critic methods (see `paper
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
     :alt: Open in Google Colab
-    :target: https://colab.research.google.com/github/microsoft/coax/blob/main/doc/_notebooks/stubs/soft_qlearning.ipynb
+    :target: https://colab.research.google.com/github/coax-dev/coax/blob/main/doc/_notebooks/stubs/soft_qlearning.ipynb
 
 .. literalinclude:: soft_qlearning.py

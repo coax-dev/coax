@@ -22,6 +22,6 @@ table-lookup case.
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
     :alt: Open in Google Colab
-    :target: https://colab.research.google.com/github/microsoft/coax/blob/main/doc/_notebooks/frozen_lake/ppo.ipynb
+    :target: https://colab.research.google.com/github/coax-dev/coax/blob/main/doc/_notebooks/frozen_lake/ppo.ipynb
 
 .. literalinclude:: ppo.py

@@ -55,13 +55,13 @@ comments.
 
 ....................................................................................................
 
-.. |readthedocs| image:: https://raw.githubusercontent.com/microsoft/coax/main/doc/_static/img/readthedocs.gif
+.. |readthedocs| image:: https://raw.githubusercontent.com/coax-dev/coax/main/doc/_static/img/readthedocs.gif
     :target: https://coax.readthedocs.io/
     :width: 400
     :alt: readthedocs
 
-.. |tests| image:: https://github.com/microsoft/coax/workflows/tests/badge.svg
-    :target: https://github.com/microsoft/coax/actions?query=workflow%3Atests
+.. |tests| image:: https://github.com/coax-dev/coax/workflows/tests/badge.svg
+    :target: https://github.com/coax-dev/coax/actions?query=workflow%3Atests
     :alt: tests badge
 
 .. |pypi| image:: https://img.shields.io/pypi/v/coax
@@ -72,6 +72,6 @@ comments.
     :target: https://coax.readthedocs.io
     :alt: docs badge
 
-.. |license| image:: https://img.shields.io/github/license/microsoft/coax
-    :target: https://github.com/microsoft/coax/blob/main/LICENSE
+.. |license| image:: https://img.shields.io/github/license/coax-dev/coax
+    :target: https://github.com/coax-dev/coax/blob/main/LICENSE
     :alt: license badge

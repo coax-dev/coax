@@ -17,6 +17,6 @@ The rest of the agent is essentially the same as that of :doc:`DDPG <ddpg>`.
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
     :alt: Open in Google Colab
-    :target: https://colab.research.google.com/github/microsoft/coax/blob/main/doc/_notebooks/stubs/td3.ipynb
+    :target: https://colab.research.google.com/github/coax-dev/coax/blob/main/doc/_notebooks/stubs/td3.ipynb
 
 .. literalinclude:: td3.py

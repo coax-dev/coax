@@ -18,6 +18,6 @@ After a few hundred episodes, this is what you can expect:
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
     :alt: Open in Google Colab
-    :target: https://colab.research.google.com/github/microsoft/coax/blob/main/doc/_notebooks/atari/apex_dqn.ipynb
+    :target: https://colab.research.google.com/github/coax-dev/coax/blob/main/doc/_notebooks/atari/apex_dqn.ipynb
 
 .. literalinclude:: apex_dqn.py
