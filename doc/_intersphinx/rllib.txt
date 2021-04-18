@@ -17,6 +17,7 @@ py:attribute
 	ray.rllib.evaluation.MultiAgentEpisode.batch_builder rllib-package-ref.html#ray.rllib.evaluation.MultiAgentEpisode.batch_builder
 	ray.rllib.evaluation.MultiAgentEpisode.custom_metrics rllib-package-ref.html#ray.rllib.evaluation.MultiAgentEpisode.custom_metrics
 	ray.rllib.evaluation.MultiAgentEpisode.episode_id rllib-package-ref.html#ray.rllib.evaluation.MultiAgentEpisode.episode_id
+	ray.rllib.evaluation.MultiAgentEpisode.hist_data rllib-package-ref.html#ray.rllib.evaluation.MultiAgentEpisode.hist_data
 	ray.rllib.evaluation.MultiAgentEpisode.length rllib-package-ref.html#ray.rllib.evaluation.MultiAgentEpisode.length
 	ray.rllib.evaluation.MultiAgentEpisode.new_batch_builder rllib-package-ref.html#ray.rllib.evaluation.MultiAgentEpisode.new_batch_builder
 	ray.rllib.evaluation.MultiAgentEpisode.total_reward rllib-package-ref.html#ray.rllib.evaluation.MultiAgentEpisode.total_reward
@@ -60,10 +61,13 @@ py:class
 	ray.rllib.env.EnvContext                 rllib-package-ref.html#ray.rllib.env.EnvContext
 	ray.rllib.env.ExternalEnv                rllib-package-ref.html#ray.rllib.env.ExternalEnv
 	ray.rllib.env.ExternalMultiAgentEnv      rllib-package-ref.html#ray.rllib.env.ExternalMultiAgentEnv
+	ray.rllib.env.GroupAgentsWrapper         rllib-package-ref.html#ray.rllib.env.GroupAgentsWrapper
+	ray.rllib.env.KaggleFootballMultiAgentEnv rllib-package-ref.html#ray.rllib.env.KaggleFootballMultiAgentEnv
 	ray.rllib.env.MultiAgentEnv              rllib-package-ref.html#ray.rllib.env.MultiAgentEnv
 	ray.rllib.env.PettingZooEnv              rllib-package-ref.html#ray.rllib.env.PettingZooEnv
 	ray.rllib.env.PolicyClient               rllib-package-ref.html#ray.rllib.env.PolicyClient
 	ray.rllib.env.PolicyServerInput          rllib-package-ref.html#ray.rllib.env.PolicyServerInput
+	ray.rllib.env.RemoteVectorEnv            rllib-package-ref.html#ray.rllib.env.RemoteVectorEnv
 	ray.rllib.env.Unity3DEnv                 rllib-package-ref.html#ray.rllib.env.Unity3DEnv
 	ray.rllib.env.VectorEnv                  rllib-package-ref.html#ray.rllib.env.VectorEnv
 	ray.rllib.env.policy_client.PolicyClient rllib-training.html#ray.rllib.env.policy_client.PolicyClient
@@ -114,6 +118,7 @@ py:class
 	ray.serve.BackendConfig                  serve/package-ref.html#ray.serve.BackendConfig
 	ray.serve.CondaEnv                       serve/package-ref.html#ray.serve.CondaEnv
 	ray.serve.api.Client                     serve/package-ref.html#ray.serve.api.Client
+	ray.serve.backends.ImportedBackend       serve/package-ref.html#ray.serve.backends.ImportedBackend
 	ray.serve.handle.RayServeHandle          serve/package-ref.html#ray.serve.handle.RayServeHandle
 	ray.serve.utils.ServeRequest             serve/package-ref.html#ray.serve.utils.ServeRequest
 	ray.tune.Analysis                        tune/api_docs/analysis.html#ray.tune.Analysis
@@ -122,12 +127,13 @@ py:class
 	ray.tune.ExperimentAnalysis              tune/api_docs/analysis.html#ray.tune.ExperimentAnalysis
 	ray.tune.JupyterNotebookReporter         tune/api_docs/reporters.html#ray.tune.JupyterNotebookReporter
 	ray.tune.ProgressReporter                tune/api_docs/reporters.html#ray.tune.ProgressReporter
-	ray.tune.Stopper                         tune/api_docs/execution.html#ray.tune.Stopper
+	ray.tune.Stopper                         tune/api_docs/stoppers.html#ray.tune.Stopper
 	ray.tune.Trainable                       tune/api_docs/trainable.html#ray.tune.Trainable
 	ray.tune.callback.Callback               tune/api_docs/internals.html#ray.tune.callback.Callback
 	ray.tune.function_runner.StatusReporter  tune/api_docs/trainable.html#ray.tune.function_runner.StatusReporter
 	ray.tune.integration.keras.TuneReportCallback tune/api_docs/integration.html#ray.tune.integration.keras.TuneReportCallback
 	ray.tune.integration.keras.TuneReportCheckpointCallback tune/api_docs/integration.html#ray.tune.integration.keras.TuneReportCheckpointCallback
+	ray.tune.integration.mlflow.MLflowLoggerCallback tune/api_docs/integration.html#ray.tune.integration.mlflow.MLflowLoggerCallback
 	ray.tune.integration.mxnet.TuneCheckpointCallback tune/api_docs/integration.html#ray.tune.integration.mxnet.TuneCheckpointCallback
 	ray.tune.integration.mxnet.TuneReportCallback tune/api_docs/integration.html#ray.tune.integration.mxnet.TuneReportCallback
 	ray.tune.integration.pytorch_lightning.TuneReportCallback tune/api_docs/integration.html#ray.tune.integration.pytorch_lightning.TuneReportCallback
@@ -138,7 +144,6 @@ py:class
 	ray.tune.logger.CSVLoggerCallback        tune/api_docs/logging.html#ray.tune.logger.CSVLoggerCallback
 	ray.tune.logger.JsonLoggerCallback       tune/api_docs/logging.html#ray.tune.logger.JsonLoggerCallback
 	ray.tune.logger.LoggerCallback           tune/api_docs/logging.html#ray.tune.logger.LoggerCallback
-	ray.tune.logger.MLFLowLogger             tune/api_docs/logging.html#ray.tune.logger.MLFLowLogger
 	ray.tune.logger.TBXLoggerCallback        tune/api_docs/logging.html#ray.tune.logger.TBXLoggerCallback
 	ray.tune.ray_trial_executor.RayTrialExecutor tune/api_docs/internals.html#ray.tune.ray_trial_executor.RayTrialExecutor
 	ray.tune.resources.Resources             tune/api_docs/internals.html#ray.tune.resources.Resources
@@ -153,11 +158,15 @@ py:class
 	ray.tune.schedulers.pb2.PB2              tune/api_docs/schedulers.html#ray.tune.schedulers.pb2.PB2
 	ray.tune.sklearn.TuneGridSearchCV        tune/api_docs/sklearn.html#ray.tune.sklearn.TuneGridSearchCV
 	ray.tune.sklearn.TuneSearchCV            tune/api_docs/sklearn.html#ray.tune.sklearn.TuneSearchCV
-	ray.tune.suggest.BasicVariantGenerator   tune/api_docs/search_space.html#ray.tune.suggest.BasicVariantGenerator
+	ray.tune.stopper.ExperimentPlateauStopper tune/api_docs/stoppers.html#ray.tune.stopper.ExperimentPlateauStopper
+	ray.tune.stopper.MaximumIterationStopper tune/api_docs/stoppers.html#ray.tune.stopper.MaximumIterationStopper
+	ray.tune.stopper.TimeoutStopper          tune/api_docs/stoppers.html#ray.tune.stopper.TimeoutStopper
+	ray.tune.stopper.TrialPlateauStopper     tune/api_docs/stoppers.html#ray.tune.stopper.TrialPlateauStopper
 	ray.tune.suggest.ConcurrencyLimiter      tune/api_docs/suggestion.html#ray.tune.suggest.ConcurrencyLimiter
 	ray.tune.suggest.Repeater                tune/api_docs/suggestion.html#ray.tune.suggest.Repeater
 	ray.tune.suggest.Searcher                tune/api_docs/suggestion.html#ray.tune.suggest.Searcher
 	ray.tune.suggest.ax.AxSearch             tune/api_docs/suggestion.html#ray.tune.suggest.ax.AxSearch
+	ray.tune.suggest.basic_variant.BasicVariantGenerator tune/api_docs/suggestion.html#ray.tune.suggest.basic_variant.BasicVariantGenerator
 	ray.tune.suggest.bayesopt.BayesOptSearch tune/api_docs/suggestion.html#ray.tune.suggest.bayesopt.BayesOptSearch
 	ray.tune.suggest.bohb.TuneBOHB           tune/api_docs/suggestion.html#ray.tune.suggest.bohb.TuneBOHB
 	ray.tune.suggest.dragonfly.DragonflySearch tune/api_docs/suggestion.html#ray.tune.suggest.dragonfly.DragonflySearch
@@ -190,16 +199,12 @@ py:class
 	ray.util.sgd.torch.training_operator.CreatorOperator raysgd/raysgd_ref.html#ray.util.sgd.torch.training_operator.CreatorOperator
 	ray.util.sgd.utils.AverageMeter          raysgd/raysgd_ref.html#ray.util.sgd.utils.AverageMeter
 	ray.util.sgd.utils.AverageMeterCollection raysgd/raysgd_ref.html#ray.util.sgd.utils.AverageMeterCollection
-	ray.util.xgboost.RayDMatrix              xgboost-ray.html#ray.util.xgboost.RayDMatrix
-	ray.util.xgboost.RayParams               xgboost-ray.html#ray.util.xgboost.RayParams
 py:function
 	ray.actor.ActorClass.options             package-ref.html#ray.actor.ActorClass.options
 	ray.autoscaler.sdk.request_resources     cluster/autoscaling.html#ray.autoscaler.sdk.request_resources
 	ray.available_resources                  package-ref.html#ray.available_resources
 	ray.cancel                               package-ref.html#ray.cancel
 	ray.cluster_resources                    package-ref.html#ray.cluster_resources
-	ray.experimental.force_spill_objects     package-ref.html#ray.experimental.force_spill_objects
-	ray.experimental.set_resource            package-ref.html#ray.experimental.set_resource
 	ray.get                                  package-ref.html#ray.get
 	ray.get_gpu_ids                          package-ref.html#ray.get_gpu_ids
 	ray.init                                 package-ref.html#ray.init
@@ -220,8 +225,8 @@ py:function
 	ray.rllib.execution.ParallelRollouts     rllib-package-ref.html#ray.rllib.execution.ParallelRollouts
 	ray.rllib.execution.Replay               rllib-package-ref.html#ray.rllib.execution.Replay
 	ray.rllib.execution.StandardMetricsReporting rllib-package-ref.html#ray.rllib.execution.StandardMetricsReporting
+	ray.rllib.policy.build_policy_class      rllib-package-ref.html#ray.rllib.policy.build_policy_class
 	ray.rllib.policy.build_tf_policy         rllib-package-ref.html#ray.rllib.policy.build_tf_policy
-	ray.rllib.policy.build_torch_policy      rllib-package-ref.html#ray.rllib.policy.build_torch_policy
 	ray.rllib.utils.DeveloperAPI             rllib-package-ref.html#ray.rllib.utils.DeveloperAPI
 	ray.rllib.utils.PublicAPI                rllib-package-ref.html#ray.rllib.utils.PublicAPI
 	ray.rllib.utils.add_mixins               rllib-package-ref.html#ray.rllib.utils.add_mixins
@@ -250,6 +255,8 @@ py:function
 	ray.rllib.utils.try_import_torch         rllib-package-ref.html#ray.rllib.utils.try_import_torch
 	ray.serve.accept_batch                   serve/package-ref.html#ray.serve.accept_batch
 	ray.serve.connect                        serve/package-ref.html#ray.serve.connect
+	ray.serve.get_current_backend_tag        serve/package-ref.html#ray.serve.get_current_backend_tag
+	ray.serve.get_current_replica_tag        serve/package-ref.html#ray.serve.get_current_replica_tag
 	ray.serve.start                          serve/package-ref.html#ray.serve.start
 	ray.shutdown                             package-ref.html#ray.shutdown
 	ray.timeline                             package-ref.html#ray.timeline
@@ -264,6 +271,7 @@ py:function
 	ray.tune.integration.docker.DockerSyncer tune/api_docs/integration.html#ray.tune.integration.docker.DockerSyncer
 	ray.tune.integration.horovod.DistributedTrainableCreator tune/api_docs/integration.html#ray.tune.integration.horovod.DistributedTrainableCreator
 	ray.tune.integration.kubernetes.NamespacedKubernetesSyncer tune/api_docs/integration.html#ray.tune.integration.kubernetes.NamespacedKubernetesSyncer
+	ray.tune.integration.mlflow.mlflow_mixin tune/api_docs/integration.html#ray.tune.integration.mlflow.mlflow_mixin
 	ray.tune.integration.torch.DistributedTrainableCreator tune/api_docs/integration.html#ray.tune.integration.torch.DistributedTrainableCreator
 	ray.tune.integration.torch.distributed_checkpoint_dir tune/api_docs/integration.html#ray.tune.integration.torch.distributed_checkpoint_dir
 	ray.tune.integration.torch.is_distributed_trainable tune/api_docs/integration.html#ray.tune.integration.torch.is_distributed_trainable
@@ -296,8 +304,6 @@ py:function
 	ray.util.placement_group.placement_group package-ref.html#ray.util.placement_group.placement_group
 	ray.util.placement_group.placement_group_table package-ref.html#ray.util.placement_group.placement_group_table
 	ray.util.placement_group.remove_placement_group package-ref.html#ray.util.placement_group.remove_placement_group
-	ray.util.xgboost.predict                 xgboost-ray.html#ray.util.xgboost.predict
-	ray.util.xgboost.train                   xgboost-ray.html#ray.util.xgboost.train
 	ray.wait                                 package-ref.html#ray.wait
 py:method
 	ray.experimental.tf_utils.TensorFlowVariables.get_flat using-ray-with-tensorflow.html#ray.experimental.tf_utils.TensorFlowVariables.get_flat
@@ -330,6 +336,11 @@ py:method
 	ray.rllib.env.ExternalMultiAgentEnv.log_returns rllib-package-ref.html#ray.rllib.env.ExternalMultiAgentEnv.log_returns
 	ray.rllib.env.ExternalMultiAgentEnv.run  rllib-package-ref.html#ray.rllib.env.ExternalMultiAgentEnv.run
 	ray.rllib.env.ExternalMultiAgentEnv.start_episode rllib-package-ref.html#ray.rllib.env.ExternalMultiAgentEnv.start_episode
+	ray.rllib.env.GroupAgentsWrapper.reset   rllib-package-ref.html#ray.rllib.env.GroupAgentsWrapper.reset
+	ray.rllib.env.GroupAgentsWrapper.step    rllib-package-ref.html#ray.rllib.env.GroupAgentsWrapper.step
+	ray.rllib.env.KaggleFootballMultiAgentEnv.build_agent_spaces rllib-package-ref.html#ray.rllib.env.KaggleFootballMultiAgentEnv.build_agent_spaces
+	ray.rllib.env.KaggleFootballMultiAgentEnv.reset rllib-package-ref.html#ray.rllib.env.KaggleFootballMultiAgentEnv.reset
+	ray.rllib.env.KaggleFootballMultiAgentEnv.step rllib-package-ref.html#ray.rllib.env.KaggleFootballMultiAgentEnv.step
 	ray.rllib.env.MultiAgentEnv.reset        rllib-package-ref.html#ray.rllib.env.MultiAgentEnv.reset
 	ray.rllib.env.MultiAgentEnv.step         rllib-package-ref.html#ray.rllib.env.MultiAgentEnv.step
 	ray.rllib.env.MultiAgentEnv.with_agent_groups rllib-package-ref.html#ray.rllib.env.MultiAgentEnv.with_agent_groups
@@ -342,6 +353,10 @@ py:method
 	ray.rllib.env.PolicyClient.start_episode rllib-package-ref.html#ray.rllib.env.PolicyClient.start_episode
 	ray.rllib.env.PolicyClient.update_policy_weights rllib-package-ref.html#ray.rllib.env.PolicyClient.update_policy_weights
 	ray.rllib.env.PolicyServerInput.next     rllib-package-ref.html#ray.rllib.env.PolicyServerInput.next
+	ray.rllib.env.RemoteVectorEnv.poll       rllib-package-ref.html#ray.rllib.env.RemoteVectorEnv.poll
+	ray.rllib.env.RemoteVectorEnv.send_actions rllib-package-ref.html#ray.rllib.env.RemoteVectorEnv.send_actions
+	ray.rllib.env.RemoteVectorEnv.stop       rllib-package-ref.html#ray.rllib.env.RemoteVectorEnv.stop
+	ray.rllib.env.RemoteVectorEnv.try_reset  rllib-package-ref.html#ray.rllib.env.RemoteVectorEnv.try_reset
 	ray.rllib.env.Unity3DEnv.reset           rllib-package-ref.html#ray.rllib.env.Unity3DEnv.reset
 	ray.rllib.env.Unity3DEnv.step            rllib-package-ref.html#ray.rllib.env.Unity3DEnv.step
 	ray.rllib.env.VectorEnv.get_unwrapped    rllib-package-ref.html#ray.rllib.env.VectorEnv.get_unwrapped
@@ -443,6 +458,7 @@ py:method
 	ray.rllib.models.ModelV2.forward         rllib-package-ref.html#ray.rllib.models.ModelV2.forward
 	ray.rllib.models.ModelV2.from_batch      rllib-package-ref.html#ray.rllib.models.ModelV2.from_batch
 	ray.rllib.models.ModelV2.get_initial_state rllib-package-ref.html#ray.rllib.models.ModelV2.get_initial_state
+	ray.rllib.models.ModelV2.get_input_dict  rllib-package-ref.html#ray.rllib.models.ModelV2.get_input_dict
 	ray.rllib.models.ModelV2.import_from_h5  rllib-package-ref.html#ray.rllib.models.ModelV2.import_from_h5
 	ray.rllib.models.ModelV2.is_time_major   rllib-package-ref.html#ray.rllib.models.ModelV2.is_time_major
 	ray.rllib.models.ModelV2.last_output     rllib-package-ref.html#ray.rllib.models.ModelV2.last_output
@@ -470,7 +486,9 @@ py:method
 	ray.rllib.models.torch.torch_modelv2.TorchModelV2.forward rllib-models.html#ray.rllib.models.torch.torch_modelv2.TorchModelV2.forward
 	ray.rllib.models.torch.torch_modelv2.TorchModelV2.get_initial_state rllib-models.html#ray.rllib.models.torch.torch_modelv2.TorchModelV2.get_initial_state
 	ray.rllib.models.torch.torch_modelv2.TorchModelV2.metrics rllib-models.html#ray.rllib.models.torch.torch_modelv2.TorchModelV2.metrics
+	ray.rllib.models.torch.torch_modelv2.TorchModelV2.trainable_variables rllib-models.html#ray.rllib.models.torch.torch_modelv2.TorchModelV2.trainable_variables
 	ray.rllib.models.torch.torch_modelv2.TorchModelV2.value_function rllib-models.html#ray.rllib.models.torch.torch_modelv2.TorchModelV2.value_function
+	ray.rllib.models.torch.torch_modelv2.TorchModelV2.variables rllib-models.html#ray.rllib.models.torch.torch_modelv2.TorchModelV2.variables
 	ray.rllib.offline.InputReader.next       rllib-offline.html#ray.rllib.offline.InputReader.next
 	ray.rllib.offline.InputReader.tf_input_ops rllib-offline.html#ray.rllib.offline.InputReader.tf_input_ops
 	ray.rllib.offline.OutputWriter.write     rllib-offline.html#ray.rllib.offline.OutputWriter.write
@@ -497,6 +515,7 @@ py:method
 	ray.rllib.policy.TFPolicy.apply_gradients rllib-package-ref.html#ray.rllib.policy.TFPolicy.apply_gradients
 	ray.rllib.policy.TFPolicy.build_apply_op rllib-package-ref.html#ray.rllib.policy.TFPolicy.build_apply_op
 	ray.rllib.policy.TFPolicy.compute_actions rllib-package-ref.html#ray.rllib.policy.TFPolicy.compute_actions
+	ray.rllib.policy.TFPolicy.compute_actions_from_input_dict rllib-package-ref.html#ray.rllib.policy.TFPolicy.compute_actions_from_input_dict
 	ray.rllib.policy.TFPolicy.compute_gradients rllib-package-ref.html#ray.rllib.policy.TFPolicy.compute_gradients
 	ray.rllib.policy.TFPolicy.compute_log_likelihoods rllib-package-ref.html#ray.rllib.policy.TFPolicy.compute_log_likelihoods
 	ray.rllib.policy.TFPolicy.copy           rllib-package-ref.html#ray.rllib.policy.TFPolicy.copy
@@ -524,8 +543,6 @@ py:method
 	ray.rllib.policy.TorchPolicy.apply_gradients rllib-package-ref.html#ray.rllib.policy.TorchPolicy.apply_gradients
 	ray.rllib.policy.TorchPolicy.compute_actions rllib-package-ref.html#ray.rllib.policy.TorchPolicy.compute_actions
 	ray.rllib.policy.TorchPolicy.compute_actions_from_input_dict rllib-package-ref.html#ray.rllib.policy.TorchPolicy.compute_actions_from_input_dict
-	ray.rllib.policy.TorchPolicy.compute_gradients rllib-package-ref.html#ray.rllib.policy.TorchPolicy.compute_gradients
-	ray.rllib.policy.TorchPolicy.compute_log_likelihoods rllib-package-ref.html#ray.rllib.policy.TorchPolicy.compute_log_likelihoods
 	ray.rllib.policy.TorchPolicy.export_checkpoint rllib-package-ref.html#ray.rllib.policy.TorchPolicy.export_checkpoint
 	ray.rllib.policy.TorchPolicy.export_model rllib-package-ref.html#ray.rllib.policy.TorchPolicy.export_model
 	ray.rllib.policy.TorchPolicy.extra_action_out rllib-package-ref.html#ray.rllib.policy.TorchPolicy.extra_action_out
@@ -537,7 +554,6 @@ py:method
 	ray.rllib.policy.TorchPolicy.get_weights rllib-package-ref.html#ray.rllib.policy.TorchPolicy.get_weights
 	ray.rllib.policy.TorchPolicy.import_model_from_h5 rllib-package-ref.html#ray.rllib.policy.TorchPolicy.import_model_from_h5
 	ray.rllib.policy.TorchPolicy.is_recurrent rllib-package-ref.html#ray.rllib.policy.TorchPolicy.is_recurrent
-	ray.rllib.policy.TorchPolicy.learn_on_batch rllib-package-ref.html#ray.rllib.policy.TorchPolicy.learn_on_batch
 	ray.rllib.policy.TorchPolicy.num_state_tensors rllib-package-ref.html#ray.rllib.policy.TorchPolicy.num_state_tensors
 	ray.rllib.policy.TorchPolicy.optimizer   rllib-package-ref.html#ray.rllib.policy.TorchPolicy.optimizer
 	ray.rllib.policy.TorchPolicy.set_state   rllib-package-ref.html#ray.rllib.policy.TorchPolicy.set_state
@@ -561,12 +577,12 @@ py:method
 	ray.serve.api.Client.update_backend_config serve/package-ref.html#ray.serve.api.Client.update_backend_config
 	ray.serve.handle.RayServeHandle.options  serve/package-ref.html#ray.serve.handle.RayServeHandle.options
 	ray.serve.handle.RayServeHandle.remote   serve/package-ref.html#ray.serve.handle.RayServeHandle.remote
-	ray.serve.utils.ServeRequest.args        serve/package-ref.html#ray.serve.utils.ServeRequest.args
-	ray.serve.utils.ServeRequest.data        serve/package-ref.html#ray.serve.utils.ServeRequest.data
+	ray.serve.utils.ServeRequest.body        serve/package-ref.html#ray.serve.utils.ServeRequest.body
 	ray.serve.utils.ServeRequest.form        serve/package-ref.html#ray.serve.utils.ServeRequest.form
 	ray.serve.utils.ServeRequest.headers     serve/package-ref.html#ray.serve.utils.ServeRequest.headers
 	ray.serve.utils.ServeRequest.json        serve/package-ref.html#ray.serve.utils.ServeRequest.json
 	ray.serve.utils.ServeRequest.method      serve/package-ref.html#ray.serve.utils.ServeRequest.method
+	ray.serve.utils.ServeRequest.query_params serve/package-ref.html#ray.serve.utils.ServeRequest.query_params
 	ray.tune.Analysis.dataframe              tune/api_docs/analysis.html#ray.tune.Analysis.dataframe
 	ray.tune.Analysis.get_all_configs        tune/api_docs/analysis.html#ray.tune.Analysis.get_all_configs
 	ray.tune.Analysis.get_best_checkpoint    tune/api_docs/analysis.html#ray.tune.Analysis.get_best_checkpoint
@@ -591,8 +607,8 @@ py:method
 	ray.tune.JupyterNotebookReporter.add_metric_column tune/api_docs/reporters.html#ray.tune.JupyterNotebookReporter.add_metric_column
 	ray.tune.ProgressReporter.report         tune/api_docs/reporters.html#ray.tune.ProgressReporter.report
 	ray.tune.ProgressReporter.should_report  tune/api_docs/reporters.html#ray.tune.ProgressReporter.should_report
-	ray.tune.Stopper.__call__                tune/api_docs/execution.html#ray.tune.Stopper.__call__
-	ray.tune.Stopper.stop_all                tune/api_docs/execution.html#ray.tune.Stopper.stop_all
+	ray.tune.Stopper.__call__                tune/api_docs/stoppers.html#ray.tune.Stopper.__call__
+	ray.tune.Stopper.stop_all                tune/api_docs/stoppers.html#ray.tune.Stopper.stop_all
 	ray.tune.Trainable._close_logfiles       tune/api_docs/trainable.html#ray.tune.Trainable._close_logfiles
 	ray.tune.Trainable._create_logger        tune/api_docs/trainable.html#ray.tune.Trainable._create_logger
 	ray.tune.Trainable._export_model         tune/api_docs/trainable.html#ray.tune.Trainable._export_model
@@ -624,6 +640,7 @@ py:method
 	ray.tune.Trainable.step                  tune/api_docs/trainable.html#ray.tune.Trainable.step
 	ray.tune.Trainable.stop                  tune/api_docs/trainable.html#ray.tune.Trainable.stop
 	ray.tune.Trainable.train                 tune/api_docs/trainable.html#ray.tune.Trainable.train
+	ray.tune.Trainable.train_buffered        tune/api_docs/trainable.html#ray.tune.Trainable.train_buffered
 	ray.tune.Trainable.training_iteration    tune/api_docs/trainable.html#ray.tune.Trainable.training_iteration
 	ray.tune.Trainable.trial_id              tune/api_docs/trainable.html#ray.tune.Trainable.trial_id
 	ray.tune.Trainable.trial_name            tune/api_docs/trainable.html#ray.tune.Trainable.trial_name
@@ -652,14 +669,17 @@ py:method
 	ray.tune.ray_trial_executor.RayTrialExecutor.get_next_available_trial tune/api_docs/internals.html#ray.tune.ray_trial_executor.RayTrialExecutor.get_next_available_trial
 	ray.tune.ray_trial_executor.RayTrialExecutor.get_next_failed_trial tune/api_docs/internals.html#ray.tune.ray_trial_executor.RayTrialExecutor.get_next_failed_trial
 	ray.tune.ray_trial_executor.RayTrialExecutor.get_running_trials tune/api_docs/internals.html#ray.tune.ray_trial_executor.RayTrialExecutor.get_running_trials
+	ray.tune.ray_trial_executor.RayTrialExecutor.get_staged_trial tune/api_docs/internals.html#ray.tune.ray_trial_executor.RayTrialExecutor.get_staged_trial
 	ray.tune.ray_trial_executor.RayTrialExecutor.has_gpus tune/api_docs/internals.html#ray.tune.ray_trial_executor.RayTrialExecutor.has_gpus
 	ray.tune.ray_trial_executor.RayTrialExecutor.has_resources tune/api_docs/internals.html#ray.tune.ray_trial_executor.RayTrialExecutor.has_resources
+	ray.tune.ray_trial_executor.RayTrialExecutor.in_staging_grace_period tune/api_docs/internals.html#ray.tune.ray_trial_executor.RayTrialExecutor.in_staging_grace_period
 	ray.tune.ray_trial_executor.RayTrialExecutor.on_step_begin tune/api_docs/internals.html#ray.tune.ray_trial_executor.RayTrialExecutor.on_step_begin
 	ray.tune.ray_trial_executor.RayTrialExecutor.pause_trial tune/api_docs/internals.html#ray.tune.ray_trial_executor.RayTrialExecutor.pause_trial
 	ray.tune.ray_trial_executor.RayTrialExecutor.reset_trial tune/api_docs/internals.html#ray.tune.ray_trial_executor.RayTrialExecutor.reset_trial
 	ray.tune.ray_trial_executor.RayTrialExecutor.resource_string tune/api_docs/internals.html#ray.tune.ray_trial_executor.RayTrialExecutor.resource_string
 	ray.tune.ray_trial_executor.RayTrialExecutor.restore tune/api_docs/internals.html#ray.tune.ray_trial_executor.RayTrialExecutor.restore
 	ray.tune.ray_trial_executor.RayTrialExecutor.save tune/api_docs/internals.html#ray.tune.ray_trial_executor.RayTrialExecutor.save
+	ray.tune.ray_trial_executor.RayTrialExecutor.stage_and_update_status tune/api_docs/internals.html#ray.tune.ray_trial_executor.RayTrialExecutor.stage_and_update_status
 	ray.tune.ray_trial_executor.RayTrialExecutor.start_trial tune/api_docs/internals.html#ray.tune.ray_trial_executor.RayTrialExecutor.start_trial
 	ray.tune.ray_trial_executor.RayTrialExecutor.stop_trial tune/api_docs/internals.html#ray.tune.ray_trial_executor.RayTrialExecutor.stop_trial
 	ray.tune.schedulers.TrialScheduler.choose_trial_to_run tune/api_docs/schedulers.html#ray.tune.schedulers.TrialScheduler.choose_trial_to_run
@@ -741,6 +761,7 @@ py:method
 	ray.tune.trial_executor.TrialExecutor.get_running_trials tune/api_docs/internals.html#ray.tune.trial_executor.TrialExecutor.get_running_trials
 	ray.tune.trial_executor.TrialExecutor.has_gpus tune/api_docs/internals.html#ray.tune.trial_executor.TrialExecutor.has_gpus
 	ray.tune.trial_executor.TrialExecutor.has_resources tune/api_docs/internals.html#ray.tune.trial_executor.TrialExecutor.has_resources
+	ray.tune.trial_executor.TrialExecutor.in_staging_grace_period tune/api_docs/internals.html#ray.tune.trial_executor.TrialExecutor.in_staging_grace_period
 	ray.tune.trial_executor.TrialExecutor.on_step_begin tune/api_docs/internals.html#ray.tune.trial_executor.TrialExecutor.on_step_begin
 	ray.tune.trial_executor.TrialExecutor.on_step_end tune/api_docs/internals.html#ray.tune.trial_executor.TrialExecutor.on_step_end
 	ray.tune.trial_executor.TrialExecutor.pause_trial tune/api_docs/internals.html#ray.tune.trial_executor.TrialExecutor.pause_trial
@@ -804,10 +825,15 @@ py:method
 	ray.util.queue.Queue.empty               package-ref.html#ray.util.queue.Queue.empty
 	ray.util.queue.Queue.full                package-ref.html#ray.util.queue.Queue.full
 	ray.util.queue.Queue.get                 package-ref.html#ray.util.queue.Queue.get
+	ray.util.queue.Queue.get_async           package-ref.html#ray.util.queue.Queue.get_async
 	ray.util.queue.Queue.get_nowait          package-ref.html#ray.util.queue.Queue.get_nowait
+	ray.util.queue.Queue.get_nowait_batch    package-ref.html#ray.util.queue.Queue.get_nowait_batch
 	ray.util.queue.Queue.put                 package-ref.html#ray.util.queue.Queue.put
+	ray.util.queue.Queue.put_async           package-ref.html#ray.util.queue.Queue.put_async
 	ray.util.queue.Queue.put_nowait          package-ref.html#ray.util.queue.Queue.put_nowait
+	ray.util.queue.Queue.put_nowait_batch    package-ref.html#ray.util.queue.Queue.put_nowait_batch
 	ray.util.queue.Queue.qsize               package-ref.html#ray.util.queue.Queue.qsize
+	ray.util.queue.Queue.shutdown            package-ref.html#ray.util.queue.Queue.shutdown
 	ray.util.queue.Queue.size                package-ref.html#ray.util.queue.Queue.size
 	ray.util.sgd.data.Dataset.__init__       raysgd/raysgd_ref.html#ray.util.sgd.data.Dataset.__init__
 	ray.util.sgd.data.Dataset.get_shard      raysgd/raysgd_ref.html#ray.util.sgd.data.Dataset.get_shard
@@ -937,7 +963,6 @@ std:cmdoption
 	ray-start.--gcs-server-port              package-ref.html#cmdoption-ray-start-gcs-server-port
 	ray-start.--head                         package-ref.html#cmdoption-ray-start-head
 	ray-start.--include-dashboard            package-ref.html#cmdoption-ray-start-include-dashboard
-	ray-start.--load-code-from-local         package-ref.html#cmdoption-ray-start-load-code-from-local
 	ray-start.--log-color                    package-ref.html#cmdoption-ray-start-log-color
 	ray-start.--log-style                    package-ref.html#cmdoption-ray-start-log-style
 	ray-start.--max-worker-port              package-ref.html#cmdoption-ray-start-max-worker-port
@@ -953,6 +978,7 @@ std:cmdoption
 	ray-start.--plasma-directory             package-ref.html#cmdoption-ray-start-plasma-directory
 	ray-start.--plasma-store-socket-name     package-ref.html#cmdoption-ray-start-plasma-store-socket-name
 	ray-start.--port                         package-ref.html#cmdoption-ray-start-port
+	ray-start.--ray-client-server-port       package-ref.html#cmdoption-ray-start-ray-client-server-port
 	ray-start.--raylet-socket-name           package-ref.html#cmdoption-ray-start-raylet-socket-name
 	ray-start.--redis-shard-ports            package-ref.html#cmdoption-ray-start-redis-shard-ports
 	ray-start.--resources                    package-ref.html#cmdoption-ray-start-resources
@@ -1026,7 +1052,11 @@ std:doc
 	cluster/commands                         Cluster Launcher Commands               : cluster/commands.html
 	cluster/config                           Configuring your Cluster                : cluster/config.html
 	cluster/deploy                           Ray with Cluster Managers               : cluster/deploy.html
+	cluster/examples/slurm-basic             slurm-basic.sh                          : cluster/examples/slurm-basic.html
+	cluster/examples/slurm-launch            slurm-launch.py                         : cluster/examples/slurm-launch.html
+	cluster/examples/slurm-template          slurm-template.sh                       : cluster/examples/slurm-template.html
 	cluster/index                            Distributed Ray Overview                : cluster/index.html
+	cluster/k8s-operator                     The Ray Kubernetes Operator             : cluster/k8s-operator.html
 	cluster/kubernetes                       Deploying on Kubernetes                 : cluster/kubernetes.html
 	cluster/launcher                         Launching Cloud Clusters with Ray       : cluster/launcher.html
 	cluster/slurm                            Deploying on Slurm                      : cluster/slurm.html
@@ -1044,10 +1074,12 @@ std:doc
 	joblib                                   Distributed Scikit-learn / Joblib       : joblib.html
 	mars-on-ray                              Mars on Ray                             : mars-on-ray.html
 	memory-management                        Memory Management                       : memory-management.html
+	modin/index                              Modin (Pandas on Ray)                   : modin/index.html
 	multiprocessing                          Distributed multiprocessing.Pool        : multiprocessing.html
 	package-ref                              API and Package Reference               : package-ref.html
 	placement-group                          Placement Groups                        : placement-group.html
 	profiling                                Profiling for Ray Developers            : profiling.html
+	ray-client                               Ray Client                              : ray-client.html
 	ray-dashboard                            Ray Dashboard                           : ray-dashboard.html
 	ray-debugging                            Ray Debugger                            : ray-debugging.html
 	ray-libraries                            Community Integrations                  : ray-libraries.html
@@ -1055,6 +1087,7 @@ std:doc
 	ray-overview/basics                      <no title>                              : ray-overview/basics.html
 	ray-overview/index                       A Gentle Introduction to Ray            : ray-overview/index.html
 	ray-overview/involvement                 <no title>                              : ray-overview/involvement.html
+	raydp                                    RayDP (Spark on Ray)                    : raydp.html
 	raysgd/raysgd                            RaySGD: Distributed Training Wrappers   : raysgd/raysgd.html
 	raysgd/raysgd_dataset                    Distributed Dataset                     : raysgd/raysgd_dataset.html
 	raysgd/raysgd_ptl                        Pytorch Lightning with RaySGD           : raysgd/raysgd_ptl.html
@@ -1071,6 +1104,7 @@ std:doc
 	rllib-models                             RLlib Models, Preprocessors, and Action Distributions: rllib-models.html
 	rllib-offline                            RLlib Offline Datasets                  : rllib-offline.html
 	rllib-package-ref                        RLlib Package Reference                 : rllib-package-ref.html
+	rllib-sample-collection                  RLlib Sample Collection and Trajectory Views: rllib-sample-collection.html
 	rllib-toc                                RLlib Table of Contents                 : rllib-toc.html
 	rllib-training                           RLlib Training APIs                     : rllib-training.html
 	serialization                            Serialization                           : serialization.html
@@ -1086,6 +1120,7 @@ std:doc
 	serve/tutorials/pytorch                  PyTorch Tutorial                        : serve/tutorials/pytorch.html
 	serve/tutorials/sklearn                  Scikit-Learn Tutorial                   : serve/tutorials/sklearn.html
 	serve/tutorials/tensorflow               Keras and Tensorflow Tutorial           : serve/tutorials/tensorflow.html
+	serve/tutorials/web-server-integration   Integration with Existing Web Servers   : serve/tutorials/web-server-integration.html
 	starting-ray                             Starting Ray                            : starting-ray.html
 	troubleshooting                          Debugging and Profiling                 : troubleshooting.html
 	tune/api_docs/analysis                   Analysis (tune.analysis)                : tune/api_docs/analysis.html
@@ -1100,6 +1135,7 @@ std:doc
 	tune/api_docs/schedulers                 Trial Schedulers (tune.schedulers)      : tune/api_docs/schedulers.html
 	tune/api_docs/search_space               Search Space API                        : tune/api_docs/search_space.html
 	tune/api_docs/sklearn                    Scikit-Learn API  (tune.sklearn)        : tune/api_docs/sklearn.html
+	tune/api_docs/stoppers                   Stopping mechanisms (tune.stopper)      : tune/api_docs/stoppers.html
 	tune/api_docs/suggestion                 Search Algorithms (tune.suggest)        : tune/api_docs/suggestion.html
 	tune/api_docs/trainable                  Training (tune.Trainable, tune.report)  : tune/api_docs/trainable.html
 	tune/contrib                             Contributing to Tune                    : tune/contrib.html
@@ -1120,6 +1156,7 @@ std:doc
 	tune/examples/lightgbm_example           lightgbm_example                        : tune/examples/lightgbm_example.html
 	tune/examples/logging_example            logging_example                         : tune/examples/logging_example.html
 	tune/examples/mlflow_example             mlflow_example                          : tune/examples/mlflow_example.html
+	tune/examples/mlflow_ptl_example         mlflow_ptl_example                      : tune/examples/mlflow_ptl_example.html
 	tune/examples/mnist_ptl_mini             mnist_ptl_mini                          : tune/examples/mnist_ptl_mini.html
 	tune/examples/mnist_pytorch              mnist_pytorch                           : tune/examples/mnist_pytorch.html
 	tune/examples/mnist_pytorch_lightning    mnist_pytorch_lightning                 : tune/examples/mnist_pytorch_lightning.html
@@ -1141,6 +1178,7 @@ std:doc
 	tune/examples/sigopt_prior_beliefs_example sigopt_prior_beliefs_example            : tune/examples/sigopt_prior_beliefs_example.html
 	tune/examples/skopt_example              skopt_example                           : tune/examples/skopt_example.html
 	tune/examples/tf_mnist_example           tf_mnist_example                        : tune/examples/tf_mnist_example.html
+	tune/examples/tune_basic_example         tune_basic_example                      : tune/examples/tune_basic_example.html
 	tune/examples/tune_cifar10_gluon         tune_cifar10_gluon                      : tune/examples/tune_cifar10_gluon.html
 	tune/examples/tune_mnist_keras           tune_mnist_keras                        : tune/examples/tune_mnist_keras.html
 	tune/examples/wandb_example              wandb_example                           : tune/examples/wandb_example.html
@@ -1155,6 +1193,7 @@ std:doc
 	tune/tutorials/tune-advanced-tutorial    Guide to Population Based Training (PBT): tune/tutorials/tune-advanced-tutorial.html
 	tune/tutorials/tune-distributed          Tune Distributed Experiments            : tune/tutorials/tune-distributed.html
 	tune/tutorials/tune-lifecycle            How does Tune work?                     : tune/tutorials/tune-lifecycle.html
+	tune/tutorials/tune-mlflow               Using MLflow with Tune                  : tune/tutorials/tune-mlflow.html
 	tune/tutorials/tune-pytorch-cifar        How to use Tune with PyTorch            : tune/tutorials/tune-pytorch-cifar.html
 	tune/tutorials/tune-pytorch-lightning    Using PyTorch Lightning with Tune       : tune/tutorials/tune-pytorch-lightning.html
 	tune/tutorials/tune-serve-integration-mnist Model selection and serving with Ray Tune and Ray Serve: tune/tutorials/tune-serve-integration-mnist.html
@@ -1181,6 +1220,8 @@ std:label
 	appo                                     Asynchronous Proximal Policy Optimization (APPO): rllib-algorithms.html#appo
 	ars                                      Augmented Random Search (ARS)           : rllib-algorithms.html#ars
 	async-actors                             AsyncIO for Actors                      : async_api.html#async-actors
+	attention                                Implementing custom Attention Networks  : rllib-models.html#attention
+	auto_lstm_and_attention                  Built-in auto-LSTM, and auto-Attention Wrappers: rllib-models.html#auto-lstm-and-attention
 	autoscaler-docker                        Docker Support                          : cluster/config.html#autoscaler-docker
 	aws-cluster                              AWS Configurations                      : cluster/aws-tips.html#aws-cluster
 	aws-cluster-efs                          Using Amazon EFS                        : cluster/aws-tips.html#aws-cluster-efs
@@ -1204,8 +1245,14 @@ std:label
 	curiosity                                Curiosity (ICM: Intrinsic Curiosity Module): rllib-algorithms.html#curiosity
 	custom-metric-api-ref                    Custom Metrics APIs                     : package-ref.html#custom-metric-api-ref
 	customevaluation                         Customized Evaluation During Training   : rllib-training.html#customevaluation
+	dask-on-ray                              dask-on-ray.html#id1
+	dask-on-ray-callbacks                    dask-on-ray.html#dask-on-ray-callbacks
+	dask-on-ray-out-of-core                  dask-on-ray.html#dask-on-ray-out-of-core
+	dask-on-ray-scheduler                    dask-on-ray.html#dask-on-ray-scheduler
+	dask-on-ray-shuffle-optimization         dask-on-ray.html#dask-on-ray-shuffle-optimization
 	ddpg                                     Deep Deterministic Policy Gradients (DDPG, TD3): rllib-algorithms.html#ddpg
 	ddppo                                    Decentralized Distributed Proximal Policy Optimization (DD-PPO): rllib-algorithms.html#ddppo
+	docker-images                            Docker Source Images                    : installation.html#docker-images
 	dqn                                      Deep Q Networks (DQN, Rainbow, Parametric DQN): rllib-algorithms.html#dqn
 	dragonfly                                Dragonfly (tune.suggest.dragonfly.DragonflySearch): tune/api_docs/suggestion.html#dragonfly
 	dreamer                                  Dreamer                                 : rllib-algorithms.html#dreamer
@@ -1217,6 +1264,9 @@ std:label
 	impala                                   Importance Weighted Actor-Learner Architecture (IMPALA): rllib-algorithms.html#impala
 	install-nightlies                        Daily Releases (Nightlies)              : installation.html#install-nightlies
 	installation                             Installing Ray                          : installation.html#installation
+	java-driver-options                      Driver Options                          : configure.html#java-driver-options
+	k8s-gpus                                 Using GPUs                              : cluster/kubernetes.html#k8s-gpus
+	k8s-operator                             The Ray Kubernetes Operator             : cluster/k8s-operator.html#k8s-operator
 	limiter                                  ConcurrencyLimiter (tune.suggest.ConcurrencyLimiter): tune/api_docs/suggestion.html#limiter
 	lints                                    Linear Thompson Sampling (contrib/LinTS): rllib-algorithms.html#lints
 	linucb                                   Linear Upper Confidence Bound (contrib/LinUCB): rllib-algorithms.html#linucb
@@ -1235,6 +1285,7 @@ std:label
 	monitor-cluster                          Monitoring cluster status (ray dashboard/monitor): cluster/commands.html#monitor-cluster
 	nevergrad                                Nevergrad (tune.suggest.nevergrad.NevergradSearch): tune/api_docs/suggestion.html#nevergrad
 	object-reconstruction                    Objects                                 : fault-tolerance.html#object-reconstruction
+	object-spilling                          memory-management.html#id1
 	omp-num-thread-note                      configure.html#omp-num-thread-note
 	package-ref-debugging-apis               Debugging APIs                          : package-ref.html#package-ref-debugging-apis
 	pg                                       Policy Gradients                        : rllib-algorithms.html#pg
@@ -1249,6 +1300,7 @@ std:label
 	ray-attach-doc                           ray attach                              : package-ref.html#ray-attach-doc
 	ray-available_resources-ref              ray.available_resources                 : package-ref.html#ray-available-resources-ref
 	ray-cancel-ref                           ray.cancel                              : package-ref.html#ray-cancel-ref
+	ray-client                               Ray Client                              : ray-client.html#ray-client
 	ray-cluster_resources-ref                ray.cluster_resources                   : package-ref.html#ray-cluster-resources-ref
 	ray-down-doc                             ray down                                : package-ref.html#ray-down-doc
 	ray-exec-doc                             ray exec                                : package-ref.html#ray-exec-doc
@@ -1260,6 +1312,7 @@ std:label
 	ray-is_initialized-ref                   ray.is_initialized                      : package-ref.html#ray-is-initialized-ref
 	ray-joblib                               Distributed Scikit-learn / Joblib       : joblib.html#ray-joblib
 	ray-k8s-deploy                           Deploying on Kubernetes                 : cluster/kubernetes.html#ray-k8s-deploy
+	ray-k8s-run                              Running Ray Programs                    : cluster/kubernetes.html#ray-k8s-run
 	ray-kill-ref                             ray.kill                                : package-ref.html#ray-kill-ref
 	ray-launch-k8s                           Kubernetes                              : cluster/cloud.html#ray-launch-k8s
 	ray-memory-doc                           ray memory                              : package-ref.html#ray-memory-doc
@@ -1280,6 +1333,7 @@ std:label
 	ray-remote-ref                           ray.remote                              : package-ref.html#ray-remote-ref
 	ray-shutdown-ref                         ray.shutdown                            : package-ref.html#ray-shutdown-ref
 	ray-slurm-deploy                         Deploying on Slurm                      : cluster/slurm.html#ray-slurm-deploy
+	ray-slurm-headers                        sbatch directives                       : cluster/slurm.html#ray-slurm-headers
 	ray-stack-doc                            ray stack                               : package-ref.html#ray-stack-doc
 	ray-start-doc                            ray start                               : package-ref.html#ray-start-doc
 	ray-stop-doc                             ray stop                                : package-ref.html#ray-stop-doc
@@ -1308,13 +1362,15 @@ std:label
 	resource-requirements                    Specifying required resources           : walkthrough.html#resource-requirements
 	resources-docstring                      Resources                               : tune/api_docs/internals.html#resources-docstring
 	rllib-index                              RLlib: Scalable Reinforcement Learning  : rllib.html#rllib-index
+	rnns                                     Implementing custom Recurrent Networks  : rllib-models.html#rnns
 	sac                                      Soft Actor Critic (SAC)                 : rllib-algorithms.html#sac
 	schedulers-ref                           Summary                                 : tune/api_docs/schedulers.html#schedulers-ref
 	search                                   Search Page                             : search.html
 	serialization-guide                      Serialization                           : serialization.html#serialization-guide
 	serve-backend                            Backends                                : serve/key-concepts.html#serve-backend
 	serve-batch-tutorial                     Batching Tutorial                       : serve/tutorials/batch.html#serve-batch-tutorial
-	serve-batching                           Batching to improve performance         : serve/advanced.html#serve-batching
+	serve-batching                           Batching to Improve Performance         : serve/advanced.html#serve-batching
+	serve-cpus-gpus                          Resource Management (CPUs, GPUs)        : serve/advanced.html#serve-cpus-gpus
 	serve-deploy-tutorial                    Lifetime of a Ray Serve Instance        : serve/deployment.html#serve-deploy-tutorial
 	serve-endpoint                           Endpoints                               : serve/key-concepts.html#serve-endpoint
 	serve-faq                                Ray Serve FAQ                           : serve/faq.html#serve-faq
@@ -1324,13 +1380,20 @@ std:label
 	serve-shadow-testing                     Shadow Testing                          : serve/advanced.html#serve-shadow-testing
 	serve-sklearn-tutorial                   Scikit-Learn Tutorial                   : serve/tutorials/sklearn.html#serve-sklearn-tutorial
 	serve-split-traffic                      Splitting Traffic Between Backends      : serve/advanced.html#serve-split-traffic
+	serve-sync-async-handles                 Sync and Async Handles                  : serve/advanced.html#serve-sync-async-handles
 	serve-tensorflow-tutorial                Keras and Tensorflow Tutorial           : serve/tutorials/tensorflow.html#serve-tensorflow-tutorial
 	serve-tutorials                          Serve Tutorials                         : serve/tutorials/index.html#serve-tutorials
+	serve-web-server-integration-tutorial    Integration with Existing Web Servers   : serve/tutorials/web-server-integration.html#serve-web-server-integration-tutorial
+	servehandle-api                          ServeHandle API                         : serve/package-ref.html#servehandle-api
 	session-affinity                         Session Affinity                        : serve/advanced.html#session-affinity
 	sgd-index                                RaySGD: Distributed Training Wrappers   : raysgd/raysgd.html#sgd-index
 	shim                                     Shim Instantiation (tune.create_searcher): tune/api_docs/suggestion.html#shim
 	sigopt                                   SigOpt (tune.suggest.sigopt.SigOptSearch): tune/api_docs/suggestion.html#sigopt
 	skopt                                    Scikit-Optimize (tune.suggest.skopt.SkOptSearch): tune/api_docs/suggestion.html#skopt
+	slateq                                   SlateQ                                  : rllib-algorithms.html#slateq
+	slurm-basic                              slurm-basic.sh                          : cluster/examples/slurm-basic.html#slurm-basic
+	slurm-launch                             slurm-launch.py                         : cluster/examples/slurm-launch.html#slurm-launch
+	slurm-template                           slurm-template.sh                       : cluster/examples/slurm-template.html#slurm-template
 	sphx_glr_auto_examples                   auto_examples/index.html#sphx-glr-auto-examples
 	sphx_glr_auto_examples_plot_hyperparameter.py Simple Parallel Model Selection         : auto_examples/plot_hyperparameter.html#sphx-glr-auto-examples-plot-hyperparameter-py
 	sphx_glr_auto_examples_plot_parameter_server.py Parameter Server                        : auto_examples/plot_parameter_server.html#sphx-glr-auto-examples-plot-parameter-server-py
@@ -1366,6 +1429,7 @@ std:label
 	tune-api-ref                             Tune API Reference                      : tune/api_docs/overview.html#tune-api-ref
 	tune-autofilled-metrics                  Auto-filled Metrics                     : tune/user-guide.html#tune-autofilled-metrics
 	tune-ax                                  Ax (tune.suggest.ax.AxSearch)           : tune/api_docs/suggestion.html#tune-ax
+	tune-basicvariant                        Random search and grid search (tune.suggest.basic_variant.BasicVariantGenerator): tune/api_docs/suggestion.html#tune-basicvariant
 	tune-callbacks                           Callbacks                               : tune/user-guide.html#tune-callbacks
 	tune-callbacks-docs                      Callbacks                               : tune/api_docs/internals.html#tune-callbacks-docs
 	tune-checkpoint                          Checkpointing                           : tune/user-guide.html#tune-checkpoint
@@ -1396,6 +1460,7 @@ std:label
 	tune-integration-horovod                 Horovod (tune.integration.horovod)      : tune/api_docs/integration.html#tune-integration-horovod
 	tune-integration-keras                   Keras (tune.integration.keras)          : tune/api_docs/integration.html#tune-integration-keras
 	tune-integration-kubernetes              Kubernetes (tune.integration.kubernetes): tune/api_docs/integration.html#tune-integration-kubernetes
+	tune-integration-mlflow                  MLflow (tune.integration.mlflow)        : tune/api_docs/integration.html#tune-integration-mlflow
 	tune-integration-mxnet                   MXNet (tune.integration.mxnet)          : tune/api_docs/integration.html#tune-integration-mxnet
 	tune-integration-pytorch-lightning       PyTorch Lightning (tune.integration.pytorch_lightning): tune/api_docs/integration.html#tune-integration-pytorch-lightning
 	tune-integration-torch                   Torch (tune.integration.torch)          : tune/api_docs/integration.html#tune-integration-torch
@@ -1406,6 +1471,9 @@ std:label
 	tune-log_to_file                         Redirecting stdout and stderr to files  : tune/user-guide.html#tune-log-to-file
 	tune-logging                             Logging                                 : tune/user-guide.html#tune-logging
 	tune-main                                Tune: Scalable Hyperparameter Tuning    : tune/index.html#tune-main
+	tune-mlflow                              Using MLflow with Tune                  : tune/tutorials/tune-mlflow.html#tune-mlflow
+	tune-mlflow-logger                       tune/tutorials/tune-mlflow.html#tune-mlflow-logger
+	tune-mlflow-mixin                        tune/tutorials/tune-mlflow.html#tune-mlflow-mixin
 	tune-optuna                              Optuna (tune.suggest.optuna.OptunaSearch): tune/api_docs/suggestion.html#tune-optuna
 	tune-original-hyperband                  HyperBand (tune.schedulers.HyperBandScheduler): tune/api_docs/schedulers.html#tune-original-hyperband
 	tune-parallelism                         Resources (Parallelism, GPUs, Distributed): tune/user-guide.html#tune-parallelism
@@ -1424,7 +1492,8 @@ std:label
 	tune-search-alg                          Search Algorithms (tune.suggest)        : tune/api_docs/suggestion.html#tune-search-alg
 	tune-search-space                        Search Space API                        : tune/api_docs/search_space.html#tune-search-space
 	tune-sklearn-docs                        Scikit-Learn API  (tune.sklearn)        : tune/api_docs/sklearn.html#tune-sklearn-docs
-	tune-stop-ref                            Stopper (tune.Stopper)                  : tune/api_docs/execution.html#tune-stop-ref
+	tune-stop-ref                            Stopper (tune.Stopper)                  : tune/api_docs/stoppers.html#tune-stop-ref
+	tune-stoppers                            Stopping mechanisms (tune.stopper)      : tune/api_docs/stoppers.html#tune-stoppers
 	tune-stopping                            Stopping Trials                         : tune/user-guide.html#tune-stopping
 	tune-sync-config                         tune.SyncConfig                         : tune/api_docs/execution.html#tune-sync-config
 	tune-torch-ddp                           Advanced: Distributed training with DistributedDataParallel: tune/tutorials/tune-pytorch-cifar.html#tune-torch-ddp

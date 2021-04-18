@@ -1403,6 +1403,10 @@ py:attribute
 	OSError.filename2                        library/exceptions.html#OSError.filename2
 	OSError.strerror                         library/exceptions.html#OSError.strerror
 	OSError.winerror                         library/exceptions.html#OSError.winerror
+	SyntaxError.filename                     library/exceptions.html#SyntaxError.filename
+	SyntaxError.lineno                       library/exceptions.html#SyntaxError.lineno
+	SyntaxError.offset                       library/exceptions.html#SyntaxError.offset
+	SyntaxError.text                         library/exceptions.html#SyntaxError.text
 	SystemExit.code                          library/exceptions.html#SystemExit.code
 	UnicodeError.encoding                    library/exceptions.html#UnicodeError.encoding
 	UnicodeError.end                         library/exceptions.html#UnicodeError.end
@@ -2196,6 +2200,7 @@ py:attribute
 	types.ModuleType.__loader__              library/types.html#types.ModuleType.__loader__
 	types.ModuleType.__name__                library/types.html#types.ModuleType.__name__
 	types.ModuleType.__package__             library/types.html#types.ModuleType.__package__
+	types.ModuleType.__spec__                library/types.html#types.ModuleType.__spec__
 	unittest.TestCase.failureException       library/unittest.html#unittest.TestCase.failureException
 	unittest.TestCase.longMessage            library/unittest.html#unittest.TestCase.longMessage
 	unittest.TestCase.maxDiff                library/unittest.html#unittest.TestCase.maxDiff
@@ -3965,6 +3970,7 @@ py:data
 	ssl.OP_ALL                               library/ssl.html#ssl.OP_ALL
 	ssl.OP_CIPHER_SERVER_PREFERENCE          library/ssl.html#ssl.OP_CIPHER_SERVER_PREFERENCE
 	ssl.OP_ENABLE_MIDDLEBOX_COMPAT           library/ssl.html#ssl.OP_ENABLE_MIDDLEBOX_COMPAT
+	ssl.OP_IGNORE_UNEXPECTED_EOF             library/ssl.html#ssl.OP_IGNORE_UNEXPECTED_EOF
 	ssl.OP_NO_COMPRESSION                    library/ssl.html#ssl.OP_NO_COMPRESSION
 	ssl.OP_NO_RENEGOTIATION                  library/ssl.html#ssl.OP_NO_RENEGOTIATION
 	ssl.OP_NO_SSLv2                          library/ssl.html#ssl.OP_NO_SSLv2
@@ -5371,6 +5377,7 @@ py:function
 	importlib.invalidate_caches              library/importlib.html#importlib.invalidate_caches
 	importlib.machinery.all_suffixes         library/importlib.html#importlib.machinery.all_suffixes
 	importlib.reload                         library/importlib.html#importlib.reload
+	importlib.resources.as_file              library/importlib.html#importlib.resources.as_file
 	importlib.resources.contents             library/importlib.html#importlib.resources.contents
 	importlib.resources.files                library/importlib.html#importlib.resources.files
 	importlib.resources.is_resource          library/importlib.html#importlib.resources.is_resource
@@ -11324,7 +11331,7 @@ std:label
 	bpo-36085-whatsnew                       whatsnew/3.8.html#bpo-36085-whatsnew
 	break                                    The break statement                     : reference/simple_stmts.html#break
 	browser-controllers                      Browser Controller Objects              : library/webbrowser.html#browser-controllers
-	bsd0                                     ZERO-CLAUSE BSD LICENSE FOR CODE IN THE PYTHON 3.9.1 DOCUMENTATION: license.html#bsd0
+	bsd0                                     ZERO-CLAUSE BSD LICENSE FOR CODE IN THE PYTHON 3.9.4 DOCUMENTATION: license.html#bsd0
 	buffer-request-types                     Buffer request types                    : c-api/buffer.html#buffer-request-types
 	buffer-structs                           Buffer Object Structures                : c-api/typeobj.html#buffer-structs
 	buffer-structure                         Buffer structure                        : c-api/buffer.html#buffer-structure
@@ -12155,7 +12162,7 @@ std:label
 	proxy-basic-auth-handler                 ProxyBasicAuthHandler Objects           : library/urllib.request.html#proxy-basic-auth-handler
 	proxy-digest-auth-handler                ProxyDigestAuthHandler Objects          : library/urllib.request.html#proxy-digest-auth-handler
 	proxy-handler                            ProxyHandler Objects                    : library/urllib.request.html#proxy-handler
-	psf-license                              PSF LICENSE AGREEMENT FOR PYTHON 3.9.1  : license.html#psf-license
+	psf-license                              PSF LICENSE AGREEMENT FOR PYTHON 3.9.4  : license.html#psf-license
 	publishing-python-packages               Reading the Python Packaging User Guide : distributing/index.html#publishing-python-packages
 	pure-embedding                           Pure Embedding                          : extending/embedding.html#pure-embedding
 	pure-mod                                 Pure Python distribution (by module)    : distutils/examples.html#pure-mod
@@ -12289,6 +12296,7 @@ std:label
 	sqlite3-cursor-objects                   Cursor Objects                          : library/sqlite3.html#sqlite3-cursor-objects
 	sqlite3-exceptions                       Exceptions                              : library/sqlite3.html#sqlite3-exceptions
 	sqlite3-module-contents                  Module functions and constants          : library/sqlite3.html#sqlite3-module-contents
+	sqlite3-placeholders                     library/sqlite3.html#sqlite3-placeholders
 	sqlite3-row-objects                      Row Objects                             : library/sqlite3.html#sqlite3-row-objects
 	sqlite3-types                            SQLite and Python types                 : library/sqlite3.html#sqlite3-types
 	ssl-certificates                         Certificates                            : library/ssl.html#ssl-certificates
@@ -13051,7 +13059,6 @@ std:token
 	directive_option                         library/doctest.html#grammar-token-directive-option
 	directive_option_name                    library/doctest.html#grammar-token-directive-option-name
 	directive_options                        library/doctest.html#grammar-token-directive-options
-	dotted_name                              reference/compound_stmts.html#grammar-token-dotted-name
 	element_index                            library/string.html#grammar-token-element-index
 	enclosure                                reference/expressions.html#grammar-token-enclosure
 	eval_input                               reference/toplevel_components.html#grammar-token-eval-input
@@ -13059,7 +13066,6 @@ std:token
 	exponentfloat                            reference/lexical_analysis.html#grammar-token-exponentfloat
 	expression                               reference/expressions.html#grammar-token-expression
 	expression_list                          reference/expressions.html#grammar-token-expression-list
-	expression_nocond                        reference/expressions.html#grammar-token-expression-nocond
 	expression_stmt                          reference/simple_stmts.html#grammar-token-expression-stmt
 	f_expression                             reference/lexical_analysis.html#grammar-token-f-expression
 	f_string                                 reference/lexical_analysis.html#grammar-token-f-string
@@ -13095,7 +13101,6 @@ std:token
 	keyword_item                             reference/expressions.html#grammar-token-keyword-item
 	keywords_arguments                       reference/expressions.html#grammar-token-keywords-arguments
 	lambda_expr                              reference/expressions.html#grammar-token-lambda-expr
-	lambda_expr_nocond                       reference/expressions.html#grammar-token-lambda-expr-nocond
 	lc_letter                                reference/introduction.html#grammar-token-lc-letter
 	list_display                             reference/expressions.html#grammar-token-list-display
 	literal                                  reference/expressions.html#grammar-token-literal

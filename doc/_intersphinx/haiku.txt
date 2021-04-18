@@ -75,6 +75,7 @@ py:class
 	haiku.Module                             api.html#haiku.Module
 	haiku.MultiHeadAttention                 api.html#haiku.MultiHeadAttention
 	haiku.PRNGSequence                       api.html#haiku.PRNGSequence
+	haiku.RMSNorm                            api.html#haiku.RMSNorm
 	haiku.RNNCore                            api.html#haiku.RNNCore
 	haiku.ResetCore                          api.html#haiku.ResetCore
 	haiku.Reshape                            api.html#haiku.Reshape
@@ -119,8 +120,10 @@ py:function
 	haiku.data_structures.map                api.html#haiku.data_structures.map
 	haiku.data_structures.merge              api.html#haiku.data_structures.merge
 	haiku.data_structures.partition          api.html#haiku.data_structures.partition
+	haiku.data_structures.partition_n        api.html#haiku.data_structures.partition_n
 	haiku.data_structures.to_immutable_dict  api.html#haiku.data_structures.to_immutable_dict
 	haiku.data_structures.to_mutable_dict    api.html#haiku.data_structures.to_mutable_dict
+	haiku.data_structures.traverse           api.html#haiku.data_structures.traverse
 	haiku.data_structures.tree_bytes         api.html#haiku.data_structures.tree_bytes
 	haiku.data_structures.tree_size          api.html#haiku.data_structures.tree_size
 	haiku.deep_rnn_with_skip_connections     api.html#haiku.deep_rnn_with_skip_connections
@@ -134,6 +137,7 @@ py:function
 	haiku.experimental.eval_summary          api.html#haiku.experimental.eval_summary
 	haiku.experimental.intercept_methods     api.html#haiku.experimental.intercept_methods
 	haiku.experimental.lift                  api.html#haiku.experimental.lift
+	haiku.experimental.name_like             api.html#haiku.experimental.name_like
 	haiku.experimental.name_scope            api.html#haiku.experimental.name_scope
 	haiku.experimental.named_call            api.html#haiku.experimental.named_call
 	haiku.experimental.optimize_rng_use      api.html#haiku.experimental.optimize_rng_use
@@ -153,7 +157,10 @@ py:function
 	haiku.one_hot                            api.html#haiku.one_hot
 	haiku.pad.causal                         api.html#haiku.pad.causal
 	haiku.pad.create                         api.html#haiku.pad.create
+	haiku.pad.create_from_padfn              api.html#haiku.pad.create_from_padfn
+	haiku.pad.create_from_tuple              api.html#haiku.pad.create_from_tuple
 	haiku.pad.full                           api.html#haiku.pad.full
+	haiku.pad.is_padfn                       api.html#haiku.pad.is_padfn
 	haiku.pad.reverse_causal                 api.html#haiku.pad.reverse_causal
 	haiku.pad.same                           api.html#haiku.pad.same
 	haiku.pad.valid                          api.html#haiku.pad.valid
@@ -235,6 +242,8 @@ py:method
 	haiku.PRNGSequence.__next__              api.html#haiku.PRNGSequence.__next__
 	haiku.PRNGSequence.next                  api.html#haiku.PRNGSequence.next
 	haiku.PRNGSequence.reserve               api.html#haiku.PRNGSequence.reserve
+	haiku.RMSNorm.__call__                   api.html#haiku.RMSNorm.__call__
+	haiku.RMSNorm.__init__                   api.html#haiku.RMSNorm.__init__
 	haiku.RNNCore.__call__                   api.html#haiku.RNNCore.__call__
 	haiku.RNNCore.initial_state              api.html#haiku.RNNCore.initial_state
 	haiku.ResetCore.__call__                 api.html#haiku.ResetCore.__call__
@@ -340,6 +349,8 @@ std:label
 	/api.rst#convndtranspose                 ConvNDTranspose                         : api.html#convndtranspose
 	/api.rst#convolutional                   Convolutional                           : api.html#convolutional
 	/api.rst#create                          create                                  : api.html#create
+	/api.rst#create-from-padfn               create_from_padfn                       : api.html#create-from-padfn
+	/api.rst#create-from-tuple               create_from_tuple                       : api.html#create-from-tuple
 	/api.rst#custom-creator                  custom_creator                          : api.html#custom-creator
 	/api.rst#custom-getter                   custom_getter                           : api.html#custom-getter
 	/api.rst#deeprnn                         DeepRNN                                 : api.html#deeprnn
@@ -410,8 +421,10 @@ std:label
 	/api.rst#haiku.data_structures.map       haiku.data_structures.map               : api.html#haiku.data_structures.map
 	/api.rst#haiku.data_structures.merge     haiku.data_structures.merge             : api.html#haiku.data_structures.merge
 	/api.rst#haiku.data_structures.partition haiku.data_structures.partition         : api.html#haiku.data_structures.partition
+	/api.rst#haiku.data_structures.partition_n haiku.data_structures.partition_n       : api.html#haiku.data_structures.partition_n
 	/api.rst#haiku.data_structures.to_immutable_dict haiku.data_structures.to_immutable_dict : api.html#haiku.data_structures.to_immutable_dict
 	/api.rst#haiku.data_structures.to_mutable_dict haiku.data_structures.to_mutable_dict   : api.html#haiku.data_structures.to_mutable_dict
+	/api.rst#haiku.data_structures.traverse  haiku.data_structures.traverse          : api.html#haiku.data_structures.traverse
 	/api.rst#haiku.data_structures.tree_bytes haiku.data_structures.tree_bytes        : api.html#haiku.data_structures.tree_bytes
 	/api.rst#haiku.data_structures.tree_size haiku.data_structures.tree_size         : api.html#haiku.data_structures.tree_size
 	/api.rst#haiku.deep_rnn_with_skip_connections haiku.deep_rnn_with_skip_connections    : api.html#haiku.deep_rnn_with_skip_connections
@@ -464,6 +477,7 @@ std:label
 	/api.rst#haiku.experimental.moduledetails.module haiku.experimental.ModuleDetails.module : api.html#haiku.experimental.ModuleDetails.module
 	/api.rst#haiku.experimental.moduledetails.params haiku.experimental.ModuleDetails.params : api.html#haiku.experimental.ModuleDetails.params
 	/api.rst#haiku.experimental.moduledetails.state haiku.experimental.ModuleDetails.state  : api.html#haiku.experimental.ModuleDetails.state
+	/api.rst#haiku.experimental.name_like    haiku.experimental.name_like            : api.html#haiku.experimental.name_like
 	/api.rst#haiku.experimental.name_scope   haiku.experimental.name_scope           : api.html#haiku.experimental.name_scope
 	/api.rst#haiku.experimental.named_call   haiku.experimental.named_call           : api.html#haiku.experimental.named_call
 	/api.rst#haiku.experimental.optimize_rng_use haiku.experimental.optimize_rng_use     : api.html#haiku.experimental.optimize_rng_use
@@ -598,7 +612,10 @@ std:label
 	/api.rst#haiku.one_hot                   haiku.one_hot                           : api.html#haiku.one_hot
 	/api.rst#haiku.pad.causal                haiku.pad.causal                        : api.html#haiku.pad.causal
 	/api.rst#haiku.pad.create                haiku.pad.create                        : api.html#haiku.pad.create
+	/api.rst#haiku.pad.create_from_padfn     haiku.pad.create_from_padfn             : api.html#haiku.pad.create_from_padfn
+	/api.rst#haiku.pad.create_from_tuple     haiku.pad.create_from_tuple             : api.html#haiku.pad.create_from_tuple
 	/api.rst#haiku.pad.full                  haiku.pad.full                          : api.html#haiku.pad.full
+	/api.rst#haiku.pad.is_padfn              haiku.pad.is_padfn                      : api.html#haiku.pad.is_padfn
 	/api.rst#haiku.pad.padfn                 haiku.pad.PadFn                         : api.html#haiku.pad.PadFn
 	/api.rst#haiku.pad.reverse_causal        haiku.pad.reverse_causal                : api.html#haiku.pad.reverse_causal
 	/api.rst#haiku.pad.same                  haiku.pad.same                          : api.html#haiku.pad.same
@@ -618,6 +635,9 @@ std:label
 	/api.rst#haiku.reshape                   haiku.Reshape                           : api.html#haiku.Reshape
 	/api.rst#haiku.reshape.__call__          haiku.Reshape.__call__                  : api.html#haiku.Reshape.__call__
 	/api.rst#haiku.reshape.__init__          haiku.Reshape.__init__                  : api.html#haiku.Reshape.__init__
+	/api.rst#haiku.rmsnorm                   haiku.RMSNorm                           : api.html#haiku.RMSNorm
+	/api.rst#haiku.rmsnorm.__call__          haiku.RMSNorm.__call__                  : api.html#haiku.RMSNorm.__call__
+	/api.rst#haiku.rmsnorm.__init__          haiku.RMSNorm.__init__                  : api.html#haiku.RMSNorm.__init__
 	/api.rst#haiku.rnncore                   haiku.RNNCore                           : api.html#haiku.RNNCore
 	/api.rst#haiku.rnncore.__call__          haiku.RNNCore.__call__                  : api.html#haiku.RNNCore.__call__
 	/api.rst#haiku.rnncore.initial_state     haiku.RNNCore.initial_state             : api.html#haiku.RNNCore.initial_state
@@ -670,6 +690,7 @@ std:label
 	/api.rst#initializer                     Initializer                             : api.html#initializer
 	/api.rst#instancenorm                    InstanceNorm                            : api.html#instancenorm
 	/api.rst#intercept-methods               intercept_methods                       : api.html#intercept-methods
+	/api.rst#is-padfn                        is_padfn                                : api.html#is-padfn
 	/api.rst#jax-fundamentals                JAX Fundamentals                        : api.html#jax-fundamentals
 	/api.rst#jax-transforms                  JAX Transforms                          : api.html#jax-transforms
 	/api.rst#jit                             jit                                     : api.html#jit
@@ -701,6 +722,7 @@ std:label
 	/api.rst#modules-parameters-and-state    Modules, Parameters and State           : api.html#modules-parameters-and-state
 	/api.rst#multiheadattention              MultiHeadAttention                      : api.html#multiheadattention
 	/api.rst#multinomial                     multinomial                             : api.html#multinomial
+	/api.rst#name-like                       name_like                               : api.html#name-like
 	/api.rst#name-scope                      name_scope                              : api.html#name-scope
 	/api.rst#named-call                      named_call                              : api.html#named-call
 	/api.rst#next-rng-key                    next_rng_key                            : api.html#next-rng-key
@@ -714,6 +736,7 @@ std:label
 	/api.rst#paramcontext                    ParamContext                            : api.html#paramcontext
 	/api.rst#params                          Params                                  : api.html#params
 	/api.rst#partition                       partition                               : api.html#partition
+	/api.rst#partition-n                     partition_n                             : api.html#partition-n
 	/api.rst#pooling                         Pooling                                 : api.html#pooling
 	/api.rst#prngsequence                    PRNGSequence                            : api.html#prngsequence
 	/api.rst#profiler-name-scopes            profiler_name_scopes                    : api.html#profiler-name-scopes
@@ -734,6 +757,7 @@ std:label
 	/api.rst#resnet34                        ResNet34                                : api.html#resnet34
 	/api.rst#resnet50                        ResNet50                                : api.html#resnet50
 	/api.rst#reverse-causal                  reverse_causal                          : api.html#reverse-causal
+	/api.rst#rmsnorm                         RMSNorm                                 : api.html#rmsnorm
 	/api.rst#rnncore                         RNNCore                                 : api.html#rnncore
 	/api.rst#running-init                    running_init                            : api.html#running-init
 	/api.rst#same                            same                                    : api.html#same
@@ -759,6 +783,7 @@ std:label
 	/api.rst#transformed                     Transformed                             : api.html#transformed
 	/api.rst#transformedwithstate            TransformedWithState                    : api.html#transformedwithstate
 	/api.rst#transparent                     transparent                             : api.html#transparent
+	/api.rst#traverse                        traverse                                : api.html#traverse
 	/api.rst#tree-bytes                      tree_bytes                              : api.html#tree-bytes
 	/api.rst#tree-size                       tree_size                               : api.html#tree-size
 	/api.rst#truncatednormal                 TruncatedNormal                         : api.html#truncatednormal

@@ -1,5 +1,5 @@
-jax==0.2.8
-jaxlib==0.1.59
+jax==0.2.12
+jaxlib==0.1.65
 flake8>=3.8.4
 pylint>=2.6.0
 pur>=5.3.0
