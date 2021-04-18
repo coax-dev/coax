@@ -1050,7 +1050,8 @@ def unvectorize(f, in_axes=0, out_axes=0):
         elif out_axes_ is not None:
             if not isinstance(out_axes_, int):
                 raise TypeError(
-                    f"out_axes must be an int for functions with a single output; got: {out_axes=}")
+                    "out_axes must be an int for functions with a single output; "
+                    f"got: out_axes={out_axes}")
             out = jax.tree_map(partial(jnp.squeeze, axis=out_axes), out)
         return out
     return f_single
