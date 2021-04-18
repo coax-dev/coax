@@ -976,8 +976,53 @@ def unvectorize(f, in_axes=0, out_axes=0):
         by :func:`jnp.squeeze <jax.numpy.squeeze>`, i.e. dropped. If left unpsecified, this defaults
         to axis 0 for all outputs.
 
-    Returns:
-      f_single: The unvectorized version of :code:`f`.
+    Returns
+    -------
+    f_single : callable
+
+        The unvectorized version of :code:`f`.
+
+    Examples
+    --------
+
+    Haiku uses a batch-oriented design (although some components may be batch-agnostic). To create a
+    function that acts on a single instance, we can use :func:`unvectorize` as follows:
+
+    .. code:: python
+
+        import jax.numpy as jnp
+        import haiku as hk
+        import coax
+
+
+        def f(x_batch):
+            return hk.Linear(11)(x_batch)
+
+
+        rngs = hk.PRNGSequence(42)
+
+        x_batch = jnp.zeros(shape=(3, 5))  # batch of 3 instances
+        x_single = jnp.zeros(shape=(5,))   # single instance
+
+        init, f_batch = hk.transform(f)
+        params = init(next(rngs), x_batch)
+        y_batch = f_batch(params, next(rngs), x_batch)
+        assert y_batch.shape == (3, 11)
+
+        f_single = coax.unvectorize(f_batch, in_axes=(None, None, 0), out_axes=0)
+        y_single = f_single(params, next(rngs), x_single)
+        assert y_single.shape == (11,)
+
+    Alternatively, and perhaps more conveniently, we can unvectorize the function before doing the
+    Haiku transform:
+
+    .. code:: python
+
+        init, f_single = hk.transform(coax.unvectorize(f))
+        params = init(next(rngs), x_single)
+        y_single = f_single(params, next(rngs), x_single)
+        assert y_single.shape == (11,)
+
 
     """
     def f_single(*args):

@@ -78,6 +78,7 @@ Object Reference
     coax.utils.safe_sample
     coax.utils.single_to_batch
     coax.utils.tree_ravel
+    coax.utils.unvectorize
 
 
 """
@@ -105,6 +106,7 @@ from ._array import (
     safe_sample,
     single_to_batch,
     tree_ravel,
+    unvectorize,
 )
 from ._jit import jit
 from ._misc import (
@@ -178,4 +180,5 @@ __all__ = (
     'safe_sample',
     'single_to_batch',
     'tree_ravel',
+    'unvectorize',
 )

@@ -36,7 +36,7 @@ from ._core.stochastic_reward_function import StochasticRewardFunction
 from ._core.value_based_policy import EpsilonGreedy, BoltzmannPolicy
 from ._core.random_policy import RandomPolicy
 from ._core.successor_state_q import SuccessorStateQ
-from .utils import safe_sample, render_episode
+from .utils import safe_sample, render_episode, unvectorize
 
 # pre-load submodules
 from . import experience_replay
@@ -71,6 +71,7 @@ __all__ = (
     'SuccessorStateQ',
     'safe_sample',
     'render_episode',
+    'unvectorize',
 
     # modules
     'experience_replay',
