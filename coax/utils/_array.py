@@ -287,9 +287,8 @@ def chunks_pow2(transition_batch):
 def clipped_logit(x, epsilon=1e-15):
     r"""
 
-    A safe implementation of the logit function
-    :math:`x\mapsto\log(x/(1-x))`. It clips the arguments of the log function
-    from below so as to avoid evaluating it at 0:
+    A safe implementation of the logit function :math:`x\mapsto\log(x/(1-x))`. It clips the
+    arguments of the log function from below so as to avoid evaluating it at 0:
 
     .. math::
 
@@ -300,13 +299,11 @@ def clipped_logit(x, epsilon=1e-15):
     ----------
     x : ndarray
 
-        Input numpy array whose entries lie on the unit interval,
-        :math:`x_i\in [0, 1]`.
+        Input numpy array whose entries lie on the unit interval, :math:`x_i\in [0, 1]`.
 
     epsilon : float, optional
 
-        The small number with which to clip the arguments of the logarithm from
-        below.
+        The small number with which to clip the arguments of the logarithm from below.
 
     Returns
     -------
@@ -316,9 +313,7 @@ def clipped_logit(x, epsilon=1e-15):
         :math:`z_i\in\mathbb{R}`.
 
     """
-    if jax.api._jit_is_disabled():
-        assert jnp.all(x >= 0) and jnp.all(x <= 1), "values do not lie on the unit interval"
-    return jnp.log(jnp.maximum(epsilon, x)) - jnp.log(jnp.maximum(epsilon, 1 - x))
+    return jnp.log(jnp.clip(x, epsilon, 1)) - jnp.log(jnp.clip(1 - x, epsilon, 1))
 
 
 def default_preprocessor(space):
