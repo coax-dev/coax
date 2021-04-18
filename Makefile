@@ -1,4 +1,4 @@
-PYTHON_EXECUTABLE ?= /usr/bin/python3
+PYTHON_EXECUTABLE ?= python3
 
 .PHONY: doc
 
