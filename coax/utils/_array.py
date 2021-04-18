@@ -53,6 +53,7 @@ __all__ = (
     'safe_sample',
     'tree_ravel',
     'tree_sample',
+    'unvectorize',
 )
 
 
