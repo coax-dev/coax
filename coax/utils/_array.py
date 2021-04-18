@@ -20,6 +20,7 @@
 # ------------------------------------------------------------------------------------------------ #
 
 import warnings
+from functools import partial
 
 import gym
 import jax
@@ -948,8 +949,65 @@ def tree_sample(pytree, rng, n=1, replace=False, axis=0, p=None):
 
     """
     batch_size = _check_leaf_batch_size(pytree)
-    idx = jax.random.choice(rng, batch_size, shape=(n,), replace=replace, p=p)
-    return jax.tree_map(lambda x: jnp.take(x, idx, axis=0), pytree)
+    ix = jax.random.choice(rng, batch_size, shape=(n,), replace=replace, p=p)
+    return jax.tree_map(lambda x: jnp.take(x, ix, axis=0), pytree)
+
+
+def unvectorize(f, in_axes=0, out_axes=0):
+    """
+
+    Apply a batched function on a single instance, which effectively does the
+    inverse of what :func:`jax.vmap` does.
+
+    Parameters
+    ----------
+    f : callable
+
+        A batched function.
+
+    in_axes : int or tuple of ints, optional
+
+        Specify the batch axes of the inputs of the function :code:`f`. If left unpsecified, this
+        defaults to axis 0 for all inputs.
+
+    out_axis: int, optional
+
+        Specify the batch axes of the outputs of the function :code:`f`. These axes will be dropped
+        by :func:`jnp.squeeze <jax.numpy.squeeze>`, i.e. dropped. If left unpsecified, this defaults
+        to axis 0 for all outputs.
+
+    Returns:
+      f_single: The unvectorized version of :code:`f`.
+
+    """
+    def f_single(*args):
+        in_axes_ = in_axes
+        if in_axes is None or isinstance(in_axes, int):
+            in_axes_ = (in_axes,) * len(args)
+        if len(args) != len(in_axes_):
+            raise ValueError("number of in_axes must match the number of function inputs")
+        vargs = [
+            arg if axis is None else
+            jax.tree_map(partial(jnp.expand_dims, axis=axis), arg)
+            for arg, axis in zip(args, in_axes_)]
+        out = f(*vargs)
+        out_axes_ = out_axes
+        if isinstance(out, tuple):
+            if out_axes_ is None or isinstance(out_axes_, int):
+                out_axes_ = (out_axes_,) * len(out)
+            if len(out) != len(out_axes_):
+                raise ValueError("number of out_axes must match the number of function outputs")
+            out = tuple(
+                x if axis is None else
+                jax.tree_map(partial(jnp.squeeze, axis=axis), x)
+                for x, axis in zip(out, out_axes_))
+        elif out_axes_ is not None:
+            if not isinstance(out_axes_, int):
+                raise TypeError(
+                    f"out_axes must be an int for functions with a single output; got: {out_axes=}")
+            out = jax.tree_map(partial(jnp.squeeze, axis=out_axes), out)
+        return out
+    return f_single
 
 
 def _check_leaf_batch_size(pytree):
