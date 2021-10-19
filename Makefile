@@ -61,13 +61,13 @@ flake8:
 test_all: test_gpu test_cpu
 
 test: flake8  # for quick testing
-	JAX_PLATFORM_NAME=cpu $(PYTHON_EXECUTABLE) -m pytest --numprocesses auto coax -v
+	JAX_PLATFORM_NAME=cpu $(PYTHON_EXECUTABLE) -m pytest --numprocesses auto coax -v -x --ff
 
 test_cpu: flake8
-	JAX_PLATFORM_NAME=cpu $(PYTHON_EXECUTABLE) -m pytest coax -v -x
+	JAX_PLATFORM_NAME=cpu $(PYTHON_EXECUTABLE) -m pytest coax -v -x --ff
 
 test_gpu: flake8
-	JAX_PLATFORM_NAME=gpu $(PYTHON_EXECUTABLE) -m pytest coax -v -x
+	JAX_PLATFORM_NAME=gpu $(PYTHON_EXECUTABLE) -m pytest coax -v -x --ff
 
 notebooks:
 	$(PYTHON_EXECUTABLE) ./doc/create_notebooks.py
