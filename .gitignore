@@ -42,3 +42,6 @@ sftp*-config.json
 
 # mypy
 .mypy_cache/
+
+# used internally by update_requirements.py
+requirements.colab.txt
