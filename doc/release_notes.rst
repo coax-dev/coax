@@ -2,6 +2,13 @@ Release Notes
 =============
 
 
+v0.1.7
+------
+
+This is not much of a release. It's only really the dependencies that were updated.
+
+
+
 v0.1.6
 ------
 
