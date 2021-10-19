@@ -86,11 +86,11 @@ class TestMonteCarlo:
         for i in range(13):
             assert cache
             transition = cache.pop()
-            check_array(transition.S, ndim=1, axis_size=1, axis=0)
-            check_array(transition.A, ndim=1, axis_size=1, axis=0)
-            check_array(transition.Rn, ndim=1, axis_size=1, axis=0)
-            check_array(transition.In, ndim=1, axis_size=1, axis=0)
-            check_array(transition.S_next, ndim=1, axis_size=1, axis=0)
+            check_array(transition.S, ndim=1, axis_size=1, axis=0, except_np=True)
+            check_array(transition.A, ndim=1, axis_size=1, axis=0, except_np=True)
+            check_array(transition.Rn, ndim=1, axis_size=1, axis=0, except_np=True)
+            check_array(transition.In, ndim=1, axis_size=1, axis=0, except_np=True)
+            check_array(transition.S_next, ndim=1, axis_size=1, axis=0, except_np=True)
             assert_array_almost_equal(transition.S[0], self.S[12 - i])
             assert_array_almost_equal(transition.A[0], self.A[12 - i])
             assert_array_almost_equal(transition.Rn[0], self.G[12 - i])

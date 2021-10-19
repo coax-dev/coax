@@ -156,7 +156,7 @@ def batch_to_single(pytree, index=0):
 
 def check_array(
         arr, ndim=None, ndim_min=None, ndim_max=None,
-        dtype=None, shape=None, axis_size=None, axis=None):
+        dtype=None, shape=None, axis_size=None, axis=None, except_np=False):
     r"""
 
     This helper function is mostly for internal use. It is used to check a few
@@ -169,8 +169,10 @@ def check_array(
         If one of the checks fails.
 
     """
-    if not isinstance(arr, jnp.ndarray):
-        raise TypeError("expected input to be a numpy array, got type: {}".format(type(arr)))
+    if not except_np and not isinstance(arr, jnp.ndarray):
+        raise TypeError(f"expected input to be a jnp.ndarray, got type: {type(arr)}")
+    if not isinstance(arr, (onp.ndarray, jnp.ndarray)):
+        raise TypeError(f"expected input to be an ndarray, got type: {type(arr)}")
 
     check = ndim is not None
     ndims = [ndim] if not isinstance(ndim, (list, tuple, set)) else ndim

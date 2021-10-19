@@ -79,16 +79,16 @@ class TestPolicy(TestCase):
     def test_init(self):
         msg = (
             r"func has bad return tree_structure, "
-            r"expected: PyTreeDef\(dict\[\['logvar', 'mu'\]\], \[\*,\*\]\), "
-            r"got: PyTreeDef\(dict\[\['logits'\]\], \[\*\]\)"
+            r"expected: PyTreeDef\({'logvar': \*, 'mu': \*}\), "
+            r"got: PyTreeDef\({'logits': \*}\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
             Policy(func_discrete, Env(boxspace, boxspace))
 
         msg = (
             r"func has bad return tree_structure, "
-            r"expected: PyTreeDef\(dict\[\['logits'\]\], \[\*\]\), "
-            r"got: PyTreeDef\(dict\[\['logvar', 'mu'\]\], \[\*,\*\]\)"
+            r"expected: PyTreeDef\({'logits': \*}\), "
+            r"got: PyTreeDef\({'logvar': \*, 'mu': \*}\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
             Policy(func_boxspace, Env(boxspace, discrete))
@@ -165,8 +165,8 @@ class TestPolicy(TestCase):
             return dist_params
         msg = (
             r"func has bad return tree_structure, "
-            r"expected: PyTreeDef\(dict\[\['logits'\]\], \[\*\]\), "
-            r"got: PyTreeDef\(dict\[\['foo', 'logits'\]\], \[\*,\*\]\)"
+            r"expected: PyTreeDef\({'logits': \*}\), "
+            r"got: PyTreeDef\({'foo': \*, 'logits': \*}\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
             env = Env(boxspace, discrete)

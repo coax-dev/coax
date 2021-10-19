@@ -1,8 +1,21 @@
 py:attribute
 	haiku.EmbedLookupStyle.ARRAY_INDEX       api.html#haiku.EmbedLookupStyle.ARRAY_INDEX
 	haiku.EmbedLookupStyle.ONE_HOT           api.html#haiku.EmbedLookupStyle.ONE_HOT
+	haiku.GetterContext.full_name            api.html#haiku.GetterContext.full_name
+	haiku.GetterContext.module               api.html#haiku.GetterContext.module
+	haiku.GetterContext.module_name          api.html#haiku.GetterContext.module_name
+	haiku.GetterContext.name                 api.html#haiku.GetterContext.name
+	haiku.GetterContext.original_dtype       api.html#haiku.GetterContext.original_dtype
+	haiku.GetterContext.original_shape       api.html#haiku.GetterContext.original_shape
 	haiku.LSTMState.cell                     api.html#haiku.LSTMState.cell
 	haiku.LSTMState.hidden                   api.html#haiku.LSTMState.hidden
+	haiku.MethodContext.method_name          api.html#haiku.MethodContext.method_name
+	haiku.MethodContext.module               api.html#haiku.MethodContext.module
+	haiku.MethodContext.orig_method          api.html#haiku.MethodContext.orig_method
+	haiku.MultiTransformed.apply             api.html#haiku.MultiTransformed.apply
+	haiku.MultiTransformed.init              api.html#haiku.MultiTransformed.init
+	haiku.MultiTransformedWithState.apply    api.html#haiku.MultiTransformedWithState.apply
+	haiku.MultiTransformedWithState.init     api.html#haiku.MultiTransformedWithState.init
 	haiku.Params                             api.html#haiku.Params
 	haiku.State                              api.html#haiku.State
 	haiku.Transformed.apply                  api.html#haiku.Transformed.apply
@@ -11,14 +24,6 @@ py:attribute
 	haiku.TransformedWithState.init          api.html#haiku.TransformedWithState.init
 	haiku.experimental.ArraySpec.dtype       api.html#haiku.experimental.ArraySpec.dtype
 	haiku.experimental.ArraySpec.shape       api.html#haiku.experimental.ArraySpec.shape
-	haiku.experimental.GetterContext.full_name api.html#haiku.experimental.GetterContext.full_name
-	haiku.experimental.GetterContext.module  api.html#haiku.experimental.GetterContext.module
-	haiku.experimental.GetterContext.module_name api.html#haiku.experimental.GetterContext.module_name
-	haiku.experimental.GetterContext.name    api.html#haiku.experimental.GetterContext.name
-	haiku.experimental.GetterContext.original_dtype api.html#id0
-	haiku.experimental.MethodContext.method_name api.html#haiku.experimental.MethodContext.method_name
-	haiku.experimental.MethodContext.module  api.html#haiku.experimental.MethodContext.module
-	haiku.experimental.MethodContext.orig_method api.html#haiku.experimental.MethodContext.orig_method
 	haiku.experimental.MethodInvocation.args_spec api.html#haiku.experimental.MethodInvocation.args_spec
 	haiku.experimental.MethodInvocation.call_stack api.html#haiku.experimental.MethodInvocation.call_stack
 	haiku.experimental.MethodInvocation.context api.html#haiku.experimental.MethodInvocation.context
@@ -29,7 +34,6 @@ py:attribute
 	haiku.experimental.ModuleDetails.module  api.html#haiku.experimental.ModuleDetails.module
 	haiku.experimental.ModuleDetails.params  api.html#haiku.experimental.ModuleDetails.params
 	haiku.experimental.ModuleDetails.state   api.html#haiku.experimental.ModuleDetails.state
-	haiku.experimental.ParamContext          api.html#haiku.experimental.ParamContext
 	haiku.initializers.Initializer           api.html#haiku.initializers.Initializer
 	haiku.nets.VectorQuantizer.commitment_cost api.html#haiku.nets.VectorQuantizer.commitment_cost
 	haiku.nets.VectorQuantizer.embedding_dim api.html#haiku.nets.VectorQuantizer.embedding_dim
@@ -64,6 +68,7 @@ py:class
 	haiku.ExponentialMovingAverage           api.html#haiku.ExponentialMovingAverage
 	haiku.Flatten                            api.html#haiku.Flatten
 	haiku.GRU                                api.html#haiku.GRU
+	haiku.GetterContext                      api.html#haiku.GetterContext
 	haiku.GroupNorm                          api.html#haiku.GroupNorm
 	haiku.IdentityCore                       api.html#haiku.IdentityCore
 	haiku.InstanceNorm                       api.html#haiku.InstanceNorm
@@ -72,8 +77,11 @@ py:class
 	haiku.LayerNorm                          api.html#haiku.LayerNorm
 	haiku.Linear                             api.html#haiku.Linear
 	haiku.MaxPool                            api.html#haiku.MaxPool
+	haiku.MethodContext                      api.html#haiku.MethodContext
 	haiku.Module                             api.html#haiku.Module
 	haiku.MultiHeadAttention                 api.html#haiku.MultiHeadAttention
+	haiku.MultiTransformed                   api.html#haiku.MultiTransformed
+	haiku.MultiTransformedWithState          api.html#haiku.MultiTransformedWithState
 	haiku.PRNGSequence                       api.html#haiku.PRNGSequence
 	haiku.RMSNorm                            api.html#haiku.RMSNorm
 	haiku.RNNCore                            api.html#haiku.RNNCore
@@ -87,8 +95,6 @@ py:class
 	haiku.TransformedWithState               api.html#haiku.TransformedWithState
 	haiku.VanillaRNN                         api.html#haiku.VanillaRNN
 	haiku.experimental.ArraySpec             api.html#haiku.experimental.ArraySpec
-	haiku.experimental.GetterContext         api.html#haiku.experimental.GetterContext
-	haiku.experimental.MethodContext         api.html#haiku.experimental.MethodContext
 	haiku.experimental.MethodInvocation      api.html#haiku.experimental.MethodInvocation
 	haiku.experimental.ModuleDetails         api.html#haiku.experimental.ModuleDetails
 	haiku.initializers.Constant              api.html#haiku.initializers.Constant
@@ -116,11 +122,15 @@ py:class
 py:function
 	haiku.avg_pool                           api.html#haiku.avg_pool
 	haiku.cond                               api.html#haiku.cond
+	haiku.custom_creator                     api.html#haiku.custom_creator
+	haiku.custom_getter                      api.html#haiku.custom_getter
 	haiku.data_structures.filter             api.html#haiku.data_structures.filter
+	haiku.data_structures.is_subset          api.html#haiku.data_structures.is_subset
 	haiku.data_structures.map                api.html#haiku.data_structures.map
 	haiku.data_structures.merge              api.html#haiku.data_structures.merge
 	haiku.data_structures.partition          api.html#haiku.data_structures.partition
 	haiku.data_structures.partition_n        api.html#haiku.data_structures.partition_n
+	haiku.data_structures.to_haiku_dict      api.html#haiku.data_structures.to_haiku_dict
 	haiku.data_structures.to_immutable_dict  api.html#haiku.data_structures.to_immutable_dict
 	haiku.data_structures.to_mutable_dict    api.html#haiku.data_structures.to_mutable_dict
 	haiku.data_structures.traverse           api.html#haiku.data_structures.traverse
@@ -132,11 +142,7 @@ py:function
 	haiku.eval_shape                         api.html#haiku.eval_shape
 	haiku.expand_apply                       api.html#haiku.expand_apply
 	haiku.experimental.abstract_to_dot       api.html#haiku.experimental.abstract_to_dot
-	haiku.experimental.custom_creator        api.html#haiku.experimental.custom_creator
-	haiku.experimental.custom_getter         api.html#haiku.experimental.custom_getter
 	haiku.experimental.eval_summary          api.html#haiku.experimental.eval_summary
-	haiku.experimental.intercept_methods     api.html#haiku.experimental.intercept_methods
-	haiku.experimental.lift                  api.html#haiku.experimental.lift
 	haiku.experimental.name_like             api.html#haiku.experimental.name_like
 	haiku.experimental.name_scope            api.html#haiku.experimental.name_scope
 	haiku.experimental.named_call            api.html#haiku.experimental.named_call
@@ -148,9 +154,15 @@ py:function
 	haiku.get_parameter                      api.html#haiku.get_parameter
 	haiku.get_state                          api.html#haiku.get_state
 	haiku.grad                               api.html#haiku.grad
+	haiku.intercept_methods                  api.html#haiku.intercept_methods
 	haiku.jit                                api.html#haiku.jit
+	haiku.lift                               api.html#haiku.lift
 	haiku.max_pool                           api.html#haiku.max_pool
 	haiku.maybe_next_rng_key                 api.html#haiku.maybe_next_rng_key
+	haiku.mixed_precision.clear_policy       api.html#haiku.mixed_precision.clear_policy
+	haiku.mixed_precision.set_policy         api.html#haiku.mixed_precision.set_policy
+	haiku.multi_transform                    api.html#haiku.multi_transform
+	haiku.multi_transform_with_state         api.html#haiku.multi_transform_with_state
 	haiku.multinomial                        api.html#haiku.multinomial
 	haiku.next_rng_key                       api.html#haiku.next_rng_key
 	haiku.next_rng_keys                      api.html#haiku.next_rng_keys
@@ -179,6 +191,7 @@ py:function
 	haiku.value_and_grad                     api.html#haiku.value_and_grad
 	haiku.vmap                               api.html#haiku.vmap
 	haiku.while_loop                         api.html#haiku.while_loop
+	haiku.with_empty_state                   api.html#haiku.with_empty_state
 	haiku.with_rng                           api.html#haiku.with_rng
 	haiku.without_apply_rng                  api.html#haiku.without_apply_rng
 	haiku.without_state                      api.html#haiku.without_state
@@ -308,6 +321,7 @@ py:module
 	haiku.data_structures                    api.html#module-haiku.data_structures
 	haiku.experimental                       api.html#module-haiku.experimental
 	haiku.initializers                       api.html#module-haiku.initializers
+	haiku.mixed_precision                    api.html#module-haiku.mixed_precision
 	haiku.nets                               api.html#module-haiku.nets
 	haiku.pad                                api.html#module-haiku.pad
 	haiku.testing                            api.html#module-haiku.testing
@@ -325,12 +339,14 @@ std:label
 	/api.rst#abstract-to-dot                 abstract_to_dot                         : api.html#abstract-to-dot
 	/api.rst#arrayspec                       ArraySpec                               : api.html#arrayspec
 	/api.rst#attention                       Attention                               : api.html#attention
+	/api.rst#automatic-mixed-precision       Automatic Mixed Precision               : api.html#automatic-mixed-precision
 	/api.rst#average-pool                    Average Pool                            : api.html#average-pool
 	/api.rst#batch                           Batch                                   : api.html#batch
 	/api.rst#batchapply                      BatchApply                              : api.html#batchapply
 	/api.rst#batchnorm                       BatchNorm                               : api.html#batchnorm
 	/api.rst#bias                            Bias                                    : api.html#bias
 	/api.rst#causal                          causal                                  : api.html#causal
+	/api.rst#clear-policy                    clear_policy                            : api.html#clear-policy
 	/api.rst#combinator                      Combinator                              : api.html#combinator
 	/api.rst#common-modules                  Common Modules                          : api.html#common-modules
 	/api.rst#cond                            cond                                    : api.html#cond
@@ -417,11 +433,15 @@ std:label
 	/api.rst#haiku.convndtranspose           haiku.ConvNDTranspose                   : api.html#haiku.ConvNDTranspose
 	/api.rst#haiku.convndtranspose.__call__  haiku.ConvNDTranspose.__call__          : api.html#haiku.ConvNDTranspose.__call__
 	/api.rst#haiku.convndtranspose.__init__  haiku.ConvNDTranspose.__init__          : api.html#haiku.ConvNDTranspose.__init__
+	/api.rst#haiku.custom_creator            haiku.custom_creator                    : api.html#haiku.custom_creator
+	/api.rst#haiku.custom_getter             haiku.custom_getter                     : api.html#haiku.custom_getter
 	/api.rst#haiku.data_structures.filter    haiku.data_structures.filter            : api.html#haiku.data_structures.filter
+	/api.rst#haiku.data_structures.is_subset haiku.data_structures.is_subset         : api.html#haiku.data_structures.is_subset
 	/api.rst#haiku.data_structures.map       haiku.data_structures.map               : api.html#haiku.data_structures.map
 	/api.rst#haiku.data_structures.merge     haiku.data_structures.merge             : api.html#haiku.data_structures.merge
 	/api.rst#haiku.data_structures.partition haiku.data_structures.partition         : api.html#haiku.data_structures.partition
 	/api.rst#haiku.data_structures.partition_n haiku.data_structures.partition_n       : api.html#haiku.data_structures.partition_n
+	/api.rst#haiku.data_structures.to_haiku_dict haiku.data_structures.to_haiku_dict     : api.html#haiku.data_structures.to_haiku_dict
 	/api.rst#haiku.data_structures.to_immutable_dict haiku.data_structures.to_immutable_dict : api.html#haiku.data_structures.to_immutable_dict
 	/api.rst#haiku.data_structures.to_mutable_dict haiku.data_structures.to_mutable_dict   : api.html#haiku.data_structures.to_mutable_dict
 	/api.rst#haiku.data_structures.traverse  haiku.data_structures.traverse          : api.html#haiku.data_structures.traverse
@@ -450,21 +470,7 @@ std:label
 	/api.rst#haiku.experimental.arrayspec    haiku.experimental.ArraySpec            : api.html#haiku.experimental.ArraySpec
 	/api.rst#haiku.experimental.arrayspec.dtype haiku.experimental.ArraySpec.dtype      : api.html#haiku.experimental.ArraySpec.dtype
 	/api.rst#haiku.experimental.arrayspec.shape haiku.experimental.ArraySpec.shape      : api.html#haiku.experimental.ArraySpec.shape
-	/api.rst#haiku.experimental.custom_creator haiku.experimental.custom_creator       : api.html#haiku.experimental.custom_creator
-	/api.rst#haiku.experimental.custom_getter haiku.experimental.custom_getter        : api.html#haiku.experimental.custom_getter
 	/api.rst#haiku.experimental.eval_summary haiku.experimental.eval_summary         : api.html#haiku.experimental.eval_summary
-	/api.rst#haiku.experimental.gettercontext haiku.experimental.GetterContext        : api.html#haiku.experimental.GetterContext
-	/api.rst#haiku.experimental.gettercontext.full_name haiku.experimental.GetterContext.full_name: api.html#haiku.experimental.GetterContext.full_name
-	/api.rst#haiku.experimental.gettercontext.module haiku.experimental.GetterContext.module : api.html#haiku.experimental.GetterContext.module
-	/api.rst#haiku.experimental.gettercontext.module_name haiku.experimental.GetterContext.module_name: api.html#haiku.experimental.GetterContext.module_name
-	/api.rst#haiku.experimental.gettercontext.name haiku.experimental.GetterContext.name   : api.html#haiku.experimental.GetterContext.name
-	/api.rst#haiku.experimental.gettercontext.original_dtype haiku.experimental.GetterContext.original_dtype: api.html#haiku.experimental.GetterContext.original_dtype
-	/api.rst#haiku.experimental.intercept_methods haiku.experimental.intercept_methods    : api.html#haiku.experimental.intercept_methods
-	/api.rst#haiku.experimental.lift         haiku.experimental.lift                 : api.html#haiku.experimental.lift
-	/api.rst#haiku.experimental.methodcontext haiku.experimental.MethodContext        : api.html#haiku.experimental.MethodContext
-	/api.rst#haiku.experimental.methodcontext.method_name haiku.experimental.MethodContext.method_name: api.html#haiku.experimental.MethodContext.method_name
-	/api.rst#haiku.experimental.methodcontext.module haiku.experimental.MethodContext.module : api.html#haiku.experimental.MethodContext.module
-	/api.rst#haiku.experimental.methodcontext.orig_method haiku.experimental.MethodContext.orig_method: api.html#haiku.experimental.MethodContext.orig_method
 	/api.rst#haiku.experimental.methodinvocation haiku.experimental.MethodInvocation     : api.html#haiku.experimental.MethodInvocation
 	/api.rst#haiku.experimental.methodinvocation.args_spec haiku.experimental.MethodInvocation.args_spec: api.html#haiku.experimental.MethodInvocation.args_spec
 	/api.rst#haiku.experimental.methodinvocation.call_stack haiku.experimental.MethodInvocation.call_stack: api.html#haiku.experimental.MethodInvocation.call_stack
@@ -481,7 +487,6 @@ std:label
 	/api.rst#haiku.experimental.name_scope   haiku.experimental.name_scope           : api.html#haiku.experimental.name_scope
 	/api.rst#haiku.experimental.named_call   haiku.experimental.named_call           : api.html#haiku.experimental.named_call
 	/api.rst#haiku.experimental.optimize_rng_use haiku.experimental.optimize_rng_use     : api.html#haiku.experimental.optimize_rng_use
-	/api.rst#haiku.experimental.paramcontext haiku.experimental.ParamContext         : api.html#haiku.experimental.ParamContext
 	/api.rst#haiku.experimental.profiler_name_scopes haiku.experimental.profiler_name_scopes : api.html#haiku.experimental.profiler_name_scopes
 	/api.rst#haiku.experimental.tabulate     haiku.experimental.tabulate             : api.html#haiku.experimental.tabulate
 	/api.rst#haiku.experimental.to_dot       haiku.experimental.to_dot               : api.html#haiku.experimental.to_dot
@@ -494,6 +499,13 @@ std:label
 	/api.rst#haiku.fori_loop                 haiku.fori_loop                         : api.html#haiku.fori_loop
 	/api.rst#haiku.get_parameter             haiku.get_parameter                     : api.html#haiku.get_parameter
 	/api.rst#haiku.get_state                 haiku.get_state                         : api.html#haiku.get_state
+	/api.rst#haiku.gettercontext             haiku.GetterContext                     : api.html#haiku.GetterContext
+	/api.rst#haiku.gettercontext.full_name   haiku.GetterContext.full_name           : api.html#haiku.GetterContext.full_name
+	/api.rst#haiku.gettercontext.module      haiku.GetterContext.module              : api.html#haiku.GetterContext.module
+	/api.rst#haiku.gettercontext.module_name haiku.GetterContext.module_name         : api.html#haiku.GetterContext.module_name
+	/api.rst#haiku.gettercontext.name        haiku.GetterContext.name                : api.html#haiku.GetterContext.name
+	/api.rst#haiku.gettercontext.original_dtype haiku.GetterContext.original_dtype      : api.html#haiku.GetterContext.original_dtype
+	/api.rst#haiku.gettercontext.original_shape haiku.GetterContext.original_shape      : api.html#haiku.GetterContext.original_shape
 	/api.rst#haiku.grad                      haiku.grad                              : api.html#haiku.grad
 	/api.rst#haiku.groupnorm                 haiku.GroupNorm                         : api.html#haiku.GroupNorm
 	/api.rst#haiku.groupnorm.__call__        haiku.GroupNorm.__call__                : api.html#haiku.GroupNorm.__call__
@@ -532,10 +544,12 @@ std:label
 	/api.rst#haiku.initializers.variancescaling.__init__ haiku.initializers.VarianceScaling.__init__: api.html#haiku.initializers.VarianceScaling.__init__
 	/api.rst#haiku.instancenorm              haiku.InstanceNorm                      : api.html#haiku.InstanceNorm
 	/api.rst#haiku.instancenorm.__init__     haiku.InstanceNorm.__init__             : api.html#haiku.InstanceNorm.__init__
+	/api.rst#haiku.intercept_methods         haiku.intercept_methods                 : api.html#haiku.intercept_methods
 	/api.rst#haiku.jit                       haiku.jit                               : api.html#haiku.jit
 	/api.rst#haiku.layernorm                 haiku.LayerNorm                         : api.html#haiku.LayerNorm
 	/api.rst#haiku.layernorm.__call__        haiku.LayerNorm.__call__                : api.html#haiku.LayerNorm.__call__
 	/api.rst#haiku.layernorm.__init__        haiku.LayerNorm.__init__                : api.html#haiku.LayerNorm.__init__
+	/api.rst#haiku.lift                      haiku.lift                              : api.html#haiku.lift
 	/api.rst#haiku.linear                    haiku.Linear                            : api.html#haiku.Linear
 	/api.rst#haiku.linear.__call__           haiku.Linear.__call__                   : api.html#haiku.Linear.__call__
 	/api.rst#haiku.linear.__init__           haiku.Linear.__init__                   : api.html#haiku.Linear.__init__
@@ -551,15 +565,29 @@ std:label
 	/api.rst#haiku.maxpool.__call__          haiku.MaxPool.__call__                  : api.html#haiku.MaxPool.__call__
 	/api.rst#haiku.maxpool.__init__          haiku.MaxPool.__init__                  : api.html#haiku.MaxPool.__init__
 	/api.rst#haiku.maybe_next_rng_key        haiku.maybe_next_rng_key                : api.html#haiku.maybe_next_rng_key
+	/api.rst#haiku.methodcontext             haiku.MethodContext                     : api.html#haiku.MethodContext
+	/api.rst#haiku.methodcontext.method_name haiku.MethodContext.method_name         : api.html#haiku.MethodContext.method_name
+	/api.rst#haiku.methodcontext.module      haiku.MethodContext.module              : api.html#haiku.MethodContext.module
+	/api.rst#haiku.methodcontext.orig_method haiku.MethodContext.orig_method         : api.html#haiku.MethodContext.orig_method
+	/api.rst#haiku.mixed_precision.clear_policy haiku.mixed_precision.clear_policy      : api.html#haiku.mixed_precision.clear_policy
+	/api.rst#haiku.mixed_precision.set_policy haiku.mixed_precision.set_policy        : api.html#haiku.mixed_precision.set_policy
 	/api.rst#haiku.module                    haiku.Module                            : api.html#haiku.Module
 	/api.rst#haiku.module.__init__           haiku.Module.__init__                   : api.html#haiku.Module.__init__
 	/api.rst#haiku.module.__post_init__      haiku.Module.__post_init__              : api.html#haiku.Module.__post_init__
 	/api.rst#haiku.module.params_dict        haiku.Module.params_dict                : api.html#haiku.Module.params_dict
 	/api.rst#haiku.module.state_dict         haiku.Module.state_dict                 : api.html#haiku.Module.state_dict
+	/api.rst#haiku.multi_transform           haiku.multi_transform                   : api.html#haiku.multi_transform
+	/api.rst#haiku.multi_transform_with_state haiku.multi_transform_with_state        : api.html#haiku.multi_transform_with_state
 	/api.rst#haiku.multiheadattention        haiku.MultiHeadAttention                : api.html#haiku.MultiHeadAttention
 	/api.rst#haiku.multiheadattention.__call__ haiku.MultiHeadAttention.__call__       : api.html#haiku.MultiHeadAttention.__call__
 	/api.rst#haiku.multiheadattention.__init__ haiku.MultiHeadAttention.__init__       : api.html#haiku.MultiHeadAttention.__init__
 	/api.rst#haiku.multinomial               haiku.multinomial                       : api.html#haiku.multinomial
+	/api.rst#haiku.multitransformed          haiku.MultiTransformed                  : api.html#haiku.MultiTransformed
+	/api.rst#haiku.multitransformed.apply    haiku.MultiTransformed.apply            : api.html#haiku.MultiTransformed.apply
+	/api.rst#haiku.multitransformed.init     haiku.MultiTransformed.init             : api.html#haiku.MultiTransformed.init
+	/api.rst#haiku.multitransformedwithstate haiku.MultiTransformedWithState         : api.html#haiku.MultiTransformedWithState
+	/api.rst#haiku.multitransformedwithstate.apply haiku.MultiTransformedWithState.apply   : api.html#haiku.MultiTransformedWithState.apply
+	/api.rst#haiku.multitransformedwithstate.init haiku.MultiTransformedWithState.init    : api.html#haiku.MultiTransformedWithState.init
 	/api.rst#haiku.nets.mlp                  haiku.nets.MLP                          : api.html#haiku.nets.MLP
 	/api.rst#haiku.nets.mlp.__call__         haiku.nets.MLP.__call__                 : api.html#haiku.nets.MLP.__call__
 	/api.rst#haiku.nets.mlp.__init__         haiku.nets.MLP.__init__                 : api.html#haiku.nets.MLP.__init__
@@ -677,13 +705,13 @@ std:label
 	/api.rst#haiku.vanillarnn.initial_state  haiku.VanillaRNN.initial_state          : api.html#haiku.VanillaRNN.initial_state
 	/api.rst#haiku.vmap                      haiku.vmap                              : api.html#haiku.vmap
 	/api.rst#haiku.while_loop                haiku.while_loop                        : api.html#haiku.while_loop
+	/api.rst#haiku.with_empty_state          haiku.with_empty_state                  : api.html#haiku.with_empty_state
 	/api.rst#haiku.with_rng                  haiku.with_rng                          : api.html#haiku.with_rng
 	/api.rst#haiku.without_apply_rng         haiku.without_apply_rng                 : api.html#haiku.without_apply_rng
 	/api.rst#haiku.without_state             haiku.without_state                     : api.html#haiku.without_state
-	/api.rst#id0                             id0                                     : api.html#id0
 	/api.rst#id1                             Linear                                  : api.html#id1
-	/api.rst#id13                            ResNet                                  : api.html#id13
-	/api.rst#id14                            VectorQuantizer                         : api.html#id14
+	/api.rst#id11                            ResNet                                  : api.html#id11
+	/api.rst#id12                            VectorQuantizer                         : api.html#id12
 	/api.rst#id2                             dropout                                 : api.html#id2
 	/api.rst#identity                        Identity                                : api.html#identity
 	/api.rst#identitycore                    IdentityCore                            : api.html#identitycore
@@ -691,6 +719,7 @@ std:label
 	/api.rst#instancenorm                    InstanceNorm                            : api.html#instancenorm
 	/api.rst#intercept-methods               intercept_methods                       : api.html#intercept-methods
 	/api.rst#is-padfn                        is_padfn                                : api.html#is-padfn
+	/api.rst#is-subset                       is_subset                               : api.html#is-subset
 	/api.rst#jax-fundamentals                JAX Fundamentals                        : api.html#jax-fundamentals
 	/api.rst#jax-transforms                  JAX Transforms                          : api.html#jax-transforms
 	/api.rst#jit                             jit                                     : api.html#jit
@@ -715,13 +744,18 @@ std:label
 	/api.rst#module-haiku.data_structures    Data Structures                         : api.html#module-haiku.data_structures
 	/api.rst#module-haiku.experimental       🚧 Experimental                          : api.html#module-haiku.experimental
 	/api.rst#module-haiku.initializers       Initializers                            : api.html#module-haiku.initializers
+	/api.rst#module-haiku.mixed_precision    Mixed Precision                         : api.html#module-haiku.mixed_precision
 	/api.rst#module-haiku.nets               Full Networks                           : api.html#module-haiku.nets
 	/api.rst#module-haiku.pad                Paddings                                : api.html#module-haiku.pad
 	/api.rst#module-haiku.testing            Testing                                 : api.html#module-haiku.testing
 	/api.rst#moduledetails                   ModuleDetails                           : api.html#moduledetails
 	/api.rst#modules-parameters-and-state    Modules, Parameters and State           : api.html#modules-parameters-and-state
+	/api.rst#multi-transform                 multi_transform                         : api.html#multi-transform
+	/api.rst#multi-transform-with-state      multi_transform_with_state              : api.html#multi-transform-with-state
 	/api.rst#multiheadattention              MultiHeadAttention                      : api.html#multiheadattention
 	/api.rst#multinomial                     multinomial                             : api.html#multinomial
+	/api.rst#multitransformed                MultiTransformed                        : api.html#multitransformed
+	/api.rst#multitransformedwithstate       MultiTransformedWithState               : api.html#multitransformedwithstate
 	/api.rst#name-like                       name_like                               : api.html#name-like
 	/api.rst#name-scope                      name_scope                              : api.html#name-scope
 	/api.rst#named-call                      named_call                              : api.html#named-call
@@ -764,6 +798,7 @@ std:label
 	/api.rst#scan                            scan                                    : api.html#scan
 	/api.rst#separabledepthwiseconv2d        SeparableDepthwiseConv2D                : api.html#separabledepthwiseconv2d
 	/api.rst#sequential                      Sequential                              : api.html#sequential
+	/api.rst#set-policy                      set_policy                              : api.html#set-policy
 	/api.rst#set-state                       set_state                               : api.html#set-state
 	/api.rst#snparamstree                    SNParamsTree                            : api.html#snparamstree
 	/api.rst#spectralnorm                    SpectralNorm                            : api.html#spectralnorm
@@ -774,6 +809,7 @@ std:label
 	/api.rst#tabulate                        tabulate                                : api.html#tabulate
 	/api.rst#tensorflow-profiler             TensorFlow Profiler                     : api.html#tensorflow-profiler
 	/api.rst#to-dot                          to_dot                                  : api.html#to-dot
+	/api.rst#to-haiku-dict                   to_haiku_dict                           : api.html#to-haiku-dict
 	/api.rst#to-immutable-dict               to_immutable_dict                       : api.html#to-immutable-dict
 	/api.rst#to-module                       to_module                               : api.html#to-module
 	/api.rst#to-mutable-dict                 to_mutable_dict                         : api.html#to-mutable-dict
@@ -798,6 +834,7 @@ std:label
 	/api.rst#vectorquantizerema              VectorQuantizerEMA                      : api.html#vectorquantizerema
 	/api.rst#vmap                            vmap                                    : api.html#vmap
 	/api.rst#while-loop                      while_loop                              : api.html#while-loop
+	/api.rst#with-empty-state                with_empty_state                        : api.html#with-empty-state
 	/api.rst#with-rng                        with_rng                                : api.html#with-rng
 	/api.rst#without-apply-rng               without_apply_rng                       : api.html#without-apply-rng
 	/api.rst#without-state                   without_state                           : api.html#without-state

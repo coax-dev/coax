@@ -5,7 +5,10 @@ py:attribute
 	jax.experimental.optimizers.OptimizerState.packed_state jax.experimental.optimizers.html#jax.experimental.optimizers.OptimizerState.packed_state
 	jax.experimental.optimizers.OptimizerState.subtree_defs jax.experimental.optimizers.html#jax.experimental.optimizers.OptimizerState.subtree_defs
 	jax.experimental.optimizers.OptimizerState.tree_def jax.experimental.optimizers.html#jax.experimental.optimizers.OptimizerState.tree_def
+	jax.experimental.sparse.BCOO.data        jax.experimental.sparse.html#jax.experimental.sparse.BCOO.data
+	jax.experimental.sparse.BCOO.indices     jax.experimental.sparse.html#jax.experimental.sparse.BCOO.indices
 	jax.lax.Precision                        jax.lax.html#jax.lax.Precision
+	jax.numpy.DeviceArray                    jax.numpy.html#jax.numpy.DeviceArray
 	jax.numpy.cdouble                        _autosummary/jax.numpy.cdouble.html#jax.numpy.cdouble
 	jax.numpy.complex_                       _autosummary/jax.numpy.complex_.html#jax.numpy.complex_
 	jax.numpy.csingle                        _autosummary/jax.numpy.csingle.html#jax.numpy.csingle
@@ -41,10 +44,12 @@ py:class
 	jax.errors.NonConcreteBooleanIndexError  errors.html#jax.errors.NonConcreteBooleanIndexError
 	jax.errors.TracerArrayConversionError    errors.html#jax.errors.TracerArrayConversionError
 	jax.errors.TracerIntegerConversionError  errors.html#jax.errors.TracerIntegerConversionError
+	jax.errors.UnexpectedTracerError         errors.html#jax.errors.UnexpectedTracerError
 	jax.experimental.loops.Scope             jax.experimental.loops.html#jax.experimental.loops.Scope
 	jax.experimental.optimizers.JoinPoint    jax.experimental.optimizers.html#jax.experimental.optimizers.JoinPoint
 	jax.experimental.optimizers.Optimizer    jax.experimental.optimizers.html#jax.experimental.optimizers.Optimizer
 	jax.experimental.optimizers.OptimizerState jax.experimental.optimizers.html#jax.experimental.optimizers.OptimizerState
+	jax.experimental.sparse.BCOO             jax.experimental.sparse.html#jax.experimental.sparse.BCOO
 	jax.lax.ConvDimensionNumbers             jax.lax.html#jax.lax.ConvDimensionNumbers
 	jax.lax.GatherDimensionNumbers           jax.lax.html#jax.lax.GatherDimensionNumbers
 	jax.lax.RoundingMethod                   jax.lax.html#jax.lax.RoundingMethod
@@ -83,8 +88,16 @@ py:class
 	jax.profiler.TraceContext                _autosummary/jax.profiler.TraceContext.html#jax.profiler.TraceContext
 	jax.scipy.optimize.OptimizeResults       _autosummary/jax.scipy.optimize.OptimizeResults.html#jax.scipy.optimize.OptimizeResults
 	jax.tree_util.Partial                    _autosummary/jax.tree_util.Partial.html#jax.tree_util.Partial
+	jaxlib.xla_extension.CpuDevice           _autosummary/jaxlib.xla_extension.CpuDevice.html#jaxlib.xla_extension.CpuDevice
+	jaxlib.xla_extension.Device              _autosummary/jaxlib.xla_extension.Device.html#jaxlib.xla_extension.Device
+	jaxlib.xla_extension.DeviceArray         jax.numpy.html#jaxlib.xla_extension.DeviceArray
+	jaxlib.xla_extension.DeviceArrayBase     jax.numpy.html#jaxlib.xla_extension.DeviceArrayBase
+	jaxlib.xla_extension.GpuDevice           _autosummary/jaxlib.xla_extension.GpuDevice.html#jaxlib.xla_extension.GpuDevice
+	jaxlib.xla_extension.TpuDevice           _autosummary/jaxlib.xla_extension.TpuDevice.html#jaxlib.xla_extension.TpuDevice
 py:data
 	jax.nn.relu                              _autosummary/jax.nn.relu.html#jax.nn.relu
+	jax.numpy.c_                             _autosummary/jax.numpy.c_.html#jax.numpy.c_
+	jax.numpy.index_exp                      _autosummary/jax.numpy.index_exp.html#jax.numpy.index_exp
 	jax.numpy.linalg.det                     _autosummary/jax.numpy.linalg.det.html#jax.numpy.linalg.det
 	jax.numpy.linalg.pinv                    _autosummary/jax.numpy.linalg.pinv.html#jax.numpy.linalg.pinv
 	jax.numpy.linalg.slogdet                 _autosummary/jax.numpy.linalg.slogdet.html#jax.numpy.linalg.slogdet
@@ -92,8 +105,12 @@ py:data
 	jax.numpy.logaddexp2                     _autosummary/jax.numpy.logaddexp2.html#jax.numpy.logaddexp2
 	jax.numpy.mgrid                          _autosummary/jax.numpy.mgrid.html#jax.numpy.mgrid
 	jax.numpy.ogrid                          _autosummary/jax.numpy.ogrid.html#jax.numpy.ogrid
+	jax.numpy.r_                             _autosummary/jax.numpy.r_.html#jax.numpy.r_
+	jax.numpy.s_                             _autosummary/jax.numpy.s_.html#jax.numpy.s_
 	jax.ops.index                            _autosummary/jax.ops.index.html#jax.ops.index
+	jax.scipy.special.expi                   _autosummary/jax.scipy.special.expi.html#jax.scipy.special.expi
 	jax.scipy.special.expit                  _autosummary/jax.scipy.special.expit.html#jax.scipy.special.expit
+	jax.scipy.special.expn                   _autosummary/jax.scipy.special.expn.html#jax.scipy.special.expn
 	jax.scipy.special.log_ndtr               _autosummary/jax.scipy.special.log_ndtr.html#jax.scipy.special.log_ndtr
 	jax.scipy.special.logit                  _autosummary/jax.scipy.special.logit.html#jax.scipy.special.logit
 py:exception
@@ -104,6 +121,7 @@ py:function
 	jax.closure_convert                      jax.html#jax.closure_convert
 	jax.default_backend                      jax.html#jax.default_backend
 	jax.device_count                         jax.html#jax.device_count
+	jax.device_get                           jax.html#jax.device_get
 	jax.device_put                           jax.html#jax.device_put
 	jax.device_put_replicated                jax.html#jax.device_put_replicated
 	jax.device_put_sharded                   jax.html#jax.device_put_sharded
@@ -138,6 +156,8 @@ py:function
 	jax.experimental.optimizers.sgd          jax.experimental.optimizers.html#jax.experimental.optimizers.sgd
 	jax.experimental.optimizers.sm3          jax.experimental.optimizers.html#jax.experimental.optimizers.sm3
 	jax.experimental.optimizers.unpack_optimizer_state jax.experimental.optimizers.html#jax.experimental.optimizers.unpack_optimizer_state
+	jax.experimental.pjit.pjit               jax.experimental.pjit.html#jax.experimental.pjit.pjit
+	jax.experimental.sparse.sparsify         jax.experimental.sparse.html#jax.experimental.sparse.sparsify
 	jax.experimental.stax.AvgPool            jax.experimental.stax.html#jax.experimental.stax.AvgPool
 	jax.experimental.stax.BatchNorm          jax.experimental.stax.html#jax.experimental.stax.BatchNorm
 	jax.experimental.stax.Conv               jax.experimental.stax.html#jax.experimental.stax.Conv
@@ -155,11 +175,9 @@ py:function
 	jax.experimental.stax.parallel           jax.experimental.stax.html#jax.experimental.stax.parallel
 	jax.experimental.stax.serial             jax.experimental.stax.html#jax.experimental.stax.serial
 	jax.experimental.stax.shape_dependent    jax.experimental.stax.html#jax.experimental.stax.shape_dependent
+	jax.flatten_util.ravel_pytree            _autosummary/jax.flatten_util.ravel_pytree.html#jax.flatten_util.ravel_pytree
 	jax.grad                                 jax.html#jax.grad
 	jax.hessian                              jax.html#jax.hessian
-	jax.host_count                           jax.html#jax.host_count
-	jax.host_id                              jax.html#jax.host_id
-	jax.host_ids                             jax.html#jax.host_ids
 	jax.image.resize                         _autosummary/jax.image.resize.html#jax.image.resize
 	jax.image.scale_and_translate            _autosummary/jax.image.scale_and_translate.html#jax.image.scale_and_translate
 	jax.jacfwd                               jax.html#jax.jacfwd
@@ -190,6 +208,7 @@ py:function
 	jax.lax.broadcast                        _autosummary/jax.lax.broadcast.html#jax.lax.broadcast
 	jax.lax.broadcast_in_dim                 _autosummary/jax.lax.broadcast_in_dim.html#jax.lax.broadcast_in_dim
 	jax.lax.broadcasted_iota                 _autosummary/jax.lax.broadcasted_iota.html#jax.lax.broadcasted_iota
+	jax.lax.cbrt                             _autosummary/jax.lax.cbrt.html#jax.lax.cbrt
 	jax.lax.ceil                             _autosummary/jax.lax.ceil.html#jax.lax.ceil
 	jax.lax.clamp                            _autosummary/jax.lax.clamp.html#jax.lax.clamp
 	jax.lax.collapse                         _autosummary/jax.lax.collapse.html#jax.lax.collapse
@@ -307,6 +326,12 @@ py:function
 	jax.lax.top_k                            _autosummary/jax.lax.top_k.html#jax.lax.top_k
 	jax.lax.transpose                        _autosummary/jax.lax.transpose.html#jax.lax.transpose
 	jax.lax.while_loop                       _autosummary/jax.lax.while_loop.html#jax.lax.while_loop
+	jax.lib.xla_bridge.default_backend       _autosummary/jax.lib.xla_bridge.default_backend.html#jax.lib.xla_bridge.default_backend
+	jax.lib.xla_bridge.device_count          _autosummary/jax.lib.xla_bridge.device_count.html#jax.lib.xla_bridge.device_count
+	jax.lib.xla_bridge.get_backend           _autosummary/jax.lib.xla_bridge.get_backend.html#jax.lib.xla_bridge.get_backend
+	jax.lib.xla_bridge.get_compile_options   _autosummary/jax.lib.xla_bridge.get_compile_options.html#jax.lib.xla_bridge.get_compile_options
+	jax.lib.xla_bridge.local_device_count    _autosummary/jax.lib.xla_bridge.local_device_count.html#jax.lib.xla_bridge.local_device_count
+	jax.lib.xla_bridge.process_index         _autosummary/jax.lib.xla_bridge.process_index.html#jax.lib.xla_bridge.process_index
 	jax.linear_transpose                     jax.html#jax.linear_transpose
 	jax.linearize                            jax.html#jax.linearize
 	jax.local_device_count                   jax.html#jax.local_device_count
@@ -392,6 +417,7 @@ py:function
 	jax.numpy.blackman                       _autosummary/jax.numpy.blackman.html#jax.numpy.blackman
 	jax.numpy.block                          _autosummary/jax.numpy.block.html#jax.numpy.block
 	jax.numpy.broadcast_arrays               _autosummary/jax.numpy.broadcast_arrays.html#jax.numpy.broadcast_arrays
+	jax.numpy.broadcast_shapes               _autosummary/jax.numpy.broadcast_shapes.html#jax.numpy.broadcast_shapes
 	jax.numpy.broadcast_to                   _autosummary/jax.numpy.broadcast_to.html#jax.numpy.broadcast_to
 	jax.numpy.can_cast                       _autosummary/jax.numpy.can_cast.html#jax.numpy.can_cast
 	jax.numpy.cbrt                           _autosummary/jax.numpy.cbrt.html#jax.numpy.cbrt
@@ -477,6 +503,7 @@ py:function
 	jax.numpy.full_like                      _autosummary/jax.numpy.full_like.html#jax.numpy.full_like
 	jax.numpy.gcd                            _autosummary/jax.numpy.gcd.html#jax.numpy.gcd
 	jax.numpy.geomspace                      _autosummary/jax.numpy.geomspace.html#jax.numpy.geomspace
+	jax.numpy.get_printoptions               _autosummary/jax.numpy.get_printoptions.html#jax.numpy.get_printoptions
 	jax.numpy.gradient                       _autosummary/jax.numpy.gradient.html#jax.numpy.gradient
 	jax.numpy.greater                        _autosummary/jax.numpy.greater.html#jax.numpy.greater
 	jax.numpy.greater_equal                  _autosummary/jax.numpy.greater_equal.html#jax.numpy.greater_equal
@@ -496,6 +523,7 @@ py:function
 	jax.numpy.in1d                           _autosummary/jax.numpy.in1d.html#jax.numpy.in1d
 	jax.numpy.indices                        _autosummary/jax.numpy.indices.html#jax.numpy.indices
 	jax.numpy.inner                          _autosummary/jax.numpy.inner.html#jax.numpy.inner
+	jax.numpy.insert                         _autosummary/jax.numpy.insert.html#jax.numpy.insert
 	jax.numpy.interp                         _autosummary/jax.numpy.interp.html#jax.numpy.interp
 	jax.numpy.intersect1d                    _autosummary/jax.numpy.intersect1d.html#jax.numpy.intersect1d
 	jax.numpy.invert                         _autosummary/jax.numpy.invert.html#jax.numpy.invert
@@ -592,14 +620,17 @@ py:function
 	jax.numpy.pad                            _autosummary/jax.numpy.pad.html#jax.numpy.pad
 	jax.numpy.percentile                     _autosummary/jax.numpy.percentile.html#jax.numpy.percentile
 	jax.numpy.piecewise                      _autosummary/jax.numpy.piecewise.html#jax.numpy.piecewise
+	jax.numpy.poly                           _autosummary/jax.numpy.poly.html#jax.numpy.poly
 	jax.numpy.polyadd                        _autosummary/jax.numpy.polyadd.html#jax.numpy.polyadd
 	jax.numpy.polyder                        _autosummary/jax.numpy.polyder.html#jax.numpy.polyder
+	jax.numpy.polyfit                        _autosummary/jax.numpy.polyfit.html#jax.numpy.polyfit
 	jax.numpy.polyint                        _autosummary/jax.numpy.polyint.html#jax.numpy.polyint
 	jax.numpy.polymul                        _autosummary/jax.numpy.polymul.html#jax.numpy.polymul
 	jax.numpy.polysub                        _autosummary/jax.numpy.polysub.html#jax.numpy.polysub
 	jax.numpy.polyval                        _autosummary/jax.numpy.polyval.html#jax.numpy.polyval
 	jax.numpy.positive                       _autosummary/jax.numpy.positive.html#jax.numpy.positive
 	jax.numpy.power                          _autosummary/jax.numpy.power.html#jax.numpy.power
+	jax.numpy.printoptions                   _autosummary/jax.numpy.printoptions.html#jax.numpy.printoptions
 	jax.numpy.prod                           _autosummary/jax.numpy.prod.html#jax.numpy.prod
 	jax.numpy.product                        _autosummary/jax.numpy.product.html#jax.numpy.product
 	jax.numpy.promote_types                  _autosummary/jax.numpy.promote_types.html#jax.numpy.promote_types
@@ -614,6 +645,7 @@ py:function
 	jax.numpy.remainder                      _autosummary/jax.numpy.remainder.html#jax.numpy.remainder
 	jax.numpy.repeat                         _autosummary/jax.numpy.repeat.html#jax.numpy.repeat
 	jax.numpy.reshape                        _autosummary/jax.numpy.reshape.html#jax.numpy.reshape
+	jax.numpy.resize                         _autosummary/jax.numpy.resize.html#jax.numpy.resize
 	jax.numpy.result_type                    _autosummary/jax.numpy.result_type.html#jax.numpy.result_type
 	jax.numpy.right_shift                    _autosummary/jax.numpy.right_shift.html#jax.numpy.right_shift
 	jax.numpy.rint                           _autosummary/jax.numpy.rint.html#jax.numpy.rint
@@ -622,6 +654,7 @@ py:function
 	jax.numpy.roots                          _autosummary/jax.numpy.roots.html#jax.numpy.roots
 	jax.numpy.rot90                          _autosummary/jax.numpy.rot90.html#jax.numpy.rot90
 	jax.numpy.round                          _autosummary/jax.numpy.round.html#jax.numpy.round
+	jax.numpy.round_                         _autosummary/jax.numpy.round_.html#jax.numpy.round_
 	jax.numpy.row_stack                      _autosummary/jax.numpy.row_stack.html#jax.numpy.row_stack
 	jax.numpy.save                           _autosummary/jax.numpy.save.html#jax.numpy.save
 	jax.numpy.savez                          _autosummary/jax.numpy.savez.html#jax.numpy.savez
@@ -692,6 +725,8 @@ py:function
 	jax.ops.segment_prod                     _autosummary/jax.ops.segment_prod.html#jax.ops.segment_prod
 	jax.ops.segment_sum                      _autosummary/jax.ops.segment_sum.html#jax.ops.segment_sum
 	jax.pmap                                 jax.html#jax.pmap
+	jax.process_count                        jax.html#jax.process_count
+	jax.process_index                        jax.html#jax.process_index
 	jax.profiler.annotate_function           _autosummary/jax.profiler.annotate_function.html#jax.profiler.annotate_function
 	jax.profiler.device_memory_profile       _autosummary/jax.profiler.device_memory_profile.html#jax.profiler.device_memory_profile
 	jax.profiler.save_device_memory_profile  _autosummary/jax.profiler.save_device_memory_profile.html#jax.profiler.save_device_memory_profile
@@ -728,6 +763,8 @@ py:function
 	jax.random.truncated_normal              _autosummary/jax.random.truncated_normal.html#jax.random.truncated_normal
 	jax.random.uniform                       _autosummary/jax.random.uniform.html#jax.random.uniform
 	jax.random.weibull_min                   _autosummary/jax.random.weibull_min.html#jax.random.weibull_min
+	jax.scipy.fft.dct                        _autosummary/jax.scipy.fft.dct.html#jax.scipy.fft.dct
+	jax.scipy.fft.dctn                       _autosummary/jax.scipy.fft.dctn.html#jax.scipy.fft.dctn
 	jax.scipy.linalg.block_diag              _autosummary/jax.scipy.linalg.block_diag.html#jax.scipy.linalg.block_diag
 	jax.scipy.linalg.cho_factor              _autosummary/jax.scipy.linalg.cho_factor.html#jax.scipy.linalg.cho_factor
 	jax.scipy.linalg.cho_solve               _autosummary/jax.scipy.linalg.cho_solve.html#jax.scipy.linalg.cho_solve
@@ -752,6 +789,7 @@ py:function
 	jax.scipy.signal.convolve2d              _autosummary/jax.scipy.signal.convolve2d.html#jax.scipy.signal.convolve2d
 	jax.scipy.signal.correlate               _autosummary/jax.scipy.signal.correlate.html#jax.scipy.signal.correlate
 	jax.scipy.signal.correlate2d             _autosummary/jax.scipy.signal.correlate2d.html#jax.scipy.signal.correlate2d
+	jax.scipy.sparse.linalg.bicgstab         _autosummary/jax.scipy.sparse.linalg.bicgstab.html#jax.scipy.sparse.linalg.bicgstab
 	jax.scipy.sparse.linalg.cg               _autosummary/jax.scipy.sparse.linalg.cg.html#jax.scipy.sparse.linalg.cg
 	jax.scipy.sparse.linalg.gmres            _autosummary/jax.scipy.sparse.linalg.gmres.html#jax.scipy.sparse.linalg.gmres
 	jax.scipy.special.betainc                _autosummary/jax.scipy.special.betainc.html#jax.scipy.special.betainc
@@ -760,6 +798,7 @@ py:function
 	jax.scipy.special.erf                    _autosummary/jax.scipy.special.erf.html#jax.scipy.special.erf
 	jax.scipy.special.erfc                   _autosummary/jax.scipy.special.erfc.html#jax.scipy.special.erfc
 	jax.scipy.special.erfinv                 _autosummary/jax.scipy.special.erfinv.html#jax.scipy.special.erfinv
+	jax.scipy.special.exp1                   _autosummary/jax.scipy.special.exp1.html#jax.scipy.special.exp1
 	jax.scipy.special.gammainc               _autosummary/jax.scipy.special.gammainc.html#jax.scipy.special.gammainc
 	jax.scipy.special.gammaincc              _autosummary/jax.scipy.special.gammaincc.html#jax.scipy.special.gammaincc
 	jax.scipy.special.gammaln                _autosummary/jax.scipy.special.gammaln.html#jax.scipy.special.gammaln
@@ -768,10 +807,13 @@ py:function
 	jax.scipy.special.i1                     _autosummary/jax.scipy.special.i1.html#jax.scipy.special.i1
 	jax.scipy.special.i1e                    _autosummary/jax.scipy.special.i1e.html#jax.scipy.special.i1e
 	jax.scipy.special.logsumexp              _autosummary/jax.scipy.special.logsumexp.html#jax.scipy.special.logsumexp
+	jax.scipy.special.lpmn                   _autosummary/jax.scipy.special.lpmn.html#jax.scipy.special.lpmn
+	jax.scipy.special.lpmn_values            _autosummary/jax.scipy.special.lpmn_values.html#jax.scipy.special.lpmn_values
 	jax.scipy.special.multigammaln           _autosummary/jax.scipy.special.multigammaln.html#jax.scipy.special.multigammaln
 	jax.scipy.special.ndtr                   _autosummary/jax.scipy.special.ndtr.html#jax.scipy.special.ndtr
 	jax.scipy.special.ndtri                  _autosummary/jax.scipy.special.ndtri.html#jax.scipy.special.ndtri
 	jax.scipy.special.polygamma              _autosummary/jax.scipy.special.polygamma.html#jax.scipy.special.polygamma
+	jax.scipy.special.sph_harm               _autosummary/jax.scipy.special.sph_harm.html#jax.scipy.special.sph_harm
 	jax.scipy.special.xlog1py                _autosummary/jax.scipy.special.xlog1py.html#jax.scipy.special.xlog1py
 	jax.scipy.special.xlogy                  _autosummary/jax.scipy.special.xlogy.html#jax.scipy.special.xlogy
 	jax.scipy.special.zeta                   _autosummary/jax.scipy.special.zeta.html#jax.scipy.special.zeta
@@ -825,7 +867,6 @@ py:function
 	jax.tree_util.tree_flatten               _autosummary/jax.tree_util.tree_flatten.html#jax.tree_util.tree_flatten
 	jax.tree_util.tree_leaves                _autosummary/jax.tree_util.tree_leaves.html#jax.tree_util.tree_leaves
 	jax.tree_util.tree_map                   _autosummary/jax.tree_util.tree_map.html#jax.tree_util.tree_map
-	jax.tree_util.tree_multimap              _autosummary/jax.tree_util.tree_multimap.html#jax.tree_util.tree_multimap
 	jax.tree_util.tree_reduce                _autosummary/jax.tree_util.tree_reduce.html#jax.tree_util.tree_reduce
 	jax.tree_util.tree_structure             _autosummary/jax.tree_util.tree_structure.html#jax.tree_util.tree_structure
 	jax.tree_util.tree_transpose             _autosummary/jax.tree_util.tree_transpose.html#jax.tree_util.tree_transpose
@@ -867,6 +908,7 @@ py:method
 	jax.numpy.int8.__init__                  _autosummary/jax.numpy.int8.html#jax.numpy.int8.__init__
 	jax.numpy.integer.__init__               _autosummary/jax.numpy.integer.html#jax.numpy.integer.__init__
 	jax.numpy.ndarray.__init__               _autosummary/jax.numpy.ndarray.html#jax.numpy.ndarray.__init__
+	jax.numpy.ndarray.at                     _autosummary/jax.numpy.ndarray.at.html#jax.numpy.ndarray.at
 	jax.numpy.number.__init__                _autosummary/jax.numpy.number.html#jax.numpy.number.__init__
 	jax.numpy.object_.__init__               _autosummary/jax.numpy.object_.html#jax.numpy.object_.__init__
 	jax.numpy.signedinteger.__init__         _autosummary/jax.numpy.signedinteger.html#jax.numpy.signedinteger.__init__
@@ -881,6 +923,65 @@ py:method
 	jax.profiler.TraceContext.__init__       _autosummary/jax.profiler.TraceContext.html#jax.profiler.TraceContext.__init__
 	jax.scipy.optimize.OptimizeResults.__init__ _autosummary/jax.scipy.optimize.OptimizeResults.html#jax.scipy.optimize.OptimizeResults.__init__
 	jax.tree_util.Partial.__init__           _autosummary/jax.tree_util.Partial.html#jax.tree_util.Partial.__init__
+	jaxlib.xla_extension.CpuDevice.__init__  _autosummary/jaxlib.xla_extension.CpuDevice.html#jaxlib.xla_extension.CpuDevice.__init__
+	jaxlib.xla_extension.Device.__init__     _autosummary/jaxlib.xla_extension.Device.html#jaxlib.xla_extension.Device.__init__
+	jaxlib.xla_extension.DeviceArray.T       jax.numpy.html#jaxlib.xla_extension.DeviceArray.T
+	jaxlib.xla_extension.DeviceArray.all     jax.numpy.html#jaxlib.xla_extension.DeviceArray.all
+	jaxlib.xla_extension.DeviceArray.any     jax.numpy.html#jaxlib.xla_extension.DeviceArray.any
+	jaxlib.xla_extension.DeviceArray.argmax  jax.numpy.html#jaxlib.xla_extension.DeviceArray.argmax
+	jaxlib.xla_extension.DeviceArray.argmin  jax.numpy.html#jaxlib.xla_extension.DeviceArray.argmin
+	jaxlib.xla_extension.DeviceArray.argpartition jax.numpy.html#jaxlib.xla_extension.DeviceArray.argpartition
+	jaxlib.xla_extension.DeviceArray.argsort jax.numpy.html#jaxlib.xla_extension.DeviceArray.argsort
+	jaxlib.xla_extension.DeviceArray.at      jax.numpy.html#jaxlib.xla_extension.DeviceArray.at
+	jaxlib.xla_extension.DeviceArray.block_host_until_ready jax.numpy.html#jaxlib.xla_extension.DeviceArray.block_host_until_ready
+	jaxlib.xla_extension.DeviceArray.block_until_ready jax.numpy.html#jaxlib.xla_extension.DeviceArray.block_until_ready
+	jaxlib.xla_extension.DeviceArray.broadcast jax.numpy.html#jaxlib.xla_extension.DeviceArray.broadcast
+	jaxlib.xla_extension.DeviceArray.broadcast_in_dim jax.numpy.html#jaxlib.xla_extension.DeviceArray.broadcast_in_dim
+	jaxlib.xla_extension.DeviceArray.choose  jax.numpy.html#jaxlib.xla_extension.DeviceArray.choose
+	jaxlib.xla_extension.DeviceArray.clone   jax.numpy.html#jaxlib.xla_extension.DeviceArray.clone
+	jaxlib.xla_extension.DeviceArray.conj    jax.numpy.html#jaxlib.xla_extension.DeviceArray.conj
+	jaxlib.xla_extension.DeviceArray.conjugate jax.numpy.html#jaxlib.xla_extension.DeviceArray.conjugate
+	jaxlib.xla_extension.DeviceArray.copy    jax.numpy.html#jaxlib.xla_extension.DeviceArray.copy
+	jaxlib.xla_extension.DeviceArray.copy_to_device jax.numpy.html#jaxlib.xla_extension.DeviceArray.copy_to_device
+	jaxlib.xla_extension.DeviceArray.copy_to_host_async jax.numpy.html#jaxlib.xla_extension.DeviceArray.copy_to_host_async
+	jaxlib.xla_extension.DeviceArray.cumprod jax.numpy.html#jaxlib.xla_extension.DeviceArray.cumprod
+	jaxlib.xla_extension.DeviceArray.cumsum  jax.numpy.html#jaxlib.xla_extension.DeviceArray.cumsum
+	jaxlib.xla_extension.DeviceArray.delete  jax.numpy.html#jaxlib.xla_extension.DeviceArray.delete
+	jaxlib.xla_extension.DeviceArray.device  jax.numpy.html#jaxlib.xla_extension.DeviceArray.device
+	jaxlib.xla_extension.DeviceArray.diagonal jax.numpy.html#jaxlib.xla_extension.DeviceArray.diagonal
+	jaxlib.xla_extension.DeviceArray.dot     jax.numpy.html#jaxlib.xla_extension.DeviceArray.dot
+	jaxlib.xla_extension.DeviceArray.flatten jax.numpy.html#jaxlib.xla_extension.DeviceArray.flatten
+	jaxlib.xla_extension.DeviceArray.imag    jax.numpy.html#jaxlib.xla_extension.DeviceArray.imag
+	jaxlib.xla_extension.DeviceArray.is_deleted jax.numpy.html#jaxlib.xla_extension.DeviceArray.is_deleted
+	jaxlib.xla_extension.DeviceArray.max     jax.numpy.html#jaxlib.xla_extension.DeviceArray.max
+	jaxlib.xla_extension.DeviceArray.mean    jax.numpy.html#jaxlib.xla_extension.DeviceArray.mean
+	jaxlib.xla_extension.DeviceArray.min     jax.numpy.html#jaxlib.xla_extension.DeviceArray.min
+	jaxlib.xla_extension.DeviceArray.nonzero jax.numpy.html#jaxlib.xla_extension.DeviceArray.nonzero
+	jaxlib.xla_extension.DeviceArray.on_device_size_in_bytes jax.numpy.html#jaxlib.xla_extension.DeviceArray.on_device_size_in_bytes
+	jaxlib.xla_extension.DeviceArray.platform jax.numpy.html#jaxlib.xla_extension.DeviceArray.platform
+	jaxlib.xla_extension.DeviceArray.prod    jax.numpy.html#jaxlib.xla_extension.DeviceArray.prod
+	jaxlib.xla_extension.DeviceArray.ptp     jax.numpy.html#jaxlib.xla_extension.DeviceArray.ptp
+	jaxlib.xla_extension.DeviceArray.ravel   jax.numpy.html#jaxlib.xla_extension.DeviceArray.ravel
+	jaxlib.xla_extension.DeviceArray.real    jax.numpy.html#jaxlib.xla_extension.DeviceArray.real
+	jaxlib.xla_extension.DeviceArray.repeat  jax.numpy.html#jaxlib.xla_extension.DeviceArray.repeat
+	jaxlib.xla_extension.DeviceArray.round   jax.numpy.html#jaxlib.xla_extension.DeviceArray.round
+	jaxlib.xla_extension.DeviceArray.searchsorted jax.numpy.html#jaxlib.xla_extension.DeviceArray.searchsorted
+	jaxlib.xla_extension.DeviceArray.sort    jax.numpy.html#jaxlib.xla_extension.DeviceArray.sort
+	jaxlib.xla_extension.DeviceArray.split   jax.numpy.html#jaxlib.xla_extension.DeviceArray.split
+	jaxlib.xla_extension.DeviceArray.squeeze jax.numpy.html#jaxlib.xla_extension.DeviceArray.squeeze
+	jaxlib.xla_extension.DeviceArray.std     jax.numpy.html#jaxlib.xla_extension.DeviceArray.std
+	jaxlib.xla_extension.DeviceArray.sum     jax.numpy.html#jaxlib.xla_extension.DeviceArray.sum
+	jaxlib.xla_extension.DeviceArray.swapaxes jax.numpy.html#jaxlib.xla_extension.DeviceArray.swapaxes
+	jaxlib.xla_extension.DeviceArray.take    jax.numpy.html#jaxlib.xla_extension.DeviceArray.take
+	jaxlib.xla_extension.DeviceArray.tile    jax.numpy.html#jaxlib.xla_extension.DeviceArray.tile
+	jaxlib.xla_extension.DeviceArray.to_py   jax.numpy.html#jaxlib.xla_extension.DeviceArray.to_py
+	jaxlib.xla_extension.DeviceArray.trace   jax.numpy.html#jaxlib.xla_extension.DeviceArray.trace
+	jaxlib.xla_extension.DeviceArray.unsafe_buffer_pointer jax.numpy.html#jaxlib.xla_extension.DeviceArray.unsafe_buffer_pointer
+	jaxlib.xla_extension.DeviceArray.var     jax.numpy.html#jaxlib.xla_extension.DeviceArray.var
+	jaxlib.xla_extension.DeviceArray.xla_dynamic_shape jax.numpy.html#jaxlib.xla_extension.DeviceArray.xla_dynamic_shape
+	jaxlib.xla_extension.DeviceArray.xla_shape jax.numpy.html#jaxlib.xla_extension.DeviceArray.xla_shape
+	jaxlib.xla_extension.GpuDevice.__init__  _autosummary/jaxlib.xla_extension.GpuDevice.html#jaxlib.xla_extension.GpuDevice.__init__
+	jaxlib.xla_extension.TpuDevice.__init__  _autosummary/jaxlib.xla_extension.TpuDevice.html#jaxlib.xla_extension.TpuDevice.__init__
 py:module
 	jax.core                                 jax_internal_api.html#module-jax.core
 	jax.dlpack                               jax.dlpack.html#module-jax.dlpack
@@ -889,7 +990,10 @@ py:module
 	jax.experimental.loops                   jax.experimental.loops.html#module-jax.experimental.loops
 	jax.experimental.maps                    jax.experimental.maps.html#module-jax.experimental.maps
 	jax.experimental.optimizers              jax.experimental.optimizers.html#module-jax.experimental.optimizers
+	jax.experimental.pjit                    jax.experimental.pjit.html#module-jax.experimental.pjit
+	jax.experimental.sparse                  jax.experimental.sparse.html#module-jax.experimental.sparse
 	jax.experimental.stax                    jax.experimental.stax.html#module-jax.experimental.stax
+	jax.flatten_util                         jax.flatten_util.html#module-jax.flatten_util
 	jax.image                                jax.image.html#module-jax.image
 	jax.lax                                  jax.lax.html#module-jax.lax
 	jax.lax.linalg                           jax.lax.html#module-jax.lax.linalg
@@ -901,6 +1005,7 @@ py:module
 	jax.ops                                  jax.ops.html#module-jax.ops
 	jax.profiler                             jax.profiler.html#module-jax.profiler
 	jax.random                               jax.random.html#module-jax.random
+	jax.scipy.fft                            jax.scipy.html#module-jax.scipy.fft
 	jax.scipy.linalg                         jax.scipy.html#module-jax.scipy.linalg
 	jax.scipy.ndimage                        jax.scipy.html#module-jax.scipy.ndimage
 	jax.scipy.optimize                       jax.scipy.html#module-jax.scipy.optimize
@@ -928,6 +1033,7 @@ py:module
 std:doc
 	_autosummary/jax.core.ClosedJaxpr        jax.core.ClosedJaxpr                    : _autosummary/jax.core.ClosedJaxpr.html
 	_autosummary/jax.core.Jaxpr              jax.core.Jaxpr                          : _autosummary/jax.core.Jaxpr.html
+	_autosummary/jax.flatten_util.ravel_pytree jax.flatten_util.ravel_pytree           : _autosummary/jax.flatten_util.ravel_pytree.html
 	_autosummary/jax.image.resize            jax.image.resize                        : _autosummary/jax.image.resize.html
 	_autosummary/jax.image.scale_and_translate jax.image.scale_and_translate           : _autosummary/jax.image.scale_and_translate.html
 	_autosummary/jax.lax.abs                 jax.lax.abs                             : _autosummary/jax.lax.abs.html
@@ -954,6 +1060,7 @@ std:doc
 	_autosummary/jax.lax.broadcast           jax.lax.broadcast                       : _autosummary/jax.lax.broadcast.html
 	_autosummary/jax.lax.broadcast_in_dim    jax.lax.broadcast_in_dim                : _autosummary/jax.lax.broadcast_in_dim.html
 	_autosummary/jax.lax.broadcasted_iota    jax.lax.broadcasted_iota                : _autosummary/jax.lax.broadcasted_iota.html
+	_autosummary/jax.lax.cbrt                jax.lax.cbrt                            : _autosummary/jax.lax.cbrt.html
 	_autosummary/jax.lax.ceil                jax.lax.ceil                            : _autosummary/jax.lax.ceil.html
 	_autosummary/jax.lax.clamp               jax.lax.clamp                           : _autosummary/jax.lax.clamp.html
 	_autosummary/jax.lax.collapse            jax.lax.collapse                        : _autosummary/jax.lax.collapse.html
@@ -1071,6 +1178,12 @@ std:doc
 	_autosummary/jax.lax.top_k               jax.lax.top_k                           : _autosummary/jax.lax.top_k.html
 	_autosummary/jax.lax.transpose           jax.lax.transpose                       : _autosummary/jax.lax.transpose.html
 	_autosummary/jax.lax.while_loop          jax.lax.while_loop                      : _autosummary/jax.lax.while_loop.html
+	_autosummary/jax.lib.xla_bridge.default_backend jax.lib.xla_bridge.default_backend      : _autosummary/jax.lib.xla_bridge.default_backend.html
+	_autosummary/jax.lib.xla_bridge.device_count jax.lib.xla_bridge.device_count         : _autosummary/jax.lib.xla_bridge.device_count.html
+	_autosummary/jax.lib.xla_bridge.get_backend jax.lib.xla_bridge.get_backend          : _autosummary/jax.lib.xla_bridge.get_backend.html
+	_autosummary/jax.lib.xla_bridge.get_compile_options jax.lib.xla_bridge.get_compile_options  : _autosummary/jax.lib.xla_bridge.get_compile_options.html
+	_autosummary/jax.lib.xla_bridge.local_device_count jax.lib.xla_bridge.local_device_count   : _autosummary/jax.lib.xla_bridge.local_device_count.html
+	_autosummary/jax.lib.xla_bridge.process_index jax.lib.xla_bridge.process_index        : _autosummary/jax.lib.xla_bridge.process_index.html
 	_autosummary/jax.nn.celu                 jax.nn.celu                             : _autosummary/jax.nn.celu.html
 	_autosummary/jax.nn.elu                  jax.nn.elu                              : _autosummary/jax.nn.elu.html
 	_autosummary/jax.nn.gelu                 jax.nn.gelu                             : _autosummary/jax.nn.gelu.html
@@ -1153,7 +1266,9 @@ std:doc
 	_autosummary/jax.numpy.block             jax.numpy.block                         : _autosummary/jax.numpy.block.html
 	_autosummary/jax.numpy.bool_             jax.numpy.bool_                         : _autosummary/jax.numpy.bool_.html
 	_autosummary/jax.numpy.broadcast_arrays  jax.numpy.broadcast_arrays              : _autosummary/jax.numpy.broadcast_arrays.html
+	_autosummary/jax.numpy.broadcast_shapes  jax.numpy.broadcast_shapes              : _autosummary/jax.numpy.broadcast_shapes.html
 	_autosummary/jax.numpy.broadcast_to      jax.numpy.broadcast_to                  : _autosummary/jax.numpy.broadcast_to.html
+	_autosummary/jax.numpy.c_                jax.numpy.c_                            : _autosummary/jax.numpy.c_.html
 	_autosummary/jax.numpy.can_cast          jax.numpy.can_cast                      : _autosummary/jax.numpy.can_cast.html
 	_autosummary/jax.numpy.cbrt              jax.numpy.cbrt                          : _autosummary/jax.numpy.cbrt.html
 	_autosummary/jax.numpy.cdouble           jax.numpy.cdouble                       : _autosummary/jax.numpy.cdouble.html
@@ -1254,6 +1369,7 @@ std:doc
 	_autosummary/jax.numpy.full_like         jax.numpy.full_like                     : _autosummary/jax.numpy.full_like.html
 	_autosummary/jax.numpy.gcd               jax.numpy.gcd                           : _autosummary/jax.numpy.gcd.html
 	_autosummary/jax.numpy.geomspace         jax.numpy.geomspace                     : _autosummary/jax.numpy.geomspace.html
+	_autosummary/jax.numpy.get_printoptions  jax.numpy.get_printoptions              : _autosummary/jax.numpy.get_printoptions.html
 	_autosummary/jax.numpy.gradient          jax.numpy.gradient                      : _autosummary/jax.numpy.gradient.html
 	_autosummary/jax.numpy.greater           jax.numpy.greater                       : _autosummary/jax.numpy.greater.html
 	_autosummary/jax.numpy.greater_equal     jax.numpy.greater_equal                 : _autosummary/jax.numpy.greater_equal.html
@@ -1272,9 +1388,11 @@ std:doc
 	_autosummary/jax.numpy.iinfo             jax.numpy.iinfo                         : _autosummary/jax.numpy.iinfo.html
 	_autosummary/jax.numpy.imag              jax.numpy.imag                          : _autosummary/jax.numpy.imag.html
 	_autosummary/jax.numpy.in1d              jax.numpy.in1d                          : _autosummary/jax.numpy.in1d.html
+	_autosummary/jax.numpy.index_exp         jax.numpy.index_exp                     : _autosummary/jax.numpy.index_exp.html
 	_autosummary/jax.numpy.indices           jax.numpy.indices                       : _autosummary/jax.numpy.indices.html
 	_autosummary/jax.numpy.inexact           jax.numpy.inexact                       : _autosummary/jax.numpy.inexact.html
 	_autosummary/jax.numpy.inner             jax.numpy.inner                         : _autosummary/jax.numpy.inner.html
+	_autosummary/jax.numpy.insert            jax.numpy.insert                        : _autosummary/jax.numpy.insert.html
 	_autosummary/jax.numpy.int16             jax.numpy.int16                         : _autosummary/jax.numpy.int16.html
 	_autosummary/jax.numpy.int32             jax.numpy.int32                         : _autosummary/jax.numpy.int32.html
 	_autosummary/jax.numpy.int64             jax.numpy.int64                         : _autosummary/jax.numpy.int64.html
@@ -1372,6 +1490,7 @@ std:doc
 	_autosummary/jax.numpy.nansum            jax.numpy.nansum                        : _autosummary/jax.numpy.nansum.html
 	_autosummary/jax.numpy.nanvar            jax.numpy.nanvar                        : _autosummary/jax.numpy.nanvar.html
 	_autosummary/jax.numpy.ndarray           jax.numpy.ndarray                       : _autosummary/jax.numpy.ndarray.html
+	_autosummary/jax.numpy.ndarray.at        jax.numpy.ndarray.at                    : _autosummary/jax.numpy.ndarray.at.html
 	_autosummary/jax.numpy.ndim              jax.numpy.ndim                          : _autosummary/jax.numpy.ndim.html
 	_autosummary/jax.numpy.negative          jax.numpy.negative                      : _autosummary/jax.numpy.negative.html
 	_autosummary/jax.numpy.nextafter         jax.numpy.nextafter                     : _autosummary/jax.numpy.nextafter.html
@@ -1387,19 +1506,23 @@ std:doc
 	_autosummary/jax.numpy.pad               jax.numpy.pad                           : _autosummary/jax.numpy.pad.html
 	_autosummary/jax.numpy.percentile        jax.numpy.percentile                    : _autosummary/jax.numpy.percentile.html
 	_autosummary/jax.numpy.piecewise         jax.numpy.piecewise                     : _autosummary/jax.numpy.piecewise.html
+	_autosummary/jax.numpy.poly              jax.numpy.poly                          : _autosummary/jax.numpy.poly.html
 	_autosummary/jax.numpy.polyadd           jax.numpy.polyadd                       : _autosummary/jax.numpy.polyadd.html
 	_autosummary/jax.numpy.polyder           jax.numpy.polyder                       : _autosummary/jax.numpy.polyder.html
+	_autosummary/jax.numpy.polyfit           jax.numpy.polyfit                       : _autosummary/jax.numpy.polyfit.html
 	_autosummary/jax.numpy.polyint           jax.numpy.polyint                       : _autosummary/jax.numpy.polyint.html
 	_autosummary/jax.numpy.polymul           jax.numpy.polymul                       : _autosummary/jax.numpy.polymul.html
 	_autosummary/jax.numpy.polysub           jax.numpy.polysub                       : _autosummary/jax.numpy.polysub.html
 	_autosummary/jax.numpy.polyval           jax.numpy.polyval                       : _autosummary/jax.numpy.polyval.html
 	_autosummary/jax.numpy.positive          jax.numpy.positive                      : _autosummary/jax.numpy.positive.html
 	_autosummary/jax.numpy.power             jax.numpy.power                         : _autosummary/jax.numpy.power.html
+	_autosummary/jax.numpy.printoptions      jax.numpy.printoptions                  : _autosummary/jax.numpy.printoptions.html
 	_autosummary/jax.numpy.prod              jax.numpy.prod                          : _autosummary/jax.numpy.prod.html
 	_autosummary/jax.numpy.product           jax.numpy.product                       : _autosummary/jax.numpy.product.html
 	_autosummary/jax.numpy.promote_types     jax.numpy.promote_types                 : _autosummary/jax.numpy.promote_types.html
 	_autosummary/jax.numpy.ptp               jax.numpy.ptp                           : _autosummary/jax.numpy.ptp.html
 	_autosummary/jax.numpy.quantile          jax.numpy.quantile                      : _autosummary/jax.numpy.quantile.html
+	_autosummary/jax.numpy.r_                jax.numpy.r_                            : _autosummary/jax.numpy.r_.html
 	_autosummary/jax.numpy.rad2deg           jax.numpy.rad2deg                       : _autosummary/jax.numpy.rad2deg.html
 	_autosummary/jax.numpy.radians           jax.numpy.radians                       : _autosummary/jax.numpy.radians.html
 	_autosummary/jax.numpy.ravel             jax.numpy.ravel                         : _autosummary/jax.numpy.ravel.html
@@ -1409,6 +1532,7 @@ std:doc
 	_autosummary/jax.numpy.remainder         jax.numpy.remainder                     : _autosummary/jax.numpy.remainder.html
 	_autosummary/jax.numpy.repeat            jax.numpy.repeat                        : _autosummary/jax.numpy.repeat.html
 	_autosummary/jax.numpy.reshape           jax.numpy.reshape                       : _autosummary/jax.numpy.reshape.html
+	_autosummary/jax.numpy.resize            jax.numpy.resize                        : _autosummary/jax.numpy.resize.html
 	_autosummary/jax.numpy.result_type       jax.numpy.result_type                   : _autosummary/jax.numpy.result_type.html
 	_autosummary/jax.numpy.right_shift       jax.numpy.right_shift                   : _autosummary/jax.numpy.right_shift.html
 	_autosummary/jax.numpy.rint              jax.numpy.rint                          : _autosummary/jax.numpy.rint.html
@@ -1417,7 +1541,9 @@ std:doc
 	_autosummary/jax.numpy.roots             jax.numpy.roots                         : _autosummary/jax.numpy.roots.html
 	_autosummary/jax.numpy.rot90             jax.numpy.rot90                         : _autosummary/jax.numpy.rot90.html
 	_autosummary/jax.numpy.round             jax.numpy.round                         : _autosummary/jax.numpy.round.html
+	_autosummary/jax.numpy.round_            jax.numpy.round_                        : _autosummary/jax.numpy.round_.html
 	_autosummary/jax.numpy.row_stack         jax.numpy.row_stack                     : _autosummary/jax.numpy.row_stack.html
+	_autosummary/jax.numpy.s_                jax.numpy.s_                            : _autosummary/jax.numpy.s_.html
 	_autosummary/jax.numpy.save              jax.numpy.save                          : _autosummary/jax.numpy.save.html
 	_autosummary/jax.numpy.savez             jax.numpy.savez                         : _autosummary/jax.numpy.savez.html
 	_autosummary/jax.numpy.searchsorted      jax.numpy.searchsorted                  : _autosummary/jax.numpy.searchsorted.html
@@ -1534,6 +1660,8 @@ std:doc
 	_autosummary/jax.random.truncated_normal jax.random.truncated_normal             : _autosummary/jax.random.truncated_normal.html
 	_autosummary/jax.random.uniform          jax.random.uniform                      : _autosummary/jax.random.uniform.html
 	_autosummary/jax.random.weibull_min      jax.random.weibull_min                  : _autosummary/jax.random.weibull_min.html
+	_autosummary/jax.scipy.fft.dct           jax.scipy.fft.dct                       : _autosummary/jax.scipy.fft.dct.html
+	_autosummary/jax.scipy.fft.dctn          jax.scipy.fft.dctn                      : _autosummary/jax.scipy.fft.dctn.html
 	_autosummary/jax.scipy.linalg.block_diag jax.scipy.linalg.block_diag             : _autosummary/jax.scipy.linalg.block_diag.html
 	_autosummary/jax.scipy.linalg.cho_factor jax.scipy.linalg.cho_factor             : _autosummary/jax.scipy.linalg.cho_factor.html
 	_autosummary/jax.scipy.linalg.cho_solve  jax.scipy.linalg.cho_solve              : _autosummary/jax.scipy.linalg.cho_solve.html
@@ -1559,6 +1687,7 @@ std:doc
 	_autosummary/jax.scipy.signal.convolve2d jax.scipy.signal.convolve2d             : _autosummary/jax.scipy.signal.convolve2d.html
 	_autosummary/jax.scipy.signal.correlate  jax.scipy.signal.correlate              : _autosummary/jax.scipy.signal.correlate.html
 	_autosummary/jax.scipy.signal.correlate2d jax.scipy.signal.correlate2d            : _autosummary/jax.scipy.signal.correlate2d.html
+	_autosummary/jax.scipy.sparse.linalg.bicgstab jax.scipy.sparse.linalg.bicgstab        : _autosummary/jax.scipy.sparse.linalg.bicgstab.html
 	_autosummary/jax.scipy.sparse.linalg.cg  jax.scipy.sparse.linalg.cg              : _autosummary/jax.scipy.sparse.linalg.cg.html
 	_autosummary/jax.scipy.sparse.linalg.gmres jax.scipy.sparse.linalg.gmres           : _autosummary/jax.scipy.sparse.linalg.gmres.html
 	_autosummary/jax.scipy.special.betainc   jax.scipy.special.betainc               : _autosummary/jax.scipy.special.betainc.html
@@ -1567,7 +1696,10 @@ std:doc
 	_autosummary/jax.scipy.special.erf       jax.scipy.special.erf                   : _autosummary/jax.scipy.special.erf.html
 	_autosummary/jax.scipy.special.erfc      jax.scipy.special.erfc                  : _autosummary/jax.scipy.special.erfc.html
 	_autosummary/jax.scipy.special.erfinv    jax.scipy.special.erfinv                : _autosummary/jax.scipy.special.erfinv.html
+	_autosummary/jax.scipy.special.exp1      jax.scipy.special.exp1                  : _autosummary/jax.scipy.special.exp1.html
+	_autosummary/jax.scipy.special.expi      jax.scipy.special.expi                  : _autosummary/jax.scipy.special.expi.html
 	_autosummary/jax.scipy.special.expit     jax.scipy.special.expit                 : _autosummary/jax.scipy.special.expit.html
+	_autosummary/jax.scipy.special.expn      jax.scipy.special.expn                  : _autosummary/jax.scipy.special.expn.html
 	_autosummary/jax.scipy.special.gammainc  jax.scipy.special.gammainc              : _autosummary/jax.scipy.special.gammainc.html
 	_autosummary/jax.scipy.special.gammaincc jax.scipy.special.gammaincc             : _autosummary/jax.scipy.special.gammaincc.html
 	_autosummary/jax.scipy.special.gammaln   jax.scipy.special.gammaln               : _autosummary/jax.scipy.special.gammaln.html
@@ -1578,10 +1710,13 @@ std:doc
 	_autosummary/jax.scipy.special.log_ndtr  jax.scipy.special.log_ndtr              : _autosummary/jax.scipy.special.log_ndtr.html
 	_autosummary/jax.scipy.special.logit     jax.scipy.special.logit                 : _autosummary/jax.scipy.special.logit.html
 	_autosummary/jax.scipy.special.logsumexp jax.scipy.special.logsumexp             : _autosummary/jax.scipy.special.logsumexp.html
+	_autosummary/jax.scipy.special.lpmn      jax.scipy.special.lpmn                  : _autosummary/jax.scipy.special.lpmn.html
+	_autosummary/jax.scipy.special.lpmn_values jax.scipy.special.lpmn_values           : _autosummary/jax.scipy.special.lpmn_values.html
 	_autosummary/jax.scipy.special.multigammaln jax.scipy.special.multigammaln          : _autosummary/jax.scipy.special.multigammaln.html
 	_autosummary/jax.scipy.special.ndtr      jax.scipy.special.ndtr                  : _autosummary/jax.scipy.special.ndtr.html
 	_autosummary/jax.scipy.special.ndtri     jax.scipy.special.ndtri                 : _autosummary/jax.scipy.special.ndtri.html
 	_autosummary/jax.scipy.special.polygamma jax.scipy.special.polygamma             : _autosummary/jax.scipy.special.polygamma.html
+	_autosummary/jax.scipy.special.sph_harm  jax.scipy.special.sph_harm              : _autosummary/jax.scipy.special.sph_harm.html
 	_autosummary/jax.scipy.special.xlog1py   jax.scipy.special.xlog1py               : _autosummary/jax.scipy.special.xlog1py.html
 	_autosummary/jax.scipy.special.xlogy     jax.scipy.special.xlogy                 : _autosummary/jax.scipy.special.xlogy.html
 	_autosummary/jax.scipy.special.zeta      jax.scipy.special.zeta                  : _autosummary/jax.scipy.special.zeta.html
@@ -1636,7 +1771,6 @@ std:doc
 	_autosummary/jax.tree_util.tree_flatten  jax.tree_util.tree_flatten              : _autosummary/jax.tree_util.tree_flatten.html
 	_autosummary/jax.tree_util.tree_leaves   jax.tree_util.tree_leaves               : _autosummary/jax.tree_util.tree_leaves.html
 	_autosummary/jax.tree_util.tree_map      jax.tree_util.tree_map                  : _autosummary/jax.tree_util.tree_map.html
-	_autosummary/jax.tree_util.tree_multimap jax.tree_util.tree_multimap             : _autosummary/jax.tree_util.tree_multimap.html
 	_autosummary/jax.tree_util.tree_reduce   jax.tree_util.tree_reduce               : _autosummary/jax.tree_util.tree_reduce.html
 	_autosummary/jax.tree_util.tree_structure jax.tree_util.tree_structure            : _autosummary/jax.tree_util.tree_structure.html
 	_autosummary/jax.tree_util.tree_transpose jax.tree_util.tree_transpose            : _autosummary/jax.tree_util.tree_transpose.html
@@ -1644,11 +1778,17 @@ std:doc
 	_autosummary/jax.tree_util.treedef_children jax.tree_util.treedef_children          : _autosummary/jax.tree_util.treedef_children.html
 	_autosummary/jax.tree_util.treedef_is_leaf jax.tree_util.treedef_is_leaf           : _autosummary/jax.tree_util.treedef_is_leaf.html
 	_autosummary/jax.tree_util.treedef_tuple jax.tree_util.treedef_tuple             : _autosummary/jax.tree_util.treedef_tuple.html
+	_autosummary/jaxlib.xla_extension.CpuDevice jaxlib.xla_extension.CpuDevice          : _autosummary/jaxlib.xla_extension.CpuDevice.html
+	_autosummary/jaxlib.xla_extension.Device jaxlib.xla_extension.Device             : _autosummary/jaxlib.xla_extension.Device.html
+	_autosummary/jaxlib.xla_extension.GpuDevice jaxlib.xla_extension.GpuDevice          : _autosummary/jaxlib.xla_extension.GpuDevice.html
+	_autosummary/jaxlib.xla_extension.TpuDevice jaxlib.xla_extension.TpuDevice          : _autosummary/jaxlib.xla_extension.TpuDevice.html
 	async_dispatch                           Asynchronous dispatch                   : async_dispatch.html
 	autodidax                                Autodidax: JAX core from scratch        : autodidax.html
 	changelog                                Change log                              : changelog.html
 	concurrency                              Concurrency                             : concurrency.html
+	contributing                             Contributing to JAX                     : contributing.html
 	custom_vjp_update                        custom_vjp and nondiff_argnums update guide: custom_vjp_update.html
+	deprecation                              Python and NumPy version support policy : deprecation.html
 	developer                                Building from source                    : developer.html
 	device_memory_profiling                  Device Memory Profiling                 : device_memory_profiling.html
 	errors                                   JAX Errors                              : errors.html
@@ -1665,6 +1805,7 @@ std:doc
 	jax-101/05.1-pytrees                     Working with Pytrees                    : jax-101/05.1-pytrees.html
 	jax-101/06-parallelism                   Parallel Evaluation in JAX              : jax-101/06-parallelism.html
 	jax-101/07-state                         Stateful Computations in JAX            : jax-101/07-state.html
+	jax-101/08-pjit                          Introduction to pjit                    : jax-101/08-pjit.html
 	jax-101/index                            Tutorial: JAX 101                       : jax-101/index.html
 	jax.dlpack                               jax.dlpack module                       : jax.dlpack.html
 	jax.experimental                         jax.experimental package                : jax.experimental.html
@@ -1672,9 +1813,13 @@ std:doc
 	jax.experimental.loops                   jax.experimental.loops module           : jax.experimental.loops.html
 	jax.experimental.maps                    jax.experimental.maps module            : jax.experimental.maps.html
 	jax.experimental.optimizers              jax.experimental.optimizers module      : jax.experimental.optimizers.html
+	jax.experimental.pjit                    jax.experimental.pjit module            : jax.experimental.pjit.html
+	jax.experimental.sparse                  jax.experimental.sparse module          : jax.experimental.sparse.html
 	jax.experimental.stax                    jax.experimental.stax module            : jax.experimental.stax.html
+	jax.flatten_util                         jax.flatten_util package                : jax.flatten_util.html
 	jax.image                                jax.image package                       : jax.image.html
 	jax.lax                                  jax.lax package                         : jax.lax.html
+	jax.lib                                  jax.lib package                         : jax.lib.html
 	jax.nn                                   jax.nn package                          : jax.nn.html
 	jax.nn.initializers                      jax.nn.initializers package             : jax.nn.initializers.html
 	jax.numpy                                jax.numpy package                       : jax.numpy.html
@@ -1685,6 +1830,7 @@ std:doc
 	jax.tree_util                            jax.tree_util package                   : jax.tree_util.html
 	jax_internal_api                         Internal APIs                           : jax_internal_api.html
 	jaxpr                                    Understanding Jaxprs                    : jaxpr.html
+	multi_process                            Using JAX in multi-host and multi-process environments: multi_process.html
 	notebooks/Common_Gotchas_in_JAX          🔪 JAX - The Sharp Bits 🔪                : notebooks/Common_Gotchas_in_JAX.html
 	notebooks/Custom_derivative_rules_for_Python_code Custom derivative rules for JAX-transformable Python functions: notebooks/Custom_derivative_rules_for_Python_code.html
 	notebooks/How_JAX_primitives_work        How JAX primitives work                 : notebooks/How_JAX_primitives_work.html
@@ -1693,17 +1839,14 @@ std:doc
 	notebooks/XLA_in_Python                  XLA in Python                           : notebooks/XLA_in_Python.html
 	notebooks/autodiff_cookbook              The Autodiff Cookbook                   : notebooks/autodiff_cookbook.html
 	notebooks/convolutions                   Convolutions in JAX                     : notebooks/convolutions.html
-	notebooks/maml                           MAML Tutorial with JAX                  : notebooks/maml.html
 	notebooks/neural_network_with_tfds_data  Training a Simple Neural Network, with tensorflow/datasets Data Loading: notebooks/neural_network_with_tfds_data.html
 	notebooks/quickstart                     JAX Quickstart                          : notebooks/quickstart.html
-	notebooks/score_matching                 Generative Modeling by Estimating Gradients of Data Distribution in JAX: notebooks/score_matching.html
 	notebooks/thinking_in_jax                How to Think in JAX                     : notebooks/thinking_in_jax.html
 	notebooks/vmapped_log_probs              Autobatching log-densities example      : notebooks/vmapped_log_probs.html
 	notebooks/xmap_tutorial                  Named axes and easy-to-revise parallelism: notebooks/xmap_tutorial.html
 	profiling                                Profiling JAX programs                  : profiling.html
 	pytrees                                  Pytrees                                 : pytrees.html
 	rank_promotion_warning                   Rank promotion warning                  : rank_promotion_warning.html
-	transformations                          Transformations                         : transformations.html
 	type_promotion                           Type promotion semantics                : type_promotion.html
 std:label
 	async-dispatch                           Asynchronous dispatch                   : async_dispatch.html#async-dispatch
@@ -1724,14 +1867,19 @@ std:label
 	jax-parallel-operators                   Parallel operators                      : jax.lax.html#jax-parallel-operators
 	lax-control-flow                         Control flow operators                  : jax.lax.html#lax-control-flow
 	modindex                                 Module Index                            : py-modindex.html
+	multiple_installs                        Multiple TensorBoard installs           : profiling.html#multiple-installs
+	pr-checklist                             JAX pull request checklist              : contributing.html#pr-checklist
 	py-modindex                              Python Module Index                     : py-modindex.html
 	pytrees                                  Pytrees                                 : pytrees.html#pytrees
 	remote_profiling                         Profiling on a remote machine           : profiling.html#remote-profiling
+	running-tests                            Running the tests                       : developer.html#running-tests
 	search                                   Search Page                             : search.html
-	syntactic-sugar-for-ops                  Syntactic sugar for indexed update operators: jax.ops.html#syntactic-sugar-for-ops
+	syntactic-sugar-for-ops                  Indexed update operators                : jax.ops.html#syntactic-sugar-for-ops
 	type-promotion                           Type promotion semantics                : type_promotion.html#type-promotion
 	understanding-jaxprs                     Understanding Jaxprs                    : jaxpr.html#understanding-jaxprs
+	update-notebooks                         Update notebooks                        : developer.html#update-notebooks
 	vector-jacobian-product                  Vector-Jacobian products (VJPs, aka reverse-mode autodiff): notebooks/autodiff_cookbook.html#vector-jacobian-product
+	weak-types                               Weakly-typed values in JAX              : type_promotion.html#weak-types
 std:term
 	CPU                                      glossary.html#term-CPU
 	Device                                   glossary.html#term-Device
@@ -1751,3 +1899,4 @@ std:term
 	reverse-mode autodiff                    glossary.html#term-reverse-mode-autodiff
 	static                                   glossary.html#term-static
 	transformation                           glossary.html#term-transformation
+	weak type                                glossary.html#term-weak-type

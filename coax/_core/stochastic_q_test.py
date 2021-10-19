@@ -336,8 +336,8 @@ class TestStochasticQ(TestCase):
             return dist_params
         msg = (
             r"func has bad return tree_structure, "
-            r"expected: PyTreeDef\(dict\[\['logits'\]\], \[\*\]\), "
-            r"got: PyTreeDef\(dict\[\['foo', 'logits'\]\], \[\*,\*\]\)"
+            r"expected: PyTreeDef\({'logits': \*}\), "
+            r"got: PyTreeDef\({'foo': \*, 'logits': \*}\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
             env = Env(discrete, discrete)

@@ -247,7 +247,8 @@ class TestTransitionModel(TestCase):
             S_next = (13, S_next)
             return S_next
         msg = (
-            r"func has bad return tree_structure, expected: \*, got: PyTreeDef\(tuple, \[\*,\*\]\)")
+            r"func has bad return tree_structure, expected: PyTreeDef\(\*\), "
+            r"got: PyTreeDef\(\(\*, \*\)\)")
         with self.assertRaisesRegex(TypeError, msg):
             env = Env(discrete, discrete)
             TransitionModel(badfunc, env, random_seed=13)

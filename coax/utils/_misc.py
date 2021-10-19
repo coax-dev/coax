@@ -24,7 +24,6 @@ import time
 import logging
 from importlib import reload, import_module
 from types import ModuleType
-from typing import NamedTuple
 
 import jax.numpy as jnp
 import numpy as onp
@@ -719,7 +718,7 @@ def pretty_repr(o, d=0):
         items = zip(('index', 'data'), (o.index, o.values))
         body = sep + sep.join(f"{k}={pretty_repr(v, d + 1)}" for k, v in items)
         return f"{type(o).__name__}({body})"
-    if isinstance(o, NamedTuple) or hasattr(o, '_asdict'):
+    if hasattr(o, '_asdict'):
         sep = '\n' + i * (d + 1)
         body = sep + sep.join(f"{k}={pretty_repr(v, d + 1)}" for k, v in o._asdict().items())
         return f"{type(o).__name__}({body})"

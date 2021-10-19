@@ -17,7 +17,7 @@ nb_template = {
             "metadata": {},
             "outputs": [],
             "source": [
-                "!pip install git+https://github.com/coax-dev/coax.git@main",
+                "%pip install git+https://github.com/coax-dev/coax.git@main",
             ]
         },
         {

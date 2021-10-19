@@ -6,14 +6,16 @@ Install
 Coax is built on top of JAX, but it doesn't have an explicit dependence on the ``jax``
 python package. The reason is that your version of ``jaxlib`` will depend on your CUDA version.
 
-To install ``coax`` and ``jax`` together, please select the configuration that applies to your
-setup.
+To install ``jax``, please have a look at the instructions: https://github.com/google/jax#installation
 
-----
+Once ``jax`` and ``jaxlib`` are installed, you can install **coax** simple by running:
 
-.. raw:: html
-    :file: ../../versions.html
+.. code::
 
+    $ pip install coax
 
-Alternatively, you may also choose build ``jaxlib`` from source by following
-`this guide <https://jax.readthedocs.io/en/latest/developer.html#building-from-source>`_.
+Or, alternatively, to install **coax** from the latest branch on github:
+
+.. code::
+    
+    $ pip install git+https://github.com/coax-dev/coax.git@main

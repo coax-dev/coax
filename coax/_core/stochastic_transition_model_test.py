@@ -125,8 +125,8 @@ class TestStochasticTransitionModel(TestCase):
 
         msg = (
             r"func has bad return tree_structure, "
-            r"expected: PyTreeDef\(dict\[\['logvar', 'mu'\]\], \[\*,\*\]\), "
-            r"got: PyTreeDef\(dict\[\['logits'\]\], \[\*\]\)"
+            r"expected: PyTreeDef\({'logvar': \*, 'mu': \*}\), "
+            r"got: PyTreeDef\({'logits': \*}\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
             StochasticTransitionModel(func_discrete_type1, Env(boxspace, discrete))
@@ -137,8 +137,8 @@ class TestStochasticTransitionModel(TestCase):
 
         msg = (
             r"func has bad return tree_structure, "
-            r"expected: PyTreeDef\(dict\[\['logits'\]\], \[\*\]\), "
-            r"got: PyTreeDef\(dict\[\['logvar', 'mu'\]\], \[\*,\*\]\)"
+            r"expected: PyTreeDef\({'logits': \*}\), "
+            r"got: PyTreeDef\({'logvar': \*, 'mu': \*}\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
             StochasticTransitionModel(func_boxspace_type1, Env(discrete, discrete))
@@ -395,8 +395,8 @@ class TestStochasticTransitionModel(TestCase):
             return dist_params
         msg = (
             r"func has bad return tree_structure, "
-            r"expected: PyTreeDef\(dict\[\['logits'\]\], \[\*\]\), "
-            r"got: PyTreeDef\(dict\[\['foo', 'logits'\]\], \[\*,\*\]\)"
+            r"expected: PyTreeDef\({'logits': \*}\), "
+            r"got: PyTreeDef\({'foo': \*, 'logits': \*}\)"
         )
         with self.assertRaisesRegex(TypeError, msg):
             env = Env(discrete, discrete)

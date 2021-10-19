@@ -23,9 +23,9 @@ kwargs = {
 
 def upgrade_requirements(filename):
     reqs_colab = pd.read_csv('requirements.colab.txt', **kwargs)
-    reqs_colab['version'] = reqs_colab['version'].map(parse)
+    reqs_colab['version'] = reqs_colab['version'].fillna('').map(parse)
     reqs = pd.read_csv(filename, **kwargs)
-    reqs['version'] = reqs['version'].map(parse)
+    reqs['version'] = reqs['version'].fillna('').map(parse)
     overlap = pd.merge(reqs, reqs_colab, left_index=True, right_index=True, suffixes=('', '_colab'))
     need_updating = overlap[overlap['version'] < overlap['version_colab']]
 
