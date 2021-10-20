@@ -26,7 +26,7 @@ import jax
 import haiku as hk
 from gym.spaces import Space
 
-from ..typing import Batch, Observation, Action
+from ..typing import Batch, Observation, Action, Quantiles
 from ..utils import pretty_repr, jit
 from .._base.mixins import RandomStateMixin, CopyMixin
 
@@ -64,9 +64,30 @@ class ArgsType2(NamedTuple):
         return pretty_repr(self)
 
 
+class ArgsType3(NamedTuple):
+    S: Batch[Observation]
+    A: Batch[Action]
+    tau: Batch[Quantiles]
+    is_training: bool
+
+    def __repr__(self):
+        return pretty_repr(self)
+
+
+class ArgsType4(NamedTuple):
+    S: Batch[Observation]
+    tau: Batch[Quantiles]
+    is_training: bool
+
+    def __repr__(self):
+        return pretty_repr(self)
+
+
 class ModelTypes(NamedTuple):
     type1: ArgsType1
     type2: ArgsType2
+    type3: ArgsType3
+    type4: ArgsType4
 
     def __repr__(self):
         return pretty_repr(self)
