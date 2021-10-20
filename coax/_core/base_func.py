@@ -67,7 +67,7 @@ class ArgsType2(NamedTuple):
 class ArgsType3(NamedTuple):
     S: Batch[Observation]
     A: Batch[Action]
-    tau: Batch[Quantiles]
+    quantiles: Batch[Quantiles]
     is_training: bool
 
     def __repr__(self):
@@ -76,7 +76,7 @@ class ArgsType3(NamedTuple):
 
 class ArgsType4(NamedTuple):
     S: Batch[Observation]
-    tau: Batch[Quantiles]
+    quantiles: Batch[Quantiles]
     is_training: bool
 
     def __repr__(self):

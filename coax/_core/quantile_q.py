@@ -47,7 +47,7 @@ class QuantileQ(Q):
                          value_transform=value_transform, random_seed=random_seed)
         self.num_quantiles = num_quantiles
 
-    def __call__(self, s, tau, a=None):
+    def __call__(self, s, quantiles, a=None):
         r"""
 
         Evaluate the quantile state-action function on a state observation :math:`s` or
@@ -59,7 +59,7 @@ class QuantileQ(Q):
 
             A single state observation :math:`s`.
 
-        tau : quantiles
+        quantiles : quantiles
 
             The quantiles of the state-action function :math:`\tau`.
 
@@ -80,10 +80,12 @@ class QuantileQ(Q):
         """
         S = self.observation_preprocessor(self.rng, s)
         if a is None:
-            Q, _ = self.function_type4(self.params, self.function_state, self.rng, S, tau, False)
+            Q, _ = self.function_type4(self.params, self.function_state,
+                                       self.rng, S, quantiles, False)
         else:
             A = self.action_preprocessor(self.rng, a)
-            Q, _ = self.function_type3(self.params, self.function_state, self.rng, S, tau, A, False)
+            Q, _ = self.function_type3(self.params, self.function_state,
+                                       self.rng, S, quantiles, A, False)
         Q = self.value_transform.inverse_func(Q)
         return onp.asarray(Q[0])
 
@@ -100,12 +102,13 @@ class QuantileQ(Q):
 
         assert isinstance(self.action_space, Discrete)
 
-        def q3_func(q2_params, q2_state, rng, S, tau, A, is_training):
+        def q3_func(q2_params, q2_state, rng, S, quantiles, A, is_training):
             assert A.ndim == 2
             assert A.shape[1] == self.action_space.n
-            assert tau.ndim == 2
-            assert tau.shape[1] == self.num_quantiles
-            Q_Quantiles_s, state_new = self.function(q2_params, q2_state, rng, S, tau, is_training)
+            assert quantiles.ndim == 2
+            assert quantiles.shape[1] == self.num_quantiles
+            Q_Quantiles_s, state_new = self.function(
+                q2_params, q2_state, rng, S, quantiles, is_training)
             Q_Quantiles_sa = jax.vmap(jnp.dot)(A, Q_Quantiles_s)
             return Q_Quantiles_sa, state_new
 
@@ -129,23 +132,24 @@ class QuantileQ(Q):
         n = self.action_space.n
         num_quantiles = self.num_quantiles
 
-        def q4_func(q1_params, q1_state, rng, S, tau, is_training):
+        def q4_func(q1_params, q1_state, rng, S, quantiles, is_training):
             rngs = hk.PRNGSequence(rng)
             batch_size = jax.tree_leaves(S)[0].shape[0]
 
-            # example: let S = [7, 2, 5, 8] and num_actions = 3 and tau = [0.3, 0.6, 0.9], then
+            # example: let S = [7, 2, 5, 8] and num_actions = 3 and quantiles = [0.3, 0.6, 0.9],
             # S_rep = [7] * 9 + [2] * 9 + [5] * 9 + [8] * 9  # repeated
             # A_rep = [0, 1, 2] * 12 # tiled
-            # tau_rep = [0.3, 0.6, 0.9] * 12 # tiled
+            # quantiles_rep = [0.3, 0.6, 0.9] * 12 # tiled
 
             S_rep = jax.tree_map(lambda x: jnp.repeat(x, n, axis=0), S)
             A_rep = jnp.tile(jnp.arange(n), batch_size)
             A_rep = self.action_preprocessor(next(rngs), A_rep)  # one-hot encoding
-            tau_rep = jnp.tile(tau, batch_size)
+            quantiles_rep = jnp.tile(quantiles, batch_size)
 
             # evaluate on replicas => output shape: (batch * num_actions * num_quantiles, 1)
             Q_Quantiles_sa_rep, state_new = \
-                self.function(q1_params, q1_state, next(rngs), S_rep, tau_rep, A_rep, is_training)
+                self.function(q1_params, q1_state, next(rngs), S_rep,
+                              quantiles_rep, A_rep, is_training)
             # shape: (batch, num_actions, num_quantiles)
             Q_Quantiles_s = Q_Quantiles_sa_rep.reshape(-1, n, num_quantiles)
 
@@ -199,15 +203,17 @@ class QuantileQ(Q):
         A = [action_preprocessor(next(rngs), a) for a in A]
         A = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *A)
 
-        # input: quantile fractions
-        tau = [rnd.uniform(0, 1, num_quantiles) for _ in range(batch_size)]
-        tau = [tau_fractions / jnp.sum(tau_fractions, axis=-1) for tau_fractions in tau]
-        tau = [jnp.cumsum(tau_fractions, axis=-1) for tau_fractions in tau]
-        tau = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *tau)
+        # input: quantiles
+        quantiles = [rnd.uniform(0, 1, num_quantiles) for _ in range(batch_size)]
+        quantiles = [quantiles_fractions /
+                     jnp.sum(quantiles_fractions, axis=-1) for quantiles_fractions in quantiles]
+        quantiles = [jnp.cumsum(quantiles_fractions, axis=-1) for quantiles_fractions in quantiles]
+        quantiles = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *quantiles)
 
         # output: type3
         q3_data = ExampleData(
-            inputs=Inputs(args=ArgsType3(S=S, A=A, tau=tau, is_training=True), static_argnums=(3,)),
+            inputs=Inputs(args=ArgsType3(S=S, A=A, quantiles=quantiles,
+                          is_training=True), static_argnums=(3,)),
             output=jnp.asarray(rnd.randn(batch_size, num_quantiles)),
         )
 
@@ -216,22 +222,23 @@ class QuantileQ(Q):
 
         # output: type4 (if actions are discrete)
         q4_data = ExampleData(
-            inputs=Inputs(args=ArgsType4(S=S, tau=tau, is_training=True), static_argnums=(2,)),
-            output=jnp.asarray(rnd.randn(batch_size, num_quantiles, env.action_space.n)),
+            inputs=Inputs(args=ArgsType4(S=S, quantiles=quantiles,
+                          is_training=True), static_argnums=(2,)),
+            output=jnp.asarray(rnd.randn(batch_size, env.action_space.n, num_quantiles)),
         )
 
         return ModelTypes(type1=None, type2=None, type3=q3_data, type4=q4_data)
 
     def _check_signature(self, func):
-        sig_type3 = ('S', 'tau', 'A', 'is_training')
-        sig_type4 = ('S', 'tau', 'is_training')
+        sig_type3 = ('S', 'quantiles', 'A', 'is_training')
+        sig_type4 = ('S', 'quantiles', 'is_training')
         sig = tuple(signature(func).parameters)
 
         if sig not in (sig_type3, sig_type4):
             sig = ', '.join(sig)
             alt = ' or func(S, is_training)' if isinstance(self.action_space, Discrete) else ''
             raise TypeError(
-                f"func has bad signature; expected: func(S, tau, A, is_training){alt},"
+                f"func has bad signature; expected: func(S, quantiles, A, is_training){alt},"
                 + f"got: func({sig})")
 
         if sig == sig_type4 and not isinstance(self.action_space, Discrete):
