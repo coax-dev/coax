@@ -235,9 +235,9 @@ def quantile_huber(y_true, y_pred, quantiles, w=None, delta=1.0):
     y_pred : ndarray
 
         The predicted output :math:`\hat{y}\in\mathbb{R}`.
-    
+
     quantiles : ndarray
-    
+
         The quantiles of the prediction :math:`\tau\in\mathbb{R}`s.
 
     w : ndarray, optional
@@ -258,9 +258,11 @@ def quantile_huber(y_true, y_pred, quantiles, w=None, delta=1.0):
     y_pred = y_pred[..., None]
     y_true = y_true[..., None, :]
     quantiles = quantiles[..., None]
-    err = jnp.abs(y_pred - y_true)
-    err_clipped = jnp.minimum(err, delta)
-    L = 0.5 * jnp.square(err_clipped) + delta * (err - err_clipped)
-    sign = jnp.sign(y_pred - y_true) / 2. + 0.5
-    rho = jnp.abs(quantiles - sign) * L
-    return _mean_with_weights(rho.sum(axis=-1), w=w)
+    td_error = jnp.abs(y_pred - y_true)
+    err_clipped = jnp.minimum(td_error, delta)
+    elementwise_huber_loss = 0.5 * jnp.square(err_clipped) + delta * (td_error - err_clipped)
+    elementwise_quantile_huber_loss = jnp.abs(
+        quantiles - (td_error < 0) * elementwise_huber_loss / delta
+    )
+    quantile_huber_loss = elementwise_quantile_huber_loss.sum(axis=-1)
+    return _mean_with_weights(quantile_huber_loss, w=w)

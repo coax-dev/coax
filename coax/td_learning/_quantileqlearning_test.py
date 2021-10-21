@@ -29,8 +29,6 @@ from .._core.policy import Policy
 from ..utils import get_transition_batch
 from ._quantileqlearning import QuantileQLearning
 
-num_quantiles = 8
-
 
 class TestQLearning(TestCase):
 
