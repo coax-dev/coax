@@ -40,7 +40,7 @@ __all__ = (
 
 
 class QuantileQ(Q):
-    def __init__(self, func, env, num_quantiles, observation_preprocessor=None,
+    def __init__(self, func, env, num_quantiles=8, observation_preprocessor=None,
                  action_preprocessor=None, value_transform=None, random_seed=None):
         self.num_quantiles = num_quantiles
         super().__init__(func, env, observation_preprocessor=observation_preprocessor,
@@ -50,8 +50,8 @@ class QuantileQ(Q):
     def __call__(self, s, a=None, quantiles=None):
         r"""
 
-        Evaluate the given quantiles :math:`tau` of the state-action function on a state observation :math:`s` or
-        on a state-action pair :math:`(s, a)`.
+        Evaluate the given quantiles :math:`tau` of the state-action function on a state
+        observation :math:`s` or on a state-action pair :math:`(s, a)`.
 
         Parameters
         ----------
@@ -208,11 +208,7 @@ class QuantileQ(Q):
         A = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *A)
 
         # input: quantiles
-        quantiles = [rnd.uniform(0, 1, size=(1, num_quantiles)) for _ in range(batch_size)]
-        quantiles = [quantiles_fractions /
-                     jnp.sum(quantiles_fractions, axis=-1, keepdims=True) for quantiles_fractions in quantiles]
-        quantiles = [jnp.cumsum(quantiles_fractions, axis=-1) for quantiles_fractions in quantiles]
-        quantiles = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *quantiles)
+        quantiles = QuantileQ.sample_quantiles(num_quantiles, batch_size, random_seed)
 
         # output: type3
         q3_data = ExampleData(
@@ -233,6 +229,17 @@ class QuantileQ(Q):
 
         return ModelTypes(type1=None, type2=None, type3=q3_data, type4=q4_data)
 
+    @classmethod
+    def sample_quantiles(cls, num_quantiles, batch_size, random_seed):
+        rnd = onp.random.RandomState(random_seed)
+        quantiles = [rnd.uniform(0, 1, size=(1, num_quantiles)) for _ in range(batch_size)]
+        quantiles = [quantiles_fractions /
+                     jnp.sum(quantiles_fractions, axis=-1, keepdims=True)
+                     for quantiles_fractions in quantiles]
+        quantiles = [jnp.cumsum(quantiles_fractions, axis=-1) for quantiles_fractions in quantiles]
+        quantiles = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *quantiles)
+        return quantiles
+
     def _check_signature(self, func):
         sig_type3 = ('S', 'A', 'quantiles', 'is_training')
         sig_type4 = ('S', 'quantiles', 'is_training')
@@ -240,7 +247,8 @@ class QuantileQ(Q):
 
         if sig not in (sig_type3, sig_type4):
             sig = ', '.join(sig)
-            alt = ' or func(S, quantiles, is_training)' if isinstance(self.action_space, Discrete) else ''
+            alt = ' or func(S, quantiles, is_training)' if isinstance(
+                self.action_space, Discrete) else ''
             raise TypeError(
                 f"func has bad signature; expected: func(S, A, quantiles, is_training){alt}, "
                 + f"got: func({sig})")

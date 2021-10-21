@@ -229,6 +229,59 @@ class TestCase(unittest.TestCase):
             return seq(flatten(S))
         return func
 
+    def func_quantile(self, quantile_embedding_dim):
+        def func(x, quantiles):
+            x_size = x.shape[-1]
+            quantile_net = jnp.tile(quantiles[..., None], [1, quantile_embedding_dim])
+            quantile_net = (
+                jnp.arange(1, quantile_embedding_dim + 1, 1).astype(jnp.float32)
+                * onp.pi
+                * quantile_net)
+            quantile_net = jnp.cos(quantile_net)
+            quantile_net = hk.Linear(x_size)(quantile_net)
+            quantile_net = jax.nn.relu(quantile_net)
+            x = x[:, None, ...] * quantile_net
+            x = hk.Linear(x_size)(x)
+            x = jax.nn.relu(x)
+            return x
+        return func
+
+    @property
+    def func_q_type3(self):
+        def func(S, A, quantiles, is_training):
+            quantile_embedding_dim = 4
+            encoder = hk.Sequential((
+                hk.Linear(8), jax.nn.relu,
+                partial(hk.dropout, hk.next_rng_key(), 0.25 if is_training else 0.),
+                partial(hk.BatchNorm(False, False, 0.99), is_training=is_training),
+                hk.Linear(8), jax.nn.relu,
+            ))
+            S = hk.Flatten()(S)
+            A = hk.Flatten()(A)
+            X = jnp.concatenate((S, A), axis=-1)
+            x = encoder(X)
+            x = self.func_quantile(quantile_embedding_dim)(x, quantiles)
+            x = hk.Linear(1)(x)
+            return x[..., 0]
+        return func
+
+    @property
+    def func_q_type4(self):
+        def func(S, quantiles, is_training):
+            quantile_embedding_dim = 4
+            encoder = hk.Sequential((
+                hk.Flatten(),
+                hk.Linear(8), jax.nn.relu,
+                partial(hk.dropout, hk.next_rng_key(), 0.25 if is_training else 0.),
+                partial(hk.BatchNorm(False, False, 0.99), is_training=is_training),
+            ))
+            x = encoder(S)
+            x = self.func_quantile(quantile_embedding_dim)(x, quantiles)
+            x = hk.Linear(self.env_discrete.action_space.n)(x)
+            x = jnp.moveaxis(x, -1, -2)
+            return x
+        return func
+
     @property
     def func_q_tochastic_type1(self):
         def func(S, A, is_training):
