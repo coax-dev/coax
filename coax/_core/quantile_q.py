@@ -208,7 +208,7 @@ class QuantileQ(Q):
         A = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *A)
 
         # input: quantiles
-        quantiles = QuantileQ.sample_quantiles(num_quantiles, batch_size, random_seed)
+        quantiles = QuantileQ.sample_quantiles(num_quantiles, batch_size, next(rngs))
 
         # output: type3
         q3_data = ExampleData(
@@ -231,8 +231,7 @@ class QuantileQ(Q):
 
     @classmethod
     def sample_quantiles(cls, num_quantiles, batch_size, random_seed):
-        rnd = onp.random.RandomState(random_seed)
-        quantiles = [rnd.uniform(0, 1, size=(1, num_quantiles)) for _ in range(batch_size)]
+        quantiles = [jax.random.uniform(random_seed, shape=(1, num_quantiles)) for _ in range(batch_size)]
         quantiles = [quantiles_fractions /
                      jnp.sum(quantiles_fractions, axis=-1, keepdims=True)
                      for quantiles_fractions in quantiles]

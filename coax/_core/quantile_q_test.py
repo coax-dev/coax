@@ -35,16 +35,16 @@ class TestQuantileQ(TestCase):
         # cannot define a type-4 q-function on a non-discrete action space
         msg = r"type-4 q-functions are only well-defined for Discrete action spaces"
         with self.assertRaisesRegex(TypeError, msg):
-            QuantileQ(self.func_q_type4(), self.env_boxspace)
+            QuantileQ(self.func_q_type4, self.env_boxspace)
 
         # these should all be fine
-        QuantileQ(self.func_q_type3(), self.env_boxspace)
-        QuantileQ(self.func_q_type3(), self.env_discrete)
-        QuantileQ(self.func_q_type4(), self.env_discrete)
+        QuantileQ(self.func_q_type3, self.env_boxspace)
+        QuantileQ(self.func_q_type3, self.env_discrete)
+        QuantileQ(self.func_q_type4, self.env_discrete)
 
     def test_call_type3_discrete(self):
         env = self.env_discrete
-        func = self.func_q_type3()
+        func = self.func_q_type3
         s = safe_sample(env.observation_space, seed=19)
         a = safe_sample(env.action_space, seed=19)
         q = QuantileQ(func, env, random_seed=42)
@@ -62,7 +62,7 @@ class TestQuantileQ(TestCase):
 
     def test_call_type4_discrete(self):
         env = self.env_discrete
-        func = self.func_q_type4()
+        func = self.func_q_type4
         s = safe_sample(env.observation_space, seed=19)
         a = safe_sample(env.action_space, seed=19)
         q = QuantileQ(func, env, random_seed=42)
@@ -80,7 +80,7 @@ class TestQuantileQ(TestCase):
 
     def test_call_type3_box(self):
         env = self.env_boxspace
-        func = self.func_q_type3()
+        func = self.func_q_type3
         s = safe_sample(env.observation_space, seed=19)
         a = safe_sample(env.action_space, seed=19)
         q = QuantileQ(func, env, random_seed=42)
@@ -97,7 +97,7 @@ class TestQuantileQ(TestCase):
 
     def test_apply_q3_as_q4(self):
         env = self.env_discrete
-        func = self.func_q_type3()
+        func = self.func_q_type3
         q = QuantileQ(func, env, random_seed=42)
         n = env.action_space.n  # num_actions
 
@@ -130,7 +130,7 @@ class TestQuantileQ(TestCase):
 
     def test_apply_q4_as_q3(self):
         env = self.env_discrete
-        func = self.func_q_type4()
+        func = self.func_q_type4
         q = QuantileQ(func, env, random_seed=42)
         n = env.action_space.n  # num_actions
 
@@ -153,7 +153,7 @@ class TestQuantileQ(TestCase):
     def test_soft_update(self):
         tau = 0.13
         env = self.env_discrete
-        func = self.func_q_type3()
+        func = self.func_q_type3
         q = QuantileQ(func, env, random_seed=42)
         q_targ = q.copy()
         q.params = jax.tree_map(jnp.ones_like, q.params)
@@ -164,7 +164,7 @@ class TestQuantileQ(TestCase):
 
     def test_function_state(self):
         env = self.env_discrete
-        func = self.func_q_type3()
+        func = self.func_q_type3
         q = QuantileQ(func, env, random_seed=42)
         print(q.function_state)
         batch_norm_avg = q.function_state['batch_norm/~/mean_ema']['average']
@@ -196,7 +196,7 @@ class TestQuantileQ(TestCase):
         env = self.env_discrete
 
         def badfunc(S, A, quantiles, is_training):
-            Q = self.func_q_type3()(S, A, quantiles, is_training)
+            Q = self.func_q_type3(S, A, quantiles, is_training)
             return jnp.expand_dims(Q, axis=-1)
         msg = r"func has bad return shape, expected: \(1, 8\), got: \(1, 8, 1\)"
         with self.assertRaisesRegex(TypeError, msg):
@@ -206,7 +206,7 @@ class TestQuantileQ(TestCase):
         env = self.env_discrete
 
         def badfunc(S, quantiles, is_training):
-            Q = self.func_q_type4()(S, quantiles, is_training)
+            Q = self.func_q_type4(S, quantiles, is_training)
             return Q[:, :2]
         msg = r"func has bad return shape, expected: \(1, 3, 8\), got: \(1, 2, 8\)"
         with self.assertRaisesRegex(TypeError, msg):
@@ -216,7 +216,7 @@ class TestQuantileQ(TestCase):
         env = self.env_discrete
 
         def badfunc(S, A, quantiles, is_training):
-            Q = self.func_q_type3()(S, A, quantiles, is_training)
+            Q = self.func_q_type3(S, A, quantiles, is_training)
             return Q.astype('int32')
         msg = r"func has bad return dtype; expected a subdtype of jnp\.floating, got dtype=int32"
         with self.assertRaisesRegex(TypeError, msg):
