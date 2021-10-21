@@ -87,4 +87,4 @@ class QuantileQLearning(BaseTDLearningQuantileQWithTargetPolicy):
         Q_Quantiles_sa_next, _ = self.q.function_type3(
             params, state, next(rngs), S_next, A_next, quantiles, False)
         f, f_inv = self.q.value_transform.transform_func, self.q_targ.value_transform.inverse_func
-        return f(transition_batch.Rn + transition_batch.In * f_inv(Q_Quantiles_sa_next))
+        return f(transition_batch.Rn[..., None] + transition_batch.In[..., None] * f_inv(Q_Quantiles_sa_next))

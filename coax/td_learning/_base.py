@@ -597,7 +597,7 @@ class BaseTDLearningQuantileQ(BaseTDLearningQ):
                 f'{self.__class__.__name__}/loss': loss,
                 f'{self.__class__.__name__}/td_error': jnp.mean(W * td_error),
                 f'{self.__class__.__name__}/td_error_targ':
-                    jnp.mean(-dLoss_dQ(Q_Quantiles, Q_Quantiles_targ, W)),
+                    jnp.mean(-dLoss_dQ(Q_Quantiles, Q_Quantiles_targ, quantiles, W)),
             }
             return loss, (td_error, state_new, metrics)
 

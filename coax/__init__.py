@@ -25,6 +25,7 @@ __version__ = '0.1.7'
 # expose specific classes and functions
 from ._core.v import V
 from ._core.q import Q
+from ._core.quantile_q import QuantileQ
 from ._core.policy import Policy
 from ._core.worker import Worker
 from ._core.reward_function import RewardFunction
@@ -57,6 +58,7 @@ __all__ = (
     # classes and functions
     'V',
     'Q',
+    'QuantileQ',
     'Policy',
     'Worker',
     'RewardFunction',
