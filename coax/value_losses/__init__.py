@@ -47,7 +47,7 @@ Object Reference
 
 """
 
-from ._losses import mse, huber, logloss, logloss_sign
+from ._losses import mse, huber, logloss, logloss_sign, quantile_huber
 
 
 __all__ = (
@@ -55,4 +55,5 @@ __all__ = (
     'huber',
     'logloss',
     'logloss_sign',
+    'quantile_huber'
 )

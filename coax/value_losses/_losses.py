@@ -207,7 +207,7 @@ def _mean_with_weights(loss, w):
     return jnp.mean(loss)
 
 
-def quantile_huber_loss(y_true, y_pred, quantiles, w=None, delta=1.0):
+def quantile_huber(y_true, y_pred, quantiles, w=None, delta=1.0):
     r"""
 
     `Quantile Huber Regression <XXX>`_ loss function.
@@ -263,4 +263,4 @@ def quantile_huber_loss(y_true, y_pred, quantiles, w=None, delta=1.0):
     L = 0.5 * jnp.square(err_clipped) + delta * (err - err_clipped)
     sign = jnp.sign(y_pred - y_true) / 2. + 0.5
     rho = jnp.abs(quantiles - sign) * L
-    return _mean_with_weights(rho.sum(dim=-1), w=w)
+    return _mean_with_weights(rho.sum(axis=-1), w=w)
