@@ -80,9 +80,8 @@ class QuantileQ(Q):
         """
         S = self.observation_preprocessor(self.rng, s)
         if quantiles is None:
-            rnd = onp.random.RandomState(self.random_seed)
             batch_size = jax.tree_leaves(S)[0].shape[0]
-            quantiles = rnd.uniform(0, 1, size=(batch_size, self.num_quantiles))
+            quantiles = jax.random.uniform(self.rng, shape=(batch_size, self.num_quantiles))
         if a is None:
             Q, _ = self.function_type4(self.params, self.function_state,
                                        self.rng, S, quantiles, False)
@@ -231,7 +230,8 @@ class QuantileQ(Q):
 
     @classmethod
     def sample_quantiles(cls, num_quantiles, batch_size, random_seed):
-        quantiles = [jax.random.uniform(random_seed, shape=(1, num_quantiles)) for _ in range(batch_size)]
+        quantiles = [jax.random.uniform(random_seed, shape=(1, num_quantiles))
+                     for _ in range(batch_size)]
         quantiles = [quantiles_fractions /
                      jnp.sum(quantiles_fractions, axis=-1, keepdims=True)
                      for quantiles_fractions in quantiles]
