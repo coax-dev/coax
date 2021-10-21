@@ -628,7 +628,8 @@ def is_qfunction(obj):
     from .._core.q import Q
     from .._core.stochastic_q import StochasticQ
     from .._core.successor_state_q import SuccessorStateQ
-    return isinstance(obj, (Q, StochasticQ, SuccessorStateQ))
+    from .._core.quantile_q import QuantileQ
+    return isinstance(obj, (Q, StochasticQ, SuccessorStateQ, QuantileQ))
 
 
 def is_stochastic(obj):
