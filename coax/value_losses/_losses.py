@@ -205,3 +205,62 @@ def _mean_with_weights(loss, w):
         assert loss.shape[0] == w.shape[0]
         loss = jax.vmap(jnp.multiply)(w, loss)
     return jnp.mean(loss)
+
+
+def quantile_huber_loss(y_true, y_pred, quantiles, w=None, delta=1.0):
+    r"""
+
+    `Quantile Huber Regression <XXX>`_ loss function.
+
+    .. math::
+
+        L\ =\ \left\{\begin{matrix}
+                (\hat{y} - y)^2
+                    &\quad:\ |\hat{y} - y|\leq\delta \\
+                \delta\,|\hat{y} - y| - \frac{\delta^2}{2}
+                    &\quad:\ |\hat{y} - y| > \delta
+            \end{matrix}\right.
+
+    .. image:: /_static/img/quantile_huber.svg
+        :alt: Quantile Huber Regression loss
+        :width: 320px
+        :align: center
+
+    Parameters
+    ----------
+    y_true : ndarray
+
+        The target :math:`y\in\mathbb{R}`.
+
+    y_pred : ndarray
+
+        The predicted output :math:`\hat{y}\in\mathbb{R}`.
+    
+    quantiles : ndarray
+    
+        The quantiles of the prediction :math:`\tau\in\mathbb{R}`s.
+
+    w : ndarray, optional
+
+        Sample weights.
+
+    delta : float, optional
+
+        The scale of the quadratic-to-linear transition.
+
+    Returns
+    -------
+    loss : scalar ndarray
+
+        The loss averaged over the batch.
+
+    """
+    y_pred = y_pred[..., None]
+    y_true = y_true[..., None, :]
+    quantiles = quantiles[..., None]
+    err = jnp.abs(y_pred - y_true)
+    err_clipped = jnp.minimum(err, delta)
+    L = 0.5 * jnp.square(err_clipped) + delta * (err - err_clipped)
+    sign = jnp.sign(y_pred - y_true) / 2. + 0.5
+    rho = jnp.abs(quantiles - sign) * L
+    return _mean_with_weights(rho.sum(dim=-1), w=w)
