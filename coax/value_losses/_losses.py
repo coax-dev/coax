@@ -258,11 +258,11 @@ def quantile_huber(y_true, y_pred, quantiles, w=None, delta=1.0):
     y_pred = y_pred[..., None]
     y_true = y_true[..., None, :]
     quantiles = quantiles[..., None]
-    td_error = jnp.abs(y_pred - y_true)
-    err_clipped = jnp.minimum(td_error, delta)
-    elementwise_huber_loss = 0.5 * jnp.square(err_clipped) + delta * (td_error - err_clipped)
+    td_error = y_true - y_pred
+    td_error_abs = jnp.abs(td_error)
+    err_clipped = jnp.minimum(td_error_abs, delta)
+    elementwise_huber_loss = 0.5 * jnp.square(err_clipped) + delta * (td_error_abs - err_clipped)
     elementwise_quantile_huber_loss = jnp.abs(
-        quantiles - (td_error < 0) * elementwise_huber_loss / delta
-    )
+        quantiles - (td_error < 0)) * elementwise_huber_loss / delta
     quantile_huber_loss = elementwise_quantile_huber_loss.sum(axis=-1)
     return _mean_with_weights(quantile_huber_loss, w=w)

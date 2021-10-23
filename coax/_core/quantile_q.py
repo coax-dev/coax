@@ -81,7 +81,8 @@ class QuantileQ(Q):
         S = self.observation_preprocessor(self.rng, s)
         if quantiles is None:
             batch_size = jax.tree_leaves(S)[0].shape[0]
-            quantiles = jax.random.uniform(self.rng, shape=(batch_size, self.num_quantiles))
+            rngs = hk.PRNGSequence(self.rng)
+            quantiles = QuantileQ.sample_quantiles(self.num_quantiles, batch_size, next(rngs))
         if a is None:
             Q, _ = self.function_type4(self.params, self.function_state,
                                        self.rng, S, quantiles, False)
@@ -91,6 +92,56 @@ class QuantileQ(Q):
                                        self.rng, S, A, quantiles, False)
         Q = self.value_transform.inverse_func(Q)
         return onp.asarray(Q[0].mean(axis=-1))
+
+    @property
+    def function_type1(self):
+        r"""
+
+        Same as :attr:`function`, except that it ensures a type-1 function signature, regardless of
+        the underlying :attr:`modeltype`.
+
+        """
+        if self.modeltype == 1:
+            return self.function
+
+        assert isinstance(self.action_space, Discrete)
+
+        def q1_func(q2_params, q2_state, rng, S, A, is_training):
+            batch_size = jax.tree_leaves(S)[0].shape[0]
+            rngs = hk.PRNGSequence(rng)
+            quantiles = jax.random.uniform(next(rngs), shape=(batch_size, self.num_quantiles))
+            Q_Quantiles_sa, state_new = self.function_type3(
+                q2_params, q2_state, rng, S, A, quantiles, is_training)
+            Q_sa = Q_Quantiles_sa.mean(axis=-1)
+            return Q_sa, state_new
+
+        return q1_func
+
+    @property
+    def function_type2(self):
+        r"""
+
+        Same as :attr:`function`, except that it ensures a type-2 function signature, regardless of
+        the underlying :attr:`modeltype`.
+
+        """
+        if self.modeltype == 2:
+            return self.function
+
+        if not isinstance(self.action_space, Discrete):
+            raise ValueError(
+                "input 'A' is required for type-1 q-function when action space is non-Discrete")
+
+        def q2_func(q1_params, q1_state, rng, S, is_training):
+            batch_size = jax.tree_leaves(S)[0].shape[0]
+            rngs = hk.PRNGSequence(rng)
+            quantiles = jax.random.uniform(next(rngs), shape=(batch_size, self.num_quantiles))
+            Q_Quantiles_s, state_new = self.function_type4(q1_params, q1_state, rng, S,
+                                                           quantiles, is_training)
+            Q_s = Q_Quantiles_s.mean(axis=-1)
+            return Q_s, state_new
+
+        return q2_func
 
     @property
     def function_type3(self):
