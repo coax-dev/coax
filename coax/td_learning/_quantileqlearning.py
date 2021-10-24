@@ -26,7 +26,6 @@ import chex
 from gym.spaces import Discrete
 import jax
 
-from ..utils import is_stochastic
 from ._base import BaseTDLearningQuantileQWithTargetPolicy
 
 

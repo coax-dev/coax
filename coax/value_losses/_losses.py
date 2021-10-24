@@ -210,16 +210,16 @@ def _mean_with_weights(loss, w):
 def quantile_huber(y_true, y_pred, quantiles, w=None, delta=1.0):
     r"""
 
-    `Quantile Huber Regression <XXX>`_ loss function.
+    `Quantile Huber <https://arxiv.org/abs/1806.06923>`_ loss function.
 
     .. math::
 
-        L\ =\ \left\{\begin{matrix}
-                (\hat{y} - y)^2
-                    &\quad:\ |\hat{y} - y|\leq\delta \\
-                \delta\,|\hat{y} - y| - \frac{\delta^2}{2}
-                    &\quad:\ |\hat{y} - y| > \delta
-            \end{matrix}\right.
+        \rho^\kappa_\tau(\delta_{ij}) &= |\tau - \mathbb{I}{\{ \delta_{ij} < 0 \}}| \
+            \frac{\mathcal{L}_\kappa(\delta_{ij})}{\kappa},\ \quad \text{with}\\
+        \mathcal{L}_\kappa(\delta_{ij}) &= \begin{cases}
+            \frac{1}{2} \delta_{ij}^2,\quad \ &\text{if } |\delta_{ij}| \le \kappa\\
+            \kappa (|\delta_{ij}| - \frac{1}{2}\kappa),\quad \ &\text{otherwise}
+        \end{cases}
 
     .. image:: /_static/img/quantile_huber.svg
         :alt: Quantile Huber Regression loss
