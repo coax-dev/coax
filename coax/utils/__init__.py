@@ -131,6 +131,7 @@ from ._misc import (
     render_episode,
 )
 from ._segment_tree import SegmentTree, SumTree, MinTree, MaxTree
+from ._quantile_funcs import quantile_func_iqn, quantile_func_qrdqn
 
 
 __all__ = (
@@ -175,6 +176,8 @@ __all__ = (
     'merge_dicts',
     'pretty_print',
     'pretty_repr',
+    'quantile_func_iqn',
+    'quantile_func_qrdqn',
     'reload_recursive',
     'render_episode',
     'safe_sample',

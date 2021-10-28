@@ -24,7 +24,6 @@ import warnings
 import haiku as hk
 import chex
 from gym.spaces import Discrete
-import jax
 
 from ._base import BaseTDLearningQuantileQWithTargetPolicy
 
@@ -52,16 +51,13 @@ class QuantileQLearning(BaseTDLearningQuantileQWithTargetPolicy):
         if isinstance(self.q.action_space, Discrete):
             params, state = target_params['q_targ'], target_state['q_targ']
             S_next = self.q_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
-            batch_size = jax.tree_leaves(S_next)[0].shape[0]
-            quantiles = self.q.sample_quantiles(
-                num_quantiles=self.q.num_quantiles, batch_size=batch_size, random_seed=next(rngs))
+            quantiles = self.q.quantile_func(S=S_next, rng=next(rngs), is_training=False)
 
             Q_Quantiles_s, _ = self.q_targ.function_type4(
                 params, state, next(rngs), S_next, quantiles, False)
 
             chex.assert_rank(Q_Quantiles_s, 3)
             assert Q_Quantiles_s.shape[1] == self.q_targ.action_space.n
-            assert Q_Quantiles_s.shape[2] == self.q_targ.num_quantiles
 
             Q_s = Q_Quantiles_s.mean(axis=-1)
 
@@ -79,9 +75,7 @@ class QuantileQLearning(BaseTDLearningQuantileQWithTargetPolicy):
         # evaluate on q (instead of q_targ)
         params, state = target_params['q'], target_state['q']
         S_next = self.q_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
-        batch_size = jax.tree_leaves(S_next)[0].shape[0]
-        quantiles = self.q.sample_quantiles(
-            num_quantiles=self.q.num_quantiles, batch_size=batch_size, random_seed=next(rngs))
+        quantiles = self.q.quantile_func(S=S_next, rng=next(rngs), is_training=False)
 
         Q_Quantiles_sa_next, _ = self.q.function_type3(
             params, state, next(rngs), S_next, A_next, quantiles, False)

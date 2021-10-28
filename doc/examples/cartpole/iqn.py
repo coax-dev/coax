@@ -48,7 +48,7 @@ def func(S, quantiles, is_training):
 
 
 # value function and its derived policy
-q = coax.QuantileQ(func, env, num_quantiles=32)
+q = coax.QuantileQ(func, env, quantile_func=coax.utils.quantile_func_iqn)
 pi = coax.BoltzmannPolicy(q)
 
 # target network

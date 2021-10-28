@@ -573,9 +573,7 @@ class BaseTDLearningQuantileQ(BaseTDLearningQ):
                     target_params['reg'], target_params['reg_hparams'], target_state['reg'],
                     next(rngs), transition_batch)
 
-            batch_size = jax.tree_leaves(S)[0].shape[0]
-            quantiles = q.sample_quantiles(
-                num_quantiles=q.num_quantiles, batch_size=batch_size, random_seed=next(rngs))
+            quantiles = q.quantile_func(S=S, rng=next(rngs), is_training=True)
             Q_Quantiles, state_new = self.q.function_type3(params, state, next(rngs),
                                                            S, A, quantiles, True)
             G = self.target_func(target_params, target_state, next(rngs), transition_batch)

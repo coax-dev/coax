@@ -19,6 +19,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
+import math
 import jax
 import jax.numpy as jnp
 import numpy as onp
@@ -100,19 +101,23 @@ class TestQuantileQ(TestCase):
         func = self.func_q_type3
         q = QuantileQ(func, env, random_seed=42)
         n = env.action_space.n  # num_actions
+        quantiles = jnp.array([0.25, 0.5, 0.75])
 
-        def q3_func(params, state, rng, S, A, is_training):
+        def q3_func(params, state, rng, S, A, quantiles, is_training):
             A = jnp.argmax(A, axis=1)
-            return jnp.array([encode(s, a) for s, a in zip(S, A)]), state
+            return jnp.array([
+                [encode(s, a, q) for s, a in zip(S, A)] for q in quantiles
+            ]).T, state
 
-        def encode(s, a):
-            return 2 ** a + 2 ** (s + n)
+        def encode(s, a, q):
+            return q + 2 ** a + 2 ** (s + n)
 
         def decode(i):
-            b = onp.array(list(bin(i)))[::-1]
+            q = i - math.floor(i)
+            b = onp.array(list(bin(int(i))))[::-1]
             a = onp.argwhere(b[:n] == '1').item()
             s = onp.argwhere(b[n:] == '1').item()
-            return s, a
+            return s, a, q
 
         q._function = q3_func
         rng = jax.random.PRNGKey(0)
@@ -120,13 +125,16 @@ class TestQuantileQ(TestCase):
         state = ()
         is_training = True
 
-        S = jnp.array([5, 7, 11, 13, 17, 19, 23])
-        encoded_rows, _ = q.function_type2(params, state, rng, S, is_training)
+        S = jnp.array([5, 7, 11, 13, 17])
+
+        encoded_rows, _ = q.function_type4(params, state, rng, S, quantiles, is_training)
         for s, encoded_row in zip(S, encoded_rows):
             for a, x in enumerate(encoded_row):
-                s_, a_ = decode(x)
-                self.assertEqual(s_, s)
-                self.assertEqual(a_, a)
+                for quantile, qs in zip(quantiles, x):
+                    s_, a_, q_ = decode(qs)
+                    self.assertEqual(s_, s)
+                    self.assertEqual(a_, a)
+                    self.assertEqual(q_, quantile)
 
     def test_apply_q4_as_q3(self):
         env = self.env_discrete
@@ -134,9 +142,11 @@ class TestQuantileQ(TestCase):
         q = QuantileQ(func, env, random_seed=42)
         n = env.action_space.n  # num_actions
 
-        def q4_func(params, state, rng, S, is_training):
+        def q4_func(params, state, rng, S, quantiles, is_training):
             batch_size = jax.tree_leaves(S)[0].shape[0]
-            return jnp.tile(jnp.arange(n), reps=(batch_size, 1)), state
+            num_quantiles = jax.tree_leaves(quantiles)[0].shape[-1]
+            return jnp.tile(jnp.arange(n)[None, :, None],
+                            reps=(batch_size, 1, num_quantiles)), state
 
         q._function = q4_func
         rng = jax.random.PRNGKey(0)
@@ -147,7 +157,10 @@ class TestQuantileQ(TestCase):
         S = jnp.array([5, 7, 11, 13, 17, 19, 23])
         A = jnp.array([2, 0, 1, 1, 0, 1, 2])
         A_onehot = q.action_preprocessor(q.rng, A)
-        Q_sa, _ = q.function_type1(params, state, rng, S, A_onehot, is_training)
+        quantiles = jnp.array([0.0, 0.25, 0.5, 0.75, 1.0])
+        Q_Quantiles_sa, _ = q.function_type3(params, state, rng, S, A_onehot,
+                                             quantiles, is_training)
+        Q_sa = Q_Quantiles_sa.mean(axis=-1)
         self.assertArrayAlmostEqual(Q_sa, A)
 
     def test_soft_update(self):
@@ -198,7 +211,7 @@ class TestQuantileQ(TestCase):
         def badfunc(S, A, quantiles, is_training):
             Q = self.func_q_type3(S, A, quantiles, is_training)
             return jnp.expand_dims(Q, axis=-1)
-        msg = r"func has bad return shape, expected: \(1, 8\), got: \(1, 8, 1\)"
+        msg = r"func has bad return shape, expected: \(1, 32\), got: \(1, 32, 1\)"
         with self.assertRaisesRegex(TypeError, msg):
             QuantileQ(badfunc, env)
 
@@ -208,7 +221,7 @@ class TestQuantileQ(TestCase):
         def badfunc(S, quantiles, is_training):
             Q = self.func_q_type4(S, quantiles, is_training)
             return Q[:, :2]
-        msg = r"func has bad return shape, expected: \(1, 3, 8\), got: \(1, 2, 8\)"
+        msg = r"func has bad return shape, expected: \(1, 3, 32\), got: \(1, 2, 32\)"
         with self.assertRaisesRegex(TypeError, msg):
             QuantileQ(badfunc, env)
 
