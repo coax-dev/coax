@@ -48,15 +48,22 @@ class StochasticQ(BaseStochasticFuncType1):
 
         The gym-style environment. This is used to validate the input/output structure of ``func``.
 
-    value_range : tuple of floats
+    value_range : tuple of floats, optional
 
-        A pair of floats :code:`(min_value, max_value)`.
+        A pair of floats :code:`(min_value, max_value)`. If no `value_range` is given, `num_bins`
+        is the number of bins of the quantile function as in
+        `IQN <https://arxiv.org/abs/1806.06923>` or `QR-DQN <https://arxiv.org/abs/1710.10044>`.
 
     num_bins : int, optional
 
-        The space of rewards is discretized in :code:`num_bins` equal sized bins. We use the default
-        setting of 51 as suggested in the `Distributional RL <https://arxiv.org/abs/1707.06887>`_
-        paper.
+        If `value_range` is given: The space of rewards is discretized in :code:`num_bins` equal
+        sized bins. We use the default setting of 51 as suggested in the
+        `Distributional RL <https://arxiv.org/abs/1707.06887>`_paper.
+
+        Else: The number of fractions of the quantile function of the rewards is defined by
+        :code:`num_bins` as in `IQN <https://arxiv.org/abs/1806.06923>` or
+        `QR-DQN <https://arxiv.org/abs/1710.10044>`.
+
 
     observation_preprocessor : function, optional
 
@@ -91,12 +98,12 @@ class StochasticQ(BaseStochasticFuncType1):
     """
 
     def __init__(
-            self, func, env, proba_dist_hparams=dict(num_bins=51, value_range=[-10, 10]),
+            self, func, env, value_range=None, num_bins=51,
             observation_preprocessor=None, action_preprocessor=None, value_transform=None,
             random_seed=None):
 
         self.value_transform = value_transform
-        proba_dist = self._get_proba_dist(value_transform, proba_dist_hparams)
+        proba_dist = self._get_proba_dist(value_transform, num_bins, value_range)
 
         # set defaults
         if observation_preprocessor is None:
@@ -254,18 +261,15 @@ class StochasticQ(BaseStochasticFuncType1):
         return super().dist_params(s, a=a)
 
     @staticmethod
-    def _get_proba_dist(value_transform, proba_dist_hparams):
-        if 'num_bins' in proba_dist_hparams and 'value_range' in proba_dist_hparams:
-            value_range = proba_dist_hparams['value_range']
+    def _get_proba_dist(value_transform, num_bins, value_range):
+        if value_range is not None:
             if value_transform is not None:
                 f, _ = value_transform
                 value_range = f(value_range[0]), f(value_range[1])
             reward_space = Box(*value_range, shape=())
-            return DiscretizedIntervalDist(reward_space, proba_dist_hparams['num_bins'])
-        elif 'num_quantiles' in proba_dist_hparams:
-            return EmpiricalQuantileDist(proba_dist_hparams['num_quantiles'])
+            return DiscretizedIntervalDist(reward_space, num_bins)
         else:
-            raise TypeError(f"Received invalid proba_dist_hparams: {proba_dist_hparams}")
+            return EmpiricalQuantileDist(num_quantiles=num_bins)
 
     @staticmethod
     def _check_value_range(value_range):
