@@ -37,9 +37,7 @@ from ..proba_dists import DiscretizedIntervalDist, EmpiricalQuantileDist
 __all__ = (
     'BaseTDLearningV',
     'BaseTDLearningQ',
-    'BaseTDLearningQWithTargetPolicy',
-    'BaseTDLearningQuantileQ',
-    'BaseTDLearningQuantileQWithTargetPolicy'
+    'BaseTDLearningQWithTargetPolicy'
 )
 
 
@@ -525,109 +523,6 @@ class BaseTDLearningQ(BaseTDLearning):
 
 
 class BaseTDLearningQWithTargetPolicy(BaseTDLearningQ):
-    def __init__(
-            self, q, pi_targ, q_targ=None, optimizer=None,
-            loss_function=None, policy_regularizer=None):
-
-        if pi_targ is not None and not is_policy(pi_targ):
-            raise TypeError(f"pi_targ must be a Policy, got: {type(pi_targ)}")
-
-        self.pi_targ = pi_targ
-        super().__init__(
-            q=q,
-            q_targ=q_targ,
-            optimizer=optimizer,
-            loss_function=loss_function,
-            policy_regularizer=policy_regularizer)
-
-    @property
-    def target_params(self):
-        return hk.data_structures.to_immutable_dict({
-            'q': self.q.params,
-            'q_targ': self.q_targ.params,
-            'pi_targ': getattr(self.pi_targ, 'params', None),
-            'reg': getattr(getattr(self.policy_regularizer, 'f', None), 'params', None),
-            'reg_hparams': getattr(self.policy_regularizer, 'hyperparams', None)})
-
-    @property
-    def target_function_state(self):
-        return hk.data_structures.to_immutable_dict({
-            'q': self.q.function_state,
-            'q_targ': self.q_targ.function_state,
-            'pi_targ': getattr(self.pi_targ, 'function_state', None),
-            'reg':
-                getattr(getattr(self.policy_regularizer, 'f', None), 'function_state', None)})
-
-
-class BaseTDLearningQuantileQ(BaseTDLearningQ):
-    def __init__(self, q, q_targ=None, optimizer=None, loss_function=None, policy_regularizer=None):
-        loss_function = quantile_huber if loss_function is None else loss_function
-        super().__init__(q=q, q_targ=q_targ, optimizer=optimizer,
-                         loss_function=loss_function, policy_regularizer=policy_regularizer)
-
-        def loss_func(params, target_params, state, target_state, rng, transition_batch):
-            rngs = hk.PRNGSequence(rng)
-            S = self.q.observation_preprocessor(next(rngs), transition_batch.S)
-            A = self.q.action_preprocessor(next(rngs), transition_batch.A)
-            W = jnp.clip(transition_batch.W, 0.1, 10.)  # clip importance weights to reduce variance
-
-            # regularization term
-            if self.policy_regularizer is None:
-                regularizer = 0.
-            else:
-                # flip sign (typical example: regularizer = -beta * entropy)
-                regularizer = -self.policy_regularizer.batch_eval(
-                    target_params['reg'], target_params['reg_hparams'], target_state['reg'],
-                    next(rngs), transition_batch)
-
-            quantiles = q.quantile_func(S=S, rng=next(rngs), is_training=True)
-            Q_Quantiles, state_new = self.q.function_type3(params, state, next(rngs),
-                                                           S, A, quantiles, True)
-            G = self.target_func(target_params, target_state, next(rngs), transition_batch)
-            G += regularizer
-            loss = self.loss_function(G, Q_Quantiles, quantiles, W)
-
-            # only needed for metrics dict
-            Q_Quantiles_targ, _ = self.q.function_type3(
-                target_params['q_targ'], target_state['q_targ'], next(rngs), S, A, quantiles, False)
-
-            chex.assert_equal_shape([G, Q_Quantiles, Q_Quantiles_targ])
-            chex.assert_rank([G, Q_Quantiles, Q_Quantiles_targ], 2)
-            dLoss_dQ = jax.grad(self.loss_function, argnums=1)
-            # e.g. (G - Q) if loss function is MSE
-            td_error = -Q_Quantiles.shape[0] * dLoss_dQ(G, Q_Quantiles, quantiles)
-            td_error = td_error.mean(axis=-1)
-            chex.assert_equal_shape([td_error, W])
-            metrics = {
-                f'{self.__class__.__name__}/loss': loss,
-                f'{self.__class__.__name__}/td_error': jnp.mean(W * td_error),
-                f'{self.__class__.__name__}/td_error_targ':
-                    jnp.mean(-dLoss_dQ(Q_Quantiles, Q_Quantiles_targ, quantiles, W)),
-            }
-            return loss, (td_error, state_new, metrics)
-
-        def grads_and_metrics_func(
-                params, target_params, state, target_state, rng, transition_batch):
-
-            rngs = hk.PRNGSequence(rng)
-            grads, (td_error, state_new, metrics) = jax.grad(loss_func, has_aux=True)(
-                params, target_params, state, target_state, next(rngs), transition_batch)
-
-            # add some diagnostics about the gradients
-            metrics.update(get_grads_diagnostics(grads, f'{self.__class__.__name__}/grads_'))
-
-            return grads, state_new, metrics, td_error
-
-        def td_error_func(params, target_params, state, target_state, rng, transition_batch):
-            loss, (td_error, state_new, metrics) =\
-                loss_func(params, target_params, state, target_state, rng, transition_batch)
-            return td_error
-
-        self._grads_and_metrics_func = jit(grads_and_metrics_func)
-        self._td_error_func = jit(td_error_func)
-
-
-class BaseTDLearningQuantileQWithTargetPolicy(BaseTDLearningQuantileQ):
     def __init__(
             self, q, pi_targ, q_targ=None, optimizer=None,
             loss_function=None, policy_regularizer=None):
