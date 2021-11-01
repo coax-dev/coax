@@ -130,12 +130,12 @@ class StochasticQ(BaseStochasticFuncType1):
 
     @classmethod
     def example_data(
-            cls, env, value_range, proba_dist_hparams=dict(num_bins=51, value_range=[-10, 10]),
+            cls, env, value_range, num_bins=51,
             observation_preprocessor=None, action_preprocessor=None, value_transform=None,
             batch_size=1, random_seed=None):
 
         value_range = cls._check_value_range(value_range)
-        proba_dist = cls._get_proba_dist(value_transform, proba_dist_hparams)
+        proba_dist = cls._get_proba_dist(value_transform, num_bins, value_range)
 
         if observation_preprocessor is None:
             observation_preprocessor = default_preprocessor(env.observation_space)

@@ -38,7 +38,7 @@ def quantile_net(x, quantiles):
 
 
 def func(S, A, is_training):
-    """ type-2 q-function: s -> q(s,.) """
+    """ type-1 q-function: (s,a) -> q(s,a) """
     encoder = hk.Sequential((
         hk.Flatten(), hk.Linear(layer_size), jax.nn.relu
     ))
@@ -53,8 +53,8 @@ def func(S, A, is_training):
             'quantile_fractions': quantile_fractions}
 
 
-# value function and its derived policy
-q = coax.StochasticQ(func, env, proba_dist_hparams=dict(num_quantiles=num_quantiles))
+# quantile value function and its derived policy
+q = coax.StochasticQ(func, env, num_bins=num_quantiles, value_range=None)
 pi = coax.BoltzmannPolicy(q)
 
 # target network

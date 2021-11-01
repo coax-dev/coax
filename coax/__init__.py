@@ -57,7 +57,6 @@ __all__ = (
     # classes and functions
     'V',
     'Q',
-    'QuantileQ',
     'Policy',
     'Worker',
     'RewardFunction',
