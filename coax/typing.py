@@ -41,4 +41,5 @@ Quantiles = TypeVar('Quantiles')            # quantiles
 
 Policy = Callable[
     [Observation, bool],
-    Union[Action, Tuple[Action, LogPropensity], Quantiles, Tuple[Quantiles, Action]]]
+    Union[Action, Tuple[Action, LogPropensity], Tuple[Action, Quantiles]]
+]

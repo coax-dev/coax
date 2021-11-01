@@ -253,7 +253,7 @@ class BaseStochasticFuncType1(BaseFunc):
             output=dist_params_type1)
 
         if not isinstance(env.action_space, Discrete):
-            return ModelTypes(type1=data_type1, type2=None, type3=None, type4=None)
+            return ModelTypes(type1=data_type1, type2=None)
 
         # output: type2 (if actions are discrete)
         dist_params_type2 = jax.tree_map(
@@ -263,7 +263,7 @@ class BaseStochasticFuncType1(BaseFunc):
             inputs=Inputs(args=ArgsType2(S=S, is_training=True), static_argnums=(1,)),
             output=dist_params_type2)
 
-        return ModelTypes(type1=data_type1, type2=data_type2, type3=None, type4=None)
+        return ModelTypes(type1=data_type1, type2=data_type2)
 
     @property
     def sample_func_type1(self):

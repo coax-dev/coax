@@ -11,44 +11,50 @@ from optax import adam
 name = 'iqn'
 # the cart-pole MDP
 env = gym.make('CartPole-v0')
-env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
+env = coax.wrappers.TrainMonitor(
+    env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 quantile_embedding_dim = 32
 layer_size = 256
+num_quantiles = 32
 
 
-def func(S, quantiles, is_training):
-    """ type-2 q-function: s -> q(s,.) """
-    def quantile(x, quantiles):
-        x_size = x.shape[-1]
-        x_tiled = jnp.tile(x[:, None, :], [quantiles.shape[-1], 1])
-        quantile_net = jnp.tile(quantiles[..., None], [1, quantile_embedding_dim])
-        quantile_net = (
-            jnp.arange(1, quantile_embedding_dim + 1, 1)
-            * onp.pi
-            * quantile_net)
-        quantile_net = jnp.cos(quantile_net)
-        quantile_net = hk.Linear(x_size)(quantile_net)
-        quantile_net = hk.LayerNorm(axis=-1, create_scale=True,
-                                    create_offset=True)(quantile_net)
-        quantile_net = jax.nn.sigmoid(quantile_net)
-        x = x_tiled * quantile_net
-        x = hk.Linear(x_size)(x)
-        x = hk.LayerNorm(axis=-1, create_scale=True, create_offset=True)(x)
-        x = jax.nn.relu(x)
-        return x
-    encoder = hk.Sequential((
-        hk.Linear(layer_size), hk.LayerNorm(axis=-1, create_scale=True,
-                                            create_offset=True), jax.nn.relu
-    ))
-    x = encoder(S)
-    x = quantile(x, quantiles=quantiles)
-    x = hk.Linear(env.action_space.n, w_init=jnp.zeros)(x)
-    x = jnp.moveaxis(x, -1, -2)
+def quantile_net(x, quantiles):
+    x_size = x.shape[-1]
+    x_tiled = jnp.tile(x[:, None, :], [num_quantiles, 1])
+    quantile_net = jnp.tile(quantiles[..., None], [1, quantile_embedding_dim])
+    quantile_net = (
+        jnp.arange(1, quantile_embedding_dim + 1, 1)
+        * onp.pi
+        * quantile_net)
+    quantile_net = jnp.cos(quantile_net)
+    quantile_net = hk.Linear(x_size)(quantile_net)
+    quantile_net = hk.LayerNorm(axis=-1, create_scale=True,
+                                create_offset=True)(quantile_net)
+    quantile_net = jax.nn.sigmoid(quantile_net)
+    x = x_tiled * quantile_net
+    x = hk.Linear(x_size)(x)
+    x = jax.nn.relu(x)
     return x
 
 
+def func(S, A, is_training):
+    """ type-2 q-function: s -> q(s,.) """
+    encoder = hk.Sequential((
+        hk.Flatten(), hk.Linear(layer_size), jax.nn.relu
+    ))
+    quantile_fractions = coax.utils.quantile_func_iqn(S=S, rng=hk.next_rng_key(),
+                                                      is_training=is_training,
+                                                      num_quantiles=num_quantiles)
+    X = jax.vmap(jnp.kron)(S, A)
+    x = encoder(X)
+    quantile_x = quantile_net(x, quantiles=quantile_fractions)
+    quantile_values = hk.Linear(1, w_init=jnp.zeros)(quantile_x)
+    return {'values': quantile_values.squeeze(axis=-1),
+            'quantile_fractions': quantile_fractions}
+
+
 # value function and its derived policy
-q = coax.QuantileQ(func, env, quantile_func=coax.utils.quantile_func_iqn)
+q = coax.StochasticQ(func, env, proba_dist_hparams=dict(num_quantiles=num_quantiles))
 pi = coax.BoltzmannPolicy(q)
 
 # target network
@@ -59,7 +65,7 @@ tracer = coax.reward_tracing.NStep(n=1, gamma=0.9)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=100000)
 
 # updater
-qlearning = coax.td_learning.QuantileQLearning(q, q_targ=q_targ, optimizer=adam(0.0001))
+qlearning = coax.td_learning.QLearning(q, q_targ=q_targ, optimizer=adam(0.001))
 
 
 # train

@@ -63,7 +63,6 @@ from ._qlearning import QLearning
 from ._doubleqlearning import DoubleQLearning
 from ._softqlearning import SoftQLearning
 from ._clippeddoubleqlearning import ClippedDoubleQLearning
-from ._quantileqlearning import QuantileQLearning
 
 
 __all__ = (
@@ -73,6 +72,5 @@ __all__ = (
     'QLearning',
     'DoubleQLearning',
     'SoftQLearning',
-    'ClippedDoubleQLearning',
-    'QuantileQLearning'
+    'ClippedDoubleQLearning'
 )

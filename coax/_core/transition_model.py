@@ -275,7 +275,7 @@ class TransitionModel(BaseFunc):
             output=S_next_type1)
 
         if not isinstance(env.action_space, Discrete):
-            return ModelTypes(type1=q1_data, type2=None, type3=None, type4=None)
+            return ModelTypes(type1=q1_data, type2=None)
 
         # output: type2 (if actions are discrete)
         S_next_type2 = jax.tree_map(
@@ -284,7 +284,7 @@ class TransitionModel(BaseFunc):
             inputs=Inputs(args=ArgsType2(S=S, is_training=True), static_argnums=(1,)),
             output=S_next_type2)
 
-        return ModelTypes(type1=q1_data, type2=q2_data, type3=None, type4=None)
+        return ModelTypes(type1=q1_data, type2=q2_data)
 
     def _check_signature(self, func):
         sig_type1 = ('S', 'A', 'is_training')

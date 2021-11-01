@@ -22,7 +22,7 @@
 from gym.spaces import Box
 
 from ..utils import default_preprocessor
-from ..proba_dists import DiscretizedIntervalDist
+from ..proba_dists import DiscretizedIntervalDist, EmpiricalQuantileDist
 from ..value_transforms import ValueTransform
 from .base_stochastic_func_type1 import BaseStochasticFuncType1
 
@@ -89,13 +89,14 @@ class StochasticQ(BaseStochasticFuncType1):
         Seed for pseudo-random number generators.
 
     """
+
     def __init__(
-            self, func, env, value_range, num_bins=51, observation_preprocessor=None,
-            action_preprocessor=None, value_transform=None, random_seed=None):
+            self, func, env, proba_dist_hparams=dict(num_bins=51, value_range=[-10, 10]),
+            observation_preprocessor=None, action_preprocessor=None, value_transform=None,
+            random_seed=None):
 
         self.value_transform = value_transform
-        self.value_range = self._check_value_range(value_range)
-        proba_dist = self._get_proba_dist(self.value_range, value_transform, num_bins)
+        proba_dist = self._get_proba_dist(value_transform, proba_dist_hparams)
 
         # set defaults
         if observation_preprocessor is None:
@@ -122,11 +123,12 @@ class StochasticQ(BaseStochasticFuncType1):
 
     @classmethod
     def example_data(
-            cls, env, value_range, num_bins=51, observation_preprocessor=None,
-            action_preprocessor=None, value_transform=None, batch_size=1, random_seed=None):
+            cls, env, value_range, proba_dist_hparams=dict(num_bins=51, value_range=[-10, 10]),
+            observation_preprocessor=None, action_preprocessor=None, value_transform=None,
+            batch_size=1, random_seed=None):
 
         value_range = cls._check_value_range(value_range)
-        proba_dist = cls._get_proba_dist(value_range, value_transform, num_bins)
+        proba_dist = cls._get_proba_dist(value_transform, proba_dist_hparams)
 
         if observation_preprocessor is None:
             observation_preprocessor = default_preprocessor(env.observation_space)
@@ -252,12 +254,18 @@ class StochasticQ(BaseStochasticFuncType1):
         return super().dist_params(s, a=a)
 
     @staticmethod
-    def _get_proba_dist(value_range, value_transform, num_bins):
-        if value_transform is not None:
-            f, _ = value_transform
-            value_range = f(value_range[0]), f(value_range[1])
-        reward_space = Box(*value_range, shape=())
-        return DiscretizedIntervalDist(reward_space, num_bins)
+    def _get_proba_dist(value_transform, proba_dist_hparams):
+        if 'num_bins' in proba_dist_hparams and 'value_range' in proba_dist_hparams:
+            value_range = proba_dist_hparams['value_range']
+            if value_transform is not None:
+                f, _ = value_transform
+                value_range = f(value_range[0]), f(value_range[1])
+            reward_space = Box(*value_range, shape=())
+            return DiscretizedIntervalDist(reward_space, proba_dist_hparams['num_bins'])
+        elif 'num_quantiles' in proba_dist_hparams:
+            return EmpiricalQuantileDist(proba_dist_hparams['num_quantiles'])
+        else:
+            raise TypeError(f"Received invalid proba_dist_hparams: {proba_dist_hparams}")
 
     @staticmethod
     def _check_value_range(value_range):

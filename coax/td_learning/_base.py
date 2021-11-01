@@ -31,6 +31,7 @@ from .._base.mixins import RandomStateMixin
 from ..utils import get_grads_diagnostics, is_policy, is_stochastic, is_qfunction, is_vfunction, jit
 from ..value_losses import huber, quantile_huber
 from ..regularizers import Regularizer
+from ..proba_dists import DiscretizedIntervalDist, EmpiricalQuantileDist
 
 
 __all__ = (
@@ -419,11 +420,17 @@ class BaseTDLearningQ(BaseTDLearning):
                 dist_params_target = \
                     self.target_func(target_params, target_state, rng, transition_batch)
 
-                if self.policy_regularizer is not None:
-                    dist_params_target = self.q.proba_dist.affine_transform(
-                        dist_params_target, 1., regularizer, self.q.value_transform)
+                if isinstance(self.q.proba_dist, DiscretizedIntervalDist):
+                    if self.policy_regularizer is not None:
+                        dist_params_target = self.q.proba_dist.affine_transform(
+                            dist_params_target, 1., regularizer, self.q.value_transform)
 
-                loss = jnp.mean(self.q.proba_dist.cross_entropy(dist_params_target, dist_params))
+                    loss = jnp.mean(self.q.proba_dist.cross_entropy(dist_params_target,
+                                                                    dist_params))
+                elif isinstance(self.q.proba_dist, EmpiricalQuantileDist):
+                    loss = quantile_huber(dist_params_target['values'],
+                                          dist_params['values'],
+                                          dist_params['quantile_fractions'], W)
 
                 # the rest here is only needed for metrics dict
                 Q = self.q.proba_dist.mean(dist_params)

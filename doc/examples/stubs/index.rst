@@ -20,6 +20,7 @@ an agent.
     soft_qlearning
     dqn
     dqn_per
+    iqn
 
 
 .. toctree::

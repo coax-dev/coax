@@ -261,7 +261,7 @@ class Q(BaseFunc):
         )
 
         if not isinstance(env.action_space, Discrete):
-            return ModelTypes(type1=q1_data, type2=None, type3=None, type4=None)
+            return ModelTypes(type1=q1_data, type2=None)
 
         # output: type2 (if actions are discrete)
         q2_data = ExampleData(
@@ -269,7 +269,7 @@ class Q(BaseFunc):
             output=jnp.asarray(rnd.randn(batch_size, env.action_space.n)),
         )
 
-        return ModelTypes(type1=q1_data, type2=q2_data, type3=None, type4=None)
+        return ModelTypes(type1=q1_data, type2=q2_data)
 
     def _check_signature(self, func):
         sig_type1 = ('S', 'A', 'is_training')
