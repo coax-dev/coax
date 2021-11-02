@@ -30,6 +30,7 @@ Value Losses
     coax.value_losses.huber
     coax.value_losses.logloss
     coax.value_losses.logloss_sign
+    coax.value_losses.quantile_huber
 
 ----
 
@@ -44,6 +45,7 @@ Object Reference
 .. autofunction:: coax.value_losses.huber
 .. autofunction:: coax.value_losses.logloss
 .. autofunction:: coax.value_losses.logloss_sign
+.. autofunction:: coax.value_losses.quantile_huber
 
 """
 

@@ -214,6 +214,7 @@ def quantile_huber(y_true, y_pred, quantiles, w=None, delta=1.0):
 
     .. math::
 
+        \delta_{ij} &= y_j - \hat{y}_i\\
         \rho^\kappa_\tau(\delta_{ij}) &= |\tau - \mathbb{I}{\{ \delta_{ij} < 0 \}}| \
             \frac{\mathcal{L}_\kappa(\delta_{ij})}{\kappa},\ \quad \text{with}\\
         \mathcal{L}_\kappa(\delta_{ij}) &= \begin{cases}
@@ -221,24 +222,19 @@ def quantile_huber(y_true, y_pred, quantiles, w=None, delta=1.0):
             \kappa (|\delta_{ij}| - \frac{1}{2}\kappa),\quad \ &\text{otherwise}
         \end{cases}
 
-    .. image:: /_static/img/quantile_huber.svg
-        :alt: Quantile Huber Regression loss
-        :width: 320px
-        :align: center
-
     Parameters
     ----------
     y_true : ndarray
 
-        The target :math:`y\in\mathbb{R}`.
+        The target :math:`y\in\mathbb{R}^{2}`.
 
     y_pred : ndarray
 
-        The predicted output :math:`\hat{y}\in\mathbb{R}`.
+        The predicted output :math:`\hat{y}\in\mathbb{R}^{2}`.
 
     quantiles : ndarray
 
-        The quantiles of the prediction :math:`\tau\in\mathbb{R}`s.
+        The quantiles of the prediction :math:`\tau\in\mathbb{R}^{2}`.
 
     w : ndarray, optional
 
