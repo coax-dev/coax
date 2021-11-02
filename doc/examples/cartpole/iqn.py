@@ -18,19 +18,15 @@ layer_size = 256
 num_quantiles = 32
 
 
-def quantile_net(x, quantiles):
+def quantile_net(x, quantile_fractions):
     x_size = x.shape[-1]
     x_tiled = jnp.tile(x[:, None, :], [num_quantiles, 1])
-    quantile_net = jnp.tile(quantiles[..., None], [1, quantile_embedding_dim])
-    quantile_net = (
-        jnp.arange(1, quantile_embedding_dim + 1, 1)
-        * onp.pi
-        * quantile_net)
-    quantile_net = jnp.cos(quantile_net)
-    quantile_net = hk.Linear(x_size)(quantile_net)
-    quantile_net = hk.LayerNorm(axis=-1, create_scale=True,
-                                create_offset=True)(quantile_net)
-    quantile_net = jax.nn.sigmoid(quantile_net)
+    quantiles_emb = coax.utils.quantile_cos_embedding(
+        quantile_fractions, quantile_embedding_dim)
+    quantiles_emb = hk.Linear(x_size)(quantiles_emb)
+    quantiles_emb = hk.LayerNorm(axis=-1, create_scale=True,
+                                 create_offset=True)(quantiles_emb)
+    quantiles_emb = jax.nn.sigmoid(quantiles_emb)
     x = x_tiled * quantile_net
     x = hk.Linear(x_size)(x)
     x = jax.nn.relu(x)
@@ -42,12 +38,12 @@ def func(S, A, is_training):
     encoder = hk.Sequential((
         hk.Flatten(), hk.Linear(layer_size), jax.nn.relu
     ))
-    quantile_fractions = coax.utils.quantile_func_iqn(S=S, rng=hk.next_rng_key(),
-                                                      is_training=is_training,
-                                                      num_quantiles=num_quantiles)
+    quantile_fractions = coax.utils.quantiles(rng=hk.next_rng_key(),
+                                              batch_size=jax.tree_leaves(S)[0].shape[0],
+                                              num_quantiles=num_quantiles)
     X = jax.vmap(jnp.kron)(S, A)
     x = encoder(X)
-    quantile_x = quantile_net(x, quantiles=quantile_fractions)
+    quantile_x = quantile_net(x, quantile_fractions=quantile_fractions)
     quantile_values = hk.Linear(1, w_init=jnp.zeros)(quantile_x)
     return {'values': quantile_values.squeeze(axis=-1),
             'quantile_fractions': quantile_fractions}

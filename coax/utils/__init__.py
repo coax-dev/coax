@@ -73,6 +73,9 @@ Object Reference
     coax.utils.merge_dicts
     coax.utils.pretty_print
     coax.utils.pretty_repr
+    coax.utils.quantiles
+    coax.utils.quantiles_uniform
+    coax.utils.quantile_cos_embedding
     coax.utils.reload_recursive
     coax.utils.render_episode
     coax.utils.safe_sample
@@ -131,7 +134,7 @@ from ._misc import (
     render_episode,
 )
 from ._segment_tree import SegmentTree, SumTree, MinTree, MaxTree
-from ._quantile_funcs import quantile_func_iqn, quantile_func_qrdqn
+from ._quantile_funcs import quantiles, quantiles_uniform, quantile_cos_embedding
 
 
 __all__ = (
@@ -176,8 +179,9 @@ __all__ = (
     'merge_dicts',
     'pretty_print',
     'pretty_repr',
-    'quantile_func_iqn',
-    'quantile_func_qrdqn',
+    'quantiles',
+    'quantiles_uniform',
+    'quantile_cos_embedding',
     'reload_recursive',
     'render_episode',
     'safe_sample',
