@@ -1,4 +1,4 @@
-Pendulum with DDPG
+Pendulum with TD3
 ==================
 
 In this notebook we solve the `Pendulum <https://gym.openai.com/envs/Pendulum-v0/>`_ environment
