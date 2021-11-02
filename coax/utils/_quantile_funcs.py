@@ -1,4 +1,3 @@
-import chex
 import haiku as hk
 import jax
 import jax.numpy as jnp
@@ -56,10 +55,8 @@ def quantiles(batch_size, num_quantiles=200):
 
         Array of quantile fractions.
     """
-    quantile_fractions = [jnp.arange(num_quantiles, dtype=jnp.float32) /
-                          num_quantiles for _ in range(batch_size)]
-    quantile_fractions = jax.tree_multimap(
-        lambda *x: jnp.concatenate(x, axis=0), *quantile_fractions)
+    quantile_fractions = jnp.arange(num_quantiles, dtype=jnp.float32) / num_quantiles
+    quantile_fractions = jnp.tile(quantile_fractions[None, :], [batch_size, 1])
     return quantile_fractions
 
 
@@ -77,7 +74,7 @@ def quantile_cos_embedding(quantile_fractions, n=64):
     ----------
     quantile_fractions : ndarray
 
-        A 1D array of quantile fractions :math:`\tau` to be embedded.
+        Array of quantile fractions :math:`\tau` to be embedded.
 
     n : int
 
@@ -89,8 +86,8 @@ def quantile_cos_embedding(quantile_fractions, n=64):
 
         Array of quantile embeddings with shape `(quantile_fractions.shape[0], n)`.
     """
-    chex.assert_rank(quantile_fractions, 1)
-    quantile_fractions = jnp.tile(quantile_fractions[..., None], [1, n])
+    quantile_fractions = jnp.tile(quantile_fractions[..., None],
+                                  [1] * quantile_fractions.ndim + [n])
     quantiles_emb = (
         jnp.arange(1, n + 1, 1)
         * onp.pi

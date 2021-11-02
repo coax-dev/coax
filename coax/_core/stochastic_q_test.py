@@ -28,7 +28,7 @@ import haiku as hk
 from gym.spaces import Discrete, Box
 
 from .._base.test_case import TestCase
-from ..utils import safe_sample
+from ..utils import safe_sample, quantile_cos_embedding, quantiles, quantiles_uniform
 from .stochastic_q import StochasticQ
 
 
@@ -67,6 +67,53 @@ def func_type2(S, is_training):
     return {'logits': logits(S)}
 
 
+def quantile_net(x, quantile_fractions):
+    x_size = x.shape[-1]
+    x_tiled = jnp.tile(x[:, None, :], [num_bins, 1])
+    quantiles_emb = quantile_cos_embedding(quantile_fractions)
+    quantiles_emb = hk.Linear(x_size)(quantiles_emb)
+    quantiles_emb = hk.LayerNorm(axis=-1, create_scale=True,
+                                 create_offset=True)(quantiles_emb)
+    quantiles_emb = jax.nn.sigmoid(quantiles_emb)
+    x = x_tiled * quantiles_emb
+    x = hk.Linear(x_size)(x)
+    x = jax.nn.relu(x)
+    return x
+
+
+def func_quantile_type1(S, A, is_training):
+    """ type-1 q-function: (s,a) -> q(s,a) """
+    encoder = hk.Sequential((
+        hk.Flatten(), hk.Linear(8), jax.nn.relu
+    ))
+    quantile_fractions = quantiles(batch_size=jax.tree_leaves(S)[0].shape[0],
+                                   num_quantiles=num_bins)
+    X = jax.vmap(jnp.kron)(S, A)
+    x = encoder(X)
+    quantile_x = quantile_net(x, quantile_fractions=quantile_fractions)
+    quantile_values = hk.Linear(1)(quantile_x)
+    return {'values': quantile_values.squeeze(axis=-1),
+            'quantile_fractions': quantile_fractions}
+
+
+def func_quantile_type2(S, is_training):
+    """ type-1 q-function: (s,a) -> q(s,a) """
+    encoder = hk.Sequential((
+        hk.Flatten(), hk.Linear(8), jax.nn.relu
+    ))
+    quantile_fractions = quantiles_uniform(rng=hk.next_rng_key(),
+                                           batch_size=jax.tree_leaves(S)[0].shape[0],
+                                           num_quantiles=num_bins)
+    x = encoder(S)
+    quantile_x = quantile_net(x, quantile_fractions=quantile_fractions)
+    quantile_values = hk.Sequential((
+        hk.Linear(discrete.n),
+        hk.Reshape((discrete.n, num_bins))
+    ))(quantile_x)
+    return {'values': quantile_values,
+            'quantile_fractions': quantile_fractions[:, None, :].tile([1, discrete.n, 1])}
+
+
 class TestStochasticQ(TestCase):
     def test_init(self):
 
@@ -81,6 +128,11 @@ class TestStochasticQ(TestCase):
         StochasticQ(func_type1, Env(boxspace, boxspace), (-10, 10), num_bins=num_bins)
         StochasticQ(func_type2, Env(discrete, discrete), (-10, 10), num_bins=num_bins)
         StochasticQ(func_type2, Env(boxspace, discrete), (-10, 10), num_bins=num_bins)
+        StochasticQ(func_quantile_type1, Env(discrete, discrete), num_bins=num_bins)
+        StochasticQ(func_quantile_type1, Env(discrete, boxspace), num_bins=num_bins)
+        StochasticQ(func_quantile_type1, Env(boxspace, boxspace), num_bins=num_bins)
+        StochasticQ(func_quantile_type2, Env(discrete, discrete), num_bins=num_bins)
+        StochasticQ(func_quantile_type2, Env(boxspace, discrete), num_bins=num_bins)
 
     # test_call_* ##################################################################################
 

@@ -27,7 +27,7 @@ def quantile_net(x, quantile_fractions):
     quantiles_emb = hk.LayerNorm(axis=-1, create_scale=True,
                                  create_offset=True)(quantiles_emb)
     quantiles_emb = jax.nn.sigmoid(quantiles_emb)
-    x = x_tiled * quantile_net
+    x = x_tiled * quantiles_emb
     x = hk.Linear(x_size)(x)
     x = jax.nn.relu(x)
     return x
@@ -38,7 +38,7 @@ def func(S, A, is_training):
     encoder = hk.Sequential((
         hk.Flatten(), hk.Linear(layer_size), jax.nn.relu
     ))
-    quantile_fractions = coax.utils.quantiles(rng=hk.next_rng_key(),
+    quantile_fractions = coax.utils.quantiles_uniform(rng=hk.next_rng_key(),
                                               batch_size=jax.tree_leaves(S)[0].shape[0],
                                               num_quantiles=num_quantiles)
     X = jax.vmap(jnp.kron)(S, A)
