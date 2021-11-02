@@ -72,5 +72,5 @@ __all__ = (
     'QLearning',
     'DoubleQLearning',
     'SoftQLearning',
-    'ClippedDoubleQLearning',
+    'ClippedDoubleQLearning'
 )

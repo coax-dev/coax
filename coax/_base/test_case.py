@@ -230,7 +230,7 @@ class TestCase(unittest.TestCase):
         return func
 
     @property
-    def func_q_tochastic_type1(self):
+    def func_q_stochastic_type1(self):
         def func(S, A, is_training):
             flatten = hk.Flatten()
             batch_norm = hk.BatchNorm(create_scale=True, create_offset=True, decay_rate=0.95)
@@ -247,7 +247,7 @@ class TestCase(unittest.TestCase):
         return func
 
     @property
-    def func_q_tochastic_type2(self):
+    def func_q_stochastic_type2(self):
         def func(S, is_training):
             flatten = hk.Flatten()
             batch_norm = hk.BatchNorm(create_scale=True, create_offset=True, decay_rate=0.95)

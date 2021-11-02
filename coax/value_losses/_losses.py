@@ -205,3 +205,60 @@ def _mean_with_weights(loss, w):
         assert loss.shape[0] == w.shape[0]
         loss = jax.vmap(jnp.multiply)(w, loss)
     return jnp.mean(loss)
+
+
+def quantile_huber(y_true, y_pred, quantiles, w=None, delta=1.0):
+    r"""
+
+    `Quantile Huber <https://arxiv.org/abs/1806.06923>`_ loss function.
+
+    .. math::
+
+        \delta_{ij} &= y_j - \hat{y}_i\\
+        \rho^\kappa_\tau(\delta_{ij}) &= |\tau - \mathbb{I}{\{ \delta_{ij} < 0 \}}| \
+            \frac{\mathcal{L}_\kappa(\delta_{ij})}{\kappa},\ \quad \text{with}\\
+        \mathcal{L}_\kappa(\delta_{ij}) &= \begin{cases}
+            \frac{1}{2} \delta_{ij}^2,\quad \ &\text{if } |\delta_{ij}| \le \kappa\\
+            \kappa (|\delta_{ij}| - \frac{1}{2}\kappa),\quad \ &\text{otherwise}
+        \end{cases}
+
+    Parameters
+    ----------
+    y_true : ndarray
+
+        The target :math:`y\in\mathbb{R}^{2}`.
+
+    y_pred : ndarray
+
+        The predicted output :math:`\hat{y}\in\mathbb{R}^{2}`.
+
+    quantiles : ndarray
+
+        The quantiles of the prediction :math:`\tau\in\mathbb{R}^{2}`.
+
+    w : ndarray, optional
+
+        Sample weights.
+
+    delta : float, optional
+
+        The scale of the quadratic-to-linear transition.
+
+    Returns
+    -------
+    loss : scalar ndarray
+
+        The loss averaged over the batch.
+
+    """
+    y_pred = y_pred[..., None]
+    y_true = y_true[..., None, :]
+    quantiles = quantiles[..., None]
+    td_error = y_true - y_pred
+    td_error_abs = jnp.abs(td_error)
+    err_clipped = jnp.minimum(td_error_abs, delta)
+    elementwise_huber_loss = 0.5 * jnp.square(err_clipped) + delta * (td_error_abs - err_clipped)
+    elementwise_quantile_huber_loss = jnp.abs(
+        quantiles - (td_error < 0)) * elementwise_huber_loss / delta
+    quantile_huber_loss = elementwise_quantile_huber_loss.sum(axis=-1)
+    return _mean_with_weights(quantile_huber_loss, w=w)

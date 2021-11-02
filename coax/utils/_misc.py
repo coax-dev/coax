@@ -656,7 +656,8 @@ def is_stochastic(obj):
     from .._core.stochastic_reward_function import StochasticRewardFunction
     from .._core.stochastic_transition_model import StochasticTransitionModel
     return isinstance(obj, (
-        Policy, StochasticV, StochasticQ, StochasticRewardFunction, StochasticTransitionModel))
+        Policy, StochasticV, StochasticQ, StochasticRewardFunction,
+        StochasticTransitionModel))
 
 
 def is_policy(obj):

@@ -30,6 +30,7 @@ Value Losses
     coax.value_losses.huber
     coax.value_losses.logloss
     coax.value_losses.logloss_sign
+    coax.value_losses.quantile_huber
 
 ----
 
@@ -44,10 +45,11 @@ Object Reference
 .. autofunction:: coax.value_losses.huber
 .. autofunction:: coax.value_losses.logloss
 .. autofunction:: coax.value_losses.logloss_sign
+.. autofunction:: coax.value_losses.quantile_huber
 
 """
 
-from ._losses import mse, huber, logloss, logloss_sign
+from ._losses import mse, huber, logloss, logloss_sign, quantile_huber
 
 
 __all__ = (
@@ -55,4 +57,5 @@ __all__ = (
     'huber',
     'logloss',
     'logloss_sign',
+    'quantile_huber'
 )
