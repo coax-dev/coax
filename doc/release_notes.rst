@@ -1,6 +1,15 @@
 Release Notes
 =============
 
+v0.1.8
+------
+
+Implemented stochastic q-learning using quantile regression in :class:`coax.StochasticQ`, see example: :doc:`IQN <examples/cartpole/iqn>`
+
+- Use :func:`coax.utils.quantiles` for equally spaced quantile fractions as in QR-DQN.
+- Use :func:`coax.utils.quantiles_uniform` for uniformly sampled quantile fractions as in IQN.
+
+
 
 v0.1.7
 ------
