@@ -13,7 +13,7 @@ is the :class:`coax.utils.quantiles_uniform` function.
 
 ----
 
-:download:`dqn.py`
+:download:`iqn.py`
 
 .. image:: https://colab.research.google.com/assets/colab-badge.svg
     :alt: Open in Google Colab
