@@ -29,6 +29,10 @@ from ._deterministic_pg import DeterministicPG
 class SoftPG(DeterministicPG):
 
     def objective_func(self, params, state, hyperparams, rng, transition_batch, Adv):
+        """
+        This does almost the same as `DeterministicPG.objective_func` except that
+        the action for the state is sampled instead of taking the mode.
+        """
         rngs = hk.PRNGSequence(rng)
 
         # get distribution params from function approximator

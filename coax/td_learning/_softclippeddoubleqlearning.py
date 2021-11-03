@@ -29,6 +29,10 @@ from ._clippeddoubleqlearning import ClippedDoubleQLearning
 class SoftClippedDoubleQLearning(ClippedDoubleQLearning):
 
     def target_func(self, target_params, target_state, rng, transition_batch):
+        """
+        This does almost the same as `ClippedDoubleQLearning.target_func` except that
+        the action for the next state is sampled instead of taking the mode.
+        """
         rngs = hk.PRNGSequence(rng)
 
         # collect list of q-values
