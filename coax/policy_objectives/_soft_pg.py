@@ -19,47 +19,39 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-r"""
-Policy Objectives
-=================
+import jax.numpy as jnp
+import haiku as hk
+import chex
 
-.. autosummary::
-    :nosignatures:
-
-    coax.policy_objectives.VanillaPG
-    coax.policy_objectives.PPOClip
-    coax.policy_objectives.DeterministicPG
-    coax.policy_objectives.SoftPG
-
-
-----
-
-This is a collection of policy objectives that can be used in policy-gradient
-methods.
-
-
-Object Reference
-----------------
-
-.. autoclass:: coax.policy_objectives.VanillaPG
-.. autoclass:: coax.policy_objectives.PPOClip
-.. autoclass:: coax.policy_objectives.DeterministicPG
-.. autoclass:: coax.policy_objectives.SoftPG
-
-"""
-
-from ._base import PolicyObjective
-from ._vanilla_pg import VanillaPG
-from ._ppo_clip import PPOClip
 from ._deterministic_pg import DeterministicPG
-from ._soft_pg import SoftPG
 
 
-__all__ = (
-    'PolicyObjective',
-    'VanillaPG',
-    # 'CrossEntropy',  # TODO
-    'PPOClip',
-    'DeterministicPG',
-    'SoftPG'
-)
+class SoftPG(DeterministicPG):
+
+    def objective_func(self, params, state, hyperparams, rng, transition_batch, Adv):
+        """
+        This does almost the same as `DeterministicPG.objective_func` except that
+        the action for the state is sampled instead of taking the mode.
+        """
+        rngs = hk.PRNGSequence(rng)
+
+        # get distribution params from function approximator
+        S = self.pi.observation_preprocessor(next(rngs), transition_batch.S)
+        dist_params, state_new = self.pi.function(params, state, next(rngs), S, True)
+        A = self.pi.proba_dist.sample(dist_params, next(rngs))
+        log_pi = self.pi.proba_dist.log_proba(dist_params, A)
+
+        # compute objective: q(s, a)
+        S = self.q_targ.observation_preprocessor(next(rngs), transition_batch.S)
+        params_q, state_q = hyperparams['q']['params'], hyperparams['q']['function_state']
+        Q, _ = self.q_targ.function_type1(params_q, state_q, next(rngs), S, A, True)
+
+        # clip importance weights to reduce variance
+        W = jnp.clip(transition_batch.W, 0.1, 10.)
+
+        # the objective
+        chex.assert_equal_shape([W, Q])
+        chex.assert_rank([W, Q], 1)
+        objective = W * Q
+
+        return jnp.mean(objective), (dist_params, log_pi, state_new)
