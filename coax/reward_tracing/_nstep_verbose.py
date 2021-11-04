@@ -19,67 +19,55 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-r"""
-Reward Tracing
-==============
+from itertools import islice
+import jax.numpy as jnp
 
-.. autosummary::
-    :nosignatures:
-
-    coax.reward_tracing.NStep
-    coax.reward_tracing.MonteCarlo
-    coax.reward_tracing.TransitionBatch
-
-----
-
-The term **reward tracing** refers to the process of turning raw experience into
-:class:`TransitionBatch <coax.reward_tracing.TransitionBatch>` objects. These
-:class:`TransitionBatch <coax.reward_tracing.TransitionBatch>` objects are then used to learn, i.e.
-to update our function approximators.
-
-Reward tracing typically entails keeping some episodic cache in order to relate a state :math:`S_t`
-or state-action pair :math:`(S_t, A_t)` to a collection of objects that can be used to construct a
-target (feedback signal):
-
-.. math::
-
-    \left(R^{(n)}_t, I^{(n)}_t, S_{t+n}, A_{t+n}\right)
-
-where
-
-.. math::
-
-    R^{(n)}_t\ &=\ \sum_{k=0}^{n-1}\gamma^kR_{t+k} \\
-    I^{(n)}_t\ &=\ \left\{\begin{matrix}
-        0           & \text{if $S_{t+n}$ is a terminal state} \\
-        \gamma^n    & \text{otherwise}
-    \end{matrix}\right.
-
-For example, in :math:`n`-step SARSA target is constructed as:
-
-.. math::
-
-    G^{(n)}_t\ =\ R^{(n)}_t + I^{(n)}_t\,q(S_{t+n}, A_{t+n})
-
-
-
-Object Reference
-----------------
-
-.. autoclass:: coax.reward_tracing.NStep
-.. autoclass:: coax.reward_tracing.MonteCarlo
-.. autoclass:: coax.reward_tracing.TransitionBatch
-
-"""
-
-from ._transition import TransitionBatch
-from ._montecarlo import MonteCarlo
+from .._base.errors import InsufficientCacheError
 from ._nstep import NStep
-from ._nstep_verbose import NStepVerbose
+from ._transition import TransitionBatch
 
 __all__ = (
-    'TransitionBatch',
-    'MonteCarlo',
     'NStep',
-    'NStepVerbose'
 )
+
+
+class NStepVerbose(NStep):
+
+    def pop(self):
+        if not self:
+            raise InsufficientCacheError(
+                "cache needs to receive more transitions before it can be popped from")
+
+        # pop state-action (propensities) pair
+        s, a, logp, w = self._deque_s.popleft()
+
+        # n-step partial return
+        zipped = zip(self._gammas, self._deque_r)
+        rn = sum(x * r for x, r in islice(zipped, self.n))
+        self._deque_r.popleft()
+
+        states = [s]
+        dones = [False]
+        i = 0
+        while i < self.n and i < len(self):
+            s_next, *_ = self._deque_s[i]
+            states.append(s_next)
+            dones.append(False)
+            i += 1
+        while len(states) != self.n + 1:
+            states.append(s)
+            dones.append(True)
+        assert len(states) == self.n + 1
+
+        # keep in mind that we've already popped (s, a, logp)
+        if len(self) >= self.n:
+            s_next, a_next, logp_next, _ = self._deque_s[self.n - 1]
+            done = False
+        else:
+            # no more bootstrapping
+            s_next, a_next, logp_next, done = s, a, logp, True
+
+        return TransitionBatch.from_single(
+            s=s, a=a, logp=logp, r=rn, done=done, gamma=self._gamman,
+            s_next=s_next, a_next=a_next, logp_next=logp_next, w=w,
+            extra_info={'states': tuple(states), 'dones': tuple(dones)})

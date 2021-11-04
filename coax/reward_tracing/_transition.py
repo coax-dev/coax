@@ -99,9 +99,11 @@ class TransitionBatch(CopyMixin):
         :class:`PrioritizedReplayBuffer <coax.experience_replay.PrioritizedReplayBuffer>`.
 
     """
-    __slots__ = ('S', 'A', 'logP', 'Rn', 'In', 'S_next', 'A_next', 'logP_next', 'W', 'idx')
+    __slots__ = ('S', 'A', 'logP', 'Rn', 'In', 'S_next',
+                 'A_next', 'logP_next', 'W', 'idx', 'extra_info')
 
-    def __init__(self, S, A, logP, Rn, In, S_next, A_next=None, logP_next=None, W=None, idx=None):
+    def __init__(self, S, A, logP, Rn, In, S_next, A_next=None, logP_next=None, W=None, idx=None,
+                 extra_info=None):
 
         self.S = S
         self.A = A
@@ -113,12 +115,12 @@ class TransitionBatch(CopyMixin):
         self.logP_next = logP_next
         self.W = onp.ones_like(Rn) if W is None else W
         self.idx = onp.arange(Rn.shape[0], dtype='int32') if idx is None else idx
+        self.extra_info = extra_info
 
     @classmethod
     def from_single(
             cls, s, a, logp, r, done, gamma,
-            s_next=None, a_next=None, logp_next=None, w=1, idx=None):
-
+            s_next=None, a_next=None, logp_next=None, w=1, idx=None, extra_info=None):
         r"""
 
         Create a TransitionBatch (with batch_size=1) from a single transition.
@@ -198,6 +200,7 @@ class TransitionBatch(CopyMixin):
             logP_next=_single_to_batch(logp_next) if logp_next is not None else None,
             W=_single_to_batch(float(w)),
             idx=_single_to_batch(idx) if idx is not None else None,
+            extra_info=_single_to_batch(extra_info) if extra_info is not None else None
         )
 
     @property

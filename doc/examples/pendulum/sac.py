@@ -20,11 +20,11 @@ def func_pi(S, is_training):
         hk.Linear(8), jax.nn.relu,
         hk.Linear(8), jax.nn.relu,
         hk.Linear(8), jax.nn.relu,
-        hk.Linear(2 * prod(env.action_space.shape), w_init=jnp.zeros),
-        hk.Reshape((2, *env.action_space.shape)),
+        hk.Linear(prod(env.action_space.shape) * 2, w_init=jnp.zeros),
+        hk.Reshape((*env.action_space.shape, 2)),
     ))
     x = seq(S)
-    mu, logvar = x[:, 0], x[:, 1]
+    mu, logvar = x[..., 0], x[..., 1]
     return {'mu': mu, 'logvar': logvar}
 
 
@@ -44,13 +44,12 @@ pi = coax.Policy(func_pi, env)
 q1 = coax.Q(func_q, env, action_preprocessor=pi.proba_dist.preprocess_variate)
 q2 = coax.Q(func_q, env, action_preprocessor=pi.proba_dist.preprocess_variate)
 
-
 # target network
 q1_targ = q1.copy()
 q2_targ = q2.copy()
 
 # experience tracer
-tracer = coax.reward_tracing.NStep(n=5, gamma=0.9)
+tracer = coax.reward_tracing.NStepVerbose(n=3, gamma=0.9)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=25000)
 
 
@@ -62,7 +61,8 @@ qlearning2 = coax.td_learning.SoftClippedDoubleQLearning(
     q2, pi_targ_list=[pi], q_targ_list=[q1_targ, q2_targ],
     loss_function=coax.value_losses.mse, optimizer=optax.adam(1e-3))
 soft_pg = coax.policy_objectives.SoftPG(pi, q1_targ, optimizer=optax.adam(
-    1e-3), regularizer=coax.regularizers.EntropyRegularizer(pi, beta=0.2))
+    1e-3), regularizer=coax.regularizers.NStepEntropyRegularizer(pi, n=tracer.n, beta=0.2,
+                                                                 gamma=tracer.gamma))
 
 
 # train

@@ -19,67 +19,33 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.          #
 # ------------------------------------------------------------------------------------------------ #
 
-r"""
-Reward Tracing
-==============
+import jax.numpy as jnp
 
-.. autosummary::
-    :nosignatures:
-
-    coax.reward_tracing.NStep
-    coax.reward_tracing.MonteCarlo
-    coax.reward_tracing.TransitionBatch
-
-----
-
-The term **reward tracing** refers to the process of turning raw experience into
-:class:`TransitionBatch <coax.reward_tracing.TransitionBatch>` objects. These
-:class:`TransitionBatch <coax.reward_tracing.TransitionBatch>` objects are then used to learn, i.e.
-to update our function approximators.
-
-Reward tracing typically entails keeping some episodic cache in order to relate a state :math:`S_t`
-or state-action pair :math:`(S_t, A_t)` to a collection of objects that can be used to construct a
-target (feedback signal):
-
-.. math::
-
-    \left(R^{(n)}_t, I^{(n)}_t, S_{t+n}, A_{t+n}\right)
-
-where
-
-.. math::
-
-    R^{(n)}_t\ &=\ \sum_{k=0}^{n-1}\gamma^kR_{t+k} \\
-    I^{(n)}_t\ &=\ \left\{\begin{matrix}
-        0           & \text{if $S_{t+n}$ is a terminal state} \\
-        \gamma^n    & \text{otherwise}
-    \end{matrix}\right.
-
-For example, in :math:`n`-step SARSA target is constructed as:
-
-.. math::
-
-    G^{(n)}_t\ =\ R^{(n)}_t + I^{(n)}_t\,q(S_{t+n}, A_{t+n})
+from ..utils import jit
+from ._entropy import EntropyRegularizer
 
 
+class NStepEntropyRegularizer(EntropyRegularizer):
 
-Object Reference
-----------------
+    def __init__(self, f, n, beta=0.001, gamma=0.99):
+        super().__init__(f)
+        self.n = n
+        self.beta = beta
+        self.gamma = gamma
+        self._gammas = jnp.power(self.gamma, jnp.arange(self.n))
 
-.. autoclass:: coax.reward_tracing.NStep
-.. autoclass:: coax.reward_tracing.MonteCarlo
-.. autoclass:: coax.reward_tracing.TransitionBatch
+        def function(dist_params, beta):
+            assert len(dist_params) == 2
+            entropy = sum([gamma * self.f.proba_dist.entropy(p) * (1 - d)
+                           for i, (p, d, gamma) in enumerate(zip(*dist_params, self._gammas))])
+            return -beta * entropy
 
-"""
+        def metrics(dist_params, beta):
+            entropy = sum([gamma * self.f.proba_dist.entropy(p) * (1 - d)
+                           for i, (p, d, gamma) in enumerate(zip(*dist_params, self._gammas))])
+            return {
+                'EntropyRegularizer/beta': beta,
+                'EntropyRegularizer/entropy': jnp.mean(entropy)}
 
-from ._transition import TransitionBatch
-from ._montecarlo import MonteCarlo
-from ._nstep import NStep
-from ._nstep_verbose import NStepVerbose
-
-__all__ = (
-    'TransitionBatch',
-    'MonteCarlo',
-    'NStep',
-    'NStepVerbose'
-)
+        self._function = jit(function)
+        self._metrics_func = jit(metrics)

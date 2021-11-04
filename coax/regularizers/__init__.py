@@ -47,10 +47,12 @@ Object Reference
 from ._entropy import Regularizer
 from ._entropy import EntropyRegularizer
 from ._kl_div import KLDivRegularizer
+from ._nstep_entropy import NStepEntropyRegularizer
 
 
 __all__ = (
     'Regularizer',
     'EntropyRegularizer',
     'KLDivRegularizer',
+    'NStepEntropyRegularizer'
 )
