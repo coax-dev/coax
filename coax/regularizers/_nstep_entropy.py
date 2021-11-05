@@ -34,18 +34,39 @@ class NStepEntropyRegularizer(EntropyRegularizer):
         self.gamma = gamma
         self._gammas = jnp.power(self.gamma, jnp.arange(self.n))
 
+        def entropy(dist_params, dones):
+            valid = self.valid_from_done(dones)
+            return sum([gamma * self.f.proba_dist.entropy(p) * v
+                        for p, v, gamma in zip(dist_params, valid, self._gammas)])
+
         def function(dist_params, beta):
             assert len(dist_params) == 2
-            entropy = sum([gamma * self.f.proba_dist.entropy(p) * (1 - d)
-                           for i, (p, d, gamma) in enumerate(zip(*dist_params, self._gammas))])
-            return -beta * entropy
+            return -beta * entropy(*dist_params)
 
         def metrics(dist_params, beta):
-            entropy = sum([gamma * self.f.proba_dist.entropy(p) * (1 - d)
-                           for i, (p, d, gamma) in enumerate(zip(*dist_params, self._gammas))])
+            assert len(dist_params) == 2
             return {
                 'EntropyRegularizer/beta': beta,
-                'EntropyRegularizer/entropy': jnp.mean(entropy)}
+                'EntropyRegularizer/entropy': jnp.mean(entropy(*dist_params))}
 
         self._function = jit(function)
         self._metrics_func = jit(metrics)
+
+    def valid_from_done(self, dones):
+        """
+        Generates a mask that filters all time steps after a done signal has been reached.
+
+        Parameters
+        ----------
+        dones : ndarray
+
+            Array of boolean entries indicating whether the episode has ended.
+
+        Returns
+        -------
+        valid : ndarray
+
+            Mask that filters all entries after a done=True has been reached.
+        """
+        valid = jnp.ones_like(dones, dtype=jnp.float32)
+        return valid.at[1:].set(1 - jnp.clip(jnp.cumsum(dones[:-1], axis=0), a_max=1))

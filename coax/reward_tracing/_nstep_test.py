@@ -258,3 +258,16 @@ class TestNStep:
 
         with pytest.raises(InsufficientCacheError):
             cache.flush()
+
+    def test_extra_info(self):
+        cache = NStep(self.n, gamma=self.gamma, record_extra_info=True)
+        for i, (s, a, r, done) in enumerate(self.episode, 1):
+            cache.add(s, a, r, done)
+            assert len(cache) == i
+            if i <= self.n:
+                assert not cache
+            if i > self.n:
+                assert cache
+
+        transitions = cache.flush()
+        assert type(transitions.extra_info) == dict

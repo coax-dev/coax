@@ -12,7 +12,7 @@ name = 'sac'
 
 # the Pendulum MDP
 env = gym.make('Pendulum-v1')
-env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
+env = coax.wrappers.TrainMonitor(env, name=name)
 
 
 def func_pi(S, is_training):
@@ -49,7 +49,7 @@ q1_targ = q1.copy()
 q2_targ = q2.copy()
 
 # experience tracer
-tracer = coax.reward_tracing.NStepVerbose(n=3, gamma=0.9)
+tracer = coax.reward_tracing.NStep(n=3, gamma=0.9, record_extra_info=True)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=25000)
 
 

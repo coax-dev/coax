@@ -75,11 +75,9 @@ Object Reference
 from ._transition import TransitionBatch
 from ._montecarlo import MonteCarlo
 from ._nstep import NStep
-from ._nstep_verbose import NStepVerbose
 
 __all__ = (
     'TransitionBatch',
     'MonteCarlo',
     'NStep',
-    'NStepVerbose'
 )
