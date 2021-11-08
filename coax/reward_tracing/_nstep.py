@@ -48,10 +48,16 @@ class NStep(BaseRewardTracer):
 
         The amount by which to discount future rewards.
 
+    record_extra_info : bool, optional
+
+        Store all states, actions and rewards in the `extra_info` field
+        of the `TransitionBatch`, e.g. for :code:`coax.regularizers.NStepEntropyRegularizer`.
     """
-    def __init__(self, n, gamma):
+
+    def __init__(self, n, gamma, record_extra_info=False):
         self.n = int(n)
         self.gamma = float(gamma)
+        self.record_extra_info = record_extra_info
         self.reset()
 
     def reset(self):
@@ -87,7 +93,7 @@ class NStep(BaseRewardTracer):
         # n-step partial return
         zipped = zip(self._gammas, self._deque_r)
         rn = sum(x * r for x, r in islice(zipped, self.n))
-        self._deque_r.popleft()
+        r = self._deque_r.popleft()
 
         # keep in mind that we've already popped (s, a, logp)
         if len(self) >= self.n:
@@ -97,6 +103,45 @@ class NStep(BaseRewardTracer):
             # no more bootstrapping
             s_next, a_next, logp_next, done = s, a, logp, True
 
+        extra_info = self._extra_info(
+            s, a, r, len(self) == 0, logp, w) if self.record_extra_info else None
+
         return TransitionBatch.from_single(
             s=s, a=a, logp=logp, r=rn, done=done, gamma=self._gamman,
-            s_next=s_next, a_next=a_next, logp_next=logp_next, w=w)
+            s_next=s_next, a_next=a_next, logp_next=logp_next, w=w, extra_info=extra_info)
+
+    def _extra_info(self, s, a, r, done, logp, w):
+        last_s = s
+        last_a = a
+        last_r = r
+        last_done = done
+        last_logp = logp
+        last_w = w
+        states = []
+        actions = []
+        rewards = []
+        dones = []
+        log_props = []
+        weights = []
+        for i in range(self.n + 1):
+            states.append(last_s)
+            actions.append(last_a)
+            rewards.append(last_r)
+            dones.append(last_done)
+            log_props.append(last_logp)
+            weights.append(last_w)
+            if i < len(self._deque_s):
+                last_s, last_a, last_logp, last_w = self._deque_s[i]
+                last_r = self._deque_r[i]
+                if done or (i == len(self._deque_s) - 1 and self._done):
+                    last_done = True
+                else:
+                    last_done = False
+            else:
+                last_done = True
+        assert len(states) == len(actions) == len(
+            rewards) == len(dones) == len(log_props) == len(weights) == self.n + 1
+        extra_info = {'states': states, 'actions': actions,
+                      'rewards': rewards, 'dones': dones,
+                      'log_props': log_props, 'weights': weights}
+        return {k: tuple(v) for k, v in extra_info.items()}

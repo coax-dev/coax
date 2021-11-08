@@ -258,3 +258,36 @@ class TestNStep:
 
         with pytest.raises(InsufficientCacheError):
             cache.flush()
+
+    def test_extra_info(self):
+        cache = NStep(self.n, gamma=self.gamma, record_extra_info=True)
+        for i, (s, a, r, done) in enumerate(self.episode, 1):
+            cache.add(s, a, r, done)
+            assert len(cache) == i
+            if i <= self.n:
+                assert not cache
+            if i > self.n:
+                assert cache
+
+        transitions = cache.flush()
+        assert type(transitions.extra_info) == dict
+        states = jnp.stack(transitions.extra_info['states'])
+        actions = jnp.stack(transitions.extra_info['actions'])
+        assert_array_almost_equal(states[0], transitions.S)
+        assert_array_almost_equal(actions[0], transitions.A)
+
+    def test_extra_info_dones(self):
+        cache = NStep(self.n, gamma=self.gamma, record_extra_info=True)
+        for i, (s, a, r, done) in enumerate(self.episode, 1):
+            if i == self.n + 2:
+                cache.add(s, a, r, True)
+                break
+            else:
+                cache.add(s, a, r, False)
+
+        assert cache
+        transitions = cache.flush()
+        assert type(transitions.extra_info) == dict
+        dones = jnp.stack(transitions.extra_info['dones'])
+        for i in range(self.n + 2):
+            assert (dones[:, i] == True).sum() == i

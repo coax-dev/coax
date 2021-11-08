@@ -11,7 +11,7 @@ import optax
 name = 'td3'
 
 # the Pendulum MDP
-env = gym.make('Pendulum-v0')
+env = gym.make('Pendulum-v1')
 env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 
 
