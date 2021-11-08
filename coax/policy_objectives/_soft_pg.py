@@ -55,8 +55,8 @@ class SoftPG(DeterministicPG):
         chex.assert_rank([W, Q], 1)
         objective = W * Q
 
-        if type(self.regularizer) == NStepEntropyRegularizer:
-            if type(transition_batch.extra_info) != dict:
+        if isinstance(self.regularizer, NStepEntropyRegularizer):
+            if not isinstance(transition_batch.extra_info, dict):
                 raise TypeError(
                     'TransitionBatch.extra_info has to be a dict containing "states" and "dones"' +
                     ' for the n-step entropy regularization. Make sure to set the' +
