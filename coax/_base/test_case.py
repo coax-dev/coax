@@ -137,6 +137,7 @@ class TestCase(unittest.TestCase):
                 safe_sample(self.env_discrete.action_space, seed=(self.seed * i * 13))
                 for i in range(1, 12)], axis=0),
             logP_next=onp.log(onp.random.RandomState(17).rand(11)),
+            extra_info=None
         )
 
     @property
@@ -160,6 +161,7 @@ class TestCase(unittest.TestCase):
                 safe_sample(self.env_boxspace.action_space, seed=(self.seed * i * 13))
                 for i in range(1, 12)], axis=0),
             logP_next=onp.log(onp.random.RandomState(17).rand(11)),
+            extra_info=None
         )
 
     @property

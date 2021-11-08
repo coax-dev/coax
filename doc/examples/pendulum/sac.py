@@ -61,7 +61,7 @@ qlearning2 = coax.td_learning.SoftClippedDoubleQLearning(
     q2, pi_targ_list=[pi], q_targ_list=[q1_targ, q2_targ],
     loss_function=coax.value_losses.mse, optimizer=optax.adam(1e-3))
 soft_pg = coax.policy_objectives.SoftPG(pi, q1_targ, optimizer=optax.adam(
-    1e-3), regularizer=coax.regularizers.NStepEntropyRegularizer(pi, n=tracer.n, beta=0.2,
+    1e-3), regularizer=coax.regularizers.NStepEntropyRegularizer(pi, n=tracer.n, beta=0.1,
                                                                  gamma=tracer.gamma))
 
 

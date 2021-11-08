@@ -271,3 +271,7 @@ class TestNStep:
 
         transitions = cache.flush()
         assert type(transitions.extra_info) == dict
+        states = jnp.stack(transitions.extra_info['states'])
+        actions = jnp.stack(transitions.extra_info['actions'])
+        assert_array_almost_equal(states[0], transitions.S)
+        assert_array_almost_equal(actions[0], transitions.A)

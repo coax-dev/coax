@@ -54,6 +54,11 @@ class SoftPG(DeterministicPG):
         chex.assert_rank([W, Q], 1)
         objective = W * Q
 
+        if type(transition_batch.extra_info) != dict:
+            raise TypeError(
+                'TransitionBatch.extra_info has to be a dict containing "states" and "dones" for' +
+                ' the n-step entropy regularization. Make sure to set the record_extra_info flag' +
+                ' in the NStep tracer.')
         dist_params, _ = zip(*[self.pi.function(params, state, next(rngs),
                                                 self.pi.observation_preprocessor(
             next(rngs), s_next), True)

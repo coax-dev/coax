@@ -103,14 +103,14 @@ class NStep(BaseRewardTracer):
             # no more bootstrapping
             s_next, a_next, logp_next, done = s, a, logp, True
 
-        extra_info = self._pop_extra_info(
+        extra_info = self._extra_info(
             s, a, r, done, logp, w) if self.record_extra_info else None
 
         return TransitionBatch.from_single(
             s=s, a=a, logp=logp, r=rn, done=done, gamma=self._gamman,
             s_next=s_next, a_next=a_next, logp_next=logp_next, w=w, extra_info=extra_info)
 
-    def _pop_extra_info(self, s, a, r, done, logp, w):
+    def _extra_info(self, s, a, r, done, logp, w):
         last_s = s
         last_a = a
         last_r = r
@@ -130,10 +130,13 @@ class NStep(BaseRewardTracer):
             dones.append(last_done)
             log_props.append(last_logp)
             weights.append(last_w)
-            if not done and i < len(self._deque_s):
+            if i < len(self._deque_s):
                 last_s, last_a, last_logp, last_w = self._deque_s[i]
                 last_r = self._deque_r[i]
-                last_done = False
+                if done or (i == len(self._deque_s) - 1 and self._done):
+                    last_done = True
+                else:
+                    last_done = False
             else:
                 last_done = True
         assert len(states) == len(actions) == len(
