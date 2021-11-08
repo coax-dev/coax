@@ -12,7 +12,7 @@ name = 'sac'
 
 # the Pendulum MDP
 env = gym.make('Pendulum-v1')
-env = coax.wrappers.TrainMonitor(env, name=name)
+env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 
 
 def func_pi(S, is_training):
@@ -49,7 +49,7 @@ q1_targ = q1.copy()
 q2_targ = q2.copy()
 
 # experience tracer
-tracer = coax.reward_tracing.NStep(n=3, gamma=0.9, record_extra_info=True)
+tracer = coax.reward_tracing.NStep(n=5, gamma=0.9, record_extra_info=True)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=25000)
 
 
@@ -61,7 +61,8 @@ qlearning2 = coax.td_learning.SoftClippedDoubleQLearning(
     q2, pi_targ_list=[pi], q_targ_list=[q1_targ, q2_targ],
     loss_function=coax.value_losses.mse, optimizer=optax.adam(1e-3))
 soft_pg = coax.policy_objectives.SoftPG(pi, q1_targ, optimizer=optax.adam(
-    1e-3), regularizer=coax.regularizers.NStepEntropyRegularizer(pi, n=tracer.n, beta=0.1,
+    1e-3), regularizer=coax.regularizers.NStepEntropyRegularizer(pi, n=tracer.n,
+                                                                 beta=0.2 / tracer.n,
                                                                  gamma=tracer.gamma))
 
 

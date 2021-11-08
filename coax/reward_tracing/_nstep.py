@@ -104,7 +104,7 @@ class NStep(BaseRewardTracer):
             s_next, a_next, logp_next, done = s, a, logp, True
 
         extra_info = self._extra_info(
-            s, a, r, done, logp, w) if self.record_extra_info else None
+            s, a, r, len(self) == 0, logp, w) if self.record_extra_info else None
 
         return TransitionBatch.from_single(
             s=s, a=a, logp=logp, r=rn, done=done, gamma=self._gamman,

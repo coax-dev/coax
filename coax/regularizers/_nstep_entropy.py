@@ -34,20 +34,26 @@ class NStepEntropyRegularizer(EntropyRegularizer):
         self.gamma = gamma
         self._gammas = jnp.power(self.gamma, jnp.arange(self.n))
 
-        def entropy(dist_params, dones):
-            valid = self.valid_from_done(dones)
+        def entropy(dist_params, valid):
             return sum([gamma * self.f.proba_dist.entropy(p) * v
                         for p, v, gamma in zip(dist_params, valid, self._gammas)])
 
         def function(dist_params, beta):
             assert len(dist_params) == 2
-            return -beta * entropy(*dist_params)
+            params, dones = dist_params
+            valid = self.valid_from_done(dones)
+            return -beta * entropy(params, valid)
 
         def metrics(dist_params, beta):
             assert len(dist_params) == 2
+            params, dones = dist_params
+            valid = self.valid_from_done(dones)
             return {
                 'EntropyRegularizer/beta': beta,
-                'EntropyRegularizer/entropy': jnp.mean(entropy(*dist_params))}
+                'EntropyRegularizer/entropy': jnp.mean(entropy(params, valid) /
+                                                       sum([v for v, _ in zip(valid, self._gammas)])
+                                                       )
+            }
 
         self._function = jit(function)
         self._metrics_func = jit(metrics)
