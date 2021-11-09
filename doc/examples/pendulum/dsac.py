@@ -53,7 +53,7 @@ q1_targ = q1.copy()
 q2_targ = q2.copy()
 
 # experience tracer
-tracer = coax.reward_tracing.NStep(n=5, gamma=0.9)
+tracer = coax.reward_tracing.NStep(n=5, gamma=0.9, record_extra_info=True)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=25000)
 
 
@@ -65,7 +65,8 @@ qlearning2 = coax.td_learning.SoftClippedDoubleQLearning(
     q2, pi_targ_list=[pi], q_targ_list=[q1_targ, q2_targ],
     loss_function=coax.value_losses.mse, optimizer=optax.adam(1e-3))
 soft_pg = coax.policy_objectives.SoftPG(pi, q1_targ, optimizer=optax.adam(
-    1e-3), regularizer=coax.regularizers.EntropyRegularizer(pi, beta=0.2))
+    1e-3), regularizer=coax.regularizers.NStepEntropyRegularizer(pi, beta=0.2 / tracer.n,
+                                                                 gamma=tracer.gamma, n=tracer.n))
 
 
 # train
@@ -82,7 +83,7 @@ while env.T < 1000000:
             buffer.add(tracer.pop())
 
         # learn
-        if len(buffer) >= 200:
+        if len(buffer) >= 5000:
             transition_batch = buffer.sample(batch_size=128)
 
             # init metrics dict
@@ -93,7 +94,7 @@ while env.T < 1000000:
             metrics.update(qlearning.update(transition_batch))
 
             # delayed policy updates
-            if True or env.T >= 7500 and env.T % 4 == 0:
+            if env.T >= 7500 and env.T % 4 == 0:
                 metrics.update(soft_pg.update(transition_batch))
 
             env.record_metrics(metrics)
