@@ -258,5 +258,6 @@ class ClippedDoubleQLearning(DoubleQLearning):
             if not is_qfunction(q_targ):
                 raise TypeError(
                     f"all q_targ in q_targ_list must be q-functions, got: {type(q_targ)}")
-        chex.assert_trees_all_equal_shapes(*[q_targ.params for q_targ in q_targ_list])
-        chex.assert_trees_all_equal_shapes(*[q_targ.function_state for q_targ in q_targ_list])
+        if len(q_targ_list) > 1:
+            chex.assert_trees_all_equal_shapes(*[q_targ.params for q_targ in q_targ_list])
+            chex.assert_trees_all_equal_shapes(*[q_targ.function_state for q_targ in q_targ_list])
