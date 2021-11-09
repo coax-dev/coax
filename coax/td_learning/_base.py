@@ -525,12 +525,13 @@ class BaseTDLearningQ(BaseTDLearning):
 class BaseTDLearningQWithTargetPolicy(BaseTDLearningQ):
     def __init__(
             self, q, pi_targ, q_targ=None, optimizer=None,
-            loss_function=None, policy_regularizer=None):
+            loss_function=None, policy_regularizer=None, greedy_pi_targ=True):
 
         if pi_targ is not None and not is_policy(pi_targ):
             raise TypeError(f"pi_targ must be a Policy, got: {type(pi_targ)}")
 
         self.pi_targ = pi_targ
+        self.greedy_pi_targ = greedy_pi_targ
         super().__init__(
             q=q,
             q_targ=q_targ,
