@@ -25,7 +25,7 @@ import jax.numpy as jnp
 import haiku as hk
 import chex
 
-from ..utils import check_preprocessors
+from ..utils import check_preprocessors, is_qfunction
 from .._core.q import Q
 from ._base import PolicyObjective
 
@@ -82,7 +82,7 @@ class DeterministicPG(PolicyObjective):
     REQUIRES_PROPENSITIES = False
 
     def __init__(self, pi, q_targ, optimizer=None, regularizer=None):
-        if not isinstance(q_targ, Q):
+        if not is_qfunction(q_targ):
             raise TypeError(f"q must be a q-function, got: {type(q_targ)}")
         if q_targ.modeltype != 1:
             raise TypeError("q must be a type-1 q-function")
