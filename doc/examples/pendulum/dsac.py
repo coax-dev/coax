@@ -30,7 +30,10 @@ def func_pi(S, is_training):
 
 
 def func_q(S, A, is_training):
-    logits = hk.Sequential((hk.Flatten(), hk.Linear(num_bins, w_init=jnp.zeros)))
+    logits = hk.Sequential((hk.Linear(8), jax.nn.relu,
+                            hk.Linear(8), jax.nn.relu,
+                            hk.Linear(8), jax.nn.relu,
+                            hk.Flatten(), hk.Linear(num_bins, w_init=jnp.zeros)))
     X = jax.vmap(jnp.kron)(S, A)  # S and A are one-hot encoded
     return {'logits': logits(X)}
 
@@ -90,7 +93,7 @@ while env.T < 1000000:
             metrics.update(qlearning.update(transition_batch))
 
             # delayed policy updates
-            if env.T >= 7500 and env.T % 4 == 0:
+            if True or env.T >= 7500 and env.T % 4 == 0:
                 metrics.update(soft_pg.update(transition_batch))
 
             env.record_metrics(metrics)
