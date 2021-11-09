@@ -164,48 +164,86 @@ class ClippedDoubleQLearning(DoubleQLearning):
             assert Q_sa_targets.ndim == 2
             return jnp.argmin(Q_sa_targets, axis=0)
 
+        self._super_grads_and_metrics_func = self._grads_and_metrics_func
+        self._super_td_error_func = self._td_error_func
+
         def grads_and_metrics_func(
                 params, target_params, state, target_state, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
             q_targ_argmin = q_targ_pi_argmin(
                 target_params, target_state, next(rngs), transition_batch)
 
-            def apply_params(q_targ_idx, transition):
-                return self._grads_and_metrics_func(params, target_params[q_targ_idx],
-                                                    state, target_state[q_targ_idx],
-                                                    next(rngs), transition)
+            def apply_params(q_targ_idx, transition, p, s):
+                t_params = jax.tree_util.tree_map(lambda t: t[q_targ_idx], p[0])
+                t_state = jax.tree_util.tree_map(lambda t: t[q_targ_idx], s[0])
+                batched_transition = jax.tree_util.tree_map(lambda t: t[None, ...], transition)
+                return self._super_grads_and_metrics_func(params, t_params,
+                                                          state, t_state,
+                                                          next(rngs), batched_transition)
 
-            return jax.vmap(apply_params)(q_targ_idx=q_targ_argmin, transition=transition_batch)
+            stacked_params = jax.tree_util.tree_multimap(
+                lambda *args: jnp.stack(args), *zip(target_params))
+            stacked_state = jax.tree_util.tree_multimap(
+                lambda *args: jnp.stack(args), *zip(target_state))
+            grads, state_new, metrics, td_error = jax.tree_util.tree_map(
+                lambda t: jnp.mean(t, axis=0),
+                jax.vmap(apply_params, in_axes=(0, 0, None, None))(
+                    q_targ_argmin, transition_batch, stacked_params, stacked_state))
+            return grads, state_new, metrics, td_error
 
         def td_error_func(params, target_params, state, target_state, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
             q_targ_argmin = q_targ_pi_argmin(
                 target_params, target_state, next(rngs), transition_batch)
 
-            def apply_params(q_targ_idx, transition):
-                return self._td_error_func(params, target_params[q_targ_idx], state,
-                                           target_state[q_targ_idx], rng, transition)
+            def apply_params(q_targ_idx, transition, p, s):
+                t_params = jax.tree_util.tree_map(lambda t: t[q_targ_idx], p[0])
+                t_state = jax.tree_util.tree_map(lambda t: t[q_targ_idx], s[0])
+                batched_transition = jax.tree_util.tree_map(lambda t: t[None, ...], transition)
+                return self._td_error_func(params, t_params,
+                                           state, t_state,
+                                           next(rngs), batched_transition)
 
-            return jax.vmap(apply_params)(q_targ_idx=q_targ_argmin, transition=transition_batch)
+            stacked_params = jax.tree_util.tree_multimap(
+                lambda *args: jnp.stack(args), *zip(target_params))
+            stacked_state = jax.tree_util.tree_multimap(
+                lambda *args: jnp.stack(args), *zip(target_state))
+            td_error = jax.tree_util.tree_map(
+                lambda t: jnp.mean(t, axis=0),
+                jax.vmap(apply_params, in_axes=(0, 0, None, None))(
+                    q_targ_argmin, transition_batch, stacked_params, stacked_state))
+            return td_error
 
         self._grads_and_metrics_func = jit(grads_and_metrics_func)
         self._td_error_func = jit(td_error_func)
 
     @property
     def target_params(self):
-        return tuple([hk.data_structures.to_immutable_dict({
-            'q': self.q.params,
-            'q_targ': q_targ.params,
-            'pi_targ': pi_targ.params
-        }) for q_targ in self.q_targ_list for pi_targ in self.pi_targ_list])
+        if self.pi_targ_list:
+            return tuple([hk.data_structures.to_immutable_dict({
+                'q': self.q.params,
+                'q_targ': q_targ.params,
+                'pi_targ': pi_targ.params
+            }) for q_targ in self.q_targ_list for pi_targ in self.pi_targ_list])
+        else:
+            return tuple([hk.data_structures.to_immutable_dict({
+                'q': self.q.params,
+                'q_targ': q_targ.params
+            }) for q_targ in self.q_targ_list])
 
     @property
     def target_function_state(self):
-        return tuple([hk.data_structures.to_immutable_dict({
-            'q': self.q.function_state,
-            'q_targ': q_targ.function_state,
-            'pi_targ': pi_targ.function_state
-        }) for q_targ in self.q_targ_list for pi_targ in self.pi_targ_list])
+        if self.pi_targ_list:
+            return tuple([hk.data_structures.to_immutable_dict({
+                'q': self.q.function_state,
+                'q_targ': q_targ.function_state,
+                'pi_targ': pi_targ.function_state
+            }) for q_targ in self.q_targ_list for pi_targ in self.pi_targ_list])
+        else:
+            return tuple([hk.data_structures.to_immutable_dict({
+                'q': self.q.function_state,
+                'q_targ': q_targ.function_state
+            }) for q_targ in self.q_targ_list])
 
     def _check_input_lists(self, q, pi_targ_list, q_targ_list):
         # check input: pi_targ_list
