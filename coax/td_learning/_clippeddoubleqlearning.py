@@ -28,7 +28,7 @@ import haiku as hk
 import chex
 from gym.spaces import Discrete
 
-from ..utils import is_policy, is_qfunction, jit, is_stochastic
+from ..utils import is_policy, is_qfunction, jit, is_stochastic, single_to_batch, stack_trees
 from ._doubleqlearning import DoubleQLearning
 
 
@@ -138,18 +138,15 @@ class ClippedDoubleQLearning(DoubleQLearning):
         elif len(self.q_targ_list) * len(self.pi_targ_list) < 2:
             raise ValueError("len(q_targ_list) * len(pi_targ_list) must be at least 2")
 
+        # persist DoubleQLearning jit functions
+        self._super_grads_and_metrics_func = self._grads_and_metrics_func
+        self._super_td_error_func = self._td_error_func
+
         def q_targ_pi_argmin(target_params, target_state, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
-            # compute vectorized argmin
-
-            def apply_params(state_params):
-                q_targ_params, q_targ_state = state_params
-                return self.target_func(q_targ_params, q_targ_state, rng=next(rngs),
-                                        transition_batch=transition_batch)
-
-            stacked = jax.tree_util.tree_multimap(lambda *args: jnp.stack(args),
-                                                  *zip(target_params, target_state))
-            targets = jax.vmap(apply_params)(stacked)
+            target_func = jax.vmap(lambda p, s: self.target_func(p, s, rng=next(rngs),
+                                                                 transition_batch=transition_batch))
+            targets = target_func(*stack_trees(target_params, target_state))
             if is_stochastic(self.q):
                 targets_flattened = jax.tree_util.tree_map(
                     lambda dist_params: dist_params.reshape(-1, dist_params.shape[-1]), targets)
@@ -164,9 +161,6 @@ class ClippedDoubleQLearning(DoubleQLearning):
             assert Q_sa_targets.ndim == 2
             return jnp.argmin(Q_sa_targets, axis=0)
 
-        self._super_grads_and_metrics_func = self._grads_and_metrics_func
-        self._super_td_error_func = self._td_error_func
-
         def grads_and_metrics_func(
                 params, target_params, state, target_state, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
@@ -174,22 +168,19 @@ class ClippedDoubleQLearning(DoubleQLearning):
                 target_params, target_state, next(rngs), transition_batch)
 
             def apply_params(q_targ_idx, transition, p, s):
-                t_params = jax.tree_util.tree_map(lambda t: t[q_targ_idx], p[0])
-                t_state = jax.tree_util.tree_map(lambda t: t[q_targ_idx], s[0])
-                batched_transition = jax.tree_util.tree_map(lambda t: t[None, ...], transition)
+                t_params = jax.tree_util.tree_map(lambda t: t[q_targ_idx], p)
+                t_state = jax.tree_util.tree_map(lambda t: t[q_targ_idx], s)
                 return self._super_grads_and_metrics_func(params, t_params,
                                                           state, t_state,
-                                                          next(rngs), batched_transition)
+                                                          next(rngs), single_to_batch(transition))
+            single_grads_and_metrics = jax.vmap(
+                apply_params, in_axes=(0, 0, None, None), out_axes=0)
+            batch_grads, batch_state_new, batch_metrics, batch_td_error = jax.tree_util.tree_map(
+                lambda t: jnp.mean(t, axis=0), single_grads_and_metrics(
+                    q_targ_argmin, transition_batch, *stack_trees(target_params, target_state))
+            )
 
-            stacked_params = jax.tree_util.tree_multimap(
-                lambda *args: jnp.stack(args), *zip(target_params))
-            stacked_state = jax.tree_util.tree_multimap(
-                lambda *args: jnp.stack(args), *zip(target_state))
-            grads, state_new, metrics, td_error = jax.tree_util.tree_map(
-                lambda t: jnp.mean(t, axis=0),
-                jax.vmap(apply_params, in_axes=(0, 0, None, None))(
-                    q_targ_argmin, transition_batch, stacked_params, stacked_state))
-            return grads, state_new, metrics, td_error
+            return batch_grads, batch_state_new, batch_metrics, batch_td_error
 
         def td_error_func(params, target_params, state, target_state, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
@@ -197,22 +188,17 @@ class ClippedDoubleQLearning(DoubleQLearning):
                 target_params, target_state, next(rngs), transition_batch)
 
             def apply_params(q_targ_idx, transition, p, s):
-                t_params = jax.tree_util.tree_map(lambda t: t[q_targ_idx], p[0])
-                t_state = jax.tree_util.tree_map(lambda t: t[q_targ_idx], s[0])
-                batched_transition = jax.tree_util.tree_map(lambda t: t[None, ...], transition)
-                return self._td_error_func(params, t_params,
-                                           state, t_state,
-                                           next(rngs), batched_transition)
-
-            stacked_params = jax.tree_util.tree_multimap(
-                lambda *args: jnp.stack(args), *zip(target_params))
-            stacked_state = jax.tree_util.tree_multimap(
-                lambda *args: jnp.stack(args), *zip(target_state))
-            td_error = jax.tree_util.tree_map(
+                t_params = jax.tree_util.tree_map(lambda t: t[q_targ_idx], p)
+                t_state = jax.tree_util.tree_map(lambda t: t[q_targ_idx], s)
+                return self._super_td_error_func(params, t_params,
+                                                 state, t_state,
+                                                 next(rngs), single_to_batch(transition))
+            single_td_error = jax.vmap(apply_params, in_axes=(0, 0, None, None), out_axes=0)
+            batch_td_error = jax.tree_util.tree_map(
                 lambda t: jnp.mean(t, axis=0),
-                jax.vmap(apply_params, in_axes=(0, 0, None, None))(
-                    q_targ_argmin, transition_batch, stacked_params, stacked_state))
-            return td_error
+                single_td_error(q_targ_argmin, transition_batch,
+                                *stack_trees(target_params, target_state)))
+            return batch_td_error
 
         self._grads_and_metrics_func = jit(grads_and_metrics_func)
         self._td_error_func = jit(td_error_func)
@@ -272,4 +258,5 @@ class ClippedDoubleQLearning(DoubleQLearning):
             if not is_qfunction(q_targ):
                 raise TypeError(
                     f"all q_targ in q_targ_list must be q-functions, got: {type(q_targ)}")
-            # TODO(frederikschubert): check whether all q functions have the same type
+        chex.assert_trees_all_equal_shapes(*[q_targ.params for q_targ in q_targ_list])
+        chex.assert_trees_all_equal_shapes(*[q_targ.function_state for q_targ in q_targ_list])

@@ -5,14 +5,16 @@ import haiku as hk
 import jax.numpy as jnp
 from numpy import prod
 import optax
-
+from jax.config import config
+config.update("jax_debug_nans", True)
 
 # the name of this script
 name = 'dsac'
 
 # the Pendulum MDP
 env = gym.make('Pendulum-v1')
-env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
+env = coax.wrappers.TrainMonitor(
+    env, name=name, tensorboard_dir=f"./data/tensorboard/{name}", log_all_metrics=True)
 num_bins = 51
 
 
@@ -31,8 +33,6 @@ def func_pi(S, is_training):
 
 def func_q(S, A, is_training):
     logits = hk.Sequential((hk.Linear(8), jax.nn.relu,
-                            hk.Linear(8), jax.nn.relu,
-                            hk.Linear(8), jax.nn.relu,
                             hk.Flatten(), hk.Linear(num_bins, w_init=jnp.zeros)))
     X = jax.vmap(jnp.kron)(S, A)  # S and A are one-hot encoded
     return {'logits': logits(X)}
@@ -42,10 +42,10 @@ def func_q(S, A, is_training):
 pi = coax.Policy(func_pi, env)
 q1 = coax.StochasticQ(
     func_q, env, action_preprocessor=pi.proba_dist.preprocess_variate,
-    value_range=(-2000, 0), num_bins=num_bins)
+    value_range=(-10, 0), num_bins=num_bins)
 q2 = coax.StochasticQ(
     func_q, env, action_preprocessor=pi.proba_dist.preprocess_variate,
-    value_range=(-2000, 0), num_bins=num_bins)
+    value_range=(-10, 0), num_bins=num_bins)
 
 
 # target network

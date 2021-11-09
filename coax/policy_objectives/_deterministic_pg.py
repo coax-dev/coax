@@ -118,8 +118,8 @@ class DeterministicPG(PolicyObjective):
         log_pi = self.pi.proba_dist.log_proba(dist_params, A)
         params_q, state_q = hyperparams['q']['params'], hyperparams['q']['function_state']
         if is_stochastic(self.q_targ):
-            dist_params, _ = self.q_targ.function_type1(params_q, state_q, next(rngs), S, A, True)
-            Q = self.q_targ.proba_dist.mean(dist_params)
+            dist_params_q, _ = self.q_targ.function_type1(params_q, state_q, next(rngs), S, A, True)
+            Q = self.q_targ.proba_dist.mean(dist_params_q)
             Q = self.q_targ.proba_dist.postprocess_variate(next(rngs), Q, batch_mode=True)
         else:
             Q, _ = self.q_targ.function_type1(params_q, state_q, next(rngs), S, A, True)
