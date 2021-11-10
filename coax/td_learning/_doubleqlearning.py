@@ -143,10 +143,10 @@ class DoubleQLearning(BaseTDLearningQWithTargetPolicy):
             # get greedy action as the mode of pi_targ
             params, state = target_params['pi_targ'], target_state['pi_targ']
             S_next = self.pi_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
+            dist_params, _ = self.pi_targ.function(params, state, next(rngs), S_next, False)
             if self.greedy_pi_targ:
-                A_next = self.pi_targ.mode_func(params, state, next(rngs), S_next)
+                A_next = self.pi_targ.proba_dist.mode(dist_params)
             else:
-                dist_params, _ = self.pi_targ.function(params, state, next(rngs), S_next, False)
                 A_next = self.pi_targ.proba_dist.sample(dist_params, next(rngs))
 
         # evaluate on q (instead of q_targ)
