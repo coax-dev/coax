@@ -144,18 +144,14 @@ class ClippedDoubleQLearning(DoubleQLearning):
 
         def q_targ_pi_argmin(target_params, target_state, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
-            target_func = jax.vmap(lambda p, s: self.target_func(p, s, rng=next(rngs),
-                                                                 transition_batch=transition_batch))
-            targets = target_func(*stack_trees(target_params, target_state))
-            if is_stochastic(self.q):
-                targets_flattened = jax.tree_util.tree_map(
-                    lambda dist_params: dist_params.reshape(-1, dist_params.shape[-1]), targets)
-                targets_flattened = self.q.proba_dist.mean(targets_flattened)
-                targets_flattened = self.q.proba_dist.postprocess_variate(
-                    next(rngs), targets_flattened, batch_mode=True)
-                Q_sa_targets = jax.tree_util.tree_map(
-                    lambda dist_params: dist_params.reshape(len(target_params), -1),
-                    targets_flattened)
+
+            def q_targ_target_func(p, s):
+                return self.q_targ_func(p, s, rng=next(rngs), transition_batch=transition_batch)
+            targets = jax.vmap(q_targ_target_func)(*stack_trees(target_params, target_state))
+            if is_stochastic(self.q_targ):
+                targets = jax.vmap(self.q_targ.proba_dist.mean)(targets)
+                Q_sa_targets = jax.vmap(lambda t: self.q_targ.proba_dist.postprocess_variate(
+                    next(rngs), t, batch_mode=True))(targets)
             else:
                 Q_sa_targets = targets
             assert Q_sa_targets.ndim == 2
@@ -164,10 +160,12 @@ class ClippedDoubleQLearning(DoubleQLearning):
         def grads_and_metrics_func(
                 params, target_params, state, target_state, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
+            # compute argmin target q-function per transition
             q_targ_argmin = q_targ_pi_argmin(
                 target_params, target_state, next(rngs), transition_batch)
 
             def apply_params(q_targ_idx, transition, p, s):
+                # extract target q-function parameters and state
                 t_params = jax.tree_util.tree_map(lambda t: t[q_targ_idx], p)
                 t_state = jax.tree_util.tree_map(lambda t: t[q_targ_idx], s)
                 return self._super_grads_and_metrics_func(params, t_params,
@@ -175,6 +173,7 @@ class ClippedDoubleQLearning(DoubleQLearning):
                                                           next(rngs), single_to_batch(transition))
             single_grads_and_metrics = jax.vmap(
                 apply_params, in_axes=(0, 0, None, None), out_axes=0)
+            # have to average because the grads are computed using a single transition
             batch_grads, batch_state_new, batch_metrics, batch_td_error = jax.tree_util.tree_map(
                 lambda t: jnp.mean(t, axis=0), single_grads_and_metrics(
                     q_targ_argmin, transition_batch, *stack_trees(target_params, target_state))

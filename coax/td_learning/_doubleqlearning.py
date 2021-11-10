@@ -119,7 +119,7 @@ class DoubleQLearning(BaseTDLearningQWithTargetPolicy):
         if self.pi_targ is not None and isinstance(self.q.action_space, Discrete):
             warnings.warn("pi_targ is ignored, because action space is discrete")
 
-    def target_func(self, target_params, target_state, rng, transition_batch):
+    def q_targ_func(self, target_params, target_state, rng, transition_batch):
         rngs = hk.PRNGSequence(rng)
 
         if isinstance(self.q.action_space, Discrete):
@@ -157,5 +157,11 @@ class DoubleQLearning(BaseTDLearningQWithTargetPolicy):
             return self._get_target_dist_params(params, state, next(rngs), transition_batch, A_next)
 
         Q_sa_next, _ = self.q.function_type1(params, state, next(rngs), S_next, A_next, False)
+        return Q_sa_next
+
+    def target_func(self, target_params, target_state, rng, transition_batch):
+        Q_sa_next = self.q_targ_func(target_params, target_state, rng, transition_batch)
+        if is_stochastic(self.q_targ):
+            return Q_sa_next
         f, f_inv = self.q.value_transform.transform_func, self.q_targ.value_transform.inverse_func
         return f(transition_batch.Rn + transition_batch.In * f_inv(Q_sa_next))
