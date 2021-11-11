@@ -141,12 +141,20 @@ class ClippedDoubleQLearning(DoubleQLearning):
         self._super_grads_and_metrics_func = self._grads_and_metrics_func
         self._super_td_error_func = self._td_error_func
 
+        def make_batch(examples):
+            return jax.tree_map(lambda *a: jnp.stack(a), *examples)
+
         def q_targ_pi_argmin(target_params, target_state, rng, transition_batch):
             rngs = hk.PRNGSequence(rng)
 
-            def q_targ_target_func(p, s):
-                return self.q_targ_func(p, s, rng=next(rngs), transition_batch=transition_batch)
-            targets = jax.vmap(q_targ_target_func)(*stack_trees(target_params, target_state))
+            vq_targ_func = jax.vmap(lambda p, s: self.q_targ_func(
+                p, s, rng=next(rngs), transition_batch=transition_batch),
+                in_axes=({'q_targ': 0, 'pi_targ': None}, {'q_targ': 0, 'pi_targ': None}))
+            vvq_targ_func = jax.vmap(vq_targ_func, in_axes=(
+                {'q_targ': None, 'pi_targ': 0}, {'q_targ': None, 'pi_targ': 0}))
+            targets = vvq_targ_func(make_batch(target_params),
+                                    make_batch(target_state))
+            targets = targets.reshape(len(self.q_targ_list) * len(self.pi_targ_list), -1)
             if is_stochastic(self.q_targ):
                 targets = jax.vmap(self.q_targ.proba_dist.mean)(targets)
                 Q_sa_targets = jax.vmap(lambda t: self.q_targ.proba_dist.postprocess_variate(
@@ -204,29 +212,35 @@ class ClippedDoubleQLearning(DoubleQLearning):
     @property
     def target_params(self):
         if self.pi_targ_list:
-            return tuple([hk.data_structures.to_immutable_dict({
+            return tuple([hk.data_structures.to_mutable_dict({
                 'q': self.q.params,
                 'q_targ': q_targ.params,
-                'pi_targ': pi_targ.params
+                'pi_targ': pi_targ.params,
+                # 'reg': getattr(getattr(self.policy_regularizer, 'f', None), 'params', None),
+                # 'reg_hparams': getattr(self.policy_regularizer, 'hyperparams', None)
             }) for q_targ in self.q_targ_list for pi_targ in self.pi_targ_list])
         else:
-            return tuple([hk.data_structures.to_immutable_dict({
+            return tuple([hk.data_structures.to_mutable_dict({
                 'q': self.q.params,
-                'q_targ': q_targ.params
+                'q_targ': q_targ.params,
+                # 'reg': getattr(getattr(self.policy_regularizer, 'f', None), 'params', None),
+                # 'reg_hparams': getattr(self.policy_regularizer, 'hyperparams', None)
             }) for q_targ in self.q_targ_list])
 
     @property
     def target_function_state(self):
         if self.pi_targ_list:
-            return tuple([hk.data_structures.to_immutable_dict({
+            return tuple([hk.data_structures.to_mutable_dict({
                 'q': self.q.function_state,
                 'q_targ': q_targ.function_state,
-                'pi_targ': pi_targ.function_state
+                'pi_targ': pi_targ.function_state,
+                # 'reg': getattr(getattr(self.policy_regularizer, 'f', None), 'function_state', None)
             }) for q_targ in self.q_targ_list for pi_targ in self.pi_targ_list])
         else:
-            return tuple([hk.data_structures.to_immutable_dict({
+            return tuple([hk.data_structures.to_mutable_dict({
                 'q': self.q.function_state,
-                'q_targ': q_targ.function_state
+                'q_targ': q_targ.function_state,
+                # 'reg': getattr(getattr(self.policy_regularizer, 'f', None), 'function_state', None)
             }) for q_targ in self.q_targ_list])
 
     def _check_input_lists(self, q, pi_targ_list, q_targ_list):
