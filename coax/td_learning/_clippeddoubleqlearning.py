@@ -116,7 +116,7 @@ class ClippedDoubleQLearning(DoubleQLearning):
 
     def __init__(
             self, q, pi_targ_list=None, q_targ_list=None,
-            optimizer=None, loss_function=None, policy_regularizer=None, greedy_pi_targ=True):
+            optimizer=None, loss_function=None, policy_regularizer=None):
 
         self._check_input_lists(q, pi_targ_list, q_targ_list)
         self.q_targ_list = q_targ_list
@@ -128,8 +128,7 @@ class ClippedDoubleQLearning(DoubleQLearning):
             q_targ=q_targ_list[0],
             optimizer=optimizer,
             loss_function=loss_function,
-            policy_regularizer=policy_regularizer,
-            greedy_pi_targ=greedy_pi_targ)
+            policy_regularizer=policy_regularizer)
 
         # consistency check
         if isinstance(self.q.action_space, Discrete):

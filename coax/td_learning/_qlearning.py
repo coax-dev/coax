@@ -114,7 +114,7 @@ class QLearning(BaseTDLearningQWithTargetPolicy):
 
     def __init__(
             self, q, pi_targ=None, q_targ=None,
-            optimizer=None, loss_function=None, policy_regularizer=None, greedy_pi_targ=True):
+            optimizer=None, loss_function=None, policy_regularizer=None):
 
         super().__init__(
             q=q,
@@ -122,8 +122,7 @@ class QLearning(BaseTDLearningQWithTargetPolicy):
             q_targ=q_targ,
             optimizer=optimizer,
             loss_function=loss_function,
-            policy_regularizer=policy_regularizer,
-            greedy_pi_targ=greedy_pi_targ)
+            policy_regularizer=policy_regularizer)
 
         # consistency checks
         if self.pi_targ is None and not isinstance(self.q.action_space, Discrete):
@@ -156,10 +155,7 @@ class QLearning(BaseTDLearningQWithTargetPolicy):
             params, state = target_params['pi_targ'], target_state['pi_targ']
             S_next = self.pi_targ.observation_preprocessor(next(rngs), transition_batch.S_next)
             dist_params, _ = self.pi_targ.function(params, state, next(rngs), S_next, False)
-            if self.greedy_pi_targ:
-                A_next = self.pi_targ.proba_dist.mode(dist_params)
-            else:
-                A_next = self.pi_targ.proba_dist.sample(dist_params, next(rngs))
+            A_next = self.pi_targ.proba_dist.mode(dist_params)
 
         # evaluate on q_targ
         params, state = target_params['q_targ'], target_state['q_targ']
