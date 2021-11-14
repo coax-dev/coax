@@ -80,7 +80,7 @@ You're in control
 
 Other RL frameworks often hide structure that you (the RL practitioner) are interested in. Most
 notably, the **neural network architecture** of the function approximators is often hidden from you.
-In coax, the network architecture takes center stage. You are in charge of defining their own
+In coax, the network architecture takes center stage. You are in charge of defining your own
 forward-pass function.
 
 Another bit of structure that other RL frameworks hide from you is the main **training loop**. This
@@ -198,9 +198,9 @@ we have our policy, we can start doing episode roll-outs:
 
 Of course, we can't expect our policy to do very well, because it hasn't been able to learn anything
 from the reward signal :code:`r`. To do that, we need to create two more objects: a  **tracer** and
-an **updater**. A *tracer* takes raw transition data and turns it into transition data can be
-readily used by the *updater* to update our function approximator. In the example below we see how
-this works in practice.
+an **updater**. A *tracer* takes raw transition data and turns it into transition data that can then
+be used by the *updater* to update the function approximator :code:`q`. In the example below we see
+how this works in practice.
 
 .. code:: python
 
