@@ -33,7 +33,6 @@ TD Learning
     coax.td_learning.DoubleQLearning
     coax.td_learning.SoftQLearning
     coax.td_learning.ClippedDoubleQLearning
-    coax.td_learning.SoftClippedDoubleQLearning
 
 ----
 
@@ -53,7 +52,6 @@ Object Reference
 .. autoclass:: coax.td_learning.DoubleQLearning
 .. autoclass:: coax.td_learning.SoftQLearning
 .. autoclass:: coax.td_learning.ClippedDoubleQLearning
-.. autoclass:: coax.td_learning.SoftClippedDoubleQLearning
 
 
 """
@@ -65,7 +63,6 @@ from ._qlearning import QLearning
 from ._doubleqlearning import DoubleQLearning
 from ._softqlearning import SoftQLearning
 from ._clippeddoubleqlearning import ClippedDoubleQLearning
-from ._softclippeddoubleqlearning import SoftClippedDoubleQLearning
 
 
 __all__ = (
@@ -75,6 +72,5 @@ __all__ = (
     'QLearning',
     'DoubleQLearning',
     'SoftQLearning',
-    'ClippedDoubleQLearning',
-    'SoftClippedDoubleQLearning'
+    'ClippedDoubleQLearning'
 )

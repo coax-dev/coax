@@ -6,13 +6,14 @@ import jax.numpy as jnp
 from numpy import prod
 import optax
 
-
 # the name of this script
-name = 'sac'
+name = 'dsac'
 
 # the Pendulum MDP
 env = gym.make('Pendulum-v1')
-env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
+env = coax.wrappers.TrainMonitor(
+    env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
+num_bins = 51
 
 
 def func_pi(S, is_training):
@@ -20,29 +21,30 @@ def func_pi(S, is_training):
         hk.Linear(8), jax.nn.relu,
         hk.Linear(8), jax.nn.relu,
         hk.Linear(8), jax.nn.relu,
-        hk.Linear(prod(env.action_space.shape) * 2, w_init=jnp.zeros),
-        hk.Reshape((*env.action_space.shape, 2)),
+        hk.Linear(2 * prod(env.action_space.shape), w_init=jnp.zeros),
+        hk.Reshape((2, *env.action_space.shape)),
     ))
     x = seq(S)
-    mu, logvar = x[..., 0], x[..., 1]
+    mu, logvar = x[:, 0], x[:, 1]
     return {'mu': mu, 'logvar': logvar}
 
 
 def func_q(S, A, is_training):
-    seq = hk.Sequential((
-        hk.Linear(8), jax.nn.relu,
-        hk.Linear(8), jax.nn.relu,
-        hk.Linear(8), jax.nn.relu,
-        hk.Linear(1, w_init=jnp.zeros), jnp.ravel
-    ))
-    X = jnp.concatenate((S, A), axis=-1)
-    return seq(X)
+    logits = hk.Sequential((hk.Linear(8), jax.nn.relu,
+                            hk.Flatten(), hk.Linear(num_bins, w_init=jnp.zeros)))
+    X = jax.vmap(jnp.kron)(S, A)  # S and A are one-hot encoded
+    return {'logits': logits(X)}
 
 
 # main function approximators
 pi = coax.Policy(func_pi, env)
-q1 = coax.Q(func_q, env, action_preprocessor=pi.proba_dist.preprocess_variate)
-q2 = coax.Q(func_q, env, action_preprocessor=pi.proba_dist.preprocess_variate)
+q1 = coax.StochasticQ(
+    func_q, env, action_preprocessor=pi.proba_dist.preprocess_variate,
+    value_range=(-10, 0), num_bins=num_bins)
+q2 = coax.StochasticQ(
+    func_q, env, action_preprocessor=pi.proba_dist.preprocess_variate,
+    value_range=(-10, 0), num_bins=num_bins)
+
 
 # target network
 q1_targ = q1.copy()
@@ -61,9 +63,8 @@ qlearning2 = coax.td_learning.ClippedDoubleQLearning(
     q2, pi_targ_list=[pi], q_targ_list=[q1_targ, q2_targ],
     loss_function=coax.value_losses.mse, optimizer=optax.adam(1e-3))
 soft_pg = coax.policy_objectives.DeterministicPG(pi, q1_targ, optimizer=optax.adam(
-    1e-3), regularizer=coax.regularizers.NStepEntropyRegularizer(pi, n=tracer.n,
-                                                                 beta=0.2 / tracer.n,
-                                                                 gamma=tracer.gamma))
+    1e-3), regularizer=coax.regularizers.NStepEntropyRegularizer(pi, beta=0.2 / tracer.n,
+                                                                 gamma=tracer.gamma, n=tracer.n))
 
 
 # train

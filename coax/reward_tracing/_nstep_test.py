@@ -290,4 +290,4 @@ class TestNStep:
         assert type(transitions.extra_info) == dict
         dones = jnp.stack(transitions.extra_info['dones'])
         for i in range(self.n + 2):
-            assert (dones[:, i] == True).sum() == i
+            assert dones[:, i].sum() == i

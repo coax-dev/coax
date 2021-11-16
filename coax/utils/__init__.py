@@ -79,6 +79,7 @@ Object Reference
     coax.utils.reload_recursive
     coax.utils.render_episode
     coax.utils.safe_sample
+    coax.utils.stack_trees
     coax.utils.single_to_batch
     coax.utils.tree_ravel
     coax.utils.unvectorize
@@ -108,6 +109,7 @@ from ._array import (
     merge_dicts,
     safe_sample,
     single_to_batch,
+    stack_trees,
     tree_ravel,
     unvectorize,
 )
@@ -186,6 +188,7 @@ __all__ = (
     'render_episode',
     'safe_sample',
     'single_to_batch',
+    'stack_trees',
     'tree_ravel',
     'unvectorize',
 )
