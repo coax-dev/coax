@@ -149,7 +149,7 @@ class ClippedDoubleQLearning(BaseTDLearningQ):  # TODO(krholshe): make this less
                 regularizer = 0.
             else:
                 # flip sign (typical example: regularizer = -beta * entropy)
-                regularizer = -self.policy_regularizer.batch_eval(
+                regularizer = self.policy_regularizer.batch_eval(
                     target_params['reg'], target_params['reg_hparams'], target_state['reg'],
                     next(rngs), transition_batch)
 
@@ -159,11 +159,11 @@ class ClippedDoubleQLearning(BaseTDLearningQ):  # TODO(krholshe): make this less
                 dist_params_target = \
                     self.target_func(target_params, target_state, rng, transition_batch)
 
-                if isinstance(self.q.proba_dist, DiscretizedIntervalDist):
-                    if self.policy_regularizer is not None:
-                        dist_params_target = self.q.proba_dist.affine_transform(
-                            dist_params_target, 1., regularizer, self.q.value_transform)
+                if self.policy_regularizer is not None:
+                    dist_params_target = self.q.proba_dist.affine_transform(
+                        dist_params_target, 1., regularizer, self.q.value_transform)
 
+                if isinstance(self.q.proba_dist, DiscretizedIntervalDist):
                     loss = jnp.mean(self.q.proba_dist.cross_entropy(dist_params_target,
                                                                     dist_params))
                 elif isinstance(self.q.proba_dist, EmpiricalQuantileDist):
@@ -232,14 +232,17 @@ class ClippedDoubleQLearning(BaseTDLearningQ):  # TODO(krholshe): make this less
         return hk.data_structures.to_immutable_dict({
             'q': self.q.params,
             'q_targ': [q.params for q in self.q_targ_list],
-            'pi_targ': [pi.params for pi in self.pi_targ_list]})
+            'pi_targ': [pi.params for pi in self.pi_targ_list],
+            'reg': getattr(getattr(self.policy_regularizer, 'f', None), 'params', None),
+            'reg_hparams': getattr(self.policy_regularizer, 'hyperparams', None)})
 
     @property
     def target_function_state(self):
         return hk.data_structures.to_immutable_dict({
             'q': self.q.function_state,
             'q_targ': [q.function_state for q in self.q_targ_list],
-            'pi_targ': [pi.function_state for pi in self.pi_targ_list]})
+            'pi_targ': [pi.function_state for pi in self.pi_targ_list],
+            'reg': getattr(getattr(self.policy_regularizer, 'f', None), 'function_state', None)})
 
     def target_func(self, target_params, target_state, rng, transition_batch):
         rngs = hk.PRNGSequence(rng)
@@ -343,7 +346,7 @@ class ClippedDoubleQLearning(BaseTDLearningQ):  # TODO(krholshe): make this less
                 transition_batch,
                 A_next_list)
             # unwrap dist params computed for single batches
-            return jax.tree_util.tree_map(lambda t: t[:, 0], dist_params)
+            return jax.tree_util.tree_map(lambda t: jnp.squeeze(t, axis=1), dist_params)
 
         Q_sa_next = jnp.min(Q_sa_next_list, axis=-1)
         assert Q_sa_next.ndim == 1, f"bad shape: {Q_sa_next.shape}"

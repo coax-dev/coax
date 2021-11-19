@@ -49,22 +49,23 @@ q1_targ = q1.copy()
 q2_targ = q2.copy()
 
 # experience tracer
-tracer = coax.reward_tracing.NStep(n=5, gamma=0.9, record_extra_info=True)
+tracer = coax.reward_tracing.NStep(n=1, gamma=0.9, record_extra_info=True)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=25000)
 
+entropy_regularizer = coax.regularizers.NStepEntropyRegularizer(pi, beta=0.001 / tracer.n,
+                                                                gamma=tracer.gamma, n=tracer.n)
 
 # updaters (use current pi to update the q-functions and use sampled action in contrast to TD3)
 qlearning1 = coax.td_learning.ClippedDoubleQLearning(
     q1, pi_targ_list=[pi], q_targ_list=[q1_targ, q2_targ],
-    loss_function=coax.value_losses.mse, optimizer=optax.adam(1e-3))
+    loss_function=coax.value_losses.mse, optimizer=optax.adam(1e-3),
+    policy_regularizer=entropy_regularizer)
 qlearning2 = coax.td_learning.ClippedDoubleQLearning(
     q2, pi_targ_list=[pi], q_targ_list=[q1_targ, q2_targ],
-    loss_function=coax.value_losses.mse, optimizer=optax.adam(1e-3))
-soft_pg = coax.policy_objectives.DeterministicPG(pi, q1_targ, optimizer=optax.adam(
-    1e-3), regularizer=coax.regularizers.NStepEntropyRegularizer(pi, n=tracer.n,
-                                                                 beta=0.2 / tracer.n,
-                                                                 gamma=tracer.gamma))
-
+    loss_function=coax.value_losses.mse, optimizer=optax.adam(1e-3),
+    policy_regularizer=entropy_regularizer)
+soft_pg = coax.policy_objectives.SoftPG(pi, q_targ_list=[q1_targ, q2_targ], optimizer=optax.adam(
+    1e-3), regularizer=entropy_regularizer)
 
 # train
 while env.T < 1000000:

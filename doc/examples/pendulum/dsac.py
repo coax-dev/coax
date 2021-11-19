@@ -12,15 +12,14 @@ name = 'dsac'
 # the Pendulum MDP
 env = gym.make('Pendulum-v1')
 env = coax.wrappers.TrainMonitor(
-    env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
+    env, name=name, tensorboard_dir=f"./data/tensorboard/{name}", log_all_metrics=True)
 num_bins = 51
 
 
 def func_pi(S, is_training):
     seq = hk.Sequential((
-        hk.Linear(8), jax.nn.relu,
-        hk.Linear(8), jax.nn.relu,
-        hk.Linear(8), jax.nn.relu,
+        hk.Linear(256), jax.nn.relu,
+        hk.Linear(256), jax.nn.relu,
         hk.Linear(2 * prod(env.action_space.shape), w_init=jnp.zeros),
         hk.Reshape((2, *env.action_space.shape)),
     ))
@@ -30,7 +29,8 @@ def func_pi(S, is_training):
 
 
 def func_q(S, A, is_training):
-    logits = hk.Sequential((hk.Linear(8), jax.nn.relu,
+    logits = hk.Sequential((hk.Linear(256), jax.nn.relu,
+                            hk.Linear(256), jax.nn.relu,
                             hk.Flatten(), hk.Linear(num_bins, w_init=jnp.zeros)))
     X = jax.vmap(jnp.kron)(S, A)  # S and A are one-hot encoded
     return {'logits': logits(X)}
@@ -40,10 +40,10 @@ def func_q(S, A, is_training):
 pi = coax.Policy(func_pi, env)
 q1 = coax.StochasticQ(
     func_q, env, action_preprocessor=pi.proba_dist.preprocess_variate,
-    value_range=(-10, 0), num_bins=num_bins)
+    value_range=(-2000, 0), num_bins=num_bins)
 q2 = coax.StochasticQ(
     func_q, env, action_preprocessor=pi.proba_dist.preprocess_variate,
-    value_range=(-10, 0), num_bins=num_bins)
+    value_range=(-2000, 0), num_bins=num_bins)
 
 
 # target network
@@ -51,20 +51,23 @@ q1_targ = q1.copy()
 q2_targ = q2.copy()
 
 # experience tracer
-tracer = coax.reward_tracing.NStep(n=5, gamma=0.9, record_extra_info=True)
-buffer = coax.experience_replay.SimpleReplayBuffer(capacity=25000)
+tracer = coax.reward_tracing.NStep(n=5, gamma=0.99, record_extra_info=True)
+buffer = coax.experience_replay.SimpleReplayBuffer(capacity=50000)
 
+entropy_regularizer = coax.regularizers.NStepEntropyRegularizer(pi, beta=0.2 / tracer.n,
+                                                                gamma=tracer.gamma, n=tracer.n)
 
 # updaters (use current pi to update the q-functions and use sampled action in contrast to TD3)
 qlearning1 = coax.td_learning.ClippedDoubleQLearning(
     q1, pi_targ_list=[pi], q_targ_list=[q1_targ, q2_targ],
-    loss_function=coax.value_losses.mse, optimizer=optax.adam(1e-3))
+    loss_function=coax.value_losses.mse, optimizer=optax.adam(1e-3),
+    policy_regularizer=entropy_regularizer)
 qlearning2 = coax.td_learning.ClippedDoubleQLearning(
     q2, pi_targ_list=[pi], q_targ_list=[q1_targ, q2_targ],
-    loss_function=coax.value_losses.mse, optimizer=optax.adam(1e-3))
-soft_pg = coax.policy_objectives.DeterministicPG(pi, q1_targ, optimizer=optax.adam(
-    1e-3), regularizer=coax.regularizers.NStepEntropyRegularizer(pi, beta=0.2 / tracer.n,
-                                                                 gamma=tracer.gamma, n=tracer.n))
+    loss_function=coax.value_losses.mse, optimizer=optax.adam(1e-3),
+    policy_regularizer=entropy_regularizer)
+soft_pg = coax.policy_objectives.SoftPG(pi, q_targ_list=[q1_targ, q2_targ], optimizer=optax.adam(
+    1e-3), regularizer=entropy_regularizer)
 
 
 # train
@@ -82,7 +85,7 @@ while env.T < 1000000:
 
         # learn
         if len(buffer) >= 5000:
-            transition_batch = buffer.sample(batch_size=128)
+            transition_batch = buffer.sample(batch_size=64)
 
             # init metrics dict
             metrics = {}

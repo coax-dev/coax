@@ -408,7 +408,7 @@ class BaseTDLearningQ(BaseTDLearning):
                 regularizer = 0.
             else:
                 # flip sign (typical example: regularizer = -beta * entropy)
-                regularizer = -self.policy_regularizer.batch_eval(
+                regularizer = self.policy_regularizer.batch_eval(
                     target_params['reg'], target_params['reg_hparams'], target_state['reg'],
                     next(rngs), transition_batch)
 
@@ -418,13 +418,14 @@ class BaseTDLearningQ(BaseTDLearning):
                 dist_params_target = \
                     self.target_func(target_params, target_state, rng, transition_batch)
 
-                if isinstance(self.q.proba_dist, DiscretizedIntervalDist):
-                    if self.policy_regularizer is not None:
-                        dist_params_target = self.q.proba_dist.affine_transform(
-                            dist_params_target, 1., regularizer, self.q.value_transform)
+                if self.policy_regularizer is not None:
+                    dist_params_target = self.q.proba_dist.affine_transform(
+                        dist_params_target, 1., regularizer, self.q.value_transform)
 
+                if isinstance(self.q.proba_dist, DiscretizedIntervalDist):
                     loss = jnp.mean(self.q.proba_dist.cross_entropy(dist_params_target,
                                                                     dist_params))
+
                 elif isinstance(self.q.proba_dist, EmpiricalQuantileDist):
                     loss = quantile_huber(dist_params_target['values'],
                                           dist_params['values'],
