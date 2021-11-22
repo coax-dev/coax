@@ -113,6 +113,7 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
         agents.
 
     """
+
     def __init__(
             self, q, pi_targ_list=None, q_targ_list=None,
             optimizer=None, loss_function=None, policy_regularizer=None):
@@ -145,18 +146,21 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
             A = self.q.action_preprocessor(next(rngs), transition_batch.A)
             W = jnp.clip(transition_batch.W, 0.1, 10.)  # clip importance weights to reduce variance
 
+            metrics = {}
             # regularization term
             if self.policy_regularizer is None:
                 regularizer = 0.
             else:
-                # flip sign (typical example: regularizer = -beta * entropy)
-                regularizer = -self.policy_regularizer.batch_eval(
+                regularizer, regularizer_metrics = self.policy_regularizer.batch_eval(
                     target_params['reg'], target_params['reg_hparams'], target_state['reg'],
                     next(rngs), transition_batch)
+                metrics.update({f'{self.__class__.__name__}/{k}': v for k,
+                               v in regularizer_metrics.items()})
 
             Q, state_new = self.q.function_type1(params, state, next(rngs), S, A, True)
             G = self.target_func(target_params, target_state, next(rngs), transition_batch)
-            G += regularizer
+            # flip sign (typical example: regularizer = -beta * entropy)
+            G -= regularizer
             loss = self.loss_function(G, Q, W)
 
             dLoss_dQ = jax.grad(self.loss_function, argnums=1)
@@ -174,11 +178,11 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
             Q_targ = jnp.min(Q_targ_list, axis=-1)
 
             chex.assert_equal_shape([td_error, W, Q_targ])
-            metrics = {
+            metrics.update({
                 f'{self.__class__.__name__}/loss': loss,
                 f'{self.__class__.__name__}/td_error': jnp.mean(W * td_error),
                 f'{self.__class__.__name__}/td_error_targ': jnp.mean(-dLoss_dQ(Q, Q_targ, W)),
-            }
+            })
             return loss, (td_error, state_new, metrics)
 
         def grads_and_metrics_func(
@@ -210,14 +214,17 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
         return hk.data_structures.to_immutable_dict({
             'q': self.q.params,
             'q_targ': [q.params for q in self.q_targ_list],
-            'pi_targ': [pi.params for pi in self.pi_targ_list]})
+            'pi_targ': [pi.params for pi in self.pi_targ_list],
+            'reg': getattr(getattr(self.policy_regularizer, 'f', None), 'params', None),
+            'reg_hparams': getattr(self.policy_regularizer, 'hyperparams', None)})
 
     @property
     def target_function_state(self):
         return hk.data_structures.to_immutable_dict({
             'q': self.q.function_state,
             'q_targ': [q.function_state for q in self.q_targ_list],
-            'pi_targ': [pi.function_state for pi in self.pi_targ_list]})
+            'pi_targ': [pi.function_state for pi in self.pi_targ_list],
+            'reg': getattr(getattr(self.policy_regularizer, 'f', None), 'function_state', None)})
 
     def target_func(self, target_params, target_state, rng, transition_batch):
         rngs = hk.PRNGSequence(rng)

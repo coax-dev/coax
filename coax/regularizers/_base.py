@@ -102,7 +102,8 @@ class Regularizer:
                 else:
                     raise TypeError(
                         "f must be derived from BaseStochasticFuncType1 or BaseStochasticFuncType2")
-                return self.function(dist_params, **hyperparams)
+                return self.function(dist_params, **hyperparams), self.metrics_func(dist_params,
+                                                                                    **hyperparams)
 
             self._batch_eval_func = jit(batch_eval_func)
 
