@@ -22,7 +22,6 @@
 import haiku as hk
 import jax.numpy as jnp
 
-from .._core.base_stochastic_func_type1 import BaseStochasticFuncType1
 from .._core.base_stochastic_func_type2 import BaseStochasticFuncType2
 from ..utils import jit
 from ._entropy import EntropyRegularizer
@@ -32,10 +31,14 @@ class NStepEntropyRegularizer(EntropyRegularizer):
 
     def __init__(self, f, n, beta=0.001, gamma=0.99):
         super().__init__(f)
+        if not isinstance(n, (tuple, list, jnp.ndarray)):
+            raise TypeError(f"n must be a list, an ndarray or a tuple, got: {type(n)}")
+        if len(n) == 0:
+            raise ValueError("n cannot be empty")
         self.n = n
         self.beta = beta
         self.gamma = gamma
-        self._gammas = jnp.power(self.gamma, jnp.arange(self.n))
+        self._gammas = jnp.power(self.gamma, jnp.arange(self.n[-1] + 1))
 
         def entropy(dist_params, valid):
             return sum([gamma * self.f.proba_dist.entropy(p) * v
@@ -74,12 +77,13 @@ class NStepEntropyRegularizer(EntropyRegularizer):
                 if isinstance(self.f, BaseStochasticFuncType2):
                     dist_params, _ = zip(*[self.f.function(params, state, next(rngs),
                                                            self.f.observation_preprocessor(
-                        next(rngs), s_next), True)
-                        for s_next in transition_batch.extra_info['states']])
+                        next(rngs), s_next), False)
+                        for t, s_next in enumerate(transition_batch.extra_info['states']) if t in self.n])
                 else:
                     raise TypeError(
                         "f must be derived from BaseStochasticFuncType2")
-                dist_params = (dist_params, jnp.asarray(transition_batch.extra_info['dones']))
+                dist_params = (dist_params, jnp.asarray(
+                    [d for t, d in enumerate(transition_batch.extra_info['dones']) if t in self.n]))
                 return self.function(dist_params, **hyperparams)
 
             self._batch_eval_func = jit(batch_eval_func)

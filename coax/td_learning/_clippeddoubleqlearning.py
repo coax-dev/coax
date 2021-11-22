@@ -148,7 +148,6 @@ class ClippedDoubleQLearning(BaseTDLearningQ):  # TODO(krholshe): make this less
             if self.policy_regularizer is None:
                 regularizer = 0.
             else:
-                # flip sign (typical example: regularizer = -beta * entropy)
                 regularizer = self.policy_regularizer.batch_eval(
                     target_params['reg'], target_params['reg_hparams'], target_state['reg'],
                     next(rngs), transition_batch)

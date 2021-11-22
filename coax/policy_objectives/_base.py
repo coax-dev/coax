@@ -82,7 +82,7 @@ class PolicyObjective:
             if self.regularizer is not None:
                 hparams = hyperparams['regularizer']
                 W = jnp.clip(transition_batch.W, 0.1, 10.)  # clip imp. weights to reduce variance
-                loss = loss + jnp.mean(W * self.regularizer.function(dist_params, **hparams))
+                loss = loss - jnp.mean(W * self.regularizer.function(dist_params, **hparams))
                 metrics[f'{self.__class__.__name__}/loss'] = loss
                 metrics.update(self.regularizer.metrics_func(dist_params, **hparams))
 
