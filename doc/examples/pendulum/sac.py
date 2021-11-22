@@ -49,7 +49,7 @@ q1_targ = q1.copy()
 q2_targ = q2.copy()
 
 # experience tracer
-tracer = coax.reward_tracing.NStep(n=1, gamma=0.9, record_extra_info=True)
+tracer = coax.reward_tracing.NStep(n=5, gamma=0.9, record_extra_info=True)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=25000)
 alpha = 0.2
 policy_regularizer = coax.regularizers.NStepEntropyRegularizer(pi,

@@ -48,7 +48,7 @@ class SoftPG(PolicyObjective):
         # get distribution params from function approximator
         S = self.pi.observation_preprocessor(next(rngs), transition_batch.S)
         dist_params, state_new = self.pi.function(params, state, next(rngs), S, True)
-        A = self.pi.proba_dist.mode(dist_params)
+        A = self.pi.proba_dist.sample(dist_params, next(rngs))
         log_pi = self.pi.proba_dist.log_proba(dist_params, A)
 
         Q_sa_list = []

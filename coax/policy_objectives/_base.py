@@ -64,9 +64,8 @@ class PolicyObjective:
         self._optimizer_state = self.optimizer.init(self._pi.params)
 
         def loss_func(params, state, hyperparams, rng, transition_batch, Adv):
-            rngs = hk.PRNGSequence(rng)
             objective, (dist_params, log_pi, state_new) = \
-                self.objective_func(params, state, hyperparams, next(rngs), transition_batch, Adv)
+                self.objective_func(params, state, hyperparams, rng, transition_batch, Adv)
 
             # flip sign to turn objective into loss
             loss = -objective
@@ -86,7 +85,7 @@ class PolicyObjective:
                 regularizer, regularizer_metrics = self.regularizer.batch_eval(params,
                                                                                hparams,
                                                                                state,
-                                                                               next(rngs),
+                                                                               rng,
                                                                                transition_batch)
                 loss = loss + jnp.mean(W * regularizer)
                 metrics[f'{self.__class__.__name__}/loss'] = loss

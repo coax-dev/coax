@@ -77,7 +77,7 @@ class NStepEntropyRegularizer(EntropyRegularizer):
                 if isinstance(self.f, BaseStochasticFuncType2):
                     dist_params, _ = zip(*[self.f.function(params, state, next(rngs),
                                                            self.f.observation_preprocessor(
-                        next(rngs), s_next), False)
+                        next(rngs), s_next), True)
                         for t, s_next in enumerate(transition_batch.extra_info['states'])
                         if t in self.n])
                 else:
