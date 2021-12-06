@@ -49,7 +49,7 @@ class NStepEntropyRegularizer(EntropyRegularizer):
     n : tuple(int), list(int), ndarray
 
         Time indices of the steps (counted from the current state at time `t`)
-        to include in the regularization. For example `n = [2, 3]` adds an entropy bonus for the 
+        to include in the regularization. For example `n = [2, 3]` adds an entropy bonus for the
         policy at the states t + 2 and t + 3 to the objective.
 
     beta : non-negative float

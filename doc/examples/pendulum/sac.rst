@@ -2,7 +2,7 @@ Pendulum with SAC
 ==================
 
 In this notebook we solve the `Pendulum <https://gym.openai.com/envs/Pendulum-v0/>`_ environment
-using :doc:`SAC </examples/stubs/sac>`. We'll use a simple multi-layer percentron for our function
+using `SAC`. We'll use a simple multi-layer percentron for our function
 approximator for the policy and q-function.
 
 This notebook periodically generates GIFs, so that we can inspect how the training is progressing.
