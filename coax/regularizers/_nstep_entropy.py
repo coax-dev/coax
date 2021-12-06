@@ -28,6 +28,39 @@ from ._entropy import EntropyRegularizer
 
 
 class NStepEntropyRegularizer(EntropyRegularizer):
+    r"""
+
+    Policy regularization term based on the n-step entropy of the policy.
+
+    The regularization term is to be added to the loss function:
+
+    .. math::
+
+        \text{loss}(\theta; s,a)\ =\ -J(\theta; s,a) - \beta\,H[\pi_\theta(.|s)]
+
+    where :math:`J(\theta)` is the bare policy objective.
+
+    Parameters
+    ----------
+    f : stochastic function approximator
+
+        The stochastic function approximator (e.g. :class:`coax.Policy`) to regularize.
+
+    n : tuple(int), list(int), ndarray
+
+        Time indices of the steps (counted from the current state at time `t`)
+        to include in the regularization. For example `n = [2, 3]` adds an entropy bonus for the 
+        policy at the states t + 2 and t + 3 to the objective.
+
+    beta : non-negative float
+
+        The coefficient that determines the strength of the overall regularization term.
+
+    gamma : float between 0 and 1
+
+        The amount by which to discount the entropy bonuses.
+
+    """
 
     def __init__(self, f, n, beta=0.001, gamma=0.99):
         super().__init__(f)
