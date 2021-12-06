@@ -257,14 +257,17 @@ class BaseTDLearningV(BaseTDLearning):
             S = self.v.observation_preprocessor(next(rngs), transition_batch.S)
             W = jnp.clip(transition_batch.W, 0.1, 10.)  # clip importance weights to reduce variance
 
+            metrics = {}
+
             # regularization term
             if self.policy_regularizer is None:
                 regularizer = 0.
             else:
-                # flip sign (typical example: regularizer = -beta * entropy)
-                regularizer = -self.policy_regularizer.batch_eval(
+                regularizer, regularizer_metrics = self.policy_regularizer.batch_eval(
                     target_params['reg'], target_params['reg_hparams'], target_state['reg'],
                     next(rngs), transition_batch)
+                metrics.update({f'{self.__class__.__name__}/{k}': v for k,
+                               v in regularizer_metrics.items()})
 
             if is_stochastic(self.v):
                 dist_params, state_new = self.v.function(params, state, next(rngs), S, True)
@@ -273,9 +276,15 @@ class BaseTDLearningV(BaseTDLearning):
 
                 if self.policy_regularizer is not None:
                     dist_params_target = self.v.proba_dist.affine_transform(
-                        dist_params_target, 1., regularizer, self.v.value_transform)
+                        dist_params_target, 1., -regularizer, self.v.value_transform)
 
-                loss = jnp.mean(self.v.proba_dist.cross_entropy(dist_params_target, dist_params))
+                if isinstance(self.v.proba_dist, DiscretizedIntervalDist):
+                    loss = jnp.mean(self.v.proba_dist.cross_entropy(dist_params_target,
+                                                                    dist_params))
+                elif isinstance(self.v.proba_dist, EmpiricalQuantileDist):
+                    loss = quantile_huber(dist_params_target['values'],
+                                          dist_params['values'],
+                                          dist_params['quantile_fractions'], W)
 
                 # the rest here is only needed for metrics dict
                 V = self.v.proba_dist.mean(dist_params)
@@ -290,7 +299,8 @@ class BaseTDLearningV(BaseTDLearning):
             else:
                 V, state_new = self.v.function(params, state, next(rngs), S, True)
                 G = self.target_func(target_params, target_state, next(rngs), transition_batch)
-                G += regularizer
+                # flip sign (typical example: regularizer = -beta * entropy)
+                G -= regularizer
                 loss = self.loss_function(G, V, W)
 
                 # only needed for metrics dict
@@ -302,11 +312,11 @@ class BaseTDLearningV(BaseTDLearning):
             dLoss_dV = jax.grad(self.loss_function, argnums=1)
             td_error = -V.shape[0] * dLoss_dV(G, V)  # e.g. (G - V) if loss function is MSE
             chex.assert_equal_shape([td_error, W])
-            metrics = {
+            metrics.update({
                 f'{self.__class__.__name__}/loss': loss,
                 f'{self.__class__.__name__}/td_error': jnp.mean(W * td_error),
                 f'{self.__class__.__name__}/td_error_targ': jnp.mean(-dLoss_dV(V, V_targ, W)),
-            }
+            })
             return loss, (td_error, state_new, metrics)
 
         def grads_and_metrics_func(
@@ -403,14 +413,17 @@ class BaseTDLearningQ(BaseTDLearning):
             A = self.q.action_preprocessor(next(rngs), transition_batch.A)
             W = jnp.clip(transition_batch.W, 0.1, 10.)  # clip importance weights to reduce variance
 
+            metrics = {}
+
             # regularization term
             if self.policy_regularizer is None:
                 regularizer = 0.
             else:
-                # flip sign (typical example: regularizer = -beta * entropy)
-                regularizer = -self.policy_regularizer.batch_eval(
+                regularizer, regularizer_metrics = self.policy_regularizer.batch_eval(
                     target_params['reg'], target_params['reg_hparams'], target_state['reg'],
                     next(rngs), transition_batch)
+                metrics.update({f'{self.__class__.__name__}/{k}': v for k,
+                               v in regularizer_metrics.items()})
 
             if is_stochastic(self.q):
                 dist_params, state_new = \
@@ -418,11 +431,11 @@ class BaseTDLearningQ(BaseTDLearning):
                 dist_params_target = \
                     self.target_func(target_params, target_state, rng, transition_batch)
 
-                if isinstance(self.q.proba_dist, DiscretizedIntervalDist):
-                    if self.policy_regularizer is not None:
-                        dist_params_target = self.q.proba_dist.affine_transform(
-                            dist_params_target, 1., regularizer, self.q.value_transform)
+                if self.policy_regularizer is not None:
+                    dist_params_target = self.q.proba_dist.affine_transform(
+                        dist_params_target, 1., -regularizer, self.q.value_transform)
 
+                if isinstance(self.q.proba_dist, DiscretizedIntervalDist):
                     loss = jnp.mean(self.q.proba_dist.cross_entropy(dist_params_target,
                                                                     dist_params))
                 elif isinstance(self.q.proba_dist, EmpiricalQuantileDist):
@@ -443,7 +456,8 @@ class BaseTDLearningQ(BaseTDLearning):
             else:
                 Q, state_new = self.q.function_type1(params, state, next(rngs), S, A, True)
                 G = self.target_func(target_params, target_state, next(rngs), transition_batch)
-                G += regularizer
+                # flip sign (typical example: regularizer = -beta * entropy)
+                G -= regularizer
                 loss = self.loss_function(G, Q, W)
 
                 # only needed for metrics dict
@@ -455,11 +469,11 @@ class BaseTDLearningQ(BaseTDLearning):
             dLoss_dQ = jax.grad(self.loss_function, argnums=1)
             td_error = -Q.shape[0] * dLoss_dQ(G, Q)  # e.g. (G - Q) if loss function is MSE
             chex.assert_equal_shape([td_error, W])
-            metrics = {
+            metrics.update({
                 f'{self.__class__.__name__}/loss': loss,
                 f'{self.__class__.__name__}/td_error': jnp.mean(W * td_error),
                 f'{self.__class__.__name__}/td_error_targ': jnp.mean(-dLoss_dQ(Q, Q_targ, W)),
-            }
+            })
             return loss, (td_error, state_new, metrics)
 
         def grads_and_metrics_func(
