@@ -20,6 +20,7 @@
 # ------------------------------------------------------------------------------------------------ #
 
 import haiku as hk
+import jax
 import jax.numpy as jnp
 
 from .._core.base_stochastic_func_type2 import BaseStochasticFuncType2
@@ -69,29 +70,27 @@ class NStepEntropyRegularizer(EntropyRegularizer):
         if len(n) == 0:
             raise ValueError("n cannot be empty")
         self.n = n
+        self._n = jnp.array(n)
         self.beta = beta
         self.gamma = gamma
-        self._gammas = jnp.power(self.gamma, jnp.arange(self.n[-1] + 1))
+        self._gammas = jnp.take(jnp.power(self.gamma, jnp.arange(self.n[-1] + 1)), self._n)
 
-        def entropy(dist_params, valid):
-            return sum([gamma * self.f.proba_dist.entropy(p) * v
-                        for p, v, gamma in zip(dist_params, valid, self._gammas)])
-
-        def function(dist_params, beta):
-            assert len(dist_params) == 2
-            params, dones = dist_params
+        def entropy(dist_params, dones):
             valid = self.valid_from_done(dones)
-            return -beta * entropy(params, valid)
+            vf = jax.vmap(lambda p, v, gamma: gamma * self.f.proba_dist.entropy(p) * v)
+            return jnp.sum(vf(dist_params, valid, self._gammas), axis=0)
 
-        def metrics(dist_params, beta):
+        def function(dist_params, dones, beta):
             assert len(dist_params) == 2
-            params, dones = dist_params
+            return -beta * entropy(dist_params, dones)
+
+        def metrics(dist_params, dones, beta):
+            assert len(dist_params) == 2
             valid = self.valid_from_done(dones)
             return {
                 'EntropyRegularizer/beta': beta,
-                'EntropyRegularizer/entropy': jnp.mean(entropy(params, valid) /
-                                                       sum([v for v, _ in zip(valid, self._gammas)])
-                                                       )
+                'EntropyRegularizer/entropy': jnp.mean(entropy(dist_params, dones) /
+                                                       jnp.sum(valid, axis=0))
             }
 
         self._function = jit(function)
@@ -108,18 +107,24 @@ class NStepEntropyRegularizer(EntropyRegularizer):
                         ' "dones" for the n-step entropy regularization. Make sure to set the' +
                         ' record_extra_info flag in the NStep tracer.')
                 if isinstance(self.f, BaseStochasticFuncType2):
-                    dist_params, _ = zip(*[self.f.function(params, state, next(rngs),
-                                                           self.f.observation_preprocessor(
-                        next(rngs), s_next), True)
-                        for t, s_next in enumerate(transition_batch.extra_info['states'])
-                        if t in self.n])
+                    def f(s_next):
+                        return self.f.function(params,
+                                               state, next(rngs),
+                                               self.f.observation_preprocessor(
+                                                   next(rngs), s_next), True)
+                    dist_params, _ = jax.vmap(f)(jnp.stack(transition_batch.extra_info['states']))
+                    dist_params = jax.tree_util.tree_map(
+                        lambda t: jnp.take(t, self._n, axis=0), dist_params)
                 else:
                     raise TypeError(
                         "f must be derived from BaseStochasticFuncType2")
-                dist_params = (dist_params, jnp.asarray(
-                    [d for t, d in enumerate(transition_batch.extra_info['dones']) if t in self.n]))
-                return self.function(dist_params, **hyperparams), self.metrics_func(dist_params,
-                                                                                    **hyperparams)
+                dones = jnp.stack(transition_batch.extra_info['dones'])
+                dones = jnp.take(dones, self._n, axis=0)
+
+                return self.function(dist_params,
+                                     dones,
+                                     **hyperparams), self.metrics_func(dist_params, dones,
+                                                                       **hyperparams)
 
             self._batch_eval_func = jit(batch_eval_func)
 
