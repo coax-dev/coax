@@ -112,7 +112,9 @@ class NStepEntropyRegularizer(EntropyRegularizer):
                                                state, next(rngs),
                                                self.f.observation_preprocessor(
                                                    next(rngs), s_next), True)
-                    dist_params, _ = jax.vmap(f)(jnp.stack(transition_batch.extra_info['states']))
+                    n_states = transition_batch.extra_info['states']
+                    dist_params, _ = jax.vmap(f)(jax.tree_util.tree_multimap(
+                        lambda *t: jnp.stack(t), *n_states))
                     dist_params = jax.tree_util.tree_map(
                         lambda t: jnp.take(t, self._n, axis=0), dist_params)
                 else:
