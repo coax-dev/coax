@@ -1,4 +1,4 @@
-jax>=0.2.21
+jax>=0.2.25
 jaxlib>=0.1.71
 Sphinx>=3.3.1
 sphinx-rtd-theme>=0.5.0

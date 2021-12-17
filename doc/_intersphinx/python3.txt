@@ -1514,9 +1514,9 @@ py:attribute
 	configparser.ConfigParser.BOOLEAN_STATES library/configparser.html#configparser.ConfigParser.BOOLEAN_STATES
 	configparser.ConfigParser.SECTCRE        library/configparser.html#configparser.ConfigParser.SECTCRE
 	contextvars.ContextVar.name              library/contextvars.html#contextvars.ContextVar.name
-	contextvars.contextvars.Token.Token.MISSING library/contextvars.html#contextvars.contextvars.Token.Token.MISSING
-	contextvars.contextvars.Token.Token.old_value library/contextvars.html#contextvars.contextvars.Token.Token.old_value
-	contextvars.contextvars.Token.Token.var  library/contextvars.html#contextvars.contextvars.Token.Token.var
+	contextvars.Token.MISSING                library/contextvars.html#contextvars.Token.MISSING
+	contextvars.Token.old_value              library/contextvars.html#contextvars.Token.old_value
+	contextvars.Token.var                    library/contextvars.html#contextvars.Token.var
 	crypt.methods                            library/crypt.html#crypt.methods
 	csv.Dialect.delimiter                    library/csv.html#csv.Dialect.delimiter
 	csv.Dialect.doublequote                  library/csv.html#csv.Dialect.doublequote
@@ -2636,7 +2636,7 @@ py:class
 	contextlib.aclosing                      library/contextlib.html#contextlib.aclosing
 	contextvars.Context                      library/contextvars.html#contextvars.Context
 	contextvars.ContextVar                   library/contextvars.html#contextvars.ContextVar
-	contextvars.contextvars.Token            library/contextvars.html#contextvars.contextvars.Token
+	contextvars.Token                        library/contextvars.html#contextvars.Token
 	csv.Dialect                              library/csv.html#csv.Dialect
 	csv.DictReader                           library/csv.html#csv.DictReader
 	csv.DictWriter                           library/csv.html#csv.DictWriter
@@ -3006,6 +3006,7 @@ py:class
 	smtplib.LMTP                             library/smtplib.html#smtplib.LMTP
 	smtplib.SMTP                             library/smtplib.html#smtplib.SMTP
 	smtplib.SMTP_SSL                         library/smtplib.html#smtplib.SMTP_SSL
+	socket.socket                            library/socket.html#socket.socket
 	socketserver.BaseRequestHandler          library/socketserver.html#socketserver.BaseRequestHandler
 	socketserver.BaseServer                  library/socketserver.html#socketserver.BaseServer
 	socketserver.DatagramRequestHandler      library/socketserver.html#socketserver.DatagramRequestHandler
@@ -3152,6 +3153,7 @@ py:class
 	types.ModuleType                         library/types.html#types.ModuleType
 	types.SimpleNamespace                    library/types.html#types.SimpleNamespace
 	types.TracebackType                      library/types.html#types.TracebackType
+	types.UnionType                          library/types.html#types.UnionType
 	typing.AbstractSet                       library/typing.html#typing.AbstractSet
 	typing.AsyncContextManager               library/typing.html#typing.AsyncContextManager
 	typing.AsyncGenerator                    library/typing.html#typing.AsyncGenerator
@@ -4011,8 +4013,11 @@ py:data
 	socket.has_ipv6                          library/socket.html#socket.has_ipv6
 	sqlite3.PARSE_COLNAMES                   library/sqlite3.html#sqlite3.PARSE_COLNAMES
 	sqlite3.PARSE_DECLTYPES                  library/sqlite3.html#sqlite3.PARSE_DECLTYPES
+	sqlite3.apilevel                         library/sqlite3.html#sqlite3.apilevel
+	sqlite3.paramstyle                       library/sqlite3.html#sqlite3.paramstyle
 	sqlite3.sqlite_version                   library/sqlite3.html#sqlite3.sqlite_version
 	sqlite3.sqlite_version_info              library/sqlite3.html#sqlite3.sqlite_version_info
+	sqlite3.threadsafety                     library/sqlite3.html#sqlite3.threadsafety
 	sqlite3.version                          library/sqlite3.html#sqlite3.version
 	sqlite3.version_info                     library/sqlite3.html#sqlite3.version_info
 	ssl.ALERT_DESCRIPTION_HANDSHAKE_FAILURE  library/ssl.html#ssl.ALERT_DESCRIPTION_HANDSHAKE_FAILURE
@@ -4386,7 +4391,6 @@ py:data
 	types.MethodWrapperType                  library/types.html#types.MethodWrapperType
 	types.NoneType                           library/types.html#types.NoneType
 	types.NotImplementedType                 library/types.html#types.NotImplementedType
-	types.UnionType                          library/types.html#types.UnionType
 	types.WrapperDescriptorType              library/types.html#types.WrapperDescriptorType
 	typing.Annotated                         library/typing.html#typing.Annotated
 	typing.Any                               library/typing.html#typing.Any
@@ -6335,7 +6339,6 @@ py:function
 	socket.send_fds                          library/socket.html#socket.send_fds
 	socket.setdefaulttimeout                 library/socket.html#socket.setdefaulttimeout
 	socket.sethostname                       library/socket.html#socket.sethostname
-	socket.socket                            library/socket.html#socket.socket
 	socket.socketpair                        library/socket.html#socket.socketpair
 	sorted                                   library/functions.html#sorted
 	spwd.getspall                            library/spwd.html#spwd.getspall
@@ -8371,6 +8374,15 @@ py:method
 	importlib.abc.SourceLoader.path_mtime    library/importlib.html#importlib.abc.SourceLoader.path_mtime
 	importlib.abc.SourceLoader.path_stats    library/importlib.html#importlib.abc.SourceLoader.path_stats
 	importlib.abc.SourceLoader.set_data      library/importlib.html#importlib.abc.SourceLoader.set_data
+	importlib.abc.Traversable.__truediv__    library/importlib.html#importlib.abc.Traversable.__truediv__
+	importlib.abc.Traversable.is_dir         library/importlib.html#importlib.abc.Traversable.is_dir
+	importlib.abc.Traversable.is_file        library/importlib.html#importlib.abc.Traversable.is_file
+	importlib.abc.Traversable.iterdir        library/importlib.html#importlib.abc.Traversable.iterdir
+	importlib.abc.Traversable.joinpath       library/importlib.html#importlib.abc.Traversable.joinpath
+	importlib.abc.Traversable.name           library/importlib.html#importlib.abc.Traversable.name
+	importlib.abc.Traversable.open           library/importlib.html#importlib.abc.Traversable.open
+	importlib.abc.Traversable.read_bytes     library/importlib.html#importlib.abc.Traversable.read_bytes
+	importlib.abc.Traversable.read_text      library/importlib.html#importlib.abc.Traversable.read_text
 	importlib.machinery.ExtensionFileLoader.create_module library/importlib.html#importlib.machinery.ExtensionFileLoader.create_module
 	importlib.machinery.ExtensionFileLoader.exec_module library/importlib.html#importlib.machinery.ExtensionFileLoader.exec_module
 	importlib.machinery.ExtensionFileLoader.get_code library/importlib.html#importlib.machinery.ExtensionFileLoader.get_code
@@ -8567,6 +8579,7 @@ py:method
 	logging.handlers.SysLogHandler.mapPriority library/logging.handlers.html#logging.handlers.SysLogHandler.mapPriority
 	logging.handlers.TimedRotatingFileHandler.doRollover library/logging.handlers.html#logging.handlers.TimedRotatingFileHandler.doRollover
 	logging.handlers.TimedRotatingFileHandler.emit library/logging.handlers.html#logging.handlers.TimedRotatingFileHandler.emit
+	logging.handlers.TimedRotatingFileHandler.getFilesToDelete library/logging.handlers.html#logging.handlers.TimedRotatingFileHandler.getFilesToDelete
 	logging.handlers.WatchedFileHandler.emit library/logging.handlers.html#logging.handlers.WatchedFileHandler.emit
 	logging.handlers.WatchedFileHandler.reopenIfNeeded library/logging.handlers.html#logging.handlers.WatchedFileHandler.reopenIfNeeded
 	logging.logging.Formatter.__init__       howto/logging.html#logging.logging.Formatter.__init__
@@ -9278,6 +9291,8 @@ py:method
 	sqlite3.Cursor.fetchall                  library/sqlite3.html#sqlite3.Cursor.fetchall
 	sqlite3.Cursor.fetchmany                 library/sqlite3.html#sqlite3.Cursor.fetchmany
 	sqlite3.Cursor.fetchone                  library/sqlite3.html#sqlite3.Cursor.fetchone
+	sqlite3.Cursor.setinputsizes             library/sqlite3.html#sqlite3.Cursor.setinputsizes
+	sqlite3.Cursor.setoutputsize             library/sqlite3.html#sqlite3.Cursor.setoutputsize
 	sqlite3.Row.keys                         library/sqlite3.html#sqlite3.Row.keys
 	ssl.MemoryBIO.read                       library/ssl.html#ssl.MemoryBIO.read
 	ssl.MemoryBIO.write                      library/ssl.html#ssl.MemoryBIO.write
@@ -11499,7 +11514,7 @@ std:label
 	bpo-36085-whatsnew                       whatsnew/3.8.html#bpo-36085-whatsnew
 	break                                    The break statement                     : reference/simple_stmts.html#break
 	browser-controllers                      Browser Controller Objects              : library/webbrowser.html#browser-controllers
-	bsd0                                     ZERO-CLAUSE BSD LICENSE FOR CODE IN THE PYTHON 3.10.0 DOCUMENTATION: license.html#bsd0
+	bsd0                                     ZERO-CLAUSE BSD LICENSE FOR CODE IN THE PYTHON 3.10.1 DOCUMENTATION: license.html#bsd0
 	buffer-request-types                     Buffer request types                    : c-api/buffer.html#buffer-request-types
 	buffer-structs                           Buffer Object Structures                : c-api/typeobj.html#buffer-structs
 	buffer-structure                         Buffer structure                        : c-api/buffer.html#buffer-structure
@@ -11546,6 +11561,7 @@ std:label
 	class-object-creation                    Creating the class object               : reference/datamodel.html#class-object-creation
 	class-pattern-matching                   Customizing positional arguments in class pattern matching: reference/datamodel.html#class-pattern-matching
 	class-patterns                           Class Patterns                          : reference/compound_stmts.html#class-patterns
+	classgetitem-versus-getitem              __class_getitem__ versus __getitem__    : reference/datamodel.html#classgetitem-versus-getitem
 	cmd-example                              Cmd Example                             : library/cmd.html#cmd-example
 	cmd-objects                              Cmd Objects                             : library/cmd.html#cmd-objects
 	cmdarg-dash                              using/cmdline.html#cmdarg-dash
@@ -12001,6 +12017,7 @@ std:label
 	install-layout-option                    Installing Without Downloading          : using/windows.html#install-layout-option
 	install-quiet-option                     Installing Without UI                   : using/windows.html#install-quiet-option
 	install-scripts-cmd                      install_scripts                         : distutils/commandref.html#install-scripts-cmd
+	installation_paths                       Installation paths                      : library/sysconfig.html#installation-paths
 	installing-index                         Installing Python Modules               : installing/index.html#installing-index
 	instancemethod-objects                   Instance Method Objects                 : c-api/method.html#instancemethod-objects
 	instrumentation                          Instrumenting CPython with DTrace and SystemTap: howto/instrumentation.html#instrumentation
@@ -12350,7 +12367,7 @@ std:label
 	proxy-basic-auth-handler                 ProxyBasicAuthHandler Objects           : library/urllib.request.html#proxy-basic-auth-handler
 	proxy-digest-auth-handler                ProxyDigestAuthHandler Objects          : library/urllib.request.html#proxy-digest-auth-handler
 	proxy-handler                            ProxyHandler Objects                    : library/urllib.request.html#proxy-handler
-	psf-license                              PSF LICENSE AGREEMENT FOR PYTHON 3.10.0 : license.html#psf-license
+	psf-license                              PSF LICENSE AGREEMENT FOR PYTHON 3.10.1 : license.html#psf-license
 	publishing-python-packages               Reading the Python Packaging User Guide : distributing/index.html#publishing-python-packages
 	pure-embedding                           Pure Embedding                          : extending/embedding.html#pure-embedding
 	pure-mod                                 Pure Python distribution (by module)    : distutils/examples.html#pure-mod
@@ -12395,6 +12412,7 @@ std:label
 	regex-howto                              Regular Expression HOWTO                : howto/regex.html#regex-howto
 	regrtest                                 Running tests using the command-line interface: library/test.html#regrtest
 	relativeimports                          Package Relative Imports                : reference/import.html#relativeimports
+	relevant-peps                            Relevant PEPs                           : library/typing.html#relevant-peps
 	removed-in-python-39                     Removed                                 : whatsnew/3.9.html#removed-in-python-39
 	reporting-bugs                           Dealing with Bugs                       : bugs.html#reporting-bugs
 	repr-objects                             Repr Objects                            : library/reprlib.html#repr-objects
@@ -12756,6 +12774,7 @@ std:label
 	urllib-request-examples                  Examples                                : library/urllib.request.html#urllib-request-examples
 	urlparse-result-object                   Structured Parse Results                : library/urllib.parse.html#urlparse-result-object
 	useful-handlers                          Useful Handlers                         : howto/logging.html#useful-handlers
+	user-defined-generics                    User-defined generic types              : library/typing.html#user-defined-generics
 	using                                    Using importlib.metadata                : library/importlib.metadata.html#using
 	using-capsules                           Providing a C API for an Extension Module: extending/extending.html#using-capsules
 	using-index                              Python Setup and Usage                  : using/index.html#using-index

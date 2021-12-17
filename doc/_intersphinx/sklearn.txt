@@ -2386,6 +2386,7 @@ py:property
 	sklearn.cluster.SpectralBiclustering.biclusters_ modules/generated/sklearn.cluster.SpectralBiclustering.html#sklearn.cluster.SpectralBiclustering.biclusters_
 	sklearn.cluster.SpectralCoclustering.biclusters_ modules/generated/sklearn.cluster.SpectralCoclustering.html#sklearn.cluster.SpectralCoclustering.biclusters_
 	sklearn.compose.ColumnTransformer.named_transformers_ modules/generated/sklearn.compose.ColumnTransformer.html#sklearn.compose.ColumnTransformer.named_transformers_
+	sklearn.compose.TransformedTargetRegressor.n_features_in_ modules/generated/sklearn.compose.TransformedTargetRegressor.html#sklearn.compose.TransformedTargetRegressor.n_features_in_
 	sklearn.covariance.GraphicalLassoCV.cv_alphas_ modules/generated/sklearn.covariance.GraphicalLassoCV.html#sklearn.covariance.GraphicalLassoCV.cv_alphas_
 	sklearn.covariance.GraphicalLassoCV.grid_scores_ modules/generated/sklearn.covariance.GraphicalLassoCV.html#sklearn.covariance.GraphicalLassoCV.grid_scores_
 	sklearn.cross_decomposition.CCA.norm_y_weights modules/generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA.norm_y_weights
@@ -2541,6 +2542,7 @@ py:property
 	sklearn.linear_model.PoissonRegressor.family modules/generated/sklearn.linear_model.PoissonRegressor.html#sklearn.linear_model.PoissonRegressor.family
 	sklearn.linear_model.RidgeClassifier.classes_ modules/generated/sklearn.linear_model.RidgeClassifier.html#sklearn.linear_model.RidgeClassifier.classes_
 	sklearn.linear_model.RidgeClassifierCV.classes_ modules/generated/sklearn.linear_model.RidgeClassifierCV.html#sklearn.linear_model.RidgeClassifierCV.classes_
+	sklearn.linear_model.TweedieRegressor.family modules/generated/sklearn.linear_model.TweedieRegressor.html#sklearn.linear_model.TweedieRegressor.family
 	sklearn.model_selection.GridSearchCV.classes_ modules/generated/sklearn.model_selection.GridSearchCV.html#sklearn.model_selection.GridSearchCV.classes_
 	sklearn.model_selection.GridSearchCV.n_features_in_ modules/generated/sklearn.model_selection.GridSearchCV.html#sklearn.model_selection.GridSearchCV.n_features_in_
 	sklearn.model_selection.HalvingGridSearchCV.classes_ modules/generated/sklearn.model_selection.HalvingGridSearchCV.html#sklearn.model_selection.HalvingGridSearchCV.classes_
@@ -2573,6 +2575,7 @@ py:property
 	sklearn.pipeline.Pipeline.n_features_in_ modules/generated/sklearn.pipeline.Pipeline.html#sklearn.pipeline.Pipeline.n_features_in_
 	sklearn.pipeline.Pipeline.named_steps    modules/generated/sklearn.pipeline.Pipeline.html#sklearn.pipeline.Pipeline.named_steps
 	sklearn.preprocessing.PolynomialFeatures.n_input_features_ modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures.n_input_features_
+	sklearn.preprocessing.PolynomialFeatures.powers_ modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures.powers_
 	sklearn.svm.NuSVC.coef_                  modules/generated/sklearn.svm.NuSVC.html#sklearn.svm.NuSVC.coef_
 	sklearn.svm.NuSVC.n_support_             modules/generated/sklearn.svm.NuSVC.html#sklearn.svm.NuSVC.n_support_
 	sklearn.svm.NuSVC.probA_                 modules/generated/sklearn.svm.NuSVC.html#sklearn.svm.NuSVC.probA_
@@ -2810,6 +2813,7 @@ std:doc
 	auto_examples/miscellaneous/plot_multilabel Multilabel classification               : auto_examples/miscellaneous/plot_multilabel.html
 	auto_examples/miscellaneous/plot_multioutput_face_completion Face completion with a multi-output estimators: auto_examples/miscellaneous/plot_multioutput_face_completion.html
 	auto_examples/miscellaneous/plot_partial_dependence_visualization_api Advanced Plotting With Partial Dependence: auto_examples/miscellaneous/plot_partial_dependence_visualization_api.html
+	auto_examples/miscellaneous/plot_pipeline_display Displaying Pipelines                    : auto_examples/miscellaneous/plot_pipeline_display.html
 	auto_examples/miscellaneous/plot_roc_curve_visualization_api ROC Curve with Visualization API        : auto_examples/miscellaneous/plot_roc_curve_visualization_api.html
 	auto_examples/miscellaneous/sg_execution_times Computation times                       : auto_examples/miscellaneous/sg_execution_times.html
 	auto_examples/mixture/plot_concentration_prior Concentration Prior Type Analysis of Variation Bayesian Gaussian Mixture: auto_examples/mixture/plot_concentration_prior.html
@@ -3555,7 +3559,7 @@ std:doc
 	whats_new/v0.22                          Version 0.22.2.post1                    : whats_new/v0.22.html
 	whats_new/v0.23                          Version 0.23.2                          : whats_new/v0.23.html
 	whats_new/v0.24                          Version 0.24.2                          : whats_new/v0.24.html
-	whats_new/v1.0                           Version 1.0.0                           : whats_new/v1.0.html
+	whats_new/v1.0                           Version 1.0.1                           : whats_new/v1.0.html
 std:label
 	20newsgroups_dataset                     The 20 newsgroups text dataset          : datasets/real_world.html#newsgroups-dataset
 	about                                    About us                                : about.html#about
@@ -3650,6 +3654,7 @@ std:label
 	changes_0_8                              Version 0.8                             : whats_new/older_versions.html#changes-0-8
 	changes_0_9                              Version 0.9                             : whats_new/older_versions.html#changes-0-9
 	changes_1_0                              Version 1.0.0                           : whats_new/v1.0.html#changes-1-0
+	changes_1_0_1                            Version 1.0.1                           : whats_new/v1.0.html#changes-1-0-1
 	chi2_kernel                              Chi-squared kernel                      : modules/metrics.html#chi2-kernel
 	citing-scikit-learn                      Citing scikit-learn                     : about.html#citing-scikit-learn
 	classification                           Nearest Neighbors Classification        : modules/neighbors.html#classification
@@ -4119,6 +4124,10 @@ std:label
 	r57cf438d7060-4                          modules/generated/sklearn.calibration.CalibratedClassifierCV.html#r57cf438d7060-4
 	r57df20f82832-1                          modules/generated/sklearn.metrics.fowlkes_mallows_score.html#r57df20f82832-1
 	r57df20f82832-2                          modules/generated/sklearn.metrics.fowlkes_mallows_score.html#r57df20f82832-2
+	r5f6cbeb1558e-1                          modules/generated/sklearn.cluster.SpectralClustering.html#r5f6cbeb1558e-1
+	r5f6cbeb1558e-2                          modules/generated/sklearn.cluster.SpectralClustering.html#r5f6cbeb1558e-2
+	r5f6cbeb1558e-3                          modules/generated/sklearn.cluster.SpectralClustering.html#r5f6cbeb1558e-3
+	r5f6cbeb1558e-4                          modules/generated/sklearn.cluster.SpectralClustering.html#r5f6cbeb1558e-4
 	r606df7ffad02-1                          modules/generated/sklearn.ensemble.StackingRegressor.html#r606df7ffad02-1
 	r61802d06a170-1                          modules/generated/sklearn.cluster.compute_optics_graph.html#r61802d06a170-1
 	r623484488881-1                          modules/generated/sklearn.metrics.precision_recall_fscore_support.html#r623484488881-1
@@ -4148,6 +4157,10 @@ std:label
 	r80ce5b25cf9d-1                          modules/generated/sklearn.linear_model.RANSACRegressor.html#r80ce5b25cf9d-1
 	r80ce5b25cf9d-2                          modules/generated/sklearn.linear_model.RANSACRegressor.html#r80ce5b25cf9d-2
 	r80ce5b25cf9d-3                          modules/generated/sklearn.linear_model.RANSACRegressor.html#r80ce5b25cf9d-3
+	r89dec4780971-1                          modules/generated/sklearn.cluster.spectral_clustering.html#r89dec4780971-1
+	r89dec4780971-2                          modules/generated/sklearn.cluster.spectral_clustering.html#r89dec4780971-2
+	r89dec4780971-3                          modules/generated/sklearn.cluster.spectral_clustering.html#r89dec4780971-3
+	r89dec4780971-4                          modules/generated/sklearn.cluster.spectral_clustering.html#r89dec4780971-4
 	r9465bad4668c-rvdriessen                 modules/generated/sklearn.covariance.MinCovDet.html#r9465bad4668c-rvdriessen
 	r95f74c4622c1-1                          modules/generated/sklearn.gaussian_process.kernels.DotProduct.html#r95f74c4622c1-1
 	r9709ce4a60d3-1                          modules/generated/sklearn.svm.NuSVC.html#r9709ce4a60d3-1
@@ -4536,6 +4549,7 @@ std:label
 	sphx_glr_auto_examples_miscellaneous_plot_multilabel.py Multilabel classification               : auto_examples/miscellaneous/plot_multilabel.html#sphx-glr-auto-examples-miscellaneous-plot-multilabel-py
 	sphx_glr_auto_examples_miscellaneous_plot_multioutput_face_completion.py Face completion with a multi-output estimators: auto_examples/miscellaneous/plot_multioutput_face_completion.html#sphx-glr-auto-examples-miscellaneous-plot-multioutput-face-completion-py
 	sphx_glr_auto_examples_miscellaneous_plot_partial_dependence_visualization_api.py Advanced Plotting With Partial Dependence: auto_examples/miscellaneous/plot_partial_dependence_visualization_api.html#sphx-glr-auto-examples-miscellaneous-plot-partial-dependence-visualization-api-py
+	sphx_glr_auto_examples_miscellaneous_plot_pipeline_display.py Displaying Pipelines                    : auto_examples/miscellaneous/plot_pipeline_display.html#sphx-glr-auto-examples-miscellaneous-plot-pipeline-display-py
 	sphx_glr_auto_examples_miscellaneous_plot_roc_curve_visualization_api.py ROC Curve with Visualization API        : auto_examples/miscellaneous/plot_roc_curve_visualization_api.html#sphx-glr-auto-examples-miscellaneous-plot-roc-curve-visualization-api-py
 	sphx_glr_auto_examples_miscellaneous_sg_execution_times Computation times                       : auto_examples/miscellaneous/sg_execution_times.html#sphx-glr-auto-examples-miscellaneous-sg-execution-times
 	sphx_glr_auto_examples_mixture           Gaussian Mixture Models                 : auto_examples/index.html#sphx-glr-auto-examples-mixture
@@ -4835,6 +4849,7 @@ std:label
 	sphx_glr_download_auto_examples_miscellaneous_plot_multilabel.py auto_examples/miscellaneous/plot_multilabel.html#sphx-glr-download-auto-examples-miscellaneous-plot-multilabel-py
 	sphx_glr_download_auto_examples_miscellaneous_plot_multioutput_face_completion.py auto_examples/miscellaneous/plot_multioutput_face_completion.html#sphx-glr-download-auto-examples-miscellaneous-plot-multioutput-face-completion-py
 	sphx_glr_download_auto_examples_miscellaneous_plot_partial_dependence_visualization_api.py auto_examples/miscellaneous/plot_partial_dependence_visualization_api.html#sphx-glr-download-auto-examples-miscellaneous-plot-partial-dependence-visualization-api-py
+	sphx_glr_download_auto_examples_miscellaneous_plot_pipeline_display.py auto_examples/miscellaneous/plot_pipeline_display.html#sphx-glr-download-auto-examples-miscellaneous-plot-pipeline-display-py
 	sphx_glr_download_auto_examples_miscellaneous_plot_roc_curve_visualization_api.py auto_examples/miscellaneous/plot_roc_curve_visualization_api.html#sphx-glr-download-auto-examples-miscellaneous-plot-roc-curve-visualization-api-py
 	sphx_glr_download_auto_examples_mixture_plot_concentration_prior.py auto_examples/mixture/plot_concentration_prior.html#sphx-glr-download-auto-examples-mixture-plot-concentration-prior-py
 	sphx_glr_download_auto_examples_mixture_plot_gmm.py auto_examples/mixture/plot_gmm.html#sphx-glr-download-auto-examples-mixture-plot-gmm-py

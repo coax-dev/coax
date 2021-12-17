@@ -160,6 +160,8 @@ py:function
 	haiku.max_pool                           api.html#haiku.max_pool
 	haiku.maybe_next_rng_key                 api.html#haiku.maybe_next_rng_key
 	haiku.mixed_precision.clear_policy       api.html#haiku.mixed_precision.clear_policy
+	haiku.mixed_precision.current_policy     api.html#haiku.mixed_precision.current_policy
+	haiku.mixed_precision.get_policy         api.html#haiku.mixed_precision.get_policy
 	haiku.mixed_precision.set_policy         api.html#haiku.mixed_precision.set_policy
 	haiku.multi_transform                    api.html#haiku.multi_transform
 	haiku.multi_transform_with_state         api.html#haiku.multi_transform_with_state
@@ -332,7 +334,7 @@ std:doc
 	notebooks/build_your_own_haiku           Build your own Haiku                    : notebooks/build_your_own_haiku.html
 	notebooks/jax2tf                         Haiku and jax2tf                        : notebooks/jax2tf.html
 	notebooks/non_trainable                  Training a subset of parameters         : notebooks/non_trainable.html
-	notebooks/transforms                     Limitations of using JAX transforms inside of networks: notebooks/transforms.html
+	notebooks/transforms                     Limitations of Nesting JAX Functions and Haiku Modules: notebooks/transforms.html
 	notebooks/visualization                  Visualization                           : notebooks/visualization.html
 std:label
 	/api.rst                                 Haiku Fundamentals                      : api.html
@@ -367,6 +369,7 @@ std:label
 	/api.rst#create                          create                                  : api.html#create
 	/api.rst#create-from-padfn               create_from_padfn                       : api.html#create-from-padfn
 	/api.rst#create-from-tuple               create_from_tuple                       : api.html#create-from-tuple
+	/api.rst#current-policy                  current_policy                          : api.html#current-policy
 	/api.rst#custom-creator                  custom_creator                          : api.html#custom-creator
 	/api.rst#custom-getter                   custom_getter                           : api.html#custom-getter
 	/api.rst#deeprnn                         DeepRNN                                 : api.html#deeprnn
@@ -386,6 +389,7 @@ std:label
 	/api.rst#fori-loop                       fori_loop                               : api.html#fori-loop
 	/api.rst#full                            full                                    : api.html#full
 	/api.rst#get-parameter                   get_parameter                           : api.html#get-parameter
+	/api.rst#get-policy                      get_policy                              : api.html#get-policy
 	/api.rst#get-state                       get_state                               : api.html#get-state
 	/api.rst#gettercontext                   GetterContext                           : api.html#gettercontext
 	/api.rst#getters-and-interceptors        Getters and Interceptors                : api.html#getters-and-interceptors
@@ -570,6 +574,8 @@ std:label
 	/api.rst#haiku.methodcontext.module      haiku.MethodContext.module              : api.html#haiku.MethodContext.module
 	/api.rst#haiku.methodcontext.orig_method haiku.MethodContext.orig_method         : api.html#haiku.MethodContext.orig_method
 	/api.rst#haiku.mixed_precision.clear_policy haiku.mixed_precision.clear_policy      : api.html#haiku.mixed_precision.clear_policy
+	/api.rst#haiku.mixed_precision.current_policy haiku.mixed_precision.current_policy    : api.html#haiku.mixed_precision.current_policy
+	/api.rst#haiku.mixed_precision.get_policy haiku.mixed_precision.get_policy        : api.html#haiku.mixed_precision.get_policy
 	/api.rst#haiku.mixed_precision.set_policy haiku.mixed_precision.set_policy        : api.html#haiku.mixed_precision.set_policy
 	/api.rst#haiku.module                    haiku.Module                            : api.html#haiku.Module
 	/api.rst#haiku.module.__init__           haiku.Module.__init__                   : api.html#haiku.Module.__init__
@@ -767,7 +773,6 @@ std:label
 	/api.rst#optimize-rng-use                optimize_rng_use                        : api.html#optimize-rng-use
 	/api.rst#orthogonal                      Orthogonal                              : api.html#orthogonal
 	/api.rst#padfn                           PadFn                                   : api.html#padfn
-	/api.rst#paramcontext                    ParamContext                            : api.html#paramcontext
 	/api.rst#params                          Params                                  : api.html#params
 	/api.rst#partition                       partition                               : api.html#partition
 	/api.rst#partition-n                     partition_n                             : api.html#partition-n
@@ -869,8 +874,11 @@ std:label
 	/notebooks/jax2tf.ipynb#train-using-tensorflow Train using TensorFlow                  : notebooks/jax2tf.html#Train-using-TensorFlow
 	/notebooks/non_trainable.ipynb           Training a subset of parameters         : notebooks/non_trainable.html
 	/notebooks/non_trainable.ipynb#training-a-subset-of-parameters Training a subset of parameters         : notebooks/non_trainable.html#Training-a-subset-of-parameters
-	/notebooks/transforms.ipynb              Limitations of using JAX transforms inside of networks: notebooks/transforms.html
-	/notebooks/transforms.ipynb#limitations-of-using-jax-transforms-inside-of-networks Limitations of using JAX transforms inside of networks: notebooks/transforms.html#Limitations-of-using-JAX-transforms-inside-of-networks
+	/notebooks/transforms.ipynb              Limitations of Nesting JAX Functions and Haiku Modules: notebooks/transforms.html
+	/notebooks/transforms.ipynb#limitations-of-nesting-jax-functions-and-haiku-modules Limitations of Nesting JAX Functions and Haiku Modules: notebooks/transforms.html#Limitations-of-Nesting-JAX-Functions-and-Haiku-Modules
+	/notebooks/transforms.ipynb#summary      Summary                                 : notebooks/transforms.html#Summary
+	/notebooks/transforms.ipynb#using-haiku-versions-of-jax-transforms Using Haiku versions of JAX transforms  : notebooks/transforms.html#Using-Haiku-versions-of-JAX-transforms
+	/notebooks/transforms.ipynb#using-hk.lift Using hk.lift                           : notebooks/transforms.html#Using-hk.lift
 	/notebooks/visualization.ipynb           Visualization                           : notebooks/visualization.html
 	/notebooks/visualization.ipynb#graphviz-(aka.-to_dot) Graphviz (aka. to_dot)                  : notebooks/visualization.html#Graphviz-(aka.-to_dot)
 	/notebooks/visualization.ipynb#tabulate  Tabulate                                : notebooks/visualization.html#Tabulate
