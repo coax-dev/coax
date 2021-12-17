@@ -60,6 +60,7 @@ setup_kwargs = {
     'extras_require': {
         'dev': get_install_requires('requirements.dev.txt'),
         'doc': get_install_requires('requirements.doc.txt'),
+        'ray': ['ray>1.9.0'],
     },
     'classifiers': [
         DEV_STATUS[version_spec.majorminor],
