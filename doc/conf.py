@@ -35,7 +35,7 @@ def get_release():
 # -- Project information ---------------------------------------------------------------------------
 
 project = 'coax'
-copyright = '2020, Microsoft Corporation'
+copyright = '2020, Microsoft Corporation; 2021, github.com/coax-dev'
 author = 'Kristian Holsheimer'
 release = get_release()
 
