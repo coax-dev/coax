@@ -20,7 +20,6 @@
 # ------------------------------------------------------------------------------------------------ #
 
 import time
-import importlib
 import inspect
 from abc import ABC, abstractmethod
 from typing import Optional
@@ -100,6 +99,7 @@ class Worker(ABC):
 
         # import inline to avoid hard dependency on ray
         import ray
+        import ray.actor
         self.__ray = ray
 
         self.env = _check_env(env, name)
