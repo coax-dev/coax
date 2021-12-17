@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+v0.1.9
+------
+
+Bumped version to drop hard dependence on ``ray``.
+
+
 v0.1.8
 ------
 
