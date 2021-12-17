@@ -20,13 +20,12 @@
 # ------------------------------------------------------------------------------------------------ #
 
 import time
+import importlib
 import inspect
 from abc import ABC, abstractmethod
 from typing import Optional
 
 import gym
-import ray
-from ray.actor import ActorHandle
 from jax.lib.xla_bridge import get_backend
 
 from ..typing import Policy
@@ -98,6 +97,10 @@ class Worker(ABC):
             buffer=None,
             buffer_warmup=None,
             name=None):
+
+        # import inline to avoid hard dependency on ray
+        import ray
+        self.__ray = ray
 
         self.env = _check_env(env, name)
         self.param_store = param_store
@@ -220,8 +223,8 @@ class Worker(ABC):
         if self.param_store is None:
             assert self.buffer is not None
             len_ = len(self.buffer)
-        elif isinstance(self.param_store, ActorHandle):
-            len_ = ray.get(self.param_store.buffer_len.remote())
+        elif isinstance(self.param_store, self.__ray.actor.ActorHandle):
+            len_ = self.__ray.get(self.param_store.buffer_len.remote())
         else:
             len_ = self.param_store.buffer_len()
         return len_
@@ -233,8 +236,8 @@ class Worker(ABC):
                 self.buffer.add(transition_batch, Adv=Adv)
             else:
                 self.buffer.add(transition_batch)
-        elif isinstance(self.param_store, ActorHandle):
-            ray.get(self.param_store.buffer_add.remote(transition_batch, Adv))
+        elif isinstance(self.param_store, self.__ray.actor.ActorHandle):
+            self.__ray.get(self.param_store.buffer_add.remote(transition_batch, Adv))
         else:
             self.param_store.buffer_add(transition_batch, Adv)
 
@@ -242,8 +245,8 @@ class Worker(ABC):
         if self.param_store is None:
             assert self.buffer is not None
             self.buffer.update(transition_batch_idx, Adv=Adv)
-        elif isinstance(self.param_store, ActorHandle):
-            ray.get(self.param_store.buffer_update.remote(transition_batch_idx, Adv))
+        elif isinstance(self.param_store, self.__ray.actor.ActorHandle):
+            self.__ray.get(self.param_store.buffer_update.remote(transition_batch_idx, Adv))
         else:
             self.param_store.buffer_update(transition_batch_idx, Adv)
 
@@ -262,8 +265,9 @@ class Worker(ABC):
         if self.param_store is None:
             assert self.buffer is not None
             transition_batch = self.buffer.sample(batch_size=batch_size)
-        elif isinstance(self.param_store, ActorHandle):
-            transition_batch = ray.get(self.param_store.buffer_sample.remote(batch_size=batch_size))
+        elif isinstance(self.param_store, self.__ray.actor.ActorHandle):
+            transition_batch = self.__ray.get(
+                self.param_store.buffer_sample.remote(batch_size=batch_size))
         else:
             transition_batch = self.param_store.buffer_sample(batch_size=batch_size)
         assert transition_batch is not None
@@ -271,23 +275,23 @@ class Worker(ABC):
 
     def pull_state(self):
         assert self.param_store is not None, "cannot call pull_state on param_store itself"
-        if isinstance(self.param_store, ActorHandle):
-            self.set_state(ray.get(self.param_store.get_state.remote()))
+        if isinstance(self.param_store, self.__ray.actor.ActorHandle):
+            self.set_state(self.__ray.get(self.param_store.get_state.remote()))
         else:
             self.set_state(self.param_store.get_state())
 
     def push_state(self):
         assert self.param_store is not None, "cannot call push_state on param_store itself"
-        if isinstance(self.param_store, ActorHandle):
-            ray.get(self.param_store.set_state.remote(self.get_state()))
+        if isinstance(self.param_store, self.__ray.actor.ActorHandle):
+            self.__ray.get(self.param_store.set_state.remote(self.get_state()))
         else:
             self.param_store.set_state(self.get_state())
 
     def pull_metrics(self):
         if self.param_store is None:
             metrics = self.env.get_metrics()
-        elif isinstance(self.param_store, ActorHandle):
-            metrics = ray.get(self.param_store.pull_metrics.remote()).copy()
+        elif isinstance(self.param_store, self.__ray.actor.ActorHandle):
+            metrics = self.__ray.get(self.param_store.pull_metrics.remote()).copy()
         else:
             metrics = self.param_store.pull_metrics()
         return metrics
@@ -295,16 +299,16 @@ class Worker(ABC):
     def push_metrics(self, metrics):
         if self.param_store is None:
             self.env.record_metrics(metrics)
-        elif isinstance(self.param_store, ActorHandle):
-            ray.get(self.param_store.push_metrics.remote(metrics))
+        elif isinstance(self.param_store, self.__ray.actor.ActorHandle):
+            self.__ray.get(self.param_store.push_metrics.remote(metrics))
         else:
             self.param_store.push_metrics(metrics)
 
     def pull_getattr(self, name, default_value=...):
         if self.param_store is None:
             value = _getattr_recursive(self, name, default_value)
-        elif isinstance(self.param_store, ActorHandle):
-            value = ray.get(self.param_store.pull_getattr.remote(name, default_value))
+        elif isinstance(self.param_store, self.__ray.actor.ActorHandle):
+            value = self.__ray.get(self.param_store.pull_getattr.remote(name, default_value))
         else:
             value = self.param_store.pull_getattr(name, default_value)
         return value
@@ -312,8 +316,8 @@ class Worker(ABC):
     def push_setattr(self, name, value):
         if self.param_store is None:
             _setattr_recursive(self, name, value)
-        elif isinstance(self.param_store, ActorHandle):
-            ray.get(self.param_store.push_setattr.remote(name, value))
+        elif isinstance(self.param_store, self.__ray.actor.ActorHandle):
+            self.__ray.get(self.param_store.push_setattr.remote(name, value))
         else:
             self.param_store.push_setattr(name, value)
 
