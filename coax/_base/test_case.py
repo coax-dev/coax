@@ -239,7 +239,7 @@ class TestCase(unittest.TestCase):
                 hk.Linear(self.env_discrete.action_space.n * 51),
                 hk.Reshape((self.env_discrete.action_space.n, 51))
             ))
-            return seq(flatten(S))
+            return {'logits': seq(flatten(S))}
         return func
 
     @property

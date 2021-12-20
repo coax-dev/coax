@@ -31,6 +31,7 @@ __all__ = (
     'merge_dicts',
     'single_to_batch',
     'safe_sample',
+    'stack_trees',
     'tree_ravel',
     'tree_sample',
     'unvectorize',
@@ -752,6 +753,7 @@ class StepwiseLinearFunction:
 
 
     """
+
     def __init__(self, *steps):
         if len(steps) < 2:
             raise TypeError("need at least two steps")
@@ -1053,3 +1055,20 @@ def _check_leaf_batch_size(pytree):
         if leaf.shape[0] != batch_size:
             raise TypeError("all leaves must have the same batch_size")
     return batch_size
+
+
+def stack_trees(*trees):
+    """
+    Stack
+    Parameters
+    ----------
+    trees : sequence of pytrees with ndarray leaves
+        A typical example are pytrees containing the parameters and function states of
+        a model that should be used in a function which is vectorized by `jax.vmap`. The trees
+        have to have the same pytree structure.
+    Returns
+    -------
+    pytree : pytree with ndarray leaves
+        A tuple of pytrees.
+    """
+    return jax.tree_util.tree_multimap(lambda *args: jnp.stack(args), *zip(*trees))
