@@ -13,7 +13,31 @@ name = 'dsac'
 # the Pendulum MDP
 env = gym.make('Pendulum-v1')
 env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
-num_bins = 51
+
+quantile_embedding_dim = 64
+layer_size = 256
+num_quantiles = 32
+
+
+def quantile_net(x, quantile_fractions):
+    x_size = x.shape[-1]
+    quantiles_emb = coax.utils.quantile_cos_embedding(
+        quantile_fractions, quantile_embedding_dim)
+    quantiles_proj = hk.Sequential((
+        hk.Linear(x_size),
+        hk.LayerNorm(axis=-1, create_scale=True,
+                     create_offset=True),
+        jax.nn.sigmoid
+    ))
+    quantiles_emb = quantiles_proj(quantiles_emb)
+    x_tiled = jnp.tile(x[:, None, :], [num_quantiles, 1])
+    x = x_tiled * quantiles_emb
+    last_proj = hk.Sequential((
+        hk.Linear(x_size),
+        hk.LayerNorm(axis=-1, create_scale=True, create_offset=True),
+        jax.nn.relu
+    ))
+    return last_proj(x)
 
 
 def func_pi(S, is_training):
@@ -30,19 +54,29 @@ def func_pi(S, is_training):
 
 
 def func_q(S, A, is_training):
-    logits = hk.Sequential((hk.Linear(8), jax.nn.relu,
-                            hk.Linear(8), jax.nn.relu,
-                            hk.Flatten(), hk.Linear(num_bins, w_init=jnp.zeros)))
-    X = jax.vmap(jnp.kron)(S, A)  # S and A are one-hot encoded
-    return {'logits': logits(X)}
+    encoder = hk.Sequential((
+        hk.Flatten(),
+        hk.Linear(layer_size),
+        hk.LayerNorm(axis=-1, create_scale=True, create_offset=True),
+        jax.nn.relu
+    ))
+    quantile_fractions = coax.utils.quantiles_uniform(rng=hk.next_rng_key(),
+                                                      batch_size=jax.tree_leaves(S)[0].shape[0],
+                                                      num_quantiles=num_quantiles)
+    X = jax.vmap(jnp.kron)(S, A)
+    x = encoder(X)
+    quantile_x = quantile_net(x, quantile_fractions=quantile_fractions)
+    quantile_values = hk.Linear(1)(quantile_x)
+    return {'values': quantile_values.squeeze(axis=-1),
+            'quantile_fractions': quantile_fractions}
 
 
 # main function approximators
 pi = coax.Policy(func_pi, env)
 q1 = coax.StochasticQ(func_q, env, action_preprocessor=pi.proba_dist.preprocess_variate,
-                      value_range=(-100, 0), num_bins=num_bins)
+                      value_range=None, num_bins=num_quantiles)
 q2 = coax.StochasticQ(func_q, env, action_preprocessor=pi.proba_dist.preprocess_variate,
-                      value_range=(-100, 0), num_bins=num_bins)
+                      value_range=None, num_bins=num_quantiles)
 
 # target network
 q1_targ = q1.copy()
@@ -50,7 +84,7 @@ q2_targ = q2.copy()
 
 # experience tracer
 tracer = coax.reward_tracing.NStep(n=1, gamma=0.9, record_extra_info=True)
-buffer = coax.experience_replay.SimpleReplayBuffer(capacity=25000)
+buffer = coax.experience_replay.SimpleReplayBuffer(capacity=50000)
 alpha = 0.2
 policy_regularizer = coax.regularizers.NStepEntropyRegularizer(pi,
                                                                beta=alpha / tracer.n,
@@ -60,11 +94,11 @@ policy_regularizer = coax.regularizers.NStepEntropyRegularizer(pi,
 # updaters (use current pi to update the q-functions and use sampled action in contrast to TD3)
 qlearning1 = coax.td_learning.SoftClippedDoubleQLearning(
     q1, pi_targ_list=[pi], q_targ_list=[q1_targ, q2_targ],
-    loss_function=coax.value_losses.mse, optimizer=optax.adam(1e-3),
+    loss_function=coax.value_losses.mse, optimizer=optax.adam(3e-4),
     policy_regularizer=policy_regularizer)
 qlearning2 = coax.td_learning.SoftClippedDoubleQLearning(
     q2, pi_targ_list=[pi], q_targ_list=[q1_targ, q2_targ],
-    loss_function=coax.value_losses.mse, optimizer=optax.adam(1e-3),
+    loss_function=coax.value_losses.mse, optimizer=optax.adam(3e-4),
     policy_regularizer=policy_regularizer)
 soft_pg = coax.policy_objectives.SoftPG(pi, [q1_targ, q2_targ], optimizer=optax.adam(
     1e-3), regularizer=coax.regularizers.NStepEntropyRegularizer(pi,
@@ -88,7 +122,7 @@ while env.T < 1000000:
 
         # learn
         if len(buffer) >= 5000:
-            transition_batch = buffer.sample(batch_size=128)
+            transition_batch = buffer.sample(batch_size=256)
 
             # init metrics dict
             metrics = {}
@@ -104,8 +138,8 @@ while env.T < 1000000:
             env.record_metrics(metrics)
 
             # sync target networks
-            q1_targ.soft_update(q1, tau=0.001)
-            q2_targ.soft_update(q2, tau=0.001)
+            q1_targ.soft_update(q1, tau=0.005)
+            q2_targ.soft_update(q2, tau=0.005)
 
         if done:
             break
