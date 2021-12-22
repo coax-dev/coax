@@ -5,7 +5,6 @@ import haiku as hk
 import chex
 
 from ..utils import check_preprocessors, is_qfunction, is_stochastic
-from .._core.q import Q
 from ._base import PolicyObjective
 
 

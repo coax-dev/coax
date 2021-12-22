@@ -210,10 +210,6 @@ class ClippedDoubleQLearning(BaseTDLearningQ):  # TODO(krholshe): make this less
         self._td_error_func = jit(td_error_func)
 
     @property
-    def q(self):
-        return self._f
-
-    @property
     def target_params(self):
         return hk.data_structures.to_immutable_dict({
             'q': self.q.params,
