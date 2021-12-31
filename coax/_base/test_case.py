@@ -1,16 +1,17 @@
 import gc
+import sys
 import unittest
 from collections import namedtuple
 from contextlib import AbstractContextManager
-from resource import getrusage, RUSAGE_SELF
 from functools import partial
+from resource import RUSAGE_SELF, getrusage
 
 import gym
+import haiku as hk
 import jax
 import jax.numpy as jnp
 import numpy as onp
-import haiku as hk
-
+from pyannotate_runtime import collect_types
 
 __all__ = (
     'DiscreteEnv',
@@ -87,6 +88,32 @@ class TestCase(unittest.TestCase):
     margin = 0.01  # for robust comparison (x > 0) --> (x > margin)
     decimal = 6    # sets the absolute tolerance
 
+    @classmethod
+    def setUpClass(cls) -> None:
+        collect_types.init_types_collection()
+        collect_types.start()
+
+    @classmethod
+    def tearDownClass(cls) -> None:
+        collect_types.stop()
+        type_replacements = {
+            "jaxlib.xla_extension.DeviceArray": "jax.numpy.ndarray",
+            "haiku._src.data_structures.FlatMapping": "typing.Mapping",
+            "coax._core.policy_test.Env": "gym.Env",
+            "coax._core.base_stochastic_func_type2.Env": "gym.Env",
+            "coax._core.base_stochastic_func_type1.Env": "gym.Env",
+            "coax._core.q.Env": "gym.Env",
+            "coax._core.v.Env": "gym.Env",
+            "coax._core.transition_model.Env": "gym.Env",
+            "numpy.random.mtrand.RandomState": "numpy.random.RandomState"
+        }
+        types_str = collect_types.dumps_stats()
+        for inferred_type, replacement in type_replacements.items():
+            types_str = types_str.replace(inferred_type, replacement)
+        types_path = sys.modules[cls.__module__].__file__.replace(".py", "_types.json")
+        with open(types_path, "w") as f:
+            f.write(types_str)
+
     @property
     def env_discrete(self):
         return DiscreteEnv(self.seed)
@@ -97,8 +124,8 @@ class TestCase(unittest.TestCase):
 
     @property
     def transitions_discrete(self):
-        from ..utils import safe_sample
         from ..reward_tracing import TransitionBatch
+        from ..utils import safe_sample
         return TransitionBatch(
             S=onp.stack([
                 safe_sample(self.env_discrete.observation_space, seed=(self.seed * i * 1))
@@ -121,8 +148,8 @@ class TestCase(unittest.TestCase):
 
     @property
     def transitions_boxspace(self):
-        from ..utils import safe_sample
         from ..reward_tracing import TransitionBatch
+        from ..utils import safe_sample
         return TransitionBatch(
             S=onp.stack([
                 safe_sample(self.env_boxspace.observation_space, seed=(self.seed * i * 1))

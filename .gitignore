@@ -45,3 +45,5 @@ sftp*-config.json
 
 # used internally by update_requirements.py
 requirements.colab.txt
+
+*_test_types.json
