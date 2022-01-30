@@ -1,6 +1,7 @@
 import warnings
 from functools import partial
 
+import chex
 import gym
 import jax
 import jax.numpy as jnp
@@ -335,10 +336,13 @@ def default_preprocessor(space):
 
     elif isinstance(space, gym.spaces.MultiDiscrete):
         def func(rng, X):
-            rngs = hk.PRNGSequence(rng)
+            rngs = jax.random.split(rng, len(space.nvec))
+            chex.assert_rank(X, {1, 2})
+            if X.ndim == 1:
+                X = jnp.expand_dims(X, axis=0)
             return [
-                default_preprocessor(gym.spaces.Discrete(n))(next(rngs), X[i])
-                for i, n in enumerate(space.nvec)]
+                default_preprocessor(gym.spaces.Discrete(n))(rng, X[:, i])
+                for i, (n, rng) in enumerate(zip(space.nvec, rngs))]
 
     elif isinstance(space, gym.spaces.MultiBinary):
         def func(rng, X):
