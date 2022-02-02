@@ -15,21 +15,8 @@ env = gym.make('Pendulum-v1')
 env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 
 quantile_embedding_dim = 64
-layer_size = 512
-num_quantiles = 64
-
-
-def quantile_net(x, quantile_fractions):
-    quantiles_emb = coax.utils.quantile_cos_embedding(
-        quantile_fractions, quantile_embedding_dim)
-    quantiles_emb = hk.Linear(x.shape[-1])(quantiles_emb)
-    quantiles_emb = hk.LayerNorm(axis=-1, create_scale=True,
-                                 create_offset=True)(quantiles_emb)
-    quantiles_emb = jax.nn.sigmoid(quantiles_emb)
-    x = x[:, None, :] * quantiles_emb
-    x = hk.Linear(layer_size)(x)
-    x = jax.nn.relu(x)
-    return x
+layer_size = 256
+num_quantiles = 32
 
 
 def func_pi(S, is_training):
@@ -45,11 +32,21 @@ def func_pi(S, is_training):
     return {'mu': mu, 'logvar': logvar}
 
 
+def quantile_net(x, quantile_fractions):
+    quantiles_emb = coax.utils.quantile_cos_embedding(
+        quantile_fractions, quantile_embedding_dim)
+    quantiles_emb = hk.Linear(x.shape[-1])(quantiles_emb)
+    quantiles_emb = jax.nn.relu(quantiles_emb)
+    x = x[:, None, :] * quantiles_emb
+    x = hk.Linear(layer_size)(x)
+    x = jax.nn.relu(x)
+    return x
+
+
 def func_q(S, A, is_training):
     encoder = hk.Sequential((
         hk.Flatten(),
         hk.Linear(layer_size),
-        hk.LayerNorm(axis=-1, create_scale=True, create_offset=True),
         jax.nn.relu
     ))
     quantile_fractions = coax.utils.quantiles_uniform(rng=hk.next_rng_key(),
@@ -75,7 +72,7 @@ q1_targ = q1.copy()
 q2_targ = q2.copy()
 
 # experience tracer
-tracer = coax.reward_tracing.NStep(n=1, gamma=0.9, record_extra_info=True)
+tracer = coax.reward_tracing.NStep(n=5, gamma=0.9, record_extra_info=True)
 buffer = coax.experience_replay.SimpleReplayBuffer(capacity=50000)
 alpha = 0.2
 policy_regularizer = coax.regularizers.NStepEntropyRegularizer(pi,

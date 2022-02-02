@@ -15,7 +15,7 @@ env = gym.make('Pendulum-v1')
 env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 quantile_embedding_dim = 64
 layer_size = 256
-num_quantiles = 64
+num_quantiles = 32
 
 
 def func_pi(S, is_training):
@@ -34,9 +34,7 @@ def quantile_net(x, quantile_fractions):
     quantiles_emb = coax.utils.quantile_cos_embedding(
         quantile_fractions, quantile_embedding_dim)
     quantiles_emb = hk.Linear(x.shape[-1])(quantiles_emb)
-    quantiles_emb = hk.LayerNorm(axis=-1, create_scale=True,
-                                 create_offset=True)(quantiles_emb)
-    quantiles_emb = jax.nn.sigmoid(quantiles_emb)
+    quantiles_emb = jax.nn.relu(quantiles_emb)
     x = x[:, None, :] * quantiles_emb
     x = hk.Linear(layer_size)(x)
     x = jax.nn.relu(x)
@@ -47,7 +45,6 @@ def func_q(S, A, is_training):
     encoder = hk.Sequential((
         hk.Flatten(),
         hk.Linear(layer_size),
-        hk.LayerNorm(axis=-1, create_scale=True, create_offset=True),
         jax.nn.relu
     ))
     quantile_fractions = coax.utils.quantiles_uniform(rng=hk.next_rng_key(),
@@ -90,18 +87,12 @@ qlearning2 = coax.td_learning.ClippedDoubleQLearning(
 determ_pg = coax.policy_objectives.DeterministicPG(pi, q1_targ, optimizer=optax.adam(1e-3))
 
 
-# action noise
-noise = coax.utils.OrnsteinUhlenbeckNoise(mu=0., sigma=0.2, theta=0.15)
-
-
 # train
 while env.T < 1000000:
     s = env.reset()
-    noise.reset()
-    noise.sigma *= 0.99  # slowly decrease noise scale
 
     for t in range(env.spec.max_episode_steps):
-        a = noise(pi.mode(s))
+        a = pi.mode(s)
         s_next, r, done, info = env.step(a)
 
         # trace rewards and add transition to replay buffer
@@ -114,7 +105,7 @@ while env.T < 1000000:
             transition_batch = buffer.sample(batch_size=128)
 
             # init metrics dict
-            metrics = {'OrnsteinUhlenbeckNoise/sigma': noise.sigma}
+            metrics = {}
 
             # flip a coin to decide which of the q-functions to update
             qlearning = qlearning1 if jax.random.bernoulli(q1.rng) else qlearning2
