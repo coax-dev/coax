@@ -1,6 +1,12 @@
 Release Notes
 =============
 
+Upcoming
+--------
+
+- Bug fixes: `#16 <https://github.com/coax-dev/coax/issues/16>`_
+
+
 v0.1.9
 ------
 
