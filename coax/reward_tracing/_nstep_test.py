@@ -2,7 +2,6 @@ from itertools import islice
 
 import pytest
 import gym
-import jax
 import jax.numpy as jnp
 from numpy.testing import assert_array_almost_equal
 
@@ -57,8 +56,8 @@ class TestNStep:
         Rn_ = jnp.zeros_like(self.R)
         gammas = jnp.power(self.gamma, jnp.arange(13))
         for i in range(len(Rn_)):
-            Rn_ = jax.ops.index_update(Rn_, i, self.R[i:(i + self.n)].dot(
-                gammas[:len(self.R[i:(i + self.n)])]))
+            Rn_ = Rn_.at[i].set(
+                self.R[i:(i + self.n)].dot(gammas[:len(self.R[i:(i + self.n)])]))
         return Rn_
 
     def test_append_done_twice(self):
