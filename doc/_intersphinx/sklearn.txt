@@ -291,8 +291,10 @@ py:class
 	sklearn.manifold._t_sne.TSNE             modules/generated/sklearn.manifold.TSNE.html#sklearn.manifold.TSNE
 	sklearn.metrics.ConfusionMatrixDisplay   modules/generated/sklearn.metrics.ConfusionMatrixDisplay.html#sklearn.metrics.ConfusionMatrixDisplay
 	sklearn.metrics.DetCurveDisplay          modules/generated/sklearn.metrics.DetCurveDisplay.html#sklearn.metrics.DetCurveDisplay
+	sklearn.metrics.DistanceMetric           modules/generated/sklearn.metrics.DistanceMetric.html#sklearn.metrics.DistanceMetric
 	sklearn.metrics.PrecisionRecallDisplay   modules/generated/sklearn.metrics.PrecisionRecallDisplay.html#sklearn.metrics.PrecisionRecallDisplay
 	sklearn.metrics.RocCurveDisplay          modules/generated/sklearn.metrics.RocCurveDisplay.html#sklearn.metrics.RocCurveDisplay
+	sklearn.metrics._dist_metrics.DistanceMetric modules/generated/sklearn.metrics.DistanceMetric.html#sklearn.metrics.DistanceMetric
 	sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay modules/generated/sklearn.metrics.ConfusionMatrixDisplay.html#sklearn.metrics.ConfusionMatrixDisplay
 	sklearn.metrics._plot.det_curve.DetCurveDisplay modules/generated/sklearn.metrics.DetCurveDisplay.html#sklearn.metrics.DetCurveDisplay
 	sklearn.metrics._plot.precision_recall_curve.PrecisionRecallDisplay modules/generated/sklearn.metrics.PrecisionRecallDisplay.html#sklearn.metrics.PrecisionRecallDisplay
@@ -356,7 +358,6 @@ py:class
 	sklearn.naive_bayes.GaussianNB           modules/generated/sklearn.naive_bayes.GaussianNB.html#sklearn.naive_bayes.GaussianNB
 	sklearn.naive_bayes.MultinomialNB        modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB
 	sklearn.neighbors.BallTree               modules/generated/sklearn.neighbors.BallTree.html#sklearn.neighbors.BallTree
-	sklearn.neighbors.DistanceMetric         modules/generated/sklearn.neighbors.DistanceMetric.html#sklearn.neighbors.DistanceMetric
 	sklearn.neighbors.KDTree                 modules/generated/sklearn.neighbors.KDTree.html#sklearn.neighbors.KDTree
 	sklearn.neighbors.KNeighborsClassifier   modules/generated/sklearn.neighbors.KNeighborsClassifier.html#sklearn.neighbors.KNeighborsClassifier
 	sklearn.neighbors.KNeighborsRegressor    modules/generated/sklearn.neighbors.KNeighborsRegressor.html#sklearn.neighbors.KNeighborsRegressor
@@ -372,7 +373,6 @@ py:class
 	sklearn.neighbors._ball_tree.BallTree    modules/generated/sklearn.neighbors.BallTree.html#sklearn.neighbors.BallTree
 	sklearn.neighbors._classification.KNeighborsClassifier modules/generated/sklearn.neighbors.KNeighborsClassifier.html#sklearn.neighbors.KNeighborsClassifier
 	sklearn.neighbors._classification.RadiusNeighborsClassifier modules/generated/sklearn.neighbors.RadiusNeighborsClassifier.html#sklearn.neighbors.RadiusNeighborsClassifier
-	sklearn.neighbors._dist_metrics.DistanceMetric modules/generated/sklearn.neighbors.DistanceMetric.html#sklearn.neighbors.DistanceMetric
 	sklearn.neighbors._graph.KNeighborsTransformer modules/generated/sklearn.neighbors.KNeighborsTransformer.html#sklearn.neighbors.KNeighborsTransformer
 	sklearn.neighbors._graph.RadiusNeighborsTransformer modules/generated/sklearn.neighbors.RadiusNeighborsTransformer.html#sklearn.neighbors.RadiusNeighborsTransformer
 	sklearn.neighbors._kd_tree.KDTree        modules/generated/sklearn.neighbors.KDTree.html#sklearn.neighbors.KDTree
@@ -1766,6 +1766,10 @@ py:method
 	sklearn.metrics.DetCurveDisplay.from_estimator modules/generated/sklearn.metrics.DetCurveDisplay.html#sklearn.metrics.DetCurveDisplay.from_estimator
 	sklearn.metrics.DetCurveDisplay.from_predictions modules/generated/sklearn.metrics.DetCurveDisplay.html#sklearn.metrics.DetCurveDisplay.from_predictions
 	sklearn.metrics.DetCurveDisplay.plot     modules/generated/sklearn.metrics.DetCurveDisplay.html#sklearn.metrics.DetCurveDisplay.plot
+	sklearn.metrics.DistanceMetric.dist_to_rdist modules/generated/sklearn.metrics.DistanceMetric.html#sklearn.metrics.DistanceMetric.dist_to_rdist
+	sklearn.metrics.DistanceMetric.get_metric modules/generated/sklearn.metrics.DistanceMetric.html#sklearn.metrics.DistanceMetric.get_metric
+	sklearn.metrics.DistanceMetric.pairwise  modules/generated/sklearn.metrics.DistanceMetric.html#sklearn.metrics.DistanceMetric.pairwise
+	sklearn.metrics.DistanceMetric.rdist_to_dist modules/generated/sklearn.metrics.DistanceMetric.html#sklearn.metrics.DistanceMetric.rdist_to_dist
 	sklearn.metrics.PrecisionRecallDisplay.from_estimator modules/generated/sklearn.metrics.PrecisionRecallDisplay.html#sklearn.metrics.PrecisionRecallDisplay.from_estimator
 	sklearn.metrics.PrecisionRecallDisplay.from_predictions modules/generated/sklearn.metrics.PrecisionRecallDisplay.html#sklearn.metrics.PrecisionRecallDisplay.from_predictions
 	sklearn.metrics.PrecisionRecallDisplay.plot modules/generated/sklearn.metrics.PrecisionRecallDisplay.html#sklearn.metrics.PrecisionRecallDisplay.plot
@@ -1959,10 +1963,6 @@ py:method
 	sklearn.neighbors.BallTree.query_radius  modules/generated/sklearn.neighbors.BallTree.html#sklearn.neighbors.BallTree.query_radius
 	sklearn.neighbors.BallTree.reset_n_calls modules/generated/sklearn.neighbors.BallTree.html#sklearn.neighbors.BallTree.reset_n_calls
 	sklearn.neighbors.BallTree.two_point_correlation modules/generated/sklearn.neighbors.BallTree.html#sklearn.neighbors.BallTree.two_point_correlation
-	sklearn.neighbors.DistanceMetric.dist_to_rdist modules/generated/sklearn.neighbors.DistanceMetric.html#sklearn.neighbors.DistanceMetric.dist_to_rdist
-	sklearn.neighbors.DistanceMetric.get_metric modules/generated/sklearn.neighbors.DistanceMetric.html#sklearn.neighbors.DistanceMetric.get_metric
-	sklearn.neighbors.DistanceMetric.pairwise modules/generated/sklearn.neighbors.DistanceMetric.html#sklearn.neighbors.DistanceMetric.pairwise
-	sklearn.neighbors.DistanceMetric.rdist_to_dist modules/generated/sklearn.neighbors.DistanceMetric.html#sklearn.neighbors.DistanceMetric.rdist_to_dist
 	sklearn.neighbors.KDTree.get_arrays      modules/generated/sklearn.neighbors.KDTree.html#sklearn.neighbors.KDTree.get_arrays
 	sklearn.neighbors.KDTree.get_n_calls     modules/generated/sklearn.neighbors.KDTree.html#sklearn.neighbors.KDTree.get_n_calls
 	sklearn.neighbors.KDTree.get_tree_stats  modules/generated/sklearn.neighbors.KDTree.html#sklearn.neighbors.KDTree.get_tree_stats
@@ -2738,7 +2738,7 @@ std:doc
 	auto_examples/gaussian_process/plot_gpc_iris Gaussian process classification (GPC) on iris dataset: auto_examples/gaussian_process/plot_gpc_iris.html
 	auto_examples/gaussian_process/plot_gpc_isoprobability Iso-probability lines for Gaussian Processes classification (GPC): auto_examples/gaussian_process/plot_gpc_isoprobability.html
 	auto_examples/gaussian_process/plot_gpc_xor Illustration of Gaussian process classification (GPC) on the XOR dataset: auto_examples/gaussian_process/plot_gpc_xor.html
-	auto_examples/gaussian_process/plot_gpr_co2 Gaussian process regression (GPR) on Mauna Loa CO2 data.: auto_examples/gaussian_process/plot_gpr_co2.html
+	auto_examples/gaussian_process/plot_gpr_co2 Gaussian process regression (GPR) on Mauna Loa CO2 data: auto_examples/gaussian_process/plot_gpr_co2.html
 	auto_examples/gaussian_process/plot_gpr_noisy Gaussian process regression (GPR) with noise-level estimation: auto_examples/gaussian_process/plot_gpr_noisy.html
 	auto_examples/gaussian_process/plot_gpr_noisy_targets Gaussian Processes regression: basic introductory example: auto_examples/gaussian_process/plot_gpr_noisy_targets.html
 	auto_examples/gaussian_process/plot_gpr_on_structured_data Gaussian processes on discrete data structures: auto_examples/gaussian_process/plot_gpr_on_structured_data.html
@@ -2765,7 +2765,8 @@ std:doc
 	auto_examples/linear_model/plot_lasso_coordinate_descent_path Lasso and Elastic Net                   : auto_examples/linear_model/plot_lasso_coordinate_descent_path.html
 	auto_examples/linear_model/plot_lasso_dense_vs_sparse_data Lasso on dense and sparse data          : auto_examples/linear_model/plot_lasso_dense_vs_sparse_data.html
 	auto_examples/linear_model/plot_lasso_lars Lasso path using LARS                   : auto_examples/linear_model/plot_lasso_lars.html
-	auto_examples/linear_model/plot_lasso_model_selection Lasso model selection: Cross-Validation / AIC / BIC: auto_examples/linear_model/plot_lasso_model_selection.html
+	auto_examples/linear_model/plot_lasso_lars_ic Lasso model selection via information criteria: auto_examples/linear_model/plot_lasso_lars_ic.html
+	auto_examples/linear_model/plot_lasso_model_selection Lasso model selection: AIC-BIC / cross-validation: auto_examples/linear_model/plot_lasso_model_selection.html
 	auto_examples/linear_model/plot_logistic Logistic function                       : auto_examples/linear_model/plot_logistic.html
 	auto_examples/linear_model/plot_logistic_l1_l2_sparsity L1 Penalty and Sparsity in Logistic Regression: auto_examples/linear_model/plot_logistic_l1_l2_sparsity.html
 	auto_examples/linear_model/plot_logistic_multinomial Plot multinomial and One-vs-Rest Logistic Regression: auto_examples/linear_model/plot_logistic_multinomial.html
@@ -2906,12 +2907,13 @@ std:doc
 	auto_examples/text/plot_hashing_vs_dict_vectorizer FeatureHasher and DictVectorizer Comparison: auto_examples/text/plot_hashing_vs_dict_vectorizer.html
 	auto_examples/text/sg_execution_times    Computation times                       : auto_examples/text/sg_execution_times.html
 	auto_examples/tree/plot_cost_complexity_pruning Post pruning decision trees with cost complexity pruning: auto_examples/tree/plot_cost_complexity_pruning.html
-	auto_examples/tree/plot_iris_dtc         Plot the decision surface of a decision tree on the iris dataset: auto_examples/tree/plot_iris_dtc.html
+	auto_examples/tree/plot_iris_dtc         Plot the decision surface of decision trees trained on the iris dataset: auto_examples/tree/plot_iris_dtc.html
 	auto_examples/tree/plot_tree_regression  Decision Tree Regression                : auto_examples/tree/plot_tree_regression.html
 	auto_examples/tree/plot_tree_regression_multioutput Multi-output Decision Tree Regression   : auto_examples/tree/plot_tree_regression_multioutput.html
 	auto_examples/tree/plot_unveil_tree_structure Understanding the decision tree structure: auto_examples/tree/plot_unveil_tree_structure.html
 	auto_examples/tree/sg_execution_times    Computation times                       : auto_examples/tree/sg_execution_times.html
 	common_pitfalls                          Common pitfalls and recommended practices: common_pitfalls.html
+	communication_team                       <no title>                              : communication_team.html
 	computing                                Computing with scikit-learn             : computing.html
 	computing/computational_performance      Computational Performance               : computing/computational_performance.html
 	computing/parallelism                    Parallelism, resource management, and configuration: computing/parallelism.html
@@ -3228,6 +3230,7 @@ std:doc
 	modules/generated/sklearn.manifold.trustworthiness sklearn.manifold.trustworthiness        : modules/generated/sklearn.manifold.trustworthiness.html
 	modules/generated/sklearn.metrics.ConfusionMatrixDisplay sklearn.metrics.ConfusionMatrixDisplay  : modules/generated/sklearn.metrics.ConfusionMatrixDisplay.html
 	modules/generated/sklearn.metrics.DetCurveDisplay sklearn.metrics.DetCurveDisplay         : modules/generated/sklearn.metrics.DetCurveDisplay.html
+	modules/generated/sklearn.metrics.DistanceMetric sklearn.metrics.DistanceMetric          : modules/generated/sklearn.metrics.DistanceMetric.html
 	modules/generated/sklearn.metrics.PrecisionRecallDisplay sklearn.metrics.PrecisionRecallDisplay  : modules/generated/sklearn.metrics.PrecisionRecallDisplay.html
 	modules/generated/sklearn.metrics.RocCurveDisplay sklearn.metrics.RocCurveDisplay         : modules/generated/sklearn.metrics.RocCurveDisplay.html
 	modules/generated/sklearn.metrics.accuracy_score sklearn.metrics.accuracy_score          : modules/generated/sklearn.metrics.accuracy_score.html
@@ -3365,7 +3368,6 @@ std:doc
 	modules/generated/sklearn.naive_bayes.GaussianNB sklearn.naive_bayes.GaussianNB          : modules/generated/sklearn.naive_bayes.GaussianNB.html
 	modules/generated/sklearn.naive_bayes.MultinomialNB sklearn.naive_bayes.MultinomialNB       : modules/generated/sklearn.naive_bayes.MultinomialNB.html
 	modules/generated/sklearn.neighbors.BallTree sklearn.neighbors.BallTree              : modules/generated/sklearn.neighbors.BallTree.html
-	modules/generated/sklearn.neighbors.DistanceMetric sklearn.neighbors.DistanceMetric        : modules/generated/sklearn.neighbors.DistanceMetric.html
 	modules/generated/sklearn.neighbors.KDTree sklearn.neighbors.KDTree                : modules/generated/sklearn.neighbors.KDTree.html
 	modules/generated/sklearn.neighbors.KNeighborsClassifier sklearn.neighbors.KNeighborsClassifier  : modules/generated/sklearn.neighbors.KNeighborsClassifier.html
 	modules/generated/sklearn.neighbors.KNeighborsRegressor sklearn.neighbors.KNeighborsRegressor   : modules/generated/sklearn.neighbors.KNeighborsRegressor.html
@@ -3559,7 +3561,7 @@ std:doc
 	whats_new/v0.22                          Version 0.22.2.post1                    : whats_new/v0.22.html
 	whats_new/v0.23                          Version 0.23.2                          : whats_new/v0.23.html
 	whats_new/v0.24                          Version 0.24.2                          : whats_new/v0.24.html
-	whats_new/v1.0                           Version 1.0.1                           : whats_new/v1.0.html
+	whats_new/v1.0                           Version 1.0.2                           : whats_new/v1.0.html
 std:label
 	20newsgroups_dataset                     The 20 newsgroups text dataset          : datasets/real_world.html#newsgroups-dataset
 	about                                    About us                                : about.html#about
@@ -3571,6 +3573,7 @@ std:label
 	advanced-installation                    developers/advanced_installation.html#advanced-installation
 	affinity_propagation                     Affinity Propagation                    : modules/clustering.html#affinity-propagation
 	aggressive_elimination                   Aggressive elimination of candidates    : modules/grid_search.html#aggressive-elimination
+	aic_bic                                  modules/linear_model.html#aic-bic
 	alternative_cv                           Alternatives to brute force parameter search: modules/grid_search.html#alternative-cv
 	amount_of_resource_and_number_of_candidates Amount of resource and number of candidates at each iteration: modules/grid_search.html#amount-of-resource-and-number-of-candidates
 	api_overview                             APIs of scikit-learn objects            : developers/develop.html#api-overview
@@ -3584,6 +3587,7 @@ std:label
 	b2011                                    modules/clustering.html#b2011
 	backwards-compatibility                  Maintaining backwards compatibility     : developers/contributing.html#backwards-compatibility
 	bagging                                  Bagging meta-estimator                  : modules/ensemble.html#bagging
+	bakir2004                                modules/decomposition.html#bakir2004
 	balanced_accuracy_score                  Balanced accuracy score                 : modules/model_evaluation.html#balanced-accuracy-score
 	ball_tree                                Ball Tree                               : modules/neighbors.html#ball-tree
 	bayesian_regression                      Bayesian Regression                     : modules/linear_model.html#bayesian-regression
@@ -3655,6 +3659,7 @@ std:label
 	changes_0_9                              Version 0.9                             : whats_new/older_versions.html#changes-0-9
 	changes_1_0                              Version 1.0.0                           : whats_new/v1.0.html#changes-1-0
 	changes_1_0_1                            Version 1.0.1                           : whats_new/v1.0.html#changes-1-0-1
+	changes_1_0_2                            Version 1.0.2                           : whats_new/v1.0.html#changes-1-0-2
 	chi2_kernel                              Chi-squared kernel                      : modules/metrics.html#chi2-kernel
 	citing-scikit-learn                      Citing scikit-learn                     : about.html#citing-scikit-learn
 	classification                           Nearest Neighbors Classification        : modules/neighbors.html#classification
@@ -3676,6 +3681,7 @@ std:label
 	combining_estimators                     Pipelines and composite estimators      : modules/compose.html#combining-estimators
 	common_pitfalls                          Common pitfalls and recommended practices: common_pitfalls.html#common-pitfalls
 	communication                            Communication Guidelines                : developers/contributing.html#communication
+	communication_team                       Communication team                      : governance.html#communication-team
 	compiler_freebsd                         FreeBSD                                 : developers/advanced_installation.html#compiler-freebsd
 	compiler_linux                           Linux                                   : developers/advanced_installation.html#compiler-linux
 	compiler_macos                           macOS                                   : developers/advanced_installation.html#compiler-macos
@@ -3873,6 +3879,7 @@ std:label
 	labeled_faces_in_the_wild_dataset        The Labeled Faces in the Wild face recognition dataset: datasets/real_world.html#labeled-faces-in-the-wild-dataset
 	laplacian_kernel                         Laplacian kernel                        : modules/metrics.html#laplacian-kernel
 	lasso                                    Lasso                                   : modules/linear_model.html#lasso
+	lasso_lars_ic                            Information-criteria based model selection: modules/linear_model.html#lasso-lars-ic
 	latentdirichletallocation                Latent Dirichlet Allocation (LDA)       : modules/decomposition.html#latentdirichletallocation
 	lda_qda                                  Linear and Quadratic Discriminant Analysis: modules/lda_qda.html#lda-qda
 	lda_qda_math                             Mathematical formulation of the LDA and QDA classifiers: modules/lda_qda.html#lda-qda-math
@@ -4088,6 +4095,10 @@ std:label
 	r37d39d7589e2-2                          modules/generated/sklearn.feature_selection.mutual_info_regression.html#r37d39d7589e2-2
 	r37d39d7589e2-3                          modules/generated/sklearn.feature_selection.mutual_info_regression.html#r37d39d7589e2-3
 	r37d39d7589e2-4                          modules/generated/sklearn.feature_selection.mutual_info_regression.html#r37d39d7589e2-4
+	r396fc7d924b8-1                          modules/generated/sklearn.decomposition.KernelPCA.html#r396fc7d924b8-1
+	r396fc7d924b8-2                          modules/generated/sklearn.decomposition.KernelPCA.html#r396fc7d924b8-2
+	r396fc7d924b8-3                          modules/generated/sklearn.decomposition.KernelPCA.html#r396fc7d924b8-3
+	r396fc7d924b8-4                          modules/generated/sklearn.decomposition.KernelPCA.html#r396fc7d924b8-4
 	r3af56aed800a-1                          modules/generated/sklearn.metrics.hamming_loss.html#r3af56aed800a-1
 	r3af56aed800a-2                          modules/generated/sklearn.metrics.hamming_loss.html#r3af56aed800a-2
 	r3d389b87f49a-1                          modules/generated/sklearn.metrics.completeness_score.html#r3d389b87f49a-1
@@ -4225,6 +4236,9 @@ std:label
 	rd7ae0a2ae688-2                          modules/generated/sklearn.ensemble.IsolationForest.html#rd7ae0a2ae688-2
 	rd9e56ef97513-bre                        modules/generated/sklearn.inspection.permutation_importance.html#rd9e56ef97513-bre
 	rdd99a0224c6e-1                          modules/generated/sklearn.tree.ExtraTreeClassifier.html#rdd99a0224c6e-1
+	rde9cc43d0d41-1                          modules/generated/sklearn.linear_model.LassoLarsIC.html#rde9cc43d0d41-1
+	rde9cc43d0d41-2                          modules/generated/sklearn.linear_model.LassoLarsIC.html#rde9cc43d0d41-2
+	rde9cc43d0d41-3                          modules/generated/sklearn.linear_model.LassoLarsIC.html#rde9cc43d0d41-3
 	re25e5648fc37-1                          modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#re25e5648fc37-1
 	re25e5648fc37-2                          modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#re25e5648fc37-2
 	re310f679c81e-1                          modules/generated/sklearn.feature_selection.RFE.html#re310f679c81e-1
@@ -4282,6 +4296,7 @@ std:label
 	saved_replies                            Standard replies for reviewing          : developers/tips.html#saved-replies
 	scaling_num                              Preprocessing numerical variables       : auto_examples/inspection/plot_linear_model_coefficient_interpretation.html#scaling-num
 	scaling_strategies                       Strategies to scale computationally: bigger data: computing/scaling_strategies.html#scaling-strategies
+	scholkopf1997                            modules/decomposition.html#scholkopf1997
 	scholkopf1998                            modules/preprocessing.html#scholkopf1998
 	scores_probabilities                     Scores and probabilities                : modules/svm.html#scores-probabilities
 	scoring                                  Defining your scoring strategy from metric functions: modules/model_evaluation.html#scoring
@@ -4469,7 +4484,7 @@ std:label
 	sphx_glr_auto_examples_gaussian_process_plot_gpc_iris.py Gaussian process classification (GPC) on iris dataset: auto_examples/gaussian_process/plot_gpc_iris.html#sphx-glr-auto-examples-gaussian-process-plot-gpc-iris-py
 	sphx_glr_auto_examples_gaussian_process_plot_gpc_isoprobability.py Iso-probability lines for Gaussian Processes classification (GPC): auto_examples/gaussian_process/plot_gpc_isoprobability.html#sphx-glr-auto-examples-gaussian-process-plot-gpc-isoprobability-py
 	sphx_glr_auto_examples_gaussian_process_plot_gpc_xor.py Illustration of Gaussian process classification (GPC) on the XOR dataset: auto_examples/gaussian_process/plot_gpc_xor.html#sphx-glr-auto-examples-gaussian-process-plot-gpc-xor-py
-	sphx_glr_auto_examples_gaussian_process_plot_gpr_co2.py Gaussian process regression (GPR) on Mauna Loa CO2 data.: auto_examples/gaussian_process/plot_gpr_co2.html#sphx-glr-auto-examples-gaussian-process-plot-gpr-co2-py
+	sphx_glr_auto_examples_gaussian_process_plot_gpr_co2.py Gaussian process regression (GPR) on Mauna Loa CO2 data: auto_examples/gaussian_process/plot_gpr_co2.html#sphx-glr-auto-examples-gaussian-process-plot-gpr-co2-py
 	sphx_glr_auto_examples_gaussian_process_plot_gpr_noisy.py Gaussian process regression (GPR) with noise-level estimation: auto_examples/gaussian_process/plot_gpr_noisy.html#sphx-glr-auto-examples-gaussian-process-plot-gpr-noisy-py
 	sphx_glr_auto_examples_gaussian_process_plot_gpr_noisy_targets.py Gaussian Processes regression: basic introductory example: auto_examples/gaussian_process/plot_gpr_noisy_targets.html#sphx-glr-auto-examples-gaussian-process-plot-gpr-noisy-targets-py
 	sphx_glr_auto_examples_gaussian_process_plot_gpr_on_structured_data.py Gaussian processes on discrete data structures: auto_examples/gaussian_process/plot_gpr_on_structured_data.html#sphx-glr-auto-examples-gaussian-process-plot-gpr-on-structured-data-py
@@ -4499,7 +4514,8 @@ std:label
 	sphx_glr_auto_examples_linear_model_plot_lasso_coordinate_descent_path.py Lasso and Elastic Net                   : auto_examples/linear_model/plot_lasso_coordinate_descent_path.html#sphx-glr-auto-examples-linear-model-plot-lasso-coordinate-descent-path-py
 	sphx_glr_auto_examples_linear_model_plot_lasso_dense_vs_sparse_data.py Lasso on dense and sparse data          : auto_examples/linear_model/plot_lasso_dense_vs_sparse_data.html#sphx-glr-auto-examples-linear-model-plot-lasso-dense-vs-sparse-data-py
 	sphx_glr_auto_examples_linear_model_plot_lasso_lars.py Lasso path using LARS                   : auto_examples/linear_model/plot_lasso_lars.html#sphx-glr-auto-examples-linear-model-plot-lasso-lars-py
-	sphx_glr_auto_examples_linear_model_plot_lasso_model_selection.py Lasso model selection: Cross-Validation / AIC / BIC: auto_examples/linear_model/plot_lasso_model_selection.html#sphx-glr-auto-examples-linear-model-plot-lasso-model-selection-py
+	sphx_glr_auto_examples_linear_model_plot_lasso_lars_ic.py Lasso model selection via information criteria: auto_examples/linear_model/plot_lasso_lars_ic.html#sphx-glr-auto-examples-linear-model-plot-lasso-lars-ic-py
+	sphx_glr_auto_examples_linear_model_plot_lasso_model_selection.py Lasso model selection: AIC-BIC / cross-validation: auto_examples/linear_model/plot_lasso_model_selection.html#sphx-glr-auto-examples-linear-model-plot-lasso-model-selection-py
 	sphx_glr_auto_examples_linear_model_plot_logistic.py Logistic function                       : auto_examples/linear_model/plot_logistic.html#sphx-glr-auto-examples-linear-model-plot-logistic-py
 	sphx_glr_auto_examples_linear_model_plot_logistic_l1_l2_sparsity.py L1 Penalty and Sparsity in Logistic Regression: auto_examples/linear_model/plot_logistic_l1_l2_sparsity.html#sphx-glr-auto-examples-linear-model-plot-logistic-l1-l2-sparsity-py
 	sphx_glr_auto_examples_linear_model_plot_logistic_multinomial.py Plot multinomial and One-vs-Rest Logistic Regression: auto_examples/linear_model/plot_logistic_multinomial.html#sphx-glr-auto-examples-linear-model-plot-logistic-multinomial-py
@@ -4653,7 +4669,7 @@ std:label
 	sphx_glr_auto_examples_text_sg_execution_times Computation times                       : auto_examples/text/sg_execution_times.html#sphx-glr-auto-examples-text-sg-execution-times
 	sphx_glr_auto_examples_tree              Decision Trees                          : auto_examples/index.html#sphx-glr-auto-examples-tree
 	sphx_glr_auto_examples_tree_plot_cost_complexity_pruning.py Post pruning decision trees with cost complexity pruning: auto_examples/tree/plot_cost_complexity_pruning.html#sphx-glr-auto-examples-tree-plot-cost-complexity-pruning-py
-	sphx_glr_auto_examples_tree_plot_iris_dtc.py Plot the decision surface of a decision tree on the iris dataset: auto_examples/tree/plot_iris_dtc.html#sphx-glr-auto-examples-tree-plot-iris-dtc-py
+	sphx_glr_auto_examples_tree_plot_iris_dtc.py Plot the decision surface of decision trees trained on the iris dataset: auto_examples/tree/plot_iris_dtc.html#sphx-glr-auto-examples-tree-plot-iris-dtc-py
 	sphx_glr_auto_examples_tree_plot_tree_regression.py Decision Tree Regression                : auto_examples/tree/plot_tree_regression.html#sphx-glr-auto-examples-tree-plot-tree-regression-py
 	sphx_glr_auto_examples_tree_plot_tree_regression_multioutput.py Multi-output Decision Tree Regression   : auto_examples/tree/plot_tree_regression_multioutput.html#sphx-glr-auto-examples-tree-plot-tree-regression-multioutput-py
 	sphx_glr_auto_examples_tree_plot_unveil_tree_structure.py Understanding the decision tree structure: auto_examples/tree/plot_unveil_tree_structure.html#sphx-glr-auto-examples-tree-plot-unveil-tree-structure-py
@@ -4803,6 +4819,7 @@ std:label
 	sphx_glr_download_auto_examples_linear_model_plot_lasso_coordinate_descent_path.py auto_examples/linear_model/plot_lasso_coordinate_descent_path.html#sphx-glr-download-auto-examples-linear-model-plot-lasso-coordinate-descent-path-py
 	sphx_glr_download_auto_examples_linear_model_plot_lasso_dense_vs_sparse_data.py auto_examples/linear_model/plot_lasso_dense_vs_sparse_data.html#sphx-glr-download-auto-examples-linear-model-plot-lasso-dense-vs-sparse-data-py
 	sphx_glr_download_auto_examples_linear_model_plot_lasso_lars.py auto_examples/linear_model/plot_lasso_lars.html#sphx-glr-download-auto-examples-linear-model-plot-lasso-lars-py
+	sphx_glr_download_auto_examples_linear_model_plot_lasso_lars_ic.py auto_examples/linear_model/plot_lasso_lars_ic.html#sphx-glr-download-auto-examples-linear-model-plot-lasso-lars-ic-py
 	sphx_glr_download_auto_examples_linear_model_plot_lasso_model_selection.py auto_examples/linear_model/plot_lasso_model_selection.html#sphx-glr-download-auto-examples-linear-model-plot-lasso-model-selection-py
 	sphx_glr_download_auto_examples_linear_model_plot_logistic.py auto_examples/linear_model/plot_logistic.html#sphx-glr-download-auto-examples-linear-model-plot-logistic-py
 	sphx_glr_download_auto_examples_linear_model_plot_logistic_l1_l2_sparsity.py auto_examples/linear_model/plot_logistic_l1_l2_sparsity.html#sphx-glr-download-auto-examples-linear-model-plot-logistic-l1-l2-sparsity-py
@@ -5017,6 +5034,7 @@ std:label
 	xgboost                                  modules/ensemble.html#xgboost
 	yat2016                                  modules/clustering.html#yat2016
 	zero_one_loss                            Zero one loss                           : modules/model_evaluation.html#zero-one-loss
+	zht2007                                  auto_examples/linear_model/plot_lasso_lars_ic.html#zht2007
 	zzrh2009                                 modules/ensemble.html#zzrh2009
 std:term
 	1d                                       glossary.html#term-1d

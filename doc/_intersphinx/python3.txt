@@ -2233,6 +2233,9 @@ py:attribute
 	types.ModuleType.__spec__                library/types.html#types.ModuleType.__spec__
 	typing.ParamSpec.args                    library/typing.html#typing.ParamSpec.args
 	typing.ParamSpec.kwargs                  library/typing.html#typing.ParamSpec.kwargs
+	typing.TypedDict.__optional_keys__       library/typing.html#typing.TypedDict.__optional_keys__
+	typing.TypedDict.__required_keys__       library/typing.html#typing.TypedDict.__required_keys__
+	typing.TypedDict.__total__               library/typing.html#typing.TypedDict.__total__
 	unittest.TestCase.failureException       library/unittest.html#unittest.TestCase.failureException
 	unittest.TestCase.longMessage            library/unittest.html#unittest.TestCase.longMessage
 	unittest.TestCase.maxDiff                library/unittest.html#unittest.TestCase.maxDiff
@@ -3051,6 +3054,8 @@ py:class
 	tarfile.TarFile                          library/tarfile.html#tarfile.TarFile
 	tarfile.TarInfo                          library/tarfile.html#tarfile.TarInfo
 	telnetlib.Telnet                         library/telnetlib.html#telnetlib.Telnet
+	tempfile.SpooledTemporaryFile            library/tempfile.html#tempfile.SpooledTemporaryFile
+	tempfile.TemporaryDirectory              library/tempfile.html#tempfile.TemporaryDirectory
 	test.support.BasicTestRunner             library/test.html#test.support.BasicTestRunner
 	test.support.Matcher                     library/test.html#test.support.Matcher
 	test.support.SaveSignals                 library/test.html#test.support.SaveSignals
@@ -3368,6 +3373,13 @@ py:data
 	asyncio.asyncio.subprocess.DEVNULL       library/asyncio-subprocess.html#asyncio.asyncio.subprocess.DEVNULL
 	asyncio.asyncio.subprocess.PIPE          library/asyncio-subprocess.html#asyncio.asyncio.subprocess.PIPE
 	asyncio.asyncio.subprocess.STDOUT        library/asyncio-subprocess.html#asyncio.asyncio.subprocess.STDOUT
+	calendar.FRIDAY                          library/calendar.html#calendar.FRIDAY
+	calendar.MONDAY                          library/calendar.html#calendar.MONDAY
+	calendar.SATURDAY                        library/calendar.html#calendar.SATURDAY
+	calendar.SUNDAY                          library/calendar.html#calendar.SUNDAY
+	calendar.THURSDAY                        library/calendar.html#calendar.THURSDAY
+	calendar.TUESDAY                         library/calendar.html#calendar.TUESDAY
+	calendar.WEDNESDAY                       library/calendar.html#calendar.WEDNESDAY
 	calendar.day_abbr                        library/calendar.html#calendar.day_abbr
 	calendar.day_name                        library/calendar.html#calendar.day_name
 	calendar.month_abbr                      library/calendar.html#calendar.month_abbr
@@ -6492,8 +6504,6 @@ py:function
 	tarfile.is_tarfile                       library/tarfile.html#tarfile.is_tarfile
 	tarfile.open                             library/tarfile.html#tarfile.open
 	tempfile.NamedTemporaryFile              library/tempfile.html#tempfile.NamedTemporaryFile
-	tempfile.SpooledTemporaryFile            library/tempfile.html#tempfile.SpooledTemporaryFile
-	tempfile.TemporaryDirectory              library/tempfile.html#tempfile.TemporaryDirectory
 	tempfile.TemporaryFile                   library/tempfile.html#tempfile.TemporaryFile
 	tempfile.gettempdir                      library/tempfile.html#tempfile.gettempdir
 	tempfile.gettempdirb                     library/tempfile.html#tempfile.gettempdirb
@@ -11187,7 +11197,6 @@ std:doc
 	library/turtle                           turtle — Turtle graphics                : library/turtle.html
 	library/types                            types — Dynamic type creation and names for built-in types: library/types.html
 	library/typing                           typing — Support for type hints         : library/typing.html
-	library/undoc                            Undocumented Modules                    : library/undoc.html
 	library/unicodedata                      unicodedata — Unicode Database          : library/unicodedata.html
 	library/unittest                         unittest — Unit testing framework       : library/unittest.html
 	library/unittest.mock                    unittest.mock — mock object library     : library/unittest.mock.html
@@ -11514,7 +11523,7 @@ std:label
 	bpo-36085-whatsnew                       whatsnew/3.8.html#bpo-36085-whatsnew
 	break                                    The break statement                     : reference/simple_stmts.html#break
 	browser-controllers                      Browser Controller Objects              : library/webbrowser.html#browser-controllers
-	bsd0                                     ZERO-CLAUSE BSD LICENSE FOR CODE IN THE PYTHON 3.10.1 DOCUMENTATION: license.html#bsd0
+	bsd0                                     ZERO-CLAUSE BSD LICENSE FOR CODE IN THE PYTHON 3.10.4 DOCUMENTATION: license.html#bsd0
 	buffer-request-types                     Buffer request types                    : c-api/buffer.html#buffer-request-types
 	buffer-structs                           Buffer Object Structures                : c-api/typeobj.html#buffer-structs
 	buffer-structure                         Buffer structure                        : c-api/buffer.html#buffer-structure
@@ -11555,6 +11564,7 @@ std:label
 	cgi-intro                                library/cgi.html#cgi-intro
 	cgi-security                             Caring about security                   : library/cgi.html#cgi-security
 	changelog                                Changelog                               : whatsnew/changelog.html#changelog
+	changes-python-api                       Changes in the Python API               : whatsnew/3.10.html#changes-python-api
 	check-module                             library/idle.html#check-module
 	class                                    Class definitions                       : reference/compound_stmts.html#class
 	class-customization                      Customizing class creation              : reference/datamodel.html#class-customization
@@ -11729,6 +11739,7 @@ std:label
 	distinct                                 NewType                                 : library/typing.html#distinct
 	distributing                             Distributing your extension modules     : extending/building.html#distributing
 	distributing-index                       Distributing Python Modules             : distributing/index.html#distributing-index
+	distributions                            Distributions                           : library/importlib.metadata.html#distributions
 	distutils-additional-files               Installing Additional Files             : distutils/setupscript.html#distutils-additional-files
 	distutils-build-ext-inplace              distutils/configfile.html#distutils-build-ext-inplace
 	distutils-concepts                       Concepts & Terminology                  : distutils/introduction.html#distutils-concepts
@@ -11924,6 +11935,7 @@ std:label
 	handle-object                            Registry Handle Objects                 : library/winreg.html#handle-object
 	handler                                  Handler Objects                         : library/logging.html#handler
 	handler-basic                            Handlers                                : howto/logging.html#handler-basic
+	handlers-and-exceptions                  Note on Signal Handlers and Exceptions  : library/signal.html#handlers-and-exceptions
 	hash-algorithms                          Hash algorithms                         : library/hashlib.html#hash-algorithms
 	hashlib-usedforsecurity                  library/hashlib.html#hashlib-usedforsecurity
 	heap-types                               Heap Types                              : c-api/typeobj.html#heap-types
@@ -12180,6 +12192,7 @@ std:label
 	new-27-interpreter                       Interpreter Changes                     : whatsnew/2.7.html#new-27-interpreter
 	new-decimal                              decimal                                 : whatsnew/3.3.html#new-decimal
 	new-email                                email                                   : whatsnew/3.3.html#new-email
+	new-feat-related-type-hints              New Features Related to Type Hints      : whatsnew/3.10.html#new-feat-related-type-hints
 	new-module-contextlib                    The contextlib module                   : whatsnew/2.6.html#new-module-contextlib
 	new-types-topics                         Defining Extension Types: Assorted Topics: extending/newtypes.html#new-types-topics
 	newtypes                                 Object Implementation Support           : c-api/objimpl.html#newtypes
@@ -12367,7 +12380,7 @@ std:label
 	proxy-basic-auth-handler                 ProxyBasicAuthHandler Objects           : library/urllib.request.html#proxy-basic-auth-handler
 	proxy-digest-auth-handler                ProxyDigestAuthHandler Objects          : library/urllib.request.html#proxy-digest-auth-handler
 	proxy-handler                            ProxyHandler Objects                    : library/urllib.request.html#proxy-handler
-	psf-license                              PSF LICENSE AGREEMENT FOR PYTHON 3.10.1 : license.html#psf-license
+	psf-license                              PSF LICENSE AGREEMENT FOR PYTHON 3.10.4 : license.html#psf-license
 	publishing-python-packages               Reading the Python Packaging User Guide : distributing/index.html#publishing-python-packages
 	pure-embedding                           Pure Embedding                          : extending/embedding.html#pure-embedding
 	pure-mod                                 Pure Python distribution (by module)    : distutils/examples.html#pure-mod
@@ -12754,7 +12767,6 @@ std:label
 	typesseq-range                           Ranges                                  : library/stdtypes.html#typesseq-range
 	typesseq-tuple                           Tuples                                  : library/stdtypes.html#typesseq-tuple
 	unary                                    Unary arithmetic and bitwise operations : reference/expressions.html#unary
-	undoc                                    Undocumented Modules                    : library/undoc.html#undoc
 	unicode-howto                            Unicode HOWTO                           : howto/unicode.html#unicode-howto
 	unicodeexceptions                        Unicode Exception Objects               : c-api/exceptions.html#unicodeexceptions
 	unicodemethodsandslots                   Methods and Slot Functions              : c-api/unicode.html#unicodemethodsandslots

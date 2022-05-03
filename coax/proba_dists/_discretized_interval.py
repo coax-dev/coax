@@ -101,9 +101,9 @@ class DiscretizedIntervalDist(CategoricalDist):
 
             m = jnp.zeros_like(p)
             i = jnp.expand_dims(jnp.arange(batch_size), axis=1)   # batch index
-            m = jax.ops.index_add(m, (i, l), p * (u - b), indices_are_sorted=True)
-            m = jax.ops.index_add(m, (i, u), p * (b - l), indices_are_sorted=True)
-            m = jax.ops.index_add(m, (i, l), p * (l == u), indices_are_sorted=True)
+            m = m.at[(i, l)].add(p * (u - b), indices_are_sorted=True)
+            m = m.at[(i, u)].add(p * (b - l), indices_are_sorted=True)
+            m = m.at[(i, l)].add(p * (l == u), indices_are_sorted=True)
             # chex.assert_tree_all_close(jnp.sum(m, axis=1), jnp.ones(batch_size), rtol=1e-6)
 
             # # The above index trickery is equivalent to:

@@ -29,20 +29,19 @@ class StochasticQ(BaseStochasticFuncType1):
 
     value_range : tuple of floats, optional
 
-        A pair of floats :code:`(min_value, max_value)`. If no `value_range` is given, `num_bins`
-        is the number of bins of the quantile function as in
-        `IQN <https://arxiv.org/abs/1806.06923>` or `QR-DQN <https://arxiv.org/abs/1710.10044>`.
+        A pair of floats :code:`(min_value, max_value)`. If no :code:`value_range` is given,
+        :code:`num_bins` is the number of bins of the quantile function as in
+        `IQN <https://arxiv.org/abs/1806.06923>`_ or `QR-DQN <https://arxiv.org/abs/1710.10044>`_.
 
     num_bins : int, optional
 
-        If `value_range` is given: The space of rewards is discretized in :code:`num_bins` equal
-        sized bins. We use the default setting of 51 as suggested in the
-        `Distributional RL <https://arxiv.org/abs/1707.06887>`_paper.
+        If :code:`value_range` is given: The space of rewards is discretized in :code:`num_bins`
+        equal sized bins. We use the default setting of 51 as suggested in the
+        `Distributional RL <https://arxiv.org/abs/1707.06887>`_ paper.
 
         Else: The number of fractions of the quantile function of the rewards is defined by
-        :code:`num_bins` as in `IQN <https://arxiv.org/abs/1806.06923>` or
-        `QR-DQN <https://arxiv.org/abs/1710.10044>`.
-
+        :code:`num_bins` as in `IQN <https://arxiv.org/abs/1806.06923>`_ or
+        `QR-DQN <https://arxiv.org/abs/1710.10044>`_.
 
     observation_preprocessor : function, optional
 
