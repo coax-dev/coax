@@ -98,7 +98,6 @@ class TestArrayUtils(TestCase):
         self.assertArrayShape(default_preprocessor(mds)(next(rngs), mds_batch)[0], (7, 3))
         self.assertArrayShape(default_preprocessor(mds)(next(rngs), mds_batch)[1], (7, 5))
 
-
     def test_chunks_pow2(self):
         chunk_sizes = (2048, 1024, 512, 64, 32, 1)
         tn = get_transition_batch(self.env_discrete, batch_size=sum(chunk_sizes))

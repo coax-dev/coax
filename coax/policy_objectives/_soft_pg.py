@@ -4,7 +4,7 @@ import chex
 
 
 from ._base import PolicyObjective
-from ..utils import is_qfunction
+from ..utils import is_qfunction, is_stochastic
 
 
 class SoftPG(PolicyObjective):
@@ -37,7 +37,12 @@ class SoftPG(PolicyObjective):
         for q_targ, params_q, state_q in qs:
             # compute objective: q(s, a)
             S = q_targ.observation_preprocessor(next(rngs), transition_batch.S)
-            Q, _ = q_targ.function_type1(params_q, state_q, next(rngs), S, A, True)
+            if is_stochastic(q_targ):
+                dist_params_q, _ = q_targ.function_type1(params_q, state_q, rng, S, A, True)
+                Q = q_targ.proba_dist.mean(dist_params_q)
+                Q = q_targ.proba_dist.postprocess_variate(next(rngs), Q, batch_mode=True)
+            else:
+                Q, _ = q_targ.function_type1(params_q, state_q, next(rngs), S, A, True)
             Q_sa_list.append(Q)
         # take the min to mitigate over-estimation
         Q_sa_next_list = jnp.stack(Q_sa_list, axis=-1)

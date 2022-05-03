@@ -4,8 +4,7 @@ import jax.numpy as jnp
 import haiku as hk
 import chex
 
-from ..utils import check_preprocessors
-from .._core.q import Q
+from ..utils import check_preprocessors, is_qfunction, is_stochastic
 from ._base import PolicyObjective
 
 
@@ -61,7 +60,7 @@ class DeterministicPG(PolicyObjective):
     REQUIRES_PROPENSITIES = False
 
     def __init__(self, pi, q_targ, optimizer=None, regularizer=None):
-        if not isinstance(q_targ, Q):
+        if not is_qfunction(q_targ):
             raise TypeError(f"q must be a q-function, got: {type(q_targ)}")
         if q_targ.modeltype != 1:
             raise TypeError("q must be a type-1 q-function")
@@ -97,7 +96,12 @@ class DeterministicPG(PolicyObjective):
         A = self.pi.proba_dist.mode(dist_params)
         log_pi = self.pi.proba_dist.log_proba(dist_params, A)
         params_q, state_q = hyperparams['q']['params'], hyperparams['q']['function_state']
-        Q, _ = self.q_targ.function_type1(params_q, state_q, next(rngs), S, A, True)
+        if is_stochastic(self.q_targ):
+            dist_params_q, _ = self.q_targ.function_type1(params_q, state_q, rng, S, A, True)
+            Q = self.q_targ.proba_dist.mean(dist_params_q)
+            Q = self.q_targ.proba_dist.postprocess_variate(next(rngs), Q, batch_mode=True)
+        else:
+            Q, _ = self.q_targ.function_type1(params_q, state_q, next(rngs), S, A, True)
 
         # clip importance weights to reduce variance
         W = jnp.clip(transition_batch.W, 0.1, 10.)

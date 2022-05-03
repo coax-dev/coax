@@ -6,12 +6,14 @@ import haiku as hk
 import chex
 from gym.spaces import Discrete
 
-from .._core.q import Q
-from ..utils import get_grads_diagnostics, is_policy, is_stochastic, jit
-from ._base import BaseTDLearning
+from ..proba_dists import DiscretizedIntervalDist, EmpiricalQuantileDist
+from ..utils import (get_grads_diagnostics, is_policy, is_qfunction,
+                     is_stochastic, jit, single_to_batch, batch_to_single, stack_trees)
+from ..value_losses import quantile_huber
+from ._base import BaseTDLearningQ
 
 
-class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less ugly
+class ClippedDoubleQLearning(BaseTDLearningQ):  # TODO(krholshe): make this less ugly
     r"""
 
     TD-learning with `TD3 <https://arxiv.org/abs/1802.09477>`_ style double q-learning updates, in
@@ -97,18 +99,14 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
             self, q, pi_targ_list=None, q_targ_list=None,
             optimizer=None, loss_function=None, policy_regularizer=None):
 
-        if is_stochastic(q):
-            raise NotImplementedError(f"{type(self).__name__} is not yet implement for StochasticQ")
-
         super().__init__(
-            f=q,
-            f_targ=None,
+            q=q,
+            q_targ=None,
             optimizer=optimizer,
             loss_function=loss_function,
             policy_regularizer=policy_regularizer)
 
         self._check_input_lists(pi_targ_list, q_targ_list)
-        del self._f_targ  # no need for this (only potential source of confusion)
         self.q_targ_list = q_targ_list
         self.pi_targ_list = [] if pi_targ_list is None else pi_targ_list
 
@@ -136,11 +134,34 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
                 metrics.update({f'{self.__class__.__name__}/{k}': v for k,
                                v in regularizer_metrics.items()})
 
-            Q, state_new = self.q.function_type1(params, state, next(rngs), S, A, True)
-            G = self.target_func(target_params, target_state, next(rngs), transition_batch)
-            # flip sign (typical example: regularizer = -beta * entropy)
-            G -= regularizer
-            loss = self.loss_function(G, Q, W)
+            if is_stochastic(self.q):
+                dist_params, state_new = \
+                    self.q.function_type1(params, state, next(rngs), S, A, True)
+                dist_params_target = \
+                    self.target_func(target_params, target_state, rng, transition_batch)
+
+                if self.policy_regularizer is not None:
+                    dist_params_target = self.q.proba_dist.affine_transform(
+                        dist_params_target, 1., -regularizer, self.q.value_transform)
+
+                if isinstance(self.q.proba_dist, DiscretizedIntervalDist):
+                    loss = jnp.mean(self.q.proba_dist.cross_entropy(dist_params_target,
+                                                                    dist_params))
+                elif isinstance(self.q.proba_dist, EmpiricalQuantileDist):
+                    loss = quantile_huber(dist_params_target['values'],
+                                          dist_params['values'],
+                                          dist_params['quantile_fractions'], W)
+                # the rest here is only needed for metrics dict
+                Q = self.q.proba_dist.mean(dist_params)
+                Q = self.q.proba_dist.postprocess_variate(next(rngs), Q, batch_mode=True)
+                G = self.q.proba_dist.mean(dist_params_target)
+                G = self.q.proba_dist.postprocess_variate(next(rngs), G, batch_mode=True)
+            else:
+                Q, state_new = self.q.function_type1(params, state, next(rngs), S, A, True)
+                G = self.target_func(target_params, target_state, next(rngs), transition_batch)
+                # flip sign (typical example: regularizer = -beta * entropy)
+                G -= regularizer
+                loss = self.loss_function(G, Q, W)
 
             dLoss_dQ = jax.grad(self.loss_function, argnums=1)
             td_error = -Q.shape[0] * dLoss_dQ(G, Q)  # e.g. (G - Q) if loss function is MSE
@@ -149,7 +170,11 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
             Q_targ_list = []
             qs = list(zip(self.q_targ_list, target_params['q_targ'], target_state['q_targ']))
             for q, pm, st in qs:
-                Q_targ, _ = q.function_type1(pm, st, next(rngs), S, A, False)
+                if is_stochastic(q):
+                    Q_targ = q.mean_func_type1(pm, st, next(rngs), S, A)
+                    Q_targ = q.proba_dist.postprocess_variate(next(rngs), Q_targ, batch_mode=True)
+                else:
+                    Q_targ, _ = q.function_type1(pm, st, next(rngs), S, A, False)
                 assert Q_targ.ndim == 1, f"bad shape: {Q_targ.shape}"
                 Q_targ_list.append(Q_targ)
             Q_targ_list = jnp.stack(Q_targ_list, axis=-1)
@@ -185,10 +210,6 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
         self._td_error_func = jit(td_error_func)
 
     @property
-    def q(self):
-        return self._f
-
-    @property
     def target_params(self):
         return hk.data_structures.to_immutable_dict({
             'q': self.q.params,
@@ -211,12 +232,18 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
         # collect list of q-values
         if isinstance(self.q.action_space, Discrete):
             Q_sa_next_list = []
+            A_next_list = []
             qs = list(zip(self.q_targ_list, target_params['q_targ'], target_state['q_targ']))
 
             # compute A_next from q_i
             for q_i, params_i, state_i in qs:
                 S_next = q_i.observation_preprocessor(next(rngs), transition_batch.S_next)
-                Q_s_next, _ = q_i.function_type2(params_i, state_i, next(rngs), S_next, False)
+                if is_stochastic(q_i):
+                    Q_s_next = q_i.mean_func_type2(params_i, state_i, next(rngs), S_next)
+                    Q_s_next = q_i.proba_dist.postprocess_variate(
+                        next(rngs), Q_s_next, batch_mode=True)
+                else:
+                    Q_s_next, _ = q_i.function_type2(params_i, state_i, next(rngs), S_next, False)
                 assert Q_s_next.ndim == 2, f"bad shape: {Q_s_next.shape}"
                 A_next = (Q_s_next == Q_s_next.max(axis=1, keepdims=True)).astype(Q_s_next.dtype)
                 A_next /= A_next.sum(axis=1, keepdims=True)  # there may be ties
@@ -224,14 +251,22 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
                 # evaluate on q_j
                 for q_j, params_j, state_j in qs:
                     S_next = q_j.observation_preprocessor(next(rngs), transition_batch.S_next)
-                    Q_sa_next, _ = q_j.function_type1(
-                        params_j, state_j, next(rngs), S_next, A_next, False)
+                    if is_stochastic(q_j):
+                        Q_sa_next = q_j.mean_func_type1(
+                            params_j, state_j, next(rngs), S_next, A_next)
+                        Q_sa_next = q_j.proba_dist.postprocess_variate(
+                            next(rngs), Q_sa_next, batch_mode=True)
+                    else:
+                        Q_sa_next, _ = q_j.function_type1(
+                            params_j, state_j, next(rngs), S_next, A_next, False)
                     assert Q_sa_next.ndim == 1, f"bad shape: {Q_sa_next.shape}"
                     f_inv = q_j.value_transform.inverse_func
                     Q_sa_next_list.append(f_inv(Q_sa_next))
+                    A_next_list.append(A_next)
 
         else:
             Q_sa_next_list = []
+            A_next_list = []
             qs = list(zip(self.q_targ_list, target_params['q_targ'], target_state['q_targ']))
             pis = list(zip(self.pi_targ_list, target_params['pi_targ'], target_state['pi_targ']))
 
@@ -244,17 +279,55 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
                 # evaluate on q_j
                 for q_j, params_j, state_j in qs:
                     S_next = q_j.observation_preprocessor(next(rngs), transition_batch.S_next)
-                    Q_sa_next, _ = q_j.function_type1(
-                        params_j, state_j, next(rngs), S_next, A_next, False)
+                    if is_stochastic(q_j):
+                        Q_sa_next = q_j.mean_func_type1(
+                            params_j, state_j, next(rngs), S_next, A_next)
+                        Q_sa_next = q_j.proba_dist.postprocess_variate(
+                            next(rngs), Q_sa_next, batch_mode=True)
+                    else:
+                        Q_sa_next, _ = q_j.function_type1(
+                            params_j, state_j, next(rngs), S_next, A_next, False)
                     assert Q_sa_next.ndim == 1, f"bad shape: {Q_sa_next.shape}"
                     f_inv = q_j.value_transform.inverse_func
                     Q_sa_next_list.append(f_inv(Q_sa_next))
+                    A_next_list.append(A_next)
 
         # take the min to mitigate over-estimation
+        A_next_list = jnp.stack(A_next_list, axis=1)
         Q_sa_next_list = jnp.stack(Q_sa_next_list, axis=-1)
         assert Q_sa_next_list.ndim == 2, f"bad shape: {Q_sa_next_list.shape}"
-        Q_sa_next = jnp.min(Q_sa_next_list, axis=-1)
 
+        if is_stochastic(self.q):
+            Q_sa_next_argmin = jnp.argmin(Q_sa_next_list, axis=-1)
+            Q_sa_next_argmin_q = Q_sa_next_argmin % len(self.q_targ_list)
+
+            def target_dist_params(A_next_idx, q_targ_idx, p, s, t, A_next_list):
+                return self._get_target_dist_params(batch_to_single(p, q_targ_idx),
+                                                    batch_to_single(s, q_targ_idx),
+                                                    next(rngs),
+                                                    single_to_batch(t),
+                                                    single_to_batch(batch_to_single(A_next_list,
+                                                                                    A_next_idx)))
+
+            def tile_parameters(params, state, reps):
+                return jax.tree_util.tree_map(lambda t: jnp.tile(t, [reps, *([1] * (t.ndim - 1))]),
+                                              stack_trees(params, state))
+            # stack and tile q-function params to select the argmin for the target dist params
+            tiled_target_params, tiled_target_state = tile_parameters(
+                target_params['q_targ'], target_state['q_targ'], reps=len(self.q_targ_list))
+
+            vtarget_dist_params = jax.vmap(target_dist_params, in_axes=(0, 0, None, None, 0, 0))
+            dist_params = vtarget_dist_params(
+                Q_sa_next_argmin,
+                Q_sa_next_argmin_q,
+                tiled_target_params,
+                tiled_target_state,
+                transition_batch,
+                A_next_list)
+            # unwrap dist params computed for single batches
+            return jax.tree_util.tree_map(lambda t: jnp.squeeze(t, axis=1), dist_params)
+
+        Q_sa_next = jnp.min(Q_sa_next_list, axis=-1)
         assert Q_sa_next.ndim == 1, f"bad shape: {Q_sa_next.shape}"
         f = self.q.value_transform.transform_func
         return f(transition_batch.Rn + transition_batch.In * Q_sa_next)
@@ -283,5 +356,5 @@ class ClippedDoubleQLearning(BaseTDLearning):  # TODO(krholshe): make this less 
         if not q_targ_list:
             raise ValueError("q_targ_list cannot be empty")
         for q_targ in q_targ_list:
-            if not isinstance(q_targ, Q):
+            if not is_qfunction(q_targ):
                 raise TypeError(f"all q_targ in q_targ_list must be a coax.Q, got: {type(q_targ)}")

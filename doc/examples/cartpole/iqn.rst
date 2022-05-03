@@ -1,5 +1,5 @@
 Cartpole with IQN
-=================
+====================
 
 In this notebook we solve the `CartPole <https://gym.openai.com/envs/CartPole-v0/>`_ environment
 using a simple :doc:`IQN </examples/stubs/iqn>` agent. Our function approximator is an Implicit Quantile Network that
