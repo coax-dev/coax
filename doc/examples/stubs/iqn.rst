@@ -1,5 +1,5 @@
 Implicit Quantile Network (IQN)
-====================
+===============================
 
 Implicit Quantile Networks are a distributional RL method that model the distribution of returns 
 using quantile regression. They were introduced in the paper
