@@ -55,6 +55,18 @@ nb_template = {
     "nbformat_minor": 2
 }
 
+sdl_videodriver_cell = {
+    "cell_type": "code",
+    "execution_count": None,
+    "metadata": {},
+    "outputs": [],
+    "source": [
+        "# Run this cell to fix rendering errors.\n",
+        "import os\n",
+        "os.environ['SDL_VIDEODRIVER'] = 'dummy'",
+    ]
+}
+
 tensorboard_cell = {
     "cell_type": "code",
     "execution_count": None,
@@ -83,7 +95,9 @@ for d_in in glob(os.path.join(PACKAGEDIR, 'doc', 'examples', '*')):
         with open(f_in) as r, open(f'{f_out}', 'w') as w:
             lines = list(r)
             nb['colab']['name'] = os.path.split(f_out)[1]
-            nb['cells'][-1]['source'] = lines  # the actual code
+            nb['cells'][-1]['source'] = lines
+            if any(("CartPole-v" in line or "Pendulum-v" in line) for line in lines):
+                nb['cells'].insert(1, sdl_videodriver_cell)
             if any("tensorboard_dir=" in line for line in lines):
                 nb['cells'].insert(1, tensorboard_cell)
             if 'atari' in f_in:
