@@ -7,6 +7,13 @@ Upcoming
 - Bug fixes: `#16 <https://github.com/coax-dev/coax/issues/16>`_
 
 
+v0.1.10
+-------
+
+- Upgrade dependencies.
+- Replace old ``jax.ops.index*`` scatter operations with the new :attr:`jax.numpy.ndarray.at` interface.
+
+
 v0.1.9
 ------
 
