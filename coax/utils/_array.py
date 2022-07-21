@@ -1059,16 +1059,19 @@ def _check_leaf_batch_size(pytree):
 
 def stack_trees(*trees):
     """
-    Stack
+    Apply :func:`jnp.stack <jax.numpy.stack>` to the leaves of a pytree.
+
     Parameters
     ----------
     trees : sequence of pytrees with ndarray leaves
         A typical example are pytrees containing the parameters and function states of
         a model that should be used in a function which is vectorized by `jax.vmap`. The trees
         have to have the same pytree structure.
+
     Returns
     -------
     pytree : pytree with ndarray leaves
         A tuple of pytrees.
+
     """
     return jax.tree_util.tree_map(lambda *args: jnp.stack(args), *zip(*trees))
