@@ -222,7 +222,7 @@ class PrioritizedReplayBuffer(BaseReplayBuffer):
 
 
 def _concatenate_leaves(pytrees):
-    return jax.tree_multimap(lambda *leaves: onp.concatenate(leaves, axis=0), *pytrees)
+    return jax.tree_map(lambda *leaves: onp.concatenate(leaves, axis=0), *pytrees)
 
 
 @onp.vectorize

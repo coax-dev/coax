@@ -230,7 +230,7 @@ def check_preprocessors(space, *preprocessors, num_samples=20, random_seed=None)
                 if jax.tree_structure(y) != jax.tree_structure(y0):
                     return False
                 try:
-                    jax.tree_multimap(test_leaves, y, y0)
+                    jax.tree_map(test_leaves, y, y0)
                 except AssertionError:
                     return False
     return True
@@ -625,7 +625,7 @@ def get_transition_batch(env, batch_size=1, gamma=0.9, random_seed=None):
     def batch_sample(space):
         max_seed = onp.iinfo('int32').max
         X = [safe_sample(space, seed=rnd.randint(max_seed)) for _ in range(batch_size)]
-        return jax.tree_multimap(lambda *leaves: onp.stack(leaves, axis=0), *X)
+        return jax.tree_map(lambda *leaves: onp.stack(leaves, axis=0), *X)
 
     return TransitionBatch(
         S=batch_sample(env.observation_space),
@@ -1071,4 +1071,4 @@ def stack_trees(*trees):
     pytree : pytree with ndarray leaves
         A tuple of pytrees.
     """
-    return jax.tree_util.tree_multimap(lambda *args: jnp.stack(args), *zip(*trees))
+    return jax.tree_util.tree_map(lambda *args: jnp.stack(args), *zip(*trees))

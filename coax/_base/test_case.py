@@ -322,13 +322,13 @@ class TestCase(unittest.TestCase):
 
     def assertPytreeAlmostEqual(self, x, y, decimal=None):
         decimal = decimal or self.decimal
-        jax.tree_multimap(
+        jax.tree_map(
             lambda x, y: onp.testing.assert_array_almost_equal(
                 x, y, decimal=decimal), x, y)
 
     def assertPytreeNotEqual(self, x, y, margin=None):
         margin = margin or self.margin
-        reldiff = jax.tree_multimap(
+        reldiff = jax.tree_map(
             lambda a, b: abs(2 * (a - b) / (a + b + 1e-16)), x, y)
         maxdiff = max(jnp.max(d) for d in jax.tree_leaves(reldiff))
         assert float(maxdiff) > margin

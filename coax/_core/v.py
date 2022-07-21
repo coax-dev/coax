@@ -123,7 +123,7 @@ class V(BaseFunc):
         # input: state observations
         S = [safe_sample(env.observation_space, rnd) for _ in range(batch_size)]
         S = [observation_preprocessor(next(rngs), s) for s in S]
-        S = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *S)
+        S = jax.tree_map(lambda *x: jnp.concatenate(x, axis=0), *S)
 
         return ExampleData(
             inputs=Inputs(args=ArgsType2(S=S, is_training=True), static_argnums=(1,)),

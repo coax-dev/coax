@@ -80,7 +80,7 @@ class SimpleReplayBuffer(BaseReplayBuffer):
         random.setstate(self._random_state)
         transitions = random.sample(self._storage, batch_size)
         self._random_state = random.getstate()
-        return jax.tree_multimap(lambda *leaves: onp.concatenate(leaves, axis=0), *transitions)
+        return jax.tree_map(lambda *leaves: onp.concatenate(leaves, axis=0), *transitions)
 
     def clear(self):
         r""" Clear the experience replay buffer. """

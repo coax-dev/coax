@@ -85,7 +85,7 @@ class BaseFunc(ABC, RandomStateMixin, CopyMixin):
         self._check_output(output, example_data.output)
 
         def soft_update_func(old, new, tau):
-            return jax.tree_multimap(lambda a, b: (1 - tau) * a + tau * b, old, new)
+            return jax.tree_map(lambda a, b: (1 - tau) * a + tau * b, old, new)
 
         self._soft_update_func = jit(soft_update_func)
 

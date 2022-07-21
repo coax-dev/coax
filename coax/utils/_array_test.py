@@ -94,7 +94,7 @@ class TestArrayUtils(TestCase):
         self.assertArrayShape(default_preprocessor(dct)(next(rngs), dct.sample())['mds'][0], (1, 3))
         self.assertArrayShape(default_preprocessor(dct)(next(rngs), dct.sample())['mds'][1], (1, 5))
 
-        mds_batch = jax.tree_multimap(lambda *x: jnp.stack(x), *(mds.sample() for _ in range(7)))
+        mds_batch = jax.tree_map(lambda *x: jnp.stack(x), *(mds.sample() for _ in range(7)))
         self.assertArrayShape(default_preprocessor(mds)(next(rngs), mds_batch)[0], (7, 3))
         self.assertArrayShape(default_preprocessor(mds)(next(rngs), mds_batch)[1], (7, 5))
 

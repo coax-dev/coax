@@ -36,7 +36,7 @@ grad_fn = jax.grad(loss_fn)
 
 
 def update(params, grads):
-    return jax.tree_multimap(lambda p, g: p - 0.05 * g, params, grads)
+    return jax.tree_map(lambda p, g: p - 0.05 * g, params, grads)
 
 
 # the main training loop

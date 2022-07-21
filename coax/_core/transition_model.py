@@ -240,12 +240,12 @@ class TransitionModel(BaseFunc):
         # input: state observations
         S = [safe_sample(env.observation_space, rnd) for _ in range(batch_size)]
         S = [observation_preprocessor(next(rngs), s) for s in S]
-        S = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *S)
+        S = jax.tree_map(lambda *x: jnp.concatenate(x, axis=0), *S)
 
         # input: actions
         A = [safe_sample(env.action_space, rnd) for _ in range(batch_size)]
         A = [action_preprocessor(next(rngs), a) for a in A]
-        A = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *A)
+        A = jax.tree_map(lambda *x: jnp.concatenate(x, axis=0), *A)
 
         # output: type1
         S_next_type1 = jax.tree_map(lambda x: jnp.asarray(rnd.randn(batch_size, *x.shape[1:])), S)
@@ -312,7 +312,7 @@ class TransitionModel(BaseFunc):
                 f"found leaves of type: {bad_types}")
 
         if not all(a.shape == b.shape for a, b in zip(actual_leaves, expected_leaves)):
-            shapes_tree = jax.tree_multimap(
+            shapes_tree = jax.tree_map(
                 lambda a, b: f"{a.shape} {'!=' if a.shape != b.shape else '=='} {b.shape}",
                 actual, expected)
             raise TypeError(f"found leaves with unexpected shapes: {shapes_tree}")
