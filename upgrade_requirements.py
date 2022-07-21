@@ -6,14 +6,15 @@ requirements.colab.txt
 After that, just run this script from the project root (where this script is located).
 
 """
+import re
 from sys import stderr
-from packaging.version import parse
+from packaging.version import parse as _parse
 
 import pandas as pd
 
 
 kwargs = {
-    'sep': r'(?:==|>=)',
+    'sep': r'(?:==|>=|\s@\s)',
     'names': ['name', 'version'],
     'index_col': 'name',
     'comment': '#',
@@ -21,11 +22,19 @@ kwargs = {
 }
 
 
+def parse(row):
+    version_str = '' if row.version is None else str(row.version)
+    if version_str.startswith('http'):
+        m = re.search(row.name + r'\-([\d\.]+)\+', row.version)
+        version_str = '' if m is None else m.group(1)
+    return _parse(version_str)
+
+
 def upgrade_requirements(filename):
     reqs_colab = pd.read_csv('requirements.colab.txt', **kwargs)
-    reqs_colab['version'] = reqs_colab['version'].fillna('').map(parse)
+    reqs_colab['version'] = reqs_colab.apply(parse, axis=1)
     reqs = pd.read_csv(filename, **kwargs)
-    reqs['version'] = reqs['version'].fillna('').map(parse)
+    reqs['version'] = reqs.apply(parse, axis=1)
     overlap = pd.merge(reqs, reqs_colab, left_index=True, right_index=True, suffixes=('', '_colab'))
     need_updating = overlap[overlap['version'] < overlap['version_colab']]
 

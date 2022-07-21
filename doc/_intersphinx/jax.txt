@@ -63,10 +63,9 @@ py:class
 	jax._src.lax.slicing.ScatterDimensionNumbers jax.lax.html#jax.lax.ScatterDimensionNumbers
 	jax._src.numpy.ndarray.ndarray           _autosummary/jax.numpy.ndarray.html#jax.numpy.ndarray
 	jax._src.profiler.StepTraceAnnotation    _autosummary/jax.profiler.StepTraceAnnotation.html#jax.profiler.StepTraceAnnotation
-	jax._src.profiler.StepTraceContext       _autosummary/jax.profiler.StepTraceContext.html#jax.profiler.StepTraceContext
 	jax._src.profiler.TraceAnnotation        _autosummary/jax.profiler.TraceAnnotation.html#jax.profiler.TraceAnnotation
-	jax._src.profiler.TraceContext           _autosummary/jax.profiler.TraceContext.html#jax.profiler.TraceContext
 	jax._src.scipy.optimize.minimize.OptimizeResults _autosummary/jax.scipy.optimize.OptimizeResults.html#jax.scipy.optimize.OptimizeResults
+	jax._src.scipy.stats.kde.gaussian_kde    _autosummary/jax.scipy.stats.gaussian_kde.html#jax.scipy.stats.gaussian_kde
 	jax._src.tree_util.Partial               _autosummary/jax.tree_util.Partial.html#jax.tree_util.Partial
 	jax.core.ClosedJaxpr                     _autosummary/jax.core.ClosedJaxpr.html#jax.core.ClosedJaxpr
 	jax.core.Jaxpr                           _autosummary/jax.core.Jaxpr.html#jax.core.Jaxpr
@@ -124,15 +123,13 @@ py:class
 	jax.numpy.uint8                          _autosummary/jax.numpy.uint8.html#jax.numpy.uint8
 	jax.numpy.unsignedinteger                _autosummary/jax.numpy.unsignedinteger.html#jax.numpy.unsignedinteger
 	jax.profiler.StepTraceAnnotation         _autosummary/jax.profiler.StepTraceAnnotation.html#jax.profiler.StepTraceAnnotation
-	jax.profiler.StepTraceContext            _autosummary/jax.profiler.StepTraceContext.html#jax.profiler.StepTraceContext
 	jax.profiler.TraceAnnotation             _autosummary/jax.profiler.TraceAnnotation.html#jax.profiler.TraceAnnotation
-	jax.profiler.TraceContext                _autosummary/jax.profiler.TraceContext.html#jax.profiler.TraceContext
 	jax.scipy.optimize.OptimizeResults       _autosummary/jax.scipy.optimize.OptimizeResults.html#jax.scipy.optimize.OptimizeResults
+	jax.scipy.stats.gaussian_kde             _autosummary/jax.scipy.stats.gaussian_kde.html#jax.scipy.stats.gaussian_kde
 	jax.tree_util.Partial                    _autosummary/jax.tree_util.Partial.html#jax.tree_util.Partial
 	jaxlib.xla_extension.Device              _autosummary/jaxlib.xla_extension.Device.html#jaxlib.xla_extension.Device
 	jaxlib.xla_extension.DeviceArray         jax.numpy.html#jaxlib.xla_extension.DeviceArray
 	jaxlib.xla_extension.DeviceArrayBase     jax.numpy.html#jaxlib.xla_extension.DeviceArrayBase
-	jaxlib.xla_extension.GpuDevice           _autosummary/jaxlib.xla_extension.GpuDevice.html#jaxlib.xla_extension.GpuDevice
 	jaxlib.xla_extension.TpuDevice           _autosummary/jaxlib.xla_extension.TpuDevice.html#jaxlib.xla_extension.TpuDevice
 	numpy.character                          _autosummary/jax.numpy.character.html#jax.numpy.character
 	numpy.complexfloating                    _autosummary/jax.numpy.complexfloating.html#jax.numpy.complexfloating
@@ -153,6 +150,7 @@ py:data
 	jax.config                               _autosummary/jax.config.html#jax.config
 	jax.debug_infs                           _autosummary/jax.debug_infs.html#jax.debug_infs
 	jax.debug_nans                           _autosummary/jax.debug_nans.html#jax.debug_nans
+	jax.default_device                       _autosummary/jax.default_device.html#jax.default_device
 	jax.default_matmul_precision             _autosummary/jax.default_matmul_precision.html#jax.default_matmul_precision
 	jax.default_prng_impl                    _autosummary/jax.default_prng_impl.html#jax.default_prng_impl
 	jax.enable_checks                        _autosummary/jax.enable_checks.html#jax.enable_checks
@@ -164,7 +162,6 @@ py:data
 	jax.numpy.index_exp                      _autosummary/jax.numpy.index_exp.html#jax.numpy.index_exp
 	jax.numpy.linalg.det                     _autosummary/jax.numpy.linalg.det.html#jax.numpy.linalg.det
 	jax.numpy.linalg.pinv                    _autosummary/jax.numpy.linalg.pinv.html#jax.numpy.linalg.pinv
-	jax.numpy.linalg.slogdet                 _autosummary/jax.numpy.linalg.slogdet.html#jax.numpy.linalg.slogdet
 	jax.numpy.logaddexp                      _autosummary/jax.numpy.logaddexp.html#jax.numpy.logaddexp
 	jax.numpy.logaddexp2                     _autosummary/jax.numpy.logaddexp2.html#jax.numpy.logaddexp2
 	jax.numpy.mgrid                          _autosummary/jax.numpy.mgrid.html#jax.numpy.mgrid
@@ -247,6 +244,20 @@ py:function
 	jax.experimental.jet.jet                 jax.experimental.jet.html#jax.experimental.jet.jet
 	jax.experimental.maps.xmap               _autosummary/jax.experimental.maps.xmap.html#jax.experimental.maps.xmap
 	jax.experimental.pjit.pjit               jax.experimental.pjit.html#jax.experimental.pjit.pjit
+	jax.experimental.sparse.bcoo_broadcast_in_dim _autosummary/jax.experimental.sparse.bcoo_broadcast_in_dim.html#jax.experimental.sparse.bcoo_broadcast_in_dim
+	jax.experimental.sparse.bcoo_concatenate _autosummary/jax.experimental.sparse.bcoo_concatenate.html#jax.experimental.sparse.bcoo_concatenate
+	jax.experimental.sparse.bcoo_dot_general _autosummary/jax.experimental.sparse.bcoo_dot_general.html#jax.experimental.sparse.bcoo_dot_general
+	jax.experimental.sparse.bcoo_dot_general_sampled _autosummary/jax.experimental.sparse.bcoo_dot_general_sampled.html#jax.experimental.sparse.bcoo_dot_general_sampled
+	jax.experimental.sparse.bcoo_extract     _autosummary/jax.experimental.sparse.bcoo_extract.html#jax.experimental.sparse.bcoo_extract
+	jax.experimental.sparse.bcoo_fromdense   _autosummary/jax.experimental.sparse.bcoo_fromdense.html#jax.experimental.sparse.bcoo_fromdense
+	jax.experimental.sparse.bcoo_multiply_dense _autosummary/jax.experimental.sparse.bcoo_multiply_dense.html#jax.experimental.sparse.bcoo_multiply_dense
+	jax.experimental.sparse.bcoo_multiply_sparse _autosummary/jax.experimental.sparse.bcoo_multiply_sparse.html#jax.experimental.sparse.bcoo_multiply_sparse
+	jax.experimental.sparse.bcoo_reduce_sum  _autosummary/jax.experimental.sparse.bcoo_reduce_sum.html#jax.experimental.sparse.bcoo_reduce_sum
+	jax.experimental.sparse.bcoo_reshape     _autosummary/jax.experimental.sparse.bcoo_reshape.html#jax.experimental.sparse.bcoo_reshape
+	jax.experimental.sparse.bcoo_sort_indices _autosummary/jax.experimental.sparse.bcoo_sort_indices.html#jax.experimental.sparse.bcoo_sort_indices
+	jax.experimental.sparse.bcoo_sum_duplicates _autosummary/jax.experimental.sparse.bcoo_sum_duplicates.html#jax.experimental.sparse.bcoo_sum_duplicates
+	jax.experimental.sparse.bcoo_todense     _autosummary/jax.experimental.sparse.bcoo_todense.html#jax.experimental.sparse.bcoo_todense
+	jax.experimental.sparse.bcoo_transpose   _autosummary/jax.experimental.sparse.bcoo_transpose.html#jax.experimental.sparse.bcoo_transpose
 	jax.experimental.sparse.sparsify         _autosummary/jax.experimental.sparse.sparsify.html#jax.experimental.sparse.sparsify
 	jax.flatten_util.ravel_pytree            _autosummary/jax.flatten_util.ravel_pytree.html#jax.flatten_util.ravel_pytree
 	jax.grad                                 _autosummary/jax.grad.html#jax.grad
@@ -421,6 +432,7 @@ py:function
 	jax.local_devices                        _autosummary/jax.local_devices.html#jax.local_devices
 	jax.make_jaxpr                           _autosummary/jax.make_jaxpr.html#jax.make_jaxpr
 	jax.named_call                           _autosummary/jax.named_call.html#jax.named_call
+	jax.named_scope                          _autosummary/jax.named_scope.html#jax.named_scope
 	jax.nn.celu                              _autosummary/jax.nn.celu.html#jax.nn.celu
 	jax.nn.elu                               _autosummary/jax.nn.elu.html#jax.nn.elu
 	jax.nn.gelu                              _autosummary/jax.nn.gelu.html#jax.nn.gelu
@@ -586,6 +598,7 @@ py:function
 	jax.numpy.fmin                           _autosummary/jax.numpy.fmin.html#jax.numpy.fmin
 	jax.numpy.fmod                           _autosummary/jax.numpy.fmod.html#jax.numpy.fmod
 	jax.numpy.frexp                          _autosummary/jax.numpy.frexp.html#jax.numpy.frexp
+	jax.numpy.from_dlpack                    _autosummary/jax.numpy.from_dlpack.html#jax.numpy.from_dlpack
 	jax.numpy.frombuffer                     _autosummary/jax.numpy.frombuffer.html#jax.numpy.frombuffer
 	jax.numpy.fromfile                       _autosummary/jax.numpy.fromfile.html#jax.numpy.fromfile
 	jax.numpy.fromfunction                   _autosummary/jax.numpy.fromfunction.html#jax.numpy.fromfunction
@@ -656,6 +669,7 @@ py:function
 	jax.numpy.linalg.multi_dot               _autosummary/jax.numpy.linalg.multi_dot.html#jax.numpy.linalg.multi_dot
 	jax.numpy.linalg.norm                    _autosummary/jax.numpy.linalg.norm.html#jax.numpy.linalg.norm
 	jax.numpy.linalg.qr                      _autosummary/jax.numpy.linalg.qr.html#jax.numpy.linalg.qr
+	jax.numpy.linalg.slogdet                 _autosummary/jax.numpy.linalg.slogdet.html#jax.numpy.linalg.slogdet
 	jax.numpy.linalg.solve                   _autosummary/jax.numpy.linalg.solve.html#jax.numpy.linalg.solve
 	jax.numpy.linalg.svd                     _autosummary/jax.numpy.linalg.svd.html#jax.numpy.linalg.svd
 	jax.numpy.linalg.tensorinv               _autosummary/jax.numpy.linalg.tensorinv.html#jax.numpy.linalg.tensorinv
@@ -822,8 +836,8 @@ py:function
 	jax.profiler.start_trace                 _autosummary/jax.profiler.start_trace.html#jax.profiler.start_trace
 	jax.profiler.stop_trace                  _autosummary/jax.profiler.stop_trace.html#jax.profiler.stop_trace
 	jax.profiler.trace                       _autosummary/jax.profiler.trace.html#jax.profiler.trace
-	jax.profiler.trace_function              _autosummary/jax.profiler.trace_function.html#jax.profiler.trace_function
 	jax.random.PRNGKey                       _autosummary/jax.random.PRNGKey.html#jax.random.PRNGKey
+	jax.random.ball                          _autosummary/jax.random.ball.html#jax.random.ball
 	jax.random.bernoulli                     _autosummary/jax.random.bernoulli.html#jax.random.bernoulli
 	jax.random.beta                          _autosummary/jax.random.beta.html#jax.random.beta
 	jax.random.categorical                   _autosummary/jax.random.categorical.html#jax.random.categorical
@@ -834,6 +848,7 @@ py:function
 	jax.random.exponential                   _autosummary/jax.random.exponential.html#jax.random.exponential
 	jax.random.fold_in                       _autosummary/jax.random.fold_in.html#jax.random.fold_in
 	jax.random.gamma                         _autosummary/jax.random.gamma.html#jax.random.gamma
+	jax.random.generalized_normal            _autosummary/jax.random.generalized_normal.html#jax.random.generalized_normal
 	jax.random.gumbel                        _autosummary/jax.random.gumbel.html#jax.random.gumbel
 	jax.random.laplace                       _autosummary/jax.random.laplace.html#jax.random.laplace
 	jax.random.loggamma                      _autosummary/jax.random.loggamma.html#jax.random.loggamma
@@ -864,6 +879,7 @@ py:function
 	jax.scipy.linalg.eigh_tridiagonal        _autosummary/jax.scipy.linalg.eigh_tridiagonal.html#jax.scipy.linalg.eigh_tridiagonal
 	jax.scipy.linalg.expm                    _autosummary/jax.scipy.linalg.expm.html#jax.scipy.linalg.expm
 	jax.scipy.linalg.expm_frechet            _autosummary/jax.scipy.linalg.expm_frechet.html#jax.scipy.linalg.expm_frechet
+	jax.scipy.linalg.funm                    _autosummary/jax.scipy.linalg.funm.html#jax.scipy.linalg.funm
 	jax.scipy.linalg.inv                     _autosummary/jax.scipy.linalg.inv.html#jax.scipy.linalg.inv
 	jax.scipy.linalg.lu                      _autosummary/jax.scipy.linalg.lu.html#jax.scipy.linalg.lu
 	jax.scipy.linalg.lu_factor               _autosummary/jax.scipy.linalg.lu_factor.html#jax.scipy.linalg.lu_factor
@@ -933,6 +949,9 @@ py:function
 	jax.scipy.stats.expon.pdf                _autosummary/jax.scipy.stats.expon.pdf.html#jax.scipy.stats.expon.pdf
 	jax.scipy.stats.gamma.logpdf             _autosummary/jax.scipy.stats.gamma.logpdf.html#jax.scipy.stats.gamma.logpdf
 	jax.scipy.stats.gamma.pdf                _autosummary/jax.scipy.stats.gamma.pdf.html#jax.scipy.stats.gamma.pdf
+	jax.scipy.stats.gennorm.cdf              _autosummary/jax.scipy.stats.gennorm.cdf.html#jax.scipy.stats.gennorm.cdf
+	jax.scipy.stats.gennorm.logpdf           _autosummary/jax.scipy.stats.gennorm.logpdf.html#jax.scipy.stats.gennorm.logpdf
+	jax.scipy.stats.gennorm.pdf              _autosummary/jax.scipy.stats.gennorm.pdf.html#jax.scipy.stats.gennorm.pdf
 	jax.scipy.stats.geom.logpmf              _autosummary/jax.scipy.stats.geom.logpmf.html#jax.scipy.stats.geom.logpmf
 	jax.scipy.stats.geom.pmf                 _autosummary/jax.scipy.stats.geom.pmf.html#jax.scipy.stats.geom.pmf
 	jax.scipy.stats.laplace.cdf              _autosummary/jax.scipy.stats.laplace.cdf.html#jax.scipy.stats.laplace.cdf
@@ -1023,10 +1042,16 @@ py:method
 	jax.numpy.uint8.__init__                 _autosummary/jax.numpy.uint8.html#jax.numpy.uint8.__init__
 	jax.numpy.unsignedinteger.__init__       _autosummary/jax.numpy.unsignedinteger.html#jax.numpy.unsignedinteger.__init__
 	jax.profiler.StepTraceAnnotation.__init__ _autosummary/jax.profiler.StepTraceAnnotation.html#jax.profiler.StepTraceAnnotation.__init__
-	jax.profiler.StepTraceContext.__init__   _autosummary/jax.profiler.StepTraceContext.html#jax.profiler.StepTraceContext.__init__
 	jax.profiler.TraceAnnotation.__init__    _autosummary/jax.profiler.TraceAnnotation.html#jax.profiler.TraceAnnotation.__init__
-	jax.profiler.TraceContext.__init__       _autosummary/jax.profiler.TraceContext.html#jax.profiler.TraceContext.__init__
 	jax.scipy.optimize.OptimizeResults.__init__ _autosummary/jax.scipy.optimize.OptimizeResults.html#jax.scipy.optimize.OptimizeResults.__init__
+	jax.scipy.stats.gaussian_kde.__init__    _autosummary/jax.scipy.stats.gaussian_kde.html#jax.scipy.stats.gaussian_kde.__init__
+	jax.scipy.stats.gaussian_kde.evaluate    _autosummary/jax.scipy.stats.gaussian_kde.evaluate.html#jax.scipy.stats.gaussian_kde.evaluate
+	jax.scipy.stats.gaussian_kde.integrate_box_1d _autosummary/jax.scipy.stats.gaussian_kde.integrate_box_1d.html#jax.scipy.stats.gaussian_kde.integrate_box_1d
+	jax.scipy.stats.gaussian_kde.integrate_gaussian _autosummary/jax.scipy.stats.gaussian_kde.integrate_gaussian.html#jax.scipy.stats.gaussian_kde.integrate_gaussian
+	jax.scipy.stats.gaussian_kde.integrate_kde _autosummary/jax.scipy.stats.gaussian_kde.integrate_kde.html#jax.scipy.stats.gaussian_kde.integrate_kde
+	jax.scipy.stats.gaussian_kde.logpdf      _autosummary/jax.scipy.stats.gaussian_kde.logpdf.html#jax.scipy.stats.gaussian_kde.logpdf
+	jax.scipy.stats.gaussian_kde.pdf         _autosummary/jax.scipy.stats.gaussian_kde.pdf.html#jax.scipy.stats.gaussian_kde.pdf
+	jax.scipy.stats.gaussian_kde.resample    _autosummary/jax.scipy.stats.gaussian_kde.resample.html#jax.scipy.stats.gaussian_kde.resample
 	jax.tree_util.Partial.__init__           _autosummary/jax.tree_util.Partial.html#jax.tree_util.Partial.__init__
 	jaxlib.xla_extension.Device.__init__     _autosummary/jaxlib.xla_extension.Device.html#jaxlib.xla_extension.Device.__init__
 	jaxlib.xla_extension.DeviceArray.all     jax.numpy.html#jaxlib.xla_extension.DeviceArray.all
@@ -1084,7 +1109,6 @@ py:method
 	jaxlib.xla_extension.DeviceArray.var     jax.numpy.html#jaxlib.xla_extension.DeviceArray.var
 	jaxlib.xla_extension.DeviceArray.xla_dynamic_shape jax.numpy.html#jaxlib.xla_extension.DeviceArray.xla_dynamic_shape
 	jaxlib.xla_extension.DeviceArray.xla_shape jax.numpy.html#jaxlib.xla_extension.DeviceArray.xla_shape
-	jaxlib.xla_extension.GpuDevice.__init__  _autosummary/jaxlib.xla_extension.GpuDevice.html#jaxlib.xla_extension.GpuDevice.__init__
 	jaxlib.xla_extension.TpuDevice.__init__  _autosummary/jaxlib.xla_extension.TpuDevice.html#jaxlib.xla_extension.TpuDevice.__init__
 py:module
 	jax.core                                 jax_internal_api.html#module-jax.core
@@ -1127,6 +1151,7 @@ py:module
 	jax.scipy.stats.dirichlet                jax.scipy.html#module-jax.scipy.stats.dirichlet
 	jax.scipy.stats.expon                    jax.scipy.html#module-jax.scipy.stats.expon
 	jax.scipy.stats.gamma                    jax.scipy.html#module-jax.scipy.stats.gamma
+	jax.scipy.stats.gennorm                  jax.scipy.html#module-jax.scipy.stats.gennorm
 	jax.scipy.stats.geom                     jax.scipy.html#module-jax.scipy.stats.geom
 	jax.scipy.stats.laplace                  jax.scipy.html#module-jax.scipy.stats.laplace
 	jax.scipy.stats.logistic                 jax.scipy.html#module-jax.scipy.stats.logistic
@@ -1157,6 +1182,7 @@ std:doc
 	_autosummary/jax.debug_infs              jax.debug_infs                          : _autosummary/jax.debug_infs.html
 	_autosummary/jax.debug_nans              jax.debug_nans                          : _autosummary/jax.debug_nans.html
 	_autosummary/jax.default_backend         jax.default_backend                     : _autosummary/jax.default_backend.html
+	_autosummary/jax.default_device          jax.default_device                      : _autosummary/jax.default_device.html
 	_autosummary/jax.default_matmul_precision jax.default_matmul_precision            : _autosummary/jax.default_matmul_precision.html
 	_autosummary/jax.default_prng_impl       jax.default_prng_impl                   : _autosummary/jax.default_prng_impl.html
 	_autosummary/jax.device_count            jax.device_count                        : _autosummary/jax.device_count.html
@@ -1187,6 +1213,20 @@ std:doc
 	_autosummary/jax.experimental.maps.Mesh  jax.experimental.maps.Mesh              : _autosummary/jax.experimental.maps.Mesh.html
 	_autosummary/jax.experimental.maps.xmap  jax.experimental.maps.xmap              : _autosummary/jax.experimental.maps.xmap.html
 	_autosummary/jax.experimental.sparse.BCOO jax.experimental.sparse.BCOO            : _autosummary/jax.experimental.sparse.BCOO.html
+	_autosummary/jax.experimental.sparse.bcoo_broadcast_in_dim jax.experimental.sparse.bcoo_broadcast_in_dim: _autosummary/jax.experimental.sparse.bcoo_broadcast_in_dim.html
+	_autosummary/jax.experimental.sparse.bcoo_concatenate jax.experimental.sparse.bcoo_concatenate: _autosummary/jax.experimental.sparse.bcoo_concatenate.html
+	_autosummary/jax.experimental.sparse.bcoo_dot_general jax.experimental.sparse.bcoo_dot_general: _autosummary/jax.experimental.sparse.bcoo_dot_general.html
+	_autosummary/jax.experimental.sparse.bcoo_dot_general_sampled jax.experimental.sparse.bcoo_dot_general_sampled: _autosummary/jax.experimental.sparse.bcoo_dot_general_sampled.html
+	_autosummary/jax.experimental.sparse.bcoo_extract jax.experimental.sparse.bcoo_extract    : _autosummary/jax.experimental.sparse.bcoo_extract.html
+	_autosummary/jax.experimental.sparse.bcoo_fromdense jax.experimental.sparse.bcoo_fromdense  : _autosummary/jax.experimental.sparse.bcoo_fromdense.html
+	_autosummary/jax.experimental.sparse.bcoo_multiply_dense jax.experimental.sparse.bcoo_multiply_dense: _autosummary/jax.experimental.sparse.bcoo_multiply_dense.html
+	_autosummary/jax.experimental.sparse.bcoo_multiply_sparse jax.experimental.sparse.bcoo_multiply_sparse: _autosummary/jax.experimental.sparse.bcoo_multiply_sparse.html
+	_autosummary/jax.experimental.sparse.bcoo_reduce_sum jax.experimental.sparse.bcoo_reduce_sum : _autosummary/jax.experimental.sparse.bcoo_reduce_sum.html
+	_autosummary/jax.experimental.sparse.bcoo_reshape jax.experimental.sparse.bcoo_reshape    : _autosummary/jax.experimental.sparse.bcoo_reshape.html
+	_autosummary/jax.experimental.sparse.bcoo_sort_indices jax.experimental.sparse.bcoo_sort_indices: _autosummary/jax.experimental.sparse.bcoo_sort_indices.html
+	_autosummary/jax.experimental.sparse.bcoo_sum_duplicates jax.experimental.sparse.bcoo_sum_duplicates: _autosummary/jax.experimental.sparse.bcoo_sum_duplicates.html
+	_autosummary/jax.experimental.sparse.bcoo_todense jax.experimental.sparse.bcoo_todense    : _autosummary/jax.experimental.sparse.bcoo_todense.html
+	_autosummary/jax.experimental.sparse.bcoo_transpose jax.experimental.sparse.bcoo_transpose  : _autosummary/jax.experimental.sparse.bcoo_transpose.html
 	_autosummary/jax.experimental.sparse.sparsify jax.experimental.sparse.sparsify        : _autosummary/jax.experimental.sparse.sparsify.html
 	_autosummary/jax.flatten_util.ravel_pytree jax.flatten_util.ravel_pytree           : _autosummary/jax.flatten_util.ravel_pytree.html
 	_autosummary/jax.grad                    jax.grad                                : _autosummary/jax.grad.html
@@ -1362,6 +1402,7 @@ std:doc
 	_autosummary/jax.log_compiles            jax.log_compiles                        : _autosummary/jax.log_compiles.html
 	_autosummary/jax.make_jaxpr              jax.make_jaxpr                          : _autosummary/jax.make_jaxpr.html
 	_autosummary/jax.named_call              jax.named_call                          : _autosummary/jax.named_call.html
+	_autosummary/jax.named_scope             jax.named_scope                         : _autosummary/jax.named_scope.html
 	_autosummary/jax.nn.celu                 jax.nn.celu                             : _autosummary/jax.nn.celu.html
 	_autosummary/jax.nn.elu                  jax.nn.elu                              : _autosummary/jax.nn.elu.html
 	_autosummary/jax.nn.gelu                 jax.nn.gelu                             : _autosummary/jax.nn.gelu.html
@@ -1547,6 +1588,7 @@ std:doc
 	_autosummary/jax.numpy.fmin              jax.numpy.fmin                          : _autosummary/jax.numpy.fmin.html
 	_autosummary/jax.numpy.fmod              jax.numpy.fmod                          : _autosummary/jax.numpy.fmod.html
 	_autosummary/jax.numpy.frexp             jax.numpy.frexp                         : _autosummary/jax.numpy.frexp.html
+	_autosummary/jax.numpy.from_dlpack       jax.numpy.from_dlpack                   : _autosummary/jax.numpy.from_dlpack.html
 	_autosummary/jax.numpy.frombuffer        jax.numpy.frombuffer                    : _autosummary/jax.numpy.frombuffer.html
 	_autosummary/jax.numpy.fromfile          jax.numpy.fromfile                      : _autosummary/jax.numpy.fromfile.html
 	_autosummary/jax.numpy.fromfunction      jax.numpy.fromfunction                  : _autosummary/jax.numpy.fromfunction.html
@@ -1809,9 +1851,7 @@ std:doc
 	_autosummary/jax.process_count           jax.process_count                       : _autosummary/jax.process_count.html
 	_autosummary/jax.process_index           jax.process_index                       : _autosummary/jax.process_index.html
 	_autosummary/jax.profiler.StepTraceAnnotation jax.profiler.StepTraceAnnotation        : _autosummary/jax.profiler.StepTraceAnnotation.html
-	_autosummary/jax.profiler.StepTraceContext jax.profiler.StepTraceContext           : _autosummary/jax.profiler.StepTraceContext.html
 	_autosummary/jax.profiler.TraceAnnotation jax.profiler.TraceAnnotation            : _autosummary/jax.profiler.TraceAnnotation.html
-	_autosummary/jax.profiler.TraceContext   jax.profiler.TraceContext               : _autosummary/jax.profiler.TraceContext.html
 	_autosummary/jax.profiler.annotate_function jax.profiler.annotate_function          : _autosummary/jax.profiler.annotate_function.html
 	_autosummary/jax.profiler.device_memory_profile jax.profiler.device_memory_profile      : _autosummary/jax.profiler.device_memory_profile.html
 	_autosummary/jax.profiler.save_device_memory_profile jax.profiler.save_device_memory_profile : _autosummary/jax.profiler.save_device_memory_profile.html
@@ -1819,8 +1859,8 @@ std:doc
 	_autosummary/jax.profiler.start_trace    jax.profiler.start_trace                : _autosummary/jax.profiler.start_trace.html
 	_autosummary/jax.profiler.stop_trace     jax.profiler.stop_trace                 : _autosummary/jax.profiler.stop_trace.html
 	_autosummary/jax.profiler.trace          jax.profiler.trace                      : _autosummary/jax.profiler.trace.html
-	_autosummary/jax.profiler.trace_function jax.profiler.trace_function             : _autosummary/jax.profiler.trace_function.html
 	_autosummary/jax.random.PRNGKey          jax.random.PRNGKey                      : _autosummary/jax.random.PRNGKey.html
+	_autosummary/jax.random.ball             jax.random.ball                         : _autosummary/jax.random.ball.html
 	_autosummary/jax.random.bernoulli        jax.random.bernoulli                    : _autosummary/jax.random.bernoulli.html
 	_autosummary/jax.random.beta             jax.random.beta                         : _autosummary/jax.random.beta.html
 	_autosummary/jax.random.categorical      jax.random.categorical                  : _autosummary/jax.random.categorical.html
@@ -1831,6 +1871,7 @@ std:doc
 	_autosummary/jax.random.exponential      jax.random.exponential                  : _autosummary/jax.random.exponential.html
 	_autosummary/jax.random.fold_in          jax.random.fold_in                      : _autosummary/jax.random.fold_in.html
 	_autosummary/jax.random.gamma            jax.random.gamma                        : _autosummary/jax.random.gamma.html
+	_autosummary/jax.random.generalized_normal jax.random.generalized_normal           : _autosummary/jax.random.generalized_normal.html
 	_autosummary/jax.random.gumbel           jax.random.gumbel                       : _autosummary/jax.random.gumbel.html
 	_autosummary/jax.random.laplace          jax.random.laplace                      : _autosummary/jax.random.laplace.html
 	_autosummary/jax.random.loggamma         jax.random.loggamma                     : _autosummary/jax.random.loggamma.html
@@ -1861,6 +1902,7 @@ std:doc
 	_autosummary/jax.scipy.linalg.eigh_tridiagonal jax.scipy.linalg.eigh_tridiagonal       : _autosummary/jax.scipy.linalg.eigh_tridiagonal.html
 	_autosummary/jax.scipy.linalg.expm       jax.scipy.linalg.expm                   : _autosummary/jax.scipy.linalg.expm.html
 	_autosummary/jax.scipy.linalg.expm_frechet jax.scipy.linalg.expm_frechet           : _autosummary/jax.scipy.linalg.expm_frechet.html
+	_autosummary/jax.scipy.linalg.funm       jax.scipy.linalg.funm                   : _autosummary/jax.scipy.linalg.funm.html
 	_autosummary/jax.scipy.linalg.inv        jax.scipy.linalg.inv                    : _autosummary/jax.scipy.linalg.inv.html
 	_autosummary/jax.scipy.linalg.lu         jax.scipy.linalg.lu                     : _autosummary/jax.scipy.linalg.lu.html
 	_autosummary/jax.scipy.linalg.lu_factor  jax.scipy.linalg.lu_factor              : _autosummary/jax.scipy.linalg.lu_factor.html
@@ -1936,6 +1978,17 @@ std:doc
 	_autosummary/jax.scipy.stats.expon.pdf   jax.scipy.stats.expon.pdf               : _autosummary/jax.scipy.stats.expon.pdf.html
 	_autosummary/jax.scipy.stats.gamma.logpdf jax.scipy.stats.gamma.logpdf            : _autosummary/jax.scipy.stats.gamma.logpdf.html
 	_autosummary/jax.scipy.stats.gamma.pdf   jax.scipy.stats.gamma.pdf               : _autosummary/jax.scipy.stats.gamma.pdf.html
+	_autosummary/jax.scipy.stats.gaussian_kde jax.scipy.stats.gaussian_kde            : _autosummary/jax.scipy.stats.gaussian_kde.html
+	_autosummary/jax.scipy.stats.gaussian_kde.evaluate jax.scipy.stats.gaussian_kde.evaluate   : _autosummary/jax.scipy.stats.gaussian_kde.evaluate.html
+	_autosummary/jax.scipy.stats.gaussian_kde.integrate_box_1d jax.scipy.stats.gaussian_kde.integrate_box_1d: _autosummary/jax.scipy.stats.gaussian_kde.integrate_box_1d.html
+	_autosummary/jax.scipy.stats.gaussian_kde.integrate_gaussian jax.scipy.stats.gaussian_kde.integrate_gaussian: _autosummary/jax.scipy.stats.gaussian_kde.integrate_gaussian.html
+	_autosummary/jax.scipy.stats.gaussian_kde.integrate_kde jax.scipy.stats.gaussian_kde.integrate_kde: _autosummary/jax.scipy.stats.gaussian_kde.integrate_kde.html
+	_autosummary/jax.scipy.stats.gaussian_kde.logpdf jax.scipy.stats.gaussian_kde.logpdf     : _autosummary/jax.scipy.stats.gaussian_kde.logpdf.html
+	_autosummary/jax.scipy.stats.gaussian_kde.pdf jax.scipy.stats.gaussian_kde.pdf        : _autosummary/jax.scipy.stats.gaussian_kde.pdf.html
+	_autosummary/jax.scipy.stats.gaussian_kde.resample jax.scipy.stats.gaussian_kde.resample   : _autosummary/jax.scipy.stats.gaussian_kde.resample.html
+	_autosummary/jax.scipy.stats.gennorm.cdf jax.scipy.stats.gennorm.cdf             : _autosummary/jax.scipy.stats.gennorm.cdf.html
+	_autosummary/jax.scipy.stats.gennorm.logpdf jax.scipy.stats.gennorm.logpdf          : _autosummary/jax.scipy.stats.gennorm.logpdf.html
+	_autosummary/jax.scipy.stats.gennorm.pdf jax.scipy.stats.gennorm.pdf             : _autosummary/jax.scipy.stats.gennorm.pdf.html
 	_autosummary/jax.scipy.stats.geom.logpmf jax.scipy.stats.geom.logpmf             : _autosummary/jax.scipy.stats.geom.logpmf.html
 	_autosummary/jax.scipy.stats.geom.pmf    jax.scipy.stats.geom.pmf                : _autosummary/jax.scipy.stats.geom.pmf.html
 	_autosummary/jax.scipy.stats.laplace.cdf jax.scipy.stats.laplace.cdf             : _autosummary/jax.scipy.stats.laplace.cdf.html
@@ -1984,7 +2037,6 @@ std:doc
 	_autosummary/jax.vmap                    jax.vmap                                : _autosummary/jax.vmap.html
 	_autosummary/jax.xla_computation         jax.xla_computation                     : _autosummary/jax.xla_computation.html
 	_autosummary/jaxlib.xla_extension.Device jaxlib.xla_extension.Device             : _autosummary/jaxlib.xla_extension.Device.html
-	_autosummary/jaxlib.xla_extension.GpuDevice jaxlib.xla_extension.GpuDevice          : _autosummary/jaxlib.xla_extension.GpuDevice.html
 	_autosummary/jaxlib.xla_extension.TpuDevice jaxlib.xla_extension.TpuDevice          : _autosummary/jaxlib.xla_extension.TpuDevice.html
 	api_compatibility                        API compatibility                       : api_compatibility.html
 	async_dispatch                           Asynchronous dispatch                   : async_dispatch.html
@@ -1999,6 +2051,7 @@ std:doc
 	design_notes/jax_versioning              Jax and Jaxlib versioning               : design_notes/jax_versioning.html
 	design_notes/omnistaging                 Omnistaging                             : design_notes/omnistaging.html
 	design_notes/prng                        JAX PRNG Design                         : design_notes/prng.html
+	design_notes/sequencing_effects          Sequencing side-effects in JAX          : design_notes/sequencing_effects.html
 	design_notes/type_promotion              Design of Type Promotion Semantics for JAX: design_notes/type_promotion.html
 	developer                                Building from source                    : developer.html
 	device_memory_profiling                  Device Memory Profiling                 : device_memory_profiling.html
@@ -2066,10 +2119,249 @@ std:doc
 	transfer_guard                           Transfer guard                          : transfer_guard.html
 	type_promotion                           Type promotion semantics                : type_promotion.html
 std:label
+	api-compatibility                        API compatibility                       : api_compatibility.html#api-compatibility
+	api_compatibility.md#api-compatibility   API compatibility                       : api_compatibility.html#id1
+	api_compatibility.md#what-is-covered     What is covered?                        : api_compatibility.html#what-is-covered
+	api_compatibility.md#what-is-not-covered What is not covered?                    : api_compatibility.html#what-is-not-covered
 	async-dispatch                           Asynchronous dispatch                   : async_dispatch.html#async-dispatch
+	autodidax.ipynb#adding-cond              Adding cond                             : autodidax.html#adding-cond
+	autodidax.ipynb#autodidax-jax-core-from-scratch Autodidax: JAX core from scratch        : autodidax.html#autodidax-jax-core-from-scratch
+	autodidax.ipynb#building-jaxprs-with-tracing Building jaxprs with tracing            : autodidax.html#building-jaxprs-with-tracing
+	autodidax.ipynb#evaluation-interpreter   Evaluation interpreter                  : autodidax.html#evaluation-interpreter
+	autodidax.ipynb#forward-mode-autodiff-with-jvp Forward-mode autodiff with jvp          : autodidax.html#forward-mode-autodiff-with-jvp
+	autodidax.ipynb#jax-core-machinery       JAX core machinery                      : autodidax.html#jax-core-machinery
+	autodidax.ipynb#jaxpr-data-structures    Jaxpr data structures                   : autodidax.html#jaxpr-data-structures
+	autodidax.ipynb#linearize                linearize                               : autodidax.html#linearize
+	autodidax.ipynb#on-the-fly-final-style-and-staged-initial-style-processing On-the-fly ("final style") and staged ("initial style") processing: autodidax.html#on-the-fly-final-style-and-staged-initial-style-processing
+	autodidax.ipynb#part-1-transformations-as-interpreters-standard-evaluation-jvp-and-vmap Part 1: Transformations as interpreters: standard evaluation, jvp, and vmap: autodidax.html#part-1-transformations-as-interpreters-standard-evaluation-jvp-and-vmap
+	autodidax.ipynb#part-2-jaxprs            Part 2: Jaxprs                          : autodidax.html#part-2-jaxprs
+	autodidax.ipynb#part-3-jit-simplified    Part 3: jit, simplified                 : autodidax.html#part-3-jit-simplified
+	autodidax.ipynb#part-4-linearize-and-vjp-and-grad Part 4: linearize and vjp (and grad!)   : autodidax.html#part-4-linearize-and-vjp-and-grad
+	autodidax.ipynb#part-5-the-control-flow-primitives-cond Part 5: the control flow primitives cond: autodidax.html#part-5-the-control-flow-primitives-cond
+	autodidax.ipynb#pytrees-and-flattening-user-functions-inputs-and-outputs Pytrees and flattening user functions' inputs and outputs: autodidax.html#pytrees-and-flattening-user-functions-inputs-and-outputs
+	autodidax.ipynb#vectorized-batching-with-vmap Vectorized batching with vmap           : autodidax.html#vectorized-batching-with-vmap
+	autodidax.ipynb#vjp-and-grad             vjp and grad                            : autodidax.html#vjp-and-grad
 	ble1990                                  _autosummary/jax.lax.associative_scan.html#ble1990
 	boost                                    _autosummary/jax.scipy.special.gammaincc.html#boost
+	changelog.md#change-log                  Change log                              : changelog.html#change-log
+	changelog.md#jax-0158-january-28-2020    jax 0.1.58 (January 28, 2020)           : changelog.html#jax-0-1-58-january-28-2020
+	changelog.md#jax-0159-february-11-2020   jax 0.1.59 (February 11, 2020)          : changelog.html#jax-0-1-59-february-11-2020
+	changelog.md#jax-0160-march-17-2020      jax 0.1.60 (March 17, 2020)             : changelog.html#jax-0-1-60-march-17-2020
+	changelog.md#jax-0161-march-17-2020      jax 0.1.61 (March 17, 2020)             : changelog.html#jax-0-1-61-march-17-2020
+	changelog.md#jax-0162-march-21-2020      jax 0.1.62 (March 21, 2020)             : changelog.html#jax-0-1-62-march-21-2020
+	changelog.md#jax-0163-april-12-2020      jax 0.1.63 (April 12, 2020)             : changelog.html#jax-0-1-63-april-12-2020
+	changelog.md#jax-0164-april-21-2020      jax 0.1.64 (April 21, 2020)             : changelog.html#jax-0-1-64-april-21-2020
+	changelog.md#jax-0165-april-30-2020      jax 0.1.65 (April 30, 2020)             : changelog.html#jax-0-1-65-april-30-2020
+	changelog.md#jax-0166-may-5-2020         jax 0.1.66 (May 5, 2020)                : changelog.html#jax-0-1-66-may-5-2020
+	changelog.md#jax-0167-may-12-2020        jax 0.1.67 (May 12, 2020)               : changelog.html#jax-0-1-67-may-12-2020
+	changelog.md#jax-0168-may-21-2020        jax 0.1.68 (May 21, 2020)               : changelog.html#jax-0-1-68-may-21-2020
+	changelog.md#jax-0169-june-3-2020        jax 0.1.69 (June 3, 2020)               : changelog.html#jax-0-1-69-june-3-2020
+	changelog.md#jax-0170-june-8-2020        jax 0.1.70 (June 8, 2020)               : changelog.html#jax-0-1-70-june-8-2020
+	changelog.md#jax-0171-june-25-2020       jax 0.1.71 (June 25, 2020)              : changelog.html#jax-0-1-71-june-25-2020
+	changelog.md#jax-0172-june-28-2020       jax 0.1.72 (June 28, 2020)              : changelog.html#jax-0-1-72-june-28-2020
+	changelog.md#jax-0173-july-22-2020       jax 0.1.73 (July 22, 2020)              : changelog.html#jax-0-1-73-july-22-2020
+	changelog.md#jax-0174-july-29-2020       jax 0.1.74 (July 29, 2020)              : changelog.html#jax-0-1-74-july-29-2020
+	changelog.md#jax-0175-july-30-2020       jax 0.1.75 (July 30, 2020)              : changelog.html#jax-0-1-75-july-30-2020
+	changelog.md#jax-0176-september-8-2020   jax 0.1.76 (September 8, 2020)          : changelog.html#jax-0-1-76-september-8-2020
+	changelog.md#jax-0177-september-15-2020  jax (0.1.77) (September 15 2020)        : changelog.html#jax-0-1-77-september-15-2020
+	changelog.md#jax-020-september-23-2020   jax (0.2.0) (September 23 2020)         : changelog.html#jax-0-2-0-september-23-2020
+	changelog.md#jax-021-october-6-2020      jax 0.2.1 (October 6 2020)              : changelog.html#jax-0-2-1-october-6-2020
+	changelog.md#jax-0210-march-5-2021       jax 0.2.10 (March 5 2021)               : changelog.html#jax-0-2-10-march-5-2021
+	changelog.md#jax-0211-march-23-2021      jax 0.2.11 (March 23 2021)              : changelog.html#jax-0-2-11-march-23-2021
+	changelog.md#jax-0212-april-1-2021       jax 0.2.12 (April 1 2021)               : changelog.html#jax-0-2-12-april-1-2021
+	changelog.md#jax-0213-may-3-2021         jax 0.2.13 (May 3 2021)                 : changelog.html#jax-0-2-13-may-3-2021
+	changelog.md#jax-0214-june-10-2021       jax 0.2.14 (June 10 2021)               : changelog.html#jax-0-2-14-june-10-2021
+	changelog.md#jax-0215-june-23-2021       jax 0.2.15 (June 23 2021)               : changelog.html#jax-0-2-15-june-23-2021
+	changelog.md#jax-0216-june-23-2021       jax 0.2.16 (June 23 2021)               : changelog.html#jax-0-2-16-june-23-2021
+	changelog.md#jax-0217-july-9-2021        jax 0.2.17 (July 9 2021)                : changelog.html#jax-0-2-17-july-9-2021
+	changelog.md#jax-0218-july-21-2021       jax 0.2.18 (July 21 2021)               : changelog.html#jax-0-2-18-july-21-2021
+	changelog.md#jax-0219-aug-12-2021        jax 0.2.19 (Aug 12, 2021)               : changelog.html#jax-0-2-19-aug-12-2021
+	changelog.md#jax-022-october-13-2020     jax 0.2.2 (October 13 2020)             : changelog.html#jax-0-2-2-october-13-2020
+	changelog.md#jax-0220-sept-2-2021        jax 0.2.20 (Sept 2, 2021)               : changelog.html#jax-0-2-20-sept-2-2021
+	changelog.md#jax-0221-sept-23-2021       jax 0.2.21 (Sept 23, 2021)              : changelog.html#jax-0-2-21-sept-23-2021
+	changelog.md#jax-0222-oct-12-2021        jax 0.2.22 (Oct 12, 2021)               : changelog.html#jax-0-2-22-oct-12-2021
+	changelog.md#jax-0224-oct-19-2021        jax 0.2.24 (Oct 19, 2021)               : changelog.html#jax-0-2-24-oct-19-2021
+	changelog.md#jax-0225-nov-10-2021        jax 0.2.25 (Nov 10, 2021)               : changelog.html#jax-0-2-25-nov-10-2021
+	changelog.md#jax-0226-dec-8-2021         jax 0.2.26 (Dec 8, 2021)                : changelog.html#jax-0-2-26-dec-8-2021
+	changelog.md#jax-0227-jan-18-2022        jax 0.2.27 (Jan 18 2022)                : changelog.html#jax-0-2-27-jan-18-2022
+	changelog.md#jax-0228-feb-1-2022         jax 0.2.28 (Feb 1, 2022)                : changelog.html#jax-0-2-28-feb-1-2022
+	changelog.md#jax-023-october-14-2020     jax 0.2.3 (October 14 2020)             : changelog.html#jax-0-2-3-october-14-2020
+	changelog.md#jax-024-october-19-2020     jax 0.2.4 (October 19 2020)             : changelog.html#jax-0-2-4-october-19-2020
+	changelog.md#jax-025-october-27-2020     jax 0.2.5 (October 27 2020)             : changelog.html#jax-0-2-5-october-27-2020
+	changelog.md#jax-026-nov-18-2020         jax 0.2.6 (Nov 18 2020)                 : changelog.html#jax-0-2-6-nov-18-2020
+	changelog.md#jax-027-dec-4-2020          jax 0.2.7 (Dec 4 2020)                  : changelog.html#jax-0-2-7-dec-4-2020
+	changelog.md#jax-028-january-12-2021     jax 0.2.8 (January 12 2021)             : changelog.html#jax-0-2-8-january-12-2021
+	changelog.md#jax-029-january-26-2021     jax 0.2.9 (January 26 2021)             : changelog.html#jax-0-2-9-january-26-2021
+	changelog.md#jax-030-feb-10-2022         jax 0.3.0 (Feb 10, 2022)                : changelog.html#jax-0-3-0-feb-10-2022
+	changelog.md#jax-031-feb-18-2022         jax 0.3.1 (Feb 18, 2022)                : changelog.html#jax-0-3-1-feb-18-2022
+	changelog.md#jax-0310-may-3-2022         jax 0.3.10 (May 3, 2022)                : changelog.html#jax-0-3-10-may-3-2022
+	changelog.md#jax-0311-may-15-2022        jax 0.3.11 (May 15, 2022)               : changelog.html#jax-0-3-11-may-15-2022
+	changelog.md#jax-0312-may-15-2022        jax 0.3.12 (May 15, 2022)               : changelog.html#jax-0-3-12-may-15-2022
+	changelog.md#jax-0313-may-16-2022        jax 0.3.13 (May 16, 2022)               : changelog.html#jax-0-3-13-may-16-2022
+	changelog.md#jax-0314-june-27-2022       jax 0.3.14 (June 27, 2022)              : changelog.html#jax-0-3-14-june-27-2022
+	changelog.md#jax-0315-unreleased         jax 0.3.15 (Unreleased)                 : changelog.html#jax-0-3-15-unreleased
+	changelog.md#jax-032-march-16-2022       jax 0.3.2 (March 16, 2022)              : changelog.html#jax-0-3-2-march-16-2022
+	changelog.md#jax-033-march-17-2022       jax 0.3.3 (March 17, 2022)              : changelog.html#jax-0-3-3-march-17-2022
+	changelog.md#jax-034-march-18-2022       jax 0.3.4 (March 18, 2022)              : changelog.html#jax-0-3-4-march-18-2022
+	changelog.md#jax-035-april-7-2022        jax 0.3.5 (April 7, 2022)               : changelog.html#jax-0-3-5-april-7-2022
+	changelog.md#jax-036-april-12-2022       jax 0.3.6 (April 12, 2022)              : changelog.html#jax-0-3-6-april-12-2022
+	changelog.md#jax-037-april-15-2022       jax 0.3.7 (April 15, 2022)              : changelog.html#jax-0-3-7-april-15-2022
+	changelog.md#jax-038-april-29-2022       jax 0.3.8 (April 29 2022)               : changelog.html#jax-0-3-8-april-29-2022
+	changelog.md#jax-039-may-2-2022          jax 0.3.9 (May 2, 2022)                 : changelog.html#jax-0-3-9-may-2-2022
+	changelog.md#jaxlib-0138-january-29-2020 jaxlib 0.1.38 (January 29, 2020)        : changelog.html#jaxlib-0-1-38-january-29-2020
+	changelog.md#jaxlib-0139-february-11-2020 jaxlib 0.1.39 (February 11, 2020)       : changelog.html#jaxlib-0-1-39-february-11-2020
+	changelog.md#jaxlib-0140-march-4-2020    jaxlib 0.1.40 (March 4, 2020)           : changelog.html#jaxlib-0-1-40-march-4-2020
+	changelog.md#jaxlib-0142-march-19-2020   jaxlib 0.1.42 (March 19, 2020)          : changelog.html#jaxlib-0-1-42-march-19-2020
+	changelog.md#jaxlib-0143-march-31-2020   jaxlib 0.1.43 (March 31, 2020)          : changelog.html#jaxlib-0-1-43-march-31-2020
+	changelog.md#jaxlib-0144-april-16-2020   jaxlib 0.1.44 (April 16, 2020)          : changelog.html#jaxlib-0-1-44-april-16-2020
+	changelog.md#jaxlib-0145-april-21-2020   jaxlib 0.1.45 (April 21, 2020)          : changelog.html#jaxlib-0-1-45-april-21-2020
+	changelog.md#jaxlib-0146-may-5-2020      jaxlib 0.1.46 (May 5, 2020)             : changelog.html#jaxlib-0-1-46-may-5-2020
+	changelog.md#jaxlib-0147-may-8-2020      jaxlib 0.1.47 (May 8, 2020)             : changelog.html#jaxlib-0-1-47-may-8-2020
+	changelog.md#jaxlib-0148-june-12-2020    jaxlib 0.1.48 (June 12, 2020)           : changelog.html#jaxlib-0-1-48-june-12-2020
+	changelog.md#jaxlib-0149-june-19-2020    jaxlib 0.1.49 (June 19, 2020)           : changelog.html#jaxlib-0-1-49-june-19-2020
+	changelog.md#jaxlib-0150-june-25-2020    jaxlib 0.1.50 (June 25, 2020)           : changelog.html#jaxlib-0-1-50-june-25-2020
+	changelog.md#jaxlib-0151-july-2-2020     jaxlib 0.1.51 (July 2, 2020)            : changelog.html#jaxlib-0-1-51-july-2-2020
+	changelog.md#jaxlib-0152-july-22-2020    jaxlib 0.1.52 (July 22, 2020)           : changelog.html#jaxlib-0-1-52-july-22-2020
+	changelog.md#jaxlib-0155-september-8-2020 jaxlib 0.1.55 (September 8, 2020)       : changelog.html#jaxlib-0-1-55-september-8-2020
+	changelog.md#jaxlib-0156-october-14-2020 jaxlib 0.1.56 (October 14, 2020)        : changelog.html#jaxlib-0-1-56-october-14-2020
+	changelog.md#jaxlib-0157-november-12-2020 jaxlib 0.1.57 (November 12 2020)        : changelog.html#jaxlib-0-1-57-november-12-2020
+	changelog.md#jaxlib-0158-january-12ish-2021 jaxlib 0.1.58 (January 12ish 2021)      : changelog.html#jaxlib-0-1-58-january-12ish-2021
+	changelog.md#jaxlib-0159-january-15-2021 jaxlib 0.1.59 (January 15 2021)         : changelog.html#jaxlib-0-1-59-january-15-2021
+	changelog.md#jaxlib-0160-febuary-3-2021  jaxlib 0.1.60 (Febuary 3 2021)          : changelog.html#jaxlib-0-1-60-febuary-3-2021
+	changelog.md#jaxlib-0161-february-12-2021 jaxlib 0.1.61 (February 12 2021)        : changelog.html#jaxlib-0-1-61-february-12-2021
+	changelog.md#jaxlib-0162-march-9-2021    jaxlib 0.1.62 (March 9 2021)            : changelog.html#jaxlib-0-1-62-march-9-2021
+	changelog.md#jaxlib-0163-march-17-2021   jaxlib 0.1.63 (March 17 2021)           : changelog.html#jaxlib-0-1-63-march-17-2021
+	changelog.md#jaxlib-0164-march-18-2021   jaxlib 0.1.64 (March 18 2021)           : changelog.html#jaxlib-0-1-64-march-18-2021
+	changelog.md#jaxlib-0165-april-7-2021    jaxlib 0.1.65 (April 7 2021)            : changelog.html#jaxlib-0-1-65-april-7-2021
+	changelog.md#jaxlib-0166-may-11-2021     jaxlib 0.1.66 (May 11 2021)             : changelog.html#jaxlib-0-1-66-may-11-2021
+	changelog.md#jaxlib-0167-may-17-2021     jaxlib 0.1.67 (May 17 2021)             : changelog.html#jaxlib-0-1-67-may-17-2021
+	changelog.md#jaxlib-0168-june-23-2021    jaxlib 0.1.68 (June 23 2021)            : changelog.html#jaxlib-0-1-68-june-23-2021
+	changelog.md#jaxlib-0169-july-9-2021     jaxlib 0.1.69 (July 9 2021)             : changelog.html#jaxlib-0-1-69-july-9-2021
+	changelog.md#jaxlib-0170-aug-9-2021      jaxlib 0.1.70 (Aug 9, 2021)             : changelog.html#jaxlib-0-1-70-aug-9-2021
+	changelog.md#jaxlib-0171-sep-1-2021      jaxlib 0.1.71 (Sep 1, 2021)             : changelog.html#jaxlib-0-1-71-sep-1-2021
+	changelog.md#jaxlib-0172-oct-12-2021     jaxlib 0.1.72 (Oct 12, 2021)            : changelog.html#jaxlib-0-1-72-oct-12-2021
+	changelog.md#jaxlib-0173-oct-18-2021     jaxlib 0.1.73 (Oct 18, 2021)            : changelog.html#jaxlib-0-1-73-oct-18-2021
+	changelog.md#jaxlib-0174-nov-17-2021     jaxlib 0.1.74 (Nov 17, 2021)            : changelog.html#jaxlib-0-1-74-nov-17-2021
+	changelog.md#jaxlib-0175-dec-8-2021      jaxlib 0.1.75 (Dec 8, 2021)             : changelog.html#jaxlib-0-1-75-dec-8-2021
+	changelog.md#jaxlib-0176-jan-27-2022     jaxlib 0.1.76 (Jan 27, 2022)            : changelog.html#jaxlib-0-1-76-jan-27-2022
+	changelog.md#jaxlib-030-feb-10-2022      jaxlib 0.3.0 (Feb 10, 2022)             : changelog.html#jaxlib-0-3-0-feb-10-2022
+	changelog.md#jaxlib-0310-may-3-2022      jaxlib 0.3.10 (May 3, 2022)             : changelog.html#jaxlib-0-3-10-may-3-2022
+	changelog.md#jaxlib-0314-june-27-2022    jaxlib 0.3.14 (June 27, 2022)           : changelog.html#jaxlib-0-3-14-june-27-2022
+	changelog.md#jaxlib-0315-unreleased      jaxlib 0.3.15 (Unreleased)              : changelog.html#jaxlib-0-3-15-unreleased
+	changelog.md#jaxlib-032-march-16-2022    jaxlib 0.3.2 (March 16, 2022)           : changelog.html#jaxlib-0-3-2-march-16-2022
+	changelog.md#jaxlib-035-april-7-2022     jaxlib 0.3.5 (April 7, 2022)            : changelog.html#jaxlib-0-3-5-april-7-2022
+	changelog.md#jaxlib-037-april-15-2022    jaxlib 0.3.7 (April 15, 2022)           : changelog.html#jaxlib-0-3-7-april-15-2022
+	changelog.md#notable-bug-fixes           Notable bug fixes                       : changelog.html#notable-bug-fixes
+	contributing.md#contributing-code-using-pull-requests Contributing code using pull requests   : contributing.html#contributing-code-using-pull-requests
+	contributing.md#contributing-to-jax      Contributing to JAX                     : contributing.html#contributing-to-jax
+	contributing.md#full-github-test-suite   Full GitHub test suite                  : contributing.html#full-github-test-suite
+	contributing.md#google-contributor-license-agreement Google contributor license agreement    : contributing.html#google-contributor-license-agreement
+	contributing.md#jax-pull-request-checklist JAX pull request checklist              : contributing.html#jax-pull-request-checklist
+	contributing.md#linting-and-type-checking Linting and Type-checking               : contributing.html#linting-and-type-checking
+	contributing.md#restricted-test-suite    Restricted test suite                   : contributing.html#restricted-test-suite
+	contributing.md#single-change-commits-and-pull-requests Single-change commits and pull requests : contributing.html#single-change-commits-and-pull-requests
+	contributing.md#ways-to-contribute       Ways to contribute                      : contributing.html#ways-to-contribute
 	ct                                       _autosummary/jax.numpy.fft.fft.html#ct
+	custom_vjp_update.md#custom_vjp-and-nondiff_argnums-update-guide custom_vjp and nondiff_argnums update guide: custom_vjp_update.html#custom-vjp-and-nondiff-argnums-update-guide
+	custom_vjp_update.md#explanation         Explanation                             : custom_vjp_update.html#explanation
+	custom_vjp_update.md#what-to-update      What to update                          : custom_vjp_update.html#what-to-update
+	deprecation.md#python-and-numpy-version-support-policy Python and NumPy version support policy : deprecation.html#python-and-numpy-version-support-policy
+	design_notes/custom_derivatives.md#api   API                                     : design_notes/custom_derivatives.html#api
+	design_notes/custom_derivatives.md#contents Contents                                : design_notes/custom_derivatives.html#contents
+	design_notes/custom_derivatives.md#custom-jvpvjp-rules-for-jax-transformable-functions Custom JVP/VJP rules for JAX-transformable functions: design_notes/custom_derivatives.html#custom-jvp-vjp-rules-for-jax-transformable-functions
+	design_notes/custom_derivatives.md#goals Goals                                   : design_notes/custom_derivatives.html#goals
+	design_notes/custom_derivatives.md#implementation-notes Implementation notes                    : design_notes/custom_derivatives.html#implementation-notes
+	design_notes/custom_derivatives.md#main-problem-descriptions Main problem descriptions               : design_notes/custom_derivatives.html#main-problem-descriptions
+	design_notes/custom_derivatives.md#non-goals Non-goals                               : design_notes/custom_derivatives.html#non-goals
+	design_notes/custom_derivatives.md#solution-idea Solution idea                           : design_notes/custom_derivatives.html#solution-idea
+	design_notes/custom_derivatives.md#the-python-flexibility-problem The Python flexibility problem          : design_notes/custom_derivatives.html#the-python-flexibility-problem
+	design_notes/custom_derivatives.md#the-vmap-removes-custom-jvp-semantics-problem The vmap-removes-custom-jvp semantics problem: design_notes/custom_derivatives.html#the-vmap-removes-custom-jvp-semantics-problem
+	design_notes/jax_versioning.md#how-are-jax-and-jaxlib-versioned How are jax and jaxlib versioned?       : design_notes/jax_versioning.html#how-are-jax-and-jaxlib-versioned
+	design_notes/jax_versioning.md#how-can-i-safely-make-changes-to-the-api-of-jaxlib How can I safely make changes to the API of jaxlib?: design_notes/jax_versioning.html#how-can-i-safely-make-changes-to-the-api-of-jaxlib
+	design_notes/jax_versioning.md#how-do-we-make-changes-across-the-jax-and-jaxlib-boundary-between-releases How do we make changes across the jax and jaxlib boundary between releases?: design_notes/jax_versioning.html#how-do-we-make-changes-across-the-jax-and-jaxlib-boundary-between-releases
+	design_notes/jax_versioning.md#how-is-the-source-to-jaxlib-laid-out How is the source to jaxlib laid out?   : design_notes/jax_versioning.html#how-is-the-source-to-jaxlib-laid-out
+	design_notes/jax_versioning.md#jax-and-jaxlib-versioning Jax and Jaxlib versioning               : design_notes/jax_versioning.html#jax-and-jaxlib-versioning
+	design_notes/jax_versioning.md#why-are-jax-and-jaxlib-separate-packages Why are jax and jaxlib separate packages?: design_notes/jax_versioning.html#why-are-jax-and-jaxlib-separate-packages
+	design_notes/omnistaging.md#contents     Contents                                : design_notes/omnistaging.html#contents
+	design_notes/omnistaging.md#dependence-on-jax-internal-apis-that-changed Dependence on JAX internal APIs that changed: design_notes/omnistaging.html#dependence-on-jax-internal-apis-that-changed
+	design_notes/omnistaging.md#how-can-i-disable-omnistaging-for-now How can I disable omnistaging for now?  : design_notes/omnistaging.html#how-can-i-disable-omnistaging-for-now
+	design_notes/omnistaging.md#how-do-i-fix-bugs-exposed-by-omnistaging How do I fix bugs exposed by omnistaging?: design_notes/omnistaging.html#how-do-i-fix-bugs-exposed-by-omnistaging
+	design_notes/omnistaging.md#how-do-i-know-if-omnistaging-broke-my-code How do I know if omnistaging broke my code?: design_notes/omnistaging.html#how-do-i-know-if-omnistaging-broke-my-code
+	design_notes/omnistaging.md#omnistaging  Omnistaging                             : design_notes/omnistaging.html#omnistaging
+	design_notes/omnistaging.md#side-effects Side-effects                            : design_notes/omnistaging.html#side-effects
+	design_notes/omnistaging.md#slightly-less-toy-example Slightly less toy example               : design_notes/omnistaging.html#slightly-less-toy-example
+	design_notes/omnistaging.md#small-numerical-differences-based-on-xla-optimizations Small numerical differences based on XLA optimizations: design_notes/omnistaging.html#small-numerical-differences-based-on-xla-optimizations
+	design_notes/omnistaging.md#tldr         tl;dr                                   : design_notes/omnistaging.html#tl-dr
+	design_notes/omnistaging.md#toy-example  Toy example                             : design_notes/omnistaging.html#toy-example
+	design_notes/omnistaging.md#triggering-xla-compile-time-bugs Triggering XLA compile time bugs        : design_notes/omnistaging.html#triggering-xla-compile-time-bugs
+	design_notes/omnistaging.md#using-jaxnumpy-for-shape-computations Using jax.numpy for shape computations  : design_notes/omnistaging.html#using-jax-numpy-for-shape-computations
+	design_notes/omnistaging.md#what-is-omnistaging-and-why-is-it-useful What is "omnistaging" and why is it useful?: design_notes/omnistaging.html#what-is-omnistaging-and-why-is-it-useful
+	design_notes/omnistaging.md#what-issues-can-arise-when-omnistaging-is-switched-on What issues can arise when omnistaging is switched on?: design_notes/omnistaging.html#what-issues-can-arise-when-omnistaging-is-switched-on
+	design_notes/omnistaging.md#whats-going-on What's going on?                        : design_notes/omnistaging.html#what-s-going-on
+	design_notes/prng.md#contents            Contents                                : design_notes/prng.html#contents
+	design_notes/prng.md#design              Design                                  : design_notes/prng.html#design
+	design_notes/prng.md#jax-prng-design     JAX PRNG Design                         : design_notes/prng.html#jax-prng-design
+	design_notes/prng.md#more-realistic-example-user-programs More realistic example user programs    : design_notes/prng.html#more-realistic-example-user-programs
+	design_notes/prng.md#three-programming-models-and-toy-example-programs Three programming models and toy example programs: design_notes/prng.html#three-programming-models-and-toy-example-programs
+	design_notes/prng.md#tradeoffs-and-alternatives Tradeoffs and alternatives              : design_notes/prng.html#tradeoffs-and-alternatives
+	design_notes/sequencing_effects.md#adding-compiler-tokens Adding compiler tokens                  : design_notes/sequencing_effects.html#adding-compiler-tokens
+	design_notes/sequencing_effects.md#background Background                              : design_notes/sequencing_effects.html#background
+	design_notes/sequencing_effects.md#blocking-on-output-tokens Blocking on output tokens               : design_notes/sequencing_effects.html#blocking-on-output-tokens
+	design_notes/sequencing_effects.md#enforcing-ordered-effects Enforcing ordered effects               : design_notes/sequencing_effects.html#enforcing-ordered-effects
+	design_notes/sequencing_effects.md#managing-runtime-tokens Managing runtime tokens                 : design_notes/sequencing_effects.html#managing-runtime-tokens
+	design_notes/sequencing_effects.md#motivation Motivation                              : design_notes/sequencing_effects.html#motivation
+	design_notes/sequencing_effects.md#overview Overview                                : design_notes/sequencing_effects.html#overview
+	design_notes/sequencing_effects.md#runtime-tokens-vs-compiler-tokens Runtime tokens vs. compiler tokens      : design_notes/sequencing_effects.html#runtime-tokens-vs-compiler-tokens
+	design_notes/sequencing_effects.md#sequencing-side-effects-in-jax Sequencing side-effects in JAX          : design_notes/sequencing_effects.html#sequencing-side-effects-in-jax
+	design_notes/sequencing_effects.md#some-more-details Some more details                       : design_notes/sequencing_effects.html#some-more-details
+	design_notes/type_promotion.ipynb#appendix-example-type-promotion-tables Appendix: Example Type Promotion Tables : design_notes/type_promotion.html#appendix-example-type-promotion-tables
+	design_notes/type_promotion.ipynb#combining-lattices Combining Lattices                      : design_notes/type_promotion.html#combining-lattices
+	design_notes/type_promotion.ipynb#design-of-type-promotion-semantics-for-jax Design of Type Promotion Semantics for JAX: design_notes/type_promotion.html#design-of-type-promotion-semantics-for-jax
+	design_notes/type_promotion.ipynb#enter-python-scalars Enter Python Scalars                    : design_notes/type_promotion.html#enter-python-scalars
+	design_notes/type_promotion.ipynb#goals-of-jax-type-promotion Goals of JAX Type Promotion             : design_notes/type_promotion.html#goals-of-jax-type-promotion
+	design_notes/type_promotion.ipynb#how-to-handle-uint64 How to handle uint64?                   : design_notes/type_promotion.html#how-to-handle-uint64
+	design_notes/type_promotion.ipynb#jax-type-promotion-jaxlax JAX Type Promotion: jax.lax             : design_notes/type_promotion.html#jax-type-promotion-jax-lax
+	design_notes/type_promotion.ipynb#jax-type-promotion-jaxnumpy JAX Type Promotion: jax.numpy           : design_notes/type_promotion.html#jax-type-promotion-jax-numpy
+	design_notes/type_promotion.ipynb#mixed-promotion-float-and-complex Mixed Promotion: Float and Complex      : design_notes/type_promotion.html#mixed-promotion-float-and-complex
+	design_notes/type_promotion.ipynb#mixed-promotion-integer-and-floating Mixed Promotion: Integer and Floating   : design_notes/type_promotion.html#mixed-promotion-integer-and-floating
+	design_notes/type_promotion.ipynb#mixed-promotion-signed--unsigned-integers Mixed Promotion: Signed & Unsigned Integers: design_notes/type_promotion.html#mixed-promotion-signed-unsigned-integers
+	design_notes/type_promotion.ipynb#numpy-type-promotion NumPy Type Promotion                    : design_notes/type_promotion.html#numpy-type-promotion
+	design_notes/type_promotion.ipynb#option-0-leave-integerfloating-mixed-precision-undefined Option 0: Leave integer/floating mixed precision undefined: design_notes/type_promotion.html#option-0-leave-integer-floating-mixed-precision-undefined
+	design_notes/type_promotion.ipynb#option-1-avoiding-all-precision-loss Option 1: Avoiding All Precision Loss   : design_notes/type_promotion.html#option-1-avoiding-all-precision-loss
+	design_notes/type_promotion.ipynb#option-2-avoid-most-wider-than-necessary-promotions Option 2: Avoid most wider-than-necessary promotions: design_notes/type_promotion.html#option-2-avoid-most-wider-than-necessary-promotions
+	design_notes/type_promotion.ipynb#option-3-avoid-all-wider-than-necessary-promotions Option 3: Avoid all wider-than-necessary promotions: design_notes/type_promotion.html#option-3-avoid-all-wider-than-necessary-promotions
+	design_notes/type_promotion.ipynb#properties-of-a-type-promotion-lattice Properties of a Type Promotion Lattice  : design_notes/type_promotion.html#properties-of-a-type-promotion-lattice
+	design_notes/type_promotion.ipynb#pytorch-type-promotion PyTorch Type Promotion                  : design_notes/type_promotion.html#pytorch-type-promotion
+	design_notes/type_promotion.ipynb#stepping-back-tables-and-lattices Stepping Back: Tables and Lattices      : design_notes/type_promotion.html#stepping-back-tables-and-lattices
+	design_notes/type_promotion.ipynb#tensorflow-type-promotion Tensorflow Type Promotion               : design_notes/type_promotion.html#tensorflow-type-promotion
+	design_notes/type_promotion.ipynb#type-promotion-in-jax Type Promotion in JAX                   : design_notes/type_promotion.html#type-promotion-in-jax
+	design_notes/type_promotion.ipynb#type-promotion-within-categories Type Promotion within Categories        : design_notes/type_promotion.html#type-promotion-within-categories
+	developer.md#additional-notes-for-building-jaxlib-from-source-on-windows Additional Notes for Building jaxlib from source on Windows: developer.html#additional-notes-for-building-jaxlib-from-source-on-windows
+	developer.md#building-from-source        Building from source                    : developer.html#building-from-source
+	developer.md#building-jaxlib-from-source Building jaxlib from source             : developer.html#building-jaxlib-from-source
+	developer.md#building-jaxlib-from-source-with-a-modified-tensorflow-repository Building jaxlib from source with a modified TensorFlow repository.: developer.html#building-jaxlib-from-source-with-a-modified-tensorflow-repository
+	developer.md#building-or-installing-jaxlib Building or installing jaxlib           : developer.html#building-or-installing-jaxlib
+	developer.md#controlling-test-behavior   Controlling test behavior               : developer.html#controlling-test-behavior
+	developer.md#creating-new-notebooks      Creating new notebooks                  : developer.html#creating-new-notebooks
+	developer.md#doctests                    Doctests                                : developer.html#doctests
+	developer.md#documentation-building-on-readthedocsio Documentation building on readthedocs.io: developer.html#documentation-building-on-readthedocs-io
+	developer.md#editing-ipynb               Editing ipynb                           : developer.html#editing-ipynb
+	developer.md#editing-md                  Editing md                              : developer.html#editing-md
+	developer.md#installing-jax              Installing jax                          : developer.html#installing-jax
+	developer.md#installing-jaxlib-with-pip  Installing jaxlib with pip              : developer.html#installing-jaxlib-with-pip
+	developer.md#linting                     Linting                                 : developer.html#linting
+	developer.md#notebooks-within-the-sphinx-build Notebooks within the sphinx build       : developer.html#notebooks-within-the-sphinx-build
+	developer.md#running-the-tests           Running the tests                       : developer.html#running-the-tests
+	developer.md#syncing-notebooks           Syncing notebooks                       : developer.html#syncing-notebooks
+	developer.md#type-checking               Type checking                           : developer.html#type-checking
+	developer.md#update-documentation        Update documentation                    : developer.html#update-documentation
+	developer.md#update-notebooks            Update notebooks                        : developer.html#id1
+	developer.md#using-bazel                 Using Bazel                             : developer.html#using-bazel
+	developer.md#using-pytest                Using pytest                            : developer.html#using-pytest
+	device_memory_profiling.md#debugging-memory-leaks Debugging memory leaks                  : device_memory_profiling.html#debugging-memory-leaks
+	device_memory_profiling.md#device-memory-profiling Device Memory Profiling                 : device_memory_profiling.html#device-memory-profiling
+	device_memory_profiling.md#installation  Installation                            : device_memory_profiling.html#installation
+	device_memory_profiling.md#understanding-how-a-jax-program-is-using-gpu-or-tpu-memory Understanding how a JAX program is using GPU or TPU memory: device_memory_profiling.html#understanding-how-a-jax-program-is-using-gpu-or-tpu-memory
 	dlmf                                     _autosummary/jax.scipy.special.zeta.html#dlmf
 	extending-pytrees                        Extending pytrees                       : pytrees.html#extending-pytrees
 	faq-benchmark                            Benchmarking JAX code                   : faq.html#faq-benchmark
@@ -2077,21 +2369,250 @@ std:label
 	faq-different-kinds-of-jax-values        Different kinds of JAX values           : faq.html#faq-different-kinds-of-jax-values
 	faq-donation                             Buffer donation                         : faq.html#faq-donation
 	faq-jax-vs-numpy                         Is JAX faster than NumPy?               : faq.html#faq-jax-vs-numpy
+	faq-jit-class-methods                    How to use jit with methods?            : faq.html#faq-jit-class-methods
 	faq-jit-numerics                         jit changes the exact numerics of outputs: faq.html#faq-jit-numerics
 	faq-slow-compile                         jit decorated function is very slow to compile: faq.html#faq-slow-compile
 	genindex                                 Index                                   : genindex.html
 	jacobian-vector-product                  Jacobian-Vector products (JVPs, aka forward-mode autodiff): notebooks/autodiff_cookbook.html#jacobian-vector-product
+	jax-101/01-jax-basics.ipynb#auxiliary-data Auxiliary data                          : jax-101/01-jax-basics.html#auxiliary-data
+	jax-101/01-jax-basics.ipynb#differences-from-numpy Differences from NumPy                  : jax-101/01-jax-basics.html#differences-from-numpy
+	jax-101/01-jax-basics.ipynb#getting-started-with-jax-numpy Getting started with JAX numpy          : jax-101/01-jax-basics.html#getting-started-with-jax-numpy
+	jax-101/01-jax-basics.ipynb#jax-as-accelerated-numpy JAX As Accelerated NumPy                : jax-101/01-jax-basics.html#jax-as-accelerated-numpy
+	jax-101/01-jax-basics.ipynb#jax-first-transformation-grad JAX first transformation: grad          : jax-101/01-jax-basics.html#jax-first-transformation-grad
+	jax-101/01-jax-basics.ipynb#value-and-grad Value and Grad                          : jax-101/01-jax-basics.html#value-and-grad
+	jax-101/01-jax-basics.ipynb#your-first-jax-training-loop Your first JAX training loop            : jax-101/01-jax-basics.html#your-first-jax-training-loop
+	jax-101/02-jitting.ipynb#caching         Caching                                 : jax-101/02-jitting.html#caching
+	jax-101/02-jitting.ipynb#how-jax-transforms-work How JAX transforms work                 : jax-101/02-jitting.html#how-jax-transforms-work
+	jax-101/02-jitting.ipynb#jit-compiling-a-function JIT compiling a function                : jax-101/02-jitting.html#jit-compiling-a-function
+	jax-101/02-jitting.ipynb#just-in-time-compilation-with-jax Just In Time Compilation with JAX       : jax-101/02-jitting.html#just-in-time-compilation-with-jax
+	jax-101/02-jitting.ipynb#when-to-use-jit When to use JIT                         : jax-101/02-jitting.html#when-to-use-jit
+	jax-101/02-jitting.ipynb#why-cant-we-just-jit-everything Why can't we just JIT everything?       : jax-101/02-jitting.html#why-can-t-we-just-jit-everything
+	jax-101/03-vectorization.ipynb#automatic-vectorization Automatic Vectorization                 : jax-101/03-vectorization.html#automatic-vectorization
+	jax-101/03-vectorization.ipynb#automatic-vectorization-in-jax Automatic Vectorization in JAX          : jax-101/03-vectorization.html#automatic-vectorization-in-jax
+	jax-101/03-vectorization.ipynb#combining-transformations Combining transformations               : jax-101/03-vectorization.html#combining-transformations
+	jax-101/03-vectorization.ipynb#manual-vectorization Manual Vectorization                    : jax-101/03-vectorization.html#manual-vectorization
+	jax-101/04-advanced-autodiff.ipynb#advanced-automatic-differentiation-in-jax Advanced Automatic Differentiation in JAX: jax-101/04-advanced-autodiff.html#advanced-automatic-differentiation-in-jax
+	jax-101/04-advanced-autodiff.ipynb#higher-order-derivatives Higher-order derivatives                : jax-101/04-advanced-autodiff.html#higher-order-derivatives
+	jax-101/04-advanced-autodiff.ipynb#higher-order-optimization Higher order optimization               : jax-101/04-advanced-autodiff.html#higher-order-optimization
+	jax-101/04-advanced-autodiff.ipynb#per-example-gradients Per-example gradients                   : jax-101/04-advanced-autodiff.html#per-example-gradients
+	jax-101/04-advanced-autodiff.ipynb#stopping-gradients Stopping gradients                      : jax-101/04-advanced-autodiff.html#stopping-gradients
+	jax-101/04-advanced-autodiff.ipynb#straight-through-estimator-using-stop_gradient Straight-through estimator using stop_gradient: jax-101/04-advanced-autodiff.html#straight-through-estimator-using-stop-gradient
+	jax-101/05-random-numbers.ipynb#pseudo-random-numbers-in-jax Pseudo Random Numbers in JAX            : jax-101/05-random-numbers.html#pseudo-random-numbers-in-jax
+	jax-101/05-random-numbers.ipynb#random-numbers-in-jax Random numbers in JAX                   : jax-101/05-random-numbers.html#random-numbers-in-jax
+	jax-101/05-random-numbers.ipynb#random-numbers-in-numpy Random numbers in NumPy                 : jax-101/05-random-numbers.html#random-numbers-in-numpy
+	jax-101/05.1-pytrees.ipynb#common-pytree-functions Common pytree functions                 : jax-101/05.1-pytrees.html#common-pytree-functions
+	jax-101/05.1-pytrees.ipynb#common-pytree-gotchas-and-patterns Common pytree gotchas and patterns      : jax-101/05.1-pytrees.html#common-pytree-gotchas-and-patterns
+	jax-101/05.1-pytrees.ipynb#custom-pytree-nodes Custom pytree nodes                     : jax-101/05.1-pytrees.html#custom-pytree-nodes
+	jax-101/05.1-pytrees.ipynb#example-ml-model-parameters Example: ML model parameters            : jax-101/05.1-pytrees.html#example-ml-model-parameters
+	jax-101/05.1-pytrees.ipynb#gotchas       Gotchas                                 : jax-101/05.1-pytrees.html#gotchas
+	jax-101/05.1-pytrees.ipynb#more-information More Information                        : jax-101/05.1-pytrees.html#more-information
+	jax-101/05.1-pytrees.ipynb#patterns      Patterns                                : jax-101/05.1-pytrees.html#patterns
+	jax-101/05.1-pytrees.ipynb#what-is-a-pytree What is a pytree?                       : jax-101/05.1-pytrees.html#what-is-a-pytree
+	jax-101/05.1-pytrees.ipynb#why-pytrees   Why pytrees?                            : jax-101/05.1-pytrees.html#why-pytrees
+	jax-101/05.1-pytrees.ipynb#working-with-pytrees Working with Pytrees                    : jax-101/05.1-pytrees.html#working-with-pytrees
+	jax-101/06-parallelism.ipynb#aside-hosts-and-devices-in-jax Aside: hosts and devices in JAX         : jax-101/06-parallelism.html#aside-hosts-and-devices-in-jax
+	jax-101/06-parallelism.ipynb#colab-tpu-setup Colab TPU Setup                         : jax-101/06-parallelism.html#colab-tpu-setup
+	jax-101/06-parallelism.ipynb#communication-between-devices Communication between devices           : jax-101/06-parallelism.html#communication-between-devices
+	jax-101/06-parallelism.ipynb#example     Example                                 : jax-101/06-parallelism.html#example
+	jax-101/06-parallelism.ipynb#nesting-jaxpmap-and-jaxvmap Nesting jax.pmap and jax.vmap           : jax-101/06-parallelism.html#nesting-jax-pmap-and-jax-vmap
+	jax-101/06-parallelism.ipynb#parallel-evaluation-in-jax Parallel Evaluation in JAX              : jax-101/06-parallelism.html#parallel-evaluation-in-jax
+	jax-101/06-parallelism.ipynb#pmap-and-jit pmap and jit                            : jax-101/06-parallelism.html#pmap-and-jit
+	jax-101/06-parallelism.ipynb#specifying-in_axes Specifying in_axes                      : jax-101/06-parallelism.html#specifying-in-axes
+	jax-101/06-parallelism.ipynb#the-basics  The basics                              : jax-101/06-parallelism.html#the-basics
+	jax-101/07-state.ipynb#a-general-strategy A general strategy                      : jax-101/07-state.html#a-general-strategy
+	jax-101/07-state.ipynb#a-simple-example-counter A simple example: Counter               : jax-101/07-state.html#a-simple-example-counter
+	jax-101/07-state.ipynb#motivation        Motivation                              : jax-101/07-state.html#motivation
+	jax-101/07-state.ipynb#simple-worked-example-linear-regression Simple worked example: Linear Regression: jax-101/07-state.html#simple-worked-example-linear-regression
+	jax-101/07-state.ipynb#stateful-computations-in-jax Stateful Computations in JAX            : jax-101/07-state.html#stateful-computations-in-jax
+	jax-101/07-state.ipynb#taking-it-further Taking it further                       : jax-101/07-state.html#taking-it-further
+	jax-101/07-state.ipynb#the-solution-explicit-state The solution: explicit state            : jax-101/07-state.html#the-solution-explicit-state
+	jax-101/08-pjit.md#--partitionspecnone-x - PartitionSpec(None, 'x')              : jax-101/08-pjit.html#partitionspec-none-x
+	jax-101/08-pjit.md#--partitionspecnone-y - PartitionSpec(None, 'y')              : jax-101/08-pjit.html#partitionspec-none-y
+	jax-101/08-pjit.md#--partitionspecx-none - PartitionSpec('x', None)              : jax-101/08-pjit.html#partitionspec-x-none
+	jax-101/08-pjit.md#--partitionspecx-y-none - PartitionSpec((“x”, “y”), None)       : jax-101/08-pjit.html#partitionspec-x-y-none
+	jax-101/08-pjit.md#--partitionspecy-none - PartitionSpec('y', None)              : jax-101/08-pjit.html#partitionspec-y-none
+	jax-101/08-pjit.md#background            Background                              : jax-101/08-pjit.html#background
+	jax-101/08-pjit.md#how-it-works          How it works:                           : jax-101/08-pjit.html#how-it-works
+	jax-101/08-pjit.md#in_axis_resources--out_axis_resources in_axis_resources & out_axis_resources  : jax-101/08-pjit.html#in-axis-resources-out-axis-resources
+	jax-101/08-pjit.md#in_axis_resources--out_axis_resources-1 in_axis_resources & out_axis_resources  : jax-101/08-pjit.html#id4
+	jax-101/08-pjit.md#input-data            Input Data                              : jax-101/08-pjit.html#input-data
+	jax-101/08-pjit.md#input-data-1          Input data                              : jax-101/08-pjit.html#id3
+	jax-101/08-pjit.md#introduction-to-pjit  Introduction to pjit                    : jax-101/08-pjit.html#introduction-to-pjit
+	jax-101/08-pjit.md#mesh                  Mesh                                    : jax-101/08-pjit.html#mesh
+	jax-101/08-pjit.md#mesh-1                Mesh                                    : jax-101/08-pjit.html#id2
+	jax-101/08-pjit.md#more-information-on-partitionspec More information on PartitionSpec:      : jax-101/08-pjit.html#more-information-on-partitionspec
+	jax-101/08-pjit.md#multiple-host-example Multiple Host Example                   : jax-101/08-pjit.html#multiple-host-example
+	jax-101/08-pjit.md#putting-everything-together Putting everything together             : jax-101/08-pjit.html#putting-everything-together
+	jax-101/08-pjit.md#putting-everything-together-1 Putting everything together             : jax-101/08-pjit.html#id5
+	jax-101/08-pjit.md#setup                 Setup                                   : jax-101/08-pjit.html#setup
+	jax-101/08-pjit.md#setup-1               Setup                                   : jax-101/08-pjit.html#id1
+	jax-101/08-pjit.md#single-host-example   Single Host Example                     : jax-101/08-pjit.html#single-host-example
 	jax-errors                               JAX Errors                              : errors.html#jax-errors
 	jax-grad                                 Automatic differentiation               : jax.html#jax-grad
 	jax-jit                                  Just-in-time compilation (jit)          : jax.html#jax-jit
 	jax-parallel-operators                   Parallel operators                      : jax.lax.html#jax-parallel-operators
 	lax-control-flow                         Control flow operators                  : jax.lax.html#lax-control-flow
 	modindex                                 Module Index                            : py-modindex.html
+	multi_process.md#introduction            Introduction                            : multi_process.html#introduction
+	multi_process.md#launching-jax-processes Launching JAX processes                 : multi_process.html#launching-jax-processes
+	multi_process.md#local-vs-global-devices Local vs. global devices                : multi_process.html#local-vs-global-devices
+	multi_process.md#multi-process-programming-model Multi-process programming model         : multi_process.html#multi-process-programming-model
+	multi_process.md#running-multi-process-computations Running multi-process computations      : multi_process.html#running-multi-process-computations
+	multi_process.md#using-jax-in-multi-host-and-multi-process-environments Using JAX in multi-host and multi-process environments: multi_process.html#using-jax-in-multi-host-and-multi-process-environments
 	multiple_installs                        Multiple TensorBoard installs           : profiling.html#multiple-installs
+	notebooks/Common_Gotchas_in_JAX.ipynb#-control-flow 🔪 Control Flow                          : notebooks/Common_Gotchas_in_JAX.html#control-flow
+	notebooks/Common_Gotchas_in_JAX.ipynb#-double-64bit-precision 🔪 Double (64bit) precision              : notebooks/Common_Gotchas_in_JAX.html#double-64bit-precision
+	notebooks/Common_Gotchas_in_JAX.ipynb#-in-place-updates 🔪 In-Place Updates                      : notebooks/Common_Gotchas_in_JAX.html#in-place-updates
+	notebooks/Common_Gotchas_in_JAX.ipynb#-jax---the-sharp-bits- 🔪 JAX - The Sharp Bits 🔪                : notebooks/Common_Gotchas_in_JAX.html#jax-the-sharp-bits
+	notebooks/Common_Gotchas_in_JAX.ipynb#-miscellaneous-divergences-from-numpy 🔪 Miscellaneous Divergences from NumPy  : notebooks/Common_Gotchas_in_JAX.html#miscellaneous-divergences-from-numpy
+	notebooks/Common_Gotchas_in_JAX.ipynb#-nans 🔪 NaNs                                  : notebooks/Common_Gotchas_in_JAX.html#nans
+	notebooks/Common_Gotchas_in_JAX.ipynb#-non-array-inputs-numpy-vs-jax 🔪 Non-array inputs: NumPy vs. JAX       : notebooks/Common_Gotchas_in_JAX.html#non-array-inputs-numpy-vs-jax
+	notebooks/Common_Gotchas_in_JAX.ipynb#-out-of-bounds-indexing 🔪 Out-of-Bounds Indexing                : notebooks/Common_Gotchas_in_JAX.html#out-of-bounds-indexing
+	notebooks/Common_Gotchas_in_JAX.ipynb#-pure-functions 🔪 Pure functions                        : notebooks/Common_Gotchas_in_JAX.html#pure-functions
+	notebooks/Common_Gotchas_in_JAX.ipynb#-python-control_flow--autodiff- ✔ python control_flow + autodiff ✔      : notebooks/Common_Gotchas_in_JAX.html#python-control-flow-autodiff
+	notebooks/Common_Gotchas_in_JAX.ipynb#-random-numbers 🔪 Random Numbers                        : notebooks/Common_Gotchas_in_JAX.html#random-numbers
+	notebooks/Common_Gotchas_in_JAX.ipynb#array-updates-with-other-operations Array updates with other operations     : notebooks/Common_Gotchas_in_JAX.html#array-updates-with-other-operations
+	notebooks/Common_Gotchas_in_JAX.ipynb#array-updates-xatidxsety Array updates: x.at[idx].set(y)         : notebooks/Common_Gotchas_in_JAX.html#array-updates-x-at-idx-set-y
+	notebooks/Common_Gotchas_in_JAX.ipynb#caveats Caveats                                 : notebooks/Common_Gotchas_in_JAX.html#caveats
+	notebooks/Common_Gotchas_in_JAX.ipynb#debugging-nans Debugging NaNs                          : notebooks/Common_Gotchas_in_JAX.html#debugging-nans
+	notebooks/Common_Gotchas_in_JAX.ipynb#fin Fin.                                    : notebooks/Common_Gotchas_in_JAX.html#fin
+	notebooks/Common_Gotchas_in_JAX.ipynb#jax-prng JAX PRNG                                : notebooks/Common_Gotchas_in_JAX.html#jax-prng
+	notebooks/Common_Gotchas_in_JAX.ipynb#python-control-flow--jit python control flow + JIT               : notebooks/Common_Gotchas_in_JAX.html#python-control-flow-jit
+	notebooks/Common_Gotchas_in_JAX.ipynb#rngs-and-state RNGs and State                          : notebooks/Common_Gotchas_in_JAX.html#rngs-and-state
+	notebooks/Common_Gotchas_in_JAX.ipynb#structured-control-flow-primitives Structured control flow primitives      : notebooks/Common_Gotchas_in_JAX.html#structured-control-flow-primitives
+	notebooks/Custom_derivative_rules_for_Python_code.ipynb#basic-usage-of-jaxcustom_jvp-and-jaxcustom_vjp-apis Basic usage of jax.custom_jvp and jax.custom_vjp APIs: notebooks/Custom_derivative_rules_for_Python_code.html#basic-usage-of-jax-custom-jvp-and-jax-custom-vjp-apis
+	notebooks/Custom_derivative_rules_for_Python_code.ipynb#custom-derivative-rules-for-jax-transformable-python-functions Custom derivative rules for JAX-transformable Python functions: notebooks/Custom_derivative_rules_for_Python_code.html#custom-derivative-rules-for-jax-transformable-python-functions
+	notebooks/Custom_derivative_rules_for_Python_code.ipynb#custom-jvps-with-jaxcustom_jvp Custom JVPs with jax.custom_jvp         : notebooks/Custom_derivative_rules_for_Python_code.html#custom-jvps-with-jax-custom-jvp
+	notebooks/Custom_derivative_rules_for_Python_code.ipynb#custom-vjps-with-jaxcustom_vjp Custom VJPs with jax.custom_vjp         : notebooks/Custom_derivative_rules_for_Python_code.html#custom-vjps-with-jax-custom-vjp
+	notebooks/Custom_derivative_rules_for_Python_code.ipynb#enforcing-a-differentiation-convention Enforcing a differentiation convention  : notebooks/Custom_derivative_rules_for_Python_code.html#enforcing-a-differentiation-convention
+	notebooks/Custom_derivative_rules_for_Python_code.ipynb#example-problems Example problems                        : notebooks/Custom_derivative_rules_for_Python_code.html#example-problems
+	notebooks/Custom_derivative_rules_for_Python_code.ipynb#gradient-clipping Gradient clipping                       : notebooks/Custom_derivative_rules_for_Python_code.html#gradient-clipping
+	notebooks/Custom_derivative_rules_for_Python_code.ipynb#handling--non-differentiable-arguments Handling  non-differentiable arguments  : notebooks/Custom_derivative_rules_for_Python_code.html#handling-non-differentiable-arguments
+	notebooks/Custom_derivative_rules_for_Python_code.ipynb#implicit-function-differentiation-of-iterative-implementations Implicit function differentiation of iterative implementations: notebooks/Custom_derivative_rules_for_Python_code.html#implicit-function-differentiation-of-iterative-implementations
+	notebooks/Custom_derivative_rules_for_Python_code.ipynb#more-features-and-details More features and details               : notebooks/Custom_derivative_rules_for_Python_code.html#more-features-and-details
+	notebooks/Custom_derivative_rules_for_Python_code.ipynb#numerical-stability Numerical stability                     : notebooks/Custom_derivative_rules_for_Python_code.html#numerical-stability
+	notebooks/Custom_derivative_rules_for_Python_code.ipynb#python-debugging Python debugging                        : notebooks/Custom_derivative_rules_for_Python_code.html#python-debugging
+	notebooks/Custom_derivative_rules_for_Python_code.ipynb#tldr TL;DR                                   : notebooks/Custom_derivative_rules_for_Python_code.html#tl-dr
+	notebooks/Custom_derivative_rules_for_Python_code.ipynb#use-jaxcustom_jvp-to-define-forward-mode-and-indirectly-reverse-mode-rules Use jax.custom_jvp to define forward-mode (and, indirectly, reverse-mode) rules: notebooks/Custom_derivative_rules_for_Python_code.html#use-jax-custom-jvp-to-define-forward-mode-and-indirectly-reverse-mode-rules
+	notebooks/Custom_derivative_rules_for_Python_code.ipynb#use-jaxcustom_vjp-to-define-custom-reverse-mode-only-rules Use jax.custom_vjp to define custom reverse-mode-only rules: notebooks/Custom_derivative_rules_for_Python_code.html#use-jax-custom-vjp-to-define-custom-reverse-mode-only-rules
+	notebooks/Custom_derivative_rules_for_Python_code.ipynb#working-with-list--tuple--dict-containers-and-other-pytrees Working with list / tuple / dict containers (and other pytrees): notebooks/Custom_derivative_rules_for_Python_code.html#working-with-list-tuple-dict-containers-and-other-pytrees
+	notebooks/How_JAX_primitives_work.ipynb#batching Batching                                : notebooks/How_JAX_primitives_work.html#batching
+	notebooks/How_JAX_primitives_work.ipynb#defining-new-jax-primitives Defining new JAX primitives             : notebooks/How_JAX_primitives_work.html#defining-new-jax-primitives
+	notebooks/How_JAX_primitives_work.ipynb#forward-differentiation Forward differentiation                 : notebooks/How_JAX_primitives_work.html#forward-differentiation
+	notebooks/How_JAX_primitives_work.ipynb#how-jax-primitives-work How JAX primitives work                 : notebooks/How_JAX_primitives_work.html#how-jax-primitives-work
+	notebooks/How_JAX_primitives_work.ipynb#jit JIT                                     : notebooks/How_JAX_primitives_work.html#jit
+	notebooks/How_JAX_primitives_work.ipynb#primal-evaluation-rules Primal evaluation rules                 : notebooks/How_JAX_primitives_work.html#primal-evaluation-rules
+	notebooks/How_JAX_primitives_work.ipynb#reverse-differentiation Reverse differentiation                 : notebooks/How_JAX_primitives_work.html#reverse-differentiation
+	notebooks/How_JAX_primitives_work.ipynb#using-existing-primitives Using existing primitives               : notebooks/How_JAX_primitives_work.html#using-existing-primitives
+	notebooks/Neural_Network_and_Data_Loading.ipynb#auto-batching-predictions Auto-batching predictions               : notebooks/Neural_Network_and_Data_Loading.html#auto-batching-predictions
+	notebooks/Neural_Network_and_Data_Loading.ipynb#data-loading-with-pytorch Data Loading with PyTorch               : notebooks/Neural_Network_and_Data_Loading.html#data-loading-with-pytorch
+	notebooks/Neural_Network_and_Data_Loading.ipynb#hyperparameters Hyperparameters                         : notebooks/Neural_Network_and_Data_Loading.html#hyperparameters
+	notebooks/Neural_Network_and_Data_Loading.ipynb#training-a-simple-neural-network-with-pytorch-data-loading Training a Simple Neural Network, with PyTorch Data Loading: notebooks/Neural_Network_and_Data_Loading.html#training-a-simple-neural-network-with-pytorch-data-loading
+	notebooks/Neural_Network_and_Data_Loading.ipynb#training-loop Training Loop                           : notebooks/Neural_Network_and_Data_Loading.html#training-loop
+	notebooks/Neural_Network_and_Data_Loading.ipynb#utility-and-loss-functions Utility and loss functions              : notebooks/Neural_Network_and_Data_Loading.html#utility-and-loss-functions
+	notebooks/Writing_custom_interpreters_in_Jax.ipynb#1-tracing-a-function 1. Tracing a function                   : notebooks/Writing_custom_interpreters_in_Jax.html#tracing-a-function
+	notebooks/Writing_custom_interpreters_in_Jax.ipynb#2-evaluating-a-jaxpr 2. Evaluating a Jaxpr                   : notebooks/Writing_custom_interpreters_in_Jax.html#evaluating-a-jaxpr
+	notebooks/Writing_custom_interpreters_in_Jax.ipynb#custom-inverse-jaxpr-interpreter Custom inverse Jaxpr interpreter        : notebooks/Writing_custom_interpreters_in_Jax.html#custom-inverse-jaxpr-interpreter
+	notebooks/Writing_custom_interpreters_in_Jax.ipynb#exercises-for-the-reader Exercises for the reader                : notebooks/Writing_custom_interpreters_in_Jax.html#exercises-for-the-reader
+	notebooks/Writing_custom_interpreters_in_Jax.ipynb#jaxpr-tracer Jaxpr tracer                            : notebooks/Writing_custom_interpreters_in_Jax.html#jaxpr-tracer
+	notebooks/Writing_custom_interpreters_in_Jax.ipynb#what-is-jax-doing What is JAX doing?                      : notebooks/Writing_custom_interpreters_in_Jax.html#what-is-jax-doing
+	notebooks/Writing_custom_interpreters_in_Jax.ipynb#why-are-jaxprs-useful Why are Jaxprs useful?                  : notebooks/Writing_custom_interpreters_in_Jax.html#why-are-jaxprs-useful
+	notebooks/Writing_custom_interpreters_in_Jax.ipynb#writing-custom-jaxpr-interpreters-in-jax Writing custom Jaxpr interpreters in JAX: notebooks/Writing_custom_interpreters_in_Jax.html#writing-custom-jaxpr-interpreters-in-jax
+	notebooks/Writing_custom_interpreters_in_Jax.ipynb#your-first-interpreter-invert Your first interpreter: invert          : notebooks/Writing_custom_interpreters_in_Jax.html#your-first-interpreter-invert
+	notebooks/autodiff_cookbook.ipynb#checking-against-numerical-differences Checking against numerical differences  : notebooks/autodiff_cookbook.html#checking-against-numerical-differences
+	notebooks/autodiff_cookbook.ipynb#complex-numbers-and-differentiation Complex numbers and differentiation     : notebooks/autodiff_cookbook.html#complex-numbers-and-differentiation
+	notebooks/autodiff_cookbook.ipynb#composing-vjps-jvps-and-vmap Composing VJPs, JVPs, and vmap          : notebooks/autodiff_cookbook.html#composing-vjps-jvps-and-vmap
+	notebooks/autodiff_cookbook.ipynb#differentiating-with-respect-to-nested-lists-tuples-and-dicts Differentiating with respect to nested lists, tuples, and dicts: notebooks/autodiff_cookbook.html#differentiating-with-respect-to-nested-lists-tuples-and-dicts
+	notebooks/autodiff_cookbook.ipynb#evaluate-a-function-and-its-gradient-using-value_and_grad Evaluate a function and its gradient using value_and_grad: notebooks/autodiff_cookbook.html#evaluate-a-function-and-its-gradient-using-value-and-grad
+	notebooks/autodiff_cookbook.ipynb#gradients Gradients                               : notebooks/autodiff_cookbook.html#gradients
+	notebooks/autodiff_cookbook.ipynb#hessian-vector-products-using-both-forward--and-reverse-mode Hessian-vector products using both forward- and reverse-mode: notebooks/autodiff_cookbook.html#hessian-vector-products-using-both-forward-and-reverse-mode
+	notebooks/autodiff_cookbook.ipynb#hessian-vector-products-with-grad-of-grad Hessian-vector products with grad-of-grad: notebooks/autodiff_cookbook.html#hessian-vector-products-with-grad-of-grad
+	notebooks/autodiff_cookbook.ipynb#how-its-made-two-foundational-autodiff-functions How it's made: two foundational autodiff functions: notebooks/autodiff_cookbook.html#how-it-s-made-two-foundational-autodiff-functions
+	notebooks/autodiff_cookbook.ipynb#jacobian-matrix-and-matrix-jacobian-products Jacobian-Matrix and Matrix-Jacobian products: notebooks/autodiff_cookbook.html#jacobian-matrix-and-matrix-jacobian-products
+	notebooks/autodiff_cookbook.ipynb#jacobian-vector-products-jvps-aka-forward-mode-autodiff Jacobian-Vector products (JVPs, aka forward-mode autodiff): notebooks/autodiff_cookbook.html#jacobian-vector-products-jvps-aka-forward-mode-autodiff
+	notebooks/autodiff_cookbook.ipynb#jacobians-and-hessians-using-jacfwd-and-jacrev Jacobians and Hessians using jacfwd and jacrev: notebooks/autodiff_cookbook.html#jacobians-and-hessians-using-jacfwd-and-jacrev
+	notebooks/autodiff_cookbook.ipynb#more-advanced-autodiff More advanced autodiff                  : notebooks/autodiff_cookbook.html#more-advanced-autodiff
+	notebooks/autodiff_cookbook.ipynb#starting-with-grad Starting with grad                      : notebooks/autodiff_cookbook.html#starting-with-grad
+	notebooks/autodiff_cookbook.ipynb#the-autodiff-cookbook The Autodiff Cookbook                   : notebooks/autodiff_cookbook.html#the-autodiff-cookbook
+	notebooks/autodiff_cookbook.ipynb#the-implementation-of-jacfwd-and-jacrev The implementation of jacfwd and jacrev : notebooks/autodiff_cookbook.html#the-implementation-of-jacfwd-and-jacrev
+	notebooks/autodiff_cookbook.ipynb#vector-jacobian-products-vjps-aka-reverse-mode-autodiff Vector-Jacobian products (VJPs, aka reverse-mode autodiff): notebooks/autodiff_cookbook.html#vector-jacobian-products-vjps-aka-reverse-mode-autodiff
+	notebooks/autodiff_cookbook.ipynb#vector-valued-gradients-with-vjps Vector-valued gradients with VJPs       : notebooks/autodiff_cookbook.html#vector-valued-gradients-with-vjps
+	notebooks/convolutions.ipynb#1d-convolutions 1D Convolutions                         : notebooks/convolutions.html#d-convolutions
+	notebooks/convolutions.ipynb#3d-convolutions 3D Convolutions                         : notebooks/convolutions.html#id1
+	notebooks/convolutions.ipynb#basic-n-dimensional-convolution Basic N-dimensional Convolution         : notebooks/convolutions.html#basic-n-dimensional-convolution
+	notebooks/convolutions.ipynb#basic-one-dimensional-convolution Basic One-dimensional Convolution       : notebooks/convolutions.html#basic-one-dimensional-convolution
+	notebooks/convolutions.ipynb#convolutions-in-jax Convolutions in JAX                     : notebooks/convolutions.html#convolutions-in-jax
+	notebooks/convolutions.ipynb#dimension-numbers-define-dimensional-layout-for-conv_general_dilated Dimension Numbers define dimensional layout for conv_general_dilated: notebooks/convolutions.html#dimension-numbers-define-dimensional-layout-for-conv-general-dilated
+	notebooks/convolutions.ipynb#general-convolutions General Convolutions                    : notebooks/convolutions.html#general-convolutions
+	notebooks/convolutions.ipynb#laxconv-and-laxconv_with_general_padding lax.conv and lax.conv_with_general_padding: notebooks/convolutions.html#lax-conv-and-lax-conv-with-general-padding
+	notebooks/neural_network_with_tfds_data.ipynb#auto-batching-predictions Auto-batching predictions               : notebooks/neural_network_with_tfds_data.html#auto-batching-predictions
+	notebooks/neural_network_with_tfds_data.ipynb#data-loading-with-tensorflowdatasets Data Loading with tensorflow/datasets   : notebooks/neural_network_with_tfds_data.html#data-loading-with-tensorflow-datasets
+	notebooks/neural_network_with_tfds_data.ipynb#hyperparameters Hyperparameters                         : notebooks/neural_network_with_tfds_data.html#hyperparameters
+	notebooks/neural_network_with_tfds_data.ipynb#training-a-simple-neural-network-with-tensorflowdatasets-data-loading Training a Simple Neural Network, with tensorflow/datasets Data Loading: notebooks/neural_network_with_tfds_data.html#training-a-simple-neural-network-with-tensorflow-datasets-data-loading
+	notebooks/neural_network_with_tfds_data.ipynb#training-loop Training Loop                           : notebooks/neural_network_with_tfds_data.html#training-loop
+	notebooks/neural_network_with_tfds_data.ipynb#utility-and-loss-functions Utility and loss functions              : notebooks/neural_network_with_tfds_data.html#utility-and-loss-functions
+	notebooks/quickstart.ipynb#auto-vectorization-with Auto-vectorization with vmap()          : notebooks/quickstart.html#auto-vectorization-with-vmap
+	notebooks/quickstart.ipynb#jax-quickstart JAX Quickstart                          : notebooks/quickstart.html#jax-quickstart
+	notebooks/quickstart.ipynb#multiplying-matrices Multiplying Matrices                    : notebooks/quickstart.html#multiplying-matrices
+	notebooks/quickstart.ipynb#taking-derivatives-with Taking derivatives with grad()          : notebooks/quickstart.html#taking-derivatives-with-grad
+	notebooks/quickstart.ipynb#using--to-speed-up-functions Using jit() to speed up functions       : notebooks/quickstart.html#using-jit-to-speed-up-functions
+	notebooks/thinking_in_jax.ipynb#how-to-think-in-jax How to Think in JAX                     : notebooks/thinking_in_jax.html#how-to-think-in-jax
+	notebooks/thinking_in_jax.ipynb#jax-vs-numpy JAX vs. NumPy                           : notebooks/thinking_in_jax.html#jax-vs-numpy
+	notebooks/thinking_in_jax.ipynb#jit-mechanics-tracing-and-static-variables JIT mechanics: tracing and static variables: notebooks/thinking_in_jax.html#jit-mechanics-tracing-and-static-variables
+	notebooks/thinking_in_jax.ipynb#numpy-lax--xla-jax-api-layering NumPy, lax & XLA: JAX API layering      : notebooks/thinking_in_jax.html#numpy-lax-xla-jax-api-layering
+	notebooks/thinking_in_jax.ipynb#static-vs-traced-operations Static vs Traced Operations             : notebooks/thinking_in_jax.html#static-vs-traced-operations
+	notebooks/thinking_in_jax.ipynb#to-jit-or-not-to-jit To JIT or not to JIT                    : notebooks/thinking_in_jax.html#to-jit-or-not-to-jit
+	notebooks/vmapped_log_probs.ipynb#autobatched-with-vmap Autobatched with vmap                   : notebooks/vmapped_log_probs.html#autobatched-with-vmap
+	notebooks/vmapped_log_probs.ipynb#autobatching-log-densities-example Autobatching log-densities example      : notebooks/vmapped_log_probs.html#autobatching-log-densities-example
+	notebooks/vmapped_log_probs.ipynb#define-the-elbo-and-its-gradient Define the ELBO and its gradient        : notebooks/vmapped_log_probs.html#define-the-elbo-and-its-gradient
+	notebooks/vmapped_log_probs.ipynb#display-the-results Display the results                     : notebooks/vmapped_log_probs.html#display-the-results
+	notebooks/vmapped_log_probs.ipynb#generate-a-fake-binary-classification-dataset Generate a fake binary classification dataset: notebooks/vmapped_log_probs.html#generate-a-fake-binary-classification-dataset
+	notebooks/vmapped_log_probs.ipynb#manually-batched Manually batched                        : notebooks/vmapped_log_probs.html#manually-batched
+	notebooks/vmapped_log_probs.ipynb#non-batched Non-batched                             : notebooks/vmapped_log_probs.html#non-batched
+	notebooks/vmapped_log_probs.ipynb#optimize-the-elbo-using-sgd Optimize the ELBO using SGD             : notebooks/vmapped_log_probs.html#optimize-the-elbo-using-sgd
+	notebooks/vmapped_log_probs.ipynb#self-contained-variational-inference-example Self-contained variational inference example: notebooks/vmapped_log_probs.html#self-contained-variational-inference-example
+	notebooks/vmapped_log_probs.ipynb#set-up-the-batched-log-joint-function Set up the (batched) log-joint function : notebooks/vmapped_log_probs.html#set-up-the-batched-log-joint-function
+	notebooks/vmapped_log_probs.ipynb#write-the-log-joint-function-for-the-model Write the log-joint function for the model: notebooks/vmapped_log_probs.html#write-the-log-joint-function-for-the-model
+	notebooks/xmap_tutorial.ipynb#broadcasting Broadcasting                            : notebooks/xmap_tutorial.html#broadcasting
+	notebooks/xmap_tutorial.ipynb#but-where-do-those-resource-names-come-from But... where do those resource names come from?: notebooks/xmap_tutorial.html#but-where-do-those-resource-names-come-from
+	notebooks/xmap_tutorial.ipynb#collectives Collectives                             : notebooks/xmap_tutorial.html#collectives
+	notebooks/xmap_tutorial.ipynb#einsum     einsum                                  : notebooks/xmap_tutorial.html#einsum
+	notebooks/xmap_tutorial.ipynb#from-positions-to-names-in-a-toy-neural-network From positions to names in a toy neural network: notebooks/xmap_tutorial.html#from-positions-to-names-in-a-toy-neural-network
+	notebooks/xmap_tutorial.ipynb#interactions-with-positional-axes Interactions with positional axes       : notebooks/xmap_tutorial.html#interactions-with-positional-axes
+	notebooks/xmap_tutorial.ipynb#introducing-and-eliminating-named-axes Introducing and eliminating named axes  : notebooks/xmap_tutorial.html#introducing-and-eliminating-named-axes
+	notebooks/xmap_tutorial.ipynb#is-my-data-replicated-or-partitioned-where-is-it Is my data replicated? Or partitioned? Where is it?: notebooks/xmap_tutorial.html#is-my-data-replicated-or-partitioned-where-is-it
+	notebooks/xmap_tutorial.ipynb#named-axes-and-easy-to-revise-parallelism Named axes and easy-to-revise parallelism: notebooks/xmap_tutorial.html#named-axes-and-easy-to-revise-parallelism
+	notebooks/xmap_tutorial.ipynb#named-axis-propagation Named axis propagation                  : notebooks/xmap_tutorial.html#named-axis-propagation
+	notebooks/xmap_tutorial.ipynb#parallelism-support Parallelism support                     : notebooks/xmap_tutorial.html#parallelism-support
+	notebooks/xmap_tutorial.ipynb#porting-positional-code-to-named-code Porting positional code to named code   : notebooks/xmap_tutorial.html#porting-positional-code-to-named-code
+	notebooks/xmap_tutorial.ipynb#preliminaries Preliminaries                           : notebooks/xmap_tutorial.html#preliminaries
+	notebooks/xmap_tutorial.ipynb#reductions Reductions                              : notebooks/xmap_tutorial.html#reductions
+	notebooks/xmap_tutorial.ipynb#tensors-with-named-axes Tensors with named axes                 : notebooks/xmap_tutorial.html#tensors-with-named-axes
+	notebooks/xmap_tutorial.ipynb#why-axis_resources-and-not-a-more-direct-mapping-to-hardware Why axis_resources and not a more direct mapping to hardware?: notebooks/xmap_tutorial.html#why-axis-resources-and-not-a-more-direct-mapping-to-hardware
 	pr-checklist                             JAX pull request checklist              : contributing.html#pr-checklist
+	profiling.md#adding-custom-trace-events  Adding custom trace events              : profiling.html#adding-custom-trace-events
+	profiling.md#installation                Installation                            : profiling.html#installation
+	profiling.md#manual-capture              Manual capture                          : profiling.html#manual-capture
+	profiling.md#manual-capture-via-tensorboard Manual capture via TensorBoard          : profiling.html#manual-capture-via-tensorboard
+	profiling.md#nsight                      Nsight                                  : profiling.html#nsight
+	profiling.md#profiling-jax-programs      Profiling JAX programs                  : profiling.html#profiling-jax-programs
+	profiling.md#programmatic-capture        Programmatic capture                    : profiling.html#programmatic-capture
+	profiling.md#remote-profiling            Remote profiling                        : profiling.html#remote-profiling
+	profiling.md#tensorboard-profiling       TensorBoard profiling                   : profiling.html#tensorboard-profiling
+	profiling.md#troubleshooting             Troubleshooting                         : profiling.html#troubleshooting
+	profiling.md#viewing-program-traces-with-perfetto Viewing program traces with Perfetto    : profiling.html#viewing-program-traces-with-perfetto
 	py-modindex                              Python Module Index                     : py-modindex.html
 	pytrees                                  Pytrees                                 : pytrees.html#pytrees
-	remote_profiling                         Profiling on a remote machine           : profiling.html#remote-profiling
+	pytrees.md#applying-optional-parameters-to-pytrees Applying optional parameters to pytrees : pytrees.html#applying-optional-parameters-to-pytrees
+	pytrees.md#custom-pytrees-and-initialization Custom PyTrees and Initialization       : pytrees.html#custom-pytrees-and-initialization
+	pytrees.md#developer-information         Developer information                   : pytrees.html#developer-information
+	pytrees.md#extending-pytrees             Extending pytrees                       : pytrees.html#id2
+	pytrees.md#internal-pytree-handling      Internal pytree handling                : pytrees.html#internal-pytree-handling
+	pytrees.md#pytrees                       Pytrees                                 : pytrees.html#id1
+	pytrees.md#pytrees-and-jax-functions     Pytrees and JAX functions               : pytrees.html#pytrees-and-jax-functions
+	pytrees.md#viewing-the-pytree-definition-of-an-object Viewing the pytree definition of an object: pytrees.html#viewing-the-pytree-definition-of-an-object
+	pytrees.md#what-is-a-pytree              What is a pytree?                       : pytrees.html#what-is-a-pytree
+	remote_profiling                         Profiling on a remote machine           : profiling.html#id1
 	running-tests                            Running the tests                       : developer.html#running-tests
 	search                                   Search Page                             : search.html
 	syntactic-sugar-for-ops                  jax.ops.html#syntactic-sugar-for-ops

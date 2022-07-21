@@ -252,6 +252,7 @@ c:function
 	PyArray_FROM_OF                          reference/c-api/array.html#c.PyArray_FROM_OF
 	PyArray_FROM_OT                          reference/c-api/array.html#c.PyArray_FROM_OT
 	PyArray_FROM_OTF                         reference/c-api/array.html#c.PyArray_FROM_OTF
+	PyArray_FailUnlessWriteable              reference/c-api/array.html#c.PyArray_FailUnlessWriteable
 	PyArray_FieldNames                       reference/c-api/array.html#c.PyArray_FieldNames
 	PyArray_FillObjectArray                  reference/c-api/array.html#c.PyArray_FillObjectArray
 	PyArray_FillWithScalar                   reference/c-api/array.html#c.PyArray_FillWithScalar
@@ -404,7 +405,6 @@ c:function
 	PyArray_SetField                         reference/c-api/array.html#c.PyArray_SetField
 	PyArray_SetNumericOps                    reference/c-api/array.html#c.PyArray_SetNumericOps
 	PyArray_SetStringFunction                reference/c-api/array.html#c.PyArray_SetStringFunction
-	PyArray_SetUpdateIfCopyBase              reference/c-api/array.html#c.PyArray_SetUpdateIfCopyBase
 	PyArray_SetWritebackIfCopyBase           reference/c-api/array.html#c.PyArray_SetWritebackIfCopyBase
 	PyArray_SimpleNew                        reference/c-api/array.html#c.PyArray_SimpleNew
 	PyArray_SimpleNewFromData                reference/c-api/array.html#c.PyArray_SimpleNewFromData
@@ -743,11 +743,10 @@ c:functionParam
 	PyArray_ArrayType.op                     reference/c-api/array.html#c.PyArray_ArrayType
 	PyArray_ArrayType.outtype                reference/c-api/array.html#c.PyArray_ArrayType
 	PyArray_AsCArray.dims                    reference/c-api/array.html#c.PyArray_AsCArray
-	PyArray_AsCArray.itemsize                reference/c-api/array.html#c.PyArray_AsCArray
 	PyArray_AsCArray.nd                      reference/c-api/array.html#c.PyArray_AsCArray
 	PyArray_AsCArray.op                      reference/c-api/array.html#c.PyArray_AsCArray
 	PyArray_AsCArray.ptr                     reference/c-api/array.html#c.PyArray_AsCArray
-	PyArray_AsCArray.typenum                 reference/c-api/array.html#c.PyArray_AsCArray
+	PyArray_AsCArray.typedescr               reference/c-api/array.html#c.PyArray_AsCArray
 	PyArray_AxisConverter.axis               reference/c-api/array.html#c.PyArray_AxisConverter
 	PyArray_AxisConverter.obj                reference/c-api/array.html#c.PyArray_AxisConverter
 	PyArray_BASE.arr                         reference/c-api/array.html#c.PyArray_BASE
@@ -936,6 +935,8 @@ c:functionParam
 	PyArray_FROM_OTF.obj                     reference/c-api/array.html#c.PyArray_FROM_OTF
 	PyArray_FROM_OTF.requirements            reference/c-api/array.html#c.PyArray_FROM_OTF
 	PyArray_FROM_OTF.typenum                 reference/c-api/array.html#c.PyArray_FROM_OTF
+	PyArray_FailUnlessWriteable.name         reference/c-api/array.html#c.PyArray_FailUnlessWriteable
+	PyArray_FailUnlessWriteable.obj          reference/c-api/array.html#c.PyArray_FailUnlessWriteable
 	PyArray_FieldNames.dict                  reference/c-api/array.html#c.PyArray_FieldNames
 	PyArray_FillObjectArray.arr              reference/c-api/array.html#c.PyArray_FillObjectArray
 	PyArray_FillObjectArray.obj              reference/c-api/array.html#c.PyArray_FillObjectArray
@@ -1246,8 +1247,6 @@ c:functionParam
 	PyArray_SetNumericOps.dict               reference/c-api/array.html#c.PyArray_SetNumericOps
 	PyArray_SetStringFunction.op             reference/c-api/array.html#c.PyArray_SetStringFunction
 	PyArray_SetStringFunction.repr           reference/c-api/array.html#c.PyArray_SetStringFunction
-	PyArray_SetUpdateIfCopyBase.arr          reference/c-api/array.html#c.PyArray_SetUpdateIfCopyBase
-	PyArray_SetUpdateIfCopyBase.base         reference/c-api/array.html#c.PyArray_SetUpdateIfCopyBase
 	PyArray_SetWritebackIfCopyBase.arr       reference/c-api/array.html#c.PyArray_SetWritebackIfCopyBase
 	PyArray_SetWritebackIfCopyBase.base      reference/c-api/array.html#c.PyArray_SetWritebackIfCopyBase
 	PyArray_SimpleNew.dims                   reference/c-api/array.html#c.PyArray_SimpleNew
@@ -1776,7 +1775,6 @@ c:macro
 	NPY_ARRAY_OUT_ARRAY                      reference/c-api/array.html#c.NPY_ARRAY_OUT_ARRAY
 	NPY_ARRAY_OUT_ARRAY.NPY_ARRAY_OUT_FARRAY reference/c-api/array.html#c.NPY_ARRAY_OUT_ARRAY.NPY_ARRAY_OUT_FARRAY
 	NPY_ARRAY_OWNDATA                        reference/c-api/array.html#c.NPY_ARRAY_OWNDATA
-	NPY_ARRAY_UPDATEIFCOPY                   reference/c-api/array.html#c.NPY_ARRAY_UPDATEIFCOPY
 	NPY_ARRAY_UPDATE_ALL                     reference/c-api/array.html#c.NPY_ARRAY_UPDATE_ALL
 	NPY_ARRAY_WRITEABLE                      reference/c-api/array.html#c.NPY_ARRAY_WRITEABLE
 	NPY_ARRAY_WRITEBACKIFCOPY                reference/c-api/array.html#c.NPY_ARRAY_WRITEBACKIFCOPY
@@ -1932,7 +1930,6 @@ c:macro
 	PyArray_FromAny.NPY_ARRAY_FARRAY_RO      reference/c-api/array.html#c.PyArray_FromAny.NPY_ARRAY_FARRAY_RO
 	PyArray_FromAny.NPY_ARRAY_FORCECAST      reference/c-api/array.html#c.PyArray_FromAny.NPY_ARRAY_FORCECAST
 	PyArray_FromAny.NPY_ARRAY_F_CONTIGUOUS   reference/c-api/array.html#c.PyArray_FromAny.NPY_ARRAY_F_CONTIGUOUS
-	PyArray_FromAny.NPY_ARRAY_UPDATEIFCOPY   reference/c-api/array.html#c.PyArray_FromAny.NPY_ARRAY_UPDATEIFCOPY
 	PyArray_FromAny.NPY_ARRAY_WRITEABLE      reference/c-api/array.html#c.PyArray_FromAny.NPY_ARRAY_WRITEABLE
 	PyArray_FromAny.NPY_ARRAY_WRITEBACKIFCOPY reference/c-api/array.html#c.PyArray_FromAny.NPY_ARRAY_WRITEBACKIFCOPY
 	PyArray_GetEndianness.NPY_CPU_BIG        reference/c-api/config.html#c.PyArray_GetEndianness.NPY_CPU_BIG
@@ -2057,6 +2054,7 @@ c:member
 	PyArray_Chunk.flags                      reference/c-api/types-and-structures.html#c.PyArray_Chunk.flags
 	PyArray_Chunk.len                        reference/c-api/types-and-structures.html#c.PyArray_Chunk.len
 	PyArray_Chunk.ptr                        reference/c-api/types-and-structures.html#c.PyArray_Chunk.ptr
+	PyArray_Descr.alignment                  reference/c-api/types-and-structures.html#c.PyArray_Descr.alignment
 	PyArray_Descr.byteorder                  reference/c-api/types-and-structures.html#c.PyArray_Descr.byteorder
 	PyArray_Descr.flags                      reference/c-api/types-and-structures.html#c.PyArray_Descr.flags
 	PyArray_Descr.kind                       reference/c-api/types-and-structures.html#c.PyArray_Descr.kind
@@ -2467,6 +2465,7 @@ py:attribute
 	numpy.singlecomplex                      reference/arrays.scalars.html#numpy.singlecomplex
 	numpy.string_                            reference/arrays.scalars.html#numpy.string_
 	numpy.testing.Tester                     reference/generated/numpy.testing.Tester.html#numpy.testing.Tester
+	numpy.testing.clear_and_catch_warnings.class_modules reference/generated/numpy.testing.clear_and_catch_warnings.class_modules.html#numpy.testing.clear_and_catch_warnings.class_modules
 	numpy.ufunc.identity                     reference/generated/numpy.ufunc.identity.html#numpy.ufunc.identity
 	numpy.ufunc.nargs                        reference/generated/numpy.ufunc.nargs.html#numpy.ufunc.nargs
 	numpy.ufunc.nin                          reference/generated/numpy.ufunc.nin.html#numpy.ufunc.nin
@@ -2563,7 +2562,9 @@ py:class
 	numpy.signedinteger                      reference/arrays.scalars.html#numpy.signedinteger
 	numpy.single                             reference/arrays.scalars.html#numpy.single
 	numpy.str_                               reference/arrays.scalars.html#numpy.str_
+	numpy.testing._private.utils.clear_and_catch_warnings reference/generated/numpy.testing.clear_and_catch_warnings.html#numpy.testing.clear_and_catch_warnings
 	numpy.testing._private.utils.suppress_warnings reference/generated/numpy.testing.suppress_warnings.html#numpy.testing.suppress_warnings
+	numpy.testing.clear_and_catch_warnings   reference/generated/numpy.testing.clear_and_catch_warnings.html#numpy.testing.clear_and_catch_warnings
 	numpy.testing.suppress_warnings          reference/generated/numpy.testing.suppress_warnings.html#numpy.testing.suppress_warnings
 	numpy.timedelta64                        reference/arrays.scalars.html#numpy.timedelta64
 	numpy.typing.NBitBase                    reference/typing.html#numpy.typing.NBitBase
@@ -2804,7 +2805,6 @@ py:function
 	numpy.asfarray                           reference/generated/numpy.asfarray.html#numpy.asfarray
 	numpy.asfortranarray                     reference/generated/numpy.asfortranarray.html#numpy.asfortranarray
 	numpy.asmatrix                           reference/generated/numpy.asmatrix.html#numpy.asmatrix
-	numpy.asscalar                           reference/generated/numpy.asscalar.html#numpy.asscalar
 	numpy.atleast_1d                         reference/generated/numpy.atleast_1d.html#numpy.atleast_1d
 	numpy.atleast_2d                         reference/generated/numpy.atleast_2d.html#numpy.atleast_2d
 	numpy.atleast_3d                         reference/generated/numpy.atleast_3d.html#numpy.atleast_3d
@@ -2986,6 +2986,15 @@ py:function
 	numpy.ediff1d                            reference/generated/numpy.ediff1d.html#numpy.ediff1d
 	numpy.einsum                             reference/generated/numpy.einsum.html#numpy.einsum
 	numpy.einsum_path                        reference/generated/numpy.einsum_path.html#numpy.einsum_path
+	numpy.emath.arccos                       reference/generated/numpy.emath.arccos.html#numpy.emath.arccos
+	numpy.emath.arcsin                       reference/generated/numpy.emath.arcsin.html#numpy.emath.arcsin
+	numpy.emath.arctanh                      reference/generated/numpy.emath.arctanh.html#numpy.emath.arctanh
+	numpy.emath.log                          reference/generated/numpy.emath.log.html#numpy.emath.log
+	numpy.emath.log10                        reference/generated/numpy.emath.log10.html#numpy.emath.log10
+	numpy.emath.log2                         reference/generated/numpy.emath.log2.html#numpy.emath.log2
+	numpy.emath.logn                         reference/generated/numpy.emath.logn.html#numpy.emath.logn
+	numpy.emath.power                        reference/generated/numpy.emath.power.html#numpy.emath.power
+	numpy.emath.sqrt                         reference/generated/numpy.emath.sqrt.html#numpy.emath.sqrt
 	numpy.empty                              reference/generated/numpy.empty.html#numpy.empty
 	numpy.empty_like                         reference/generated/numpy.empty_like.html#numpy.empty_like
 	numpy.expand_dims                        reference/generated/numpy.expand_dims.html#numpy.expand_dims
@@ -3021,6 +3030,7 @@ py:function
 	numpy.flipud                             reference/generated/numpy.flipud.html#numpy.flipud
 	numpy.format_float_positional            reference/generated/numpy.format_float_positional.html#numpy.format_float_positional
 	numpy.format_float_scientific            reference/generated/numpy.format_float_scientific.html#numpy.format_float_scientific
+	numpy.from_dlpack                        reference/generated/numpy.from_dlpack.html#numpy.from_dlpack
 	numpy.frombuffer                         reference/generated/numpy.frombuffer.html#numpy.frombuffer
 	numpy.fromfile                           reference/generated/numpy.fromfile.html#numpy.fromfile
 	numpy.fromfunction                       reference/generated/numpy.fromfunction.html#numpy.fromfunction
@@ -3072,6 +3082,7 @@ py:function
 	numpy.issubclass_                        reference/generated/numpy.issubclass_.html#numpy.issubclass_
 	numpy.issubdtype                         reference/generated/numpy.issubdtype.html#numpy.issubdtype
 	numpy.issubsctype                        reference/generated/numpy.issubsctype.html#numpy.issubsctype
+	numpy.iterable                           reference/generated/numpy.iterable.html#numpy.iterable
 	numpy.ix_                                reference/generated/numpy.ix_.html#numpy.ix_
 	numpy.kaiser                             reference/generated/numpy.kaiser.html#numpy.kaiser
 	numpy.kron                               reference/generated/numpy.kron.html#numpy.kron
@@ -3109,15 +3120,6 @@ py:function
 	numpy.lib.recfunctions.stack_arrays      user/basics.rec.html#numpy.lib.recfunctions.stack_arrays
 	numpy.lib.recfunctions.structured_to_unstructured user/basics.rec.html#numpy.lib.recfunctions.structured_to_unstructured
 	numpy.lib.recfunctions.unstructured_to_structured user/basics.rec.html#numpy.lib.recfunctions.unstructured_to_structured
-	numpy.lib.scimath.arccos                 reference/generated/numpy.lib.scimath.arccos.html#numpy.lib.scimath.arccos
-	numpy.lib.scimath.arcsin                 reference/generated/numpy.lib.scimath.arcsin.html#numpy.lib.scimath.arcsin
-	numpy.lib.scimath.arctanh                reference/generated/numpy.lib.scimath.arctanh.html#numpy.lib.scimath.arctanh
-	numpy.lib.scimath.log                    reference/generated/numpy.lib.scimath.log.html#numpy.lib.scimath.log
-	numpy.lib.scimath.log10                  reference/generated/numpy.lib.scimath.log10.html#numpy.lib.scimath.log10
-	numpy.lib.scimath.log2                   reference/generated/numpy.lib.scimath.log2.html#numpy.lib.scimath.log2
-	numpy.lib.scimath.logn                   reference/generated/numpy.lib.scimath.logn.html#numpy.lib.scimath.logn
-	numpy.lib.scimath.power                  reference/generated/numpy.lib.scimath.power.html#numpy.lib.scimath.power
-	numpy.lib.scimath.sqrt                   reference/generated/numpy.lib.scimath.sqrt.html#numpy.lib.scimath.sqrt
 	numpy.lib.stride_tricks.as_strided       reference/generated/numpy.lib.stride_tricks.as_strided.html#numpy.lib.stride_tricks.as_strided
 	numpy.lib.stride_tricks.sliding_window_view reference/generated/numpy.lib.stride_tricks.sliding_window_view.html#numpy.lib.stride_tricks.sliding_window_view
 	numpy.linalg.cholesky                    reference/generated/numpy.linalg.cholesky.html#numpy.linalg.cholesky
@@ -3212,6 +3214,7 @@ py:function
 	numpy.ma.median                          reference/generated/numpy.ma.median.html#numpy.ma.median
 	numpy.ma.min                             reference/generated/numpy.ma.min.html#numpy.ma.min
 	numpy.ma.minimum_fill_value              reference/generated/numpy.ma.minimum_fill_value.html#numpy.ma.minimum_fill_value
+	numpy.ma.ndenumerate                     reference/generated/numpy.ma.ndenumerate.html#numpy.ma.ndenumerate
 	numpy.ma.notmasked_contiguous            reference/generated/numpy.ma.notmasked_contiguous.html#numpy.ma.notmasked_contiguous
 	numpy.ma.notmasked_edges                 reference/generated/numpy.ma.notmasked_edges.html#numpy.ma.notmasked_edges
 	numpy.ma.outer                           reference/generated/numpy.ma.outer.html#numpy.ma.outer
@@ -3553,6 +3556,7 @@ py:function
 	numpy.take_along_axis                    reference/generated/numpy.take_along_axis.html#numpy.take_along_axis
 	numpy.tensordot                          reference/generated/numpy.tensordot.html#numpy.tensordot
 	numpy.test                               reference/testing.html#numpy.test
+	numpy.testing.assert_                    reference/generated/numpy.testing.assert_.html#numpy.testing.assert_
 	numpy.testing.assert_allclose            reference/generated/numpy.testing.assert_allclose.html#numpy.testing.assert_allclose
 	numpy.testing.assert_almost_equal        reference/generated/numpy.testing.assert_almost_equal.html#numpy.testing.assert_almost_equal
 	numpy.testing.assert_approx_equal        reference/generated/numpy.testing.assert_approx_equal.html#numpy.testing.assert_approx_equal
@@ -3562,6 +3566,8 @@ py:function
 	numpy.testing.assert_array_less          reference/generated/numpy.testing.assert_array_less.html#numpy.testing.assert_array_less
 	numpy.testing.assert_array_max_ulp       reference/generated/numpy.testing.assert_array_max_ulp.html#numpy.testing.assert_array_max_ulp
 	numpy.testing.assert_equal               reference/generated/numpy.testing.assert_equal.html#numpy.testing.assert_equal
+	numpy.testing.assert_no_gc_cycles        reference/generated/numpy.testing.assert_no_gc_cycles.html#numpy.testing.assert_no_gc_cycles
+	numpy.testing.assert_no_warnings         reference/generated/numpy.testing.assert_no_warnings.html#numpy.testing.assert_no_warnings
 	numpy.testing.assert_raises              reference/generated/numpy.testing.assert_raises.html#numpy.testing.assert_raises
 	numpy.testing.assert_raises_regex        reference/generated/numpy.testing.assert_raises_regex.html#numpy.testing.assert_raises_regex
 	numpy.testing.assert_string_equal        reference/generated/numpy.testing.assert_string_equal.html#numpy.testing.assert_string_equal
@@ -3573,6 +3579,8 @@ py:function
 	numpy.testing.dec.slow                   reference/generated/numpy.testing.dec.slow.html#numpy.testing.dec.slow
 	numpy.testing.decorate_methods           reference/generated/numpy.testing.decorate_methods.html#numpy.testing.decorate_methods
 	numpy.testing.extbuild.build_and_import_extension reference/testing.html#numpy.testing.extbuild.build_and_import_extension
+	numpy.testing.measure                    reference/generated/numpy.testing.measure.html#numpy.testing.measure
+	numpy.testing.print_assert_equal         reference/generated/numpy.testing.print_assert_equal.html#numpy.testing.print_assert_equal
 	numpy.testing.run_module_suite           reference/generated/numpy.testing.run_module_suite.html#numpy.testing.run_module_suite
 	numpy.testing.rundocs                    reference/generated/numpy.testing.rundocs.html#numpy.testing.rundocs
 	numpy.tile                               reference/generated/numpy.tile.html#numpy.tile
@@ -3804,6 +3812,7 @@ py:method
 	numpy.distutils.ccompiler_opt.CCompilerOpt.cache_flush reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.cache_flush.html#numpy.distutils.ccompiler_opt.CCompilerOpt.cache_flush
 	numpy.distutils.ccompiler_opt.CCompilerOpt.cache_hash reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.cache_hash.html#numpy.distutils.ccompiler_opt.CCompilerOpt.cache_hash
 	numpy.distutils.ccompiler_opt.CCompilerOpt.cc_normalize_flags reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.cc_normalize_flags.html#numpy.distutils.ccompiler_opt.CCompilerOpt.cc_normalize_flags
+	numpy.distutils.ccompiler_opt.CCompilerOpt.cc_test_cexpr reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.cc_test_cexpr.html#numpy.distutils.ccompiler_opt.CCompilerOpt.cc_test_cexpr
 	numpy.distutils.ccompiler_opt.CCompilerOpt.cc_test_flags reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.cc_test_flags.html#numpy.distutils.ccompiler_opt.CCompilerOpt.cc_test_flags
 	numpy.distutils.ccompiler_opt.CCompilerOpt.conf_features_partial reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.conf_features_partial.html#numpy.distutils.ccompiler_opt.CCompilerOpt.conf_features_partial
 	numpy.distutils.ccompiler_opt.CCompilerOpt.cpu_baseline_flags reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.cpu_baseline_flags.html#numpy.distutils.ccompiler_opt.CCompilerOpt.cpu_baseline_flags
@@ -4742,12 +4751,12 @@ py:module
 	numpy.distutils.misc_util                reference/distutils/misc_util.html#module-numpy.distutils.misc_util
 	numpy.doc.constants                      reference/constants.html#module-numpy.doc.constants
 	numpy.dual                               reference/routines.dual.html#module-numpy.dual
+	numpy.emath                              reference/routines.emath.html#module-numpy.emath
 	numpy.f2py                               f2py/usage.html#module-numpy.f2py
 	numpy.fft                                reference/routines.fft.html#module-numpy.fft
 	numpy.lib.arraysetops                    reference/generated/numpy.lib.arraysetops.html#module-numpy.lib.arraysetops
 	numpy.lib.format                         reference/generated/numpy.lib.format.html#module-numpy.lib.format
 	numpy.lib.recfunctions                   user/basics.rec.html#module-numpy.lib.recfunctions
-	numpy.lib.scimath                        reference/routines.emath.html#module-numpy.lib.scimath
 	numpy.linalg                             reference/routines.linalg.html#module-numpy.linalg
 	numpy.ma                                 reference/maskedarray.generic.html#module-numpy.ma
 	numpy.matlib                             reference/routines.matlib.html#module-numpy.matlib
@@ -4835,22 +4844,32 @@ std:doc
 	f2py/buildtools/index                    F2PY and Build Systems                  : f2py/buildtools/index.html
 	f2py/buildtools/meson                    Using via meson                         : f2py/buildtools/meson.html
 	f2py/buildtools/skbuild                  Using via scikit-build                  : f2py/buildtools/skbuild.html
+	f2py/f2py-examples                       F2PY examples                           : f2py/f2py-examples.html
+	f2py/f2py-reference                      F2PY reference manual                   : f2py/f2py-reference.html
+	f2py/f2py-testing                        F2PY test suite                         : f2py/f2py-testing.html
+	f2py/f2py-user                           F2PY user guide                         : f2py/f2py-user.html
 	f2py/f2py.getting-started                Three ways to wrap - getting started    : f2py/f2py.getting-started.html
 	f2py/index                               F2PY user guide and reference manual    : f2py/index.html
 	f2py/python-usage                        Using F2PY bindings in Python           : f2py/python-usage.html
 	f2py/signature-file                      Signature file                          : f2py/signature-file.html
 	f2py/usage                               Using F2PY                              : f2py/usage.html
+	f2py/windows/conda                       F2PY and Conda on Windows               : f2py/windows/conda.html
+	f2py/windows/index                       F2PY and Windows                        : f2py/windows/index.html
+	f2py/windows/intel                       F2PY and Windows Intel Fortran          : f2py/windows/intel.html
+	f2py/windows/msys2                       F2PY and Windows with MSYS2             : f2py/windows/msys2.html
+	f2py/windows/pgi                         F2PY and PGI Fortran on Windows         : f2py/windows/pgi.html
 	getting_started                          Getting started                         : getting_started.html
 	glossary                                 Glossary                                : glossary.html
 	index                                    NumPy documentation                     : index.html
 	license                                  NumPy license                           : license.html
 	reference/alignment                      Memory Alignment                        : reference/alignment.html
+	reference/array_api                      Array API Standard Compatibility        : reference/array_api.html
 	reference/arrays                         Array objects                           : reference/arrays.html
 	reference/arrays.classes                 Standard array subclasses               : reference/arrays.classes.html
 	reference/arrays.datetime                Datetimes and Timedeltas                : reference/arrays.datetime.html
 	reference/arrays.dtypes                  Data type objects (dtype)               : reference/arrays.dtypes.html
 	reference/arrays.indexing                Indexing routines                       : reference/arrays.indexing.html
-	reference/arrays.interface               The Array Interface                     : reference/arrays.interface.html
+	reference/arrays.interface               The array interface protocol            : reference/arrays.interface.html
 	reference/arrays.ndarray                 The N-dimensional array (ndarray)       : reference/arrays.ndarray.html
 	reference/arrays.nditer                  Iterating Over Arrays                   : reference/arrays.nditer.html
 	reference/arrays.nditer.cython           Putting the Inner Loop in Cython        : reference/arrays.nditer.cython.html
@@ -4870,6 +4889,7 @@ std:doc
 	reference/distutils                      Packaging (numpy.distutils)             : reference/distutils.html
 	reference/distutils/misc_util            distutils.misc_util                     : reference/distutils/misc_util.html
 	reference/distutils_guide                NumPy Distutils - Users Guide           : reference/distutils_guide.html
+	reference/distutils_status_migration     Status of numpy.distutils and migration advice: reference/distutils_status_migration.html
 	reference/generated/numpy.AxisError      numpy.AxisError                         : reference/generated/numpy.AxisError.html
 	reference/generated/numpy.DataSource     numpy.DataSource                        : reference/generated/numpy.DataSource.html
 	reference/generated/numpy.DataSource.abspath numpy.DataSource.abspath                : reference/generated/numpy.DataSource.abspath.html
@@ -4916,7 +4936,6 @@ std:doc
 	reference/generated/numpy.asfarray       numpy.asfarray                          : reference/generated/numpy.asfarray.html
 	reference/generated/numpy.asfortranarray numpy.asfortranarray                    : reference/generated/numpy.asfortranarray.html
 	reference/generated/numpy.asmatrix       numpy.asmatrix                          : reference/generated/numpy.asmatrix.html
-	reference/generated/numpy.asscalar       numpy.asscalar                          : reference/generated/numpy.asscalar.html
 	reference/generated/numpy.atleast_1d     numpy.atleast_1d                        : reference/generated/numpy.atleast_1d.html
 	reference/generated/numpy.atleast_2d     numpy.atleast_2d                        : reference/generated/numpy.atleast_2d.html
 	reference/generated/numpy.atleast_3d     numpy.atleast_3d                        : reference/generated/numpy.atleast_3d.html
@@ -5287,6 +5306,7 @@ std:doc
 	reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.cache_flush numpy.distutils.ccompiler_opt.CCompilerOpt.cache_flush: reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.cache_flush.html
 	reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.cache_hash numpy.distutils.ccompiler_opt.CCompilerOpt.cache_hash: reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.cache_hash.html
 	reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.cc_normalize_flags numpy.distutils.ccompiler_opt.CCompilerOpt.cc_normalize_flags: reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.cc_normalize_flags.html
+	reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.cc_test_cexpr numpy.distutils.ccompiler_opt.CCompilerOpt.cc_test_cexpr: reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.cc_test_cexpr.html
 	reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.cc_test_flags numpy.distutils.ccompiler_opt.CCompilerOpt.cc_test_flags: reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.cc_test_flags.html
 	reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.conf_c_prefix numpy.distutils.ccompiler_opt.CCompilerOpt.conf_c_prefix: reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.conf_c_prefix.html
 	reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.conf_c_prefix_ numpy.distutils.ccompiler_opt.CCompilerOpt.conf_c_prefix_: reference/generated/numpy.distutils.ccompiler_opt.CCompilerOpt.conf_c_prefix_.html
@@ -5385,6 +5405,15 @@ std:doc
 	reference/generated/numpy.ediff1d        numpy.ediff1d                           : reference/generated/numpy.ediff1d.html
 	reference/generated/numpy.einsum         numpy.einsum                            : reference/generated/numpy.einsum.html
 	reference/generated/numpy.einsum_path    numpy.einsum_path                       : reference/generated/numpy.einsum_path.html
+	reference/generated/numpy.emath.arccos   numpy.emath.arccos                      : reference/generated/numpy.emath.arccos.html
+	reference/generated/numpy.emath.arcsin   numpy.emath.arcsin                      : reference/generated/numpy.emath.arcsin.html
+	reference/generated/numpy.emath.arctanh  numpy.emath.arctanh                     : reference/generated/numpy.emath.arctanh.html
+	reference/generated/numpy.emath.log      numpy.emath.log                         : reference/generated/numpy.emath.log.html
+	reference/generated/numpy.emath.log10    numpy.emath.log10                       : reference/generated/numpy.emath.log10.html
+	reference/generated/numpy.emath.log2     numpy.emath.log2                        : reference/generated/numpy.emath.log2.html
+	reference/generated/numpy.emath.logn     numpy.emath.logn                        : reference/generated/numpy.emath.logn.html
+	reference/generated/numpy.emath.power    numpy.emath.power                       : reference/generated/numpy.emath.power.html
+	reference/generated/numpy.emath.sqrt     numpy.emath.sqrt                        : reference/generated/numpy.emath.sqrt.html
 	reference/generated/numpy.empty          numpy.empty                             : reference/generated/numpy.empty.html
 	reference/generated/numpy.empty_like     numpy.empty_like                        : reference/generated/numpy.empty_like.html
 	reference/generated/numpy.equal          numpy.equal                             : reference/generated/numpy.equal.html
@@ -5441,6 +5470,7 @@ std:doc
 	reference/generated/numpy.format_float_scientific numpy.format_float_scientific           : reference/generated/numpy.format_float_scientific.html
 	reference/generated/numpy.format_parser  numpy.format_parser                     : reference/generated/numpy.format_parser.html
 	reference/generated/numpy.frexp          numpy.frexp                             : reference/generated/numpy.frexp.html
+	reference/generated/numpy.from_dlpack    numpy.from_dlpack                       : reference/generated/numpy.from_dlpack.html
 	reference/generated/numpy.frombuffer     numpy.frombuffer                        : reference/generated/numpy.frombuffer.html
 	reference/generated/numpy.fromfile       numpy.fromfile                          : reference/generated/numpy.fromfile.html
 	reference/generated/numpy.fromfunction   numpy.fromfunction                      : reference/generated/numpy.fromfunction.html
@@ -5528,6 +5558,7 @@ std:doc
 	reference/generated/numpy.issubclass_    numpy.issubclass_                       : reference/generated/numpy.issubclass_.html
 	reference/generated/numpy.issubdtype     numpy.issubdtype                        : reference/generated/numpy.issubdtype.html
 	reference/generated/numpy.issubsctype    numpy.issubsctype                       : reference/generated/numpy.issubsctype.html
+	reference/generated/numpy.iterable       numpy.iterable                          : reference/generated/numpy.iterable.html
 	reference/generated/numpy.ix_            numpy.ix_                               : reference/generated/numpy.ix_.html
 	reference/generated/numpy.kaiser         numpy.kaiser                            : reference/generated/numpy.kaiser.html
 	reference/generated/numpy.kron           numpy.kron                              : reference/generated/numpy.kron.html
@@ -5556,15 +5587,6 @@ std:doc
 	reference/generated/numpy.lib.format.write_array_header_1_0 numpy.lib.format.write_array_header_1_0 : reference/generated/numpy.lib.format.write_array_header_1_0.html
 	reference/generated/numpy.lib.format.write_array_header_2_0 numpy.lib.format.write_array_header_2_0 : reference/generated/numpy.lib.format.write_array_header_2_0.html
 	reference/generated/numpy.lib.mixins.NDArrayOperatorsMixin numpy.lib.mixins.NDArrayOperatorsMixin  : reference/generated/numpy.lib.mixins.NDArrayOperatorsMixin.html
-	reference/generated/numpy.lib.scimath.arccos numpy.lib.scimath.arccos                : reference/generated/numpy.lib.scimath.arccos.html
-	reference/generated/numpy.lib.scimath.arcsin numpy.lib.scimath.arcsin                : reference/generated/numpy.lib.scimath.arcsin.html
-	reference/generated/numpy.lib.scimath.arctanh numpy.lib.scimath.arctanh               : reference/generated/numpy.lib.scimath.arctanh.html
-	reference/generated/numpy.lib.scimath.log numpy.lib.scimath.log                   : reference/generated/numpy.lib.scimath.log.html
-	reference/generated/numpy.lib.scimath.log10 numpy.lib.scimath.log10                 : reference/generated/numpy.lib.scimath.log10.html
-	reference/generated/numpy.lib.scimath.log2 numpy.lib.scimath.log2                  : reference/generated/numpy.lib.scimath.log2.html
-	reference/generated/numpy.lib.scimath.logn numpy.lib.scimath.logn                  : reference/generated/numpy.lib.scimath.logn.html
-	reference/generated/numpy.lib.scimath.power numpy.lib.scimath.power                 : reference/generated/numpy.lib.scimath.power.html
-	reference/generated/numpy.lib.scimath.sqrt numpy.lib.scimath.sqrt                  : reference/generated/numpy.lib.scimath.sqrt.html
 	reference/generated/numpy.lib.stride_tricks.as_strided numpy.lib.stride_tricks.as_strided      : reference/generated/numpy.lib.stride_tricks.as_strided.html
 	reference/generated/numpy.lib.stride_tricks.sliding_window_view numpy.lib.stride_tricks.sliding_window_view: reference/generated/numpy.lib.stride_tricks.sliding_window_view.html
 	reference/generated/numpy.lib.user_array.container numpy.lib.user_array.container          : reference/generated/numpy.lib.user_array.container.html
@@ -6015,6 +6037,7 @@ std:doc
 	reference/generated/numpy.ma.min         numpy.ma.min                            : reference/generated/numpy.ma.min.html
 	reference/generated/numpy.ma.minimum_fill_value numpy.ma.minimum_fill_value             : reference/generated/numpy.ma.minimum_fill_value.html
 	reference/generated/numpy.ma.mr_         numpy.ma.mr_                            : reference/generated/numpy.ma.mr_.html
+	reference/generated/numpy.ma.ndenumerate numpy.ma.ndenumerate                    : reference/generated/numpy.ma.ndenumerate.html
 	reference/generated/numpy.ma.nonzero     numpy.ma.nonzero                        : reference/generated/numpy.ma.nonzero.html
 	reference/generated/numpy.ma.notmasked_contiguous numpy.ma.notmasked_contiguous           : reference/generated/numpy.ma.notmasked_contiguous.html
 	reference/generated/numpy.ma.notmasked_edges numpy.ma.notmasked_edges                : reference/generated/numpy.ma.notmasked_edges.html
@@ -7003,6 +7026,7 @@ std:doc
 	reference/generated/numpy.testing.Tester.bench numpy.testing.Tester.bench              : reference/generated/numpy.testing.Tester.bench.html
 	reference/generated/numpy.testing.Tester.prepare_test_args numpy.testing.Tester.prepare_test_args  : reference/generated/numpy.testing.Tester.prepare_test_args.html
 	reference/generated/numpy.testing.Tester.test numpy.testing.Tester.test               : reference/generated/numpy.testing.Tester.test.html
+	reference/generated/numpy.testing.assert_ numpy.testing.assert_                   : reference/generated/numpy.testing.assert_.html
 	reference/generated/numpy.testing.assert_allclose numpy.testing.assert_allclose           : reference/generated/numpy.testing.assert_allclose.html
 	reference/generated/numpy.testing.assert_almost_equal numpy.testing.assert_almost_equal       : reference/generated/numpy.testing.assert_almost_equal.html
 	reference/generated/numpy.testing.assert_approx_equal numpy.testing.assert_approx_equal       : reference/generated/numpy.testing.assert_approx_equal.html
@@ -7012,16 +7036,22 @@ std:doc
 	reference/generated/numpy.testing.assert_array_less numpy.testing.assert_array_less         : reference/generated/numpy.testing.assert_array_less.html
 	reference/generated/numpy.testing.assert_array_max_ulp numpy.testing.assert_array_max_ulp      : reference/generated/numpy.testing.assert_array_max_ulp.html
 	reference/generated/numpy.testing.assert_equal numpy.testing.assert_equal              : reference/generated/numpy.testing.assert_equal.html
+	reference/generated/numpy.testing.assert_no_gc_cycles numpy.testing.assert_no_gc_cycles       : reference/generated/numpy.testing.assert_no_gc_cycles.html
+	reference/generated/numpy.testing.assert_no_warnings numpy.testing.assert_no_warnings        : reference/generated/numpy.testing.assert_no_warnings.html
 	reference/generated/numpy.testing.assert_raises numpy.testing.assert_raises             : reference/generated/numpy.testing.assert_raises.html
 	reference/generated/numpy.testing.assert_raises_regex numpy.testing.assert_raises_regex       : reference/generated/numpy.testing.assert_raises_regex.html
 	reference/generated/numpy.testing.assert_string_equal numpy.testing.assert_string_equal       : reference/generated/numpy.testing.assert_string_equal.html
 	reference/generated/numpy.testing.assert_warns numpy.testing.assert_warns              : reference/generated/numpy.testing.assert_warns.html
+	reference/generated/numpy.testing.clear_and_catch_warnings numpy.testing.clear_and_catch_warnings  : reference/generated/numpy.testing.clear_and_catch_warnings.html
+	reference/generated/numpy.testing.clear_and_catch_warnings.class_modules numpy.testing.clear_and_catch_warnings.class_modules: reference/generated/numpy.testing.clear_and_catch_warnings.class_modules.html
 	reference/generated/numpy.testing.dec.deprecated numpy.testing.dec.deprecated            : reference/generated/numpy.testing.dec.deprecated.html
 	reference/generated/numpy.testing.dec.knownfailureif numpy.testing.dec.knownfailureif        : reference/generated/numpy.testing.dec.knownfailureif.html
 	reference/generated/numpy.testing.dec.setastest numpy.testing.dec.setastest             : reference/generated/numpy.testing.dec.setastest.html
 	reference/generated/numpy.testing.dec.skipif numpy.testing.dec.skipif                : reference/generated/numpy.testing.dec.skipif.html
 	reference/generated/numpy.testing.dec.slow numpy.testing.dec.slow                  : reference/generated/numpy.testing.dec.slow.html
 	reference/generated/numpy.testing.decorate_methods numpy.testing.decorate_methods          : reference/generated/numpy.testing.decorate_methods.html
+	reference/generated/numpy.testing.measure numpy.testing.measure                   : reference/generated/numpy.testing.measure.html
+	reference/generated/numpy.testing.print_assert_equal numpy.testing.print_assert_equal        : reference/generated/numpy.testing.print_assert_equal.html
 	reference/generated/numpy.testing.run_module_suite numpy.testing.run_module_suite          : reference/generated/numpy.testing.run_module_suite.html
 	reference/generated/numpy.testing.rundocs numpy.testing.rundocs                   : reference/generated/numpy.testing.rundocs.html
 	reference/generated/numpy.testing.suppress_warnings numpy.testing.suppress_warnings         : reference/generated/numpy.testing.suppress_warnings.html
@@ -7291,7 +7321,7 @@ std:doc
 	reference/routines.datetime              Datetime Support Functions              : reference/routines.datetime.html
 	reference/routines.dtype                 Data type routines                      : reference/routines.dtype.html
 	reference/routines.dual                  Optionally SciPy-accelerated routines (numpy.dual): reference/routines.dual.html
-	reference/routines.emath                 Mathematical functions with automatic domain (numpy.emath): reference/routines.emath.html
+	reference/routines.emath                 Mathematical functions with automatic domain: reference/routines.emath.html
 	reference/routines.err                   Floating point error handling           : reference/routines.err.html
 	reference/routines.fft                   Discrete Fourier Transform (numpy.fft)  : reference/routines.fft.html
 	reference/routines.functional            Functional programming                  : reference/routines.functional.html
@@ -7320,7 +7350,10 @@ std:doc
 	reference/routines.statistics            Statistics                              : reference/routines.statistics.html
 	reference/routines.testing               Test Support (numpy.testing)            : reference/routines.testing.html
 	reference/routines.window                Window functions                        : reference/routines.window.html
-	reference/simd/simd-optimizations        SIMD Optimizations                      : reference/simd/simd-optimizations.html
+	reference/simd/build-options             CPU build options                       : reference/simd/build-options.html
+	reference/simd/how-it-works              How does the CPU dispatcher work?       : reference/simd/how-it-works.html
+	reference/simd/index                     CPU/SIMD Optimizations                  : reference/simd/index.html
+	reference/simd/simd-optimizations        <no title>                              : reference/simd/simd-optimizations.html
 	reference/swig                           NumPy and SWIG                          : reference/swig.html
 	reference/swig.interface-file            numpy.i: a SWIG Interface File for NumPy: reference/swig.interface-file.html
 	reference/swig.testing                   Testing the numpy.i Typemaps            : reference/swig.testing.html
@@ -7389,8 +7422,14 @@ std:doc
 	release/1.21.2-notes                     NumPy 1.21.2 Release Notes              : release/1.21.2-notes.html
 	release/1.21.3-notes                     NumPy 1.21.3 Release Notes              : release/1.21.3-notes.html
 	release/1.21.4-notes                     NumPy 1.21.4 Release Notes              : release/1.21.4-notes.html
+	release/1.21.5-notes                     NumPy 1.21.5 Release Notes              : release/1.21.5-notes.html
+	release/1.21.6-notes                     NumPy 1.21.6 Release Notes              : release/1.21.6-notes.html
 	release/1.22.0-notes                     NumPy 1.22.0 Release Notes              : release/1.22.0-notes.html
 	release/1.22.1-notes                     NumPy 1.22.1 Release Notes              : release/1.22.1-notes.html
+	release/1.22.2-notes                     NumPy 1.22.2 Release Notes              : release/1.22.2-notes.html
+	release/1.22.3-notes                     NumPy 1.22.3 Release Notes              : release/1.22.3-notes.html
+	release/1.22.4-notes                     NumPy 1.22.4 Release Notes              : release/1.22.4-notes.html
+	release/1.23.0-notes                     NumPy 1.23.0 Release Notes              : release/1.23.0-notes.html
 	release/1.3.0-notes                      NumPy 1.3.0 Release Notes               : release/1.3.0-notes.html
 	release/1.4.0-notes                      NumPy 1.4.0 Release Notes               : release/1.4.0-notes.html
 	release/1.5.0-notes                      NumPy 1.5.0 Release Notes               : release/1.5.0-notes.html
@@ -7415,6 +7454,7 @@ std:doc
 	user/basics.creation                     Array creation                          : user/basics.creation.html
 	user/basics.dispatch                     Writing custom array containers         : user/basics.dispatch.html
 	user/basics.indexing                     Indexing on ndarrays                    : user/basics.indexing.html
+	user/basics.interoperability             Interoperability with NumPy             : user/basics.interoperability.html
 	user/basics.io                           I/O with NumPy                          : user/basics.io.html
 	user/basics.io.genfromtxt                Importing data with genfromtxt          : user/basics.io.genfromtxt.html
 	user/basics.rec                          Structured arrays                       : user/basics.rec.html
@@ -7429,6 +7469,7 @@ std:doc
 	user/c-info.ufunc-tutorial               Writing your own ufunc                  : user/c-info.ufunc-tutorial.html
 	user/depending_on_numpy                  For downstream package authors          : user/depending_on_numpy.html
 	user/how-to-how-to                       How to write a NumPy how-to             : user/how-to-how-to.html
+	user/how-to-index                        How to index ndarrays                   : user/how-to-index.html
 	user/how-to-io                           Reading and writing files               : user/how-to-io.html
 	user/howtos_index                        NumPy How Tos                           : user/howtos_index.html
 	user/index                               NumPy user guide                        : user/index.html
@@ -7448,6 +7489,13 @@ std:label
 	array-ufunc                              __array_ufunc__ for ufuncs              : user/basics.subclassing.html#array-ufunc
 	array-wrap                               __array_wrap__ for ufuncs and other functions: user/basics.subclassing.html#array-wrap
 	array.ndarray.methods                    Array methods                           : reference/arrays.ndarray.html#array-ndarray-methods
+	array_api                                Array API Standard Compatibility        : reference/array_api.html#array-api
+	array_api-differences                    Table of Differences between numpy.array_api and numpy: reference/array_api.html#array-api-differences
+	array_api-linear-algebra-differences     Linear Algebra Differences              : reference/array_api.html#array-api-linear-algebra-differences
+	array_api-name-changes                   Function Name Changes                   : reference/array_api.html#array-api-name-changes
+	array_api-set-functions-differences      Set Functions Differences               : reference/array_api.html#array-api-set-functions-differences
+	array_api-type-promotion-differences     Type Promotion Differences              : reference/array_api.html#array-api-type-promotion-differences
+	array_api-type-strictness                Type Strictness                         : reference/array_api.html#array-api-type-strictness
 	arrays                                   Array objects                           : reference/arrays.html#arrays
 	arrays.broadcasting.broadcastable        Broadcastable arrays                    : user/basics.broadcasting.html#arrays-broadcasting-broadcastable
 	arrays.classes                           Standard array subclasses               : reference/arrays.classes.html#arrays-classes
@@ -7460,7 +7508,7 @@ std:label
 	arrays.dtypes.timeunits                  reference/arrays.datetime.html#arrays-dtypes-timeunits
 	arrays.indexing                          Indexing routines                       : reference/arrays.indexing.html#arrays-indexing
 	arrays.indexing.fields                   Field access                            : user/basics.indexing.html#arrays-indexing-fields
-	arrays.interface                         The Array Interface                     : reference/arrays.interface.html#arrays-interface
+	arrays.interface                         The array interface protocol            : reference/arrays.interface.html#arrays-interface
 	arrays.ndarray                           The N-dimensional array (ndarray)       : reference/arrays.ndarray.html#arrays-ndarray
 	arrays.ndarray.array-interface           Array interface                         : reference/arrays.ndarray.html#arrays-ndarray-array-interface
 	arrays.ndarray.attributes                Array attributes                        : reference/arrays.ndarray.html#arrays-ndarray-attributes
@@ -7471,12 +7519,15 @@ std:label
 	arrays.scalars.character-codes           Built-in scalar types                   : reference/arrays.scalars.html#arrays-scalars-character-codes
 	asking-for-merging                       Asking for your changes to be merged with the main repo: dev/development_workflow.html#asking-for-merging
 	assigning-values-to-indexed-arrays       Assigning values to indexed arrays      : user/basics.indexing.html#assigning-values-to-indexed-arrays
+	basic-indexing                           Basic indexing                          : user/basics.indexing.html#basic-indexing
 	basics.broadcasting                      Broadcasting                            : user/basics.broadcasting.html#basics-broadcasting
 	basics.copies-and-views                  Copies and views                        : user/basics.copies.html#basics-copies-and-views
 	basics.dispatch                          Writing custom array containers         : user/basics.dispatch.html#basics-dispatch
 	basics.indexing                          Indexing on ndarrays                    : user/basics.indexing.html#basics-indexing
+	basics.interoperability                  Interoperability with NumPy             : user/basics.interoperability.html#basics-interoperability
 	basics.subclassing                       Subclassing ndarray                     : user/basics.subclassing.html#basics-subclassing
 	basics.types                             Data types                              : user/basics.types.html#basics-types
+	boolean-indexing                         Boolean array indexing                  : user/basics.indexing.html#boolean-indexing
 	broadcasting-rules                       Broadcasting rules                      : user/quickstart.html#broadcasting-rules
 	broadcasting.figure-1                    Figure 1                                : user/basics.broadcasting.html#broadcasting-figure-1
 	broadcasting.figure-2                    Figure 2                                : user/basics.broadcasting.html#broadcasting-figure-2
@@ -7488,6 +7539,7 @@ std:label
 	c-api                                    NumPy C-API                             : reference/c-api/index.html#c-api
 	c-api.generalized-ufuncs                 Generalized Universal Function API      : reference/c-api/generalized-ufuncs.html#c-api-generalized-ufuncs
 	c-code-explanations                      NumPy C code explanations               : dev/internals.code-explanations.html#c-code-explanations
+	c-expressions                            C expressions                           : f2py/signature-file.html#c-expressions
 	call-back arguments                      Call-back arguments                     : f2py/python-usage.html#call-back-arguments
 	classDoxyLimbo                           dev/howto-docs.html#classDoxyLimbo
 	classDoxyLimbo_1a097c2d3d62ef8696ca0f4f9af875be48 dev/howto-docs.html#classDoxyLimbo_1a097c2d3d62ef8696ca0f4f9af875be48
@@ -7507,7 +7559,9 @@ std:label
 	development-setup                        Setting up git for NumPy development    : dev/gitwash/development_setup.html#development-setup
 	development-workflow                     Development workflow                    : dev/development_workflow.html#development-workflow
 	devindex                                 Contributing to NumPy                   : dev/index.html#devindex
-	dispatchable-sources                     5- Dispatch-able sources and configuration statements: reference/simd/simd-optimizations.html#dispatchable-sources
+	dimensional-indexing-tools               Dimensional indexing tools              : user/basics.indexing.html#dimensional-indexing-tools
+	dispatchable-sources                     5- Dispatch-able sources and configuration statements: reference/simd/how-it-works.html#dispatchable-sources
+	distutils-status-migration               Status of numpy.distutils and migration advice: reference/distutils_status_migration.html#distutils-status-migration
 	distutils-user-guide                     NumPy Distutils - Users Guide           : reference/distutils_guide.html#distutils-user-guide
 	doc_c_code                               Documenting C/C++ Code                  : dev/howto-docs.html#doc-c-code
 	docstring_intro                          Docstrings                              : dev/howto-docs.html#docstring-intro
@@ -7519,18 +7573,29 @@ std:label
 	extending_cython_example                 Extending numpy.random via Cython       : reference/random/examples/cython/index.html#extending-cython-example
 	external                                 f2py/signature-file.html#external
 	f2py                                     F2PY user guide and reference manual    : f2py/index.html#f2py
+	f2py-attributes                          Attributes                              : f2py/signature-file.html#f2py-attributes
 	f2py-bldsys                              F2PY and Build Systems                  : f2py/buildtools/index.html#f2py-bldsys
 	f2py-cmake                               Using via cmake                         : f2py/buildtools/cmake.html#f2py-cmake
 	f2py-distutils                           Using via numpy.distutils               : f2py/buildtools/distutils.html#f2py-distutils
+	f2py-examples                            F2PY examples                           : f2py/f2py-examples.html#f2py-examples
 	f2py-getting-started                     Three ways to wrap - getting started    : f2py/f2py.getting-started.html#f2py-getting-started
 	f2py-meson                               Using via meson                         : f2py/buildtools/meson.html#f2py-meson
+	f2py-reference                           F2PY reference manual                   : f2py/f2py-reference.html#f2py-reference
 	f2py-skbuild                             Using via scikit-build                  : f2py/buildtools/skbuild.html#f2py-skbuild
+	f2py-testing                             F2PY test suite                         : f2py/f2py-testing.html#f2py-testing
+	f2py-user                                F2PY user guide                         : f2py/f2py-user.html#f2py-user
+	f2py-win-conda                           F2PY and Conda on Windows               : f2py/windows/conda.html#f2py-win-conda
+	f2py-win-intel                           F2PY and Windows Intel Fortran          : f2py/windows/intel.html#f2py-win-intel
+	f2py-win-msys2                           F2PY and Windows with MSYS2             : f2py/windows/msys2.html#f2py-win-msys2
+	f2py-win-pgi                             F2PY and PGI Fortran on Windows         : f2py/windows/pgi.html#f2py-win-pgi
+	f2py-windows                             F2PY and Windows                        : f2py/windows/index.html#f2py-windows
 	flat-iterator-indexing                   Flat Iterator indexing                  : user/basics.indexing.html#flat-iterator-indexing
 	following-latest                         dev/gitwash/following_latest.html#following-latest
 	for-downstream-package-authors           For downstream package authors          : user/depending_on_numpy.html#for-downstream-package-authors
 	forking                                  Create a NumPy fork                     : dev/gitwash/development_setup.html#forking
 	frozen                                   reference/c-api/generalized-ufuncs.html#frozen
 	general-broadcasting-rules               General Broadcasting Rules              : user/basics.broadcasting.html#general-broadcasting-rules
+	generator-handling-axis-parameter        Handling the axis parameter             : reference/random/generator.html#generator-handling-axis-parameter
 	genindex                                 Index                                   : genindex.html
 	git-config-basic                         Overview                                : dev/gitwash/configure_git.html#git-config-basic
 	git-development                          Git for development                     : dev/gitwash/index.html#git-development
@@ -7538,6 +7603,7 @@ std:label
 	global_state                             Global State                            : reference/global_state.html#global-state
 	guidelines                               Guidelines                              : dev/index.html#guidelines
 	how-to-how-to                            How to write a NumPy how-to             : user/how-to-how-to.html#how-to-how-to
+	how-to-index.rst                         How to index ndarrays                   : user/how-to-index.html#how-to-index-rst
 	how-to-io                                Reading and writing files               : user/how-to-io.html#how-to-io
 	how-to-io-large-arrays                   Write or read large arrays              : user/how-to-io.html#how-to-io-large-arrays
 	how-to-io-pickle-file                    Save/restore using a pickle file        : user/how-to-io.html#how-to-io-pickle-file
@@ -7547,6 +7613,7 @@ std:label
 	howto-document                           Documentation style                     : dev/howto-docs.html#howto-document
 	howtos                                   NumPy How Tos                           : user/howtos_index.html#howtos
 	independent-streams                      Independent Streams                     : reference/random/parallel.html#independent-streams
+	indexing-operations                      Indexing operations                     : user/basics.copies.html#indexing-operations
 	install-git                              dev/gitwash/index.html#install-git
 	legacy                                   Legacy Random Generation                : reference/random/legacy.html#legacy
 	linking-to-upstream                      dev/gitwash/development_setup.html#linking-to-upstream
@@ -7565,11 +7632,17 @@ std:label
 	numpy-for-matlab-users                   NumPy for MATLAB users                  : user/numpy-for-matlab-users.html#numpy-for-matlab-users
 	numpy-for-matlab-users.notes             Notes                                   : user/numpy-for-matlab-users.html#numpy-for-matlab-users-notes
 	numpy-internals                          Internal organization of NumPy arrays   : dev/internals.html#numpy-internals
+	numpy-setuptools-interaction             Interaction of numpy.disutils with setuptools: reference/distutils_status_migration.html#numpy-setuptools-interaction
 	numpy.ma.constants                       Constants of the numpy.ma module        : reference/maskedarray.baseclass.html#numpy-ma-constants
 	numpy_docs_mainpage                      NumPy documentation                     : index.html#numpy-docs-mainpage
 	numpy_tutorials                          NumPy tutorials                         : dev/howto-docs.html#numpy-tutorials
 	numpyrandom                              reference/random/index.html#numpyrandom
+	numpysimd                                CPU/SIMD Optimizations                  : reference/simd/index.html#numpysimd
 	offsets-and-alignment                    Automatic Byte Offsets and Alignment    : user/basics.rec.html#offsets-and-alignment
+	opt-build-report                         Build report                            : reference/simd/build-options.html#opt-build-report
+	opt-platform-differences                 Platform differences                    : reference/simd/build-options.html#opt-platform-differences
+	opt-special-options                      Special Options                         : reference/simd/build-options.html#opt-special-options
+	opt-supported-features                   Supported Features                      : reference/simd/build-options.html#opt-supported-features
 	overflow-errors                          Overflow Errors                         : user/basics.types.html#overflow-errors
 	parallel-builds                          Parallel builds                         : user/building.html#parallel-builds
 	parallel-jumped                          Jumping the BitGenerator state          : reference/random/parallel.html#parallel-jumped
@@ -7868,6 +7941,8 @@ std:label
 	re85a9a53b4f0-3                          reference/random/generated/numpy.random.logseries.html#re85a9a53b4f0-3
 	re85a9a53b4f0-4                          reference/random/generated/numpy.random.logseries.html#re85a9a53b4f0-4
 	re860718f5533-1                          reference/generated/numpy.MachAr.html#re860718f5533-1
+	re9eadf7a166b-1                          reference/generated/numpy.from_dlpack.html#re9eadf7a166b-1
+	re9eadf7a166b-2                          reference/generated/numpy.from_dlpack.html#re9eadf7a166b-2
 	rebasing-on-main                         Rebasing on main                        : dev/development_workflow.html#rebasing-on-main
 	rec505eafac9d-1                          reference/generated/numpy.linalg.pinv.html#rec505eafac9d-1
 	recommended-development-setup            Recommended development setup           : dev/development_environment.html#recommended-development-setup
@@ -7926,18 +8001,23 @@ std:label
 	seedsequence-spawn                       SeedSequence spawning                   : reference/random/parallel.html#seedsequence-spawn
 	set-up-and-configure-a-github-account    Create a GitHub account                 : dev/gitwash/development_setup.html#set-up-and-configure-a-github-account
 	set-up-fork                              Make the local copy                     : dev/gitwash/development_setup.html#set-up-fork
+	shortcomings                             Datetime64 shortcomings                 : reference/arrays.datetime.html#shortcomings
 	single-element-indexing                  Single element indexing                 : user/basics.indexing.html#single-element-indexing
 	sized-aliases                            Sized aliases                           : reference/arrays.scalars.html#sized-aliases
-	special-options                          Special options                         : reference/simd/simd-optimizations.html#special-options
+	slicing-and-striding                     Slicing and striding                    : user/basics.indexing.html#slicing-and-striding
+	special-attributes-and-methods           Special attributes and methods          : reference/arrays.classes.html#special-attributes-and-methods
+	specific-array-subtyping                 Specific features of ndarray sub-typing : user/c-info.beyond-basics.html#specific-array-subtyping
 	string-dtype-note                        reference/arrays.dtypes.html#string-dtype-note
 	structured_arrays                        Structured arrays                       : user/basics.rec.html#structured-arrays
+	structured_dtype_comparison_and_promotion Structure Comparison and Promotion      : user/basics.rec.html#structured-dtype-comparison-and-promotion
 	stylistic-guidelines                     Stylistic Guidelines                    : dev/index.html#stylistic-guidelines
-	tables-diff                              reference/simd/simd-optimizations.html#tables-diff
+	table-f2py-winsup-mat                    Support matrix, exe implies a Windows installer: f2py/windows/index.html#table-f2py-winsup-mat
 	templating                               Conversion of .src files using Templates: reference/distutils_guide.html#templating
 	testing-builds                           Testing builds                          : dev/development_environment.html#testing-builds
 	testing-guidelines                       Testing Guidelines                      : reference/testing.html#testing-guidelines
 	titles                                   Field Titles                            : user/basics.rec.html#titles
 	tutorials_howtos_explanations            Documentation framework                 : dev/howto-docs.html#tutorials-howtos-explanations
+	type-declarations                        Type declarations                       : f2py/signature-file.html#type-declarations
 	typing                                   reference/typing.html#typing
 	ufuncs                                   Universal functions (ufunc)             : reference/ufuncs.html#ufuncs
 	ufuncs-basics                            Universal functions (ufunc) basics      : user/basics.ufuncs.html#ufuncs-basics

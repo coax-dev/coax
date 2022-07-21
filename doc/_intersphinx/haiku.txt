@@ -30,6 +30,7 @@ py:attribute
 	haiku.TransformedWithState.init          api.html#haiku.TransformedWithState.init
 	haiku.experimental.ArraySpec.dtype       api.html#haiku.experimental.ArraySpec.dtype
 	haiku.experimental.ArraySpec.shape       api.html#haiku.experimental.ArraySpec.shape
+	haiku.experimental.DO_NOT_STORE          api.html#haiku.experimental.DO_NOT_STORE
 	haiku.experimental.MethodInvocation.args_spec api.html#haiku.experimental.MethodInvocation.args_spec
 	haiku.experimental.MethodInvocation.call_stack api.html#haiku.experimental.MethodInvocation.call_stack
 	haiku.experimental.MethodInvocation.context api.html#haiku.experimental.MethodInvocation.context
@@ -161,7 +162,9 @@ py:function
 	haiku.expand_apply                       api.html#haiku.expand_apply
 	haiku.experimental.abstract_to_dot       api.html#haiku.experimental.abstract_to_dot
 	haiku.experimental.check_jax_usage       api.html#haiku.experimental.check_jax_usage
+	haiku.experimental.current_name          api.html#haiku.experimental.current_name
 	haiku.experimental.eval_summary          api.html#haiku.experimental.eval_summary
+	haiku.experimental.fast_eval_shape       api.html#haiku.experimental.fast_eval_shape
 	haiku.experimental.jaxpr_info.as_html    api.html#haiku.experimental.jaxpr_info.as_html
 	haiku.experimental.jaxpr_info.as_html_page api.html#haiku.experimental.jaxpr_info.as_html_page
 	haiku.experimental.jaxpr_info.css        api.html#haiku.experimental.jaxpr_info.css
@@ -178,6 +181,8 @@ py:function
 	haiku.experimental.profiler_name_scopes  api.html#haiku.experimental.profiler_name_scopes
 	haiku.experimental.tabulate              api.html#haiku.experimental.tabulate
 	haiku.experimental.to_dot                api.html#haiku.experimental.to_dot
+	haiku.experimental.transparent_lift      api.html#haiku.experimental.transparent_lift
+	haiku.experimental.transparent_lift_with_state api.html#haiku.experimental.transparent_lift_with_state
 	haiku.fori_loop                          api.html#haiku.fori_loop
 	haiku.get_channel_index                  api.html#haiku.get_channel_index
 	haiku.get_parameter                      api.html#haiku.get_parameter
@@ -411,6 +416,7 @@ std:label
 	/api.rst#create-from-padfn               create_from_padfn                       : api.html#create-from-padfn
 	/api.rst#create-from-tuple               create_from_tuple                       : api.html#create-from-tuple
 	/api.rst#css                             css                                     : api.html#css
+	/api.rst#current-name                    current_name                            : api.html#current-name
 	/api.rst#current-policy                  current_policy                          : api.html#current-policy
 	/api.rst#custom-creator                  custom_creator                          : api.html#custom-creator
 	/api.rst#custom-getter                   custom_getter                           : api.html#custom-getter
@@ -420,6 +426,7 @@ std:label
 	/api.rst#depthwiseconv1d                 DepthwiseConv1D                         : api.html#depthwiseconv1d
 	/api.rst#depthwiseconv2d                 DepthwiseConv2D                         : api.html#depthwiseconv2d
 	/api.rst#depthwiseconv3d                 DepthwiseConv3D                         : api.html#depthwiseconv3d
+	/api.rst#do-not-store                    DO_NOT_STORE                            : api.html#do-not-store
 	/api.rst#dropout                         Dropout                                 : api.html#dropout
 	/api.rst#dynamic-unroll                  dynamic_unroll                          : api.html#dynamic-unroll
 	/api.rst#emaparamstree                   EMAParamsTree                           : api.html#emaparamstree
@@ -431,6 +438,7 @@ std:label
 	/api.rst#expand-apply                    expand_apply                            : api.html#expand-apply
 	/api.rst#exponentialmovingaverage        ExponentialMovingAverage                : api.html#exponentialmovingaverage
 	/api.rst#expression                      Expression                              : api.html#expression
+	/api.rst#fast-eval-shape                 fast_eval_shape                         : api.html#fast-eval-shape
 	/api.rst#filter                          filter                                  : api.html#filter
 	/api.rst#flatten                         Flatten                                 : api.html#flatten
 	/api.rst#fori-loop                       fori_loop                               : api.html#fori-loop
@@ -536,7 +544,10 @@ std:label
 	/api.rst#haiku.experimental.arrayspec.dtype haiku.experimental.ArraySpec.dtype      : api.html#haiku.experimental.ArraySpec.dtype
 	/api.rst#haiku.experimental.arrayspec.shape haiku.experimental.ArraySpec.shape      : api.html#haiku.experimental.ArraySpec.shape
 	/api.rst#haiku.experimental.check_jax_usage haiku.experimental.check_jax_usage      : api.html#haiku.experimental.check_jax_usage
+	/api.rst#haiku.experimental.current_name haiku.experimental.current_name         : api.html#haiku.experimental.current_name
+	/api.rst#haiku.experimental.do_not_store haiku.experimental.DO_NOT_STORE         : api.html#haiku.experimental.DO_NOT_STORE
 	/api.rst#haiku.experimental.eval_summary haiku.experimental.eval_summary         : api.html#haiku.experimental.eval_summary
+	/api.rst#haiku.experimental.fast_eval_shape haiku.experimental.fast_eval_shape      : api.html#haiku.experimental.fast_eval_shape
 	/api.rst#haiku.experimental.jaxpr_info.as_html haiku.experimental.jaxpr_info.as_html   : api.html#haiku.experimental.jaxpr_info.as_html
 	/api.rst#haiku.experimental.jaxpr_info.as_html_page haiku.experimental.jaxpr_info.as_html_page: api.html#haiku.experimental.jaxpr_info.as_html_page
 	/api.rst#haiku.experimental.jaxpr_info.css haiku.experimental.jaxpr_info.css       : api.html#haiku.experimental.jaxpr_info.css
@@ -568,6 +579,8 @@ std:label
 	/api.rst#haiku.experimental.profiler_name_scopes haiku.experimental.profiler_name_scopes : api.html#haiku.experimental.profiler_name_scopes
 	/api.rst#haiku.experimental.tabulate     haiku.experimental.tabulate             : api.html#haiku.experimental.tabulate
 	/api.rst#haiku.experimental.to_dot       haiku.experimental.to_dot               : api.html#haiku.experimental.to_dot
+	/api.rst#haiku.experimental.transparent_lift haiku.experimental.transparent_lift     : api.html#haiku.experimental.transparent_lift
+	/api.rst#haiku.experimental.transparent_lift_with_state haiku.experimental.transparent_lift_with_state: api.html#haiku.experimental.transparent_lift_with_state
 	/api.rst#haiku.exponentialmovingaverage  haiku.ExponentialMovingAverage          : api.html#haiku.ExponentialMovingAverage
 	/api.rst#haiku.exponentialmovingaverage.__call__ haiku.ExponentialMovingAverage.__call__ : api.html#haiku.ExponentialMovingAverage.__call__
 	/api.rst#haiku.exponentialmovingaverage.__init__ haiku.ExponentialMovingAverage.__init__ : api.html#haiku.ExponentialMovingAverage.__init__
@@ -801,8 +814,8 @@ std:label
 	/api.rst#id1                             Linear                                  : api.html#id1
 	/api.rst#id11                            ResNet                                  : api.html#id11
 	/api.rst#id12                            VectorQuantizer                         : api.html#id12
-	/api.rst#id13                            Module                                  : api.html#id13
-	/api.rst#id14                            Utilities                               : api.html#id14
+	/api.rst#id15                            Module                                  : api.html#id15
+	/api.rst#id16                            Utilities                               : api.html#id16
 	/api.rst#id2                             dropout                                 : api.html#id2
 	/api.rst#identity                        Identity                                : api.html#identity
 	/api.rst#identitycore                    IdentityCore                            : api.html#identitycore
@@ -920,6 +933,8 @@ std:label
 	/api.rst#transformed                     Transformed                             : api.html#transformed
 	/api.rst#transformedwithstate            TransformedWithState                    : api.html#transformedwithstate
 	/api.rst#transparent                     transparent                             : api.html#transparent
+	/api.rst#transparent-lift                transparent_lift                        : api.html#transparent-lift
+	/api.rst#transparent-lift-with-state     transparent_lift_with_state             : api.html#transparent-lift-with-state
 	/api.rst#traverse                        traverse                                : api.html#traverse
 	/api.rst#tree-bytes                      tree_bytes                              : api.html#tree-bytes
 	/api.rst#tree-size                       tree_size                               : api.html#tree-size
@@ -969,6 +984,7 @@ std:label
 	/notebooks/jax2tf.ipynb#saving           Saving                                  : notebooks/jax2tf.html#Saving
 	/notebooks/jax2tf.ipynb#train-using-tensorflow Train using TensorFlow                  : notebooks/jax2tf.html#Train-using-TensorFlow
 	/notebooks/non_trainable.ipynb           Training a subset of parameters         : notebooks/non_trainable.html
+	/notebooks/non_trainable.ipynb#freezing-layers-with-optax Freezing layers with Optax              : notebooks/non_trainable.html#Freezing-layers-with-Optax
 	/notebooks/non_trainable.ipynb#training-a-subset-of-parameters Training a subset of parameters         : notebooks/non_trainable.html#Training-a-subset-of-parameters
 	/notebooks/parameter_sharing.ipynb       Parameter sharing in Haiku              : notebooks/parameter_sharing.html
 	/notebooks/parameter_sharing.ipynb#case-1:-all-modules-have-the-same-names,-and-the-same-shape Case 1: All modules have the same names, and the same shape: notebooks/parameter_sharing.html#Case-1:-All-modules-have-the-same-names,-and-the-same-shape

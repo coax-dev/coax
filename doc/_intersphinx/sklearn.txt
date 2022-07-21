@@ -17,6 +17,7 @@ py:class
 	sklearn.cluster.AffinityPropagation      modules/generated/sklearn.cluster.AffinityPropagation.html#sklearn.cluster.AffinityPropagation
 	sklearn.cluster.AgglomerativeClustering  modules/generated/sklearn.cluster.AgglomerativeClustering.html#sklearn.cluster.AgglomerativeClustering
 	sklearn.cluster.Birch                    modules/generated/sklearn.cluster.Birch.html#sklearn.cluster.Birch
+	sklearn.cluster.BisectingKMeans          modules/generated/sklearn.cluster.BisectingKMeans.html#sklearn.cluster.BisectingKMeans
 	sklearn.cluster.DBSCAN                   modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN
 	sklearn.cluster.FeatureAgglomeration     modules/generated/sklearn.cluster.FeatureAgglomeration.html#sklearn.cluster.FeatureAgglomeration
 	sklearn.cluster.KMeans                   modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans
@@ -32,6 +33,7 @@ py:class
 	sklearn.cluster._bicluster.SpectralBiclustering modules/generated/sklearn.cluster.SpectralBiclustering.html#sklearn.cluster.SpectralBiclustering
 	sklearn.cluster._bicluster.SpectralCoclustering modules/generated/sklearn.cluster.SpectralCoclustering.html#sklearn.cluster.SpectralCoclustering
 	sklearn.cluster._birch.Birch             modules/generated/sklearn.cluster.Birch.html#sklearn.cluster.Birch
+	sklearn.cluster._bisect_k_means.BisectingKMeans modules/generated/sklearn.cluster.BisectingKMeans.html#sklearn.cluster.BisectingKMeans
 	sklearn.cluster._dbscan.DBSCAN           modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN
 	sklearn.cluster._kmeans.KMeans           modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans
 	sklearn.cluster._kmeans.MiniBatchKMeans  modules/generated/sklearn.cluster.MiniBatchKMeans.html#sklearn.cluster.MiniBatchKMeans
@@ -73,6 +75,7 @@ py:class
 	sklearn.decomposition.KernelPCA          modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA
 	sklearn.decomposition.LatentDirichletAllocation modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#sklearn.decomposition.LatentDirichletAllocation
 	sklearn.decomposition.MiniBatchDictionaryLearning modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning.html#sklearn.decomposition.MiniBatchDictionaryLearning
+	sklearn.decomposition.MiniBatchNMF       modules/generated/sklearn.decomposition.MiniBatchNMF.html#sklearn.decomposition.MiniBatchNMF
 	sklearn.decomposition.MiniBatchSparsePCA modules/generated/sklearn.decomposition.MiniBatchSparsePCA.html#sklearn.decomposition.MiniBatchSparsePCA
 	sklearn.decomposition.NMF                modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF
 	sklearn.decomposition.PCA                modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA
@@ -87,6 +90,7 @@ py:class
 	sklearn.decomposition._incremental_pca.IncrementalPCA modules/generated/sklearn.decomposition.IncrementalPCA.html#sklearn.decomposition.IncrementalPCA
 	sklearn.decomposition._kernel_pca.KernelPCA modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA
 	sklearn.decomposition._lda.LatentDirichletAllocation modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#sklearn.decomposition.LatentDirichletAllocation
+	sklearn.decomposition._nmf.MiniBatchNMF  modules/generated/sklearn.decomposition.MiniBatchNMF.html#sklearn.decomposition.MiniBatchNMF
 	sklearn.decomposition._nmf.NMF           modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF
 	sklearn.decomposition._pca.PCA           modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA
 	sklearn.decomposition._sparse_pca.MiniBatchSparsePCA modules/generated/sklearn.decomposition.MiniBatchSparsePCA.html#sklearn.decomposition.MiniBatchSparsePCA
@@ -198,7 +202,9 @@ py:class
 	sklearn.impute._base.SimpleImputer       modules/generated/sklearn.impute.SimpleImputer.html#sklearn.impute.SimpleImputer
 	sklearn.impute._iterative.IterativeImputer modules/generated/sklearn.impute.IterativeImputer.html#sklearn.impute.IterativeImputer
 	sklearn.impute._knn.KNNImputer           modules/generated/sklearn.impute.KNNImputer.html#sklearn.impute.KNNImputer
+	sklearn.inspection.DecisionBoundaryDisplay modules/generated/sklearn.inspection.DecisionBoundaryDisplay.html#sklearn.inspection.DecisionBoundaryDisplay
 	sklearn.inspection.PartialDependenceDisplay modules/generated/sklearn.inspection.PartialDependenceDisplay.html#sklearn.inspection.PartialDependenceDisplay
+	sklearn.inspection._plot.decision_boundary.DecisionBoundaryDisplay modules/generated/sklearn.inspection.DecisionBoundaryDisplay.html#sklearn.inspection.DecisionBoundaryDisplay
 	sklearn.inspection._plot.partial_dependence.PartialDependenceDisplay modules/generated/sklearn.inspection.PartialDependenceDisplay.html#sklearn.inspection.PartialDependenceDisplay
 	sklearn.isotonic.IsotonicRegression      modules/generated/sklearn.isotonic.IsotonicRegression.html#sklearn.isotonic.IsotonicRegression
 	sklearn.kernel_approximation.AdditiveChi2Sampler modules/generated/sklearn.kernel_approximation.AdditiveChi2Sampler.html#sklearn.kernel_approximation.AdditiveChi2Sampler
@@ -457,6 +463,8 @@ py:class
 	sklearn.tree._classes.DecisionTreeRegressor modules/generated/sklearn.tree.DecisionTreeRegressor.html#sklearn.tree.DecisionTreeRegressor
 	sklearn.tree._classes.ExtraTreeClassifier modules/generated/sklearn.tree.ExtraTreeClassifier.html#sklearn.tree.ExtraTreeClassifier
 	sklearn.tree._classes.ExtraTreeRegressor modules/generated/sklearn.tree.ExtraTreeRegressor.html#sklearn.tree.ExtraTreeRegressor
+	sklearn.utils.Bunch                      modules/generated/sklearn.utils.Bunch.html#sklearn.utils.Bunch
+	sklearn.utils._bunch.Bunch               modules/generated/sklearn.utils.Bunch.html#sklearn.utils.Bunch
 py:function
 	sklearn.base.clone                       modules/generated/sklearn.base.clone.html#sklearn.base.clone
 	sklearn.base.is_classifier               modules/generated/sklearn.base.is_classifier.html#sklearn.base.is_classifier
@@ -577,6 +585,8 @@ py:function
 	sklearn.metrics.confusion_matrix         modules/generated/sklearn.metrics.confusion_matrix.html#sklearn.metrics.confusion_matrix
 	sklearn.metrics.consensus_score          modules/generated/sklearn.metrics.consensus_score.html#sklearn.metrics.consensus_score
 	sklearn.metrics.coverage_error           modules/generated/sklearn.metrics.coverage_error.html#sklearn.metrics.coverage_error
+	sklearn.metrics.d2_absolute_error_score  modules/generated/sklearn.metrics.d2_absolute_error_score.html#sklearn.metrics.d2_absolute_error_score
+	sklearn.metrics.d2_pinball_score         modules/generated/sklearn.metrics.d2_pinball_score.html#sklearn.metrics.d2_pinball_score
 	sklearn.metrics.d2_tweedie_score         modules/generated/sklearn.metrics.d2_tweedie_score.html#sklearn.metrics.d2_tweedie_score
 	sklearn.metrics.davies_bouldin_score     modules/generated/sklearn.metrics.davies_bouldin_score.html#sklearn.metrics.davies_bouldin_score
 	sklearn.metrics.dcg_score                modules/generated/sklearn.metrics.dcg_score.html#sklearn.metrics.dcg_score
@@ -586,6 +596,7 @@ py:function
 	sklearn.metrics.fbeta_score              modules/generated/sklearn.metrics.fbeta_score.html#sklearn.metrics.fbeta_score
 	sklearn.metrics.fowlkes_mallows_score    modules/generated/sklearn.metrics.fowlkes_mallows_score.html#sklearn.metrics.fowlkes_mallows_score
 	sklearn.metrics.get_scorer               modules/generated/sklearn.metrics.get_scorer.html#sklearn.metrics.get_scorer
+	sklearn.metrics.get_scorer_names         modules/generated/sklearn.metrics.get_scorer_names.html#sklearn.metrics.get_scorer_names
 	sklearn.metrics.hamming_loss             modules/generated/sklearn.metrics.hamming_loss.html#sklearn.metrics.hamming_loss
 	sklearn.metrics.hinge_loss               modules/generated/sklearn.metrics.hinge_loss.html#sklearn.metrics.hinge_loss
 	sklearn.metrics.homogeneity_completeness_v_measure modules/generated/sklearn.metrics.homogeneity_completeness_v_measure.html#sklearn.metrics.homogeneity_completeness_v_measure
@@ -680,7 +691,6 @@ py:function
 	sklearn.tree.export_graphviz             modules/generated/sklearn.tree.export_graphviz.html#sklearn.tree.export_graphviz
 	sklearn.tree.export_text                 modules/generated/sklearn.tree.export_text.html#sklearn.tree.export_text
 	sklearn.tree.plot_tree                   modules/generated/sklearn.tree.plot_tree.html#sklearn.tree.plot_tree
-	sklearn.utils.Bunch                      modules/generated/sklearn.utils.Bunch.html#sklearn.utils.Bunch
 	sklearn.utils._safe_indexing             modules/generated/sklearn.utils._safe_indexing.html#sklearn.utils._safe_indexing
 	sklearn.utils.all_estimators             modules/generated/sklearn.utils.all_estimators.html#sklearn.utils.all_estimators
 	sklearn.utils.arrayfuncs.min_pos         modules/generated/sklearn.utils.arrayfuncs.min_pos.html#sklearn.utils.arrayfuncs.min_pos
@@ -766,17 +776,28 @@ py:method
 	sklearn.cluster.Birch.fit                modules/generated/sklearn.cluster.Birch.html#sklearn.cluster.Birch.fit
 	sklearn.cluster.Birch.fit_predict        modules/generated/sklearn.cluster.Birch.html#sklearn.cluster.Birch.fit_predict
 	sklearn.cluster.Birch.fit_transform      modules/generated/sklearn.cluster.Birch.html#sklearn.cluster.Birch.fit_transform
+	sklearn.cluster.Birch.get_feature_names_out modules/generated/sklearn.cluster.Birch.html#sklearn.cluster.Birch.get_feature_names_out
 	sklearn.cluster.Birch.get_params         modules/generated/sklearn.cluster.Birch.html#sklearn.cluster.Birch.get_params
 	sklearn.cluster.Birch.partial_fit        modules/generated/sklearn.cluster.Birch.html#sklearn.cluster.Birch.partial_fit
 	sklearn.cluster.Birch.predict            modules/generated/sklearn.cluster.Birch.html#sklearn.cluster.Birch.predict
 	sklearn.cluster.Birch.set_params         modules/generated/sklearn.cluster.Birch.html#sklearn.cluster.Birch.set_params
 	sklearn.cluster.Birch.transform          modules/generated/sklearn.cluster.Birch.html#sklearn.cluster.Birch.transform
+	sklearn.cluster.BisectingKMeans.fit      modules/generated/sklearn.cluster.BisectingKMeans.html#sklearn.cluster.BisectingKMeans.fit
+	sklearn.cluster.BisectingKMeans.fit_predict modules/generated/sklearn.cluster.BisectingKMeans.html#sklearn.cluster.BisectingKMeans.fit_predict
+	sklearn.cluster.BisectingKMeans.fit_transform modules/generated/sklearn.cluster.BisectingKMeans.html#sklearn.cluster.BisectingKMeans.fit_transform
+	sklearn.cluster.BisectingKMeans.get_feature_names_out modules/generated/sklearn.cluster.BisectingKMeans.html#sklearn.cluster.BisectingKMeans.get_feature_names_out
+	sklearn.cluster.BisectingKMeans.get_params modules/generated/sklearn.cluster.BisectingKMeans.html#sklearn.cluster.BisectingKMeans.get_params
+	sklearn.cluster.BisectingKMeans.predict  modules/generated/sklearn.cluster.BisectingKMeans.html#sklearn.cluster.BisectingKMeans.predict
+	sklearn.cluster.BisectingKMeans.score    modules/generated/sklearn.cluster.BisectingKMeans.html#sklearn.cluster.BisectingKMeans.score
+	sklearn.cluster.BisectingKMeans.set_params modules/generated/sklearn.cluster.BisectingKMeans.html#sklearn.cluster.BisectingKMeans.set_params
+	sklearn.cluster.BisectingKMeans.transform modules/generated/sklearn.cluster.BisectingKMeans.html#sklearn.cluster.BisectingKMeans.transform
 	sklearn.cluster.DBSCAN.fit               modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN.fit
 	sklearn.cluster.DBSCAN.fit_predict       modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN.fit_predict
 	sklearn.cluster.DBSCAN.get_params        modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN.get_params
 	sklearn.cluster.DBSCAN.set_params        modules/generated/sklearn.cluster.DBSCAN.html#sklearn.cluster.DBSCAN.set_params
 	sklearn.cluster.FeatureAgglomeration.fit modules/generated/sklearn.cluster.FeatureAgglomeration.html#sklearn.cluster.FeatureAgglomeration.fit
 	sklearn.cluster.FeatureAgglomeration.fit_transform modules/generated/sklearn.cluster.FeatureAgglomeration.html#sklearn.cluster.FeatureAgglomeration.fit_transform
+	sklearn.cluster.FeatureAgglomeration.get_feature_names_out modules/generated/sklearn.cluster.FeatureAgglomeration.html#sklearn.cluster.FeatureAgglomeration.get_feature_names_out
 	sklearn.cluster.FeatureAgglomeration.get_params modules/generated/sklearn.cluster.FeatureAgglomeration.html#sklearn.cluster.FeatureAgglomeration.get_params
 	sklearn.cluster.FeatureAgglomeration.inverse_transform modules/generated/sklearn.cluster.FeatureAgglomeration.html#sklearn.cluster.FeatureAgglomeration.inverse_transform
 	sklearn.cluster.FeatureAgglomeration.set_params modules/generated/sklearn.cluster.FeatureAgglomeration.html#sklearn.cluster.FeatureAgglomeration.set_params
@@ -784,6 +805,7 @@ py:method
 	sklearn.cluster.KMeans.fit               modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans.fit
 	sklearn.cluster.KMeans.fit_predict       modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans.fit_predict
 	sklearn.cluster.KMeans.fit_transform     modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans.fit_transform
+	sklearn.cluster.KMeans.get_feature_names_out modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans.get_feature_names_out
 	sklearn.cluster.KMeans.get_params        modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans.get_params
 	sklearn.cluster.KMeans.predict           modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans.predict
 	sklearn.cluster.KMeans.score             modules/generated/sklearn.cluster.KMeans.html#sklearn.cluster.KMeans.score
@@ -797,6 +819,7 @@ py:method
 	sklearn.cluster.MiniBatchKMeans.fit      modules/generated/sklearn.cluster.MiniBatchKMeans.html#sklearn.cluster.MiniBatchKMeans.fit
 	sklearn.cluster.MiniBatchKMeans.fit_predict modules/generated/sklearn.cluster.MiniBatchKMeans.html#sklearn.cluster.MiniBatchKMeans.fit_predict
 	sklearn.cluster.MiniBatchKMeans.fit_transform modules/generated/sklearn.cluster.MiniBatchKMeans.html#sklearn.cluster.MiniBatchKMeans.fit_transform
+	sklearn.cluster.MiniBatchKMeans.get_feature_names_out modules/generated/sklearn.cluster.MiniBatchKMeans.html#sklearn.cluster.MiniBatchKMeans.get_feature_names_out
 	sklearn.cluster.MiniBatchKMeans.get_params modules/generated/sklearn.cluster.MiniBatchKMeans.html#sklearn.cluster.MiniBatchKMeans.get_params
 	sklearn.cluster.MiniBatchKMeans.partial_fit modules/generated/sklearn.cluster.MiniBatchKMeans.html#sklearn.cluster.MiniBatchKMeans.partial_fit
 	sklearn.cluster.MiniBatchKMeans.predict  modules/generated/sklearn.cluster.MiniBatchKMeans.html#sklearn.cluster.MiniBatchKMeans.predict
@@ -901,6 +924,7 @@ py:method
 	sklearn.covariance.ShrunkCovariance.set_params modules/generated/sklearn.covariance.ShrunkCovariance.html#sklearn.covariance.ShrunkCovariance.set_params
 	sklearn.cross_decomposition.CCA.fit      modules/generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA.fit
 	sklearn.cross_decomposition.CCA.fit_transform modules/generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA.fit_transform
+	sklearn.cross_decomposition.CCA.get_feature_names_out modules/generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA.get_feature_names_out
 	sklearn.cross_decomposition.CCA.get_params modules/generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA.get_params
 	sklearn.cross_decomposition.CCA.inverse_transform modules/generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA.inverse_transform
 	sklearn.cross_decomposition.CCA.predict  modules/generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA.predict
@@ -909,6 +933,7 @@ py:method
 	sklearn.cross_decomposition.CCA.transform modules/generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA.transform
 	sklearn.cross_decomposition.PLSCanonical.fit modules/generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical.fit
 	sklearn.cross_decomposition.PLSCanonical.fit_transform modules/generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical.fit_transform
+	sklearn.cross_decomposition.PLSCanonical.get_feature_names_out modules/generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical.get_feature_names_out
 	sklearn.cross_decomposition.PLSCanonical.get_params modules/generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical.get_params
 	sklearn.cross_decomposition.PLSCanonical.inverse_transform modules/generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical.inverse_transform
 	sklearn.cross_decomposition.PLSCanonical.predict modules/generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical.predict
@@ -917,6 +942,7 @@ py:method
 	sklearn.cross_decomposition.PLSCanonical.transform modules/generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical.transform
 	sklearn.cross_decomposition.PLSRegression.fit modules/generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression.fit
 	sklearn.cross_decomposition.PLSRegression.fit_transform modules/generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression.fit_transform
+	sklearn.cross_decomposition.PLSRegression.get_feature_names_out modules/generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression.get_feature_names_out
 	sklearn.cross_decomposition.PLSRegression.get_params modules/generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression.get_params
 	sklearn.cross_decomposition.PLSRegression.inverse_transform modules/generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression.inverse_transform
 	sklearn.cross_decomposition.PLSRegression.predict modules/generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression.predict
@@ -925,17 +951,20 @@ py:method
 	sklearn.cross_decomposition.PLSRegression.transform modules/generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression.transform
 	sklearn.cross_decomposition.PLSSVD.fit   modules/generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD.fit
 	sklearn.cross_decomposition.PLSSVD.fit_transform modules/generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD.fit_transform
+	sklearn.cross_decomposition.PLSSVD.get_feature_names_out modules/generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD.get_feature_names_out
 	sklearn.cross_decomposition.PLSSVD.get_params modules/generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD.get_params
 	sklearn.cross_decomposition.PLSSVD.set_params modules/generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD.set_params
 	sklearn.cross_decomposition.PLSSVD.transform modules/generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD.transform
 	sklearn.decomposition.DictionaryLearning.fit modules/generated/sklearn.decomposition.DictionaryLearning.html#sklearn.decomposition.DictionaryLearning.fit
 	sklearn.decomposition.DictionaryLearning.fit_transform modules/generated/sklearn.decomposition.DictionaryLearning.html#sklearn.decomposition.DictionaryLearning.fit_transform
+	sklearn.decomposition.DictionaryLearning.get_feature_names_out modules/generated/sklearn.decomposition.DictionaryLearning.html#sklearn.decomposition.DictionaryLearning.get_feature_names_out
 	sklearn.decomposition.DictionaryLearning.get_params modules/generated/sklearn.decomposition.DictionaryLearning.html#sklearn.decomposition.DictionaryLearning.get_params
 	sklearn.decomposition.DictionaryLearning.set_params modules/generated/sklearn.decomposition.DictionaryLearning.html#sklearn.decomposition.DictionaryLearning.set_params
 	sklearn.decomposition.DictionaryLearning.transform modules/generated/sklearn.decomposition.DictionaryLearning.html#sklearn.decomposition.DictionaryLearning.transform
 	sklearn.decomposition.FactorAnalysis.fit modules/generated/sklearn.decomposition.FactorAnalysis.html#sklearn.decomposition.FactorAnalysis.fit
 	sklearn.decomposition.FactorAnalysis.fit_transform modules/generated/sklearn.decomposition.FactorAnalysis.html#sklearn.decomposition.FactorAnalysis.fit_transform
 	sklearn.decomposition.FactorAnalysis.get_covariance modules/generated/sklearn.decomposition.FactorAnalysis.html#sklearn.decomposition.FactorAnalysis.get_covariance
+	sklearn.decomposition.FactorAnalysis.get_feature_names_out modules/generated/sklearn.decomposition.FactorAnalysis.html#sklearn.decomposition.FactorAnalysis.get_feature_names_out
 	sklearn.decomposition.FactorAnalysis.get_params modules/generated/sklearn.decomposition.FactorAnalysis.html#sklearn.decomposition.FactorAnalysis.get_params
 	sklearn.decomposition.FactorAnalysis.get_precision modules/generated/sklearn.decomposition.FactorAnalysis.html#sklearn.decomposition.FactorAnalysis.get_precision
 	sklearn.decomposition.FactorAnalysis.score modules/generated/sklearn.decomposition.FactorAnalysis.html#sklearn.decomposition.FactorAnalysis.score
@@ -944,6 +973,7 @@ py:method
 	sklearn.decomposition.FactorAnalysis.transform modules/generated/sklearn.decomposition.FactorAnalysis.html#sklearn.decomposition.FactorAnalysis.transform
 	sklearn.decomposition.FastICA.fit        modules/generated/sklearn.decomposition.FastICA.html#sklearn.decomposition.FastICA.fit
 	sklearn.decomposition.FastICA.fit_transform modules/generated/sklearn.decomposition.FastICA.html#sklearn.decomposition.FastICA.fit_transform
+	sklearn.decomposition.FastICA.get_feature_names_out modules/generated/sklearn.decomposition.FastICA.html#sklearn.decomposition.FastICA.get_feature_names_out
 	sklearn.decomposition.FastICA.get_params modules/generated/sklearn.decomposition.FastICA.html#sklearn.decomposition.FastICA.get_params
 	sklearn.decomposition.FastICA.inverse_transform modules/generated/sklearn.decomposition.FastICA.html#sklearn.decomposition.FastICA.inverse_transform
 	sklearn.decomposition.FastICA.set_params modules/generated/sklearn.decomposition.FastICA.html#sklearn.decomposition.FastICA.set_params
@@ -951,6 +981,7 @@ py:method
 	sklearn.decomposition.IncrementalPCA.fit modules/generated/sklearn.decomposition.IncrementalPCA.html#sklearn.decomposition.IncrementalPCA.fit
 	sklearn.decomposition.IncrementalPCA.fit_transform modules/generated/sklearn.decomposition.IncrementalPCA.html#sklearn.decomposition.IncrementalPCA.fit_transform
 	sklearn.decomposition.IncrementalPCA.get_covariance modules/generated/sklearn.decomposition.IncrementalPCA.html#sklearn.decomposition.IncrementalPCA.get_covariance
+	sklearn.decomposition.IncrementalPCA.get_feature_names_out modules/generated/sklearn.decomposition.IncrementalPCA.html#sklearn.decomposition.IncrementalPCA.get_feature_names_out
 	sklearn.decomposition.IncrementalPCA.get_params modules/generated/sklearn.decomposition.IncrementalPCA.html#sklearn.decomposition.IncrementalPCA.get_params
 	sklearn.decomposition.IncrementalPCA.get_precision modules/generated/sklearn.decomposition.IncrementalPCA.html#sklearn.decomposition.IncrementalPCA.get_precision
 	sklearn.decomposition.IncrementalPCA.inverse_transform modules/generated/sklearn.decomposition.IncrementalPCA.html#sklearn.decomposition.IncrementalPCA.inverse_transform
@@ -959,12 +990,14 @@ py:method
 	sklearn.decomposition.IncrementalPCA.transform modules/generated/sklearn.decomposition.IncrementalPCA.html#sklearn.decomposition.IncrementalPCA.transform
 	sklearn.decomposition.KernelPCA.fit      modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA.fit
 	sklearn.decomposition.KernelPCA.fit_transform modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA.fit_transform
+	sklearn.decomposition.KernelPCA.get_feature_names_out modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA.get_feature_names_out
 	sklearn.decomposition.KernelPCA.get_params modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA.get_params
 	sklearn.decomposition.KernelPCA.inverse_transform modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA.inverse_transform
 	sklearn.decomposition.KernelPCA.set_params modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA.set_params
 	sklearn.decomposition.KernelPCA.transform modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA.transform
 	sklearn.decomposition.LatentDirichletAllocation.fit modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#sklearn.decomposition.LatentDirichletAllocation.fit
 	sklearn.decomposition.LatentDirichletAllocation.fit_transform modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#sklearn.decomposition.LatentDirichletAllocation.fit_transform
+	sklearn.decomposition.LatentDirichletAllocation.get_feature_names_out modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#sklearn.decomposition.LatentDirichletAllocation.get_feature_names_out
 	sklearn.decomposition.LatentDirichletAllocation.get_params modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#sklearn.decomposition.LatentDirichletAllocation.get_params
 	sklearn.decomposition.LatentDirichletAllocation.partial_fit modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#sklearn.decomposition.LatentDirichletAllocation.partial_fit
 	sklearn.decomposition.LatentDirichletAllocation.perplexity modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#sklearn.decomposition.LatentDirichletAllocation.perplexity
@@ -973,17 +1006,28 @@ py:method
 	sklearn.decomposition.LatentDirichletAllocation.transform modules/generated/sklearn.decomposition.LatentDirichletAllocation.html#sklearn.decomposition.LatentDirichletAllocation.transform
 	sklearn.decomposition.MiniBatchDictionaryLearning.fit modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning.html#sklearn.decomposition.MiniBatchDictionaryLearning.fit
 	sklearn.decomposition.MiniBatchDictionaryLearning.fit_transform modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning.html#sklearn.decomposition.MiniBatchDictionaryLearning.fit_transform
+	sklearn.decomposition.MiniBatchDictionaryLearning.get_feature_names_out modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning.html#sklearn.decomposition.MiniBatchDictionaryLearning.get_feature_names_out
 	sklearn.decomposition.MiniBatchDictionaryLearning.get_params modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning.html#sklearn.decomposition.MiniBatchDictionaryLearning.get_params
 	sklearn.decomposition.MiniBatchDictionaryLearning.partial_fit modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning.html#sklearn.decomposition.MiniBatchDictionaryLearning.partial_fit
 	sklearn.decomposition.MiniBatchDictionaryLearning.set_params modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning.html#sklearn.decomposition.MiniBatchDictionaryLearning.set_params
 	sklearn.decomposition.MiniBatchDictionaryLearning.transform modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning.html#sklearn.decomposition.MiniBatchDictionaryLearning.transform
+	sklearn.decomposition.MiniBatchNMF.fit   modules/generated/sklearn.decomposition.MiniBatchNMF.html#sklearn.decomposition.MiniBatchNMF.fit
+	sklearn.decomposition.MiniBatchNMF.fit_transform modules/generated/sklearn.decomposition.MiniBatchNMF.html#sklearn.decomposition.MiniBatchNMF.fit_transform
+	sklearn.decomposition.MiniBatchNMF.get_feature_names_out modules/generated/sklearn.decomposition.MiniBatchNMF.html#sklearn.decomposition.MiniBatchNMF.get_feature_names_out
+	sklearn.decomposition.MiniBatchNMF.get_params modules/generated/sklearn.decomposition.MiniBatchNMF.html#sklearn.decomposition.MiniBatchNMF.get_params
+	sklearn.decomposition.MiniBatchNMF.inverse_transform modules/generated/sklearn.decomposition.MiniBatchNMF.html#sklearn.decomposition.MiniBatchNMF.inverse_transform
+	sklearn.decomposition.MiniBatchNMF.partial_fit modules/generated/sklearn.decomposition.MiniBatchNMF.html#sklearn.decomposition.MiniBatchNMF.partial_fit
+	sklearn.decomposition.MiniBatchNMF.set_params modules/generated/sklearn.decomposition.MiniBatchNMF.html#sklearn.decomposition.MiniBatchNMF.set_params
+	sklearn.decomposition.MiniBatchNMF.transform modules/generated/sklearn.decomposition.MiniBatchNMF.html#sklearn.decomposition.MiniBatchNMF.transform
 	sklearn.decomposition.MiniBatchSparsePCA.fit modules/generated/sklearn.decomposition.MiniBatchSparsePCA.html#sklearn.decomposition.MiniBatchSparsePCA.fit
 	sklearn.decomposition.MiniBatchSparsePCA.fit_transform modules/generated/sklearn.decomposition.MiniBatchSparsePCA.html#sklearn.decomposition.MiniBatchSparsePCA.fit_transform
+	sklearn.decomposition.MiniBatchSparsePCA.get_feature_names_out modules/generated/sklearn.decomposition.MiniBatchSparsePCA.html#sklearn.decomposition.MiniBatchSparsePCA.get_feature_names_out
 	sklearn.decomposition.MiniBatchSparsePCA.get_params modules/generated/sklearn.decomposition.MiniBatchSparsePCA.html#sklearn.decomposition.MiniBatchSparsePCA.get_params
 	sklearn.decomposition.MiniBatchSparsePCA.set_params modules/generated/sklearn.decomposition.MiniBatchSparsePCA.html#sklearn.decomposition.MiniBatchSparsePCA.set_params
 	sklearn.decomposition.MiniBatchSparsePCA.transform modules/generated/sklearn.decomposition.MiniBatchSparsePCA.html#sklearn.decomposition.MiniBatchSparsePCA.transform
 	sklearn.decomposition.NMF.fit            modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF.fit
 	sklearn.decomposition.NMF.fit_transform  modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF.fit_transform
+	sklearn.decomposition.NMF.get_feature_names_out modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF.get_feature_names_out
 	sklearn.decomposition.NMF.get_params     modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF.get_params
 	sklearn.decomposition.NMF.inverse_transform modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF.inverse_transform
 	sklearn.decomposition.NMF.set_params     modules/generated/sklearn.decomposition.NMF.html#sklearn.decomposition.NMF.set_params
@@ -991,6 +1035,7 @@ py:method
 	sklearn.decomposition.PCA.fit            modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA.fit
 	sklearn.decomposition.PCA.fit_transform  modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA.fit_transform
 	sklearn.decomposition.PCA.get_covariance modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA.get_covariance
+	sklearn.decomposition.PCA.get_feature_names_out modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA.get_feature_names_out
 	sklearn.decomposition.PCA.get_params     modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA.get_params
 	sklearn.decomposition.PCA.get_precision  modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA.get_precision
 	sklearn.decomposition.PCA.inverse_transform modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA.inverse_transform
@@ -1000,16 +1045,19 @@ py:method
 	sklearn.decomposition.PCA.transform      modules/generated/sklearn.decomposition.PCA.html#sklearn.decomposition.PCA.transform
 	sklearn.decomposition.SparseCoder.fit    modules/generated/sklearn.decomposition.SparseCoder.html#sklearn.decomposition.SparseCoder.fit
 	sklearn.decomposition.SparseCoder.fit_transform modules/generated/sklearn.decomposition.SparseCoder.html#sklearn.decomposition.SparseCoder.fit_transform
+	sklearn.decomposition.SparseCoder.get_feature_names_out modules/generated/sklearn.decomposition.SparseCoder.html#sklearn.decomposition.SparseCoder.get_feature_names_out
 	sklearn.decomposition.SparseCoder.get_params modules/generated/sklearn.decomposition.SparseCoder.html#sklearn.decomposition.SparseCoder.get_params
 	sklearn.decomposition.SparseCoder.set_params modules/generated/sklearn.decomposition.SparseCoder.html#sklearn.decomposition.SparseCoder.set_params
 	sklearn.decomposition.SparseCoder.transform modules/generated/sklearn.decomposition.SparseCoder.html#sklearn.decomposition.SparseCoder.transform
 	sklearn.decomposition.SparsePCA.fit      modules/generated/sklearn.decomposition.SparsePCA.html#sklearn.decomposition.SparsePCA.fit
 	sklearn.decomposition.SparsePCA.fit_transform modules/generated/sklearn.decomposition.SparsePCA.html#sklearn.decomposition.SparsePCA.fit_transform
+	sklearn.decomposition.SparsePCA.get_feature_names_out modules/generated/sklearn.decomposition.SparsePCA.html#sklearn.decomposition.SparsePCA.get_feature_names_out
 	sklearn.decomposition.SparsePCA.get_params modules/generated/sklearn.decomposition.SparsePCA.html#sklearn.decomposition.SparsePCA.get_params
 	sklearn.decomposition.SparsePCA.set_params modules/generated/sklearn.decomposition.SparsePCA.html#sklearn.decomposition.SparsePCA.set_params
 	sklearn.decomposition.SparsePCA.transform modules/generated/sklearn.decomposition.SparsePCA.html#sklearn.decomposition.SparsePCA.transform
 	sklearn.decomposition.TruncatedSVD.fit   modules/generated/sklearn.decomposition.TruncatedSVD.html#sklearn.decomposition.TruncatedSVD.fit
 	sklearn.decomposition.TruncatedSVD.fit_transform modules/generated/sklearn.decomposition.TruncatedSVD.html#sklearn.decomposition.TruncatedSVD.fit_transform
+	sklearn.decomposition.TruncatedSVD.get_feature_names_out modules/generated/sklearn.decomposition.TruncatedSVD.html#sklearn.decomposition.TruncatedSVD.get_feature_names_out
 	sklearn.decomposition.TruncatedSVD.get_params modules/generated/sklearn.decomposition.TruncatedSVD.html#sklearn.decomposition.TruncatedSVD.get_params
 	sklearn.decomposition.TruncatedSVD.inverse_transform modules/generated/sklearn.decomposition.TruncatedSVD.html#sklearn.decomposition.TruncatedSVD.inverse_transform
 	sklearn.decomposition.TruncatedSVD.set_params modules/generated/sklearn.decomposition.TruncatedSVD.html#sklearn.decomposition.TruncatedSVD.set_params
@@ -1017,6 +1065,7 @@ py:method
 	sklearn.discriminant_analysis.LinearDiscriminantAnalysis.decision_function modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html#sklearn.discriminant_analysis.LinearDiscriminantAnalysis.decision_function
 	sklearn.discriminant_analysis.LinearDiscriminantAnalysis.fit modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html#sklearn.discriminant_analysis.LinearDiscriminantAnalysis.fit
 	sklearn.discriminant_analysis.LinearDiscriminantAnalysis.fit_transform modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html#sklearn.discriminant_analysis.LinearDiscriminantAnalysis.fit_transform
+	sklearn.discriminant_analysis.LinearDiscriminantAnalysis.get_feature_names_out modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html#sklearn.discriminant_analysis.LinearDiscriminantAnalysis.get_feature_names_out
 	sklearn.discriminant_analysis.LinearDiscriminantAnalysis.get_params modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html#sklearn.discriminant_analysis.LinearDiscriminantAnalysis.get_params
 	sklearn.discriminant_analysis.LinearDiscriminantAnalysis.predict modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html#sklearn.discriminant_analysis.LinearDiscriminantAnalysis.predict
 	sklearn.discriminant_analysis.LinearDiscriminantAnalysis.predict_log_proba modules/generated/sklearn.discriminant_analysis.LinearDiscriminantAnalysis.html#sklearn.discriminant_analysis.LinearDiscriminantAnalysis.predict_log_proba
@@ -1154,12 +1203,14 @@ py:method
 	sklearn.ensemble.RandomTreesEmbedding.decision_path modules/generated/sklearn.ensemble.RandomTreesEmbedding.html#sklearn.ensemble.RandomTreesEmbedding.decision_path
 	sklearn.ensemble.RandomTreesEmbedding.fit modules/generated/sklearn.ensemble.RandomTreesEmbedding.html#sklearn.ensemble.RandomTreesEmbedding.fit
 	sklearn.ensemble.RandomTreesEmbedding.fit_transform modules/generated/sklearn.ensemble.RandomTreesEmbedding.html#sklearn.ensemble.RandomTreesEmbedding.fit_transform
+	sklearn.ensemble.RandomTreesEmbedding.get_feature_names_out modules/generated/sklearn.ensemble.RandomTreesEmbedding.html#sklearn.ensemble.RandomTreesEmbedding.get_feature_names_out
 	sklearn.ensemble.RandomTreesEmbedding.get_params modules/generated/sklearn.ensemble.RandomTreesEmbedding.html#sklearn.ensemble.RandomTreesEmbedding.get_params
 	sklearn.ensemble.RandomTreesEmbedding.set_params modules/generated/sklearn.ensemble.RandomTreesEmbedding.html#sklearn.ensemble.RandomTreesEmbedding.set_params
 	sklearn.ensemble.RandomTreesEmbedding.transform modules/generated/sklearn.ensemble.RandomTreesEmbedding.html#sklearn.ensemble.RandomTreesEmbedding.transform
 	sklearn.ensemble.StackingClassifier.decision_function modules/generated/sklearn.ensemble.StackingClassifier.html#sklearn.ensemble.StackingClassifier.decision_function
 	sklearn.ensemble.StackingClassifier.fit  modules/generated/sklearn.ensemble.StackingClassifier.html#sklearn.ensemble.StackingClassifier.fit
 	sklearn.ensemble.StackingClassifier.fit_transform modules/generated/sklearn.ensemble.StackingClassifier.html#sklearn.ensemble.StackingClassifier.fit_transform
+	sklearn.ensemble.StackingClassifier.get_feature_names_out modules/generated/sklearn.ensemble.StackingClassifier.html#sklearn.ensemble.StackingClassifier.get_feature_names_out
 	sklearn.ensemble.StackingClassifier.get_params modules/generated/sklearn.ensemble.StackingClassifier.html#sklearn.ensemble.StackingClassifier.get_params
 	sklearn.ensemble.StackingClassifier.predict modules/generated/sklearn.ensemble.StackingClassifier.html#sklearn.ensemble.StackingClassifier.predict
 	sklearn.ensemble.StackingClassifier.predict_proba modules/generated/sklearn.ensemble.StackingClassifier.html#sklearn.ensemble.StackingClassifier.predict_proba
@@ -1168,6 +1219,7 @@ py:method
 	sklearn.ensemble.StackingClassifier.transform modules/generated/sklearn.ensemble.StackingClassifier.html#sklearn.ensemble.StackingClassifier.transform
 	sklearn.ensemble.StackingRegressor.fit   modules/generated/sklearn.ensemble.StackingRegressor.html#sklearn.ensemble.StackingRegressor.fit
 	sklearn.ensemble.StackingRegressor.fit_transform modules/generated/sklearn.ensemble.StackingRegressor.html#sklearn.ensemble.StackingRegressor.fit_transform
+	sklearn.ensemble.StackingRegressor.get_feature_names_out modules/generated/sklearn.ensemble.StackingRegressor.html#sklearn.ensemble.StackingRegressor.get_feature_names_out
 	sklearn.ensemble.StackingRegressor.get_params modules/generated/sklearn.ensemble.StackingRegressor.html#sklearn.ensemble.StackingRegressor.get_params
 	sklearn.ensemble.StackingRegressor.predict modules/generated/sklearn.ensemble.StackingRegressor.html#sklearn.ensemble.StackingRegressor.predict
 	sklearn.ensemble.StackingRegressor.score modules/generated/sklearn.ensemble.StackingRegressor.html#sklearn.ensemble.StackingRegressor.score
@@ -1175,6 +1227,7 @@ py:method
 	sklearn.ensemble.StackingRegressor.transform modules/generated/sklearn.ensemble.StackingRegressor.html#sklearn.ensemble.StackingRegressor.transform
 	sklearn.ensemble.VotingClassifier.fit    modules/generated/sklearn.ensemble.VotingClassifier.html#sklearn.ensemble.VotingClassifier.fit
 	sklearn.ensemble.VotingClassifier.fit_transform modules/generated/sklearn.ensemble.VotingClassifier.html#sklearn.ensemble.VotingClassifier.fit_transform
+	sklearn.ensemble.VotingClassifier.get_feature_names_out modules/generated/sklearn.ensemble.VotingClassifier.html#sklearn.ensemble.VotingClassifier.get_feature_names_out
 	sklearn.ensemble.VotingClassifier.get_params modules/generated/sklearn.ensemble.VotingClassifier.html#sklearn.ensemble.VotingClassifier.get_params
 	sklearn.ensemble.VotingClassifier.predict modules/generated/sklearn.ensemble.VotingClassifier.html#sklearn.ensemble.VotingClassifier.predict
 	sklearn.ensemble.VotingClassifier.predict_proba modules/generated/sklearn.ensemble.VotingClassifier.html#sklearn.ensemble.VotingClassifier.predict_proba
@@ -1183,6 +1236,7 @@ py:method
 	sklearn.ensemble.VotingClassifier.transform modules/generated/sklearn.ensemble.VotingClassifier.html#sklearn.ensemble.VotingClassifier.transform
 	sklearn.ensemble.VotingRegressor.fit     modules/generated/sklearn.ensemble.VotingRegressor.html#sklearn.ensemble.VotingRegressor.fit
 	sklearn.ensemble.VotingRegressor.fit_transform modules/generated/sklearn.ensemble.VotingRegressor.html#sklearn.ensemble.VotingRegressor.fit_transform
+	sklearn.ensemble.VotingRegressor.get_feature_names_out modules/generated/sklearn.ensemble.VotingRegressor.html#sklearn.ensemble.VotingRegressor.get_feature_names_out
 	sklearn.ensemble.VotingRegressor.get_params modules/generated/sklearn.ensemble.VotingRegressor.html#sklearn.ensemble.VotingRegressor.get_params
 	sklearn.ensemble.VotingRegressor.predict modules/generated/sklearn.ensemble.VotingRegressor.html#sklearn.ensemble.VotingRegressor.predict
 	sklearn.ensemble.VotingRegressor.score   modules/generated/sklearn.ensemble.VotingRegressor.html#sklearn.ensemble.VotingRegressor.score
@@ -1457,29 +1511,36 @@ py:method
 	sklearn.gaussian_process.kernels.WhiteKernel.set_params modules/generated/sklearn.gaussian_process.kernels.WhiteKernel.html#sklearn.gaussian_process.kernels.WhiteKernel.set_params
 	sklearn.impute.IterativeImputer.fit      modules/generated/sklearn.impute.IterativeImputer.html#sklearn.impute.IterativeImputer.fit
 	sklearn.impute.IterativeImputer.fit_transform modules/generated/sklearn.impute.IterativeImputer.html#sklearn.impute.IterativeImputer.fit_transform
+	sklearn.impute.IterativeImputer.get_feature_names_out modules/generated/sklearn.impute.IterativeImputer.html#sklearn.impute.IterativeImputer.get_feature_names_out
 	sklearn.impute.IterativeImputer.get_params modules/generated/sklearn.impute.IterativeImputer.html#sklearn.impute.IterativeImputer.get_params
 	sklearn.impute.IterativeImputer.set_params modules/generated/sklearn.impute.IterativeImputer.html#sklearn.impute.IterativeImputer.set_params
 	sklearn.impute.IterativeImputer.transform modules/generated/sklearn.impute.IterativeImputer.html#sklearn.impute.IterativeImputer.transform
 	sklearn.impute.KNNImputer.fit            modules/generated/sklearn.impute.KNNImputer.html#sklearn.impute.KNNImputer.fit
 	sklearn.impute.KNNImputer.fit_transform  modules/generated/sklearn.impute.KNNImputer.html#sklearn.impute.KNNImputer.fit_transform
+	sklearn.impute.KNNImputer.get_feature_names_out modules/generated/sklearn.impute.KNNImputer.html#sklearn.impute.KNNImputer.get_feature_names_out
 	sklearn.impute.KNNImputer.get_params     modules/generated/sklearn.impute.KNNImputer.html#sklearn.impute.KNNImputer.get_params
 	sklearn.impute.KNNImputer.set_params     modules/generated/sklearn.impute.KNNImputer.html#sklearn.impute.KNNImputer.set_params
 	sklearn.impute.KNNImputer.transform      modules/generated/sklearn.impute.KNNImputer.html#sklearn.impute.KNNImputer.transform
 	sklearn.impute.MissingIndicator.fit      modules/generated/sklearn.impute.MissingIndicator.html#sklearn.impute.MissingIndicator.fit
 	sklearn.impute.MissingIndicator.fit_transform modules/generated/sklearn.impute.MissingIndicator.html#sklearn.impute.MissingIndicator.fit_transform
+	sklearn.impute.MissingIndicator.get_feature_names_out modules/generated/sklearn.impute.MissingIndicator.html#sklearn.impute.MissingIndicator.get_feature_names_out
 	sklearn.impute.MissingIndicator.get_params modules/generated/sklearn.impute.MissingIndicator.html#sklearn.impute.MissingIndicator.get_params
 	sklearn.impute.MissingIndicator.set_params modules/generated/sklearn.impute.MissingIndicator.html#sklearn.impute.MissingIndicator.set_params
 	sklearn.impute.MissingIndicator.transform modules/generated/sklearn.impute.MissingIndicator.html#sklearn.impute.MissingIndicator.transform
 	sklearn.impute.SimpleImputer.fit         modules/generated/sklearn.impute.SimpleImputer.html#sklearn.impute.SimpleImputer.fit
 	sklearn.impute.SimpleImputer.fit_transform modules/generated/sklearn.impute.SimpleImputer.html#sklearn.impute.SimpleImputer.fit_transform
+	sklearn.impute.SimpleImputer.get_feature_names_out modules/generated/sklearn.impute.SimpleImputer.html#sklearn.impute.SimpleImputer.get_feature_names_out
 	sklearn.impute.SimpleImputer.get_params  modules/generated/sklearn.impute.SimpleImputer.html#sklearn.impute.SimpleImputer.get_params
 	sklearn.impute.SimpleImputer.inverse_transform modules/generated/sklearn.impute.SimpleImputer.html#sklearn.impute.SimpleImputer.inverse_transform
 	sklearn.impute.SimpleImputer.set_params  modules/generated/sklearn.impute.SimpleImputer.html#sklearn.impute.SimpleImputer.set_params
 	sklearn.impute.SimpleImputer.transform   modules/generated/sklearn.impute.SimpleImputer.html#sklearn.impute.SimpleImputer.transform
+	sklearn.inspection.DecisionBoundaryDisplay.from_estimator modules/generated/sklearn.inspection.DecisionBoundaryDisplay.html#sklearn.inspection.DecisionBoundaryDisplay.from_estimator
+	sklearn.inspection.DecisionBoundaryDisplay.plot modules/generated/sklearn.inspection.DecisionBoundaryDisplay.html#sklearn.inspection.DecisionBoundaryDisplay.plot
 	sklearn.inspection.PartialDependenceDisplay.from_estimator modules/generated/sklearn.inspection.PartialDependenceDisplay.html#sklearn.inspection.PartialDependenceDisplay.from_estimator
 	sklearn.inspection.PartialDependenceDisplay.plot modules/generated/sklearn.inspection.PartialDependenceDisplay.html#sklearn.inspection.PartialDependenceDisplay.plot
 	sklearn.isotonic.IsotonicRegression.fit  modules/generated/sklearn.isotonic.IsotonicRegression.html#sklearn.isotonic.IsotonicRegression.fit
 	sklearn.isotonic.IsotonicRegression.fit_transform modules/generated/sklearn.isotonic.IsotonicRegression.html#sklearn.isotonic.IsotonicRegression.fit_transform
+	sklearn.isotonic.IsotonicRegression.get_feature_names_out modules/generated/sklearn.isotonic.IsotonicRegression.html#sklearn.isotonic.IsotonicRegression.get_feature_names_out
 	sklearn.isotonic.IsotonicRegression.get_params modules/generated/sklearn.isotonic.IsotonicRegression.html#sklearn.isotonic.IsotonicRegression.get_params
 	sklearn.isotonic.IsotonicRegression.predict modules/generated/sklearn.isotonic.IsotonicRegression.html#sklearn.isotonic.IsotonicRegression.predict
 	sklearn.isotonic.IsotonicRegression.score modules/generated/sklearn.isotonic.IsotonicRegression.html#sklearn.isotonic.IsotonicRegression.score
@@ -1487,26 +1548,31 @@ py:method
 	sklearn.isotonic.IsotonicRegression.transform modules/generated/sklearn.isotonic.IsotonicRegression.html#sklearn.isotonic.IsotonicRegression.transform
 	sklearn.kernel_approximation.AdditiveChi2Sampler.fit modules/generated/sklearn.kernel_approximation.AdditiveChi2Sampler.html#sklearn.kernel_approximation.AdditiveChi2Sampler.fit
 	sklearn.kernel_approximation.AdditiveChi2Sampler.fit_transform modules/generated/sklearn.kernel_approximation.AdditiveChi2Sampler.html#sklearn.kernel_approximation.AdditiveChi2Sampler.fit_transform
+	sklearn.kernel_approximation.AdditiveChi2Sampler.get_feature_names_out modules/generated/sklearn.kernel_approximation.AdditiveChi2Sampler.html#sklearn.kernel_approximation.AdditiveChi2Sampler.get_feature_names_out
 	sklearn.kernel_approximation.AdditiveChi2Sampler.get_params modules/generated/sklearn.kernel_approximation.AdditiveChi2Sampler.html#sklearn.kernel_approximation.AdditiveChi2Sampler.get_params
 	sklearn.kernel_approximation.AdditiveChi2Sampler.set_params modules/generated/sklearn.kernel_approximation.AdditiveChi2Sampler.html#sklearn.kernel_approximation.AdditiveChi2Sampler.set_params
 	sklearn.kernel_approximation.AdditiveChi2Sampler.transform modules/generated/sklearn.kernel_approximation.AdditiveChi2Sampler.html#sklearn.kernel_approximation.AdditiveChi2Sampler.transform
 	sklearn.kernel_approximation.Nystroem.fit modules/generated/sklearn.kernel_approximation.Nystroem.html#sklearn.kernel_approximation.Nystroem.fit
 	sklearn.kernel_approximation.Nystroem.fit_transform modules/generated/sklearn.kernel_approximation.Nystroem.html#sklearn.kernel_approximation.Nystroem.fit_transform
+	sklearn.kernel_approximation.Nystroem.get_feature_names_out modules/generated/sklearn.kernel_approximation.Nystroem.html#sklearn.kernel_approximation.Nystroem.get_feature_names_out
 	sklearn.kernel_approximation.Nystroem.get_params modules/generated/sklearn.kernel_approximation.Nystroem.html#sklearn.kernel_approximation.Nystroem.get_params
 	sklearn.kernel_approximation.Nystroem.set_params modules/generated/sklearn.kernel_approximation.Nystroem.html#sklearn.kernel_approximation.Nystroem.set_params
 	sklearn.kernel_approximation.Nystroem.transform modules/generated/sklearn.kernel_approximation.Nystroem.html#sklearn.kernel_approximation.Nystroem.transform
 	sklearn.kernel_approximation.PolynomialCountSketch.fit modules/generated/sklearn.kernel_approximation.PolynomialCountSketch.html#sklearn.kernel_approximation.PolynomialCountSketch.fit
 	sklearn.kernel_approximation.PolynomialCountSketch.fit_transform modules/generated/sklearn.kernel_approximation.PolynomialCountSketch.html#sklearn.kernel_approximation.PolynomialCountSketch.fit_transform
+	sklearn.kernel_approximation.PolynomialCountSketch.get_feature_names_out modules/generated/sklearn.kernel_approximation.PolynomialCountSketch.html#sklearn.kernel_approximation.PolynomialCountSketch.get_feature_names_out
 	sklearn.kernel_approximation.PolynomialCountSketch.get_params modules/generated/sklearn.kernel_approximation.PolynomialCountSketch.html#sklearn.kernel_approximation.PolynomialCountSketch.get_params
 	sklearn.kernel_approximation.PolynomialCountSketch.set_params modules/generated/sklearn.kernel_approximation.PolynomialCountSketch.html#sklearn.kernel_approximation.PolynomialCountSketch.set_params
 	sklearn.kernel_approximation.PolynomialCountSketch.transform modules/generated/sklearn.kernel_approximation.PolynomialCountSketch.html#sklearn.kernel_approximation.PolynomialCountSketch.transform
 	sklearn.kernel_approximation.RBFSampler.fit modules/generated/sklearn.kernel_approximation.RBFSampler.html#sklearn.kernel_approximation.RBFSampler.fit
 	sklearn.kernel_approximation.RBFSampler.fit_transform modules/generated/sklearn.kernel_approximation.RBFSampler.html#sklearn.kernel_approximation.RBFSampler.fit_transform
+	sklearn.kernel_approximation.RBFSampler.get_feature_names_out modules/generated/sklearn.kernel_approximation.RBFSampler.html#sklearn.kernel_approximation.RBFSampler.get_feature_names_out
 	sklearn.kernel_approximation.RBFSampler.get_params modules/generated/sklearn.kernel_approximation.RBFSampler.html#sklearn.kernel_approximation.RBFSampler.get_params
 	sklearn.kernel_approximation.RBFSampler.set_params modules/generated/sklearn.kernel_approximation.RBFSampler.html#sklearn.kernel_approximation.RBFSampler.set_params
 	sklearn.kernel_approximation.RBFSampler.transform modules/generated/sklearn.kernel_approximation.RBFSampler.html#sklearn.kernel_approximation.RBFSampler.transform
 	sklearn.kernel_approximation.SkewedChi2Sampler.fit modules/generated/sklearn.kernel_approximation.SkewedChi2Sampler.html#sklearn.kernel_approximation.SkewedChi2Sampler.fit
 	sklearn.kernel_approximation.SkewedChi2Sampler.fit_transform modules/generated/sklearn.kernel_approximation.SkewedChi2Sampler.html#sklearn.kernel_approximation.SkewedChi2Sampler.fit_transform
+	sklearn.kernel_approximation.SkewedChi2Sampler.get_feature_names_out modules/generated/sklearn.kernel_approximation.SkewedChi2Sampler.html#sklearn.kernel_approximation.SkewedChi2Sampler.get_feature_names_out
 	sklearn.kernel_approximation.SkewedChi2Sampler.get_params modules/generated/sklearn.kernel_approximation.SkewedChi2Sampler.html#sklearn.kernel_approximation.SkewedChi2Sampler.get_params
 	sklearn.kernel_approximation.SkewedChi2Sampler.set_params modules/generated/sklearn.kernel_approximation.SkewedChi2Sampler.html#sklearn.kernel_approximation.SkewedChi2Sampler.set_params
 	sklearn.kernel_approximation.SkewedChi2Sampler.transform modules/generated/sklearn.kernel_approximation.SkewedChi2Sampler.html#sklearn.kernel_approximation.SkewedChi2Sampler.transform
@@ -1739,12 +1805,14 @@ py:method
 	sklearn.linear_model.TweedieRegressor.set_params modules/generated/sklearn.linear_model.TweedieRegressor.html#sklearn.linear_model.TweedieRegressor.set_params
 	sklearn.manifold.Isomap.fit              modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap.fit
 	sklearn.manifold.Isomap.fit_transform    modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap.fit_transform
+	sklearn.manifold.Isomap.get_feature_names_out modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap.get_feature_names_out
 	sklearn.manifold.Isomap.get_params       modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap.get_params
 	sklearn.manifold.Isomap.reconstruction_error modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap.reconstruction_error
 	sklearn.manifold.Isomap.set_params       modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap.set_params
 	sklearn.manifold.Isomap.transform        modules/generated/sklearn.manifold.Isomap.html#sklearn.manifold.Isomap.transform
 	sklearn.manifold.LocallyLinearEmbedding.fit modules/generated/sklearn.manifold.LocallyLinearEmbedding.html#sklearn.manifold.LocallyLinearEmbedding.fit
 	sklearn.manifold.LocallyLinearEmbedding.fit_transform modules/generated/sklearn.manifold.LocallyLinearEmbedding.html#sklearn.manifold.LocallyLinearEmbedding.fit_transform
+	sklearn.manifold.LocallyLinearEmbedding.get_feature_names_out modules/generated/sklearn.manifold.LocallyLinearEmbedding.html#sklearn.manifold.LocallyLinearEmbedding.get_feature_names_out
 	sklearn.manifold.LocallyLinearEmbedding.get_params modules/generated/sklearn.manifold.LocallyLinearEmbedding.html#sklearn.manifold.LocallyLinearEmbedding.get_params
 	sklearn.manifold.LocallyLinearEmbedding.set_params modules/generated/sklearn.manifold.LocallyLinearEmbedding.html#sklearn.manifold.LocallyLinearEmbedding.set_params
 	sklearn.manifold.LocallyLinearEmbedding.transform modules/generated/sklearn.manifold.LocallyLinearEmbedding.html#sklearn.manifold.LocallyLinearEmbedding.transform
@@ -1988,6 +2056,7 @@ py:method
 	sklearn.neighbors.KNeighborsRegressor.set_params modules/generated/sklearn.neighbors.KNeighborsRegressor.html#sklearn.neighbors.KNeighborsRegressor.set_params
 	sklearn.neighbors.KNeighborsTransformer.fit modules/generated/sklearn.neighbors.KNeighborsTransformer.html#sklearn.neighbors.KNeighborsTransformer.fit
 	sklearn.neighbors.KNeighborsTransformer.fit_transform modules/generated/sklearn.neighbors.KNeighborsTransformer.html#sklearn.neighbors.KNeighborsTransformer.fit_transform
+	sklearn.neighbors.KNeighborsTransformer.get_feature_names_out modules/generated/sklearn.neighbors.KNeighborsTransformer.html#sklearn.neighbors.KNeighborsTransformer.get_feature_names_out
 	sklearn.neighbors.KNeighborsTransformer.get_params modules/generated/sklearn.neighbors.KNeighborsTransformer.html#sklearn.neighbors.KNeighborsTransformer.get_params
 	sklearn.neighbors.KNeighborsTransformer.kneighbors modules/generated/sklearn.neighbors.KNeighborsTransformer.html#sklearn.neighbors.KNeighborsTransformer.kneighbors
 	sklearn.neighbors.KNeighborsTransformer.kneighbors_graph modules/generated/sklearn.neighbors.KNeighborsTransformer.html#sklearn.neighbors.KNeighborsTransformer.kneighbors_graph
@@ -2022,6 +2091,7 @@ py:method
 	sklearn.neighbors.NearestNeighbors.set_params modules/generated/sklearn.neighbors.NearestNeighbors.html#sklearn.neighbors.NearestNeighbors.set_params
 	sklearn.neighbors.NeighborhoodComponentsAnalysis.fit modules/generated/sklearn.neighbors.NeighborhoodComponentsAnalysis.html#sklearn.neighbors.NeighborhoodComponentsAnalysis.fit
 	sklearn.neighbors.NeighborhoodComponentsAnalysis.fit_transform modules/generated/sklearn.neighbors.NeighborhoodComponentsAnalysis.html#sklearn.neighbors.NeighborhoodComponentsAnalysis.fit_transform
+	sklearn.neighbors.NeighborhoodComponentsAnalysis.get_feature_names_out modules/generated/sklearn.neighbors.NeighborhoodComponentsAnalysis.html#sklearn.neighbors.NeighborhoodComponentsAnalysis.get_feature_names_out
 	sklearn.neighbors.NeighborhoodComponentsAnalysis.get_params modules/generated/sklearn.neighbors.NeighborhoodComponentsAnalysis.html#sklearn.neighbors.NeighborhoodComponentsAnalysis.get_params
 	sklearn.neighbors.NeighborhoodComponentsAnalysis.set_params modules/generated/sklearn.neighbors.NeighborhoodComponentsAnalysis.html#sklearn.neighbors.NeighborhoodComponentsAnalysis.set_params
 	sklearn.neighbors.NeighborhoodComponentsAnalysis.transform modules/generated/sklearn.neighbors.NeighborhoodComponentsAnalysis.html#sklearn.neighbors.NeighborhoodComponentsAnalysis.transform
@@ -2042,6 +2112,7 @@ py:method
 	sklearn.neighbors.RadiusNeighborsRegressor.set_params modules/generated/sklearn.neighbors.RadiusNeighborsRegressor.html#sklearn.neighbors.RadiusNeighborsRegressor.set_params
 	sklearn.neighbors.RadiusNeighborsTransformer.fit modules/generated/sklearn.neighbors.RadiusNeighborsTransformer.html#sklearn.neighbors.RadiusNeighborsTransformer.fit
 	sklearn.neighbors.RadiusNeighborsTransformer.fit_transform modules/generated/sklearn.neighbors.RadiusNeighborsTransformer.html#sklearn.neighbors.RadiusNeighborsTransformer.fit_transform
+	sklearn.neighbors.RadiusNeighborsTransformer.get_feature_names_out modules/generated/sklearn.neighbors.RadiusNeighborsTransformer.html#sklearn.neighbors.RadiusNeighborsTransformer.get_feature_names_out
 	sklearn.neighbors.RadiusNeighborsTransformer.get_params modules/generated/sklearn.neighbors.RadiusNeighborsTransformer.html#sklearn.neighbors.RadiusNeighborsTransformer.get_params
 	sklearn.neighbors.RadiusNeighborsTransformer.radius_neighbors modules/generated/sklearn.neighbors.RadiusNeighborsTransformer.html#sklearn.neighbors.RadiusNeighborsTransformer.radius_neighbors
 	sklearn.neighbors.RadiusNeighborsTransformer.radius_neighbors_graph modules/generated/sklearn.neighbors.RadiusNeighborsTransformer.html#sklearn.neighbors.RadiusNeighborsTransformer.radius_neighbors_graph
@@ -2049,6 +2120,7 @@ py:method
 	sklearn.neighbors.RadiusNeighborsTransformer.transform modules/generated/sklearn.neighbors.RadiusNeighborsTransformer.html#sklearn.neighbors.RadiusNeighborsTransformer.transform
 	sklearn.neural_network.BernoulliRBM.fit  modules/generated/sklearn.neural_network.BernoulliRBM.html#sklearn.neural_network.BernoulliRBM.fit
 	sklearn.neural_network.BernoulliRBM.fit_transform modules/generated/sklearn.neural_network.BernoulliRBM.html#sklearn.neural_network.BernoulliRBM.fit_transform
+	sklearn.neural_network.BernoulliRBM.get_feature_names_out modules/generated/sklearn.neural_network.BernoulliRBM.html#sklearn.neural_network.BernoulliRBM.get_feature_names_out
 	sklearn.neural_network.BernoulliRBM.get_params modules/generated/sklearn.neural_network.BernoulliRBM.html#sklearn.neural_network.BernoulliRBM.get_params
 	sklearn.neural_network.BernoulliRBM.gibbs modules/generated/sklearn.neural_network.BernoulliRBM.html#sklearn.neural_network.BernoulliRBM.gibbs
 	sklearn.neural_network.BernoulliRBM.partial_fit modules/generated/sklearn.neural_network.BernoulliRBM.html#sklearn.neural_network.BernoulliRBM.partial_fit
@@ -2092,11 +2164,13 @@ py:method
 	sklearn.pipeline.Pipeline.transform      modules/generated/sklearn.pipeline.Pipeline.html#sklearn.pipeline.Pipeline.transform
 	sklearn.preprocessing.Binarizer.fit      modules/generated/sklearn.preprocessing.Binarizer.html#sklearn.preprocessing.Binarizer.fit
 	sklearn.preprocessing.Binarizer.fit_transform modules/generated/sklearn.preprocessing.Binarizer.html#sklearn.preprocessing.Binarizer.fit_transform
+	sklearn.preprocessing.Binarizer.get_feature_names_out modules/generated/sklearn.preprocessing.Binarizer.html#sklearn.preprocessing.Binarizer.get_feature_names_out
 	sklearn.preprocessing.Binarizer.get_params modules/generated/sklearn.preprocessing.Binarizer.html#sklearn.preprocessing.Binarizer.get_params
 	sklearn.preprocessing.Binarizer.set_params modules/generated/sklearn.preprocessing.Binarizer.html#sklearn.preprocessing.Binarizer.set_params
 	sklearn.preprocessing.Binarizer.transform modules/generated/sklearn.preprocessing.Binarizer.html#sklearn.preprocessing.Binarizer.transform
 	sklearn.preprocessing.FunctionTransformer.fit modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer.fit
 	sklearn.preprocessing.FunctionTransformer.fit_transform modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer.fit_transform
+	sklearn.preprocessing.FunctionTransformer.get_feature_names_out modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer.get_feature_names_out
 	sklearn.preprocessing.FunctionTransformer.get_params modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer.get_params
 	sklearn.preprocessing.FunctionTransformer.inverse_transform modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer.inverse_transform
 	sklearn.preprocessing.FunctionTransformer.set_params modules/generated/sklearn.preprocessing.FunctionTransformer.html#sklearn.preprocessing.FunctionTransformer.set_params
@@ -2110,6 +2184,7 @@ py:method
 	sklearn.preprocessing.KBinsDiscretizer.transform modules/generated/sklearn.preprocessing.KBinsDiscretizer.html#sklearn.preprocessing.KBinsDiscretizer.transform
 	sklearn.preprocessing.KernelCenterer.fit modules/generated/sklearn.preprocessing.KernelCenterer.html#sklearn.preprocessing.KernelCenterer.fit
 	sklearn.preprocessing.KernelCenterer.fit_transform modules/generated/sklearn.preprocessing.KernelCenterer.html#sklearn.preprocessing.KernelCenterer.fit_transform
+	sklearn.preprocessing.KernelCenterer.get_feature_names_out modules/generated/sklearn.preprocessing.KernelCenterer.html#sklearn.preprocessing.KernelCenterer.get_feature_names_out
 	sklearn.preprocessing.KernelCenterer.get_params modules/generated/sklearn.preprocessing.KernelCenterer.html#sklearn.preprocessing.KernelCenterer.get_params
 	sklearn.preprocessing.KernelCenterer.set_params modules/generated/sklearn.preprocessing.KernelCenterer.html#sklearn.preprocessing.KernelCenterer.set_params
 	sklearn.preprocessing.KernelCenterer.transform modules/generated/sklearn.preprocessing.KernelCenterer.html#sklearn.preprocessing.KernelCenterer.transform
@@ -2149,6 +2224,7 @@ py:method
 	sklearn.preprocessing.MultiLabelBinarizer.transform modules/generated/sklearn.preprocessing.MultiLabelBinarizer.html#sklearn.preprocessing.MultiLabelBinarizer.transform
 	sklearn.preprocessing.Normalizer.fit     modules/generated/sklearn.preprocessing.Normalizer.html#sklearn.preprocessing.Normalizer.fit
 	sklearn.preprocessing.Normalizer.fit_transform modules/generated/sklearn.preprocessing.Normalizer.html#sklearn.preprocessing.Normalizer.fit_transform
+	sklearn.preprocessing.Normalizer.get_feature_names_out modules/generated/sklearn.preprocessing.Normalizer.html#sklearn.preprocessing.Normalizer.get_feature_names_out
 	sklearn.preprocessing.Normalizer.get_params modules/generated/sklearn.preprocessing.Normalizer.html#sklearn.preprocessing.Normalizer.get_params
 	sklearn.preprocessing.Normalizer.set_params modules/generated/sklearn.preprocessing.Normalizer.html#sklearn.preprocessing.Normalizer.set_params
 	sklearn.preprocessing.Normalizer.transform modules/generated/sklearn.preprocessing.Normalizer.html#sklearn.preprocessing.Normalizer.transform
@@ -2162,6 +2238,7 @@ py:method
 	sklearn.preprocessing.OneHotEncoder.transform modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn.preprocessing.OneHotEncoder.transform
 	sklearn.preprocessing.OrdinalEncoder.fit modules/generated/sklearn.preprocessing.OrdinalEncoder.html#sklearn.preprocessing.OrdinalEncoder.fit
 	sklearn.preprocessing.OrdinalEncoder.fit_transform modules/generated/sklearn.preprocessing.OrdinalEncoder.html#sklearn.preprocessing.OrdinalEncoder.fit_transform
+	sklearn.preprocessing.OrdinalEncoder.get_feature_names_out modules/generated/sklearn.preprocessing.OrdinalEncoder.html#sklearn.preprocessing.OrdinalEncoder.get_feature_names_out
 	sklearn.preprocessing.OrdinalEncoder.get_params modules/generated/sklearn.preprocessing.OrdinalEncoder.html#sklearn.preprocessing.OrdinalEncoder.get_params
 	sklearn.preprocessing.OrdinalEncoder.inverse_transform modules/generated/sklearn.preprocessing.OrdinalEncoder.html#sklearn.preprocessing.OrdinalEncoder.inverse_transform
 	sklearn.preprocessing.OrdinalEncoder.set_params modules/generated/sklearn.preprocessing.OrdinalEncoder.html#sklearn.preprocessing.OrdinalEncoder.set_params
@@ -2211,12 +2288,16 @@ py:method
 	sklearn.preprocessing.StandardScaler.transform modules/generated/sklearn.preprocessing.StandardScaler.html#sklearn.preprocessing.StandardScaler.transform
 	sklearn.random_projection.GaussianRandomProjection.fit modules/generated/sklearn.random_projection.GaussianRandomProjection.html#sklearn.random_projection.GaussianRandomProjection.fit
 	sklearn.random_projection.GaussianRandomProjection.fit_transform modules/generated/sklearn.random_projection.GaussianRandomProjection.html#sklearn.random_projection.GaussianRandomProjection.fit_transform
+	sklearn.random_projection.GaussianRandomProjection.get_feature_names_out modules/generated/sklearn.random_projection.GaussianRandomProjection.html#sklearn.random_projection.GaussianRandomProjection.get_feature_names_out
 	sklearn.random_projection.GaussianRandomProjection.get_params modules/generated/sklearn.random_projection.GaussianRandomProjection.html#sklearn.random_projection.GaussianRandomProjection.get_params
+	sklearn.random_projection.GaussianRandomProjection.inverse_transform modules/generated/sklearn.random_projection.GaussianRandomProjection.html#sklearn.random_projection.GaussianRandomProjection.inverse_transform
 	sklearn.random_projection.GaussianRandomProjection.set_params modules/generated/sklearn.random_projection.GaussianRandomProjection.html#sklearn.random_projection.GaussianRandomProjection.set_params
 	sklearn.random_projection.GaussianRandomProjection.transform modules/generated/sklearn.random_projection.GaussianRandomProjection.html#sklearn.random_projection.GaussianRandomProjection.transform
 	sklearn.random_projection.SparseRandomProjection.fit modules/generated/sklearn.random_projection.SparseRandomProjection.html#sklearn.random_projection.SparseRandomProjection.fit
 	sklearn.random_projection.SparseRandomProjection.fit_transform modules/generated/sklearn.random_projection.SparseRandomProjection.html#sklearn.random_projection.SparseRandomProjection.fit_transform
+	sklearn.random_projection.SparseRandomProjection.get_feature_names_out modules/generated/sklearn.random_projection.SparseRandomProjection.html#sklearn.random_projection.SparseRandomProjection.get_feature_names_out
 	sklearn.random_projection.SparseRandomProjection.get_params modules/generated/sklearn.random_projection.SparseRandomProjection.html#sklearn.random_projection.SparseRandomProjection.get_params
+	sklearn.random_projection.SparseRandomProjection.inverse_transform modules/generated/sklearn.random_projection.SparseRandomProjection.html#sklearn.random_projection.SparseRandomProjection.inverse_transform
 	sklearn.random_projection.SparseRandomProjection.set_params modules/generated/sklearn.random_projection.SparseRandomProjection.html#sklearn.random_projection.SparseRandomProjection.set_params
 	sklearn.random_projection.SparseRandomProjection.transform modules/generated/sklearn.random_projection.SparseRandomProjection.html#sklearn.random_projection.SparseRandomProjection.transform
 	sklearn.semi_supervised.LabelPropagation.fit modules/generated/sklearn.semi_supervised.LabelPropagation.html#sklearn.semi_supervised.LabelPropagation.fit
@@ -2329,6 +2410,17 @@ py:method
 	sklearn.tree.ExtraTreeRegressor.predict  modules/generated/sklearn.tree.ExtraTreeRegressor.html#sklearn.tree.ExtraTreeRegressor.predict
 	sklearn.tree.ExtraTreeRegressor.score    modules/generated/sklearn.tree.ExtraTreeRegressor.html#sklearn.tree.ExtraTreeRegressor.score
 	sklearn.tree.ExtraTreeRegressor.set_params modules/generated/sklearn.tree.ExtraTreeRegressor.html#sklearn.tree.ExtraTreeRegressor.set_params
+	sklearn.utils.Bunch.clear                modules/generated/sklearn.utils.Bunch.html#sklearn.utils.Bunch.clear
+	sklearn.utils.Bunch.copy                 modules/generated/sklearn.utils.Bunch.html#sklearn.utils.Bunch.copy
+	sklearn.utils.Bunch.fromkeys             modules/generated/sklearn.utils.Bunch.html#sklearn.utils.Bunch.fromkeys
+	sklearn.utils.Bunch.get                  modules/generated/sklearn.utils.Bunch.html#sklearn.utils.Bunch.get
+	sklearn.utils.Bunch.items                modules/generated/sklearn.utils.Bunch.html#sklearn.utils.Bunch.items
+	sklearn.utils.Bunch.keys                 modules/generated/sklearn.utils.Bunch.html#sklearn.utils.Bunch.keys
+	sklearn.utils.Bunch.pop                  modules/generated/sklearn.utils.Bunch.html#sklearn.utils.Bunch.pop
+	sklearn.utils.Bunch.popitem              modules/generated/sklearn.utils.Bunch.html#sklearn.utils.Bunch.popitem
+	sklearn.utils.Bunch.setdefault           modules/generated/sklearn.utils.Bunch.html#sklearn.utils.Bunch.setdefault
+	sklearn.utils.Bunch.update               modules/generated/sklearn.utils.Bunch.html#sklearn.utils.Bunch.update
+	sklearn.utils.Bunch.values               modules/generated/sklearn.utils.Bunch.html#sklearn.utils.Bunch.values
 py:module
 	sklearn.base                             modules/classes.html#module-sklearn.base
 	sklearn.calibration                      modules/classes.html#module-sklearn.calibration
@@ -2380,45 +2472,18 @@ py:property
 	sklearn.cluster.Birch.fit_               modules/generated/sklearn.cluster.Birch.html#sklearn.cluster.Birch.fit_
 	sklearn.cluster.Birch.partial_fit_       modules/generated/sklearn.cluster.Birch.html#sklearn.cluster.Birch.partial_fit_
 	sklearn.cluster.FeatureAgglomeration.fit_predict modules/generated/sklearn.cluster.FeatureAgglomeration.html#sklearn.cluster.FeatureAgglomeration.fit_predict
-	sklearn.cluster.MiniBatchKMeans.counts_  modules/generated/sklearn.cluster.MiniBatchKMeans.html#sklearn.cluster.MiniBatchKMeans.counts_
-	sklearn.cluster.MiniBatchKMeans.init_size_ modules/generated/sklearn.cluster.MiniBatchKMeans.html#sklearn.cluster.MiniBatchKMeans.init_size_
-	sklearn.cluster.MiniBatchKMeans.random_state_ modules/generated/sklearn.cluster.MiniBatchKMeans.html#sklearn.cluster.MiniBatchKMeans.random_state_
 	sklearn.cluster.SpectralBiclustering.biclusters_ modules/generated/sklearn.cluster.SpectralBiclustering.html#sklearn.cluster.SpectralBiclustering.biclusters_
 	sklearn.cluster.SpectralCoclustering.biclusters_ modules/generated/sklearn.cluster.SpectralCoclustering.html#sklearn.cluster.SpectralCoclustering.biclusters_
 	sklearn.compose.ColumnTransformer.named_transformers_ modules/generated/sklearn.compose.ColumnTransformer.html#sklearn.compose.ColumnTransformer.named_transformers_
 	sklearn.compose.TransformedTargetRegressor.n_features_in_ modules/generated/sklearn.compose.TransformedTargetRegressor.html#sklearn.compose.TransformedTargetRegressor.n_features_in_
-	sklearn.covariance.GraphicalLassoCV.cv_alphas_ modules/generated/sklearn.covariance.GraphicalLassoCV.html#sklearn.covariance.GraphicalLassoCV.cv_alphas_
-	sklearn.covariance.GraphicalLassoCV.grid_scores_ modules/generated/sklearn.covariance.GraphicalLassoCV.html#sklearn.covariance.GraphicalLassoCV.grid_scores_
-	sklearn.cross_decomposition.CCA.norm_y_weights modules/generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA.norm_y_weights
-	sklearn.cross_decomposition.CCA.x_mean_  modules/generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA.x_mean_
-	sklearn.cross_decomposition.CCA.x_scores_ modules/generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA.x_scores_
-	sklearn.cross_decomposition.CCA.x_std_   modules/generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA.x_std_
-	sklearn.cross_decomposition.CCA.y_mean_  modules/generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA.y_mean_
-	sklearn.cross_decomposition.CCA.y_scores_ modules/generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA.y_scores_
-	sklearn.cross_decomposition.CCA.y_std_   modules/generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA.y_std_
-	sklearn.cross_decomposition.PLSCanonical.norm_y_weights modules/generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical.norm_y_weights
-	sklearn.cross_decomposition.PLSCanonical.x_mean_ modules/generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical.x_mean_
-	sklearn.cross_decomposition.PLSCanonical.x_scores_ modules/generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical.x_scores_
-	sklearn.cross_decomposition.PLSCanonical.x_std_ modules/generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical.x_std_
-	sklearn.cross_decomposition.PLSCanonical.y_mean_ modules/generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical.y_mean_
-	sklearn.cross_decomposition.PLSCanonical.y_scores_ modules/generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical.y_scores_
-	sklearn.cross_decomposition.PLSCanonical.y_std_ modules/generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical.y_std_
-	sklearn.cross_decomposition.PLSRegression.norm_y_weights modules/generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression.norm_y_weights
-	sklearn.cross_decomposition.PLSRegression.x_mean_ modules/generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression.x_mean_
-	sklearn.cross_decomposition.PLSRegression.x_scores_ modules/generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression.x_scores_
-	sklearn.cross_decomposition.PLSRegression.x_std_ modules/generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression.x_std_
-	sklearn.cross_decomposition.PLSRegression.y_mean_ modules/generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression.y_mean_
-	sklearn.cross_decomposition.PLSRegression.y_scores_ modules/generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression.y_scores_
-	sklearn.cross_decomposition.PLSRegression.y_std_ modules/generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression.y_std_
-	sklearn.cross_decomposition.PLSSVD.x_mean_ modules/generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD.x_mean_
-	sklearn.cross_decomposition.PLSSVD.x_scores_ modules/generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD.x_scores_
-	sklearn.cross_decomposition.PLSSVD.x_std_ modules/generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD.x_std_
-	sklearn.cross_decomposition.PLSSVD.y_mean_ modules/generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD.y_mean_
-	sklearn.cross_decomposition.PLSSVD.y_scores_ modules/generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD.y_scores_
-	sklearn.cross_decomposition.PLSSVD.y_std_ modules/generated/sklearn.cross_decomposition.PLSSVD.html#sklearn.cross_decomposition.PLSSVD.y_std_
+	sklearn.cross_decomposition.CCA.coef_    modules/generated/sklearn.cross_decomposition.CCA.html#sklearn.cross_decomposition.CCA.coef_
+	sklearn.cross_decomposition.PLSCanonical.coef_ modules/generated/sklearn.cross_decomposition.PLSCanonical.html#sklearn.cross_decomposition.PLSCanonical.coef_
+	sklearn.cross_decomposition.PLSRegression.coef_ modules/generated/sklearn.cross_decomposition.PLSRegression.html#sklearn.cross_decomposition.PLSRegression.coef_
 	sklearn.decomposition.KernelPCA.alphas_  modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA.alphas_
 	sklearn.decomposition.KernelPCA.lambdas_ modules/generated/sklearn.decomposition.KernelPCA.html#sklearn.decomposition.KernelPCA.lambdas_
-	sklearn.decomposition.SparseCoder.components_ modules/generated/sklearn.decomposition.SparseCoder.html#sklearn.decomposition.SparseCoder.components_
+	sklearn.decomposition.MiniBatchDictionaryLearning.inner_stats_ modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning.html#sklearn.decomposition.MiniBatchDictionaryLearning.inner_stats_
+	sklearn.decomposition.MiniBatchDictionaryLearning.iter_offset_ modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning.html#sklearn.decomposition.MiniBatchDictionaryLearning.iter_offset_
+	sklearn.decomposition.MiniBatchDictionaryLearning.random_state_ modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning.html#sklearn.decomposition.MiniBatchDictionaryLearning.random_state_
 	sklearn.decomposition.SparseCoder.n_components_ modules/generated/sklearn.decomposition.SparseCoder.html#sklearn.decomposition.SparseCoder.n_components_
 	sklearn.decomposition.SparseCoder.n_features_in_ modules/generated/sklearn.decomposition.SparseCoder.html#sklearn.decomposition.SparseCoder.n_features_in_
 	sklearn.dummy.DummyClassifier.n_features_in_ modules/generated/sklearn.dummy.DummyClassifier.html#sklearn.dummy.DummyClassifier.n_features_in_
@@ -2434,9 +2499,10 @@ py:property
 	sklearn.ensemble.ExtraTreesRegressor.feature_importances_ modules/generated/sklearn.ensemble.ExtraTreesRegressor.html#sklearn.ensemble.ExtraTreesRegressor.feature_importances_
 	sklearn.ensemble.ExtraTreesRegressor.n_features_ modules/generated/sklearn.ensemble.ExtraTreesRegressor.html#sklearn.ensemble.ExtraTreesRegressor.n_features_
 	sklearn.ensemble.GradientBoostingClassifier.feature_importances_ modules/generated/sklearn.ensemble.GradientBoostingClassifier.html#sklearn.ensemble.GradientBoostingClassifier.feature_importances_
+	sklearn.ensemble.GradientBoostingClassifier.loss_ modules/generated/sklearn.ensemble.GradientBoostingClassifier.html#sklearn.ensemble.GradientBoostingClassifier.loss_
 	sklearn.ensemble.GradientBoostingClassifier.n_features_ modules/generated/sklearn.ensemble.GradientBoostingClassifier.html#sklearn.ensemble.GradientBoostingClassifier.n_features_
 	sklearn.ensemble.GradientBoostingRegressor.feature_importances_ modules/generated/sklearn.ensemble.GradientBoostingRegressor.html#sklearn.ensemble.GradientBoostingRegressor.feature_importances_
-	sklearn.ensemble.GradientBoostingRegressor.n_classes_ modules/generated/sklearn.ensemble.GradientBoostingRegressor.html#sklearn.ensemble.GradientBoostingRegressor.n_classes_
+	sklearn.ensemble.GradientBoostingRegressor.loss_ modules/generated/sklearn.ensemble.GradientBoostingRegressor.html#sklearn.ensemble.GradientBoostingRegressor.loss_
 	sklearn.ensemble.GradientBoostingRegressor.n_features_ modules/generated/sklearn.ensemble.GradientBoostingRegressor.html#sklearn.ensemble.GradientBoostingRegressor.n_features_
 	sklearn.ensemble.HistGradientBoostingClassifier.n_iter_ modules/generated/sklearn.ensemble.HistGradientBoostingClassifier.html#sklearn.ensemble.HistGradientBoostingClassifier.n_iter_
 	sklearn.ensemble.HistGradientBoostingRegressor.n_iter_ modules/generated/sklearn.ensemble.HistGradientBoostingRegressor.html#sklearn.ensemble.HistGradientBoostingRegressor.n_iter_
@@ -2458,10 +2524,6 @@ py:property
 	sklearn.ensemble.VotingRegressor.named_estimators modules/generated/sklearn.ensemble.VotingRegressor.html#sklearn.ensemble.VotingRegressor.named_estimators
 	sklearn.feature_extraction.text.TfidfTransformer.idf_ modules/generated/sklearn.feature_extraction.text.TfidfTransformer.html#sklearn.feature_extraction.text.TfidfTransformer.idf_
 	sklearn.feature_extraction.text.TfidfVectorizer.idf_ modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html#sklearn.feature_extraction.text.TfidfVectorizer.idf_
-	sklearn.feature_extraction.text.TfidfVectorizer.norm modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html#sklearn.feature_extraction.text.TfidfVectorizer.norm
-	sklearn.feature_extraction.text.TfidfVectorizer.smooth_idf modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html#sklearn.feature_extraction.text.TfidfVectorizer.smooth_idf
-	sklearn.feature_extraction.text.TfidfVectorizer.sublinear_tf modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html#sklearn.feature_extraction.text.TfidfVectorizer.sublinear_tf
-	sklearn.feature_extraction.text.TfidfVectorizer.use_idf modules/generated/sklearn.feature_extraction.text.TfidfVectorizer.html#sklearn.feature_extraction.text.TfidfVectorizer.use_idf
 	sklearn.feature_selection.RFE.classes_   modules/generated/sklearn.feature_selection.RFE.html#sklearn.feature_selection.RFE.classes_
 	sklearn.feature_selection.RFECV.classes_ modules/generated/sklearn.feature_selection.RFECV.html#sklearn.feature_selection.RFECV.classes_
 	sklearn.feature_selection.RFECV.grid_scores_ modules/generated/sklearn.feature_selection.RFECV.html#sklearn.feature_selection.RFECV.grid_scores_
@@ -2552,28 +2614,19 @@ py:property
 	sklearn.model_selection.RandomizedSearchCV.classes_ modules/generated/sklearn.model_selection.RandomizedSearchCV.html#sklearn.model_selection.RandomizedSearchCV.classes_
 	sklearn.model_selection.RandomizedSearchCV.n_features_in_ modules/generated/sklearn.model_selection.RandomizedSearchCV.html#sklearn.model_selection.RandomizedSearchCV.n_features_in_
 	sklearn.multiclass.OneVsOneClassifier.n_classes_ modules/generated/sklearn.multiclass.OneVsOneClassifier.html#sklearn.multiclass.OneVsOneClassifier.n_classes_
-	sklearn.multiclass.OneVsRestClassifier.coef_ modules/generated/sklearn.multiclass.OneVsRestClassifier.html#sklearn.multiclass.OneVsRestClassifier.coef_
-	sklearn.multiclass.OneVsRestClassifier.intercept_ modules/generated/sklearn.multiclass.OneVsRestClassifier.html#sklearn.multiclass.OneVsRestClassifier.intercept_
 	sklearn.multiclass.OneVsRestClassifier.multilabel_ modules/generated/sklearn.multiclass.OneVsRestClassifier.html#sklearn.multiclass.OneVsRestClassifier.multilabel_
 	sklearn.multiclass.OneVsRestClassifier.n_classes_ modules/generated/sklearn.multiclass.OneVsRestClassifier.html#sklearn.multiclass.OneVsRestClassifier.n_classes_
-	sklearn.naive_bayes.BernoulliNB.coef_    modules/generated/sklearn.naive_bayes.BernoulliNB.html#sklearn.naive_bayes.BernoulliNB.coef_
-	sklearn.naive_bayes.BernoulliNB.intercept_ modules/generated/sklearn.naive_bayes.BernoulliNB.html#sklearn.naive_bayes.BernoulliNB.intercept_
 	sklearn.naive_bayes.BernoulliNB.n_features_ modules/generated/sklearn.naive_bayes.BernoulliNB.html#sklearn.naive_bayes.BernoulliNB.n_features_
-	sklearn.naive_bayes.CategoricalNB.coef_  modules/generated/sklearn.naive_bayes.CategoricalNB.html#sklearn.naive_bayes.CategoricalNB.coef_
-	sklearn.naive_bayes.CategoricalNB.intercept_ modules/generated/sklearn.naive_bayes.CategoricalNB.html#sklearn.naive_bayes.CategoricalNB.intercept_
 	sklearn.naive_bayes.CategoricalNB.n_features_ modules/generated/sklearn.naive_bayes.CategoricalNB.html#sklearn.naive_bayes.CategoricalNB.n_features_
-	sklearn.naive_bayes.ComplementNB.coef_   modules/generated/sklearn.naive_bayes.ComplementNB.html#sklearn.naive_bayes.ComplementNB.coef_
-	sklearn.naive_bayes.ComplementNB.intercept_ modules/generated/sklearn.naive_bayes.ComplementNB.html#sklearn.naive_bayes.ComplementNB.intercept_
 	sklearn.naive_bayes.ComplementNB.n_features_ modules/generated/sklearn.naive_bayes.ComplementNB.html#sklearn.naive_bayes.ComplementNB.n_features_
 	sklearn.naive_bayes.GaussianNB.sigma_    modules/generated/sklearn.naive_bayes.GaussianNB.html#sklearn.naive_bayes.GaussianNB.sigma_
-	sklearn.naive_bayes.MultinomialNB.coef_  modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB.coef_
-	sklearn.naive_bayes.MultinomialNB.intercept_ modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB.intercept_
 	sklearn.naive_bayes.MultinomialNB.n_features_ modules/generated/sklearn.naive_bayes.MultinomialNB.html#sklearn.naive_bayes.MultinomialNB.n_features_
 	sklearn.pipeline.FeatureUnion.n_features_in_ modules/generated/sklearn.pipeline.FeatureUnion.html#sklearn.pipeline.FeatureUnion.n_features_in_
 	sklearn.pipeline.Pipeline.classes_       modules/generated/sklearn.pipeline.Pipeline.html#sklearn.pipeline.Pipeline.classes_
 	sklearn.pipeline.Pipeline.feature_names_in_ modules/generated/sklearn.pipeline.Pipeline.html#sklearn.pipeline.Pipeline.feature_names_in_
 	sklearn.pipeline.Pipeline.n_features_in_ modules/generated/sklearn.pipeline.Pipeline.html#sklearn.pipeline.Pipeline.n_features_in_
 	sklearn.pipeline.Pipeline.named_steps    modules/generated/sklearn.pipeline.Pipeline.html#sklearn.pipeline.Pipeline.named_steps
+	sklearn.preprocessing.OneHotEncoder.infrequent_categories_ modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn.preprocessing.OneHotEncoder.infrequent_categories_
 	sklearn.preprocessing.PolynomialFeatures.n_input_features_ modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures.n_input_features_
 	sklearn.preprocessing.PolynomialFeatures.powers_ modules/generated/sklearn.preprocessing.PolynomialFeatures.html#sklearn.preprocessing.PolynomialFeatures.powers_
 	sklearn.svm.NuSVC.coef_                  modules/generated/sklearn.svm.NuSVC.html#sklearn.svm.NuSVC.coef_
@@ -2637,6 +2690,7 @@ std:doc
 	auto_examples/cluster/plot_agglomerative_clustering_metrics Agglomerative clustering with different metrics: auto_examples/cluster/plot_agglomerative_clustering_metrics.html
 	auto_examples/cluster/plot_agglomerative_dendrogram Plot Hierarchical Clustering Dendrogram : auto_examples/cluster/plot_agglomerative_dendrogram.html
 	auto_examples/cluster/plot_birch_vs_minibatchkmeans Compare BIRCH and MiniBatchKMeans       : auto_examples/cluster/plot_birch_vs_minibatchkmeans.html
+	auto_examples/cluster/plot_bisect_kmeans Bisecting K-Means and Regular K-Means Performance Comparison: auto_examples/cluster/plot_bisect_kmeans.html
 	auto_examples/cluster/plot_cluster_comparison Comparing different clustering algorithms on toy datasets: auto_examples/cluster/plot_cluster_comparison.html
 	auto_examples/cluster/plot_cluster_iris  K-means Clustering                      : auto_examples/cluster/plot_cluster_iris.html
 	auto_examples/cluster/plot_coin_segmentation Segmenting the picture of greek coins in regions: auto_examples/cluster/plot_coin_segmentation.html
@@ -2755,8 +2809,7 @@ std:doc
 	auto_examples/inspection/sg_execution_times Computation times                       : auto_examples/inspection/sg_execution_times.html
 	auto_examples/kernel_approximation/plot_scalable_poly_kernels Scalable learning with polynomial kernel approximation: auto_examples/kernel_approximation/plot_scalable_poly_kernels.html
 	auto_examples/kernel_approximation/sg_execution_times Computation times                       : auto_examples/kernel_approximation/sg_execution_times.html
-	auto_examples/linear_model/plot_ard      Automatic Relevance Determination Regression (ARD): auto_examples/linear_model/plot_ard.html
-	auto_examples/linear_model/plot_bayesian_ridge Bayesian Ridge Regression               : auto_examples/linear_model/plot_bayesian_ridge.html
+	auto_examples/linear_model/plot_ard      Comparing Linear Bayesian Regressors    : auto_examples/linear_model/plot_ard.html
 	auto_examples/linear_model/plot_bayesian_ridge_curvefit Curve Fitting with Bayesian Ridge Regression: auto_examples/linear_model/plot_bayesian_ridge_curvefit.html
 	auto_examples/linear_model/plot_elastic_net_precomputed_gram_matrix_with_weighted_samples Fitting an Elastic Net with a precomputed Gram Matrix and Weighted Samples: auto_examples/linear_model/plot_elastic_net_precomputed_gram_matrix_with_weighted_samples.html
 	auto_examples/linear_model/plot_huber_vs_ridge HuberRegressor vs Ridge on dataset with strong outliers: auto_examples/linear_model/plot_huber_vs_ridge.html
@@ -2801,7 +2854,7 @@ std:doc
 	auto_examples/manifold/plot_lle_digits   Manifold learning on handwritten digits: Locally Linear Embedding, Isomap…: auto_examples/manifold/plot_lle_digits.html
 	auto_examples/manifold/plot_manifold_sphere Manifold Learning methods on a severed sphere: auto_examples/manifold/plot_manifold_sphere.html
 	auto_examples/manifold/plot_mds          Multi-dimensional scaling               : auto_examples/manifold/plot_mds.html
-	auto_examples/manifold/plot_swissroll    Swiss Roll reduction with LLE           : auto_examples/manifold/plot_swissroll.html
+	auto_examples/manifold/plot_swissroll    Swiss Roll And Swiss-Hole Reduction     : auto_examples/manifold/plot_swissroll.html
 	auto_examples/manifold/plot_t_sne_perplexity t-SNE: The effect of various perplexity values on the shape: auto_examples/manifold/plot_t_sne_perplexity.html
 	auto_examples/manifold/sg_execution_times Computation times                       : auto_examples/manifold/sg_execution_times.html
 	auto_examples/miscellaneous/plot_anomaly_comparison Comparing anomaly detection algorithms for outlier detection on toy datasets: auto_examples/miscellaneous/plot_anomaly_comparison.html
@@ -2813,6 +2866,7 @@ std:doc
 	auto_examples/miscellaneous/plot_kernel_ridge_regression Comparison of kernel ridge regression and SVR: auto_examples/miscellaneous/plot_kernel_ridge_regression.html
 	auto_examples/miscellaneous/plot_multilabel Multilabel classification               : auto_examples/miscellaneous/plot_multilabel.html
 	auto_examples/miscellaneous/plot_multioutput_face_completion Face completion with a multi-output estimators: auto_examples/miscellaneous/plot_multioutput_face_completion.html
+	auto_examples/miscellaneous/plot_outlier_detection_bench Evaluation of outlier detection estimators: auto_examples/miscellaneous/plot_outlier_detection_bench.html
 	auto_examples/miscellaneous/plot_partial_dependence_visualization_api Advanced Plotting With Partial Dependence: auto_examples/miscellaneous/plot_partial_dependence_visualization_api.html
 	auto_examples/miscellaneous/plot_pipeline_display Displaying Pipelines                    : auto_examples/miscellaneous/plot_pipeline_display.html
 	auto_examples/miscellaneous/plot_roc_curve_visualization_api ROC Curve with Visualization API        : auto_examples/miscellaneous/plot_roc_curve_visualization_api.html
@@ -2820,6 +2874,7 @@ std:doc
 	auto_examples/mixture/plot_concentration_prior Concentration Prior Type Analysis of Variation Bayesian Gaussian Mixture: auto_examples/mixture/plot_concentration_prior.html
 	auto_examples/mixture/plot_gmm           Gaussian Mixture Model Ellipsoids       : auto_examples/mixture/plot_gmm.html
 	auto_examples/mixture/plot_gmm_covariances GMM covariances                         : auto_examples/mixture/plot_gmm_covariances.html
+	auto_examples/mixture/plot_gmm_init      GMM Initialization Methods              : auto_examples/mixture/plot_gmm_init.html
 	auto_examples/mixture/plot_gmm_pdf       Density Estimation for a Gaussian mixture: auto_examples/mixture/plot_gmm_pdf.html
 	auto_examples/mixture/plot_gmm_selection Gaussian Mixture Model Selection        : auto_examples/mixture/plot_gmm_selection.html
 	auto_examples/mixture/plot_gmm_sin       Gaussian Mixture Model Sine Curve       : auto_examples/mixture/plot_gmm_sin.html
@@ -2878,6 +2933,7 @@ std:doc
 	auto_examples/release_highlights/plot_release_highlights_0_23_0 Release Highlights for scikit-learn 0.23: auto_examples/release_highlights/plot_release_highlights_0_23_0.html
 	auto_examples/release_highlights/plot_release_highlights_0_24_0 Release Highlights for scikit-learn 0.24: auto_examples/release_highlights/plot_release_highlights_0_24_0.html
 	auto_examples/release_highlights/plot_release_highlights_1_0_0 Release Highlights for scikit-learn 1.0 : auto_examples/release_highlights/plot_release_highlights_1_0_0.html
+	auto_examples/release_highlights/plot_release_highlights_1_1_0 Release Highlights for scikit-learn 1.1 : auto_examples/release_highlights/plot_release_highlights_1_1_0.html
 	auto_examples/release_highlights/sg_execution_times Computation times                       : auto_examples/release_highlights/sg_execution_times.html
 	auto_examples/semi_supervised/plot_label_propagation_digits Label Propagation digits: Demonstrating performance: auto_examples/semi_supervised/plot_label_propagation_digits.html
 	auto_examples/semi_supervised/plot_label_propagation_digits_active_learning Label Propagation digits active learning: auto_examples/semi_supervised/plot_label_propagation_digits_active_learning.html
@@ -2914,11 +2970,13 @@ std:doc
 	auto_examples/tree/sg_execution_times    Computation times                       : auto_examples/tree/sg_execution_times.html
 	common_pitfalls                          Common pitfalls and recommended practices: common_pitfalls.html
 	communication_team                       <no title>                              : communication_team.html
+	communication_team_emeritus              <no title>                              : communication_team_emeritus.html
 	computing                                Computing with scikit-learn             : computing.html
 	computing/computational_performance      Computational Performance               : computing/computational_performance.html
 	computing/parallelism                    Parallelism, resource management, and configuration: computing/parallelism.html
 	computing/scaling_strategies             Strategies to scale computationally: bigger data: computing/scaling_strategies.html
 	contents                                 Table Of Contents                       : contents.html
+	contributor_experience_team              <no title>                              : contributor_experience_team.html
 	data_transforms                          Dataset transformations                 : data_transforms.html
 	datasets                                 Dataset loading utilities               : datasets.html
 	datasets/loading_other_datasets          Loading other datasets                  : datasets/loading_other_datasets.html
@@ -2931,6 +2989,7 @@ std:doc
 	developers/develop                       Developing scikit-learn estimators      : developers/develop.html
 	developers/index                         Developer’s Guide                       : developers/index.html
 	developers/maintainer                    Maintainer / core-developer information : developers/maintainer.html
+	developers/minimal_reproducer            Crafting a minimal reproducer for scikit-learn: developers/minimal_reproducer.html
 	developers/performance                   How to optimize for speed               : developers/performance.html
 	developers/plotting                      Developing with the Plotting API        : developers/plotting.html
 	developers/tips                          Developers’ Tips and Tricks             : developers/tips.html
@@ -2943,6 +3002,7 @@ std:doc
 	install                                  Installing scikit-learn                 : install.html
 	min_dependency_substitutions             <no title>                              : min_dependency_substitutions.html
 	min_dependency_table                     <no title>                              : min_dependency_table.html
+	model_persistence                        Model persistence                       : model_persistence.html
 	model_selection                          Model selection and evaluation          : model_selection.html
 	modules/biclustering                     Biclustering                            : modules/biclustering.html
 	modules/calibration                      Probability calibration                 : modules/calibration.html
@@ -2977,6 +3037,7 @@ std:doc
 	modules/generated/sklearn.cluster.AffinityPropagation sklearn.cluster.AffinityPropagation     : modules/generated/sklearn.cluster.AffinityPropagation.html
 	modules/generated/sklearn.cluster.AgglomerativeClustering sklearn.cluster.AgglomerativeClustering : modules/generated/sklearn.cluster.AgglomerativeClustering.html
 	modules/generated/sklearn.cluster.Birch  sklearn.cluster.Birch                   : modules/generated/sklearn.cluster.Birch.html
+	modules/generated/sklearn.cluster.BisectingKMeans sklearn.cluster.BisectingKMeans         : modules/generated/sklearn.cluster.BisectingKMeans.html
 	modules/generated/sklearn.cluster.DBSCAN sklearn.cluster.DBSCAN                  : modules/generated/sklearn.cluster.DBSCAN.html
 	modules/generated/sklearn.cluster.FeatureAgglomeration sklearn.cluster.FeatureAgglomeration    : modules/generated/sklearn.cluster.FeatureAgglomeration.html
 	modules/generated/sklearn.cluster.KMeans sklearn.cluster.KMeans                  : modules/generated/sklearn.cluster.KMeans.html
@@ -3070,6 +3131,7 @@ std:doc
 	modules/generated/sklearn.decomposition.KernelPCA sklearn.decomposition.KernelPCA         : modules/generated/sklearn.decomposition.KernelPCA.html
 	modules/generated/sklearn.decomposition.LatentDirichletAllocation sklearn.decomposition.LatentDirichletAllocation: modules/generated/sklearn.decomposition.LatentDirichletAllocation.html
 	modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning sklearn.decomposition.MiniBatchDictionaryLearning: modules/generated/sklearn.decomposition.MiniBatchDictionaryLearning.html
+	modules/generated/sklearn.decomposition.MiniBatchNMF sklearn.decomposition.MiniBatchNMF      : modules/generated/sklearn.decomposition.MiniBatchNMF.html
 	modules/generated/sklearn.decomposition.MiniBatchSparsePCA sklearn.decomposition.MiniBatchSparsePCA: modules/generated/sklearn.decomposition.MiniBatchSparsePCA.html
 	modules/generated/sklearn.decomposition.NMF sklearn.decomposition.NMF               : modules/generated/sklearn.decomposition.NMF.html
 	modules/generated/sklearn.decomposition.PCA sklearn.decomposition.PCA               : modules/generated/sklearn.decomposition.PCA.html
@@ -3162,6 +3224,7 @@ std:doc
 	modules/generated/sklearn.impute.KNNImputer sklearn.impute.KNNImputer               : modules/generated/sklearn.impute.KNNImputer.html
 	modules/generated/sklearn.impute.MissingIndicator sklearn.impute.MissingIndicator         : modules/generated/sklearn.impute.MissingIndicator.html
 	modules/generated/sklearn.impute.SimpleImputer sklearn.impute.SimpleImputer            : modules/generated/sklearn.impute.SimpleImputer.html
+	modules/generated/sklearn.inspection.DecisionBoundaryDisplay sklearn.inspection.DecisionBoundaryDisplay: modules/generated/sklearn.inspection.DecisionBoundaryDisplay.html
 	modules/generated/sklearn.inspection.PartialDependenceDisplay sklearn.inspection.PartialDependenceDisplay: modules/generated/sklearn.inspection.PartialDependenceDisplay.html
 	modules/generated/sklearn.inspection.partial_dependence sklearn.inspection.partial_dependence   : modules/generated/sklearn.inspection.partial_dependence.html
 	modules/generated/sklearn.inspection.permutation_importance sklearn.inspection.permutation_importance: modules/generated/sklearn.inspection.permutation_importance.html
@@ -3250,6 +3313,8 @@ std:doc
 	modules/generated/sklearn.metrics.confusion_matrix sklearn.metrics.confusion_matrix        : modules/generated/sklearn.metrics.confusion_matrix.html
 	modules/generated/sklearn.metrics.consensus_score sklearn.metrics.consensus_score         : modules/generated/sklearn.metrics.consensus_score.html
 	modules/generated/sklearn.metrics.coverage_error sklearn.metrics.coverage_error          : modules/generated/sklearn.metrics.coverage_error.html
+	modules/generated/sklearn.metrics.d2_absolute_error_score sklearn.metrics.d2_absolute_error_score : modules/generated/sklearn.metrics.d2_absolute_error_score.html
+	modules/generated/sklearn.metrics.d2_pinball_score sklearn.metrics.d2_pinball_score        : modules/generated/sklearn.metrics.d2_pinball_score.html
 	modules/generated/sklearn.metrics.d2_tweedie_score sklearn.metrics.d2_tweedie_score        : modules/generated/sklearn.metrics.d2_tweedie_score.html
 	modules/generated/sklearn.metrics.davies_bouldin_score sklearn.metrics.davies_bouldin_score    : modules/generated/sklearn.metrics.davies_bouldin_score.html
 	modules/generated/sklearn.metrics.dcg_score sklearn.metrics.dcg_score               : modules/generated/sklearn.metrics.dcg_score.html
@@ -3259,6 +3324,7 @@ std:doc
 	modules/generated/sklearn.metrics.fbeta_score sklearn.metrics.fbeta_score             : modules/generated/sklearn.metrics.fbeta_score.html
 	modules/generated/sklearn.metrics.fowlkes_mallows_score sklearn.metrics.fowlkes_mallows_score   : modules/generated/sklearn.metrics.fowlkes_mallows_score.html
 	modules/generated/sklearn.metrics.get_scorer sklearn.metrics.get_scorer              : modules/generated/sklearn.metrics.get_scorer.html
+	modules/generated/sklearn.metrics.get_scorer_names sklearn.metrics.get_scorer_names        : modules/generated/sklearn.metrics.get_scorer_names.html
 	modules/generated/sklearn.metrics.hamming_loss sklearn.metrics.hamming_loss            : modules/generated/sklearn.metrics.hamming_loss.html
 	modules/generated/sklearn.metrics.hinge_loss sklearn.metrics.hinge_loss              : modules/generated/sklearn.metrics.hinge_loss.html
 	modules/generated/sklearn.metrics.homogeneity_completeness_v_measure sklearn.metrics.homogeneity_completeness_v_measure: modules/generated/sklearn.metrics.homogeneity_completeness_v_measure.html
@@ -3506,7 +3572,6 @@ std:doc
 	modules/metrics                          Pairwise metrics, Affinities and Kernels: modules/metrics.html
 	modules/mixture                          Gaussian mixture models                 : modules/mixture.html
 	modules/model_evaluation                 Metrics and scoring: quantifying the quality of predictions: modules/model_evaluation.html
-	modules/model_persistence                Model persistence                       : modules/model_persistence.html
 	modules/multiclass                       Multiclass and multioutput algorithms   : modules/multiclass.html
 	modules/naive_bayes                      Naive Bayes                             : modules/naive_bayes.html
 	modules/neighbors                        Nearest Neighbors                       : modules/neighbors.html
@@ -3531,7 +3596,6 @@ std:doc
 	supervised_learning                      Supervised learning                     : supervised_learning.html
 	support                                  Support                                 : support.html
 	testimonials/testimonials                Who is using scikit-learn?              : testimonials/testimonials.html
-	triage_team                              <no title>                              : triage_team.html
 	tune_toc                                 <no title>                              : tune_toc.html
 	tutorial/basic/tutorial                  An introduction to machine learning with scikit-learn: tutorial/basic/tutorial.html
 	tutorial/index                           scikit-learn Tutorials                  : tutorial/index.html
@@ -3562,6 +3626,7 @@ std:doc
 	whats_new/v0.23                          Version 0.23.2                          : whats_new/v0.23.html
 	whats_new/v0.24                          Version 0.24.2                          : whats_new/v0.24.html
 	whats_new/v1.0                           Version 1.0.2                           : whats_new/v1.0.html
+	whats_new/v1.1                           Version 1.1.1                           : whats_new/v1.1.html
 std:label
 	20newsgroups_dataset                     The 20 newsgroups text dataset          : datasets/real_world.html#newsgroups-dataset
 	about                                    About us                                : about.html#about
@@ -3579,6 +3644,7 @@ std:label
 	api_overview                             APIs of scikit-learn objects            : developers/develop.html#api-overview
 	api_ref                                  API Reference                           : modules/classes.html#api-ref
 	arm64_dev_env                            Building and testing for the ARM64 platform on a x86_64 machine: developers/tips.html#arm64-dev-env
+	automatic_relevance_determination        Automatic Relevance Determination - ARD : modules/linear_model.html#automatic-relevance-determination
 	average                                  From binary to multiclass and multilabel: modules/model_evaluation.html#average
 	b1996                                    modules/ensemble.html#b1996
 	b1998                                    modules/ensemble.html#b1998
@@ -3599,6 +3665,7 @@ std:label
 	biclustering                             Biclustering                            : modules/biclustering.html#biclustering
 	biclustering_evaluation                  Biclustering evaluation                 : modules/biclustering.html#biclustering-evaluation
 	birch                                    BIRCH                                   : modules/clustering.html#birch
+	bisect_k_means                           modules/clustering.html#bisect-k-means
 	boston_dataset                           Boston house prices dataset             : datasets/toy_dataset.html#boston-dataset
 	bre                                      modules/tree.html#bre
 	breast_cancer_dataset                    Breast cancer wisconsin (diagnostic) dataset: datasets/toy_dataset.html#breast-cancer-dataset
@@ -3660,6 +3727,8 @@ std:label
 	changes_1_0                              Version 1.0.0                           : whats_new/v1.0.html#changes-1-0
 	changes_1_0_1                            Version 1.0.1                           : whats_new/v1.0.html#changes-1-0-1
 	changes_1_0_2                            Version 1.0.2                           : whats_new/v1.0.html#changes-1-0-2
+	changes_1_1                              Version 1.1.0                           : whats_new/v1.1.html#changes-1-1
+	changes_1_1_1                            Version 1.1.1                           : whats_new/v1.1.html#changes-1-1-1
 	chi2_kernel                              Chi-squared kernel                      : modules/metrics.html#chi2-kernel
 	citing-scikit-learn                      Citing scikit-learn                     : about.html#citing-scikit-learn
 	classification                           Nearest Neighbors Classification        : modules/neighbors.html#classification
@@ -3712,7 +3781,7 @@ std:label
 	cv_estimators_tut                        Cross-validated estimators              : tutorial/statistical_inference/model_selection.html#cv-estimators-tut
 	cv_generators_tut                        Cross-validation generators             : tutorial/statistical_inference/model_selection.html#cv-generators-tut
 	d1997                                    modules/ensemble.html#d1997
-	d2_tweedie_score                         D² score, the coefficient of determination: modules/model_evaluation.html#d2-tweedie-score
+	d2_score                                 D² score                                : modules/model_evaluation.html#d2-score
 	data-transforms                          Dataset transformations                 : data_transforms.html#data-transforms
 	data_leakage                             Data leakage                            : common_pitfalls.html#data-leakage
 	data_reduction                           Unsupervised dimensionality reduction   : modules/unsupervised_reduction.html#data-reduction
@@ -3755,7 +3824,6 @@ std:label
 	expectation_maximization                 Estimation algorithm Expectation-maximization: modules/mixture.html#expectation-maximization
 	explained_variance_score                 Explained variance score                : modules/model_evaluation.html#explained-variance-score
 	external_datasets                        Loading from external datasets          : datasets/loading_other_datasets.html#external-datasets
-	f1999                                    modules/ensemble.html#f1999
 	f2001                                    modules/model_evaluation.html#f2001
 	f2006                                    modules/model_evaluation.html#f2006
 	fa                                       Factor Analysis                         : modules/decomposition.html#fa
@@ -3776,8 +3844,11 @@ std:label
 	flach2015                                modules/model_evaluation.html#flach2015
 	forest                                   Forests of randomized trees             : modules/ensemble.html#forest
 	fowlkes_mallows_scores                   Fowlkes-Mallows scores                  : modules/clustering.html#fowlkes-mallows-scores
+	friedman2001                             modules/ensemble.html#friedman2001
+	friedman2002                             modules/ensemble.html#friedman2002
 	fs1995                                   modules/ensemble.html#fs1995
 	function_transformer                     Custom transformers                     : modules/preprocessing.html#function-transformer
+	g2015                                    modules/partial_dependence.html#g2015
 	gaussian_naive_bayes                     Gaussian Naive Bayes                    : modules/naive_bayes.html#gaussian-naive-bayes
 	gaussian_process                         Gaussian Processes                      : modules/gaussian_process.html#gaussian-process
 	gaussian_process_examples                Gaussian Process for Machine Learning   : auto_examples/index.html#gaussian-process-examples
@@ -3789,7 +3860,7 @@ std:label
 	generating_polynomial_features           Generating polynomial features          : modules/preprocessing.html#generating-polynomial-features
 	genindex                                 Index                                   : genindex.html
 	git_repo                                 developers/advanced_installation.html#git-repo
-	gitter                                   support.html#gitter
+	gitter                                   Gitter                                  : support.html#gitter
 	glossary                                 Glossary of Common Terms and API Elements: glossary.html#glossary
 	glossary_attributes                      Attributes                              : glossary.html#glossary-attributes
 	glossary_estimator_types                 Class APIs and Estimator Types          : glossary.html#glossary-estimator-types
@@ -3798,6 +3869,7 @@ std:label
 	glossary_sample_props                    Data and sample properties              : glossary.html#glossary-sample-props
 	glossary_target_types                    Target Types                            : glossary.html#glossary-target-types
 	gmm                                      Gaussian mixture models                 : modules/mixture.html#gmm
+	good_practices                           Good practices                          : developers/minimal_reproducer.html#good-practices
 	governance                               Scikit-learn governance and decision-making: governance.html#governance
 	gp_kernels                               Kernels for Gaussian Processes          : modules/gaussian_process.html#gp-kernels
 	gpc                                      Gaussian Process Classification (GPC)   : modules/gaussian_process.html#gpc
@@ -3815,6 +3887,7 @@ std:label
 	group_shuffle_split                      Group Shuffle Split                     : modules/cross_validation.html#group-shuffle-split
 	guyon2015                                modules/model_evaluation.html#guyon2015
 	h1998                                    modules/ensemble.html#h1998
+	h2009                                    modules/partial_dependence.html#h2009
 	hamming_loss                             Hamming loss                            : modules/model_evaluation.html#hamming-loss
 	hashing_vectorizer                       Vectorizing a large text corpus with the hashing trick: modules/feature_extraction.html#hashing-vectorizer
 	hierarchical_clustering                  Hierarchical clustering                 : modules/clustering.html#hierarchical-clustering
@@ -3902,12 +3975,14 @@ std:label
 	linnerrud_dataset                        Linnerrud dataset                       : datasets/toy_dataset.html#linnerrud-dataset
 	loading_example_dataset                  Loading an example dataset              : tutorial/basic/tutorial.html#loading-example-dataset
 	loading_other_datasets                   Loading other datasets                  : datasets/loading_other_datasets.html#loading-other-datasets
+	local_outlier_factor                     Local Outlier Factor                    : modules/outlier_detection.html#local-outlier-factor
 	locally_linear_embedding                 Locally Linear Embedding                : modules/manifold.html#locally-linear-embedding
 	log_loss                                 Log loss                                : modules/model_evaluation.html#log-loss
 	logistic_regression                      Logistic regression                     : modules/linear_model.html#logistic-regression
 	ls2010                                   modules/kernel_approximation.html#ls2010
 	lsa                                      Truncated singular value decomposition and latent semantic analysis: modules/decomposition.html#lsa
 	m2012                                    modules/kernel_ridge.html#m2012
+	m2019                                    modules/partial_dependence.html#m2019
 	mailing_lists                            Mailing List                            : support.html#mailing-lists
 	make_column_transformer                  modules/compose.html#make-column-transformer
 	making_a_release                         Making a release                        : developers/maintainer.html#making-a-release
@@ -3930,7 +4005,9 @@ std:label
 	metrics_ref                              sklearn.metrics: Metrics                : modules/classes.html#metrics-ref
 	mini_batch_kmeans                        Mini Batch K-Means                      : modules/clustering.html#mini-batch-kmeans
 	minibatchdictionarylearning              Mini-batch dictionary learning          : modules/decomposition.html#minibatchdictionarylearning
+	minibatchnmf                             Mini-batch Non Negative Matrix Factorization: modules/decomposition.html#minibatchnmf
 	minimal_cost_complexity_pruning          Minimal Cost-Complexity Pruning         : modules/tree.html#minimal-cost-complexity-pruning
+	minimal_reproducer                       Crafting a minimal reproducer for scikit-learn: developers/minimal_reproducer.html#minimal-reproducer
 	miscellaneous_examples                   Miscellaneous                           : auto_examples/index.html#miscellaneous-examples
 	missing_indicator                        Marking imputed values                  : modules/impute.html#missing-indicator
 	mixture                                  Gaussian mixture models                 : modules/mixture.html#mixture
@@ -3939,7 +4016,7 @@ std:label
 	ml_map                                   tutorial/machine_learning_map/index.html#ml-map
 	mlp_tips                                 Tips on Practical Use                   : modules/neural_networks_supervised.html#mlp-tips
 	model_evaluation                         Metrics and scoring: quantifying the quality of predictions: modules/model_evaluation.html#model-evaluation
-	model_persistence                        Model persistence                       : modules/model_persistence.html#model-persistence
+	model_persistence                        Model persistence                       : model_persistence.html#model-persistence
 	model_selection                          Model selection and evaluation          : model_selection.html#model-selection
 	model_selection_changes                  Model Selection Enhancements and API Changes: whats_new/v0.18.html#model-selection-changes
 	model_selection_examples                 Model Selection                         : auto_examples/index.html#model-selection-examples
@@ -3998,6 +4075,7 @@ std:label
 	ol2001                                   modules/impute.html#ol2001
 	olivetti_faces_dataset                   The Olivetti faces dataset              : datasets/real_world.html#olivetti-faces-dataset
 	omp                                      Orthogonal Matching Pursuit (OMP)       : modules/linear_model.html#omp
+	one_hot_encoder_infrequent_categories    Infrequent categories                   : modules/preprocessing.html#one-hot-encoder-infrequent-categories
 	openml                                   Downloading datasets from the openml.org repository: datasets/loading_other_datasets.html#openml
 	openml_versions                          Dataset Versions                        : datasets/loading_other_datasets.html#openml-versions
 	optics                                   OPTICS                                  : modules/clustering.html#optics
@@ -4018,7 +4096,7 @@ std:label
 	performance-howto                        How to optimize for speed               : developers/performance.html#performance-howto
 	permutation_importance                   Permutation feature importance          : modules/permutation_importance.html#permutation-importance
 	permutation_test_score                   Permutation test score                  : modules/cross_validation.html#permutation-test-score
-	persistence_limitations                  Security & maintainability limitations  : modules/model_persistence.html#persistence-limitations
+	persistence_limitations                  Security & maintainability limitations  : model_persistence.html#persistence-limitations
 	pinball_loss                             Pinball loss                            : modules/model_evaluation.html#pinball-loss
 	pipeline                                 Pipeline: chaining estimators           : modules/compose.html#pipeline
 	pipeline_cache                           Caching transformers: avoid repeated computation: modules/compose.html#pipeline-cache
@@ -4102,6 +4180,8 @@ std:label
 	r3af56aed800a-1                          modules/generated/sklearn.metrics.hamming_loss.html#r3af56aed800a-1
 	r3af56aed800a-2                          modules/generated/sklearn.metrics.hamming_loss.html#r3af56aed800a-2
 	r3d389b87f49a-1                          modules/generated/sklearn.metrics.completeness_score.html#r3d389b87f49a-1
+	r409e25584b3c-1                          modules/generated/sklearn.decomposition.non_negative_factorization.html#r409e25584b3c-1
+	r409e25584b3c-2                          modules/generated/sklearn.decomposition.non_negative_factorization.html#r409e25584b3c-2
 	r412b256ad77e-1                          modules/generated/sklearn.metrics.homogeneity_score.html#r412b256ad77e-1
 	r44c805292efc-1                          modules/generated/sklearn.decomposition.FastICA.html#r44c805292efc-1
 	r45f14345c000-1                          modules/generated/sklearn.ensemble.RandomForestClassifier.html#r45f14345c000-1
@@ -4111,6 +4191,7 @@ std:label
 	r495acb08bb55-2                          modules/generated/sklearn.svm.NuSVR.html#r495acb08bb55-2
 	r4ae6a8049c28-1                          modules/generated/sklearn.svm.SVR.html#r4ae6a8049c28-1
 	r4ae6a8049c28-2                          modules/generated/sklearn.svm.SVR.html#r4ae6a8049c28-2
+	r4b970a69bdc7-1                          modules/generated/sklearn.metrics.d2_absolute_error_score.html#r4b970a69bdc7-1
 	r4bb7c4558997-1                          modules/generated/sklearn.metrics.roc_auc_score.html#r4bb7c4558997-1
 	r4bb7c4558997-2                          modules/generated/sklearn.metrics.roc_auc_score.html#r4bb7c4558997-2
 	r4bb7c4558997-3                          modules/generated/sklearn.metrics.roc_auc_score.html#r4bb7c4558997-3
@@ -4135,10 +4216,13 @@ std:label
 	r57cf438d7060-4                          modules/generated/sklearn.calibration.CalibratedClassifierCV.html#r57cf438d7060-4
 	r57df20f82832-1                          modules/generated/sklearn.metrics.fowlkes_mallows_score.html#r57df20f82832-1
 	r57df20f82832-2                          modules/generated/sklearn.metrics.fowlkes_mallows_score.html#r57df20f82832-2
+	r5831441d8a57-1                          modules/generated/sklearn.manifold.trustworthiness.html#r5831441d8a57-1
+	r5831441d8a57-2                          modules/generated/sklearn.manifold.trustworthiness.html#r5831441d8a57-2
 	r5f6cbeb1558e-1                          modules/generated/sklearn.cluster.SpectralClustering.html#r5f6cbeb1558e-1
 	r5f6cbeb1558e-2                          modules/generated/sklearn.cluster.SpectralClustering.html#r5f6cbeb1558e-2
 	r5f6cbeb1558e-3                          modules/generated/sklearn.cluster.SpectralClustering.html#r5f6cbeb1558e-3
 	r5f6cbeb1558e-4                          modules/generated/sklearn.cluster.SpectralClustering.html#r5f6cbeb1558e-4
+	r5f6cbeb1558e-5                          modules/generated/sklearn.cluster.SpectralClustering.html#r5f6cbeb1558e-5
 	r606df7ffad02-1                          modules/generated/sklearn.ensemble.StackingRegressor.html#r606df7ffad02-1
 	r61802d06a170-1                          modules/generated/sklearn.cluster.compute_optics_graph.html#r61802d06a170-1
 	r623484488881-1                          modules/generated/sklearn.metrics.precision_recall_fscore_support.html#r623484488881-1
@@ -4149,12 +4233,17 @@ std:label
 	r62e36dd1b056-2                          modules/generated/sklearn.manifold.LocallyLinearEmbedding.html#r62e36dd1b056-2
 	r62e36dd1b056-3                          modules/generated/sklearn.manifold.LocallyLinearEmbedding.html#r62e36dd1b056-3
 	r62e36dd1b056-4                          modules/generated/sklearn.manifold.LocallyLinearEmbedding.html#r62e36dd1b056-4
+	r67b3ab572c7d-1                          modules/generated/sklearn.decomposition.NMF.html#r67b3ab572c7d-1
+	r67b3ab572c7d-2                          modules/generated/sklearn.decomposition.NMF.html#r67b3ab572c7d-2
 	r68ae096da0e4-1                          modules/generated/sklearn.covariance.EllipticEnvelope.html#r68ae096da0e4-1
 	r6e47e53bacbd-1                          modules/generated/sklearn.ensemble.RandomTreesEmbedding.html#r6e47e53bacbd-1
 	r6e47e53bacbd-2                          modules/generated/sklearn.ensemble.RandomTreesEmbedding.html#r6e47e53bacbd-2
 	r6e5c12522f2c-1                          modules/generated/sklearn.metrics.f1_score.html#r6e5c12522f2c-1
 	r6f4d61ceb411-1                          modules/generated/sklearn.feature_selection.RFECV.html#r6f4d61ceb411-1
 	r71e05e3f0cb4-1                          modules/generated/sklearn.datasets.make_gaussian_quantiles.html#r71e05e3f0cb4-1
+	r71fa4a5f61b6-1                          modules/generated/sklearn.decomposition.MiniBatchNMF.html#r71fa4a5f61b6-1
+	r71fa4a5f61b6-2                          modules/generated/sklearn.decomposition.MiniBatchNMF.html#r71fa4a5f61b6-2
+	r71fa4a5f61b6-3                          modules/generated/sklearn.decomposition.MiniBatchNMF.html#r71fa4a5f61b6-3
 	r7380c1e4fbce-1                          modules/generated/sklearn.metrics.fbeta_score.html#r7380c1e4fbce-1
 	r7380c1e4fbce-2                          modules/generated/sklearn.metrics.fbeta_score.html#r7380c1e4fbce-2
 	r7405e2fbae10-1                          modules/generated/sklearn.metrics.silhouette_score.html#r7405e2fbae10-1
@@ -4172,10 +4261,15 @@ std:label
 	r89dec4780971-2                          modules/generated/sklearn.cluster.spectral_clustering.html#r89dec4780971-2
 	r89dec4780971-3                          modules/generated/sklearn.cluster.spectral_clustering.html#r89dec4780971-3
 	r89dec4780971-4                          modules/generated/sklearn.cluster.spectral_clustering.html#r89dec4780971-4
+	r89dec4780971-5                          modules/generated/sklearn.cluster.spectral_clustering.html#r89dec4780971-5
+	r89dec4780971-6                          modules/generated/sklearn.cluster.spectral_clustering.html#r89dec4780971-6
+	r89dec4780971-7                          modules/generated/sklearn.cluster.spectral_clustering.html#r89dec4780971-7
 	r9465bad4668c-rvdriessen                 modules/generated/sklearn.covariance.MinCovDet.html#r9465bad4668c-rvdriessen
 	r95f74c4622c1-1                          modules/generated/sklearn.gaussian_process.kernels.DotProduct.html#r95f74c4622c1-1
 	r9709ce4a60d3-1                          modules/generated/sklearn.svm.NuSVC.html#r9709ce4a60d3-1
 	r9709ce4a60d3-2                          modules/generated/sklearn.svm.NuSVC.html#r9709ce4a60d3-2
+	r9e856ff29ebd-1                          modules/generated/sklearn.metrics.d2_pinball_score.html#r9e856ff29ebd-1
+	r9e856ff29ebd-2                          modules/generated/sklearn.metrics.d2_pinball_score.html#r9e856ff29ebd-2
 	r9f63e655f7bd-butlerdavies               modules/generated/sklearn.covariance.MinCovDet.html#r9f63e655f7bd-butlerdavies
 	r9f63e655f7bd-rouseeuw1984               modules/generated/sklearn.covariance.MinCovDet.html#r9f63e655f7bd-rouseeuw1984
 	r9f63e655f7bd-rousseeuw                  modules/generated/sklearn.covariance.MinCovDet.html#r9f63e655f7bd-rousseeuw
@@ -4194,6 +4288,7 @@ std:label
 	random_forest_feature_importance         Feature importance evaluation           : modules/ensemble.html#random-forest-feature-importance
 	random_forest_parameters                 Parameters                              : modules/ensemble.html#random-forest-parameters
 	random_projection                        Random Projection                       : modules/random_projection.html#random-projection
+	random_projection_inverse_transform      Inverse Transform                       : modules/random_projection.html#random-projection-inverse-transform
 	random_projection_ref                    sklearn.random_projection: Random projection: modules/classes.html#random-projection-ref
 	random_trees_embedding                   Totally Random Trees Embedding          : modules/ensemble.html#random-trees-embedding
 	randomized_parameter_search              Randomized Parameter Optimization       : modules/grid_search.html#randomized-parameter-search
@@ -4331,6 +4426,7 @@ std:label
 	sparsity                                 Sparsity                                : tutorial/statistical_inference/supervised_learning.html#sparsity
 	spectral_biclustering                    Spectral Biclustering                   : modules/biclustering.html#spectral-biclustering
 	spectral_clustering                      Spectral clustering                     : modules/clustering.html#spectral-clustering
+	spectral_clustering_graph                Spectral Clustering Graphs              : modules/clustering.html#spectral-clustering-graph
 	spectral_coclustering                    Spectral Co-Clustering                  : modules/biclustering.html#spectral-coclustering
 	spectral_embedding                       Spectral Embedding                      : modules/manifold.html#spectral-embedding
 	sphx_glr_auto_examples                   Examples                                : auto_examples/index.html#sphx-glr-auto-examples
@@ -4374,6 +4470,7 @@ std:label
 	sphx_glr_auto_examples_cluster_plot_agglomerative_clustering_metrics.py Agglomerative clustering with different metrics: auto_examples/cluster/plot_agglomerative_clustering_metrics.html#sphx-glr-auto-examples-cluster-plot-agglomerative-clustering-metrics-py
 	sphx_glr_auto_examples_cluster_plot_agglomerative_dendrogram.py Plot Hierarchical Clustering Dendrogram : auto_examples/cluster/plot_agglomerative_dendrogram.html#sphx-glr-auto-examples-cluster-plot-agglomerative-dendrogram-py
 	sphx_glr_auto_examples_cluster_plot_birch_vs_minibatchkmeans.py Compare BIRCH and MiniBatchKMeans       : auto_examples/cluster/plot_birch_vs_minibatchkmeans.html#sphx-glr-auto-examples-cluster-plot-birch-vs-minibatchkmeans-py
+	sphx_glr_auto_examples_cluster_plot_bisect_kmeans.py Bisecting K-Means and Regular K-Means Performance Comparison: auto_examples/cluster/plot_bisect_kmeans.html#sphx-glr-auto-examples-cluster-plot-bisect-kmeans-py
 	sphx_glr_auto_examples_cluster_plot_cluster_comparison.py Comparing different clustering algorithms on toy datasets: auto_examples/cluster/plot_cluster_comparison.html#sphx-glr-auto-examples-cluster-plot-cluster-comparison-py
 	sphx_glr_auto_examples_cluster_plot_cluster_iris.py K-means Clustering                      : auto_examples/cluster/plot_cluster_iris.html#sphx-glr-auto-examples-cluster-plot-cluster-iris-py
 	sphx_glr_auto_examples_cluster_plot_coin_segmentation.py Segmenting the picture of greek coins in regions: auto_examples/cluster/plot_coin_segmentation.html#sphx-glr-auto-examples-cluster-plot-coin-segmentation-py
@@ -4504,8 +4601,7 @@ std:label
 	sphx_glr_auto_examples_kernel_approximation_plot_scalable_poly_kernels.py Scalable learning with polynomial kernel approximation: auto_examples/kernel_approximation/plot_scalable_poly_kernels.html#sphx-glr-auto-examples-kernel-approximation-plot-scalable-poly-kernels-py
 	sphx_glr_auto_examples_kernel_approximation_sg_execution_times Computation times                       : auto_examples/kernel_approximation/sg_execution_times.html#sphx-glr-auto-examples-kernel-approximation-sg-execution-times
 	sphx_glr_auto_examples_linear_model      Generalized Linear Models               : auto_examples/index.html#sphx-glr-auto-examples-linear-model
-	sphx_glr_auto_examples_linear_model_plot_ard.py Automatic Relevance Determination Regression (ARD): auto_examples/linear_model/plot_ard.html#sphx-glr-auto-examples-linear-model-plot-ard-py
-	sphx_glr_auto_examples_linear_model_plot_bayesian_ridge.py Bayesian Ridge Regression               : auto_examples/linear_model/plot_bayesian_ridge.html#sphx-glr-auto-examples-linear-model-plot-bayesian-ridge-py
+	sphx_glr_auto_examples_linear_model_plot_ard.py Comparing Linear Bayesian Regressors    : auto_examples/linear_model/plot_ard.html#sphx-glr-auto-examples-linear-model-plot-ard-py
 	sphx_glr_auto_examples_linear_model_plot_bayesian_ridge_curvefit.py Curve Fitting with Bayesian Ridge Regression: auto_examples/linear_model/plot_bayesian_ridge_curvefit.html#sphx-glr-auto-examples-linear-model-plot-bayesian-ridge-curvefit-py
 	sphx_glr_auto_examples_linear_model_plot_elastic_net_precomputed_gram_matrix_with_weighted_samples.py Fitting an Elastic Net with a precomputed Gram Matrix and Weighted Samples: auto_examples/linear_model/plot_elastic_net_precomputed_gram_matrix_with_weighted_samples.html#sphx-glr-auto-examples-linear-model-plot-elastic-net-precomputed-gram-matrix-with-weighted-samples-py
 	sphx_glr_auto_examples_linear_model_plot_huber_vs_ridge.py HuberRegressor vs Ridge on dataset with strong outliers: auto_examples/linear_model/plot_huber_vs_ridge.html#sphx-glr-auto-examples-linear-model-plot-huber-vs-ridge-py
@@ -4551,7 +4647,7 @@ std:label
 	sphx_glr_auto_examples_manifold_plot_lle_digits.py Manifold learning on handwritten digits: Locally Linear Embedding, Isomap…: auto_examples/manifold/plot_lle_digits.html#sphx-glr-auto-examples-manifold-plot-lle-digits-py
 	sphx_glr_auto_examples_manifold_plot_manifold_sphere.py Manifold Learning methods on a severed sphere: auto_examples/manifold/plot_manifold_sphere.html#sphx-glr-auto-examples-manifold-plot-manifold-sphere-py
 	sphx_glr_auto_examples_manifold_plot_mds.py Multi-dimensional scaling               : auto_examples/manifold/plot_mds.html#sphx-glr-auto-examples-manifold-plot-mds-py
-	sphx_glr_auto_examples_manifold_plot_swissroll.py Swiss Roll reduction with LLE           : auto_examples/manifold/plot_swissroll.html#sphx-glr-auto-examples-manifold-plot-swissroll-py
+	sphx_glr_auto_examples_manifold_plot_swissroll.py Swiss Roll And Swiss-Hole Reduction     : auto_examples/manifold/plot_swissroll.html#sphx-glr-auto-examples-manifold-plot-swissroll-py
 	sphx_glr_auto_examples_manifold_plot_t_sne_perplexity.py t-SNE: The effect of various perplexity values on the shape: auto_examples/manifold/plot_t_sne_perplexity.html#sphx-glr-auto-examples-manifold-plot-t-sne-perplexity-py
 	sphx_glr_auto_examples_manifold_sg_execution_times Computation times                       : auto_examples/manifold/sg_execution_times.html#sphx-glr-auto-examples-manifold-sg-execution-times
 	sphx_glr_auto_examples_miscellaneous     Miscellaneous                           : auto_examples/index.html#sphx-glr-auto-examples-miscellaneous
@@ -4564,6 +4660,7 @@ std:label
 	sphx_glr_auto_examples_miscellaneous_plot_kernel_ridge_regression.py Comparison of kernel ridge regression and SVR: auto_examples/miscellaneous/plot_kernel_ridge_regression.html#sphx-glr-auto-examples-miscellaneous-plot-kernel-ridge-regression-py
 	sphx_glr_auto_examples_miscellaneous_plot_multilabel.py Multilabel classification               : auto_examples/miscellaneous/plot_multilabel.html#sphx-glr-auto-examples-miscellaneous-plot-multilabel-py
 	sphx_glr_auto_examples_miscellaneous_plot_multioutput_face_completion.py Face completion with a multi-output estimators: auto_examples/miscellaneous/plot_multioutput_face_completion.html#sphx-glr-auto-examples-miscellaneous-plot-multioutput-face-completion-py
+	sphx_glr_auto_examples_miscellaneous_plot_outlier_detection_bench.py Evaluation of outlier detection estimators: auto_examples/miscellaneous/plot_outlier_detection_bench.html#sphx-glr-auto-examples-miscellaneous-plot-outlier-detection-bench-py
 	sphx_glr_auto_examples_miscellaneous_plot_partial_dependence_visualization_api.py Advanced Plotting With Partial Dependence: auto_examples/miscellaneous/plot_partial_dependence_visualization_api.html#sphx-glr-auto-examples-miscellaneous-plot-partial-dependence-visualization-api-py
 	sphx_glr_auto_examples_miscellaneous_plot_pipeline_display.py Displaying Pipelines                    : auto_examples/miscellaneous/plot_pipeline_display.html#sphx-glr-auto-examples-miscellaneous-plot-pipeline-display-py
 	sphx_glr_auto_examples_miscellaneous_plot_roc_curve_visualization_api.py ROC Curve with Visualization API        : auto_examples/miscellaneous/plot_roc_curve_visualization_api.html#sphx-glr-auto-examples-miscellaneous-plot-roc-curve-visualization-api-py
@@ -4572,6 +4669,7 @@ std:label
 	sphx_glr_auto_examples_mixture_plot_concentration_prior.py Concentration Prior Type Analysis of Variation Bayesian Gaussian Mixture: auto_examples/mixture/plot_concentration_prior.html#sphx-glr-auto-examples-mixture-plot-concentration-prior-py
 	sphx_glr_auto_examples_mixture_plot_gmm.py Gaussian Mixture Model Ellipsoids       : auto_examples/mixture/plot_gmm.html#sphx-glr-auto-examples-mixture-plot-gmm-py
 	sphx_glr_auto_examples_mixture_plot_gmm_covariances.py GMM covariances                         : auto_examples/mixture/plot_gmm_covariances.html#sphx-glr-auto-examples-mixture-plot-gmm-covariances-py
+	sphx_glr_auto_examples_mixture_plot_gmm_init.py GMM Initialization Methods              : auto_examples/mixture/plot_gmm_init.html#sphx-glr-auto-examples-mixture-plot-gmm-init-py
 	sphx_glr_auto_examples_mixture_plot_gmm_pdf.py Density Estimation for a Gaussian mixture: auto_examples/mixture/plot_gmm_pdf.html#sphx-glr-auto-examples-mixture-plot-gmm-pdf-py
 	sphx_glr_auto_examples_mixture_plot_gmm_selection.py Gaussian Mixture Model Selection        : auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py
 	sphx_glr_auto_examples_mixture_plot_gmm_sin.py Gaussian Mixture Model Sine Curve       : auto_examples/mixture/plot_gmm_sin.html#sphx-glr-auto-examples-mixture-plot-gmm-sin-py
@@ -4636,6 +4734,7 @@ std:label
 	sphx_glr_auto_examples_release_highlights_plot_release_highlights_0_23_0.py Release Highlights for scikit-learn 0.23: auto_examples/release_highlights/plot_release_highlights_0_23_0.html#sphx-glr-auto-examples-release-highlights-plot-release-highlights-0-23-0-py
 	sphx_glr_auto_examples_release_highlights_plot_release_highlights_0_24_0.py Release Highlights for scikit-learn 0.24: auto_examples/release_highlights/plot_release_highlights_0_24_0.html#sphx-glr-auto-examples-release-highlights-plot-release-highlights-0-24-0-py
 	sphx_glr_auto_examples_release_highlights_plot_release_highlights_1_0_0.py Release Highlights for scikit-learn 1.0 : auto_examples/release_highlights/plot_release_highlights_1_0_0.html#sphx-glr-auto-examples-release-highlights-plot-release-highlights-1-0-0-py
+	sphx_glr_auto_examples_release_highlights_plot_release_highlights_1_1_0.py Release Highlights for scikit-learn 1.1 : auto_examples/release_highlights/plot_release_highlights_1_1_0.html#sphx-glr-auto-examples-release-highlights-plot-release-highlights-1-1-0-py
 	sphx_glr_auto_examples_release_highlights_sg_execution_times Computation times                       : auto_examples/release_highlights/sg_execution_times.html#sphx-glr-auto-examples-release-highlights-sg-execution-times
 	sphx_glr_auto_examples_semi_supervised   Semi Supervised Classification          : auto_examples/index.html#sphx-glr-auto-examples-semi-supervised
 	sphx_glr_auto_examples_semi_supervised_plot_label_propagation_digits.py Label Propagation digits: Demonstrating performance: auto_examples/semi_supervised/plot_label_propagation_digits.html#sphx-glr-auto-examples-semi-supervised-plot-label-propagation-digits-py
@@ -4705,6 +4804,7 @@ std:label
 	sphx_glr_download_auto_examples_cluster_plot_agglomerative_clustering_metrics.py auto_examples/cluster/plot_agglomerative_clustering_metrics.html#sphx-glr-download-auto-examples-cluster-plot-agglomerative-clustering-metrics-py
 	sphx_glr_download_auto_examples_cluster_plot_agglomerative_dendrogram.py auto_examples/cluster/plot_agglomerative_dendrogram.html#sphx-glr-download-auto-examples-cluster-plot-agglomerative-dendrogram-py
 	sphx_glr_download_auto_examples_cluster_plot_birch_vs_minibatchkmeans.py auto_examples/cluster/plot_birch_vs_minibatchkmeans.html#sphx-glr-download-auto-examples-cluster-plot-birch-vs-minibatchkmeans-py
+	sphx_glr_download_auto_examples_cluster_plot_bisect_kmeans.py auto_examples/cluster/plot_bisect_kmeans.html#sphx-glr-download-auto-examples-cluster-plot-bisect-kmeans-py
 	sphx_glr_download_auto_examples_cluster_plot_cluster_comparison.py auto_examples/cluster/plot_cluster_comparison.html#sphx-glr-download-auto-examples-cluster-plot-cluster-comparison-py
 	sphx_glr_download_auto_examples_cluster_plot_cluster_iris.py auto_examples/cluster/plot_cluster_iris.html#sphx-glr-download-auto-examples-cluster-plot-cluster-iris-py
 	sphx_glr_download_auto_examples_cluster_plot_coin_segmentation.py auto_examples/cluster/plot_coin_segmentation.html#sphx-glr-download-auto-examples-cluster-plot-coin-segmentation-py
@@ -4810,7 +4910,6 @@ std:label
 	sphx_glr_download_auto_examples_inspection_plot_permutation_importance_multicollinear.py auto_examples/inspection/plot_permutation_importance_multicollinear.html#sphx-glr-download-auto-examples-inspection-plot-permutation-importance-multicollinear-py
 	sphx_glr_download_auto_examples_kernel_approximation_plot_scalable_poly_kernels.py auto_examples/kernel_approximation/plot_scalable_poly_kernels.html#sphx-glr-download-auto-examples-kernel-approximation-plot-scalable-poly-kernels-py
 	sphx_glr_download_auto_examples_linear_model_plot_ard.py auto_examples/linear_model/plot_ard.html#sphx-glr-download-auto-examples-linear-model-plot-ard-py
-	sphx_glr_download_auto_examples_linear_model_plot_bayesian_ridge.py auto_examples/linear_model/plot_bayesian_ridge.html#sphx-glr-download-auto-examples-linear-model-plot-bayesian-ridge-py
 	sphx_glr_download_auto_examples_linear_model_plot_bayesian_ridge_curvefit.py auto_examples/linear_model/plot_bayesian_ridge_curvefit.html#sphx-glr-download-auto-examples-linear-model-plot-bayesian-ridge-curvefit-py
 	sphx_glr_download_auto_examples_linear_model_plot_elastic_net_precomputed_gram_matrix_with_weighted_samples.py auto_examples/linear_model/plot_elastic_net_precomputed_gram_matrix_with_weighted_samples.html#sphx-glr-download-auto-examples-linear-model-plot-elastic-net-precomputed-gram-matrix-with-weighted-samples-py
 	sphx_glr_download_auto_examples_linear_model_plot_huber_vs_ridge.py auto_examples/linear_model/plot_huber_vs_ridge.html#sphx-glr-download-auto-examples-linear-model-plot-huber-vs-ridge-py
@@ -4865,12 +4964,14 @@ std:label
 	sphx_glr_download_auto_examples_miscellaneous_plot_kernel_ridge_regression.py auto_examples/miscellaneous/plot_kernel_ridge_regression.html#sphx-glr-download-auto-examples-miscellaneous-plot-kernel-ridge-regression-py
 	sphx_glr_download_auto_examples_miscellaneous_plot_multilabel.py auto_examples/miscellaneous/plot_multilabel.html#sphx-glr-download-auto-examples-miscellaneous-plot-multilabel-py
 	sphx_glr_download_auto_examples_miscellaneous_plot_multioutput_face_completion.py auto_examples/miscellaneous/plot_multioutput_face_completion.html#sphx-glr-download-auto-examples-miscellaneous-plot-multioutput-face-completion-py
+	sphx_glr_download_auto_examples_miscellaneous_plot_outlier_detection_bench.py auto_examples/miscellaneous/plot_outlier_detection_bench.html#sphx-glr-download-auto-examples-miscellaneous-plot-outlier-detection-bench-py
 	sphx_glr_download_auto_examples_miscellaneous_plot_partial_dependence_visualization_api.py auto_examples/miscellaneous/plot_partial_dependence_visualization_api.html#sphx-glr-download-auto-examples-miscellaneous-plot-partial-dependence-visualization-api-py
 	sphx_glr_download_auto_examples_miscellaneous_plot_pipeline_display.py auto_examples/miscellaneous/plot_pipeline_display.html#sphx-glr-download-auto-examples-miscellaneous-plot-pipeline-display-py
 	sphx_glr_download_auto_examples_miscellaneous_plot_roc_curve_visualization_api.py auto_examples/miscellaneous/plot_roc_curve_visualization_api.html#sphx-glr-download-auto-examples-miscellaneous-plot-roc-curve-visualization-api-py
 	sphx_glr_download_auto_examples_mixture_plot_concentration_prior.py auto_examples/mixture/plot_concentration_prior.html#sphx-glr-download-auto-examples-mixture-plot-concentration-prior-py
 	sphx_glr_download_auto_examples_mixture_plot_gmm.py auto_examples/mixture/plot_gmm.html#sphx-glr-download-auto-examples-mixture-plot-gmm-py
 	sphx_glr_download_auto_examples_mixture_plot_gmm_covariances.py auto_examples/mixture/plot_gmm_covariances.html#sphx-glr-download-auto-examples-mixture-plot-gmm-covariances-py
+	sphx_glr_download_auto_examples_mixture_plot_gmm_init.py auto_examples/mixture/plot_gmm_init.html#sphx-glr-download-auto-examples-mixture-plot-gmm-init-py
 	sphx_glr_download_auto_examples_mixture_plot_gmm_pdf.py auto_examples/mixture/plot_gmm_pdf.html#sphx-glr-download-auto-examples-mixture-plot-gmm-pdf-py
 	sphx_glr_download_auto_examples_mixture_plot_gmm_selection.py auto_examples/mixture/plot_gmm_selection.html#sphx-glr-download-auto-examples-mixture-plot-gmm-selection-py
 	sphx_glr_download_auto_examples_mixture_plot_gmm_sin.py auto_examples/mixture/plot_gmm_sin.html#sphx-glr-download-auto-examples-mixture-plot-gmm-sin-py
@@ -4923,6 +5024,7 @@ std:label
 	sphx_glr_download_auto_examples_release_highlights_plot_release_highlights_0_23_0.py auto_examples/release_highlights/plot_release_highlights_0_23_0.html#sphx-glr-download-auto-examples-release-highlights-plot-release-highlights-0-23-0-py
 	sphx_glr_download_auto_examples_release_highlights_plot_release_highlights_0_24_0.py auto_examples/release_highlights/plot_release_highlights_0_24_0.html#sphx-glr-download-auto-examples-release-highlights-plot-release-highlights-0-24-0-py
 	sphx_glr_download_auto_examples_release_highlights_plot_release_highlights_1_0_0.py auto_examples/release_highlights/plot_release_highlights_1_0_0.html#sphx-glr-download-auto-examples-release-highlights-plot-release-highlights-1-0-0-py
+	sphx_glr_download_auto_examples_release_highlights_plot_release_highlights_1_1_0.py auto_examples/release_highlights/plot_release_highlights_1_1_0.html#sphx-glr-download-auto-examples-release-highlights-plot-release-highlights-1-1-0-py
 	sphx_glr_download_auto_examples_semi_supervised_plot_label_propagation_digits.py auto_examples/semi_supervised/plot_label_propagation_digits.html#sphx-glr-download-auto-examples-semi-supervised-plot-label-propagation-digits-py
 	sphx_glr_download_auto_examples_semi_supervised_plot_label_propagation_digits_active_learning.py auto_examples/semi_supervised/plot_label_propagation_digits_active_learning.html#sphx-glr-download-auto-examples-semi-supervised-plot-label-propagation-digits-active-learning-py
 	sphx_glr_download_auto_examples_semi_supervised_plot_label_propagation_structure.py auto_examples/semi_supervised/plot_label_propagation_structure.html#sphx-glr-download-auto-examples-semi-supervised-plot-label-propagation-structure-py
@@ -4962,7 +5064,7 @@ std:label
 	stratified_group_k_fold                  StratifiedGroupKFold                    : modules/cross_validation.html#stratified-group-k-fold
 	stratified_k_fold                        Stratified k-fold                       : modules/cross_validation.html#stratified-k-fold
 	stratified_shuffle_split                 Stratified Shuffle Split                : modules/cross_validation.html#stratified-shuffle-split
-	successive_halving_cv_results            Analysing results with the cv_results_ attribute: modules/grid_search.html#successive-halving-cv-results
+	successive_halving_cv_results            Analyzing results with the cv_results_ attribute: modules/grid_search.html#successive-halving-cv-results
 	successive_halving_user_guide            Searching for optimal parameters with successive halving: modules/grid_search.html#successive-halving-user-guide
 	supervised-learning                      Supervised learning                     : supervised_learning.html#supervised-learning
 	supervised_learning_tut                  Supervised learning: predicting an output variable from high-dimensional observations: tutorial/statistical_inference/supervised_learning.html#supervised-learning-tut
@@ -4977,6 +5079,7 @@ std:label
 	svm_ref                                  sklearn.svm: Support Vector Machines    : modules/classes.html#svm-ref
 	svm_regression                           Regression                              : modules/svm.html#svm-regression
 	sw_hgbdt                                 Sample weight support                   : modules/ensemble.html#sw-hgbdt
+	synth_data                               Synthetic dataset                       : developers/minimal_reproducer.html#synth-data
 	t_sne                                    t-distributed Stochastic Neighbor Embedding (t-SNE): modules/manifold.html#t-sne
 	tensor_sketch_kernel_approx              Mathematical Details                    : modules/kernel_approximation.html#tensor-sketch-kernel-approx
 	testimonials                             Who is using scikit-learn?              : testimonials/testimonials.html#testimonials
@@ -5049,7 +5152,6 @@ std:term
 	Xt                                       glossary.html#term-Xt
 	Y                                        glossary.html#term-Y
 	_estimator_type                          glossary.html#term-_estimator_type
-	_pairwise                                glossary.html#term-_pairwise
 	array-like                               glossary.html#term-array-like
 	attribute                                glossary.html#term-attribute
 	attributes                               glossary.html#term-attributes
