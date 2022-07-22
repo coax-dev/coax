@@ -12,7 +12,7 @@ If you need any of the features from the pre-release version listed under "Upcom
 Upcoming
 --------
 
-(nothing yet)
+- Fix affine transform for composite distributions.
 
 
 v0.1.11

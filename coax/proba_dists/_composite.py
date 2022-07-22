@@ -3,6 +3,7 @@ from enum import Enum
 import gym
 import numpy as onp
 import haiku as hk
+import jax
 
 from ..utils import jit
 from ._base import BaseProbaDist
@@ -174,22 +175,25 @@ class ProbaDist(BaseProbaDist):
             raise AssertionError(f"bad structure_type: {self._structure_type}")
 
         def affine_transform(dist_params, scale, shift, value_transform=None):
+            if value_transform is None:
+                value_transform = jax.tree_map(lambda _: None, self._structure)
+
             if self._structure_type == StructureType.LEAF:
                 return self._structure.affine_transform(dist_params, scale, shift, value_transform)
 
             if self._structure_type == StructureType.LIST:
                 assert len(dist_params) == len(scale) == len(shift) == len(self._structure)
-                assert value_transform is None or len(value_transform) == len(self._structure)
-                return sum(
+                assert len(value_transform) == len(self._structure)
+                return [
                     dist.affine_transform(dist_params[i], scale[i], shift[i], value_transform[i])
-                    for i, dist in enumerate(self._structure))
+                    for i, dist in enumerate(self._structure)]
 
             if self._structure_type == StructureType.DICT:
                 assert set(dist_params) == set(scale) == set(shift) == set(self._structure)
-                assert value_transform is None or set(value_transform) == set(self._structure)
-                return sum(
-                    dist.affine_transform(dist_params[k], scale[k], shift[k], value_transform[k])
-                    for k, dist in self._structure.items())
+                assert set(value_transform) == set(self._structure)
+                return {
+                    k: dist.affine_transform(dist_params[k], scale[k], shift[k], value_transform[k])
+                    for k, dist in self._structure.items()}
 
             raise AssertionError(f"bad structure_type: {self._structure_type}")
 
