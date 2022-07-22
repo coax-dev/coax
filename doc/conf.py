@@ -265,7 +265,6 @@ intersphinx_mapping = {
     'sklearn': ('https://scikit-learn.org/stable/', ('_intersphinx/sklearn.inv',)),
     'jax': ('https://jax.readthedocs.io/en/latest/', ('_intersphinx/jax.inv',)),
     'haiku': ('https://dm-haiku.readthedocs.io/en/latest/', ('_intersphinx/haiku.inv',)),
-    'rllib': ('https://rllib.readthedocs.io/en/latest/', ('_intersphinx/rllib.inv',)),
     'spinup': ('https://spinningup.openai.com/en/latest/', ('_intersphinx/spinup.inv',)),
 }
 

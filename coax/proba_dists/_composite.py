@@ -263,6 +263,12 @@ class ProbaDist(BaseProbaDist):
         if self._structure_type == StructureType.LEAF:
             return self._structure.preprocess_variate(next(rngs), X)
 
+        if isinstance(self.space, (gym.spaces.MultiDiscrete, gym.spaces.MultiBinary)):
+            assert self._structure_type == StructureType.LIST
+            return [
+                dist.preprocess_variate(next(rngs), X[..., i])
+                for i, dist in enumerate(self._structure)]
+
         if self._structure_type == StructureType.LIST:
             return [
                 dist.preprocess_variate(next(rngs), X[i])

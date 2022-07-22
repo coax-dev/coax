@@ -156,7 +156,7 @@ target_params_q = deepcopy(params_q)
 
 @jax.jit
 def soft_update(target_params, primary_params, tau=1.0):
-    return jax.tree_multimap(lambda a, b: a + tau * (b - a), target_params, primary_params)
+    return jax.tree_map(lambda a, b: a + tau * (b - a), target_params, primary_params)
 
 
 ####################################################################################################

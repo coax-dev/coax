@@ -121,6 +121,7 @@ c:function
 	PyCoro_New                               c-api/coro.html#c.PyCoro_New
 	PyDateTime_Check                         c-api/datetime.html#c.PyDateTime_Check
 	PyDateTime_CheckExact                    c-api/datetime.html#c.PyDateTime_CheckExact
+	PyDateTime_DATE_GET_FOLD                 c-api/datetime.html#c.PyDateTime_DATE_GET_FOLD
 	PyDateTime_DATE_GET_HOUR                 c-api/datetime.html#c.PyDateTime_DATE_GET_HOUR
 	PyDateTime_DATE_GET_MICROSECOND          c-api/datetime.html#c.PyDateTime_DATE_GET_MICROSECOND
 	PyDateTime_DATE_GET_MINUTE               c-api/datetime.html#c.PyDateTime_DATE_GET_MINUTE
@@ -135,6 +136,7 @@ c:function
 	PyDateTime_GET_DAY                       c-api/datetime.html#c.PyDateTime_GET_DAY
 	PyDateTime_GET_MONTH                     c-api/datetime.html#c.PyDateTime_GET_MONTH
 	PyDateTime_GET_YEAR                      c-api/datetime.html#c.PyDateTime_GET_YEAR
+	PyDateTime_TIME_GET_FOLD                 c-api/datetime.html#c.PyDateTime_TIME_GET_FOLD
 	PyDateTime_TIME_GET_HOUR                 c-api/datetime.html#c.PyDateTime_TIME_GET_HOUR
 	PyDateTime_TIME_GET_MICROSECOND          c-api/datetime.html#c.PyDateTime_TIME_GET_MICROSECOND
 	PyDateTime_TIME_GET_MINUTE               c-api/datetime.html#c.PyDateTime_TIME_GET_MINUTE
@@ -892,6 +894,7 @@ c:function
 	Py_CompileStringFlags                    c-api/veryhigh.html#c.Py_CompileStringFlags
 	Py_CompileStringObject                   c-api/veryhigh.html#c.Py_CompileStringObject
 	Py_DECREF                                c-api/refcounting.html#c.Py_DECREF
+	Py_DecRef                                c-api/refcounting.html#c.Py_DecRef
 	Py_DecodeLocale                          c-api/sys.html#c.Py_DecodeLocale
 	Py_EncodeLocale                          c-api/sys.html#c.Py_EncodeLocale
 	Py_EndInterpreter                        c-api/init.html#c.Py_EndInterpreter
@@ -916,6 +919,7 @@ c:function
 	Py_GetVersion                            c-api/init.html#c.Py_GetVersion
 	Py_INCREF                                c-api/refcounting.html#c.Py_INCREF
 	Py_IS_TYPE                               c-api/structures.html#c.Py_IS_TYPE
+	Py_IncRef                                c-api/refcounting.html#c.Py_IncRef
 	Py_Initialize                            c-api/init.html#c.Py_Initialize
 	Py_InitializeEx                          c-api/init.html#c.Py_InitializeEx
 	Py_InitializeFromConfig                  c-api/init_config.html#c.Py_InitializeFromConfig
@@ -981,6 +985,1725 @@ c:function
 	_Py_c_prod                               c-api/complex.html#c._Py_c_prod
 	_Py_c_quot                               c-api/complex.html#c._Py_c_quot
 	_Py_c_sum                                c-api/complex.html#c._Py_c_sum
+c:functionParam
+	PyAIter_Check.o                          c-api/iter.html#c.PyAIter_Check
+	PyAnySet_Check.p                         c-api/set.html#c.PyAnySet_Check
+	PyAnySet_CheckExact.p                    c-api/set.html#c.PyAnySet_CheckExact
+	PyArg_Parse.args                         c-api/arg.html#c.PyArg_Parse
+	PyArg_Parse.format                       c-api/arg.html#c.PyArg_Parse
+	PyArg_ParseTuple.args                    c-api/arg.html#c.PyArg_ParseTuple
+	PyArg_ParseTuple.format                  c-api/arg.html#c.PyArg_ParseTuple
+	PyArg_ParseTupleAndKeywords.args         c-api/arg.html#c.PyArg_ParseTupleAndKeywords
+	PyArg_ParseTupleAndKeywords.format       c-api/arg.html#c.PyArg_ParseTupleAndKeywords
+	PyArg_ParseTupleAndKeywords.keywords     c-api/arg.html#c.PyArg_ParseTupleAndKeywords
+	PyArg_ParseTupleAndKeywords.kw           c-api/arg.html#c.PyArg_ParseTupleAndKeywords
+	PyArg_UnpackTuple.args                   c-api/arg.html#c.PyArg_UnpackTuple
+	PyArg_UnpackTuple.max                    c-api/arg.html#c.PyArg_UnpackTuple
+	PyArg_UnpackTuple.min                    c-api/arg.html#c.PyArg_UnpackTuple
+	PyArg_UnpackTuple.name                   c-api/arg.html#c.PyArg_UnpackTuple
+	PyArg_VaParse.args                       c-api/arg.html#c.PyArg_VaParse
+	PyArg_VaParse.format                     c-api/arg.html#c.PyArg_VaParse
+	PyArg_VaParse.vargs                      c-api/arg.html#c.PyArg_VaParse
+	PyArg_VaParseTupleAndKeywords.args       c-api/arg.html#c.PyArg_VaParseTupleAndKeywords
+	PyArg_VaParseTupleAndKeywords.format     c-api/arg.html#c.PyArg_VaParseTupleAndKeywords
+	PyArg_VaParseTupleAndKeywords.keywords   c-api/arg.html#c.PyArg_VaParseTupleAndKeywords
+	PyArg_VaParseTupleAndKeywords.kw         c-api/arg.html#c.PyArg_VaParseTupleAndKeywords
+	PyArg_VaParseTupleAndKeywords.vargs      c-api/arg.html#c.PyArg_VaParseTupleAndKeywords
+	PyBool_Check.o                           c-api/bool.html#c.PyBool_Check
+	PyBool_FromLong.v                        c-api/bool.html#c.PyBool_FromLong
+	PyBuffer_FillContiguousStrides.itemsize  c-api/buffer.html#c.PyBuffer_FillContiguousStrides
+	PyBuffer_FillContiguousStrides.ndims     c-api/buffer.html#c.PyBuffer_FillContiguousStrides
+	PyBuffer_FillContiguousStrides.order     c-api/buffer.html#c.PyBuffer_FillContiguousStrides
+	PyBuffer_FillContiguousStrides.shape     c-api/buffer.html#c.PyBuffer_FillContiguousStrides
+	PyBuffer_FillContiguousStrides.strides   c-api/buffer.html#c.PyBuffer_FillContiguousStrides
+	PyBuffer_FillInfo.buf                    c-api/buffer.html#c.PyBuffer_FillInfo
+	PyBuffer_FillInfo.exporter               c-api/buffer.html#c.PyBuffer_FillInfo
+	PyBuffer_FillInfo.flags                  c-api/buffer.html#c.PyBuffer_FillInfo
+	PyBuffer_FillInfo.len                    c-api/buffer.html#c.PyBuffer_FillInfo
+	PyBuffer_FillInfo.readonly               c-api/buffer.html#c.PyBuffer_FillInfo
+	PyBuffer_FillInfo.view                   c-api/buffer.html#c.PyBuffer_FillInfo
+	PyBuffer_FromContiguous.buf              c-api/buffer.html#c.PyBuffer_FromContiguous
+	PyBuffer_FromContiguous.fort             c-api/buffer.html#c.PyBuffer_FromContiguous
+	PyBuffer_FromContiguous.len              c-api/buffer.html#c.PyBuffer_FromContiguous
+	PyBuffer_FromContiguous.view             c-api/buffer.html#c.PyBuffer_FromContiguous
+	PyBuffer_GetPointer.indices              c-api/buffer.html#c.PyBuffer_GetPointer
+	PyBuffer_GetPointer.view                 c-api/buffer.html#c.PyBuffer_GetPointer
+	PyBuffer_IsContiguous.order              c-api/buffer.html#c.PyBuffer_IsContiguous
+	PyBuffer_IsContiguous.view               c-api/buffer.html#c.PyBuffer_IsContiguous
+	PyBuffer_Release.view                    c-api/buffer.html#c.PyBuffer_Release
+	PyBuffer_SizeFromFormat.format           c-api/buffer.html#c.PyBuffer_SizeFromFormat
+	PyBuffer_ToContiguous.buf                c-api/buffer.html#c.PyBuffer_ToContiguous
+	PyBuffer_ToContiguous.len                c-api/buffer.html#c.PyBuffer_ToContiguous
+	PyBuffer_ToContiguous.order              c-api/buffer.html#c.PyBuffer_ToContiguous
+	PyBuffer_ToContiguous.src                c-api/buffer.html#c.PyBuffer_ToContiguous
+	PyByteArray_AS_STRING.bytearray          c-api/bytearray.html#c.PyByteArray_AS_STRING
+	PyByteArray_AsString.bytearray           c-api/bytearray.html#c.PyByteArray_AsString
+	PyByteArray_Check.o                      c-api/bytearray.html#c.PyByteArray_Check
+	PyByteArray_CheckExact.o                 c-api/bytearray.html#c.PyByteArray_CheckExact
+	PyByteArray_Concat.a                     c-api/bytearray.html#c.PyByteArray_Concat
+	PyByteArray_Concat.b                     c-api/bytearray.html#c.PyByteArray_Concat
+	PyByteArray_FromObject.o                 c-api/bytearray.html#c.PyByteArray_FromObject
+	PyByteArray_FromStringAndSize.len        c-api/bytearray.html#c.PyByteArray_FromStringAndSize
+	PyByteArray_FromStringAndSize.string     c-api/bytearray.html#c.PyByteArray_FromStringAndSize
+	PyByteArray_GET_SIZE.bytearray           c-api/bytearray.html#c.PyByteArray_GET_SIZE
+	PyByteArray_Resize.bytearray             c-api/bytearray.html#c.PyByteArray_Resize
+	PyByteArray_Resize.len                   c-api/bytearray.html#c.PyByteArray_Resize
+	PyByteArray_Size.bytearray               c-api/bytearray.html#c.PyByteArray_Size
+	PyBytes_AS_STRING.string                 c-api/bytes.html#c.PyBytes_AS_STRING
+	PyBytes_AsString.o                       c-api/bytes.html#c.PyBytes_AsString
+	PyBytes_AsStringAndSize.buffer           c-api/bytes.html#c.PyBytes_AsStringAndSize
+	PyBytes_AsStringAndSize.length           c-api/bytes.html#c.PyBytes_AsStringAndSize
+	PyBytes_AsStringAndSize.obj              c-api/bytes.html#c.PyBytes_AsStringAndSize
+	PyBytes_Check.o                          c-api/bytes.html#c.PyBytes_Check
+	PyBytes_CheckExact.o                     c-api/bytes.html#c.PyBytes_CheckExact
+	PyBytes_Concat.bytes                     c-api/bytes.html#c.PyBytes_Concat
+	PyBytes_Concat.newpart                   c-api/bytes.html#c.PyBytes_Concat
+	PyBytes_ConcatAndDel.bytes               c-api/bytes.html#c.PyBytes_ConcatAndDel
+	PyBytes_ConcatAndDel.newpart             c-api/bytes.html#c.PyBytes_ConcatAndDel
+	PyBytes_FromFormat.format                c-api/bytes.html#c.PyBytes_FromFormat
+	PyBytes_FromFormatV.format               c-api/bytes.html#c.PyBytes_FromFormatV
+	PyBytes_FromFormatV.vargs                c-api/bytes.html#c.PyBytes_FromFormatV
+	PyBytes_FromObject.o                     c-api/bytes.html#c.PyBytes_FromObject
+	PyBytes_FromString.v                     c-api/bytes.html#c.PyBytes_FromString
+	PyBytes_FromStringAndSize.len            c-api/bytes.html#c.PyBytes_FromStringAndSize
+	PyBytes_FromStringAndSize.v              c-api/bytes.html#c.PyBytes_FromStringAndSize
+	PyBytes_GET_SIZE.o                       c-api/bytes.html#c.PyBytes_GET_SIZE
+	PyBytes_Size.o                           c-api/bytes.html#c.PyBytes_Size
+	PyCallIter_New.callable                  c-api/iterator.html#c.PyCallIter_New
+	PyCallIter_New.sentinel                  c-api/iterator.html#c.PyCallIter_New
+	PyCallable_Check.o                       c-api/call.html#c.PyCallable_Check
+	PyCapsule_CheckExact.p                   c-api/capsule.html#c.PyCapsule_CheckExact
+	PyCapsule_GetContext.capsule             c-api/capsule.html#c.PyCapsule_GetContext
+	PyCapsule_GetDestructor.capsule          c-api/capsule.html#c.PyCapsule_GetDestructor
+	PyCapsule_GetName.capsule                c-api/capsule.html#c.PyCapsule_GetName
+	PyCapsule_GetPointer.capsule             c-api/capsule.html#c.PyCapsule_GetPointer
+	PyCapsule_GetPointer.name                c-api/capsule.html#c.PyCapsule_GetPointer
+	PyCapsule_Import.name                    c-api/capsule.html#c.PyCapsule_Import
+	PyCapsule_Import.no_block                c-api/capsule.html#c.PyCapsule_Import
+	PyCapsule_IsValid.capsule                c-api/capsule.html#c.PyCapsule_IsValid
+	PyCapsule_IsValid.name                   c-api/capsule.html#c.PyCapsule_IsValid
+	PyCapsule_New.destructor                 c-api/capsule.html#c.PyCapsule_New
+	PyCapsule_New.name                       c-api/capsule.html#c.PyCapsule_New
+	PyCapsule_New.pointer                    c-api/capsule.html#c.PyCapsule_New
+	PyCapsule_SetContext.capsule             c-api/capsule.html#c.PyCapsule_SetContext
+	PyCapsule_SetContext.context             c-api/capsule.html#c.PyCapsule_SetContext
+	PyCapsule_SetDestructor.capsule          c-api/capsule.html#c.PyCapsule_SetDestructor
+	PyCapsule_SetDestructor.destructor       c-api/capsule.html#c.PyCapsule_SetDestructor
+	PyCapsule_SetName.capsule                c-api/capsule.html#c.PyCapsule_SetName
+	PyCapsule_SetName.name                   c-api/capsule.html#c.PyCapsule_SetName
+	PyCapsule_SetPointer.capsule             c-api/capsule.html#c.PyCapsule_SetPointer
+	PyCapsule_SetPointer.pointer             c-api/capsule.html#c.PyCapsule_SetPointer
+	PyCell_GET.cell                          c-api/cell.html#c.PyCell_GET
+	PyCell_Get.cell                          c-api/cell.html#c.PyCell_Get
+	PyCell_New.ob                            c-api/cell.html#c.PyCell_New
+	PyCell_SET.cell                          c-api/cell.html#c.PyCell_SET
+	PyCell_SET.value                         c-api/cell.html#c.PyCell_SET
+	PyCell_Set.cell                          c-api/cell.html#c.PyCell_Set
+	PyCell_Set.value                         c-api/cell.html#c.PyCell_Set
+	PyCode_Addr2Line.byte_offset             c-api/code.html#c.PyCode_Addr2Line
+	PyCode_Addr2Line.co                      c-api/code.html#c.PyCode_Addr2Line
+	PyCode_Check.co                          c-api/code.html#c.PyCode_Check
+	PyCode_GetNumFree.co                     c-api/code.html#c.PyCode_GetNumFree
+	PyCode_New.argcount                      c-api/code.html#c.PyCode_New
+	PyCode_New.cellvars                      c-api/code.html#c.PyCode_New
+	PyCode_New.code                          c-api/code.html#c.PyCode_New
+	PyCode_New.consts                        c-api/code.html#c.PyCode_New
+	PyCode_New.filename                      c-api/code.html#c.PyCode_New
+	PyCode_New.firstlineno                   c-api/code.html#c.PyCode_New
+	PyCode_New.flags                         c-api/code.html#c.PyCode_New
+	PyCode_New.freevars                      c-api/code.html#c.PyCode_New
+	PyCode_New.kwonlyargcount                c-api/code.html#c.PyCode_New
+	PyCode_New.lnotab                        c-api/code.html#c.PyCode_New
+	PyCode_New.name                          c-api/code.html#c.PyCode_New
+	PyCode_New.names                         c-api/code.html#c.PyCode_New
+	PyCode_New.nlocals                       c-api/code.html#c.PyCode_New
+	PyCode_New.stacksize                     c-api/code.html#c.PyCode_New
+	PyCode_New.varnames                      c-api/code.html#c.PyCode_New
+	PyCode_NewEmpty.filename                 c-api/code.html#c.PyCode_NewEmpty
+	PyCode_NewEmpty.firstlineno              c-api/code.html#c.PyCode_NewEmpty
+	PyCode_NewEmpty.funcname                 c-api/code.html#c.PyCode_NewEmpty
+	PyCode_NewWithPosOnlyArgs.argcount       c-api/code.html#c.PyCode_NewWithPosOnlyArgs
+	PyCode_NewWithPosOnlyArgs.cellvars       c-api/code.html#c.PyCode_NewWithPosOnlyArgs
+	PyCode_NewWithPosOnlyArgs.code           c-api/code.html#c.PyCode_NewWithPosOnlyArgs
+	PyCode_NewWithPosOnlyArgs.consts         c-api/code.html#c.PyCode_NewWithPosOnlyArgs
+	PyCode_NewWithPosOnlyArgs.filename       c-api/code.html#c.PyCode_NewWithPosOnlyArgs
+	PyCode_NewWithPosOnlyArgs.firstlineno    c-api/code.html#c.PyCode_NewWithPosOnlyArgs
+	PyCode_NewWithPosOnlyArgs.flags          c-api/code.html#c.PyCode_NewWithPosOnlyArgs
+	PyCode_NewWithPosOnlyArgs.freevars       c-api/code.html#c.PyCode_NewWithPosOnlyArgs
+	PyCode_NewWithPosOnlyArgs.kwonlyargcount c-api/code.html#c.PyCode_NewWithPosOnlyArgs
+	PyCode_NewWithPosOnlyArgs.lnotab         c-api/code.html#c.PyCode_NewWithPosOnlyArgs
+	PyCode_NewWithPosOnlyArgs.name           c-api/code.html#c.PyCode_NewWithPosOnlyArgs
+	PyCode_NewWithPosOnlyArgs.names          c-api/code.html#c.PyCode_NewWithPosOnlyArgs
+	PyCode_NewWithPosOnlyArgs.nlocals        c-api/code.html#c.PyCode_NewWithPosOnlyArgs
+	PyCode_NewWithPosOnlyArgs.posonlyargcount c-api/code.html#c.PyCode_NewWithPosOnlyArgs
+	PyCode_NewWithPosOnlyArgs.stacksize      c-api/code.html#c.PyCode_NewWithPosOnlyArgs
+	PyCode_NewWithPosOnlyArgs.varnames       c-api/code.html#c.PyCode_NewWithPosOnlyArgs
+	PyCodec_BackslashReplaceErrors.exc       c-api/codec.html#c.PyCodec_BackslashReplaceErrors
+	PyCodec_Decode.encoding                  c-api/codec.html#c.PyCodec_Decode
+	PyCodec_Decode.errors                    c-api/codec.html#c.PyCodec_Decode
+	PyCodec_Decode.object                    c-api/codec.html#c.PyCodec_Decode
+	PyCodec_Decoder.encoding                 c-api/codec.html#c.PyCodec_Decoder
+	PyCodec_Encode.encoding                  c-api/codec.html#c.PyCodec_Encode
+	PyCodec_Encode.errors                    c-api/codec.html#c.PyCodec_Encode
+	PyCodec_Encode.object                    c-api/codec.html#c.PyCodec_Encode
+	PyCodec_Encoder.encoding                 c-api/codec.html#c.PyCodec_Encoder
+	PyCodec_IgnoreErrors.exc                 c-api/codec.html#c.PyCodec_IgnoreErrors
+	PyCodec_IncrementalDecoder.encoding      c-api/codec.html#c.PyCodec_IncrementalDecoder
+	PyCodec_IncrementalDecoder.errors        c-api/codec.html#c.PyCodec_IncrementalDecoder
+	PyCodec_IncrementalEncoder.encoding      c-api/codec.html#c.PyCodec_IncrementalEncoder
+	PyCodec_IncrementalEncoder.errors        c-api/codec.html#c.PyCodec_IncrementalEncoder
+	PyCodec_KnownEncoding.encoding           c-api/codec.html#c.PyCodec_KnownEncoding
+	PyCodec_LookupError.name                 c-api/codec.html#c.PyCodec_LookupError
+	PyCodec_NameReplaceErrors.exc            c-api/codec.html#c.PyCodec_NameReplaceErrors
+	PyCodec_Register.search_function         c-api/codec.html#c.PyCodec_Register
+	PyCodec_RegisterError.error              c-api/codec.html#c.PyCodec_RegisterError
+	PyCodec_RegisterError.name               c-api/codec.html#c.PyCodec_RegisterError
+	PyCodec_ReplaceErrors.exc                c-api/codec.html#c.PyCodec_ReplaceErrors
+	PyCodec_StreamReader.encoding            c-api/codec.html#c.PyCodec_StreamReader
+	PyCodec_StreamReader.errors              c-api/codec.html#c.PyCodec_StreamReader
+	PyCodec_StreamReader.stream              c-api/codec.html#c.PyCodec_StreamReader
+	PyCodec_StreamWriter.encoding            c-api/codec.html#c.PyCodec_StreamWriter
+	PyCodec_StreamWriter.errors              c-api/codec.html#c.PyCodec_StreamWriter
+	PyCodec_StreamWriter.stream              c-api/codec.html#c.PyCodec_StreamWriter
+	PyCodec_StrictErrors.exc                 c-api/codec.html#c.PyCodec_StrictErrors
+	PyCodec_Unregister.search_function       c-api/codec.html#c.PyCodec_Unregister
+	PyCodec_XMLCharRefReplaceErrors.exc      c-api/codec.html#c.PyCodec_XMLCharRefReplaceErrors
+	PyComplex_AsCComplex.op                  c-api/complex.html#c.PyComplex_AsCComplex
+	PyComplex_Check.p                        c-api/complex.html#c.PyComplex_Check
+	PyComplex_CheckExact.p                   c-api/complex.html#c.PyComplex_CheckExact
+	PyComplex_FromCComplex.v                 c-api/complex.html#c.PyComplex_FromCComplex
+	PyComplex_FromDoubles.imag               c-api/complex.html#c.PyComplex_FromDoubles
+	PyComplex_FromDoubles.real               c-api/complex.html#c.PyComplex_FromDoubles
+	PyComplex_ImagAsDouble.op                c-api/complex.html#c.PyComplex_ImagAsDouble
+	PyComplex_RealAsDouble.op                c-api/complex.html#c.PyComplex_RealAsDouble
+	PyConfig.PyConfig_Clear.config           c-api/init_config.html#c.PyConfig.PyConfig_Clear
+	PyConfig.PyConfig_InitIsolatedConfig.config c-api/init_config.html#c.PyConfig.PyConfig_InitIsolatedConfig
+	PyConfig.PyConfig_InitPythonConfig.config c-api/init_config.html#c.PyConfig.PyConfig_InitPythonConfig
+	PyConfig.PyConfig_Read.config            c-api/init_config.html#c.PyConfig.PyConfig_Read
+	PyConfig.PyConfig_SetArgv.argc           c-api/init_config.html#c.PyConfig.PyConfig_SetArgv
+	PyConfig.PyConfig_SetArgv.argv           c-api/init_config.html#c.PyConfig.PyConfig_SetArgv
+	PyConfig.PyConfig_SetArgv.config         c-api/init_config.html#c.PyConfig.PyConfig_SetArgv
+	PyConfig.PyConfig_SetBytesArgv.argc      c-api/init_config.html#c.PyConfig.PyConfig_SetBytesArgv
+	PyConfig.PyConfig_SetBytesArgv.argv      c-api/init_config.html#c.PyConfig.PyConfig_SetBytesArgv
+	PyConfig.PyConfig_SetBytesArgv.config    c-api/init_config.html#c.PyConfig.PyConfig_SetBytesArgv
+	PyConfig.PyConfig_SetBytesString.config  c-api/init_config.html#c.PyConfig.PyConfig_SetBytesString
+	PyConfig.PyConfig_SetBytesString.config_str c-api/init_config.html#c.PyConfig.PyConfig_SetBytesString
+	PyConfig.PyConfig_SetBytesString.str     c-api/init_config.html#c.PyConfig.PyConfig_SetBytesString
+	PyConfig.PyConfig_SetString.config       c-api/init_config.html#c.PyConfig.PyConfig_SetString
+	PyConfig.PyConfig_SetString.config_str   c-api/init_config.html#c.PyConfig.PyConfig_SetString
+	PyConfig.PyConfig_SetString.str          c-api/init_config.html#c.PyConfig.PyConfig_SetString
+	PyConfig.PyConfig_SetWideStringList.config c-api/init_config.html#c.PyConfig.PyConfig_SetWideStringList
+	PyConfig.PyConfig_SetWideStringList.items c-api/init_config.html#c.PyConfig.PyConfig_SetWideStringList
+	PyConfig.PyConfig_SetWideStringList.length c-api/init_config.html#c.PyConfig.PyConfig_SetWideStringList
+	PyConfig.PyConfig_SetWideStringList.list c-api/init_config.html#c.PyConfig.PyConfig_SetWideStringList
+	PyContextToken_CheckExact.o              c-api/contextvars.html#c.PyContextToken_CheckExact
+	PyContextVar_CheckExact.o                c-api/contextvars.html#c.PyContextVar_CheckExact
+	PyContextVar_Get.default_value           c-api/contextvars.html#c.PyContextVar_Get
+	PyContextVar_Get.value                   c-api/contextvars.html#c.PyContextVar_Get
+	PyContextVar_Get.var                     c-api/contextvars.html#c.PyContextVar_Get
+	PyContextVar_New.def                     c-api/contextvars.html#c.PyContextVar_New
+	PyContextVar_New.name                    c-api/contextvars.html#c.PyContextVar_New
+	PyContextVar_Reset.token                 c-api/contextvars.html#c.PyContextVar_Reset
+	PyContextVar_Reset.var                   c-api/contextvars.html#c.PyContextVar_Reset
+	PyContextVar_Set.value                   c-api/contextvars.html#c.PyContextVar_Set
+	PyContextVar_Set.var                     c-api/contextvars.html#c.PyContextVar_Set
+	PyContext_CheckExact.o                   c-api/contextvars.html#c.PyContext_CheckExact
+	PyContext_Copy.ctx                       c-api/contextvars.html#c.PyContext_Copy
+	PyContext_Enter.ctx                      c-api/contextvars.html#c.PyContext_Enter
+	PyContext_Exit.ctx                       c-api/contextvars.html#c.PyContext_Exit
+	PyCoro_CheckExact.ob                     c-api/coro.html#c.PyCoro_CheckExact
+	PyCoro_New.frame                         c-api/coro.html#c.PyCoro_New
+	PyCoro_New.name                          c-api/coro.html#c.PyCoro_New
+	PyCoro_New.qualname                      c-api/coro.html#c.PyCoro_New
+	PyDateTime_Check.ob                      c-api/datetime.html#c.PyDateTime_Check
+	PyDateTime_CheckExact.ob                 c-api/datetime.html#c.PyDateTime_CheckExact
+	PyDateTime_DATE_GET_FOLD.o               c-api/datetime.html#c.PyDateTime_DATE_GET_FOLD
+	PyDateTime_DATE_GET_HOUR.o               c-api/datetime.html#c.PyDateTime_DATE_GET_HOUR
+	PyDateTime_DATE_GET_MICROSECOND.o        c-api/datetime.html#c.PyDateTime_DATE_GET_MICROSECOND
+	PyDateTime_DATE_GET_MINUTE.o             c-api/datetime.html#c.PyDateTime_DATE_GET_MINUTE
+	PyDateTime_DATE_GET_SECOND.o             c-api/datetime.html#c.PyDateTime_DATE_GET_SECOND
+	PyDateTime_DATE_GET_TZINFO.o             c-api/datetime.html#c.PyDateTime_DATE_GET_TZINFO
+	PyDateTime_DELTA_GET_DAYS.o              c-api/datetime.html#c.PyDateTime_DELTA_GET_DAYS
+	PyDateTime_DELTA_GET_MICROSECONDS.o      c-api/datetime.html#c.PyDateTime_DELTA_GET_MICROSECONDS
+	PyDateTime_DELTA_GET_SECONDS.o           c-api/datetime.html#c.PyDateTime_DELTA_GET_SECONDS
+	PyDateTime_FromDateAndTime.day           c-api/datetime.html#c.PyDateTime_FromDateAndTime
+	PyDateTime_FromDateAndTime.hour          c-api/datetime.html#c.PyDateTime_FromDateAndTime
+	PyDateTime_FromDateAndTime.minute        c-api/datetime.html#c.PyDateTime_FromDateAndTime
+	PyDateTime_FromDateAndTime.month         c-api/datetime.html#c.PyDateTime_FromDateAndTime
+	PyDateTime_FromDateAndTime.second        c-api/datetime.html#c.PyDateTime_FromDateAndTime
+	PyDateTime_FromDateAndTime.usecond       c-api/datetime.html#c.PyDateTime_FromDateAndTime
+	PyDateTime_FromDateAndTime.year          c-api/datetime.html#c.PyDateTime_FromDateAndTime
+	PyDateTime_FromDateAndTimeAndFold.day    c-api/datetime.html#c.PyDateTime_FromDateAndTimeAndFold
+	PyDateTime_FromDateAndTimeAndFold.fold   c-api/datetime.html#c.PyDateTime_FromDateAndTimeAndFold
+	PyDateTime_FromDateAndTimeAndFold.hour   c-api/datetime.html#c.PyDateTime_FromDateAndTimeAndFold
+	PyDateTime_FromDateAndTimeAndFold.minute c-api/datetime.html#c.PyDateTime_FromDateAndTimeAndFold
+	PyDateTime_FromDateAndTimeAndFold.month  c-api/datetime.html#c.PyDateTime_FromDateAndTimeAndFold
+	PyDateTime_FromDateAndTimeAndFold.second c-api/datetime.html#c.PyDateTime_FromDateAndTimeAndFold
+	PyDateTime_FromDateAndTimeAndFold.usecond c-api/datetime.html#c.PyDateTime_FromDateAndTimeAndFold
+	PyDateTime_FromDateAndTimeAndFold.year   c-api/datetime.html#c.PyDateTime_FromDateAndTimeAndFold
+	PyDateTime_FromTimestamp.args            c-api/datetime.html#c.PyDateTime_FromTimestamp
+	PyDateTime_GET_DAY.o                     c-api/datetime.html#c.PyDateTime_GET_DAY
+	PyDateTime_GET_MONTH.o                   c-api/datetime.html#c.PyDateTime_GET_MONTH
+	PyDateTime_GET_YEAR.o                    c-api/datetime.html#c.PyDateTime_GET_YEAR
+	PyDateTime_TIME_GET_FOLD.o               c-api/datetime.html#c.PyDateTime_TIME_GET_FOLD
+	PyDateTime_TIME_GET_HOUR.o               c-api/datetime.html#c.PyDateTime_TIME_GET_HOUR
+	PyDateTime_TIME_GET_MICROSECOND.o        c-api/datetime.html#c.PyDateTime_TIME_GET_MICROSECOND
+	PyDateTime_TIME_GET_MINUTE.o             c-api/datetime.html#c.PyDateTime_TIME_GET_MINUTE
+	PyDateTime_TIME_GET_SECOND.o             c-api/datetime.html#c.PyDateTime_TIME_GET_SECOND
+	PyDateTime_TIME_GET_TZINFO.o             c-api/datetime.html#c.PyDateTime_TIME_GET_TZINFO
+	PyDate_Check.ob                          c-api/datetime.html#c.PyDate_Check
+	PyDate_CheckExact.ob                     c-api/datetime.html#c.PyDate_CheckExact
+	PyDate_FromDate.day                      c-api/datetime.html#c.PyDate_FromDate
+	PyDate_FromDate.month                    c-api/datetime.html#c.PyDate_FromDate
+	PyDate_FromDate.year                     c-api/datetime.html#c.PyDate_FromDate
+	PyDate_FromTimestamp.args                c-api/datetime.html#c.PyDate_FromTimestamp
+	PyDelta_Check.ob                         c-api/datetime.html#c.PyDelta_Check
+	PyDelta_CheckExact.ob                    c-api/datetime.html#c.PyDelta_CheckExact
+	PyDelta_FromDSU.days                     c-api/datetime.html#c.PyDelta_FromDSU
+	PyDelta_FromDSU.seconds                  c-api/datetime.html#c.PyDelta_FromDSU
+	PyDelta_FromDSU.useconds                 c-api/datetime.html#c.PyDelta_FromDSU
+	PyDescr_IsData.descr                     c-api/descriptor.html#c.PyDescr_IsData
+	PyDescr_NewClassMethod.method            c-api/descriptor.html#c.PyDescr_NewClassMethod
+	PyDescr_NewClassMethod.type              c-api/descriptor.html#c.PyDescr_NewClassMethod
+	PyDescr_NewGetSet.getset                 c-api/descriptor.html#c.PyDescr_NewGetSet
+	PyDescr_NewGetSet.type                   c-api/descriptor.html#c.PyDescr_NewGetSet
+	PyDescr_NewMember.meth                   c-api/descriptor.html#c.PyDescr_NewMember
+	PyDescr_NewMember.type                   c-api/descriptor.html#c.PyDescr_NewMember
+	PyDescr_NewMethod.meth                   c-api/descriptor.html#c.PyDescr_NewMethod
+	PyDescr_NewMethod.type                   c-api/descriptor.html#c.PyDescr_NewMethod
+	PyDescr_NewWrapper.type                  c-api/descriptor.html#c.PyDescr_NewWrapper
+	PyDescr_NewWrapper.wrapped               c-api/descriptor.html#c.PyDescr_NewWrapper
+	PyDescr_NewWrapper.wrapper               c-api/descriptor.html#c.PyDescr_NewWrapper
+	PyDictProxy_New.mapping                  c-api/dict.html#c.PyDictProxy_New
+	PyDict_Check.p                           c-api/dict.html#c.PyDict_Check
+	PyDict_CheckExact.p                      c-api/dict.html#c.PyDict_CheckExact
+	PyDict_Clear.p                           c-api/dict.html#c.PyDict_Clear
+	PyDict_Contains.key                      c-api/dict.html#c.PyDict_Contains
+	PyDict_Contains.p                        c-api/dict.html#c.PyDict_Contains
+	PyDict_Copy.p                            c-api/dict.html#c.PyDict_Copy
+	PyDict_DelItem.key                       c-api/dict.html#c.PyDict_DelItem
+	PyDict_DelItem.p                         c-api/dict.html#c.PyDict_DelItem
+	PyDict_DelItemString.key                 c-api/dict.html#c.PyDict_DelItemString
+	PyDict_DelItemString.p                   c-api/dict.html#c.PyDict_DelItemString
+	PyDict_GetItem.key                       c-api/dict.html#c.PyDict_GetItem
+	PyDict_GetItem.p                         c-api/dict.html#c.PyDict_GetItem
+	PyDict_GetItemString.key                 c-api/dict.html#c.PyDict_GetItemString
+	PyDict_GetItemString.p                   c-api/dict.html#c.PyDict_GetItemString
+	PyDict_GetItemWithError.key              c-api/dict.html#c.PyDict_GetItemWithError
+	PyDict_GetItemWithError.p                c-api/dict.html#c.PyDict_GetItemWithError
+	PyDict_Items.p                           c-api/dict.html#c.PyDict_Items
+	PyDict_Keys.p                            c-api/dict.html#c.PyDict_Keys
+	PyDict_Merge.a                           c-api/dict.html#c.PyDict_Merge
+	PyDict_Merge.b                           c-api/dict.html#c.PyDict_Merge
+	PyDict_Merge.override                    c-api/dict.html#c.PyDict_Merge
+	PyDict_MergeFromSeq2.a                   c-api/dict.html#c.PyDict_MergeFromSeq2
+	PyDict_MergeFromSeq2.override            c-api/dict.html#c.PyDict_MergeFromSeq2
+	PyDict_MergeFromSeq2.seq2                c-api/dict.html#c.PyDict_MergeFromSeq2
+	PyDict_Next.p                            c-api/dict.html#c.PyDict_Next
+	PyDict_Next.pkey                         c-api/dict.html#c.PyDict_Next
+	PyDict_Next.ppos                         c-api/dict.html#c.PyDict_Next
+	PyDict_Next.pvalue                       c-api/dict.html#c.PyDict_Next
+	PyDict_SetDefault.defaultobj             c-api/dict.html#c.PyDict_SetDefault
+	PyDict_SetDefault.key                    c-api/dict.html#c.PyDict_SetDefault
+	PyDict_SetDefault.p                      c-api/dict.html#c.PyDict_SetDefault
+	PyDict_SetItem.key                       c-api/dict.html#c.PyDict_SetItem
+	PyDict_SetItem.p                         c-api/dict.html#c.PyDict_SetItem
+	PyDict_SetItem.val                       c-api/dict.html#c.PyDict_SetItem
+	PyDict_SetItemString.key                 c-api/dict.html#c.PyDict_SetItemString
+	PyDict_SetItemString.p                   c-api/dict.html#c.PyDict_SetItemString
+	PyDict_SetItemString.val                 c-api/dict.html#c.PyDict_SetItemString
+	PyDict_Size.p                            c-api/dict.html#c.PyDict_Size
+	PyDict_Update.a                          c-api/dict.html#c.PyDict_Update
+	PyDict_Update.b                          c-api/dict.html#c.PyDict_Update
+	PyDict_Values.p                          c-api/dict.html#c.PyDict_Values
+	PyErr_ExceptionMatches.exc               c-api/exceptions.html#c.PyErr_ExceptionMatches
+	PyErr_Fetch.ptraceback                   c-api/exceptions.html#c.PyErr_Fetch
+	PyErr_Fetch.ptype                        c-api/exceptions.html#c.PyErr_Fetch
+	PyErr_Fetch.pvalue                       c-api/exceptions.html#c.PyErr_Fetch
+	PyErr_Format.exception                   c-api/exceptions.html#c.PyErr_Format
+	PyErr_Format.format                      c-api/exceptions.html#c.PyErr_Format
+	PyErr_FormatV.exception                  c-api/exceptions.html#c.PyErr_FormatV
+	PyErr_FormatV.format                     c-api/exceptions.html#c.PyErr_FormatV
+	PyErr_FormatV.vargs                      c-api/exceptions.html#c.PyErr_FormatV
+	PyErr_GetExcInfo.ptraceback              c-api/exceptions.html#c.PyErr_GetExcInfo
+	PyErr_GetExcInfo.ptype                   c-api/exceptions.html#c.PyErr_GetExcInfo
+	PyErr_GetExcInfo.pvalue                  c-api/exceptions.html#c.PyErr_GetExcInfo
+	PyErr_GivenExceptionMatches.exc          c-api/exceptions.html#c.PyErr_GivenExceptionMatches
+	PyErr_GivenExceptionMatches.given        c-api/exceptions.html#c.PyErr_GivenExceptionMatches
+	PyErr_NewException.base                  c-api/exceptions.html#c.PyErr_NewException
+	PyErr_NewException.dict                  c-api/exceptions.html#c.PyErr_NewException
+	PyErr_NewException.name                  c-api/exceptions.html#c.PyErr_NewException
+	PyErr_NewExceptionWithDoc.base           c-api/exceptions.html#c.PyErr_NewExceptionWithDoc
+	PyErr_NewExceptionWithDoc.dict           c-api/exceptions.html#c.PyErr_NewExceptionWithDoc
+	PyErr_NewExceptionWithDoc.doc            c-api/exceptions.html#c.PyErr_NewExceptionWithDoc
+	PyErr_NewExceptionWithDoc.name           c-api/exceptions.html#c.PyErr_NewExceptionWithDoc
+	PyErr_NormalizeException.exc             c-api/exceptions.html#c.PyErr_NormalizeException
+	PyErr_NormalizeException.tb              c-api/exceptions.html#c.PyErr_NormalizeException
+	PyErr_NormalizeException.val             c-api/exceptions.html#c.PyErr_NormalizeException
+	PyErr_PrintEx.set_sys_last_vars          c-api/exceptions.html#c.PyErr_PrintEx
+	PyErr_ResourceWarning.format             c-api/exceptions.html#c.PyErr_ResourceWarning
+	PyErr_ResourceWarning.source             c-api/exceptions.html#c.PyErr_ResourceWarning
+	PyErr_ResourceWarning.stack_level        c-api/exceptions.html#c.PyErr_ResourceWarning
+	PyErr_Restore.traceback                  c-api/exceptions.html#c.PyErr_Restore
+	PyErr_Restore.type                       c-api/exceptions.html#c.PyErr_Restore
+	PyErr_Restore.value                      c-api/exceptions.html#c.PyErr_Restore
+	PyErr_SetExcFromWindowsErr.ierr          c-api/exceptions.html#c.PyErr_SetExcFromWindowsErr
+	PyErr_SetExcFromWindowsErr.type          c-api/exceptions.html#c.PyErr_SetExcFromWindowsErr
+	PyErr_SetExcFromWindowsErrWithFilename.filename c-api/exceptions.html#c.PyErr_SetExcFromWindowsErrWithFilename
+	PyErr_SetExcFromWindowsErrWithFilename.ierr c-api/exceptions.html#c.PyErr_SetExcFromWindowsErrWithFilename
+	PyErr_SetExcFromWindowsErrWithFilename.type c-api/exceptions.html#c.PyErr_SetExcFromWindowsErrWithFilename
+	PyErr_SetExcFromWindowsErrWithFilenameObject.filename c-api/exceptions.html#c.PyErr_SetExcFromWindowsErrWithFilenameObject
+	PyErr_SetExcFromWindowsErrWithFilenameObject.ierr c-api/exceptions.html#c.PyErr_SetExcFromWindowsErrWithFilenameObject
+	PyErr_SetExcFromWindowsErrWithFilenameObject.type c-api/exceptions.html#c.PyErr_SetExcFromWindowsErrWithFilenameObject
+	PyErr_SetExcFromWindowsErrWithFilenameObjects.filename c-api/exceptions.html#c.PyErr_SetExcFromWindowsErrWithFilenameObjects
+	PyErr_SetExcFromWindowsErrWithFilenameObjects.filename2 c-api/exceptions.html#c.PyErr_SetExcFromWindowsErrWithFilenameObjects
+	PyErr_SetExcFromWindowsErrWithFilenameObjects.ierr c-api/exceptions.html#c.PyErr_SetExcFromWindowsErrWithFilenameObjects
+	PyErr_SetExcFromWindowsErrWithFilenameObjects.type c-api/exceptions.html#c.PyErr_SetExcFromWindowsErrWithFilenameObjects
+	PyErr_SetExcInfo.traceback               c-api/exceptions.html#c.PyErr_SetExcInfo
+	PyErr_SetExcInfo.type                    c-api/exceptions.html#c.PyErr_SetExcInfo
+	PyErr_SetExcInfo.value                   c-api/exceptions.html#c.PyErr_SetExcInfo
+	PyErr_SetFromErrno.type                  c-api/exceptions.html#c.PyErr_SetFromErrno
+	PyErr_SetFromErrnoWithFilename.filename  c-api/exceptions.html#c.PyErr_SetFromErrnoWithFilename
+	PyErr_SetFromErrnoWithFilename.type      c-api/exceptions.html#c.PyErr_SetFromErrnoWithFilename
+	PyErr_SetFromErrnoWithFilenameObject.filenameObject c-api/exceptions.html#c.PyErr_SetFromErrnoWithFilenameObject
+	PyErr_SetFromErrnoWithFilenameObject.type c-api/exceptions.html#c.PyErr_SetFromErrnoWithFilenameObject
+	PyErr_SetFromErrnoWithFilenameObjects.filenameObject c-api/exceptions.html#c.PyErr_SetFromErrnoWithFilenameObjects
+	PyErr_SetFromErrnoWithFilenameObjects.filenameObject2 c-api/exceptions.html#c.PyErr_SetFromErrnoWithFilenameObjects
+	PyErr_SetFromErrnoWithFilenameObjects.type c-api/exceptions.html#c.PyErr_SetFromErrnoWithFilenameObjects
+	PyErr_SetFromWindowsErr.ierr             c-api/exceptions.html#c.PyErr_SetFromWindowsErr
+	PyErr_SetFromWindowsErrWithFilename.filename c-api/exceptions.html#c.PyErr_SetFromWindowsErrWithFilename
+	PyErr_SetFromWindowsErrWithFilename.ierr c-api/exceptions.html#c.PyErr_SetFromWindowsErrWithFilename
+	PyErr_SetImportError.msg                 c-api/exceptions.html#c.PyErr_SetImportError
+	PyErr_SetImportError.name                c-api/exceptions.html#c.PyErr_SetImportError
+	PyErr_SetImportError.path                c-api/exceptions.html#c.PyErr_SetImportError
+	PyErr_SetImportErrorSubclass.exception   c-api/exceptions.html#c.PyErr_SetImportErrorSubclass
+	PyErr_SetImportErrorSubclass.msg         c-api/exceptions.html#c.PyErr_SetImportErrorSubclass
+	PyErr_SetImportErrorSubclass.name        c-api/exceptions.html#c.PyErr_SetImportErrorSubclass
+	PyErr_SetImportErrorSubclass.path        c-api/exceptions.html#c.PyErr_SetImportErrorSubclass
+	PyErr_SetInterruptEx.signum              c-api/exceptions.html#c.PyErr_SetInterruptEx
+	PyErr_SetNone.type                       c-api/exceptions.html#c.PyErr_SetNone
+	PyErr_SetObject.type                     c-api/exceptions.html#c.PyErr_SetObject
+	PyErr_SetObject.value                    c-api/exceptions.html#c.PyErr_SetObject
+	PyErr_SetString.message                  c-api/exceptions.html#c.PyErr_SetString
+	PyErr_SetString.type                     c-api/exceptions.html#c.PyErr_SetString
+	PyErr_SyntaxLocation.filename            c-api/exceptions.html#c.PyErr_SyntaxLocation
+	PyErr_SyntaxLocation.lineno              c-api/exceptions.html#c.PyErr_SyntaxLocation
+	PyErr_SyntaxLocationEx.col_offset        c-api/exceptions.html#c.PyErr_SyntaxLocationEx
+	PyErr_SyntaxLocationEx.filename          c-api/exceptions.html#c.PyErr_SyntaxLocationEx
+	PyErr_SyntaxLocationEx.lineno            c-api/exceptions.html#c.PyErr_SyntaxLocationEx
+	PyErr_SyntaxLocationObject.col_offset    c-api/exceptions.html#c.PyErr_SyntaxLocationObject
+	PyErr_SyntaxLocationObject.filename      c-api/exceptions.html#c.PyErr_SyntaxLocationObject
+	PyErr_SyntaxLocationObject.lineno        c-api/exceptions.html#c.PyErr_SyntaxLocationObject
+	PyErr_WarnEx.category                    c-api/exceptions.html#c.PyErr_WarnEx
+	PyErr_WarnEx.message                     c-api/exceptions.html#c.PyErr_WarnEx
+	PyErr_WarnEx.stack_level                 c-api/exceptions.html#c.PyErr_WarnEx
+	PyErr_WarnExplicit.category              c-api/exceptions.html#c.PyErr_WarnExplicit
+	PyErr_WarnExplicit.filename              c-api/exceptions.html#c.PyErr_WarnExplicit
+	PyErr_WarnExplicit.lineno                c-api/exceptions.html#c.PyErr_WarnExplicit
+	PyErr_WarnExplicit.message               c-api/exceptions.html#c.PyErr_WarnExplicit
+	PyErr_WarnExplicit.module                c-api/exceptions.html#c.PyErr_WarnExplicit
+	PyErr_WarnExplicit.registry              c-api/exceptions.html#c.PyErr_WarnExplicit
+	PyErr_WarnExplicitObject.category        c-api/exceptions.html#c.PyErr_WarnExplicitObject
+	PyErr_WarnExplicitObject.filename        c-api/exceptions.html#c.PyErr_WarnExplicitObject
+	PyErr_WarnExplicitObject.lineno          c-api/exceptions.html#c.PyErr_WarnExplicitObject
+	PyErr_WarnExplicitObject.message         c-api/exceptions.html#c.PyErr_WarnExplicitObject
+	PyErr_WarnExplicitObject.module          c-api/exceptions.html#c.PyErr_WarnExplicitObject
+	PyErr_WarnExplicitObject.registry        c-api/exceptions.html#c.PyErr_WarnExplicitObject
+	PyErr_WarnFormat.category                c-api/exceptions.html#c.PyErr_WarnFormat
+	PyErr_WarnFormat.format                  c-api/exceptions.html#c.PyErr_WarnFormat
+	PyErr_WarnFormat.stack_level             c-api/exceptions.html#c.PyErr_WarnFormat
+	PyErr_WriteUnraisable.obj                c-api/exceptions.html#c.PyErr_WriteUnraisable
+	PyEval_AcquireThread.tstate              c-api/init.html#c.PyEval_AcquireThread
+	PyEval_EvalCode.co                       c-api/veryhigh.html#c.PyEval_EvalCode
+	PyEval_EvalCode.globals                  c-api/veryhigh.html#c.PyEval_EvalCode
+	PyEval_EvalCode.locals                   c-api/veryhigh.html#c.PyEval_EvalCode
+	PyEval_EvalCodeEx.argcount               c-api/veryhigh.html#c.PyEval_EvalCodeEx
+	PyEval_EvalCodeEx.args                   c-api/veryhigh.html#c.PyEval_EvalCodeEx
+	PyEval_EvalCodeEx.closure                c-api/veryhigh.html#c.PyEval_EvalCodeEx
+	PyEval_EvalCodeEx.co                     c-api/veryhigh.html#c.PyEval_EvalCodeEx
+	PyEval_EvalCodeEx.defcount               c-api/veryhigh.html#c.PyEval_EvalCodeEx
+	PyEval_EvalCodeEx.defs                   c-api/veryhigh.html#c.PyEval_EvalCodeEx
+	PyEval_EvalCodeEx.globals                c-api/veryhigh.html#c.PyEval_EvalCodeEx
+	PyEval_EvalCodeEx.kwcount                c-api/veryhigh.html#c.PyEval_EvalCodeEx
+	PyEval_EvalCodeEx.kwdefs                 c-api/veryhigh.html#c.PyEval_EvalCodeEx
+	PyEval_EvalCodeEx.kws                    c-api/veryhigh.html#c.PyEval_EvalCodeEx
+	PyEval_EvalCodeEx.locals                 c-api/veryhigh.html#c.PyEval_EvalCodeEx
+	PyEval_EvalFrame.f                       c-api/veryhigh.html#c.PyEval_EvalFrame
+	PyEval_EvalFrameEx.f                     c-api/veryhigh.html#c.PyEval_EvalFrameEx
+	PyEval_EvalFrameEx.throwflag             c-api/veryhigh.html#c.PyEval_EvalFrameEx
+	PyEval_GetFuncDesc.func                  c-api/reflection.html#c.PyEval_GetFuncDesc
+	PyEval_GetFuncName.func                  c-api/reflection.html#c.PyEval_GetFuncName
+	PyEval_MergeCompilerFlags.cf             c-api/veryhigh.html#c.PyEval_MergeCompilerFlags
+	PyEval_ReleaseThread.tstate              c-api/init.html#c.PyEval_ReleaseThread
+	PyEval_RestoreThread.tstate              c-api/init.html#c.PyEval_RestoreThread
+	PyEval_SetProfile.func                   c-api/init.html#c.PyEval_SetProfile
+	PyEval_SetProfile.obj                    c-api/init.html#c.PyEval_SetProfile
+	PyEval_SetTrace.func                     c-api/init.html#c.PyEval_SetTrace
+	PyEval_SetTrace.obj                      c-api/init.html#c.PyEval_SetTrace
+	PyException_GetCause.ex                  c-api/exceptions.html#c.PyException_GetCause
+	PyException_GetContext.ex                c-api/exceptions.html#c.PyException_GetContext
+	PyException_GetTraceback.ex              c-api/exceptions.html#c.PyException_GetTraceback
+	PyException_SetCause.cause               c-api/exceptions.html#c.PyException_SetCause
+	PyException_SetCause.ex                  c-api/exceptions.html#c.PyException_SetCause
+	PyException_SetContext.ctx               c-api/exceptions.html#c.PyException_SetContext
+	PyException_SetContext.ex                c-api/exceptions.html#c.PyException_SetContext
+	PyException_SetTraceback.ex              c-api/exceptions.html#c.PyException_SetTraceback
+	PyException_SetTraceback.tb              c-api/exceptions.html#c.PyException_SetTraceback
+	PyFile_FromFd.buffering                  c-api/file.html#c.PyFile_FromFd
+	PyFile_FromFd.closefd                    c-api/file.html#c.PyFile_FromFd
+	PyFile_FromFd.encoding                   c-api/file.html#c.PyFile_FromFd
+	PyFile_FromFd.errors                     c-api/file.html#c.PyFile_FromFd
+	PyFile_FromFd.fd                         c-api/file.html#c.PyFile_FromFd
+	PyFile_FromFd.mode                       c-api/file.html#c.PyFile_FromFd
+	PyFile_FromFd.name                       c-api/file.html#c.PyFile_FromFd
+	PyFile_FromFd.newline                    c-api/file.html#c.PyFile_FromFd
+	PyFile_GetLine.n                         c-api/file.html#c.PyFile_GetLine
+	PyFile_GetLine.p                         c-api/file.html#c.PyFile_GetLine
+	PyFile_SetOpenCodeHook.handler           c-api/file.html#c.PyFile_SetOpenCodeHook
+	PyFile_WriteObject.flags                 c-api/file.html#c.PyFile_WriteObject
+	PyFile_WriteObject.obj                   c-api/file.html#c.PyFile_WriteObject
+	PyFile_WriteObject.p                     c-api/file.html#c.PyFile_WriteObject
+	PyFile_WriteString.p                     c-api/file.html#c.PyFile_WriteString
+	PyFile_WriteString.s                     c-api/file.html#c.PyFile_WriteString
+	PyFloat_AS_DOUBLE.pyfloat                c-api/float.html#c.PyFloat_AS_DOUBLE
+	PyFloat_AsDouble.pyfloat                 c-api/float.html#c.PyFloat_AsDouble
+	PyFloat_Check.p                          c-api/float.html#c.PyFloat_Check
+	PyFloat_CheckExact.p                     c-api/float.html#c.PyFloat_CheckExact
+	PyFloat_FromDouble.v                     c-api/float.html#c.PyFloat_FromDouble
+	PyFloat_FromString.str                   c-api/float.html#c.PyFloat_FromString
+	PyFrame_GetBack.frame                    c-api/reflection.html#c.PyFrame_GetBack
+	PyFrame_GetCode.frame                    c-api/reflection.html#c.PyFrame_GetCode
+	PyFrame_GetLineNumber.frame              c-api/reflection.html#c.PyFrame_GetLineNumber
+	PyFrozenSet_Check.p                      c-api/set.html#c.PyFrozenSet_Check
+	PyFrozenSet_CheckExact.p                 c-api/set.html#c.PyFrozenSet_CheckExact
+	PyFrozenSet_New.iterable                 c-api/set.html#c.PyFrozenSet_New
+	PyFunction_Check.o                       c-api/function.html#c.PyFunction_Check
+	PyFunction_GetAnnotations.op             c-api/function.html#c.PyFunction_GetAnnotations
+	PyFunction_GetClosure.op                 c-api/function.html#c.PyFunction_GetClosure
+	PyFunction_GetCode.op                    c-api/function.html#c.PyFunction_GetCode
+	PyFunction_GetDefaults.op                c-api/function.html#c.PyFunction_GetDefaults
+	PyFunction_GetGlobals.op                 c-api/function.html#c.PyFunction_GetGlobals
+	PyFunction_GetModule.op                  c-api/function.html#c.PyFunction_GetModule
+	PyFunction_New.code                      c-api/function.html#c.PyFunction_New
+	PyFunction_New.globals                   c-api/function.html#c.PyFunction_New
+	PyFunction_NewWithQualName.code          c-api/function.html#c.PyFunction_NewWithQualName
+	PyFunction_NewWithQualName.globals       c-api/function.html#c.PyFunction_NewWithQualName
+	PyFunction_NewWithQualName.qualname      c-api/function.html#c.PyFunction_NewWithQualName
+	PyFunction_SetAnnotations.annotations    c-api/function.html#c.PyFunction_SetAnnotations
+	PyFunction_SetAnnotations.op             c-api/function.html#c.PyFunction_SetAnnotations
+	PyFunction_SetClosure.closure            c-api/function.html#c.PyFunction_SetClosure
+	PyFunction_SetClosure.op                 c-api/function.html#c.PyFunction_SetClosure
+	PyFunction_SetDefaults.defaults          c-api/function.html#c.PyFunction_SetDefaults
+	PyFunction_SetDefaults.op                c-api/function.html#c.PyFunction_SetDefaults
+	PyGen_Check.ob                           c-api/gen.html#c.PyGen_Check
+	PyGen_CheckExact.ob                      c-api/gen.html#c.PyGen_CheckExact
+	PyGen_New.frame                          c-api/gen.html#c.PyGen_New
+	PyGen_NewWithQualName.frame              c-api/gen.html#c.PyGen_NewWithQualName
+	PyGen_NewWithQualName.name               c-api/gen.html#c.PyGen_NewWithQualName
+	PyGen_NewWithQualName.qualname           c-api/gen.html#c.PyGen_NewWithQualName
+	PyImport_AddModule.name                  c-api/import.html#c.PyImport_AddModule
+	PyImport_AddModuleObject.name            c-api/import.html#c.PyImport_AddModuleObject
+	PyImport_AppendInittab.initfunc          c-api/import.html#c.PyImport_AppendInittab
+	PyImport_AppendInittab.name              c-api/import.html#c.PyImport_AppendInittab
+	PyImport_ExecCodeModule.co               c-api/import.html#c.PyImport_ExecCodeModule
+	PyImport_ExecCodeModule.name             c-api/import.html#c.PyImport_ExecCodeModule
+	PyImport_ExecCodeModuleEx.co             c-api/import.html#c.PyImport_ExecCodeModuleEx
+	PyImport_ExecCodeModuleEx.name           c-api/import.html#c.PyImport_ExecCodeModuleEx
+	PyImport_ExecCodeModuleEx.pathname       c-api/import.html#c.PyImport_ExecCodeModuleEx
+	PyImport_ExecCodeModuleObject.co         c-api/import.html#c.PyImport_ExecCodeModuleObject
+	PyImport_ExecCodeModuleObject.cpathname  c-api/import.html#c.PyImport_ExecCodeModuleObject
+	PyImport_ExecCodeModuleObject.name       c-api/import.html#c.PyImport_ExecCodeModuleObject
+	PyImport_ExecCodeModuleObject.pathname   c-api/import.html#c.PyImport_ExecCodeModuleObject
+	PyImport_ExecCodeModuleWithPathnames.co  c-api/import.html#c.PyImport_ExecCodeModuleWithPathnames
+	PyImport_ExecCodeModuleWithPathnames.cpathname c-api/import.html#c.PyImport_ExecCodeModuleWithPathnames
+	PyImport_ExecCodeModuleWithPathnames.name c-api/import.html#c.PyImport_ExecCodeModuleWithPathnames
+	PyImport_ExecCodeModuleWithPathnames.pathname c-api/import.html#c.PyImport_ExecCodeModuleWithPathnames
+	PyImport_ExtendInittab.newtab            c-api/import.html#c.PyImport_ExtendInittab
+	PyImport_GetImporter.path                c-api/import.html#c.PyImport_GetImporter
+	PyImport_GetModule.name                  c-api/import.html#c.PyImport_GetModule
+	PyImport_Import.name                     c-api/import.html#c.PyImport_Import
+	PyImport_ImportFrozenModule.name         c-api/import.html#c.PyImport_ImportFrozenModule
+	PyImport_ImportFrozenModuleObject.name   c-api/import.html#c.PyImport_ImportFrozenModuleObject
+	PyImport_ImportModule.name               c-api/import.html#c.PyImport_ImportModule
+	PyImport_ImportModuleEx.fromlist         c-api/import.html#c.PyImport_ImportModuleEx
+	PyImport_ImportModuleEx.globals          c-api/import.html#c.PyImport_ImportModuleEx
+	PyImport_ImportModuleEx.locals           c-api/import.html#c.PyImport_ImportModuleEx
+	PyImport_ImportModuleEx.name             c-api/import.html#c.PyImport_ImportModuleEx
+	PyImport_ImportModuleLevel.fromlist      c-api/import.html#c.PyImport_ImportModuleLevel
+	PyImport_ImportModuleLevel.globals       c-api/import.html#c.PyImport_ImportModuleLevel
+	PyImport_ImportModuleLevel.level         c-api/import.html#c.PyImport_ImportModuleLevel
+	PyImport_ImportModuleLevel.locals        c-api/import.html#c.PyImport_ImportModuleLevel
+	PyImport_ImportModuleLevel.name          c-api/import.html#c.PyImport_ImportModuleLevel
+	PyImport_ImportModuleLevelObject.fromlist c-api/import.html#c.PyImport_ImportModuleLevelObject
+	PyImport_ImportModuleLevelObject.globals c-api/import.html#c.PyImport_ImportModuleLevelObject
+	PyImport_ImportModuleLevelObject.level   c-api/import.html#c.PyImport_ImportModuleLevelObject
+	PyImport_ImportModuleLevelObject.locals  c-api/import.html#c.PyImport_ImportModuleLevelObject
+	PyImport_ImportModuleLevelObject.name    c-api/import.html#c.PyImport_ImportModuleLevelObject
+	PyImport_ImportModuleNoBlock.name        c-api/import.html#c.PyImport_ImportModuleNoBlock
+	PyImport_ReloadModule.m                  c-api/import.html#c.PyImport_ReloadModule
+	PyIndex_Check.o                          c-api/number.html#c.PyIndex_Check
+	PyInstanceMethod_Check.o                 c-api/method.html#c.PyInstanceMethod_Check
+	PyInstanceMethod_Function.im             c-api/method.html#c.PyInstanceMethod_Function
+	PyInstanceMethod_GET_FUNCTION.im         c-api/method.html#c.PyInstanceMethod_GET_FUNCTION
+	PyInstanceMethod_New.func                c-api/method.html#c.PyInstanceMethod_New
+	PyInterpreterState_Clear.interp          c-api/init.html#c.PyInterpreterState_Clear
+	PyInterpreterState_Delete.interp         c-api/init.html#c.PyInterpreterState_Delete
+	PyInterpreterState_GetDict.interp        c-api/init.html#c.PyInterpreterState_GetDict
+	PyInterpreterState_GetID.interp          c-api/init.html#c.PyInterpreterState_GetID
+	PyInterpreterState_Next.interp           c-api/init.html#c.PyInterpreterState_Next
+	PyInterpreterState_ThreadHead.interp     c-api/init.html#c.PyInterpreterState_ThreadHead
+	PyIter_Check.o                           c-api/iter.html#c.PyIter_Check
+	PyIter_Next.o                            c-api/iter.html#c.PyIter_Next
+	PyIter_Send.arg                          c-api/iter.html#c.PyIter_Send
+	PyIter_Send.iter                         c-api/iter.html#c.PyIter_Send
+	PyIter_Send.presult                      c-api/iter.html#c.PyIter_Send
+	PyList_Append.item                       c-api/list.html#c.PyList_Append
+	PyList_Append.list                       c-api/list.html#c.PyList_Append
+	PyList_AsTuple.list                      c-api/list.html#c.PyList_AsTuple
+	PyList_Check.p                           c-api/list.html#c.PyList_Check
+	PyList_CheckExact.p                      c-api/list.html#c.PyList_CheckExact
+	PyList_GET_ITEM.i                        c-api/list.html#c.PyList_GET_ITEM
+	PyList_GET_ITEM.list                     c-api/list.html#c.PyList_GET_ITEM
+	PyList_GET_SIZE.list                     c-api/list.html#c.PyList_GET_SIZE
+	PyList_GetItem.index                     c-api/list.html#c.PyList_GetItem
+	PyList_GetItem.list                      c-api/list.html#c.PyList_GetItem
+	PyList_GetSlice.high                     c-api/list.html#c.PyList_GetSlice
+	PyList_GetSlice.list                     c-api/list.html#c.PyList_GetSlice
+	PyList_GetSlice.low                      c-api/list.html#c.PyList_GetSlice
+	PyList_Insert.index                      c-api/list.html#c.PyList_Insert
+	PyList_Insert.item                       c-api/list.html#c.PyList_Insert
+	PyList_Insert.list                       c-api/list.html#c.PyList_Insert
+	PyList_New.len                           c-api/list.html#c.PyList_New
+	PyList_Reverse.list                      c-api/list.html#c.PyList_Reverse
+	PyList_SET_ITEM.i                        c-api/list.html#c.PyList_SET_ITEM
+	PyList_SET_ITEM.list                     c-api/list.html#c.PyList_SET_ITEM
+	PyList_SET_ITEM.o                        c-api/list.html#c.PyList_SET_ITEM
+	PyList_SetItem.index                     c-api/list.html#c.PyList_SetItem
+	PyList_SetItem.item                      c-api/list.html#c.PyList_SetItem
+	PyList_SetItem.list                      c-api/list.html#c.PyList_SetItem
+	PyList_SetSlice.high                     c-api/list.html#c.PyList_SetSlice
+	PyList_SetSlice.itemlist                 c-api/list.html#c.PyList_SetSlice
+	PyList_SetSlice.list                     c-api/list.html#c.PyList_SetSlice
+	PyList_SetSlice.low                      c-api/list.html#c.PyList_SetSlice
+	PyList_Size.list                         c-api/list.html#c.PyList_Size
+	PyList_Sort.list                         c-api/list.html#c.PyList_Sort
+	PyLong_AsDouble.pylong                   c-api/long.html#c.PyLong_AsDouble
+	PyLong_AsLong.obj                        c-api/long.html#c.PyLong_AsLong
+	PyLong_AsLongAndOverflow.obj             c-api/long.html#c.PyLong_AsLongAndOverflow
+	PyLong_AsLongAndOverflow.overflow        c-api/long.html#c.PyLong_AsLongAndOverflow
+	PyLong_AsLongLong.obj                    c-api/long.html#c.PyLong_AsLongLong
+	PyLong_AsLongLongAndOverflow.obj         c-api/long.html#c.PyLong_AsLongLongAndOverflow
+	PyLong_AsLongLongAndOverflow.overflow    c-api/long.html#c.PyLong_AsLongLongAndOverflow
+	PyLong_AsSize_t.pylong                   c-api/long.html#c.PyLong_AsSize_t
+	PyLong_AsSsize_t.pylong                  c-api/long.html#c.PyLong_AsSsize_t
+	PyLong_AsUnsignedLong.pylong             c-api/long.html#c.PyLong_AsUnsignedLong
+	PyLong_AsUnsignedLongLong.pylong         c-api/long.html#c.PyLong_AsUnsignedLongLong
+	PyLong_AsUnsignedLongLongMask.obj        c-api/long.html#c.PyLong_AsUnsignedLongLongMask
+	PyLong_AsUnsignedLongMask.obj            c-api/long.html#c.PyLong_AsUnsignedLongMask
+	PyLong_AsVoidPtr.pylong                  c-api/long.html#c.PyLong_AsVoidPtr
+	PyLong_Check.p                           c-api/long.html#c.PyLong_Check
+	PyLong_CheckExact.p                      c-api/long.html#c.PyLong_CheckExact
+	PyLong_FromDouble.v                      c-api/long.html#c.PyLong_FromDouble
+	PyLong_FromLong.v                        c-api/long.html#c.PyLong_FromLong
+	PyLong_FromLongLong.v                    c-api/long.html#c.PyLong_FromLongLong
+	PyLong_FromSize_t.v                      c-api/long.html#c.PyLong_FromSize_t
+	PyLong_FromSsize_t.v                     c-api/long.html#c.PyLong_FromSsize_t
+	PyLong_FromString.base                   c-api/long.html#c.PyLong_FromString
+	PyLong_FromString.pend                   c-api/long.html#c.PyLong_FromString
+	PyLong_FromString.str                    c-api/long.html#c.PyLong_FromString
+	PyLong_FromUnicodeObject.base            c-api/long.html#c.PyLong_FromUnicodeObject
+	PyLong_FromUnicodeObject.u               c-api/long.html#c.PyLong_FromUnicodeObject
+	PyLong_FromUnsignedLong.v                c-api/long.html#c.PyLong_FromUnsignedLong
+	PyLong_FromUnsignedLongLong.v            c-api/long.html#c.PyLong_FromUnsignedLongLong
+	PyLong_FromVoidPtr.p                     c-api/long.html#c.PyLong_FromVoidPtr
+	PyMapping_Check.o                        c-api/mapping.html#c.PyMapping_Check
+	PyMapping_DelItem.key                    c-api/mapping.html#c.PyMapping_DelItem
+	PyMapping_DelItem.o                      c-api/mapping.html#c.PyMapping_DelItem
+	PyMapping_DelItemString.key              c-api/mapping.html#c.PyMapping_DelItemString
+	PyMapping_DelItemString.o                c-api/mapping.html#c.PyMapping_DelItemString
+	PyMapping_GetItemString.key              c-api/mapping.html#c.PyMapping_GetItemString
+	PyMapping_GetItemString.o                c-api/mapping.html#c.PyMapping_GetItemString
+	PyMapping_HasKey.key                     c-api/mapping.html#c.PyMapping_HasKey
+	PyMapping_HasKey.o                       c-api/mapping.html#c.PyMapping_HasKey
+	PyMapping_HasKeyString.key               c-api/mapping.html#c.PyMapping_HasKeyString
+	PyMapping_HasKeyString.o                 c-api/mapping.html#c.PyMapping_HasKeyString
+	PyMapping_Items.o                        c-api/mapping.html#c.PyMapping_Items
+	PyMapping_Keys.o                         c-api/mapping.html#c.PyMapping_Keys
+	PyMapping_Length.o                       c-api/mapping.html#c.PyMapping_Length
+	PyMapping_SetItemString.key              c-api/mapping.html#c.PyMapping_SetItemString
+	PyMapping_SetItemString.o                c-api/mapping.html#c.PyMapping_SetItemString
+	PyMapping_SetItemString.v                c-api/mapping.html#c.PyMapping_SetItemString
+	PyMapping_Size.o                         c-api/mapping.html#c.PyMapping_Size
+	PyMapping_Values.o                       c-api/mapping.html#c.PyMapping_Values
+	PyMarshal_ReadLastObjectFromFile.file    c-api/marshal.html#c.PyMarshal_ReadLastObjectFromFile
+	PyMarshal_ReadLongFromFile.file          c-api/marshal.html#c.PyMarshal_ReadLongFromFile
+	PyMarshal_ReadObjectFromFile.file        c-api/marshal.html#c.PyMarshal_ReadObjectFromFile
+	PyMarshal_ReadObjectFromString.data      c-api/marshal.html#c.PyMarshal_ReadObjectFromString
+	PyMarshal_ReadObjectFromString.len       c-api/marshal.html#c.PyMarshal_ReadObjectFromString
+	PyMarshal_ReadShortFromFile.file         c-api/marshal.html#c.PyMarshal_ReadShortFromFile
+	PyMarshal_WriteLongToFile.file           c-api/marshal.html#c.PyMarshal_WriteLongToFile
+	PyMarshal_WriteLongToFile.value          c-api/marshal.html#c.PyMarshal_WriteLongToFile
+	PyMarshal_WriteLongToFile.version        c-api/marshal.html#c.PyMarshal_WriteLongToFile
+	PyMarshal_WriteObjectToFile.file         c-api/marshal.html#c.PyMarshal_WriteObjectToFile
+	PyMarshal_WriteObjectToFile.value        c-api/marshal.html#c.PyMarshal_WriteObjectToFile
+	PyMarshal_WriteObjectToFile.version      c-api/marshal.html#c.PyMarshal_WriteObjectToFile
+	PyMarshal_WriteObjectToString.value      c-api/marshal.html#c.PyMarshal_WriteObjectToString
+	PyMarshal_WriteObjectToString.version    c-api/marshal.html#c.PyMarshal_WriteObjectToString
+	PyMem_Calloc.elsize                      c-api/memory.html#c.PyMem_Calloc
+	PyMem_Calloc.nelem                       c-api/memory.html#c.PyMem_Calloc
+	PyMem_Del.p                              c-api/memory.html#c.PyMem_Del
+	PyMem_Free.p                             c-api/memory.html#c.PyMem_Free
+	PyMem_GetAllocator.allocator             c-api/memory.html#c.PyMem_GetAllocator
+	PyMem_GetAllocator.domain                c-api/memory.html#c.PyMem_GetAllocator
+	PyMem_Malloc.n                           c-api/memory.html#c.PyMem_Malloc
+	PyMem_New.n                              c-api/memory.html#c.PyMem_New
+	PyMem_RawCalloc.elsize                   c-api/memory.html#c.PyMem_RawCalloc
+	PyMem_RawCalloc.nelem                    c-api/memory.html#c.PyMem_RawCalloc
+	PyMem_RawFree.p                          c-api/memory.html#c.PyMem_RawFree
+	PyMem_RawMalloc.n                        c-api/memory.html#c.PyMem_RawMalloc
+	PyMem_RawRealloc.n                       c-api/memory.html#c.PyMem_RawRealloc
+	PyMem_RawRealloc.p                       c-api/memory.html#c.PyMem_RawRealloc
+	PyMem_Realloc.n                          c-api/memory.html#c.PyMem_Realloc
+	PyMem_Realloc.p                          c-api/memory.html#c.PyMem_Realloc
+	PyMem_Resize.n                           c-api/memory.html#c.PyMem_Resize
+	PyMem_Resize.p                           c-api/memory.html#c.PyMem_Resize
+	PyMem_SetAllocator.allocator             c-api/memory.html#c.PyMem_SetAllocator
+	PyMem_SetAllocator.domain                c-api/memory.html#c.PyMem_SetAllocator
+	PyMember_GetOne.m                        c-api/structures.html#c.PyMember_GetOne
+	PyMember_GetOne.obj_addr                 c-api/structures.html#c.PyMember_GetOne
+	PyMember_SetOne.m                        c-api/structures.html#c.PyMember_SetOne
+	PyMember_SetOne.o                        c-api/structures.html#c.PyMember_SetOne
+	PyMember_SetOne.obj_addr                 c-api/structures.html#c.PyMember_SetOne
+	PyMemoryView_Check.obj                   c-api/memoryview.html#c.PyMemoryView_Check
+	PyMemoryView_FromBuffer.view             c-api/memoryview.html#c.PyMemoryView_FromBuffer
+	PyMemoryView_FromMemory.flags            c-api/memoryview.html#c.PyMemoryView_FromMemory
+	PyMemoryView_FromMemory.mem              c-api/memoryview.html#c.PyMemoryView_FromMemory
+	PyMemoryView_FromMemory.size             c-api/memoryview.html#c.PyMemoryView_FromMemory
+	PyMemoryView_FromObject.obj              c-api/memoryview.html#c.PyMemoryView_FromObject
+	PyMemoryView_GET_BASE.mview              c-api/memoryview.html#c.PyMemoryView_GET_BASE
+	PyMemoryView_GET_BUFFER.mview            c-api/memoryview.html#c.PyMemoryView_GET_BUFFER
+	PyMemoryView_GetContiguous.buffertype    c-api/memoryview.html#c.PyMemoryView_GetContiguous
+	PyMemoryView_GetContiguous.obj           c-api/memoryview.html#c.PyMemoryView_GetContiguous
+	PyMemoryView_GetContiguous.order         c-api/memoryview.html#c.PyMemoryView_GetContiguous
+	PyMethod_Check.o                         c-api/method.html#c.PyMethod_Check
+	PyMethod_Function.meth                   c-api/method.html#c.PyMethod_Function
+	PyMethod_GET_FUNCTION.meth               c-api/method.html#c.PyMethod_GET_FUNCTION
+	PyMethod_GET_SELF.meth                   c-api/method.html#c.PyMethod_GET_SELF
+	PyMethod_New.func                        c-api/method.html#c.PyMethod_New
+	PyMethod_New.self                        c-api/method.html#c.PyMethod_New
+	PyMethod_Self.meth                       c-api/method.html#c.PyMethod_Self
+	PyModuleDef_Init.def                     c-api/module.html#c.PyModuleDef_Init
+	PyModule_AddFunctions.functions          c-api/module.html#c.PyModule_AddFunctions
+	PyModule_AddFunctions.module             c-api/module.html#c.PyModule_AddFunctions
+	PyModule_AddIntConstant.module           c-api/module.html#c.PyModule_AddIntConstant
+	PyModule_AddIntConstant.name             c-api/module.html#c.PyModule_AddIntConstant
+	PyModule_AddIntConstant.value            c-api/module.html#c.PyModule_AddIntConstant
+	PyModule_AddIntMacro.module              c-api/module.html#c.PyModule_AddIntMacro
+	PyModule_AddObject.module                c-api/module.html#c.PyModule_AddObject
+	PyModule_AddObject.name                  c-api/module.html#c.PyModule_AddObject
+	PyModule_AddObject.value                 c-api/module.html#c.PyModule_AddObject
+	PyModule_AddObjectRef.module             c-api/module.html#c.PyModule_AddObjectRef
+	PyModule_AddObjectRef.name               c-api/module.html#c.PyModule_AddObjectRef
+	PyModule_AddObjectRef.value              c-api/module.html#c.PyModule_AddObjectRef
+	PyModule_AddStringConstant.module        c-api/module.html#c.PyModule_AddStringConstant
+	PyModule_AddStringConstant.name          c-api/module.html#c.PyModule_AddStringConstant
+	PyModule_AddStringConstant.value         c-api/module.html#c.PyModule_AddStringConstant
+	PyModule_AddStringMacro.module           c-api/module.html#c.PyModule_AddStringMacro
+	PyModule_AddType.module                  c-api/module.html#c.PyModule_AddType
+	PyModule_AddType.type                    c-api/module.html#c.PyModule_AddType
+	PyModule_Check.p                         c-api/module.html#c.PyModule_Check
+	PyModule_CheckExact.p                    c-api/module.html#c.PyModule_CheckExact
+	PyModule_Create.def                      c-api/module.html#c.PyModule_Create
+	PyModule_Create2.def                     c-api/module.html#c.PyModule_Create2
+	PyModule_Create2.module_api_version      c-api/module.html#c.PyModule_Create2
+	PyModule_ExecDef.def                     c-api/module.html#c.PyModule_ExecDef
+	PyModule_ExecDef.module                  c-api/module.html#c.PyModule_ExecDef
+	PyModule_FromDefAndSpec.def              c-api/module.html#c.PyModule_FromDefAndSpec
+	PyModule_FromDefAndSpec.spec             c-api/module.html#c.PyModule_FromDefAndSpec
+	PyModule_FromDefAndSpec2.def             c-api/module.html#c.PyModule_FromDefAndSpec2
+	PyModule_FromDefAndSpec2.module_api_version c-api/module.html#c.PyModule_FromDefAndSpec2
+	PyModule_FromDefAndSpec2.spec            c-api/module.html#c.PyModule_FromDefAndSpec2
+	PyModule_GetDef.module                   c-api/module.html#c.PyModule_GetDef
+	PyModule_GetDict.module                  c-api/module.html#c.PyModule_GetDict
+	PyModule_GetFilename.module              c-api/module.html#c.PyModule_GetFilename
+	PyModule_GetFilenameObject.module        c-api/module.html#c.PyModule_GetFilenameObject
+	PyModule_GetName.module                  c-api/module.html#c.PyModule_GetName
+	PyModule_GetNameObject.module            c-api/module.html#c.PyModule_GetNameObject
+	PyModule_GetState.module                 c-api/module.html#c.PyModule_GetState
+	PyModule_New.name                        c-api/module.html#c.PyModule_New
+	PyModule_NewObject.name                  c-api/module.html#c.PyModule_NewObject
+	PyModule_SetDocString.docstring          c-api/module.html#c.PyModule_SetDocString
+	PyModule_SetDocString.module             c-api/module.html#c.PyModule_SetDocString
+	PyNumber_Absolute.o                      c-api/number.html#c.PyNumber_Absolute
+	PyNumber_Add.o1                          c-api/number.html#c.PyNumber_Add
+	PyNumber_Add.o2                          c-api/number.html#c.PyNumber_Add
+	PyNumber_And.o1                          c-api/number.html#c.PyNumber_And
+	PyNumber_And.o2                          c-api/number.html#c.PyNumber_And
+	PyNumber_AsSsize_t.exc                   c-api/number.html#c.PyNumber_AsSsize_t
+	PyNumber_AsSsize_t.o                     c-api/number.html#c.PyNumber_AsSsize_t
+	PyNumber_Check.o                         c-api/number.html#c.PyNumber_Check
+	PyNumber_Divmod.o1                       c-api/number.html#c.PyNumber_Divmod
+	PyNumber_Divmod.o2                       c-api/number.html#c.PyNumber_Divmod
+	PyNumber_Float.o                         c-api/number.html#c.PyNumber_Float
+	PyNumber_FloorDivide.o1                  c-api/number.html#c.PyNumber_FloorDivide
+	PyNumber_FloorDivide.o2                  c-api/number.html#c.PyNumber_FloorDivide
+	PyNumber_InPlaceAdd.o1                   c-api/number.html#c.PyNumber_InPlaceAdd
+	PyNumber_InPlaceAdd.o2                   c-api/number.html#c.PyNumber_InPlaceAdd
+	PyNumber_InPlaceAnd.o1                   c-api/number.html#c.PyNumber_InPlaceAnd
+	PyNumber_InPlaceAnd.o2                   c-api/number.html#c.PyNumber_InPlaceAnd
+	PyNumber_InPlaceFloorDivide.o1           c-api/number.html#c.PyNumber_InPlaceFloorDivide
+	PyNumber_InPlaceFloorDivide.o2           c-api/number.html#c.PyNumber_InPlaceFloorDivide
+	PyNumber_InPlaceLshift.o1                c-api/number.html#c.PyNumber_InPlaceLshift
+	PyNumber_InPlaceLshift.o2                c-api/number.html#c.PyNumber_InPlaceLshift
+	PyNumber_InPlaceMatrixMultiply.o1        c-api/number.html#c.PyNumber_InPlaceMatrixMultiply
+	PyNumber_InPlaceMatrixMultiply.o2        c-api/number.html#c.PyNumber_InPlaceMatrixMultiply
+	PyNumber_InPlaceMultiply.o1              c-api/number.html#c.PyNumber_InPlaceMultiply
+	PyNumber_InPlaceMultiply.o2              c-api/number.html#c.PyNumber_InPlaceMultiply
+	PyNumber_InPlaceOr.o1                    c-api/number.html#c.PyNumber_InPlaceOr
+	PyNumber_InPlaceOr.o2                    c-api/number.html#c.PyNumber_InPlaceOr
+	PyNumber_InPlacePower.o1                 c-api/number.html#c.PyNumber_InPlacePower
+	PyNumber_InPlacePower.o2                 c-api/number.html#c.PyNumber_InPlacePower
+	PyNumber_InPlacePower.o3                 c-api/number.html#c.PyNumber_InPlacePower
+	PyNumber_InPlaceRemainder.o1             c-api/number.html#c.PyNumber_InPlaceRemainder
+	PyNumber_InPlaceRemainder.o2             c-api/number.html#c.PyNumber_InPlaceRemainder
+	PyNumber_InPlaceRshift.o1                c-api/number.html#c.PyNumber_InPlaceRshift
+	PyNumber_InPlaceRshift.o2                c-api/number.html#c.PyNumber_InPlaceRshift
+	PyNumber_InPlaceSubtract.o1              c-api/number.html#c.PyNumber_InPlaceSubtract
+	PyNumber_InPlaceSubtract.o2              c-api/number.html#c.PyNumber_InPlaceSubtract
+	PyNumber_InPlaceTrueDivide.o1            c-api/number.html#c.PyNumber_InPlaceTrueDivide
+	PyNumber_InPlaceTrueDivide.o2            c-api/number.html#c.PyNumber_InPlaceTrueDivide
+	PyNumber_InPlaceXor.o1                   c-api/number.html#c.PyNumber_InPlaceXor
+	PyNumber_InPlaceXor.o2                   c-api/number.html#c.PyNumber_InPlaceXor
+	PyNumber_Index.o                         c-api/number.html#c.PyNumber_Index
+	PyNumber_Invert.o                        c-api/number.html#c.PyNumber_Invert
+	PyNumber_Long.o                          c-api/number.html#c.PyNumber_Long
+	PyNumber_Lshift.o1                       c-api/number.html#c.PyNumber_Lshift
+	PyNumber_Lshift.o2                       c-api/number.html#c.PyNumber_Lshift
+	PyNumber_MatrixMultiply.o1               c-api/number.html#c.PyNumber_MatrixMultiply
+	PyNumber_MatrixMultiply.o2               c-api/number.html#c.PyNumber_MatrixMultiply
+	PyNumber_Multiply.o1                     c-api/number.html#c.PyNumber_Multiply
+	PyNumber_Multiply.o2                     c-api/number.html#c.PyNumber_Multiply
+	PyNumber_Negative.o                      c-api/number.html#c.PyNumber_Negative
+	PyNumber_Or.o1                           c-api/number.html#c.PyNumber_Or
+	PyNumber_Or.o2                           c-api/number.html#c.PyNumber_Or
+	PyNumber_Positive.o                      c-api/number.html#c.PyNumber_Positive
+	PyNumber_Power.o1                        c-api/number.html#c.PyNumber_Power
+	PyNumber_Power.o2                        c-api/number.html#c.PyNumber_Power
+	PyNumber_Power.o3                        c-api/number.html#c.PyNumber_Power
+	PyNumber_Remainder.o1                    c-api/number.html#c.PyNumber_Remainder
+	PyNumber_Remainder.o2                    c-api/number.html#c.PyNumber_Remainder
+	PyNumber_Rshift.o1                       c-api/number.html#c.PyNumber_Rshift
+	PyNumber_Rshift.o2                       c-api/number.html#c.PyNumber_Rshift
+	PyNumber_Subtract.o1                     c-api/number.html#c.PyNumber_Subtract
+	PyNumber_Subtract.o2                     c-api/number.html#c.PyNumber_Subtract
+	PyNumber_ToBase.base                     c-api/number.html#c.PyNumber_ToBase
+	PyNumber_ToBase.n                        c-api/number.html#c.PyNumber_ToBase
+	PyNumber_TrueDivide.o1                   c-api/number.html#c.PyNumber_TrueDivide
+	PyNumber_TrueDivide.o2                   c-api/number.html#c.PyNumber_TrueDivide
+	PyNumber_Xor.o1                          c-api/number.html#c.PyNumber_Xor
+	PyNumber_Xor.o2                          c-api/number.html#c.PyNumber_Xor
+	PyOS_FSPath.path                         c-api/sys.html#c.PyOS_FSPath
+	PyOS_double_to_string.flags              c-api/conversion.html#c.PyOS_double_to_string
+	PyOS_double_to_string.format_code        c-api/conversion.html#c.PyOS_double_to_string
+	PyOS_double_to_string.precision          c-api/conversion.html#c.PyOS_double_to_string
+	PyOS_double_to_string.ptype              c-api/conversion.html#c.PyOS_double_to_string
+	PyOS_double_to_string.val                c-api/conversion.html#c.PyOS_double_to_string
+	PyOS_getsig.i                            c-api/sys.html#c.PyOS_getsig
+	PyOS_setsig.h                            c-api/sys.html#c.PyOS_setsig
+	PyOS_setsig.i                            c-api/sys.html#c.PyOS_setsig
+	PyOS_snprintf.format                     c-api/conversion.html#c.PyOS_snprintf
+	PyOS_snprintf.size                       c-api/conversion.html#c.PyOS_snprintf
+	PyOS_snprintf.str                        c-api/conversion.html#c.PyOS_snprintf
+	PyOS_stricmp.s1                          c-api/conversion.html#c.PyOS_stricmp
+	PyOS_stricmp.s2                          c-api/conversion.html#c.PyOS_stricmp
+	PyOS_string_to_double.endptr             c-api/conversion.html#c.PyOS_string_to_double
+	PyOS_string_to_double.overflow_exception c-api/conversion.html#c.PyOS_string_to_double
+	PyOS_string_to_double.s                  c-api/conversion.html#c.PyOS_string_to_double
+	PyOS_strnicmp.s1                         c-api/conversion.html#c.PyOS_strnicmp
+	PyOS_strnicmp.s2                         c-api/conversion.html#c.PyOS_strnicmp
+	PyOS_strnicmp.size                       c-api/conversion.html#c.PyOS_strnicmp
+	PyOS_vsnprintf.format                    c-api/conversion.html#c.PyOS_vsnprintf
+	PyOS_vsnprintf.size                      c-api/conversion.html#c.PyOS_vsnprintf
+	PyOS_vsnprintf.str                       c-api/conversion.html#c.PyOS_vsnprintf
+	PyOS_vsnprintf.va                        c-api/conversion.html#c.PyOS_vsnprintf
+	PyObject_ASCII.o                         c-api/object.html#c.PyObject_ASCII
+	PyObject_AsCharBuffer.buffer             c-api/objbuffer.html#c.PyObject_AsCharBuffer
+	PyObject_AsCharBuffer.buffer_len         c-api/objbuffer.html#c.PyObject_AsCharBuffer
+	PyObject_AsCharBuffer.obj                c-api/objbuffer.html#c.PyObject_AsCharBuffer
+	PyObject_AsFileDescriptor.p              c-api/file.html#c.PyObject_AsFileDescriptor
+	PyObject_AsReadBuffer.buffer             c-api/objbuffer.html#c.PyObject_AsReadBuffer
+	PyObject_AsReadBuffer.buffer_len         c-api/objbuffer.html#c.PyObject_AsReadBuffer
+	PyObject_AsReadBuffer.obj                c-api/objbuffer.html#c.PyObject_AsReadBuffer
+	PyObject_AsWriteBuffer.buffer            c-api/objbuffer.html#c.PyObject_AsWriteBuffer
+	PyObject_AsWriteBuffer.buffer_len        c-api/objbuffer.html#c.PyObject_AsWriteBuffer
+	PyObject_AsWriteBuffer.obj               c-api/objbuffer.html#c.PyObject_AsWriteBuffer
+	PyObject_Bytes.o                         c-api/object.html#c.PyObject_Bytes
+	PyObject_Call.args                       c-api/call.html#c.PyObject_Call
+	PyObject_Call.callable                   c-api/call.html#c.PyObject_Call
+	PyObject_Call.kwargs                     c-api/call.html#c.PyObject_Call
+	PyObject_CallFunction.callable           c-api/call.html#c.PyObject_CallFunction
+	PyObject_CallFunction.format             c-api/call.html#c.PyObject_CallFunction
+	PyObject_CallFunctionObjArgs.callable    c-api/call.html#c.PyObject_CallFunctionObjArgs
+	PyObject_CallMethod.format               c-api/call.html#c.PyObject_CallMethod
+	PyObject_CallMethod.name                 c-api/call.html#c.PyObject_CallMethod
+	PyObject_CallMethod.obj                  c-api/call.html#c.PyObject_CallMethod
+	PyObject_CallMethodNoArgs.name           c-api/call.html#c.PyObject_CallMethodNoArgs
+	PyObject_CallMethodNoArgs.obj            c-api/call.html#c.PyObject_CallMethodNoArgs
+	PyObject_CallMethodObjArgs.name          c-api/call.html#c.PyObject_CallMethodObjArgs
+	PyObject_CallMethodObjArgs.obj           c-api/call.html#c.PyObject_CallMethodObjArgs
+	PyObject_CallMethodOneArg.arg            c-api/call.html#c.PyObject_CallMethodOneArg
+	PyObject_CallMethodOneArg.name           c-api/call.html#c.PyObject_CallMethodOneArg
+	PyObject_CallMethodOneArg.obj            c-api/call.html#c.PyObject_CallMethodOneArg
+	PyObject_CallNoArgs.callable             c-api/call.html#c.PyObject_CallNoArgs
+	PyObject_CallObject.args                 c-api/call.html#c.PyObject_CallObject
+	PyObject_CallObject.callable             c-api/call.html#c.PyObject_CallObject
+	PyObject_CallOneArg.arg                  c-api/call.html#c.PyObject_CallOneArg
+	PyObject_CallOneArg.callable             c-api/call.html#c.PyObject_CallOneArg
+	PyObject_Calloc.elsize                   c-api/memory.html#c.PyObject_Calloc
+	PyObject_Calloc.nelem                    c-api/memory.html#c.PyObject_Calloc
+	PyObject_CheckBuffer.obj                 c-api/buffer.html#c.PyObject_CheckBuffer
+	PyObject_CheckReadBuffer.o               c-api/objbuffer.html#c.PyObject_CheckReadBuffer
+	PyObject_Del.op                          c-api/allocation.html#c.PyObject_Del
+	PyObject_DelAttr.attr_name               c-api/object.html#c.PyObject_DelAttr
+	PyObject_DelAttr.o                       c-api/object.html#c.PyObject_DelAttr
+	PyObject_DelAttrString.attr_name         c-api/object.html#c.PyObject_DelAttrString
+	PyObject_DelAttrString.o                 c-api/object.html#c.PyObject_DelAttrString
+	PyObject_DelItem.key                     c-api/object.html#c.PyObject_DelItem
+	PyObject_DelItem.o                       c-api/object.html#c.PyObject_DelItem
+	PyObject_Dir.o                           c-api/object.html#c.PyObject_Dir
+	PyObject_Free.p                          c-api/memory.html#c.PyObject_Free
+	PyObject_GC_Del.op                       c-api/gcsupport.html#c.PyObject_GC_Del
+	PyObject_GC_IsFinalized.op               c-api/gcsupport.html#c.PyObject_GC_IsFinalized
+	PyObject_GC_IsTracked.op                 c-api/gcsupport.html#c.PyObject_GC_IsTracked
+	PyObject_GC_New.type                     c-api/gcsupport.html#c.PyObject_GC_New
+	PyObject_GC_NewVar.size                  c-api/gcsupport.html#c.PyObject_GC_NewVar
+	PyObject_GC_NewVar.type                  c-api/gcsupport.html#c.PyObject_GC_NewVar
+	PyObject_GC_Resize.newsize               c-api/gcsupport.html#c.PyObject_GC_Resize
+	PyObject_GC_Resize.op                    c-api/gcsupport.html#c.PyObject_GC_Resize
+	PyObject_GC_Track.op                     c-api/gcsupport.html#c.PyObject_GC_Track
+	PyObject_GC_UnTrack.op                   c-api/gcsupport.html#c.PyObject_GC_UnTrack
+	PyObject_GenericGetAttr.name             c-api/object.html#c.PyObject_GenericGetAttr
+	PyObject_GenericGetAttr.o                c-api/object.html#c.PyObject_GenericGetAttr
+	PyObject_GenericGetDict.context          c-api/object.html#c.PyObject_GenericGetDict
+	PyObject_GenericGetDict.o                c-api/object.html#c.PyObject_GenericGetDict
+	PyObject_GenericSetAttr.name             c-api/object.html#c.PyObject_GenericSetAttr
+	PyObject_GenericSetAttr.o                c-api/object.html#c.PyObject_GenericSetAttr
+	PyObject_GenericSetAttr.value            c-api/object.html#c.PyObject_GenericSetAttr
+	PyObject_GenericSetDict.context          c-api/object.html#c.PyObject_GenericSetDict
+	PyObject_GenericSetDict.o                c-api/object.html#c.PyObject_GenericSetDict
+	PyObject_GenericSetDict.value            c-api/object.html#c.PyObject_GenericSetDict
+	PyObject_GetAIter.o                      c-api/object.html#c.PyObject_GetAIter
+	PyObject_GetArenaAllocator.allocator     c-api/memory.html#c.PyObject_GetArenaAllocator
+	PyObject_GetAttr.attr_name               c-api/object.html#c.PyObject_GetAttr
+	PyObject_GetAttr.o                       c-api/object.html#c.PyObject_GetAttr
+	PyObject_GetAttrString.attr_name         c-api/object.html#c.PyObject_GetAttrString
+	PyObject_GetAttrString.o                 c-api/object.html#c.PyObject_GetAttrString
+	PyObject_GetBuffer.exporter              c-api/buffer.html#c.PyObject_GetBuffer
+	PyObject_GetBuffer.flags                 c-api/buffer.html#c.PyObject_GetBuffer
+	PyObject_GetBuffer.view                  c-api/buffer.html#c.PyObject_GetBuffer
+	PyObject_GetItem.key                     c-api/object.html#c.PyObject_GetItem
+	PyObject_GetItem.o                       c-api/object.html#c.PyObject_GetItem
+	PyObject_GetIter.o                       c-api/object.html#c.PyObject_GetIter
+	PyObject_HasAttr.attr_name               c-api/object.html#c.PyObject_HasAttr
+	PyObject_HasAttr.o                       c-api/object.html#c.PyObject_HasAttr
+	PyObject_HasAttrString.attr_name         c-api/object.html#c.PyObject_HasAttrString
+	PyObject_HasAttrString.o                 c-api/object.html#c.PyObject_HasAttrString
+	PyObject_Hash.o                          c-api/object.html#c.PyObject_Hash
+	PyObject_HashNotImplemented.o            c-api/object.html#c.PyObject_HashNotImplemented
+	PyObject_IS_GC.obj                       c-api/gcsupport.html#c.PyObject_IS_GC
+	PyObject_Init.op                         c-api/allocation.html#c.PyObject_Init
+	PyObject_Init.type                       c-api/allocation.html#c.PyObject_Init
+	PyObject_InitVar.op                      c-api/allocation.html#c.PyObject_InitVar
+	PyObject_InitVar.size                    c-api/allocation.html#c.PyObject_InitVar
+	PyObject_InitVar.type                    c-api/allocation.html#c.PyObject_InitVar
+	PyObject_IsInstance.cls                  c-api/object.html#c.PyObject_IsInstance
+	PyObject_IsInstance.inst                 c-api/object.html#c.PyObject_IsInstance
+	PyObject_IsSubclass.cls                  c-api/object.html#c.PyObject_IsSubclass
+	PyObject_IsSubclass.derived              c-api/object.html#c.PyObject_IsSubclass
+	PyObject_IsTrue.o                        c-api/object.html#c.PyObject_IsTrue
+	PyObject_Length.o                        c-api/object.html#c.PyObject_Length
+	PyObject_LengthHint.defaultvalue         c-api/object.html#c.PyObject_LengthHint
+	PyObject_LengthHint.o                    c-api/object.html#c.PyObject_LengthHint
+	PyObject_Malloc.n                        c-api/memory.html#c.PyObject_Malloc
+	PyObject_New.type                        c-api/allocation.html#c.PyObject_New
+	PyObject_NewVar.size                     c-api/allocation.html#c.PyObject_NewVar
+	PyObject_NewVar.type                     c-api/allocation.html#c.PyObject_NewVar
+	PyObject_Not.o                           c-api/object.html#c.PyObject_Not
+	PyObject_Print.flags                     c-api/object.html#c.PyObject_Print
+	PyObject_Print.fp                        c-api/object.html#c.PyObject_Print
+	PyObject_Print.o                         c-api/object.html#c.PyObject_Print
+	PyObject_Realloc.n                       c-api/memory.html#c.PyObject_Realloc
+	PyObject_Realloc.p                       c-api/memory.html#c.PyObject_Realloc
+	PyObject_Repr.o                          c-api/object.html#c.PyObject_Repr
+	PyObject_RichCompare.o1                  c-api/object.html#c.PyObject_RichCompare
+	PyObject_RichCompare.o2                  c-api/object.html#c.PyObject_RichCompare
+	PyObject_RichCompare.opid                c-api/object.html#c.PyObject_RichCompare
+	PyObject_RichCompareBool.o1              c-api/object.html#c.PyObject_RichCompareBool
+	PyObject_RichCompareBool.o2              c-api/object.html#c.PyObject_RichCompareBool
+	PyObject_RichCompareBool.opid            c-api/object.html#c.PyObject_RichCompareBool
+	PyObject_SetArenaAllocator.allocator     c-api/memory.html#c.PyObject_SetArenaAllocator
+	PyObject_SetAttr.attr_name               c-api/object.html#c.PyObject_SetAttr
+	PyObject_SetAttr.o                       c-api/object.html#c.PyObject_SetAttr
+	PyObject_SetAttr.v                       c-api/object.html#c.PyObject_SetAttr
+	PyObject_SetAttrString.attr_name         c-api/object.html#c.PyObject_SetAttrString
+	PyObject_SetAttrString.o                 c-api/object.html#c.PyObject_SetAttrString
+	PyObject_SetAttrString.v                 c-api/object.html#c.PyObject_SetAttrString
+	PyObject_SetItem.key                     c-api/object.html#c.PyObject_SetItem
+	PyObject_SetItem.o                       c-api/object.html#c.PyObject_SetItem
+	PyObject_SetItem.v                       c-api/object.html#c.PyObject_SetItem
+	PyObject_Size.o                          c-api/object.html#c.PyObject_Size
+	PyObject_Str.o                           c-api/object.html#c.PyObject_Str
+	PyObject_Type.o                          c-api/object.html#c.PyObject_Type
+	PyObject_TypeCheck.o                     c-api/object.html#c.PyObject_TypeCheck
+	PyObject_TypeCheck.type                  c-api/object.html#c.PyObject_TypeCheck
+	PyObject_Vectorcall.args                 c-api/call.html#c.PyObject_Vectorcall
+	PyObject_Vectorcall.callable             c-api/call.html#c.PyObject_Vectorcall
+	PyObject_Vectorcall.kwnames              c-api/call.html#c.PyObject_Vectorcall
+	PyObject_Vectorcall.nargsf               c-api/call.html#c.PyObject_Vectorcall
+	PyObject_VectorcallDict.args             c-api/call.html#c.PyObject_VectorcallDict
+	PyObject_VectorcallDict.callable         c-api/call.html#c.PyObject_VectorcallDict
+	PyObject_VectorcallDict.kwdict           c-api/call.html#c.PyObject_VectorcallDict
+	PyObject_VectorcallDict.nargsf           c-api/call.html#c.PyObject_VectorcallDict
+	PyObject_VectorcallMethod.args           c-api/call.html#c.PyObject_VectorcallMethod
+	PyObject_VectorcallMethod.kwnames        c-api/call.html#c.PyObject_VectorcallMethod
+	PyObject_VectorcallMethod.name           c-api/call.html#c.PyObject_VectorcallMethod
+	PyObject_VectorcallMethod.nargsf         c-api/call.html#c.PyObject_VectorcallMethod
+	PyPreConfig.PyPreConfig_InitIsolatedConfig.preconfig c-api/init_config.html#c.PyPreConfig.PyPreConfig_InitIsolatedConfig
+	PyPreConfig.PyPreConfig_InitPythonConfig.preconfig c-api/init_config.html#c.PyPreConfig.PyPreConfig_InitPythonConfig
+	PyRun_AnyFile.filename                   c-api/veryhigh.html#c.PyRun_AnyFile
+	PyRun_AnyFile.fp                         c-api/veryhigh.html#c.PyRun_AnyFile
+	PyRun_AnyFileEx.closeit                  c-api/veryhigh.html#c.PyRun_AnyFileEx
+	PyRun_AnyFileEx.filename                 c-api/veryhigh.html#c.PyRun_AnyFileEx
+	PyRun_AnyFileEx.fp                       c-api/veryhigh.html#c.PyRun_AnyFileEx
+	PyRun_AnyFileExFlags.closeit             c-api/veryhigh.html#c.PyRun_AnyFileExFlags
+	PyRun_AnyFileExFlags.filename            c-api/veryhigh.html#c.PyRun_AnyFileExFlags
+	PyRun_AnyFileExFlags.flags               c-api/veryhigh.html#c.PyRun_AnyFileExFlags
+	PyRun_AnyFileExFlags.fp                  c-api/veryhigh.html#c.PyRun_AnyFileExFlags
+	PyRun_AnyFileFlags.filename              c-api/veryhigh.html#c.PyRun_AnyFileFlags
+	PyRun_AnyFileFlags.flags                 c-api/veryhigh.html#c.PyRun_AnyFileFlags
+	PyRun_AnyFileFlags.fp                    c-api/veryhigh.html#c.PyRun_AnyFileFlags
+	PyRun_File.filename                      c-api/veryhigh.html#c.PyRun_File
+	PyRun_File.fp                            c-api/veryhigh.html#c.PyRun_File
+	PyRun_File.globals                       c-api/veryhigh.html#c.PyRun_File
+	PyRun_File.locals                        c-api/veryhigh.html#c.PyRun_File
+	PyRun_File.start                         c-api/veryhigh.html#c.PyRun_File
+	PyRun_FileEx.closeit                     c-api/veryhigh.html#c.PyRun_FileEx
+	PyRun_FileEx.filename                    c-api/veryhigh.html#c.PyRun_FileEx
+	PyRun_FileEx.fp                          c-api/veryhigh.html#c.PyRun_FileEx
+	PyRun_FileEx.globals                     c-api/veryhigh.html#c.PyRun_FileEx
+	PyRun_FileEx.locals                      c-api/veryhigh.html#c.PyRun_FileEx
+	PyRun_FileEx.start                       c-api/veryhigh.html#c.PyRun_FileEx
+	PyRun_FileExFlags.closeit                c-api/veryhigh.html#c.PyRun_FileExFlags
+	PyRun_FileExFlags.filename               c-api/veryhigh.html#c.PyRun_FileExFlags
+	PyRun_FileExFlags.flags                  c-api/veryhigh.html#c.PyRun_FileExFlags
+	PyRun_FileExFlags.fp                     c-api/veryhigh.html#c.PyRun_FileExFlags
+	PyRun_FileExFlags.globals                c-api/veryhigh.html#c.PyRun_FileExFlags
+	PyRun_FileExFlags.locals                 c-api/veryhigh.html#c.PyRun_FileExFlags
+	PyRun_FileExFlags.start                  c-api/veryhigh.html#c.PyRun_FileExFlags
+	PyRun_FileFlags.filename                 c-api/veryhigh.html#c.PyRun_FileFlags
+	PyRun_FileFlags.flags                    c-api/veryhigh.html#c.PyRun_FileFlags
+	PyRun_FileFlags.fp                       c-api/veryhigh.html#c.PyRun_FileFlags
+	PyRun_FileFlags.globals                  c-api/veryhigh.html#c.PyRun_FileFlags
+	PyRun_FileFlags.locals                   c-api/veryhigh.html#c.PyRun_FileFlags
+	PyRun_FileFlags.start                    c-api/veryhigh.html#c.PyRun_FileFlags
+	PyRun_InteractiveLoop.filename           c-api/veryhigh.html#c.PyRun_InteractiveLoop
+	PyRun_InteractiveLoop.fp                 c-api/veryhigh.html#c.PyRun_InteractiveLoop
+	PyRun_InteractiveLoopFlags.filename      c-api/veryhigh.html#c.PyRun_InteractiveLoopFlags
+	PyRun_InteractiveLoopFlags.flags         c-api/veryhigh.html#c.PyRun_InteractiveLoopFlags
+	PyRun_InteractiveLoopFlags.fp            c-api/veryhigh.html#c.PyRun_InteractiveLoopFlags
+	PyRun_InteractiveOne.filename            c-api/veryhigh.html#c.PyRun_InteractiveOne
+	PyRun_InteractiveOne.fp                  c-api/veryhigh.html#c.PyRun_InteractiveOne
+	PyRun_InteractiveOneFlags.filename       c-api/veryhigh.html#c.PyRun_InteractiveOneFlags
+	PyRun_InteractiveOneFlags.flags          c-api/veryhigh.html#c.PyRun_InteractiveOneFlags
+	PyRun_InteractiveOneFlags.fp             c-api/veryhigh.html#c.PyRun_InteractiveOneFlags
+	PyRun_SimpleFile.filename                c-api/veryhigh.html#c.PyRun_SimpleFile
+	PyRun_SimpleFile.fp                      c-api/veryhigh.html#c.PyRun_SimpleFile
+	PyRun_SimpleFileEx.closeit               c-api/veryhigh.html#c.PyRun_SimpleFileEx
+	PyRun_SimpleFileEx.filename              c-api/veryhigh.html#c.PyRun_SimpleFileEx
+	PyRun_SimpleFileEx.fp                    c-api/veryhigh.html#c.PyRun_SimpleFileEx
+	PyRun_SimpleFileExFlags.closeit          c-api/veryhigh.html#c.PyRun_SimpleFileExFlags
+	PyRun_SimpleFileExFlags.filename         c-api/veryhigh.html#c.PyRun_SimpleFileExFlags
+	PyRun_SimpleFileExFlags.flags            c-api/veryhigh.html#c.PyRun_SimpleFileExFlags
+	PyRun_SimpleFileExFlags.fp               c-api/veryhigh.html#c.PyRun_SimpleFileExFlags
+	PyRun_SimpleString.command               c-api/veryhigh.html#c.PyRun_SimpleString
+	PyRun_SimpleStringFlags.command          c-api/veryhigh.html#c.PyRun_SimpleStringFlags
+	PyRun_SimpleStringFlags.flags            c-api/veryhigh.html#c.PyRun_SimpleStringFlags
+	PyRun_String.globals                     c-api/veryhigh.html#c.PyRun_String
+	PyRun_String.locals                      c-api/veryhigh.html#c.PyRun_String
+	PyRun_String.start                       c-api/veryhigh.html#c.PyRun_String
+	PyRun_String.str                         c-api/veryhigh.html#c.PyRun_String
+	PyRun_StringFlags.flags                  c-api/veryhigh.html#c.PyRun_StringFlags
+	PyRun_StringFlags.globals                c-api/veryhigh.html#c.PyRun_StringFlags
+	PyRun_StringFlags.locals                 c-api/veryhigh.html#c.PyRun_StringFlags
+	PyRun_StringFlags.start                  c-api/veryhigh.html#c.PyRun_StringFlags
+	PyRun_StringFlags.str                    c-api/veryhigh.html#c.PyRun_StringFlags
+	PySeqIter_New.seq                        c-api/iterator.html#c.PySeqIter_New
+	PySequence_Check.o                       c-api/sequence.html#c.PySequence_Check
+	PySequence_Concat.o1                     c-api/sequence.html#c.PySequence_Concat
+	PySequence_Concat.o2                     c-api/sequence.html#c.PySequence_Concat
+	PySequence_Contains.o                    c-api/sequence.html#c.PySequence_Contains
+	PySequence_Contains.value                c-api/sequence.html#c.PySequence_Contains
+	PySequence_Count.o                       c-api/sequence.html#c.PySequence_Count
+	PySequence_Count.value                   c-api/sequence.html#c.PySequence_Count
+	PySequence_DelItem.i                     c-api/sequence.html#c.PySequence_DelItem
+	PySequence_DelItem.o                     c-api/sequence.html#c.PySequence_DelItem
+	PySequence_DelSlice.i1                   c-api/sequence.html#c.PySequence_DelSlice
+	PySequence_DelSlice.i2                   c-api/sequence.html#c.PySequence_DelSlice
+	PySequence_DelSlice.o                    c-api/sequence.html#c.PySequence_DelSlice
+	PySequence_Fast.m                        c-api/sequence.html#c.PySequence_Fast
+	PySequence_Fast.o                        c-api/sequence.html#c.PySequence_Fast
+	PySequence_Fast_GET_ITEM.i               c-api/sequence.html#c.PySequence_Fast_GET_ITEM
+	PySequence_Fast_GET_ITEM.o               c-api/sequence.html#c.PySequence_Fast_GET_ITEM
+	PySequence_Fast_GET_SIZE.o               c-api/sequence.html#c.PySequence_Fast_GET_SIZE
+	PySequence_Fast_ITEMS.o                  c-api/sequence.html#c.PySequence_Fast_ITEMS
+	PySequence_GetItem.i                     c-api/sequence.html#c.PySequence_GetItem
+	PySequence_GetItem.o                     c-api/sequence.html#c.PySequence_GetItem
+	PySequence_GetSlice.i1                   c-api/sequence.html#c.PySequence_GetSlice
+	PySequence_GetSlice.i2                   c-api/sequence.html#c.PySequence_GetSlice
+	PySequence_GetSlice.o                    c-api/sequence.html#c.PySequence_GetSlice
+	PySequence_ITEM.i                        c-api/sequence.html#c.PySequence_ITEM
+	PySequence_ITEM.o                        c-api/sequence.html#c.PySequence_ITEM
+	PySequence_InPlaceConcat.o1              c-api/sequence.html#c.PySequence_InPlaceConcat
+	PySequence_InPlaceConcat.o2              c-api/sequence.html#c.PySequence_InPlaceConcat
+	PySequence_InPlaceRepeat.count           c-api/sequence.html#c.PySequence_InPlaceRepeat
+	PySequence_InPlaceRepeat.o               c-api/sequence.html#c.PySequence_InPlaceRepeat
+	PySequence_Index.o                       c-api/sequence.html#c.PySequence_Index
+	PySequence_Index.value                   c-api/sequence.html#c.PySequence_Index
+	PySequence_Length.o                      c-api/sequence.html#c.PySequence_Length
+	PySequence_List.o                        c-api/sequence.html#c.PySequence_List
+	PySequence_Repeat.count                  c-api/sequence.html#c.PySequence_Repeat
+	PySequence_Repeat.o                      c-api/sequence.html#c.PySequence_Repeat
+	PySequence_SetItem.i                     c-api/sequence.html#c.PySequence_SetItem
+	PySequence_SetItem.o                     c-api/sequence.html#c.PySequence_SetItem
+	PySequence_SetItem.v                     c-api/sequence.html#c.PySequence_SetItem
+	PySequence_SetSlice.i1                   c-api/sequence.html#c.PySequence_SetSlice
+	PySequence_SetSlice.i2                   c-api/sequence.html#c.PySequence_SetSlice
+	PySequence_SetSlice.o                    c-api/sequence.html#c.PySequence_SetSlice
+	PySequence_SetSlice.v                    c-api/sequence.html#c.PySequence_SetSlice
+	PySequence_Size.o                        c-api/sequence.html#c.PySequence_Size
+	PySequence_Tuple.o                       c-api/sequence.html#c.PySequence_Tuple
+	PySet_Add.key                            c-api/set.html#c.PySet_Add
+	PySet_Add.set                            c-api/set.html#c.PySet_Add
+	PySet_Check.p                            c-api/set.html#c.PySet_Check
+	PySet_CheckExact.p                       c-api/set.html#c.PySet_CheckExact
+	PySet_Clear.set                          c-api/set.html#c.PySet_Clear
+	PySet_Contains.anyset                    c-api/set.html#c.PySet_Contains
+	PySet_Contains.key                       c-api/set.html#c.PySet_Contains
+	PySet_Discard.key                        c-api/set.html#c.PySet_Discard
+	PySet_Discard.set                        c-api/set.html#c.PySet_Discard
+	PySet_GET_SIZE.anyset                    c-api/set.html#c.PySet_GET_SIZE
+	PySet_New.iterable                       c-api/set.html#c.PySet_New
+	PySet_Pop.set                            c-api/set.html#c.PySet_Pop
+	PySet_Size.anyset                        c-api/set.html#c.PySet_Size
+	PySignal_SetWakeupFd.fd                  c-api/exceptions.html#c.PySignal_SetWakeupFd
+	PySlice_AdjustIndices.length             c-api/slice.html#c.PySlice_AdjustIndices
+	PySlice_AdjustIndices.start              c-api/slice.html#c.PySlice_AdjustIndices
+	PySlice_AdjustIndices.step               c-api/slice.html#c.PySlice_AdjustIndices
+	PySlice_AdjustIndices.stop               c-api/slice.html#c.PySlice_AdjustIndices
+	PySlice_Check.ob                         c-api/slice.html#c.PySlice_Check
+	PySlice_GetIndices.length                c-api/slice.html#c.PySlice_GetIndices
+	PySlice_GetIndices.slice                 c-api/slice.html#c.PySlice_GetIndices
+	PySlice_GetIndices.start                 c-api/slice.html#c.PySlice_GetIndices
+	PySlice_GetIndices.step                  c-api/slice.html#c.PySlice_GetIndices
+	PySlice_GetIndices.stop                  c-api/slice.html#c.PySlice_GetIndices
+	PySlice_GetIndicesEx.length              c-api/slice.html#c.PySlice_GetIndicesEx
+	PySlice_GetIndicesEx.slice               c-api/slice.html#c.PySlice_GetIndicesEx
+	PySlice_GetIndicesEx.slicelength         c-api/slice.html#c.PySlice_GetIndicesEx
+	PySlice_GetIndicesEx.start               c-api/slice.html#c.PySlice_GetIndicesEx
+	PySlice_GetIndicesEx.step                c-api/slice.html#c.PySlice_GetIndicesEx
+	PySlice_GetIndicesEx.stop                c-api/slice.html#c.PySlice_GetIndicesEx
+	PySlice_New.start                        c-api/slice.html#c.PySlice_New
+	PySlice_New.step                         c-api/slice.html#c.PySlice_New
+	PySlice_New.stop                         c-api/slice.html#c.PySlice_New
+	PySlice_Unpack.slice                     c-api/slice.html#c.PySlice_Unpack
+	PySlice_Unpack.start                     c-api/slice.html#c.PySlice_Unpack
+	PySlice_Unpack.step                      c-api/slice.html#c.PySlice_Unpack
+	PySlice_Unpack.stop                      c-api/slice.html#c.PySlice_Unpack
+	PyState_AddModule.def                    c-api/module.html#c.PyState_AddModule
+	PyState_AddModule.module                 c-api/module.html#c.PyState_AddModule
+	PyState_FindModule.def                   c-api/module.html#c.PyState_FindModule
+	PyState_RemoveModule.def                 c-api/module.html#c.PyState_RemoveModule
+	PyStatus.PyStatus_Error.err_msg          c-api/init_config.html#c.PyStatus.PyStatus_Error
+	PyStatus.PyStatus_Exception.status       c-api/init_config.html#c.PyStatus.PyStatus_Exception
+	PyStatus.PyStatus_Exit.exitcode          c-api/init_config.html#c.PyStatus.PyStatus_Exit
+	PyStatus.PyStatus_IsError.status         c-api/init_config.html#c.PyStatus.PyStatus_IsError
+	PyStatus.PyStatus_IsExit.status          c-api/init_config.html#c.PyStatus.PyStatus_IsExit
+	PyStatus.Py_ExitStatusException.status   c-api/init_config.html#c.PyStatus.Py_ExitStatusException
+	PyStructSequence_GET_ITEM.p              c-api/tuple.html#c.PyStructSequence_GET_ITEM
+	PyStructSequence_GET_ITEM.pos            c-api/tuple.html#c.PyStructSequence_GET_ITEM
+	PyStructSequence_GetItem.p               c-api/tuple.html#c.PyStructSequence_GetItem
+	PyStructSequence_GetItem.pos             c-api/tuple.html#c.PyStructSequence_GetItem
+	PyStructSequence_InitType.desc           c-api/tuple.html#c.PyStructSequence_InitType
+	PyStructSequence_InitType.type           c-api/tuple.html#c.PyStructSequence_InitType
+	PyStructSequence_InitType2.desc          c-api/tuple.html#c.PyStructSequence_InitType2
+	PyStructSequence_InitType2.type          c-api/tuple.html#c.PyStructSequence_InitType2
+	PyStructSequence_New.type                c-api/tuple.html#c.PyStructSequence_New
+	PyStructSequence_NewType.desc            c-api/tuple.html#c.PyStructSequence_NewType
+	PyStructSequence_SET_ITEM.o              c-api/tuple.html#c.PyStructSequence_SET_ITEM
+	PyStructSequence_SET_ITEM.p              c-api/tuple.html#c.PyStructSequence_SET_ITEM
+	PyStructSequence_SET_ITEM.pos            c-api/tuple.html#c.PyStructSequence_SET_ITEM
+	PyStructSequence_SetItem.o               c-api/tuple.html#c.PyStructSequence_SetItem
+	PyStructSequence_SetItem.p               c-api/tuple.html#c.PyStructSequence_SetItem
+	PyStructSequence_SetItem.pos             c-api/tuple.html#c.PyStructSequence_SetItem
+	PySys_AddAuditHook.hook                  c-api/sys.html#c.PySys_AddAuditHook
+	PySys_AddAuditHook.userData              c-api/sys.html#c.PySys_AddAuditHook
+	PySys_AddWarnOption.s                    c-api/sys.html#c.PySys_AddWarnOption
+	PySys_AddWarnOptionUnicode.unicode       c-api/sys.html#c.PySys_AddWarnOptionUnicode
+	PySys_AddXOption.s                       c-api/sys.html#c.PySys_AddXOption
+	PySys_Audit.event                        c-api/sys.html#c.PySys_Audit
+	PySys_Audit.format                       c-api/sys.html#c.PySys_Audit
+	PySys_FormatStderr.format                c-api/sys.html#c.PySys_FormatStderr
+	PySys_FormatStdout.format                c-api/sys.html#c.PySys_FormatStdout
+	PySys_GetObject.name                     c-api/sys.html#c.PySys_GetObject
+	PySys_SetArgv.argc                       c-api/init.html#c.PySys_SetArgv
+	PySys_SetArgv.argv                       c-api/init.html#c.PySys_SetArgv
+	PySys_SetArgvEx.argc                     c-api/init.html#c.PySys_SetArgvEx
+	PySys_SetArgvEx.argv                     c-api/init.html#c.PySys_SetArgvEx
+	PySys_SetArgvEx.updatepath               c-api/init.html#c.PySys_SetArgvEx
+	PySys_SetObject.name                     c-api/sys.html#c.PySys_SetObject
+	PySys_SetObject.v                        c-api/sys.html#c.PySys_SetObject
+	PySys_SetPath.path                       c-api/sys.html#c.PySys_SetPath
+	PySys_WriteStderr.format                 c-api/sys.html#c.PySys_WriteStderr
+	PySys_WriteStdout.format                 c-api/sys.html#c.PySys_WriteStdout
+	PyTZInfo_Check.ob                        c-api/datetime.html#c.PyTZInfo_Check
+	PyTZInfo_CheckExact.ob                   c-api/datetime.html#c.PyTZInfo_CheckExact
+	PyThreadState_Clear.tstate               c-api/init.html#c.PyThreadState_Clear
+	PyThreadState_Delete.tstate              c-api/init.html#c.PyThreadState_Delete
+	PyThreadState_GetFrame.tstate            c-api/init.html#c.PyThreadState_GetFrame
+	PyThreadState_GetID.tstate               c-api/init.html#c.PyThreadState_GetID
+	PyThreadState_GetInterpreter.tstate      c-api/init.html#c.PyThreadState_GetInterpreter
+	PyThreadState_New.interp                 c-api/init.html#c.PyThreadState_New
+	PyThreadState_Next.tstate                c-api/init.html#c.PyThreadState_Next
+	PyThreadState_SetAsyncExc.exc            c-api/init.html#c.PyThreadState_SetAsyncExc
+	PyThreadState_SetAsyncExc.id             c-api/init.html#c.PyThreadState_SetAsyncExc
+	PyThreadState_Swap.tstate                c-api/init.html#c.PyThreadState_Swap
+	PyThread_delete_key.key                  c-api/init.html#c.PyThread_delete_key
+	PyThread_delete_key_value.key            c-api/init.html#c.PyThread_delete_key_value
+	PyThread_get_key_value.key               c-api/init.html#c.PyThread_get_key_value
+	PyThread_set_key_value.key               c-api/init.html#c.PyThread_set_key_value
+	PyThread_set_key_value.value             c-api/init.html#c.PyThread_set_key_value
+	PyThread_tss_create.key                  c-api/init.html#c.PyThread_tss_create
+	PyThread_tss_delete.key                  c-api/init.html#c.PyThread_tss_delete
+	PyThread_tss_free.key                    c-api/init.html#c.PyThread_tss_free
+	PyThread_tss_get.key                     c-api/init.html#c.PyThread_tss_get
+	PyThread_tss_is_created.key              c-api/init.html#c.PyThread_tss_is_created
+	PyThread_tss_set.key                     c-api/init.html#c.PyThread_tss_set
+	PyThread_tss_set.value                   c-api/init.html#c.PyThread_tss_set
+	PyTimeZone_FromOffset.offset             c-api/datetime.html#c.PyTimeZone_FromOffset
+	PyTimeZone_FromOffsetAndName.name        c-api/datetime.html#c.PyTimeZone_FromOffsetAndName
+	PyTimeZone_FromOffsetAndName.offset      c-api/datetime.html#c.PyTimeZone_FromOffsetAndName
+	PyTime_Check.ob                          c-api/datetime.html#c.PyTime_Check
+	PyTime_CheckExact.ob                     c-api/datetime.html#c.PyTime_CheckExact
+	PyTime_FromTime.hour                     c-api/datetime.html#c.PyTime_FromTime
+	PyTime_FromTime.minute                   c-api/datetime.html#c.PyTime_FromTime
+	PyTime_FromTime.second                   c-api/datetime.html#c.PyTime_FromTime
+	PyTime_FromTime.usecond                  c-api/datetime.html#c.PyTime_FromTime
+	PyTime_FromTimeAndFold.fold              c-api/datetime.html#c.PyTime_FromTimeAndFold
+	PyTime_FromTimeAndFold.hour              c-api/datetime.html#c.PyTime_FromTimeAndFold
+	PyTime_FromTimeAndFold.minute            c-api/datetime.html#c.PyTime_FromTimeAndFold
+	PyTime_FromTimeAndFold.second            c-api/datetime.html#c.PyTime_FromTimeAndFold
+	PyTime_FromTimeAndFold.usecond           c-api/datetime.html#c.PyTime_FromTimeAndFold
+	PyTraceMalloc_Track.domain               c-api/memory.html#c.PyTraceMalloc_Track
+	PyTraceMalloc_Track.ptr                  c-api/memory.html#c.PyTraceMalloc_Track
+	PyTraceMalloc_Track.size                 c-api/memory.html#c.PyTraceMalloc_Track
+	PyTraceMalloc_Untrack.domain             c-api/memory.html#c.PyTraceMalloc_Untrack
+	PyTraceMalloc_Untrack.ptr                c-api/memory.html#c.PyTraceMalloc_Untrack
+	PyTuple_Check.p                          c-api/tuple.html#c.PyTuple_Check
+	PyTuple_CheckExact.p                     c-api/tuple.html#c.PyTuple_CheckExact
+	PyTuple_GET_ITEM.p                       c-api/tuple.html#c.PyTuple_GET_ITEM
+	PyTuple_GET_ITEM.pos                     c-api/tuple.html#c.PyTuple_GET_ITEM
+	PyTuple_GET_SIZE.p                       c-api/tuple.html#c.PyTuple_GET_SIZE
+	PyTuple_GetItem.p                        c-api/tuple.html#c.PyTuple_GetItem
+	PyTuple_GetItem.pos                      c-api/tuple.html#c.PyTuple_GetItem
+	PyTuple_GetSlice.high                    c-api/tuple.html#c.PyTuple_GetSlice
+	PyTuple_GetSlice.low                     c-api/tuple.html#c.PyTuple_GetSlice
+	PyTuple_GetSlice.p                       c-api/tuple.html#c.PyTuple_GetSlice
+	PyTuple_New.len                          c-api/tuple.html#c.PyTuple_New
+	PyTuple_Pack.n                           c-api/tuple.html#c.PyTuple_Pack
+	PyTuple_SET_ITEM.o                       c-api/tuple.html#c.PyTuple_SET_ITEM
+	PyTuple_SET_ITEM.p                       c-api/tuple.html#c.PyTuple_SET_ITEM
+	PyTuple_SET_ITEM.pos                     c-api/tuple.html#c.PyTuple_SET_ITEM
+	PyTuple_SetItem.o                        c-api/tuple.html#c.PyTuple_SetItem
+	PyTuple_SetItem.p                        c-api/tuple.html#c.PyTuple_SetItem
+	PyTuple_SetItem.pos                      c-api/tuple.html#c.PyTuple_SetItem
+	PyTuple_Size.p                           c-api/tuple.html#c.PyTuple_Size
+	PyType_Check.o                           c-api/type.html#c.PyType_Check
+	PyType_CheckExact.o                      c-api/type.html#c.PyType_CheckExact
+	PyType_FromModuleAndSpec.bases           c-api/type.html#c.PyType_FromModuleAndSpec
+	PyType_FromModuleAndSpec.module          c-api/type.html#c.PyType_FromModuleAndSpec
+	PyType_FromModuleAndSpec.spec            c-api/type.html#c.PyType_FromModuleAndSpec
+	PyType_FromSpec.spec                     c-api/type.html#c.PyType_FromSpec
+	PyType_FromSpecWithBases.bases           c-api/type.html#c.PyType_FromSpecWithBases
+	PyType_FromSpecWithBases.spec            c-api/type.html#c.PyType_FromSpecWithBases
+	PyType_GenericAlloc.nitems               c-api/type.html#c.PyType_GenericAlloc
+	PyType_GenericAlloc.type                 c-api/type.html#c.PyType_GenericAlloc
+	PyType_GenericNew.args                   c-api/type.html#c.PyType_GenericNew
+	PyType_GenericNew.kwds                   c-api/type.html#c.PyType_GenericNew
+	PyType_GenericNew.type                   c-api/type.html#c.PyType_GenericNew
+	PyType_GetFlags.type                     c-api/type.html#c.PyType_GetFlags
+	PyType_GetModule.type                    c-api/type.html#c.PyType_GetModule
+	PyType_GetModuleState.type               c-api/type.html#c.PyType_GetModuleState
+	PyType_GetSlot.slot                      c-api/type.html#c.PyType_GetSlot
+	PyType_GetSlot.type                      c-api/type.html#c.PyType_GetSlot
+	PyType_HasFeature.feature                c-api/type.html#c.PyType_HasFeature
+	PyType_HasFeature.o                      c-api/type.html#c.PyType_HasFeature
+	PyType_IS_GC.o                           c-api/type.html#c.PyType_IS_GC
+	PyType_IsSubtype.a                       c-api/type.html#c.PyType_IsSubtype
+	PyType_IsSubtype.b                       c-api/type.html#c.PyType_IsSubtype
+	PyType_Modified.type                     c-api/type.html#c.PyType_Modified
+	PyType_Ready.type                        c-api/type.html#c.PyType_Ready
+	PyUnicodeDecodeError_Create.encoding     c-api/exceptions.html#c.PyUnicodeDecodeError_Create
+	PyUnicodeDecodeError_Create.end          c-api/exceptions.html#c.PyUnicodeDecodeError_Create
+	PyUnicodeDecodeError_Create.length       c-api/exceptions.html#c.PyUnicodeDecodeError_Create
+	PyUnicodeDecodeError_Create.object       c-api/exceptions.html#c.PyUnicodeDecodeError_Create
+	PyUnicodeDecodeError_Create.reason       c-api/exceptions.html#c.PyUnicodeDecodeError_Create
+	PyUnicodeDecodeError_Create.start        c-api/exceptions.html#c.PyUnicodeDecodeError_Create
+	PyUnicodeDecodeError_GetEncoding.exc     c-api/exceptions.html#c.PyUnicodeDecodeError_GetEncoding
+	PyUnicodeDecodeError_GetEnd.end          c-api/exceptions.html#c.PyUnicodeDecodeError_GetEnd
+	PyUnicodeDecodeError_GetEnd.exc          c-api/exceptions.html#c.PyUnicodeDecodeError_GetEnd
+	PyUnicodeDecodeError_GetObject.exc       c-api/exceptions.html#c.PyUnicodeDecodeError_GetObject
+	PyUnicodeDecodeError_GetReason.exc       c-api/exceptions.html#c.PyUnicodeDecodeError_GetReason
+	PyUnicodeDecodeError_GetStart.exc        c-api/exceptions.html#c.PyUnicodeDecodeError_GetStart
+	PyUnicodeDecodeError_GetStart.start      c-api/exceptions.html#c.PyUnicodeDecodeError_GetStart
+	PyUnicodeDecodeError_SetEnd.end          c-api/exceptions.html#c.PyUnicodeDecodeError_SetEnd
+	PyUnicodeDecodeError_SetEnd.exc          c-api/exceptions.html#c.PyUnicodeDecodeError_SetEnd
+	PyUnicodeDecodeError_SetReason.exc       c-api/exceptions.html#c.PyUnicodeDecodeError_SetReason
+	PyUnicodeDecodeError_SetReason.reason    c-api/exceptions.html#c.PyUnicodeDecodeError_SetReason
+	PyUnicodeDecodeError_SetStart.exc        c-api/exceptions.html#c.PyUnicodeDecodeError_SetStart
+	PyUnicodeDecodeError_SetStart.start      c-api/exceptions.html#c.PyUnicodeDecodeError_SetStart
+	PyUnicodeEncodeError_Create.encoding     c-api/exceptions.html#c.PyUnicodeEncodeError_Create
+	PyUnicodeEncodeError_Create.end          c-api/exceptions.html#c.PyUnicodeEncodeError_Create
+	PyUnicodeEncodeError_Create.length       c-api/exceptions.html#c.PyUnicodeEncodeError_Create
+	PyUnicodeEncodeError_Create.object       c-api/exceptions.html#c.PyUnicodeEncodeError_Create
+	PyUnicodeEncodeError_Create.reason       c-api/exceptions.html#c.PyUnicodeEncodeError_Create
+	PyUnicodeEncodeError_Create.start        c-api/exceptions.html#c.PyUnicodeEncodeError_Create
+	PyUnicodeEncodeError_GetEncoding.exc     c-api/exceptions.html#c.PyUnicodeEncodeError_GetEncoding
+	PyUnicodeEncodeError_GetEnd.end          c-api/exceptions.html#c.PyUnicodeEncodeError_GetEnd
+	PyUnicodeEncodeError_GetEnd.exc          c-api/exceptions.html#c.PyUnicodeEncodeError_GetEnd
+	PyUnicodeEncodeError_GetObject.exc       c-api/exceptions.html#c.PyUnicodeEncodeError_GetObject
+	PyUnicodeEncodeError_GetReason.exc       c-api/exceptions.html#c.PyUnicodeEncodeError_GetReason
+	PyUnicodeEncodeError_GetStart.exc        c-api/exceptions.html#c.PyUnicodeEncodeError_GetStart
+	PyUnicodeEncodeError_GetStart.start      c-api/exceptions.html#c.PyUnicodeEncodeError_GetStart
+	PyUnicodeEncodeError_SetEnd.end          c-api/exceptions.html#c.PyUnicodeEncodeError_SetEnd
+	PyUnicodeEncodeError_SetEnd.exc          c-api/exceptions.html#c.PyUnicodeEncodeError_SetEnd
+	PyUnicodeEncodeError_SetReason.exc       c-api/exceptions.html#c.PyUnicodeEncodeError_SetReason
+	PyUnicodeEncodeError_SetReason.reason    c-api/exceptions.html#c.PyUnicodeEncodeError_SetReason
+	PyUnicodeEncodeError_SetStart.exc        c-api/exceptions.html#c.PyUnicodeEncodeError_SetStart
+	PyUnicodeEncodeError_SetStart.start      c-api/exceptions.html#c.PyUnicodeEncodeError_SetStart
+	PyUnicodeTranslateError_Create.end       c-api/exceptions.html#c.PyUnicodeTranslateError_Create
+	PyUnicodeTranslateError_Create.length    c-api/exceptions.html#c.PyUnicodeTranslateError_Create
+	PyUnicodeTranslateError_Create.object    c-api/exceptions.html#c.PyUnicodeTranslateError_Create
+	PyUnicodeTranslateError_Create.reason    c-api/exceptions.html#c.PyUnicodeTranslateError_Create
+	PyUnicodeTranslateError_Create.start     c-api/exceptions.html#c.PyUnicodeTranslateError_Create
+	PyUnicodeTranslateError_GetEnd.end       c-api/exceptions.html#c.PyUnicodeTranslateError_GetEnd
+	PyUnicodeTranslateError_GetEnd.exc       c-api/exceptions.html#c.PyUnicodeTranslateError_GetEnd
+	PyUnicodeTranslateError_GetObject.exc    c-api/exceptions.html#c.PyUnicodeTranslateError_GetObject
+	PyUnicodeTranslateError_GetReason.exc    c-api/exceptions.html#c.PyUnicodeTranslateError_GetReason
+	PyUnicodeTranslateError_GetStart.exc     c-api/exceptions.html#c.PyUnicodeTranslateError_GetStart
+	PyUnicodeTranslateError_GetStart.start   c-api/exceptions.html#c.PyUnicodeTranslateError_GetStart
+	PyUnicodeTranslateError_SetEnd.end       c-api/exceptions.html#c.PyUnicodeTranslateError_SetEnd
+	PyUnicodeTranslateError_SetEnd.exc       c-api/exceptions.html#c.PyUnicodeTranslateError_SetEnd
+	PyUnicodeTranslateError_SetReason.exc    c-api/exceptions.html#c.PyUnicodeTranslateError_SetReason
+	PyUnicodeTranslateError_SetReason.reason c-api/exceptions.html#c.PyUnicodeTranslateError_SetReason
+	PyUnicodeTranslateError_SetStart.exc     c-api/exceptions.html#c.PyUnicodeTranslateError_SetStart
+	PyUnicodeTranslateError_SetStart.start   c-api/exceptions.html#c.PyUnicodeTranslateError_SetStart
+	PyUnicode_1BYTE_DATA.o                   c-api/unicode.html#c.PyUnicode_1BYTE_DATA
+	PyUnicode_2BYTE_DATA.o                   c-api/unicode.html#c.PyUnicode_2BYTE_DATA
+	PyUnicode_4BYTE_DATA.o                   c-api/unicode.html#c.PyUnicode_4BYTE_DATA
+	PyUnicode_AS_DATA.o                      c-api/unicode.html#c.PyUnicode_AS_DATA
+	PyUnicode_AS_UNICODE.o                   c-api/unicode.html#c.PyUnicode_AS_UNICODE
+	PyUnicode_AsASCIIString.unicode          c-api/unicode.html#c.PyUnicode_AsASCIIString
+	PyUnicode_AsCharmapString.mapping        c-api/unicode.html#c.PyUnicode_AsCharmapString
+	PyUnicode_AsCharmapString.unicode        c-api/unicode.html#c.PyUnicode_AsCharmapString
+	PyUnicode_AsEncodedString.encoding       c-api/unicode.html#c.PyUnicode_AsEncodedString
+	PyUnicode_AsEncodedString.errors         c-api/unicode.html#c.PyUnicode_AsEncodedString
+	PyUnicode_AsEncodedString.unicode        c-api/unicode.html#c.PyUnicode_AsEncodedString
+	PyUnicode_AsLatin1String.unicode         c-api/unicode.html#c.PyUnicode_AsLatin1String
+	PyUnicode_AsMBCSString.unicode           c-api/unicode.html#c.PyUnicode_AsMBCSString
+	PyUnicode_AsRawUnicodeEscapeString.unicode c-api/unicode.html#c.PyUnicode_AsRawUnicodeEscapeString
+	PyUnicode_AsUCS4.buffer                  c-api/unicode.html#c.PyUnicode_AsUCS4
+	PyUnicode_AsUCS4.buflen                  c-api/unicode.html#c.PyUnicode_AsUCS4
+	PyUnicode_AsUCS4.copy_null               c-api/unicode.html#c.PyUnicode_AsUCS4
+	PyUnicode_AsUCS4.u                       c-api/unicode.html#c.PyUnicode_AsUCS4
+	PyUnicode_AsUCS4Copy.u                   c-api/unicode.html#c.PyUnicode_AsUCS4Copy
+	PyUnicode_AsUTF16String.unicode          c-api/unicode.html#c.PyUnicode_AsUTF16String
+	PyUnicode_AsUTF32String.unicode          c-api/unicode.html#c.PyUnicode_AsUTF32String
+	PyUnicode_AsUTF8.unicode                 c-api/unicode.html#c.PyUnicode_AsUTF8
+	PyUnicode_AsUTF8AndSize.size             c-api/unicode.html#c.PyUnicode_AsUTF8AndSize
+	PyUnicode_AsUTF8AndSize.unicode          c-api/unicode.html#c.PyUnicode_AsUTF8AndSize
+	PyUnicode_AsUTF8String.unicode           c-api/unicode.html#c.PyUnicode_AsUTF8String
+	PyUnicode_AsUnicode.unicode              c-api/unicode.html#c.PyUnicode_AsUnicode
+	PyUnicode_AsUnicodeAndSize.size          c-api/unicode.html#c.PyUnicode_AsUnicodeAndSize
+	PyUnicode_AsUnicodeAndSize.unicode       c-api/unicode.html#c.PyUnicode_AsUnicodeAndSize
+	PyUnicode_AsUnicodeEscapeString.unicode  c-api/unicode.html#c.PyUnicode_AsUnicodeEscapeString
+	PyUnicode_AsWideChar.size                c-api/unicode.html#c.PyUnicode_AsWideChar
+	PyUnicode_AsWideChar.unicode             c-api/unicode.html#c.PyUnicode_AsWideChar
+	PyUnicode_AsWideChar.w                   c-api/unicode.html#c.PyUnicode_AsWideChar
+	PyUnicode_AsWideCharString.size          c-api/unicode.html#c.PyUnicode_AsWideCharString
+	PyUnicode_AsWideCharString.unicode       c-api/unicode.html#c.PyUnicode_AsWideCharString
+	PyUnicode_Check.o                        c-api/unicode.html#c.PyUnicode_Check
+	PyUnicode_CheckExact.o                   c-api/unicode.html#c.PyUnicode_CheckExact
+	PyUnicode_Compare.left                   c-api/unicode.html#c.PyUnicode_Compare
+	PyUnicode_Compare.right                  c-api/unicode.html#c.PyUnicode_Compare
+	PyUnicode_CompareWithASCIIString.string  c-api/unicode.html#c.PyUnicode_CompareWithASCIIString
+	PyUnicode_CompareWithASCIIString.uni     c-api/unicode.html#c.PyUnicode_CompareWithASCIIString
+	PyUnicode_Concat.left                    c-api/unicode.html#c.PyUnicode_Concat
+	PyUnicode_Concat.right                   c-api/unicode.html#c.PyUnicode_Concat
+	PyUnicode_Contains.container             c-api/unicode.html#c.PyUnicode_Contains
+	PyUnicode_Contains.element               c-api/unicode.html#c.PyUnicode_Contains
+	PyUnicode_CopyCharacters.from            c-api/unicode.html#c.PyUnicode_CopyCharacters
+	PyUnicode_CopyCharacters.from_start      c-api/unicode.html#c.PyUnicode_CopyCharacters
+	PyUnicode_CopyCharacters.how_many        c-api/unicode.html#c.PyUnicode_CopyCharacters
+	PyUnicode_CopyCharacters.to              c-api/unicode.html#c.PyUnicode_CopyCharacters
+	PyUnicode_CopyCharacters.to_start        c-api/unicode.html#c.PyUnicode_CopyCharacters
+	PyUnicode_Count.end                      c-api/unicode.html#c.PyUnicode_Count
+	PyUnicode_Count.start                    c-api/unicode.html#c.PyUnicode_Count
+	PyUnicode_Count.str                      c-api/unicode.html#c.PyUnicode_Count
+	PyUnicode_Count.substr                   c-api/unicode.html#c.PyUnicode_Count
+	PyUnicode_DATA.o                         c-api/unicode.html#c.PyUnicode_DATA
+	PyUnicode_Decode.encoding                c-api/unicode.html#c.PyUnicode_Decode
+	PyUnicode_Decode.errors                  c-api/unicode.html#c.PyUnicode_Decode
+	PyUnicode_Decode.s                       c-api/unicode.html#c.PyUnicode_Decode
+	PyUnicode_Decode.size                    c-api/unicode.html#c.PyUnicode_Decode
+	PyUnicode_DecodeASCII.errors             c-api/unicode.html#c.PyUnicode_DecodeASCII
+	PyUnicode_DecodeASCII.s                  c-api/unicode.html#c.PyUnicode_DecodeASCII
+	PyUnicode_DecodeASCII.size               c-api/unicode.html#c.PyUnicode_DecodeASCII
+	PyUnicode_DecodeCharmap.data             c-api/unicode.html#c.PyUnicode_DecodeCharmap
+	PyUnicode_DecodeCharmap.errors           c-api/unicode.html#c.PyUnicode_DecodeCharmap
+	PyUnicode_DecodeCharmap.mapping          c-api/unicode.html#c.PyUnicode_DecodeCharmap
+	PyUnicode_DecodeCharmap.size             c-api/unicode.html#c.PyUnicode_DecodeCharmap
+	PyUnicode_DecodeFSDefault.s              c-api/unicode.html#c.PyUnicode_DecodeFSDefault
+	PyUnicode_DecodeFSDefaultAndSize.s       c-api/unicode.html#c.PyUnicode_DecodeFSDefaultAndSize
+	PyUnicode_DecodeFSDefaultAndSize.size    c-api/unicode.html#c.PyUnicode_DecodeFSDefaultAndSize
+	PyUnicode_DecodeLatin1.errors            c-api/unicode.html#c.PyUnicode_DecodeLatin1
+	PyUnicode_DecodeLatin1.s                 c-api/unicode.html#c.PyUnicode_DecodeLatin1
+	PyUnicode_DecodeLatin1.size              c-api/unicode.html#c.PyUnicode_DecodeLatin1
+	PyUnicode_DecodeLocale.errors            c-api/unicode.html#c.PyUnicode_DecodeLocale
+	PyUnicode_DecodeLocale.str               c-api/unicode.html#c.PyUnicode_DecodeLocale
+	PyUnicode_DecodeLocaleAndSize.errors     c-api/unicode.html#c.PyUnicode_DecodeLocaleAndSize
+	PyUnicode_DecodeLocaleAndSize.len        c-api/unicode.html#c.PyUnicode_DecodeLocaleAndSize
+	PyUnicode_DecodeLocaleAndSize.str        c-api/unicode.html#c.PyUnicode_DecodeLocaleAndSize
+	PyUnicode_DecodeMBCS.errors              c-api/unicode.html#c.PyUnicode_DecodeMBCS
+	PyUnicode_DecodeMBCS.s                   c-api/unicode.html#c.PyUnicode_DecodeMBCS
+	PyUnicode_DecodeMBCS.size                c-api/unicode.html#c.PyUnicode_DecodeMBCS
+	PyUnicode_DecodeMBCSStateful.consumed    c-api/unicode.html#c.PyUnicode_DecodeMBCSStateful
+	PyUnicode_DecodeMBCSStateful.errors      c-api/unicode.html#c.PyUnicode_DecodeMBCSStateful
+	PyUnicode_DecodeMBCSStateful.s           c-api/unicode.html#c.PyUnicode_DecodeMBCSStateful
+	PyUnicode_DecodeMBCSStateful.size        c-api/unicode.html#c.PyUnicode_DecodeMBCSStateful
+	PyUnicode_DecodeRawUnicodeEscape.errors  c-api/unicode.html#c.PyUnicode_DecodeRawUnicodeEscape
+	PyUnicode_DecodeRawUnicodeEscape.s       c-api/unicode.html#c.PyUnicode_DecodeRawUnicodeEscape
+	PyUnicode_DecodeRawUnicodeEscape.size    c-api/unicode.html#c.PyUnicode_DecodeRawUnicodeEscape
+	PyUnicode_DecodeUTF16.byteorder          c-api/unicode.html#c.PyUnicode_DecodeUTF16
+	PyUnicode_DecodeUTF16.errors             c-api/unicode.html#c.PyUnicode_DecodeUTF16
+	PyUnicode_DecodeUTF16.s                  c-api/unicode.html#c.PyUnicode_DecodeUTF16
+	PyUnicode_DecodeUTF16.size               c-api/unicode.html#c.PyUnicode_DecodeUTF16
+	PyUnicode_DecodeUTF16Stateful.byteorder  c-api/unicode.html#c.PyUnicode_DecodeUTF16Stateful
+	PyUnicode_DecodeUTF16Stateful.consumed   c-api/unicode.html#c.PyUnicode_DecodeUTF16Stateful
+	PyUnicode_DecodeUTF16Stateful.errors     c-api/unicode.html#c.PyUnicode_DecodeUTF16Stateful
+	PyUnicode_DecodeUTF16Stateful.s          c-api/unicode.html#c.PyUnicode_DecodeUTF16Stateful
+	PyUnicode_DecodeUTF16Stateful.size       c-api/unicode.html#c.PyUnicode_DecodeUTF16Stateful
+	PyUnicode_DecodeUTF32.byteorder          c-api/unicode.html#c.PyUnicode_DecodeUTF32
+	PyUnicode_DecodeUTF32.errors             c-api/unicode.html#c.PyUnicode_DecodeUTF32
+	PyUnicode_DecodeUTF32.s                  c-api/unicode.html#c.PyUnicode_DecodeUTF32
+	PyUnicode_DecodeUTF32.size               c-api/unicode.html#c.PyUnicode_DecodeUTF32
+	PyUnicode_DecodeUTF32Stateful.byteorder  c-api/unicode.html#c.PyUnicode_DecodeUTF32Stateful
+	PyUnicode_DecodeUTF32Stateful.consumed   c-api/unicode.html#c.PyUnicode_DecodeUTF32Stateful
+	PyUnicode_DecodeUTF32Stateful.errors     c-api/unicode.html#c.PyUnicode_DecodeUTF32Stateful
+	PyUnicode_DecodeUTF32Stateful.s          c-api/unicode.html#c.PyUnicode_DecodeUTF32Stateful
+	PyUnicode_DecodeUTF32Stateful.size       c-api/unicode.html#c.PyUnicode_DecodeUTF32Stateful
+	PyUnicode_DecodeUTF7.errors              c-api/unicode.html#c.PyUnicode_DecodeUTF7
+	PyUnicode_DecodeUTF7.s                   c-api/unicode.html#c.PyUnicode_DecodeUTF7
+	PyUnicode_DecodeUTF7.size                c-api/unicode.html#c.PyUnicode_DecodeUTF7
+	PyUnicode_DecodeUTF7Stateful.consumed    c-api/unicode.html#c.PyUnicode_DecodeUTF7Stateful
+	PyUnicode_DecodeUTF7Stateful.errors      c-api/unicode.html#c.PyUnicode_DecodeUTF7Stateful
+	PyUnicode_DecodeUTF7Stateful.s           c-api/unicode.html#c.PyUnicode_DecodeUTF7Stateful
+	PyUnicode_DecodeUTF7Stateful.size        c-api/unicode.html#c.PyUnicode_DecodeUTF7Stateful
+	PyUnicode_DecodeUTF8.errors              c-api/unicode.html#c.PyUnicode_DecodeUTF8
+	PyUnicode_DecodeUTF8.s                   c-api/unicode.html#c.PyUnicode_DecodeUTF8
+	PyUnicode_DecodeUTF8.size                c-api/unicode.html#c.PyUnicode_DecodeUTF8
+	PyUnicode_DecodeUTF8Stateful.consumed    c-api/unicode.html#c.PyUnicode_DecodeUTF8Stateful
+	PyUnicode_DecodeUTF8Stateful.errors      c-api/unicode.html#c.PyUnicode_DecodeUTF8Stateful
+	PyUnicode_DecodeUTF8Stateful.s           c-api/unicode.html#c.PyUnicode_DecodeUTF8Stateful
+	PyUnicode_DecodeUTF8Stateful.size        c-api/unicode.html#c.PyUnicode_DecodeUTF8Stateful
+	PyUnicode_DecodeUnicodeEscape.errors     c-api/unicode.html#c.PyUnicode_DecodeUnicodeEscape
+	PyUnicode_DecodeUnicodeEscape.s          c-api/unicode.html#c.PyUnicode_DecodeUnicodeEscape
+	PyUnicode_DecodeUnicodeEscape.size       c-api/unicode.html#c.PyUnicode_DecodeUnicodeEscape
+	PyUnicode_Encode.encoding                c-api/unicode.html#c.PyUnicode_Encode
+	PyUnicode_Encode.errors                  c-api/unicode.html#c.PyUnicode_Encode
+	PyUnicode_Encode.s                       c-api/unicode.html#c.PyUnicode_Encode
+	PyUnicode_Encode.size                    c-api/unicode.html#c.PyUnicode_Encode
+	PyUnicode_EncodeASCII.errors             c-api/unicode.html#c.PyUnicode_EncodeASCII
+	PyUnicode_EncodeASCII.s                  c-api/unicode.html#c.PyUnicode_EncodeASCII
+	PyUnicode_EncodeASCII.size               c-api/unicode.html#c.PyUnicode_EncodeASCII
+	PyUnicode_EncodeCharmap.errors           c-api/unicode.html#c.PyUnicode_EncodeCharmap
+	PyUnicode_EncodeCharmap.mapping          c-api/unicode.html#c.PyUnicode_EncodeCharmap
+	PyUnicode_EncodeCharmap.s                c-api/unicode.html#c.PyUnicode_EncodeCharmap
+	PyUnicode_EncodeCharmap.size             c-api/unicode.html#c.PyUnicode_EncodeCharmap
+	PyUnicode_EncodeCodePage.code_page       c-api/unicode.html#c.PyUnicode_EncodeCodePage
+	PyUnicode_EncodeCodePage.errors          c-api/unicode.html#c.PyUnicode_EncodeCodePage
+	PyUnicode_EncodeCodePage.unicode         c-api/unicode.html#c.PyUnicode_EncodeCodePage
+	PyUnicode_EncodeFSDefault.unicode        c-api/unicode.html#c.PyUnicode_EncodeFSDefault
+	PyUnicode_EncodeLatin1.errors            c-api/unicode.html#c.PyUnicode_EncodeLatin1
+	PyUnicode_EncodeLatin1.s                 c-api/unicode.html#c.PyUnicode_EncodeLatin1
+	PyUnicode_EncodeLatin1.size              c-api/unicode.html#c.PyUnicode_EncodeLatin1
+	PyUnicode_EncodeLocale.errors            c-api/unicode.html#c.PyUnicode_EncodeLocale
+	PyUnicode_EncodeLocale.unicode           c-api/unicode.html#c.PyUnicode_EncodeLocale
+	PyUnicode_EncodeMBCS.errors              c-api/unicode.html#c.PyUnicode_EncodeMBCS
+	PyUnicode_EncodeMBCS.s                   c-api/unicode.html#c.PyUnicode_EncodeMBCS
+	PyUnicode_EncodeMBCS.size                c-api/unicode.html#c.PyUnicode_EncodeMBCS
+	PyUnicode_EncodeRawUnicodeEscape.s       c-api/unicode.html#c.PyUnicode_EncodeRawUnicodeEscape
+	PyUnicode_EncodeRawUnicodeEscape.size    c-api/unicode.html#c.PyUnicode_EncodeRawUnicodeEscape
+	PyUnicode_EncodeUTF16.byteorder          c-api/unicode.html#c.PyUnicode_EncodeUTF16
+	PyUnicode_EncodeUTF16.errors             c-api/unicode.html#c.PyUnicode_EncodeUTF16
+	PyUnicode_EncodeUTF16.s                  c-api/unicode.html#c.PyUnicode_EncodeUTF16
+	PyUnicode_EncodeUTF16.size               c-api/unicode.html#c.PyUnicode_EncodeUTF16
+	PyUnicode_EncodeUTF32.byteorder          c-api/unicode.html#c.PyUnicode_EncodeUTF32
+	PyUnicode_EncodeUTF32.errors             c-api/unicode.html#c.PyUnicode_EncodeUTF32
+	PyUnicode_EncodeUTF32.s                  c-api/unicode.html#c.PyUnicode_EncodeUTF32
+	PyUnicode_EncodeUTF32.size               c-api/unicode.html#c.PyUnicode_EncodeUTF32
+	PyUnicode_EncodeUTF7.base64SetO          c-api/unicode.html#c.PyUnicode_EncodeUTF7
+	PyUnicode_EncodeUTF7.base64WhiteSpace    c-api/unicode.html#c.PyUnicode_EncodeUTF7
+	PyUnicode_EncodeUTF7.errors              c-api/unicode.html#c.PyUnicode_EncodeUTF7
+	PyUnicode_EncodeUTF7.s                   c-api/unicode.html#c.PyUnicode_EncodeUTF7
+	PyUnicode_EncodeUTF7.size                c-api/unicode.html#c.PyUnicode_EncodeUTF7
+	PyUnicode_EncodeUTF8.errors              c-api/unicode.html#c.PyUnicode_EncodeUTF8
+	PyUnicode_EncodeUTF8.s                   c-api/unicode.html#c.PyUnicode_EncodeUTF8
+	PyUnicode_EncodeUTF8.size                c-api/unicode.html#c.PyUnicode_EncodeUTF8
+	PyUnicode_EncodeUnicodeEscape.s          c-api/unicode.html#c.PyUnicode_EncodeUnicodeEscape
+	PyUnicode_EncodeUnicodeEscape.size       c-api/unicode.html#c.PyUnicode_EncodeUnicodeEscape
+	PyUnicode_FSConverter.obj                c-api/unicode.html#c.PyUnicode_FSConverter
+	PyUnicode_FSConverter.result             c-api/unicode.html#c.PyUnicode_FSConverter
+	PyUnicode_FSDecoder.obj                  c-api/unicode.html#c.PyUnicode_FSDecoder
+	PyUnicode_FSDecoder.result               c-api/unicode.html#c.PyUnicode_FSDecoder
+	PyUnicode_Fill.fill_char                 c-api/unicode.html#c.PyUnicode_Fill
+	PyUnicode_Fill.length                    c-api/unicode.html#c.PyUnicode_Fill
+	PyUnicode_Fill.start                     c-api/unicode.html#c.PyUnicode_Fill
+	PyUnicode_Fill.unicode                   c-api/unicode.html#c.PyUnicode_Fill
+	PyUnicode_Find.direction                 c-api/unicode.html#c.PyUnicode_Find
+	PyUnicode_Find.end                       c-api/unicode.html#c.PyUnicode_Find
+	PyUnicode_Find.start                     c-api/unicode.html#c.PyUnicode_Find
+	PyUnicode_Find.str                       c-api/unicode.html#c.PyUnicode_Find
+	PyUnicode_Find.substr                    c-api/unicode.html#c.PyUnicode_Find
+	PyUnicode_FindChar.ch                    c-api/unicode.html#c.PyUnicode_FindChar
+	PyUnicode_FindChar.direction             c-api/unicode.html#c.PyUnicode_FindChar
+	PyUnicode_FindChar.end                   c-api/unicode.html#c.PyUnicode_FindChar
+	PyUnicode_FindChar.start                 c-api/unicode.html#c.PyUnicode_FindChar
+	PyUnicode_FindChar.str                   c-api/unicode.html#c.PyUnicode_FindChar
+	PyUnicode_Format.args                    c-api/unicode.html#c.PyUnicode_Format
+	PyUnicode_Format.format                  c-api/unicode.html#c.PyUnicode_Format
+	PyUnicode_FromEncodedObject.encoding     c-api/unicode.html#c.PyUnicode_FromEncodedObject
+	PyUnicode_FromEncodedObject.errors       c-api/unicode.html#c.PyUnicode_FromEncodedObject
+	PyUnicode_FromEncodedObject.obj          c-api/unicode.html#c.PyUnicode_FromEncodedObject
+	PyUnicode_FromFormat.format              c-api/unicode.html#c.PyUnicode_FromFormat
+	PyUnicode_FromFormatV.format             c-api/unicode.html#c.PyUnicode_FromFormatV
+	PyUnicode_FromFormatV.vargs              c-api/unicode.html#c.PyUnicode_FromFormatV
+	PyUnicode_FromKindAndData.buffer         c-api/unicode.html#c.PyUnicode_FromKindAndData
+	PyUnicode_FromKindAndData.kind           c-api/unicode.html#c.PyUnicode_FromKindAndData
+	PyUnicode_FromKindAndData.size           c-api/unicode.html#c.PyUnicode_FromKindAndData
+	PyUnicode_FromObject.obj                 c-api/unicode.html#c.PyUnicode_FromObject
+	PyUnicode_FromString.u                   c-api/unicode.html#c.PyUnicode_FromString
+	PyUnicode_FromStringAndSize.size         c-api/unicode.html#c.PyUnicode_FromStringAndSize
+	PyUnicode_FromStringAndSize.u            c-api/unicode.html#c.PyUnicode_FromStringAndSize
+	PyUnicode_FromUnicode.size               c-api/unicode.html#c.PyUnicode_FromUnicode
+	PyUnicode_FromUnicode.u                  c-api/unicode.html#c.PyUnicode_FromUnicode
+	PyUnicode_FromWideChar.size              c-api/unicode.html#c.PyUnicode_FromWideChar
+	PyUnicode_FromWideChar.w                 c-api/unicode.html#c.PyUnicode_FromWideChar
+	PyUnicode_GET_DATA_SIZE.o                c-api/unicode.html#c.PyUnicode_GET_DATA_SIZE
+	PyUnicode_GET_LENGTH.o                   c-api/unicode.html#c.PyUnicode_GET_LENGTH
+	PyUnicode_GET_SIZE.o                     c-api/unicode.html#c.PyUnicode_GET_SIZE
+	PyUnicode_GetLength.unicode              c-api/unicode.html#c.PyUnicode_GetLength
+	PyUnicode_GetSize.unicode                c-api/unicode.html#c.PyUnicode_GetSize
+	PyUnicode_InternFromString.v             c-api/unicode.html#c.PyUnicode_InternFromString
+	PyUnicode_InternInPlace.string           c-api/unicode.html#c.PyUnicode_InternInPlace
+	PyUnicode_IsIdentifier.o                 c-api/unicode.html#c.PyUnicode_IsIdentifier
+	PyUnicode_Join.separator                 c-api/unicode.html#c.PyUnicode_Join
+	PyUnicode_Join.seq                       c-api/unicode.html#c.PyUnicode_Join
+	PyUnicode_KIND.o                         c-api/unicode.html#c.PyUnicode_KIND
+	PyUnicode_New.maxchar                    c-api/unicode.html#c.PyUnicode_New
+	PyUnicode_New.size                       c-api/unicode.html#c.PyUnicode_New
+	PyUnicode_READ.data                      c-api/unicode.html#c.PyUnicode_READ
+	PyUnicode_READ.index                     c-api/unicode.html#c.PyUnicode_READ
+	PyUnicode_READ.kind                      c-api/unicode.html#c.PyUnicode_READ
+	PyUnicode_READY.o                        c-api/unicode.html#c.PyUnicode_READY
+	PyUnicode_READ_CHAR.index                c-api/unicode.html#c.PyUnicode_READ_CHAR
+	PyUnicode_READ_CHAR.o                    c-api/unicode.html#c.PyUnicode_READ_CHAR
+	PyUnicode_ReadChar.index                 c-api/unicode.html#c.PyUnicode_ReadChar
+	PyUnicode_ReadChar.unicode               c-api/unicode.html#c.PyUnicode_ReadChar
+	PyUnicode_Replace.maxcount               c-api/unicode.html#c.PyUnicode_Replace
+	PyUnicode_Replace.replstr                c-api/unicode.html#c.PyUnicode_Replace
+	PyUnicode_Replace.str                    c-api/unicode.html#c.PyUnicode_Replace
+	PyUnicode_Replace.substr                 c-api/unicode.html#c.PyUnicode_Replace
+	PyUnicode_RichCompare.left               c-api/unicode.html#c.PyUnicode_RichCompare
+	PyUnicode_RichCompare.op                 c-api/unicode.html#c.PyUnicode_RichCompare
+	PyUnicode_RichCompare.right              c-api/unicode.html#c.PyUnicode_RichCompare
+	PyUnicode_Split.maxsplit                 c-api/unicode.html#c.PyUnicode_Split
+	PyUnicode_Split.s                        c-api/unicode.html#c.PyUnicode_Split
+	PyUnicode_Split.sep                      c-api/unicode.html#c.PyUnicode_Split
+	PyUnicode_Splitlines.keepend             c-api/unicode.html#c.PyUnicode_Splitlines
+	PyUnicode_Splitlines.s                   c-api/unicode.html#c.PyUnicode_Splitlines
+	PyUnicode_Substring.end                  c-api/unicode.html#c.PyUnicode_Substring
+	PyUnicode_Substring.start                c-api/unicode.html#c.PyUnicode_Substring
+	PyUnicode_Substring.str                  c-api/unicode.html#c.PyUnicode_Substring
+	PyUnicode_Tailmatch.direction            c-api/unicode.html#c.PyUnicode_Tailmatch
+	PyUnicode_Tailmatch.end                  c-api/unicode.html#c.PyUnicode_Tailmatch
+	PyUnicode_Tailmatch.start                c-api/unicode.html#c.PyUnicode_Tailmatch
+	PyUnicode_Tailmatch.str                  c-api/unicode.html#c.PyUnicode_Tailmatch
+	PyUnicode_Tailmatch.substr               c-api/unicode.html#c.PyUnicode_Tailmatch
+	PyUnicode_TransformDecimalToASCII.s      c-api/unicode.html#c.PyUnicode_TransformDecimalToASCII
+	PyUnicode_TransformDecimalToASCII.size   c-api/unicode.html#c.PyUnicode_TransformDecimalToASCII
+	PyUnicode_Translate.errors               c-api/unicode.html#c.PyUnicode_Translate
+	PyUnicode_Translate.str                  c-api/unicode.html#c.PyUnicode_Translate
+	PyUnicode_Translate.table                c-api/unicode.html#c.PyUnicode_Translate
+	PyUnicode_TranslateCharmap.errors        c-api/unicode.html#c.PyUnicode_TranslateCharmap
+	PyUnicode_TranslateCharmap.mapping       c-api/unicode.html#c.PyUnicode_TranslateCharmap
+	PyUnicode_TranslateCharmap.s             c-api/unicode.html#c.PyUnicode_TranslateCharmap
+	PyUnicode_TranslateCharmap.size          c-api/unicode.html#c.PyUnicode_TranslateCharmap
+	PyUnicode_WRITE.data                     c-api/unicode.html#c.PyUnicode_WRITE
+	PyUnicode_WRITE.index                    c-api/unicode.html#c.PyUnicode_WRITE
+	PyUnicode_WRITE.kind                     c-api/unicode.html#c.PyUnicode_WRITE
+	PyUnicode_WRITE.value                    c-api/unicode.html#c.PyUnicode_WRITE
+	PyUnicode_WriteChar.character            c-api/unicode.html#c.PyUnicode_WriteChar
+	PyUnicode_WriteChar.index                c-api/unicode.html#c.PyUnicode_WriteChar
+	PyUnicode_WriteChar.unicode              c-api/unicode.html#c.PyUnicode_WriteChar
+	PyVectorcall_Call.callable               c-api/call.html#c.PyVectorcall_Call
+	PyVectorcall_Call.dict                   c-api/call.html#c.PyVectorcall_Call
+	PyVectorcall_Call.tuple                  c-api/call.html#c.PyVectorcall_Call
+	PyVectorcall_Function.op                 c-api/call.html#c.PyVectorcall_Function
+	PyVectorcall_NARGS.nargsf                c-api/call.html#c.PyVectorcall_NARGS
+	PyWeakref_GET_OBJECT.ref                 c-api/weakref.html#c.PyWeakref_GET_OBJECT
+	PyWeakref_GetObject.ref                  c-api/weakref.html#c.PyWeakref_GetObject
+	PyWeakref_NewProxy.callback              c-api/weakref.html#c.PyWeakref_NewProxy
+	PyWeakref_NewProxy.ob                    c-api/weakref.html#c.PyWeakref_NewProxy
+	PyWeakref_NewRef.callback                c-api/weakref.html#c.PyWeakref_NewRef
+	PyWeakref_NewRef.ob                      c-api/weakref.html#c.PyWeakref_NewRef
+	PyWideStringList.PyWideStringList_Append.item c-api/init_config.html#c.PyWideStringList.PyWideStringList_Append
+	PyWideStringList.PyWideStringList_Append.list c-api/init_config.html#c.PyWideStringList.PyWideStringList_Append
+	PyWideStringList.PyWideStringList_Insert.index c-api/init_config.html#c.PyWideStringList.PyWideStringList_Insert
+	PyWideStringList.PyWideStringList_Insert.item c-api/init_config.html#c.PyWideStringList.PyWideStringList_Insert
+	PyWideStringList.PyWideStringList_Insert.list c-api/init_config.html#c.PyWideStringList.PyWideStringList_Insert
+	Py_AddPendingCall.arg                    c-api/init.html#c.Py_AddPendingCall
+	Py_AddPendingCall.func                   c-api/init.html#c.Py_AddPendingCall
+	Py_AtExit.func                           c-api/sys.html#c.Py_AtExit
+	Py_BuildValue.format                     c-api/arg.html#c.Py_BuildValue
+	Py_BytesMain.argc                        c-api/veryhigh.html#c.Py_BytesMain
+	Py_BytesMain.argv                        c-api/veryhigh.html#c.Py_BytesMain
+	Py_CLEAR.o                               c-api/refcounting.html#c.Py_CLEAR
+	Py_CompileString.filename                c-api/veryhigh.html#c.Py_CompileString
+	Py_CompileString.start                   c-api/veryhigh.html#c.Py_CompileString
+	Py_CompileString.str                     c-api/veryhigh.html#c.Py_CompileString
+	Py_CompileStringExFlags.filename         c-api/veryhigh.html#c.Py_CompileStringExFlags
+	Py_CompileStringExFlags.flags            c-api/veryhigh.html#c.Py_CompileStringExFlags
+	Py_CompileStringExFlags.optimize         c-api/veryhigh.html#c.Py_CompileStringExFlags
+	Py_CompileStringExFlags.start            c-api/veryhigh.html#c.Py_CompileStringExFlags
+	Py_CompileStringExFlags.str              c-api/veryhigh.html#c.Py_CompileStringExFlags
+	Py_CompileStringFlags.filename           c-api/veryhigh.html#c.Py_CompileStringFlags
+	Py_CompileStringFlags.flags              c-api/veryhigh.html#c.Py_CompileStringFlags
+	Py_CompileStringFlags.start              c-api/veryhigh.html#c.Py_CompileStringFlags
+	Py_CompileStringFlags.str                c-api/veryhigh.html#c.Py_CompileStringFlags
+	Py_CompileStringObject.filename          c-api/veryhigh.html#c.Py_CompileStringObject
+	Py_CompileStringObject.flags             c-api/veryhigh.html#c.Py_CompileStringObject
+	Py_CompileStringObject.optimize          c-api/veryhigh.html#c.Py_CompileStringObject
+	Py_CompileStringObject.start             c-api/veryhigh.html#c.Py_CompileStringObject
+	Py_CompileStringObject.str               c-api/veryhigh.html#c.Py_CompileStringObject
+	Py_DECREF.o                              c-api/refcounting.html#c.Py_DECREF
+	Py_DecRef.o                              c-api/refcounting.html#c.Py_DecRef
+	Py_DecodeLocale.arg                      c-api/sys.html#c.Py_DecodeLocale
+	Py_DecodeLocale.size                     c-api/sys.html#c.Py_DecodeLocale
+	Py_EncodeLocale.error_pos                c-api/sys.html#c.Py_EncodeLocale
+	Py_EncodeLocale.text                     c-api/sys.html#c.Py_EncodeLocale
+	Py_EndInterpreter.tstate                 c-api/init.html#c.Py_EndInterpreter
+	Py_EnterRecursiveCall.where              c-api/exceptions.html#c.Py_EnterRecursiveCall
+	Py_Exit.status                           c-api/sys.html#c.Py_Exit
+	Py_FatalError.message                    c-api/sys.html#c.Py_FatalError
+	Py_FdIsInteractive.filename              c-api/sys.html#c.Py_FdIsInteractive
+	Py_FdIsInteractive.fp                    c-api/sys.html#c.Py_FdIsInteractive
+	Py_GenericAlias.args                     c-api/typehints.html#c.Py_GenericAlias
+	Py_GenericAlias.origin                   c-api/typehints.html#c.Py_GenericAlias
+	Py_GetArgcArgv.argc                      c-api/init_config.html#c.Py_GetArgcArgv
+	Py_GetArgcArgv.argv                      c-api/init_config.html#c.Py_GetArgcArgv
+	Py_INCREF.o                              c-api/refcounting.html#c.Py_INCREF
+	Py_IS_TYPE.o                             c-api/structures.html#c.Py_IS_TYPE
+	Py_IS_TYPE.type                          c-api/structures.html#c.Py_IS_TYPE
+	Py_IncRef.o                              c-api/refcounting.html#c.Py_IncRef
+	Py_InitializeEx.initsigs                 c-api/init.html#c.Py_InitializeEx
+	Py_InitializeFromConfig.config           c-api/init_config.html#c.Py_InitializeFromConfig
+	Py_Is.x                                  c-api/structures.html#c.Py_Is
+	Py_Is.y                                  c-api/structures.html#c.Py_Is
+	Py_IsFalse.x                             c-api/structures.html#c.Py_IsFalse
+	Py_IsNone.x                              c-api/structures.html#c.Py_IsNone
+	Py_IsTrue.x                              c-api/structures.html#c.Py_IsTrue
+	Py_Main.argc                             c-api/veryhigh.html#c.Py_Main
+	Py_Main.argv                             c-api/veryhigh.html#c.Py_Main
+	Py_NewRef.o                              c-api/refcounting.html#c.Py_NewRef
+	Py_PreInitialize.preconfig               c-api/init_config.html#c.Py_PreInitialize
+	Py_PreInitializeFromArgs.argc            c-api/init_config.html#c.Py_PreInitializeFromArgs
+	Py_PreInitializeFromArgs.argv            c-api/init_config.html#c.Py_PreInitializeFromArgs
+	Py_PreInitializeFromArgs.preconfig       c-api/init_config.html#c.Py_PreInitializeFromArgs
+	Py_PreInitializeFromBytesArgs.argc       c-api/init_config.html#c.Py_PreInitializeFromBytesArgs
+	Py_PreInitializeFromBytesArgs.argv       c-api/init_config.html#c.Py_PreInitializeFromBytesArgs
+	Py_PreInitializeFromBytesArgs.preconfig  c-api/init_config.html#c.Py_PreInitializeFromBytesArgs
+	Py_REFCNT.o                              c-api/structures.html#c.Py_REFCNT
+	Py_ReprEnter.object                      c-api/exceptions.html#c.Py_ReprEnter
+	Py_ReprLeave.object                      c-api/exceptions.html#c.Py_ReprLeave
+	Py_SET_REFCNT.o                          c-api/structures.html#c.Py_SET_REFCNT
+	Py_SET_REFCNT.refcnt                     c-api/structures.html#c.Py_SET_REFCNT
+	Py_SET_SIZE.o                            c-api/structures.html#c.Py_SET_SIZE
+	Py_SET_SIZE.size                         c-api/structures.html#c.Py_SET_SIZE
+	Py_SET_TYPE.o                            c-api/structures.html#c.Py_SET_TYPE
+	Py_SET_TYPE.type                         c-api/structures.html#c.Py_SET_TYPE
+	Py_SIZE.o                                c-api/structures.html#c.Py_SIZE
+	Py_SetProgramName.name                   c-api/init.html#c.Py_SetProgramName
+	Py_SetPythonHome.home                    c-api/init.html#c.Py_SetPythonHome
+	Py_SetStandardStreamEncoding.encoding    c-api/init.html#c.Py_SetStandardStreamEncoding
+	Py_SetStandardStreamEncoding.errors      c-api/init.html#c.Py_SetStandardStreamEncoding
+	Py_TYPE.o                                c-api/structures.html#c.Py_TYPE
+	Py_UNICODE_ISALNUM.ch                    c-api/unicode.html#c.Py_UNICODE_ISALNUM
+	Py_UNICODE_ISALPHA.ch                    c-api/unicode.html#c.Py_UNICODE_ISALPHA
+	Py_UNICODE_ISDECIMAL.ch                  c-api/unicode.html#c.Py_UNICODE_ISDECIMAL
+	Py_UNICODE_ISDIGIT.ch                    c-api/unicode.html#c.Py_UNICODE_ISDIGIT
+	Py_UNICODE_ISLINEBREAK.ch                c-api/unicode.html#c.Py_UNICODE_ISLINEBREAK
+	Py_UNICODE_ISLOWER.ch                    c-api/unicode.html#c.Py_UNICODE_ISLOWER
+	Py_UNICODE_ISNUMERIC.ch                  c-api/unicode.html#c.Py_UNICODE_ISNUMERIC
+	Py_UNICODE_ISPRINTABLE.ch                c-api/unicode.html#c.Py_UNICODE_ISPRINTABLE
+	Py_UNICODE_ISSPACE.ch                    c-api/unicode.html#c.Py_UNICODE_ISSPACE
+	Py_UNICODE_ISTITLE.ch                    c-api/unicode.html#c.Py_UNICODE_ISTITLE
+	Py_UNICODE_ISUPPER.ch                    c-api/unicode.html#c.Py_UNICODE_ISUPPER
+	Py_UNICODE_TODECIMAL.ch                  c-api/unicode.html#c.Py_UNICODE_TODECIMAL
+	Py_UNICODE_TODIGIT.ch                    c-api/unicode.html#c.Py_UNICODE_TODIGIT
+	Py_UNICODE_TOLOWER.ch                    c-api/unicode.html#c.Py_UNICODE_TOLOWER
+	Py_UNICODE_TONUMERIC.ch                  c-api/unicode.html#c.Py_UNICODE_TONUMERIC
+	Py_UNICODE_TOTITLE.ch                    c-api/unicode.html#c.Py_UNICODE_TOTITLE
+	Py_UNICODE_TOUPPER.ch                    c-api/unicode.html#c.Py_UNICODE_TOUPPER
+	Py_VISIT.o                               c-api/gcsupport.html#c.Py_VISIT
+	Py_VaBuildValue.format                   c-api/arg.html#c.Py_VaBuildValue
+	Py_VaBuildValue.vargs                    c-api/arg.html#c.Py_VaBuildValue
+	Py_XDECREF.o                             c-api/refcounting.html#c.Py_XDECREF
+	Py_XINCREF.o                             c-api/refcounting.html#c.Py_XINCREF
+	Py_XNewRef.o                             c-api/refcounting.html#c.Py_XNewRef
+	Py_mod_create.create_module.def          c-api/module.html#c.Py_mod_create.create_module
+	Py_mod_create.create_module.spec         c-api/module.html#c.Py_mod_create.create_module
+	Py_mod_exec.exec_module.module           c-api/module.html#c.Py_mod_exec.exec_module
+	_PyBytes_Resize.bytes                    c-api/bytes.html#c._PyBytes_Resize
+	_PyBytes_Resize.newsize                  c-api/bytes.html#c._PyBytes_Resize
+	_PyInterpreterState_GetEvalFrameFunc.interp c-api/init.html#c._PyInterpreterState_GetEvalFrameFunc
+	_PyInterpreterState_SetEvalFrameFunc.eval_frame c-api/init.html#c._PyInterpreterState_SetEvalFrameFunc
+	_PyInterpreterState_SetEvalFrameFunc.interp c-api/init.html#c._PyInterpreterState_SetEvalFrameFunc
+	_PyObject_New.type                       c-api/allocation.html#c._PyObject_New
+	_PyObject_NewVar.size                    c-api/allocation.html#c._PyObject_NewVar
+	_PyObject_NewVar.type                    c-api/allocation.html#c._PyObject_NewVar
+	_PyTuple_Resize.newsize                  c-api/tuple.html#c._PyTuple_Resize
+	_PyTuple_Resize.p                        c-api/tuple.html#c._PyTuple_Resize
+	_Py_c_diff.left                          c-api/complex.html#c._Py_c_diff
+	_Py_c_diff.right                         c-api/complex.html#c._Py_c_diff
+	_Py_c_neg.num                            c-api/complex.html#c._Py_c_neg
+	_Py_c_pow.exp                            c-api/complex.html#c._Py_c_pow
+	_Py_c_pow.num                            c-api/complex.html#c._Py_c_pow
+	_Py_c_prod.left                          c-api/complex.html#c._Py_c_prod
+	_Py_c_prod.right                         c-api/complex.html#c._Py_c_prod
+	_Py_c_quot.dividend                      c-api/complex.html#c._Py_c_quot
+	_Py_c_quot.divisor                       c-api/complex.html#c._Py_c_quot
+	_Py_c_sum.left                           c-api/complex.html#c._Py_c_sum
+	_Py_c_sum.right                          c-api/complex.html#c._Py_c_sum
 c:macro
 	PY_MAJOR_VERSION                         c-api/apiabiversion.html#c.PY_MAJOR_VERSION
 	PY_MICRO_VERSION                         c-api/apiabiversion.html#c.PY_MICRO_VERSION
@@ -1048,14 +2771,21 @@ c:macro
 	Py_mod_exec                              c-api/module.html#c.Py_mod_exec
 	Py_tss_NEEDS_INIT                        c-api/init.html#c.Py_tss_NEEDS_INIT
 c:member
+	CO_FUTURE_DIVISION                       c-api/veryhigh.html#c.CO_FUTURE_DIVISION
 	PyAsyncMethods.am_aiter                  c-api/typeobj.html#c.PyAsyncMethods.am_aiter
 	PyAsyncMethods.am_anext                  c-api/typeobj.html#c.PyAsyncMethods.am_anext
 	PyAsyncMethods.am_await                  c-api/typeobj.html#c.PyAsyncMethods.am_await
 	PyAsyncMethods.am_send                   c-api/typeobj.html#c.PyAsyncMethods.am_send
 	PyBufferProcs.bf_getbuffer               c-api/typeobj.html#c.PyBufferProcs.bf_getbuffer
 	PyBufferProcs.bf_releasebuffer           c-api/typeobj.html#c.PyBufferProcs.bf_releasebuffer
+	PyByteArray_Type                         c-api/bytearray.html#c.PyByteArray_Type
+	PyBytes_Type                             c-api/bytes.html#c.PyBytes_Type
+	PyCallIter_Type                          c-api/iterator.html#c.PyCallIter_Type
+	PyCell_Type                              c-api/cell.html#c.PyCell_Type
+	PyCode_Type                              c-api/code.html#c.PyCode_Type
 	PyCompilerFlags.cf_feature_version       c-api/veryhigh.html#c.PyCompilerFlags.cf_feature_version
 	PyCompilerFlags.cf_flags                 c-api/veryhigh.html#c.PyCompilerFlags.cf_flags
+	PyComplex_Type                           c-api/complex.html#c.PyComplex_Type
 	PyConfig.argv                            c-api/init_config.html#c.PyConfig.argv
 	PyConfig.base_exec_prefix                c-api/init_config.html#c.PyConfig.base_exec_prefix
 	PyConfig.base_executable                 c-api/init_config.html#c.PyConfig.base_executable
@@ -1110,9 +2840,24 @@ c:member
 	PyConfig.warnoptions                     c-api/init_config.html#c.PyConfig.warnoptions
 	PyConfig.write_bytecode                  c-api/init_config.html#c.PyConfig.write_bytecode
 	PyConfig.xoptions                        c-api/init_config.html#c.PyConfig.xoptions
+	PyContextToken_Type                      c-api/contextvars.html#c.PyContextToken_Type
+	PyContextVar_Type                        c-api/contextvars.html#c.PyContextVar_Type
+	PyContext_Type                           c-api/contextvars.html#c.PyContext_Type
+	PyCoro_Type                              c-api/coro.html#c.PyCoro_Type
+	PyDateTime_TimeZone_UTC                  c-api/datetime.html#c.PyDateTime_TimeZone_UTC
+	PyDict_Type                              c-api/dict.html#c.PyDict_Type
+	PyFloat_Type                             c-api/float.html#c.PyFloat_Type
+	PyFrozenSet_Type                         c-api/set.html#c.PyFrozenSet_Type
+	PyFunction_Type                          c-api/function.html#c.PyFunction_Type
+	PyGen_Type                               c-api/gen.html#c.PyGen_Type
+	PyImport_FrozenModules                   c-api/import.html#c.PyImport_FrozenModules
+	PyInstanceMethod_Type                    c-api/method.html#c.PyInstanceMethod_Type
+	PyList_Type                              c-api/list.html#c.PyList_Type
+	PyLong_Type                              c-api/long.html#c.PyLong_Type
 	PyMappingMethods.mp_ass_subscript        c-api/typeobj.html#c.PyMappingMethods.mp_ass_subscript
 	PyMappingMethods.mp_length               c-api/typeobj.html#c.PyMappingMethods.mp_length
 	PyMappingMethods.mp_subscript            c-api/typeobj.html#c.PyMappingMethods.mp_subscript
+	PyMethod_Type                            c-api/method.html#c.PyMethod_Type
 	PyModuleDef.m_base                       c-api/module.html#c.PyModuleDef.m_base
 	PyModuleDef.m_clear                      c-api/module.html#c.PyModuleDef.m_clear
 	PyModuleDef.m_doc                        c-api/module.html#c.PyModuleDef.m_doc
@@ -1125,6 +2870,7 @@ c:member
 	PyModuleDef.m_traverse                   c-api/module.html#c.PyModuleDef.m_traverse
 	PyModuleDef_Slot.slot                    c-api/module.html#c.PyModuleDef_Slot.slot
 	PyModuleDef_Slot.value                   c-api/module.html#c.PyModuleDef_Slot.value
+	PyModule_Type                            c-api/module.html#c.PyModule_Type
 	PyNumberMethods.nb_absolute              c-api/typeobj.html#c.PyNumberMethods.nb_absolute
 	PyNumberMethods.nb_add                   c-api/typeobj.html#c.PyNumberMethods.nb_add
 	PyNumberMethods.nb_and                   c-api/typeobj.html#c.PyNumberMethods.nb_and
@@ -1161,6 +2907,8 @@ c:member
 	PyNumberMethods.nb_subtract              c-api/typeobj.html#c.PyNumberMethods.nb_subtract
 	PyNumberMethods.nb_true_divide           c-api/typeobj.html#c.PyNumberMethods.nb_true_divide
 	PyNumberMethods.nb_xor                   c-api/typeobj.html#c.PyNumberMethods.nb_xor
+	PyOS_InputHook                           c-api/veryhigh.html#c.PyOS_InputHook
+	PyOS_ReadlineFunctionPointer             c-api/veryhigh.html#c.PyOS_ReadlineFunctionPointer
 	PyObject._ob_next                        c-api/typeobj.html#c.PyObject._ob_next
 	PyObject._ob_prev                        c-api/typeobj.html#c.PyObject._ob_prev
 	PyObject.ob_refcnt                       c-api/typeobj.html#c.PyObject.ob_refcnt
@@ -1175,6 +2923,8 @@ c:member
 	PyPreConfig.parse_argv                   c-api/init_config.html#c.PyPreConfig.parse_argv
 	PyPreConfig.use_environment              c-api/init_config.html#c.PyPreConfig.use_environment
 	PyPreConfig.utf8_mode                    c-api/init_config.html#c.PyPreConfig.utf8_mode
+	PyProperty_Type                          c-api/descriptor.html#c.PyProperty_Type
+	PySeqIter_Type                           c-api/iterator.html#c.PySeqIter_Type
 	PySequenceMethods.sq_ass_item            c-api/typeobj.html#c.PySequenceMethods.sq_ass_item
 	PySequenceMethods.sq_concat              c-api/typeobj.html#c.PySequenceMethods.sq_concat
 	PySequenceMethods.sq_contains            c-api/typeobj.html#c.PySequenceMethods.sq_contains
@@ -1183,9 +2933,21 @@ c:member
 	PySequenceMethods.sq_item                c-api/typeobj.html#c.PySequenceMethods.sq_item
 	PySequenceMethods.sq_length              c-api/typeobj.html#c.PySequenceMethods.sq_length
 	PySequenceMethods.sq_repeat              c-api/typeobj.html#c.PySequenceMethods.sq_repeat
+	PySet_Type                               c-api/set.html#c.PySet_Type
+	PySlice_Type                             c-api/slice.html#c.PySlice_Type
 	PyStatus.err_msg                         c-api/init_config.html#c.PyStatus.err_msg
 	PyStatus.exitcode                        c-api/init_config.html#c.PyStatus.exitcode
 	PyStatus.func                            c-api/init_config.html#c.PyStatus.func
+	PyStructSequence_UnnamedField            c-api/tuple.html#c.PyStructSequence_UnnamedField
+	PyTrace_CALL                             c-api/init.html#c.PyTrace_CALL
+	PyTrace_C_CALL                           c-api/init.html#c.PyTrace_C_CALL
+	PyTrace_C_EXCEPTION                      c-api/init.html#c.PyTrace_C_EXCEPTION
+	PyTrace_C_RETURN                         c-api/init.html#c.PyTrace_C_RETURN
+	PyTrace_EXCEPTION                        c-api/init.html#c.PyTrace_EXCEPTION
+	PyTrace_LINE                             c-api/init.html#c.PyTrace_LINE
+	PyTrace_OPCODE                           c-api/init.html#c.PyTrace_OPCODE
+	PyTrace_RETURN                           c-api/init.html#c.PyTrace_RETURN
+	PyTuple_Type                             c-api/tuple.html#c.PyTuple_Type
 	PyTypeObject.tp_alloc                    c-api/typeobj.html#c.PyTypeObject.tp_alloc
 	PyTypeObject.tp_as_async                 c-api/typeobj.html#c.PyTypeObject.tp_as_async
 	PyTypeObject.tp_as_buffer                c-api/typeobj.html#c.PyTypeObject.tp_as_buffer
@@ -1241,9 +3003,34 @@ c:member
 	PyType_Spec.PyType_Spec.itemsize         c-api/type.html#c.PyType_Spec.PyType_Spec.itemsize
 	PyType_Spec.PyType_Spec.name             c-api/type.html#c.PyType_Spec.PyType_Spec.name
 	PyType_Spec.PyType_Spec.slots            c-api/type.html#c.PyType_Spec.PyType_Spec.slots
+	PyType_Type                              c-api/type.html#c.PyType_Type
+	PyUnicode_Type                           c-api/unicode.html#c.PyUnicode_Type
 	PyVarObject.ob_size                      c-api/typeobj.html#c.PyVarObject.ob_size
 	PyWideStringList.items                   c-api/init_config.html#c.PyWideStringList.items
 	PyWideStringList.length                  c-api/init_config.html#c.PyWideStringList.length
+	Py_BytesWarningFlag                      c-api/init.html#c.Py_BytesWarningFlag
+	Py_DebugFlag                             c-api/init.html#c.Py_DebugFlag
+	Py_DontWriteBytecodeFlag                 c-api/init.html#c.Py_DontWriteBytecodeFlag
+	Py_Ellipsis                              c-api/slice.html#c.Py_Ellipsis
+	Py_False                                 c-api/bool.html#c.Py_False
+	Py_FrozenFlag                            c-api/init.html#c.Py_FrozenFlag
+	Py_GenericAliasType                      c-api/typehints.html#c.Py_GenericAliasType
+	Py_HashRandomizationFlag                 c-api/init.html#c.Py_HashRandomizationFlag
+	Py_IgnoreEnvironmentFlag                 c-api/init.html#c.Py_IgnoreEnvironmentFlag
+	Py_InspectFlag                           c-api/init.html#c.Py_InspectFlag
+	Py_InteractiveFlag                       c-api/init.html#c.Py_InteractiveFlag
+	Py_IsolatedFlag                          c-api/init.html#c.Py_IsolatedFlag
+	Py_LegacyWindowsFSEncodingFlag           c-api/init.html#c.Py_LegacyWindowsFSEncodingFlag
+	Py_LegacyWindowsStdioFlag                c-api/init.html#c.Py_LegacyWindowsStdioFlag
+	Py_NoSiteFlag                            c-api/init.html#c.Py_NoSiteFlag
+	Py_NoUserSiteDirectory                   c-api/init.html#c.Py_NoUserSiteDirectory
+	Py_None                                  c-api/none.html#c.Py_None
+	Py_NotImplemented                        c-api/object.html#c.Py_NotImplemented
+	Py_OptimizeFlag                          c-api/init.html#c.Py_OptimizeFlag
+	Py_QuietFlag                             c-api/init.html#c.Py_QuietFlag
+	Py_True                                  c-api/bool.html#c.Py_True
+	Py_UnbufferedStdioFlag                   c-api/init.html#c.Py_UnbufferedStdioFlag
+	Py_VerboseFlag                           c-api/init.html#c.Py_VerboseFlag
 	Py_buffer.buf                            c-api/buffer.html#c.Py_buffer.buf
 	Py_buffer.format                         c-api/buffer.html#c.Py_buffer.format
 	Py_buffer.internal                       c-api/buffer.html#c.Py_buffer.internal
@@ -1255,6 +3042,14 @@ c:member
 	Py_buffer.shape                          c-api/buffer.html#c.Py_buffer.shape
 	Py_buffer.strides                        c-api/buffer.html#c.Py_buffer.strides
 	Py_buffer.suboffsets                     c-api/buffer.html#c.Py_buffer.suboffsets
+	Py_eval_input                            c-api/veryhigh.html#c.Py_eval_input
+	Py_file_input                            c-api/veryhigh.html#c.Py_file_input
+	Py_single_input                          c-api/veryhigh.html#c.Py_single_input
+	_Py_NoneStruct                           c-api/allocation.html#c._Py_NoneStruct
+c:struct
+	PyCompilerFlags                          c-api/veryhigh.html#c.PyCompilerFlags
+	_frozen                                  c-api/import.html#c._frozen
+	_inittab                                 c-api/import.html#c._inittab
 c:type
 	PyASCIIObject                            c-api/unicode.html#c.PyASCIIObject
 	PyAsyncMethods                           c-api/typeobj.html#c.PyAsyncMethods
@@ -1269,7 +3064,6 @@ c:type
 	PyCellObject                             c-api/cell.html#c.PyCellObject
 	PyCodeObject                             c-api/code.html#c.PyCodeObject
 	PyCompactUnicodeObject                   c-api/unicode.html#c.PyCompactUnicodeObject
-	PyCompilerFlags                          c-api/veryhigh.html#c.PyCompilerFlags
 	PyComplexObject                          c-api/complex.html#c.PyComplexObject
 	PyConfig                                 c-api/init_config.html#c.PyConfig
 	PyContext                                c-api/contextvars.html#c.PyContext
@@ -1316,13 +3110,12 @@ c:type
 	Py_UNICODE                               c-api/unicode.html#c.Py_UNICODE
 	Py_buffer                                c-api/buffer.html#c.Py_buffer
 	Py_complex                               c-api/complex.html#c.Py_complex
+	Py_ssize_t                               c-api/intro.html#c.Py_ssize_t
 	Py_tracefunc                             c-api/init.html#c.Py_tracefunc
 	Py_tss_t                                 c-api/init.html#c.Py_tss_t
 	_PyCFunctionFast                         c-api/structures.html#c._PyCFunctionFast
 	_PyCFunctionFastWithKeywords             c-api/structures.html#c._PyCFunctionFastWithKeywords
 	_PyFrameEvalFunction                     c-api/init.html#c._PyFrameEvalFunction
-	_frozen                                  c-api/import.html#c._frozen
-	_inittab                                 c-api/import.html#c._inittab
 	allocfunc                                c-api/typeobj.html#c.allocfunc
 	binaryfunc                               c-api/typeobj.html#c.binaryfunc
 	descrgetfunc                             c-api/typeobj.html#c.descrgetfunc
@@ -1354,75 +3147,6 @@ c:type
 	unaryfunc                                c-api/typeobj.html#c.unaryfunc
 	vectorcallfunc                           c-api/call.html#c.vectorcallfunc
 	visitproc                                c-api/gcsupport.html#c.visitproc
-c:var
-	CO_FUTURE_DIVISION                       c-api/veryhigh.html#c.CO_FUTURE_DIVISION
-	PyByteArray_Type                         c-api/bytearray.html#c.PyByteArray_Type
-	PyBytes_Type                             c-api/bytes.html#c.PyBytes_Type
-	PyCallIter_Type                          c-api/iterator.html#c.PyCallIter_Type
-	PyCell_Type                              c-api/cell.html#c.PyCell_Type
-	PyCode_Type                              c-api/code.html#c.PyCode_Type
-	PyComplex_Type                           c-api/complex.html#c.PyComplex_Type
-	PyContextToken_Type                      c-api/contextvars.html#c.PyContextToken_Type
-	PyContextVar_Type                        c-api/contextvars.html#c.PyContextVar_Type
-	PyContext_Type                           c-api/contextvars.html#c.PyContext_Type
-	PyCoro_Type                              c-api/coro.html#c.PyCoro_Type
-	PyDateTime_TimeZone_UTC                  c-api/datetime.html#c.PyDateTime_TimeZone_UTC
-	PyDict_Type                              c-api/dict.html#c.PyDict_Type
-	PyFloat_Type                             c-api/float.html#c.PyFloat_Type
-	PyFrozenSet_Type                         c-api/set.html#c.PyFrozenSet_Type
-	PyFunction_Type                          c-api/function.html#c.PyFunction_Type
-	PyGen_Type                               c-api/gen.html#c.PyGen_Type
-	PyImport_FrozenModules                   c-api/import.html#c.PyImport_FrozenModules
-	PyInstanceMethod_Type                    c-api/method.html#c.PyInstanceMethod_Type
-	PyList_Type                              c-api/list.html#c.PyList_Type
-	PyLong_Type                              c-api/long.html#c.PyLong_Type
-	PyMethod_Type                            c-api/method.html#c.PyMethod_Type
-	PyModule_Type                            c-api/module.html#c.PyModule_Type
-	PyOS_InputHook                           c-api/veryhigh.html#c.PyOS_InputHook
-	PyOS_ReadlineFunctionPointer             c-api/veryhigh.html#c.PyOS_ReadlineFunctionPointer
-	PyProperty_Type                          c-api/descriptor.html#c.PyProperty_Type
-	PySeqIter_Type                           c-api/iterator.html#c.PySeqIter_Type
-	PySet_Type                               c-api/set.html#c.PySet_Type
-	PySlice_Type                             c-api/slice.html#c.PySlice_Type
-	PyStructSequence_UnnamedField            c-api/tuple.html#c.PyStructSequence_UnnamedField
-	PyTrace_CALL                             c-api/init.html#c.PyTrace_CALL
-	PyTrace_C_CALL                           c-api/init.html#c.PyTrace_C_CALL
-	PyTrace_C_EXCEPTION                      c-api/init.html#c.PyTrace_C_EXCEPTION
-	PyTrace_C_RETURN                         c-api/init.html#c.PyTrace_C_RETURN
-	PyTrace_EXCEPTION                        c-api/init.html#c.PyTrace_EXCEPTION
-	PyTrace_LINE                             c-api/init.html#c.PyTrace_LINE
-	PyTrace_OPCODE                           c-api/init.html#c.PyTrace_OPCODE
-	PyTrace_RETURN                           c-api/init.html#c.PyTrace_RETURN
-	PyTuple_Type                             c-api/tuple.html#c.PyTuple_Type
-	PyType_Type                              c-api/type.html#c.PyType_Type
-	PyUnicode_Type                           c-api/unicode.html#c.PyUnicode_Type
-	Py_BytesWarningFlag                      c-api/init.html#c.Py_BytesWarningFlag
-	Py_DebugFlag                             c-api/init.html#c.Py_DebugFlag
-	Py_DontWriteBytecodeFlag                 c-api/init.html#c.Py_DontWriteBytecodeFlag
-	Py_Ellipsis                              c-api/slice.html#c.Py_Ellipsis
-	Py_False                                 c-api/bool.html#c.Py_False
-	Py_FrozenFlag                            c-api/init.html#c.Py_FrozenFlag
-	Py_GenericAliasType                      c-api/typehints.html#c.Py_GenericAliasType
-	Py_HashRandomizationFlag                 c-api/init.html#c.Py_HashRandomizationFlag
-	Py_IgnoreEnvironmentFlag                 c-api/init.html#c.Py_IgnoreEnvironmentFlag
-	Py_InspectFlag                           c-api/init.html#c.Py_InspectFlag
-	Py_InteractiveFlag                       c-api/init.html#c.Py_InteractiveFlag
-	Py_IsolatedFlag                          c-api/init.html#c.Py_IsolatedFlag
-	Py_LegacyWindowsFSEncodingFlag           c-api/init.html#c.Py_LegacyWindowsFSEncodingFlag
-	Py_LegacyWindowsStdioFlag                c-api/init.html#c.Py_LegacyWindowsStdioFlag
-	Py_NoSiteFlag                            c-api/init.html#c.Py_NoSiteFlag
-	Py_NoUserSiteDirectory                   c-api/init.html#c.Py_NoUserSiteDirectory
-	Py_None                                  c-api/none.html#c.Py_None
-	Py_NotImplemented                        c-api/object.html#c.Py_NotImplemented
-	Py_OptimizeFlag                          c-api/init.html#c.Py_OptimizeFlag
-	Py_QuietFlag                             c-api/init.html#c.Py_QuietFlag
-	Py_True                                  c-api/bool.html#c.Py_True
-	Py_UnbufferedStdioFlag                   c-api/init.html#c.Py_UnbufferedStdioFlag
-	Py_VerboseFlag                           c-api/init.html#c.Py_VerboseFlag
-	Py_eval_input                            c-api/veryhigh.html#c.Py_eval_input
-	Py_file_input                            c-api/veryhigh.html#c.Py_file_input
-	Py_single_input                          c-api/veryhigh.html#c.Py_single_input
-	_Py_NoneStruct                           c-api/allocation.html#c._Py_NoneStruct
 py:attribute
 	BaseException.args                       library/exceptions.html#BaseException.args
 	BlockingIOError.characters_written       library/exceptions.html#BlockingIOError.characters_written
@@ -1468,11 +3192,11 @@ py:attribute
 	asyncio.Queue.maxsize                    library/asyncio-queue.html#asyncio.Queue.maxsize
 	asyncio.Server.sockets                   library/asyncio-eventloop.html#asyncio.Server.sockets
 	asyncio.StreamWriter.transport           library/asyncio-stream.html#asyncio.StreamWriter.transport
-	asyncio.asyncio.subprocess.Process.pid   library/asyncio-subprocess.html#asyncio.asyncio.subprocess.Process.pid
-	asyncio.asyncio.subprocess.Process.returncode library/asyncio-subprocess.html#asyncio.asyncio.subprocess.Process.returncode
-	asyncio.asyncio.subprocess.Process.stderr library/asyncio-subprocess.html#asyncio.asyncio.subprocess.Process.stderr
-	asyncio.asyncio.subprocess.Process.stdin library/asyncio-subprocess.html#asyncio.asyncio.subprocess.Process.stdin
-	asyncio.asyncio.subprocess.Process.stdout library/asyncio-subprocess.html#asyncio.asyncio.subprocess.Process.stdout
+	asyncio.subprocess.Process.pid           library/asyncio-subprocess.html#asyncio.subprocess.Process.pid
+	asyncio.subprocess.Process.returncode    library/asyncio-subprocess.html#asyncio.subprocess.Process.returncode
+	asyncio.subprocess.Process.stderr        library/asyncio-subprocess.html#asyncio.subprocess.Process.stderr
+	asyncio.subprocess.Process.stdin         library/asyncio-subprocess.html#asyncio.subprocess.Process.stdin
+	asyncio.subprocess.Process.stdout        library/asyncio-subprocess.html#asyncio.subprocess.Process.stdout
 	bz2.BZ2Decompressor.eof                  library/bz2.html#bz2.BZ2Decompressor.eof
 	bz2.BZ2Decompressor.needs_input          library/bz2.html#bz2.BZ2Decompressor.needs_input
 	bz2.BZ2Decompressor.unused_data          library/bz2.html#bz2.BZ2Decompressor.unused_data
@@ -1876,6 +3600,7 @@ py:attribute
 	logging.StreamHandler.terminator         library/logging.handlers.html#logging.StreamHandler.terminator
 	logging.handlers.BaseRotatingHandler.namer library/logging.handlers.html#logging.handlers.BaseRotatingHandler.namer
 	logging.handlers.BaseRotatingHandler.rotator library/logging.handlers.html#logging.handlers.BaseRotatingHandler.rotator
+	logging.handlers.QueueHandler.listener   library/logging.handlers.html#logging.handlers.QueueHandler.listener
 	logging.lastResort                       library/logging.html#logging.lastResort
 	lzma.LZMADecompressor.check              library/lzma.html#lzma.LZMADecompressor.check
 	lzma.LZMADecompressor.eof                library/lzma.html#lzma.LZMADecompressor.eof
@@ -2191,6 +3916,9 @@ py:attribute
 	threading.Thread.ident                   library/threading.html#threading.Thread.ident
 	threading.Thread.name                    library/threading.html#threading.Thread.name
 	threading.Thread.native_id               library/threading.html#threading.Thread.native_id
+	tkinter.Tk.children                      library/tkinter.html#tkinter.Tk.children
+	tkinter.Tk.master                        library/tkinter.html#tkinter.Tk.master
+	tkinter.Tk.tk                            library/tkinter.html#tkinter.Tk.tk
 	tkinter.scrolledtext.ScrolledText.frame  library/tkinter.scrolledtext.html#tkinter.scrolledtext.ScrolledText.frame
 	tkinter.scrolledtext.ScrolledText.vbar   library/tkinter.scrolledtext.html#tkinter.scrolledtext.ScrolledText.vbar
 	traceback.TracebackException.__cause__   library/traceback.html#traceback.TracebackException.__cause__
@@ -2557,7 +4285,7 @@ py:class
 	asyncio.WindowsProactorEventLoopPolicy   library/asyncio-policy.html#asyncio.WindowsProactorEventLoopPolicy
 	asyncio.WindowsSelectorEventLoopPolicy   library/asyncio-policy.html#asyncio.WindowsSelectorEventLoopPolicy
 	asyncio.WriteTransport                   library/asyncio-protocol.html#asyncio.WriteTransport
-	asyncio.asyncio.subprocess.Process       library/asyncio-subprocess.html#asyncio.asyncio.subprocess.Process
+	asyncio.subprocess.Process               library/asyncio-subprocess.html#asyncio.subprocess.Process
 	asyncore.dispatcher                      library/asyncore.html#asyncore.dispatcher
 	asyncore.dispatcher_with_send            library/asyncore.html#asyncore.dispatcher_with_send
 	asyncore.file_dispatcher                 library/asyncore.html#asyncore.file_dispatcher
@@ -2636,7 +4364,6 @@ py:class
 	contextlib.AsyncExitStack                library/contextlib.html#contextlib.AsyncExitStack
 	contextlib.ContextDecorator              library/contextlib.html#contextlib.ContextDecorator
 	contextlib.ExitStack                     library/contextlib.html#contextlib.ExitStack
-	contextlib.aclosing                      library/contextlib.html#contextlib.aclosing
 	contextvars.Context                      library/contextvars.html#contextvars.Context
 	contextvars.ContextVar                   library/contextvars.html#contextvars.ContextVar
 	contextvars.Token                        library/contextvars.html#contextvars.Token
@@ -3026,6 +4753,7 @@ py:class
 	socketserver.UnixStreamServer            library/socketserver.html#socketserver.UnixStreamServer
 	sqlite3.Connection                       library/sqlite3.html#sqlite3.Connection
 	sqlite3.Cursor                           library/sqlite3.html#sqlite3.Cursor
+	sqlite3.PrepareProtocol                  library/sqlite3.html#sqlite3.PrepareProtocol
 	sqlite3.Row                              library/sqlite3.html#sqlite3.Row
 	ssl.AlertDescription                     library/ssl.html#ssl.AlertDescription
 	ssl.MemoryBIO                            library/ssl.html#ssl.MemoryBIO
@@ -3370,9 +5098,9 @@ py:data
 	ast.PyCF_TYPE_COMMENTS                   library/ast.html#ast.PyCF_TYPE_COMMENTS
 	asynchat.async_chat.ac_in_buffer_size    library/asynchat.html#asynchat.async_chat.ac_in_buffer_size
 	asynchat.async_chat.ac_out_buffer_size   library/asynchat.html#asynchat.async_chat.ac_out_buffer_size
-	asyncio.asyncio.subprocess.DEVNULL       library/asyncio-subprocess.html#asyncio.asyncio.subprocess.DEVNULL
-	asyncio.asyncio.subprocess.PIPE          library/asyncio-subprocess.html#asyncio.asyncio.subprocess.PIPE
-	asyncio.asyncio.subprocess.STDOUT        library/asyncio-subprocess.html#asyncio.asyncio.subprocess.STDOUT
+	asyncio.subprocess.DEVNULL               library/asyncio-subprocess.html#asyncio.subprocess.DEVNULL
+	asyncio.subprocess.PIPE                  library/asyncio-subprocess.html#asyncio.subprocess.PIPE
+	asyncio.subprocess.STDOUT                library/asyncio-subprocess.html#asyncio.subprocess.STDOUT
 	calendar.FRIDAY                          library/calendar.html#calendar.FRIDAY
 	calendar.MONDAY                          library/calendar.html#calendar.MONDAY
 	calendar.SATURDAY                        library/calendar.html#calendar.SATURDAY
@@ -4748,9 +6476,12 @@ py:exception
 	socket.gaierror                          library/socket.html#socket.gaierror
 	socket.herror                            library/socket.html#socket.herror
 	socket.timeout                           library/socket.html#socket.timeout
+	sqlite3.DataError                        library/sqlite3.html#sqlite3.DataError
 	sqlite3.DatabaseError                    library/sqlite3.html#sqlite3.DatabaseError
 	sqlite3.Error                            library/sqlite3.html#sqlite3.Error
 	sqlite3.IntegrityError                   library/sqlite3.html#sqlite3.IntegrityError
+	sqlite3.InterfaceError                   library/sqlite3.html#sqlite3.InterfaceError
+	sqlite3.InternalError                    library/sqlite3.html#sqlite3.InternalError
 	sqlite3.NotSupportedError                library/sqlite3.html#sqlite3.NotSupportedError
 	sqlite3.OperationalError                 library/sqlite3.html#sqlite3.OperationalError
 	sqlite3.ProgrammingError                 library/sqlite3.html#sqlite3.ProgrammingError
@@ -5055,6 +6786,7 @@ py:function
 	compileall.compile_path                  library/compileall.html#compileall.compile_path
 	concurrent.futures.as_completed          library/concurrent.futures.html#concurrent.futures.as_completed
 	concurrent.futures.wait                  library/concurrent.futures.html#concurrent.futures.wait
+	contextlib.aclosing                      library/contextlib.html#contextlib.aclosing
 	contextlib.asynccontextmanager           library/contextlib.html#contextlib.asynccontextmanager
 	contextlib.closing                       library/contextlib.html#contextlib.closing
 	contextlib.contextmanager                library/contextlib.html#contextlib.contextmanager
@@ -5746,6 +7478,7 @@ py:function
 	msvcrt.ungetch                           library/msvcrt.html#msvcrt.ungetch
 	msvcrt.ungetwch                          library/msvcrt.html#msvcrt.ungetwch
 	multiprocessing.Array                    library/multiprocessing.html#multiprocessing.Array
+	multiprocessing.Manager                  library/multiprocessing.html#multiprocessing.Manager
 	multiprocessing.Pipe                     library/multiprocessing.html#multiprocessing.Pipe
 	multiprocessing.Value                    library/multiprocessing.html#multiprocessing.Value
 	multiprocessing.active_children          library/multiprocessing.html#multiprocessing.active_children
@@ -5769,7 +7502,6 @@ py:function
 	multiprocessing.sharedctypes.RawValue    library/multiprocessing.html#multiprocessing.sharedctypes.RawValue
 	multiprocessing.sharedctypes.Value       library/multiprocessing.html#multiprocessing.sharedctypes.Value
 	multiprocessing.sharedctypes.copy        library/multiprocessing.html#multiprocessing.sharedctypes.copy
-	multiprocessing.sharedctypes.multiprocessing.Manager library/multiprocessing.html#multiprocessing.sharedctypes.multiprocessing.Manager
 	multiprocessing.sharedctypes.synchronized library/multiprocessing.html#multiprocessing.sharedctypes.synchronized
 	next                                     library/functions.html#next
 	nis.cat                                  library/nis.html#nis.cat
@@ -6979,6 +8711,8 @@ py:function
 	xml.dom.pulldom.parse                    library/xml.dom.pulldom.html#xml.dom.pulldom.parse
 	xml.dom.pulldom.parseString              library/xml.dom.pulldom.html#xml.dom.pulldom.parseString
 	xml.dom.registerDOMImplementation        library/xml.dom.html#xml.dom.registerDOMImplementation
+	xml.etree.ElementInclude.default_loader  library/xml.etree.elementtree.html#xml.etree.ElementInclude.default_loader
+	xml.etree.ElementInclude.include         library/xml.etree.elementtree.html#xml.etree.ElementInclude.include
 	xml.etree.ElementTree.Comment            library/xml.etree.elementtree.html#xml.etree.ElementTree.Comment
 	xml.etree.ElementTree.ProcessingInstruction library/xml.etree.elementtree.html#xml.etree.ElementTree.ProcessingInstruction
 	xml.etree.ElementTree.SubElement         library/xml.etree.elementtree.html#xml.etree.ElementTree.SubElement
@@ -6995,8 +8729,6 @@ py:function
 	xml.etree.ElementTree.register_namespace library/xml.etree.elementtree.html#xml.etree.ElementTree.register_namespace
 	xml.etree.ElementTree.tostring           library/xml.etree.elementtree.html#xml.etree.ElementTree.tostring
 	xml.etree.ElementTree.tostringlist       library/xml.etree.elementtree.html#xml.etree.ElementTree.tostringlist
-	xml.etree.ElementTree.xml.etree.ElementInclude.default_loader library/xml.etree.elementtree.html#xml.etree.ElementTree.xml.etree.ElementInclude.default_loader
-	xml.etree.ElementTree.xml.etree.ElementInclude.include library/xml.etree.elementtree.html#xml.etree.ElementTree.xml.etree.ElementInclude.include
 	xml.parsers.expat.ErrorString            library/pyexpat.html#xml.parsers.expat.ErrorString
 	xml.parsers.expat.ParserCreate           library/pyexpat.html#xml.parsers.expat.ParserCreate
 	xml.sax.make_parser                      library/xml.sax.html#xml.sax.make_parser
@@ -7221,11 +8953,6 @@ py:method
 	asyncio.WriteTransport.write             library/asyncio-protocol.html#asyncio.WriteTransport.write
 	asyncio.WriteTransport.write_eof         library/asyncio-protocol.html#asyncio.WriteTransport.write_eof
 	asyncio.WriteTransport.writelines        library/asyncio-protocol.html#asyncio.WriteTransport.writelines
-	asyncio.asyncio.subprocess.Process.communicate library/asyncio-subprocess.html#asyncio.asyncio.subprocess.Process.communicate
-	asyncio.asyncio.subprocess.Process.kill  library/asyncio-subprocess.html#asyncio.asyncio.subprocess.Process.kill
-	asyncio.asyncio.subprocess.Process.send_signal library/asyncio-subprocess.html#asyncio.asyncio.subprocess.Process.send_signal
-	asyncio.asyncio.subprocess.Process.terminate library/asyncio-subprocess.html#asyncio.asyncio.subprocess.Process.terminate
-	asyncio.asyncio.subprocess.Process.wait  library/asyncio-subprocess.html#asyncio.asyncio.subprocess.Process.wait
 	asyncio.loop.add_reader                  library/asyncio-eventloop.html#asyncio.loop.add_reader
 	asyncio.loop.add_signal_handler          library/asyncio-eventloop.html#asyncio.loop.add_signal_handler
 	asyncio.loop.add_writer                  library/asyncio-eventloop.html#asyncio.loop.add_writer
@@ -7277,6 +9004,11 @@ py:method
 	asyncio.loop.subprocess_exec             library/asyncio-eventloop.html#asyncio.loop.subprocess_exec
 	asyncio.loop.subprocess_shell            library/asyncio-eventloop.html#asyncio.loop.subprocess_shell
 	asyncio.loop.time                        library/asyncio-eventloop.html#asyncio.loop.time
+	asyncio.subprocess.Process.communicate   library/asyncio-subprocess.html#asyncio.subprocess.Process.communicate
+	asyncio.subprocess.Process.kill          library/asyncio-subprocess.html#asyncio.subprocess.Process.kill
+	asyncio.subprocess.Process.send_signal   library/asyncio-subprocess.html#asyncio.subprocess.Process.send_signal
+	asyncio.subprocess.Process.terminate     library/asyncio-subprocess.html#asyncio.subprocess.Process.terminate
+	asyncio.subprocess.Process.wait          library/asyncio-subprocess.html#asyncio.subprocess.Process.wait
 	asyncore.dispatcher.accept               library/asyncore.html#asyncore.dispatcher.accept
 	asyncore.dispatcher.bind                 library/asyncore.html#asyncore.dispatcher.bind
 	asyncore.dispatcher.close                library/asyncore.html#asyncore.dispatcher.close
@@ -9515,6 +11247,8 @@ py:method
 	test.support.BasicTestRunner.run         library/test.html#test.support.BasicTestRunner.run
 	test.support.Matcher.match_value         library/test.html#test.support.Matcher.match_value
 	test.support.Matcher.matches             library/test.html#test.support.Matcher.matches
+	test.support.SaveSignals.restore         library/test.html#test.support.SaveSignals.restore
+	test.support.SaveSignals.save            library/test.html#test.support.SaveSignals.save
 	test.support.bytecode_helper.BytecodeTestCase.assertInBytecode library/test.html#test.support.bytecode_helper.BytecodeTestCase.assertInBytecode
 	test.support.bytecode_helper.BytecodeTestCase.assertNotInBytecode library/test.html#test.support.bytecode_helper.BytecodeTestCase.assertNotInBytecode
 	test.support.bytecode_helper.BytecodeTestCase.get_disassembly_as_string library/test.html#test.support.bytecode_helper.BytecodeTestCase.get_disassembly_as_string
@@ -10924,7 +12658,7 @@ std:doc
 	howto/urllib2                            HOWTO Fetch Internet Resources Using The urllib Package: howto/urllib2.html
 	install/index                            Installing Python Modules (Legacy version): install/index.html
 	installing/index                         Installing Python Modules               : installing/index.html
-	library/2to3                             2to3 - Automated Python 2 to 3 code translation: library/2to3.html
+	library/2to3                             2to3 — Automated Python 2 to 3 code translation: library/2to3.html
 	library/__future__                       __future__ — Future statement definitions: library/__future__.html
 	library/__main__                         __main__ — Top-level code environment   : library/__main__.html
 	library/_thread                          _thread — Low-level threading API       : library/_thread.html
@@ -11096,7 +12830,7 @@ std:doc
 	library/msilib                           msilib — Read and write Microsoft Installer files: library/msilib.html
 	library/msvcrt                           msvcrt — Useful routines from the MS VC++ runtime: library/msvcrt.html
 	library/multiprocessing                  multiprocessing — Process-based parallelism: library/multiprocessing.html
-	library/multiprocessing.shared_memory    multiprocessing.shared_memory —  Provides shared memory for direct access across processes: library/multiprocessing.shared_memory.html
+	library/multiprocessing.shared_memory    multiprocessing.shared_memory — Shared memory for direct access across processes: library/multiprocessing.shared_memory.html
 	library/netdata                          Internet Data Handling                  : library/netdata.html
 	library/netrc                            netrc — netrc file processing           : library/netrc.html
 	library/nis                              nis — Interface to Sun’s NIS (Yellow Pages): library/nis.html
@@ -11371,7 +13105,7 @@ std:label
 	25modules                                New, Improved, and Removed Modules      : whatsnew/2.5.html#modules
 	26acks                                   Acknowledgements                        : whatsnew/2.6.html#acks
 	2to3-fixers                              Fixers                                  : library/2to3.html#to3-fixers
-	2to3-reference                           2to3 - Automated Python 2 to 3 code translation: library/2to3.html#to3-reference
+	2to3-reference                           2to3 — Automated Python 2 to 3 code translation: library/2to3.html#to3-reference
 	2to3-using                               Using 2to3                              : library/2to3.html#to3-using
 	37-platform-support-removals             Platform Support Removals               : whatsnew/3.7.html#platform-support-removals
 	64-bit-access-rights                     64-bit Specific                         : library/winreg.html#bit-access-rights
@@ -11523,7 +13257,7 @@ std:label
 	bpo-36085-whatsnew                       whatsnew/3.8.html#bpo-36085-whatsnew
 	break                                    The break statement                     : reference/simple_stmts.html#break
 	browser-controllers                      Browser Controller Objects              : library/webbrowser.html#browser-controllers
-	bsd0                                     ZERO-CLAUSE BSD LICENSE FOR CODE IN THE PYTHON 3.10.4 DOCUMENTATION: license.html#bsd0
+	bsd0                                     ZERO-CLAUSE BSD LICENSE FOR CODE IN THE PYTHON 3.10.5 DOCUMENTATION: license.html#bsd0
 	buffer-request-types                     Buffer request types                    : c-api/buffer.html#buffer-request-types
 	buffer-structs                           Buffer Object Structures                : c-api/typeobj.html#buffer-structs
 	buffer-structure                         Buffer structure                        : c-api/buffer.html#buffer-structure
@@ -11616,6 +13350,7 @@ std:label
 	contributing-to-python                   Getting started contributing to Python yourself: bugs.html#contributing-to-python
 	conversions                              Arithmetic conversions                  : reference/expressions.html#conversions
 	converting-argument-sequence             Converting an argument sequence to a string on Windows: library/subprocess.html#converting-argument-sequence
+	cookbook-ref-links                       Other resources                         : howto/logging-cookbook.html#cookbook-ref-links
 	cookbook-rotator-namer                   Using a rotator and namer to customize log rotation processing: howto/logging-cookbook.html#cookbook-rotator-namer
 	cookie-example                           Example                                 : library/http.cookies.html#cookie-example
 	cookie-jar-objects                       CookieJar and FileCookieJar Objects     : library/http.cookiejar.html#cookie-jar-objects
@@ -11796,7 +13531,7 @@ std:label
 	dtd-handler-objects                      DTDHandler Objects                      : library/xml.sax.handler.html#dtd-handler-objects
 	dynamic-features                         Interaction with dynamic features       : reference/executionmodel.html#dynamic-features
 	dynamic-linking                          Differences Between Unix and Windows    : extending/windows.html#dynamic-linking
-	editing-and-navigation                   Editing and navigation                  : library/idle.html#editing-and-navigation
+	editing-and-navigation                   Editing and Navigation                  : library/idle.html#editing-and-navigation
 	editors                                  Editors and IDEs                        : using/editors.html#editors
 	efficient_string_concatenation           What is the most efficient way to concatenate many strings together?: faq/programming.html#efficient-string-concatenation
 	elementinclude-functions                 Functions                               : library/xml.etree.elementtree.html#elementinclude-functions
@@ -11825,6 +13560,7 @@ std:label
 	epoch                                    library/time.html#epoch
 	epoll-objects                            Edge and Level Trigger Polling (epoll) Objects: library/select.html#epoll-objects
 	error-handlers                           Error Handlers                          : library/codecs.html#error-handlers
+	escape-sequences                         reference/lexical_analysis.html#escape-sequences
 	evalorder                                Evaluation order                        : reference/expressions.html#evalorder
 	event-objects                            Event Objects                           : library/threading.html#event-objects
 	examples-imp                             Examples                                : library/imp.html#examples-imp
@@ -11957,6 +13693,7 @@ std:label
 	http-redirect-handler                    HTTPRedirectHandler Objects             : library/urllib.request.html#http-redirect-handler
 	http-server-cli                          library/http.server.html#http-server-cli
 	http-status-codes                        HTTP status codes                       : library/http.html#http-status-codes
+	http.server-security                     Security Considerations                 : library/http.server.html#http-server-security
 	http_error_nnn                           library/urllib.request.html#http-error-nnn
 	httpconnection-objects                   HTTPConnection Objects                  : library/http.client.html#httpconnection-objects
 	httpmessage-objects                      HTTPMessage Objects                     : library/http.client.html#httpmessage-objects
@@ -12380,7 +14117,7 @@ std:label
 	proxy-basic-auth-handler                 ProxyBasicAuthHandler Objects           : library/urllib.request.html#proxy-basic-auth-handler
 	proxy-digest-auth-handler                ProxyDigestAuthHandler Objects          : library/urllib.request.html#proxy-digest-auth-handler
 	proxy-handler                            ProxyHandler Objects                    : library/urllib.request.html#proxy-handler
-	psf-license                              PSF LICENSE AGREEMENT FOR PYTHON 3.10.4 : license.html#psf-license
+	psf-license                              PSF LICENSE AGREEMENT FOR PYTHON 3.10.5 : license.html#psf-license
 	publishing-python-packages               Reading the Python Packaging User Guide : distributing/index.html#publishing-python-packages
 	pure-embedding                           Pure Embedding                          : extending/embedding.html#pure-embedding
 	pure-mod                                 Pure Python distribution (by module)    : distutils/examples.html#pure-mod
@@ -12516,6 +14253,9 @@ std:label
 	specialattrs                             Special Attributes                      : library/stdtypes.html#specialattrs
 	specialnames                             Special method names                    : reference/datamodel.html#specialnames
 	spoken-messages                          Speaking logging messages               : howto/logging-cookbook.html#spoken-messages
+	sqlite3-adapter-converter-recipes        Adapter and Converter Recipes           : library/sqlite3.html#sqlite3-adapter-converter-recipes
+	sqlite3-conform                          Letting your object adapt itself        : library/sqlite3.html#sqlite3-conform
+	sqlite3-connection-context-manager       Using the connection as a context manager: library/sqlite3.html#sqlite3-connection-context-manager
 	sqlite3-connection-objects               Connection Objects                      : library/sqlite3.html#sqlite3-connection-objects
 	sqlite3-controlling-transactions         Controlling Transactions                : library/sqlite3.html#sqlite3-controlling-transactions
 	sqlite3-cursor-objects                   Cursor Objects                          : library/sqlite3.html#sqlite3-cursor-objects
@@ -12524,6 +14264,7 @@ std:label
 	sqlite3-placeholders                     library/sqlite3.html#sqlite3-placeholders
 	sqlite3-row-objects                      Row Objects                             : library/sqlite3.html#sqlite3-row-objects
 	sqlite3-types                            SQLite and Python types                 : library/sqlite3.html#sqlite3-types
+	sqlite3-uri-tricks                       SQLite URI tricks                       : library/sqlite3.html#sqlite3-uri-tricks
 	ssl-certificates                         Certificates                            : library/ssl.html#ssl-certificates
 	ssl-nonblocking                          Notes on non-blocking sockets           : library/ssl.html#ssl-nonblocking
 	ssl-security                             Security considerations                 : library/ssl.html#ssl-security

@@ -1,4 +1,4 @@
-__version__ = '0.1.10'
+__version__ = '0.1.11'
 
 
 # expose specific classes and functions
@@ -73,8 +73,8 @@ __all__ = (
 
 import gym
 
-if 'ConnectFour-v0' in gym.envs.registry.env_specs:
-    del gym.envs.registry.env_specs['ConnectFour-v0']
+if 'ConnectFour-v0' in gym.envs.registry:
+    del gym.envs.registry['ConnectFour-v0']
 
 gym.envs.register(
     id='ConnectFour-v0',
@@ -82,8 +82,8 @@ gym.envs.register(
 )
 
 
-if 'FrozenLakeNonSlippery-v0' in gym.envs.registry.env_specs:
-    del gym.envs.registry.env_specs['FrozenLakeNonSlippery-v0']
+if 'FrozenLakeNonSlippery-v0' in gym.envs.registry:
+    del gym.envs.registry['FrozenLakeNonSlippery-v0']
 
 gym.envs.register(
     id='FrozenLakeNonSlippery-v0',

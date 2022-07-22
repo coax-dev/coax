@@ -90,4 +90,4 @@ class BaseRewardTracer(ABC):
         while self:
             transitions.append(self.pop())
 
-        return jax.tree_multimap(lambda *leaves: onp.concatenate(leaves, axis=0), *transitions)
+        return jax.tree_map(lambda *leaves: onp.concatenate(leaves, axis=0), *transitions)

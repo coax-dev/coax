@@ -2,6 +2,27 @@ Release Notes
 =============
 
 
+If you need any of the features from the pre-release version listed under "Upcoming" you can just install coax from the **main** branch:
+
+.. code::
+    
+    $ pip install git+https://github.com/coax-dev/coax.git@main
+
+
+Upcoming
+--------
+
+(nothing yet)
+
+
+v0.1.11
+-------
+
+- Bug fix: `#21 <https://github.com/coax-dev/coax/issues/21>`_
+- Fix deprecation warnings from using ``jax.tree_multimap`` and ``gym.envs.registry.env_specs``.
+- Upgrade dependencies.
+
+
 v0.1.10
 -------
 

@@ -226,12 +226,12 @@ class Q(BaseFunc):
         # input: state observations
         S = [safe_sample(env.observation_space, rnd) for _ in range(batch_size)]
         S = [observation_preprocessor(next(rngs), s) for s in S]
-        S = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *S)
+        S = jax.tree_map(lambda *x: jnp.concatenate(x, axis=0), *S)
 
         # input: actions
         A = [safe_sample(env.action_space, rnd) for _ in range(batch_size)]
         A = [action_preprocessor(next(rngs), a) for a in A]
-        A = jax.tree_multimap(lambda *x: jnp.concatenate(x, axis=0), *A)
+        A = jax.tree_map(lambda *x: jnp.concatenate(x, axis=0), *A)
 
         # output: type1
         q1_data = ExampleData(

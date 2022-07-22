@@ -259,3 +259,10 @@ class TestProbaDist(TestCase):
         self.assertNotIn(X_raw['multidiscrete'][0], space['multidiscrete'])
         self.assertIn(X_clean['multidiscrete'][0], space['multidiscrete'])
         self.assertIn(x_clean['multidiscrete'], space['multidiscrete'])
+        # Check if bijective.
+        X_clean_ = dist.postprocess_variate(
+            next(self.rngs), dist.preprocess_variate(next(self.rngs), X_clean), batch_mode=True)
+        x_clean_ = dist.postprocess_variate(
+            next(self.rngs), dist.preprocess_variate(next(self.rngs), x_clean), batch_mode=False)
+        self.assertPytreeAlmostEqual(X_clean_, X_clean)
+        self.assertPytreeAlmostEqual(x_clean_, x_clean)
