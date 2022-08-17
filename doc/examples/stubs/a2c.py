@@ -61,9 +61,6 @@ for ep in range(100):
         while tracer:
             buffer.add(tracer.pop())
 
-        # optional: sync shared parameters (this is not always optimal)
-        pi.params, v.params = coax.utils.sync_shared_params(pi.params, v.params)
-
         # update
         if len(buffer) == buffer.capacity:
             for _ in range(4 * buffer.capacity // 32):  # ~4 passes
@@ -72,6 +69,9 @@ for ep in range(100):
                 metrics_pi = vanilla_pg.update(transition_batch, td_error)
                 env.record_metrics(metrics_v)
                 env.record_metrics(metrics_pi)
+
+                # optional: sync shared parameters (this is not always optimal)
+                pi.params, v.params = coax.utils.sync_shared_params(pi.params, v.params)
 
             buffer.clear()
 
