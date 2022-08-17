@@ -9,16 +9,27 @@ env = gym.make(...)
 env = coax.wrappers.TrainMonitor(env)
 
 
+def torso(S, is_training):
+    # custom haiku function for the shared preprocessor
+    with hk.experimental.name_scope('torso'):
+        net = hk.Sequential([...])
+    return net(S)
+
+
 def func_v(S, is_training):
     # custom haiku function
-    value = hk.Sequential([...])
-    return value(S)  # output shape: (batch_size,)
+    X = torso(S, is_training)
+    with hk.experimental.name_scope('v'):
+        value = hk.Sequential([...])
+    return value(X)  # output shape: (batch_size,)
 
 
 def func_pi(S, is_training):
     # custom haiku function (for discrete actions in this example)
-    logits = hk.Sequential([...])
-    return {'logits': logits(S)}  # logits shape: (batch_size, num_actions)
+    X = torso(S, is_training)
+    with hk.experimental.name_scope('pi'):
+        logits = hk.Sequential([...])
+    return {'logits': logits(X)}  # logits shape: (batch_size, num_actions)
 
 
 # function approximators
@@ -49,6 +60,9 @@ for ep in range(100):
         tracer.add(s, a, r, done, logp)
         while tracer:
             buffer.add(tracer.pop())
+
+        # optional: sync shared parameters (this is not always optimal)
+        pi.params, v.params = coax.utils.sync_shared_params(pi.params, v.params)
 
         # update
         if len(buffer) == buffer.capacity:

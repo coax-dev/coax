@@ -1,4 +1,5 @@
 import warnings
+from collections import Counter
 from functools import partial
 
 import chex
@@ -32,6 +33,7 @@ __all__ = (
     'single_to_batch',
     'safe_sample',
     'stack_trees',
+    'sync_shared_params',
     'tree_ravel',
     'tree_sample',
     'unvectorize',
@@ -867,6 +869,76 @@ def single_to_batch(pytree):
 
     """
     return jax.tree_map(lambda arr: jnp.expand_dims(arr, axis=0), pytree)
+
+
+def sync_shared_params(*params, weights=None):
+    r"""
+    Synchronize shared params.
+
+    Parameters
+    ----------
+    *params : multiple hk.Params objects
+
+        The parameter dicts that contain shared parameters.
+
+    weights : list of positive floats
+
+        The relative weights to use for averaging the shared params.
+
+    Returns
+    -------
+    params : tuple of hk.Params objects
+
+        Same as input ``*params`` but with synchronized shared params.
+
+    """
+    if len(params) < 2:
+        return params
+
+    if weights is None:
+        weights = (1.0,) * len(params)
+    elif len(weights) != len(params):
+        raise ValueError(
+            f"len(weights) = {len(weights)} does not match the number of param "
+            f"dicts provided, which is {len(params)}")
+
+    # Ensure that the params are mutable.
+    params = [hk.data_structures.to_mutable_dict(p) for p in params]
+
+    # Count occurrence of top-level keys in all params.
+    key_counts = Counter(k for p in params for k in p.keys())
+
+    for k, count in key_counts.items():
+        # Skip if weights are not shared.
+        if count < 2:
+            continue
+
+        # Get shared params.
+        shared_params = [p[k] for p in params if k in p]
+        assert len(shared_params) > 1
+        chex.assert_trees_all_equal_structs(*shared_params)
+
+        # Get the relative weights.
+        relative_weights = [w for w, p in zip(weights, params) if k in p]
+        scale = sum(relative_weights)
+        assert scale > 0
+        relative_weights = [w / scale for w in relative_weights]
+
+        # Apply relative weights.
+        shared_params_weighted = [
+            jax.tree_util.tree_map(lambda x: w * x, p)
+            for w, p in zip(relative_weights, shared_params)]
+
+        # Compute the weighted average.
+        shared_params_agg = jax.tree_util.tree_map(
+            lambda *x: sum(x), *shared_params_weighted)
+
+        # Replace individual params by shared, averaged params.
+        for p in params:
+            if k in p:
+                p[k] = shared_params_agg
+
+    return tuple(hk.data_structures.to_haiku_dict(p) for p in params)
 
 
 def tree_ravel(pytree):
