@@ -116,9 +116,9 @@ def argmin(rng, arr, axis=-1):
 def batch_to_single(pytree, index=0):
     r"""
 
-    Extract a single instance from a :doc:`pytree <pytrees>` of array batches.
+    Extract a single instance from a :external+jax:doc:`pytree <pytrees>` of array batches.
 
-    This just does an ``leaf[index]`` on all leaf nodes of the :doc:`pytree
+    This just does an ``leaf[index]`` on all leaf nodes of the :external+jax:doc:`pytree
     <pytrees>`.
 
     Parameters
@@ -516,8 +516,8 @@ def _get_leaf_diagnostics(leaf, key_prefix):
 def get_grads_diagnostics(grads, key_prefix='', keep_tree_structure=False):
     r"""
 
-    Given a :doc:`pytree <pytrees>` of grads, return a dict that contains the quantiles of the
-    magnitudes of each individual component.
+    Given a :external+jax:doc:`pytree <pytrees>` of grads, return a dict that contains the quantiles
+    of the magnitudes of each individual component.
 
     This is meant to be a high-level diagnostic. It first extracts the leaves of the pytree, then
     flattens each leaf and then it computes the element-wise magnitude. Then, it concatenates all
@@ -553,8 +553,8 @@ def get_grads_diagnostics(grads, key_prefix='', keep_tree_structure=False):
 def get_magnitude_quantiles(pytree, key_prefix=''):
     r"""
 
-    Given a :doc:`pytree <pytrees>`, return a dict that contains the quantiles of the magnitudes of
-    each individual component.
+    Given a :external+jax:doc:`pytree <pytrees>`, return a dict that contains the quantiles of the
+    magnitudes of each individual component.
 
     This is meant to be a high-level diagnostic. It first extracts the leaves of the pytree, then
     flattens each leaf and then it computes the element-wise magnitude. Then, it concatenates all
@@ -853,7 +853,7 @@ def single_to_batch(pytree):
     Take a single instance and turn it into a batch of size 1.
 
     This just does an ``np.expand_dims(leaf, axis=0)`` on all leaf nodes of the
-    :doc:`pytree <pytrees>`.
+    :external+jax:doc:`pytree <pytrees>`.
 
     Parameters
     ----------
@@ -873,7 +873,7 @@ def single_to_batch(pytree):
 
 def sync_shared_params(*params, weights=None):
     r"""
-    Synchronize shared params.
+    Synchronize shared params. See the :doc:`A2C stub </examples/stubs/a2c>` for example usage.
 
     Parameters
     ----------

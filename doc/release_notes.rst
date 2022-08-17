@@ -13,6 +13,8 @@ Upcoming
 --------
 
 - Fix affine transform for composite distributions.
+- Add :func:`coax.utils.sync_shared_params` utility; example in :doc:`A2C stub </examples/stubs/a2c>`.
+- Bug fix: set logging level on ``TrainMonitor.logger`` itself.
 
 
 v0.1.11
