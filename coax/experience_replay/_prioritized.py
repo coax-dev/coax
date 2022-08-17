@@ -208,7 +208,7 @@ class PrioritizedReplayBuffer(BaseReplayBuffer):
     def clear(self):
         r""" Clear the experience replay buffer. """
         self._storage = onp.full(shape=(self.capacity,), fill_value=None, dtype='object')
-        self._sumtree = SumTree(capacity=self.capacity)
+        self._sumtree = SumTree(capacity=self.capacity, random_seed=self._random_seed)
         self._index = 0
 
     def __len__(self):
