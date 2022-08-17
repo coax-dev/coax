@@ -1,6 +1,7 @@
 import os
 import re
 import datetime
+import logging
 import time
 from collections import deque
 from typing import Mapping
@@ -150,6 +151,7 @@ class TrainMonitor(Wrapper, LoggerMixin):
         self.smoothing = float(smoothing)
         self.reset_global()
         enable_logging(**logger_kwargs)
+        self.logger.setLevel(logger_kwargs.get('level', logging.INFO))
         self._init_tensorboard(tensorboard_dir)
 
     def reset_global(self):
