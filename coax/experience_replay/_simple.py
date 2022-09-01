@@ -6,6 +6,7 @@ import numpy as onp
 
 from ..reward_tracing import TransitionBatch
 from ._base import BaseReplayBuffer
+from .._base.mixins import RandomStateMixin
 
 
 __all__ = (
@@ -29,10 +30,12 @@ class SimpleReplayBuffer(BaseReplayBuffer):
         To get reproducible results.
 
     """
+
     def __init__(self, capacity, random_seed=None):
         self._capacity = int(capacity)
         random.seed(random_seed)
         self._random_state = random.getstate()
+        self.random_seed = random_seed
         self.clear()  # sets self._storage
 
     @property
@@ -58,6 +61,8 @@ class SimpleReplayBuffer(BaseReplayBuffer):
         transition_batch.idx = onp.arange(self._index, self._index + transition_batch.batch_size)
         self._index += transition_batch.batch_size
         self._storage.extend(transition_batch.to_singles())
+        while len(self) > self.capacity:
+            self._storage.pop(0)
 
     def sample(self, batch_size=32):
         r"""
@@ -80,11 +85,14 @@ class SimpleReplayBuffer(BaseReplayBuffer):
         random.setstate(self._random_state)
         transitions = random.sample(self._storage, batch_size)
         self._random_state = random.getstate()
+        # indices = jax.random.choice(self.rng, onp.arange(
+        #     0, len(self)), (batch_size,), replace=False)
+        # transitions = self._storage[indices]
         return jax.tree_map(lambda *leaves: onp.concatenate(leaves, axis=0), *transitions)
 
     def clear(self):
         r""" Clear the experience replay buffer. """
-        self._storage = deque(maxlen=self.capacity)
+        self._storage = list()
         self._index = 0
 
     def __len__(self):
