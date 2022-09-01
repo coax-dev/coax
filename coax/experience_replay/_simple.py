@@ -58,6 +58,8 @@ class SimpleReplayBuffer(BaseReplayBuffer):
         transition_batch.idx = onp.arange(self._index, self._index + transition_batch.batch_size)
         self._index += transition_batch.batch_size
         self._storage.extend(transition_batch.to_singles())
+        while len(self) > self.capacity:
+            self._storage.pop(0)
 
     def sample(self, batch_size=32):
         r"""
@@ -84,7 +86,7 @@ class SimpleReplayBuffer(BaseReplayBuffer):
 
     def clear(self):
         r""" Clear the experience replay buffer. """
-        self._storage = deque(maxlen=self.capacity)
+        self._storage = list()
         self._index = 0
 
     def __len__(self):
