@@ -90,7 +90,7 @@ def func_quantile_type2(S, is_training):
         hk.Reshape((discrete.n, num_bins))
     ))(quantile_x)
     return {'values': quantile_values,
-            'quantile_fractions': quantile_fractions[:, None, :].tile([1, discrete.n, 1])}
+            'quantile_fractions': jnp.tile(quantile_fractions[:, None, :], [1, discrete.n, 1])}
 
 
 class TestStochasticQ(TestCase):
