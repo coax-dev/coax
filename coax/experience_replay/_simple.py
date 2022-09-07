@@ -28,12 +28,10 @@ class SimpleReplayBuffer(BaseReplayBuffer):
         To get reproducible results.
 
     """
-
     def __init__(self, capacity, random_seed=None):
         self._capacity = int(capacity)
         random.seed(random_seed)
         self._random_state = random.getstate()
-        self.random_seed = random_seed
         self.clear()  # sets self._storage
 
     @property
