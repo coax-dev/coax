@@ -1,12 +1,10 @@
 import random
-from collections import deque
 
 import jax
 import numpy as onp
 
 from ..reward_tracing import TransitionBatch
 from ._base import BaseReplayBuffer
-from .._base.mixins import RandomStateMixin
 
 
 __all__ = (
@@ -85,9 +83,6 @@ class SimpleReplayBuffer(BaseReplayBuffer):
         random.setstate(self._random_state)
         transitions = random.sample(self._storage, batch_size)
         self._random_state = random.getstate()
-        # indices = jax.random.choice(self.rng, onp.arange(
-        #     0, len(self)), (batch_size,), replace=False)
-        # transitions = self._storage[indices]
         return jax.tree_map(lambda *leaves: onp.concatenate(leaves, axis=0), *transitions)
 
     def clear(self):
