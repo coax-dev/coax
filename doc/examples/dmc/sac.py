@@ -1,4 +1,5 @@
 import os
+os.environ["MUJOCO_GL"] = "egl"
 
 import coax
 import haiku as hk
@@ -7,9 +8,8 @@ import jax.numpy as jnp
 import numpy as onp
 import optax
 
-from utils import make_dmc
+from coax.utils import make_dmc
 
-os.environ["MUJOCO_GL"] = "egl"
 
 # the name of this script
 name = 'sac'
