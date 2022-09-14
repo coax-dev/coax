@@ -54,11 +54,11 @@ simple_td = coax.td_learning.SimpleTD(v, loss_function=mse, optimizer=optimizer_
 
 # train
 for ep in range(1000):
-    s = env.reset()
+    s, info = env.reset()
 
     for t in range(env.spec.max_episode_steps):
         a = pi(s)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
         if done and (t == env.spec.max_episode_steps - 1):
             r = 1 / (1 - tracer.gamma)
 
@@ -70,7 +70,7 @@ for ep in range(1000):
             env.record_metrics(metrics_v)
             env.record_metrics(metrics_pi)
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next

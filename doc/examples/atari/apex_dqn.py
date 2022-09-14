@@ -52,7 +52,7 @@ class ApexWorker(coax.Worker):
 
     def trace(self, s, a, r, done, logp):
         self.tracer.add(s, a, r, done, logp)
-        if done:
+        if done or truncated:
             transition_batch = self.tracer.flush()
             for chunk in coax.utils.chunks_pow2(transition_batch):
                 td_error = self.q_updater.td_error(chunk)

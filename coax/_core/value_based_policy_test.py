@@ -36,20 +36,20 @@ class TestEpsilonGreedy(TestCase):
 
     def test_call(self):
         pi = EpsilonGreedy(self.q, epsilon=0.1)
-        s = self.env.reset()
+        s, info = self.env.reset()
         for t in range(self.env.spec.max_episode_steps):
             a = pi(s)
-            s, r, done, info = self.env.step(a)
-            if done:
+            s, r, done, truncated, info = self.env.step(a)
+            if done or truncated:
                 break
 
     def test_greedy(self):
         pi = EpsilonGreedy(self.q, epsilon=0.1)
-        s = self.env.reset()
+        s, info = self.env.reset()
         for t in range(self.env.spec.max_episode_steps):
             a = pi.mode(s)
-            s, r, done, info = self.env.step(a)
-            if done:
+            s, r, done, truncated, info = self.env.step(a)
+            if done or truncated:
                 break
 
     def test_dist_params(self):
@@ -74,20 +74,20 @@ class TestBoltzmannPolicy(TestCase):
 
     def test_call(self):
         pi = BoltzmannPolicy(self.q, temperature=1.0)
-        s = self.env.reset()
+        s, info = self.env.reset()
         for t in range(self.env.spec.max_episode_steps):
             a = pi(s)
-            s, r, done, info = self.env.step(a)
-            if done:
+            s, r, done, truncated, info = self.env.step(a)
+            if done or truncated:
                 break
 
     def test_greedy(self):
         pi = BoltzmannPolicy(self.q, temperature=1.0)
-        s = self.env.reset()
+        s, info = self.env.reset()
         for t in range(self.env.spec.max_episode_steps):
             a = pi.mode(s)
-            s, r, done, info = self.env.step(a)
-            if done:
+            s, r, done, truncated, info = self.env.step(a)
+            if done or truncated:
                 break
 
     def test_dist_params(self):

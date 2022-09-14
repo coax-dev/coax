@@ -43,13 +43,13 @@ qlearning = coax.td_learning.QLearning(q, q_targ=q_targ, loss_function=mse, opti
 
 # train
 for ep in range(1000):
-    s = env.reset()
+    s, info = env.reset()
     # pi.epsilon = max(0.01, pi.epsilon * 0.95)
     # env.record_metrics({'EpsilonGreedy/epsilon': pi.epsilon})
 
     for t in range(env.spec.max_episode_steps):
         a = pi(s)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
 
         # extend last reward as asymptotic best-case return
         if t == env.spec.max_episode_steps - 1:
@@ -70,7 +70,7 @@ for ep in range(1000):
         # sync target network
         q_targ.soft_update(q, tau=0.01)
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next

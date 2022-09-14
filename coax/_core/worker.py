@@ -166,11 +166,11 @@ class Worker(ABC):
         s = self.env.reset()
         for t in range(self.env.spec.max_episode_steps):
             a, logp = self.pi(s, return_logp=True)
-            s_next, r, done, info = self.env.step(a)
+            s_next, r, done, truncated, info = self.env.step(a)
 
             self.trace(s, a, r, done, logp)
 
-            if done:
+            if done or truncated:
                 break
 
             s = s_next

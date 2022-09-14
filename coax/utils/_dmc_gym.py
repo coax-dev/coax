@@ -4,25 +4,29 @@
 import numpy as onp
 from dm_control import suite
 from dm_env import specs
-from gym import spaces, Env, envs
-from gym.envs.registration import register, make
+from gym import spaces, Env
+from gym.envs.registration import register, make, registry
 
 
-def make_dmc(domain, task, seed=0):
+def make_dmc(domain, task, seed=0, max_episode_steps=1000, height=84, width=84, camera_id=0):
     env_id = f"{domain}_{task}-v1"
-    if env_id not in envs.registry:
+    if env_id not in registry:
         register(env_id, entry_point=DmcGymWrapper, kwargs=dict(
-            domain=domain, task=task, seed=seed), max_episode_steps=1000)
+            domain=domain, task=task, seed=seed, height=height, width=width, camera_id=camera_id),
+            max_episode_steps=max_episode_steps)
     return make(env_id)
 
 
 class DmcGymWrapper(Env):
 
-    def __init__(self, domain, task, seed):
+    def __init__(self, domain, task, seed, height, width, camera_id):
         super().__init__()
         self.domain = domain
         self.task = task
         self.seed = seed
+        self.height = height
+        self.width = width
+        self.camera_id = camera_id
         self._make_env()
 
     def _make_env(self):
@@ -41,9 +45,9 @@ class DmcGymWrapper(Env):
         timestep = self.dmc_env.reset()
         return flatten_obs(timestep.observation)
 
-    def render(self, mode="rgb_array"):
+    def render(self):
         return self.dmc_env.physics.render(
-            height=84, width=84, camera_id=0
+            height=self.height, width=self.width, camera_id=self.camera_id
         )
 
 

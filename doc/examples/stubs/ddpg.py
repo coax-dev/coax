@@ -47,13 +47,13 @@ noise = coax.utils.OrnsteinUhlenbeckNoise(mu=0., sigma=0.2, theta=0.15)
 
 
 for ep in range(100):
-    s = env.reset()
+    s, info = env.reset()
     noise.reset()
     noise.sigma *= 0.99  # slowly decrease noise scale
 
     for t in range(env.spec.max_episode_steps):
         a = noise(pi(s))
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
 
         # add transition to buffer
         tracer.add(s, a, r, done)
@@ -72,7 +72,7 @@ for ep in range(100):
             pi_targ.soft_update(pi, tau=1.0)
             q_targ.soft_update(q, tau=1.0)
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next

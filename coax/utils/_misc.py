@@ -342,17 +342,17 @@ def render_episode(env, policy=None, step_delay_ms=0):
     if isinstance(env, TrainMonitor):
         env = env.env  # unwrap to strip off TrainMonitor
 
-    s = env.reset()
+    s, info = env.reset()
     env.render()
 
     for t in range(int(1e9)):
         a = env.action_space.sample() if policy is None else policy(s)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
 
         env.render()
         time.sleep(step_delay_ms / 1e3)
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next
@@ -474,13 +474,13 @@ def generate_gif(env, filepath, policy=None, resize_to=None, duration=50, max_ep
 
     # collect frames
     frames = []
-    s = env.reset()
+    s, info = env.reset()
     for t in range(max_episode_steps):
         a = env.action_space.sample() if policy is None else policy(s)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
 
         # store frame
-        frame = env.render(mode='rgb_array')
+        frame = env.render()
         frame = Image.fromarray(frame)
         frame = frame.convert('P', palette=Image.ADAPTIVE)
         if resize_to is not None:
@@ -491,13 +491,13 @@ def generate_gif(env, filepath, policy=None, resize_to=None, duration=50, max_ep
 
         frames.append(frame)
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next
 
     # store last frame
-    frame = env.render(mode='rgb_array')
+    frame = env.render()
     frame = Image.fromarray(frame)
     frame = frame.convert('P', palette=Image.ADAPTIVE)
     if resize_to is not None:

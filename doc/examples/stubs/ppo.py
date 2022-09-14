@@ -41,11 +41,11 @@ buffer = coax.experience_replay.SimpleReplayBuffer(capacity=256)
 
 
 for ep in range(100):
-    s = env.reset()
+    s, info = env.reset()
 
     for t in range(env.spec.max_episode_steps):
         a, logp = pi_behavior(s, return_logp=True)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
 
         # add transition to buffer
         tracer.add(s, a, r, done, logp)
@@ -64,7 +64,7 @@ for ep in range(100):
             buffer.clear()
             pi_behavior.soft_update(pi, tau=0.1)
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next

@@ -49,11 +49,11 @@ epsilon = coax.utils.StepwiseLinearFunction((0, 1), (1000000, 0.1), (2000000, 0.
 
 while env.T < 3000000:
     pi.epsilon = epsilon(env.T)
-    s = env.reset()
+    s, info = env.reset()
 
     for t in range(env.spec.max_episode_steps):
         a = pi(s)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
 
         # add transition to buffer
         tracer.add(s, a, r, done)
@@ -70,7 +70,7 @@ while env.T < 3000000:
         if env.ep % 10 == 0:
             q_targ.soft_update(q, tau=1.0)
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next

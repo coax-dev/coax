@@ -181,16 +181,16 @@ we have our policy, we can start doing episode roll-outs:
 
 .. code:: python
 
-    s = env.reset()
+    s, info = env.reset()
 
     for t in range(env.spec.max_episode_steps):
         a = pi(s)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
 
         # this is where we should update our q-function
         ...
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next
@@ -213,11 +213,11 @@ how this works in practice.
 
     for ep in range(500):
         pi.epsilon *= 0.99  # reduce exploration over time
-        s = env.reset()
+        s, info = env.reset()
 
         for t in range(env.spec.max_episode_steps):
             a = pi(s)
-            s_next, r, done, info = env.step(a)
+            s_next, r, done, truncated, info = env.step(a)
 
             # trace and update
             tracer.add(s, a, r, done)
@@ -225,7 +225,7 @@ how this works in practice.
                 transition_batch = tracer.pop()
                 qlearning.update(transition_batch)
 
-            if done:
+            if done or truncated:
                 break
 
             s = s_next

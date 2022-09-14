@@ -36,11 +36,11 @@ qlearning = coax.td_learning.DoubleQLearning(q, q_targ=q_targ, optimizer=optax.a
 
 # train
 for ep in range(500):
-    s = env.reset()
+    s, info = env.reset()
 
     for t in range(env.spec.max_episode_steps):
         a = pi(s)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
 
         # small incentive to keep moving
         if jnp.array_equal(s_next, s):
@@ -55,7 +55,7 @@ for ep in range(500):
             # sync target network
             q_targ.soft_update(q, tau=0.1)
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next
@@ -66,7 +66,7 @@ for ep in range(500):
 
 
 # run env one more time to render
-s = env.reset()
+s, info = env.reset()
 env.render()
 
 for t in range(env.spec.max_episode_steps):
@@ -80,7 +80,7 @@ for t in range(env.spec.max_episode_steps):
 
     env.render()
 
-    if done:
+    if done or truncated:
         break
 
 

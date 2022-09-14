@@ -102,7 +102,7 @@ Let's first define our **type-1** forward-pass function:
     p = coax.TransitionModel(func_type1, env)
 
     # example usage
-    s = env.reset()
+    s, info = env.reset()
     a = env.action_space.sample()
 
     print(s)        # [ 0.008, 0.021, -0.037, 0.032]
@@ -130,7 +130,7 @@ Alternatively, a **type-2** forward-pass function might be:
     p = coax.StochasticTransitionModel(func_type2, env)
 
     # example usage
-    s = env.reset()
+    s, info = env.reset()
     a = env.action_space.sample()
 
     print(s)        # [ 0.004,  0.041,  0.043, -0.015]

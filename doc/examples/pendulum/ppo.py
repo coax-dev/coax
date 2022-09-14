@@ -70,11 +70,11 @@ ppo_clip = coax.policy_objectives.PPOClip(pi, regularizer=policy_reg, optimizer=
 
 # train
 while env.T < 1000000:
-    s = env.reset()
+    s, info = env.reset()
 
     for t in range(env.spec.max_episode_steps):
         a, logp = pi_targ(s, return_logp=True)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
 
         # trace rewards
         tracer.add(s, a, r, done, logp)
@@ -93,7 +93,7 @@ while env.T < 1000000:
             buffer.clear()
             pi_targ.soft_update(pi, tau=0.1)
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next

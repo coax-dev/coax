@@ -52,12 +52,12 @@ model_updater = coax.model_updaters.ModelUpdater(p, optimizer=sgd)
 
 
 while env.T < 100000:
-    s = env.reset()
+    s, info = env.reset()
     env.render()
 
     for t in range(env.spec.max_episode_steps):
         a = pi(s)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
         env.render()
 
         tracer.add(s, a, r, done)
@@ -66,7 +66,7 @@ while env.T < 100000:
             env.record_metrics(simple_td.update(transition_batch))
             env.record_metrics(model_updater.update(transition_batch))
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next

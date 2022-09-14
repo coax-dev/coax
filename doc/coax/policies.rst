@@ -25,12 +25,12 @@ how to use a policy in a simple episode roll-out.
 
     env = gym.make(...)
 
-    s = env.reset()
+    s, info = env.reset()
     for t in range(max_episode_steps):
         a = pi(s)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next
