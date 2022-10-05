@@ -206,7 +206,7 @@ class EpsilonGreedy(BaseValueBasedPolicy):
 
     @params.setter
     def params(self, new_params):
-        if jax.tree_structure(new_params) != jax.tree_structure(self.params):
+        if jax.tree_util.tree_structure(new_params) != jax.tree_util.tree_structure(self.params):
             raise TypeError("new params must have the same structure as old params")
         self.epsilon = new_params['epsilon']
         self.q.params = new_params['q']
@@ -266,7 +266,7 @@ class BoltzmannPolicy(BaseValueBasedPolicy):
 
     @params.setter
     def params(self, new_params):
-        if jax.tree_structure(new_params) != jax.tree_structure(self.params):
+        if jax.tree_util.tree_structure(new_params) != jax.tree_util.tree_structure(self.params):
             raise TypeError("new params must have the same structure as old params")
         self.temperature = new_params['temperature']
         self.q.params = new_params['q']

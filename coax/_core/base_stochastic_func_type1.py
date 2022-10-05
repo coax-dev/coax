@@ -158,7 +158,7 @@ class BaseStochasticFuncType1(BaseFunc):
 
         def type2_func(type1_params, type1_state, rng, S, is_training):
             rngs = hk.PRNGSequence(rng)
-            batch_size = jax.tree_leaves(S)[0].shape[0]
+            batch_size = jax.tree_util.tree_leaves(S)[0].shape[0]
 
             # example: let S = [7, 2, 5, 8] and num_actions = 3, then
             # S_rep = [7, 7, 7, 2, 2, 2, 5, 5, 5, 8, 8, 8]  # repeated
@@ -409,8 +409,8 @@ class BaseStochasticFuncType1(BaseFunc):
         return example_data
 
     def _check_output(self, actual, expected):
-        expected_leaves, expected_structure = jax.tree_flatten(expected)
-        actual_leaves, actual_structure = jax.tree_flatten(actual)
+        expected_leaves, expected_structure = jax.tree_util.tree_flatten(expected)
+        actual_leaves, actual_structure = jax.tree_util.tree_flatten(actual)
         assert all(isinstance(x, jnp.ndarray) for x in expected_leaves), "bad example_data"
 
         if actual_structure != expected_structure:

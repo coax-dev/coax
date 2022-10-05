@@ -1,5 +1,4 @@
 import random
-from collections import deque
 
 import jax
 import numpy as onp

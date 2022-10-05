@@ -253,7 +253,7 @@ class BaseProbaDist(ABC):
     @property
     def dist_params_structure(self):
         r""" The tree structure of the distribution parameters. """
-        return jax.tree_structure(self.default_priors)
+        return jax.tree_util.tree_structure(self.default_priors)
 
     @property
     @abstractmethod

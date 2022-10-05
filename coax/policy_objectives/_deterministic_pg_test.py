@@ -19,7 +19,7 @@ class TestDeterministicPG(TestCase):
         print(transitions)
 
         pi = Policy(func, env)
-        q_targ = Q(self.func_q_type1, env)
+        q_targ = Q(self.func_q_type1, env, action_preprocessor=pi.proba_dist.preprocess_variate)
         updater = DeterministicPG(pi, q_targ, optimizer=sgd(1.0))
 
         params = deepcopy(pi.params)
@@ -40,7 +40,7 @@ class TestDeterministicPG(TestCase):
         print(transitions)
 
         pi = Policy(func, env)
-        q_targ = Q(self.func_q_type1, env)
+        q_targ = Q(self.func_q_type1, env, action_preprocessor=pi.proba_dist.preprocess_variate)
         updater = DeterministicPG(pi, q_targ, optimizer=sgd(1.0))
 
         params = deepcopy(pi.params)
