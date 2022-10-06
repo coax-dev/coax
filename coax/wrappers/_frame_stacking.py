@@ -51,11 +51,11 @@ class FrameStacking(gym.Wrapper):
         self._frames = deque(maxlen=num_frames)
 
     def step(self, action):
-        observation, reward, done, info = self.env.step(action)
+        observation, reward, done, truncated, info = self.env.step(action)
         self._frames.append(observation)
-        return tuple(self._frames), reward, done, info
+        return tuple(self._frames), reward, done, truncated, info
 
     def reset(self, **kwargs):
-        observation = self.env.reset(**kwargs)
+        observation, info = self.env.reset(**kwargs)
         self._frames.extend(observation for _ in range(self._frames.maxlen))
-        return tuple(self._frames)  # shallow copy
+        return tuple(self._frames), info  # shallow copy
