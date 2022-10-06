@@ -77,7 +77,7 @@ while env.T < 1000000:
         s_next, r, done, truncated, info = env.step(a)
 
         # trace rewards
-        tracer.add(s, a, r, done, logp)
+        tracer.add(s, a, r, done or truncated, logp)
         while tracer:
             buffer.add(tracer.pop())
 

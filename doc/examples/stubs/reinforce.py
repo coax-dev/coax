@@ -28,16 +28,16 @@ tracer = coax.reward_tracing.MonteCarlo(gamma=0.9)
 
 
 for ep in range(100):
-    s = env.reset()
+    s, info = env.reset()
 
     for t in range(env.spec.max_episode_steps):
         a, logp = pi(s, return_logp=True)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
 
         # trace rewards to create training data
         # N.B. vanilla-pg doesn't use logp but we include it to make it easy to
         # swap in another policy updater that does require it, e.g. ppo-clip
-        tracer.add(s, a, r, done, logp)
+        tracer.add(s, a, r, done or truncated, logp)
 
         # update
         while tracer:
@@ -46,7 +46,7 @@ for ep in range(100):
             metrics = vanilla_pg.update(transition_batch, Adv=Gn)
             env.record_metrics(metrics)
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next
