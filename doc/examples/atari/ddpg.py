@@ -17,7 +17,7 @@ from optax import adam
 name = 'ddpg'
 
 # env with preprocessing
-env = gym.make('PongNoFrameskip-v4')
+env = gym.make('PongNoFrameskip-v4', render_mode='rgb_array')
 env = gym.wrappers.AtariPreprocessing(env)
 env = coax.wrappers.FrameStacking(env, num_frames=3)
 env = gym.wrappers.TimeLimit(env, max_episode_steps=108000 // 3)

@@ -17,7 +17,7 @@ from optax import adam
 name = 'dqn_type1'
 
 # env with preprocessing
-env = gym.make('PongNoFrameskip-v4')  # AtariPreprocessing will do frame skipping
+env = gym.make('PongNoFrameskip-v4', render_mode='rgb_array')  # AtariPreprocessing will do frame skipping
 env = gym.wrappers.AtariPreprocessing(env)
 env = coax.wrappers.FrameStacking(env, num_frames=3)
 env = gym.wrappers.TimeLimit(env, max_episode_steps=108000 // 3)
@@ -63,7 +63,7 @@ while env.T < 3000000:
         s_next, r, done, truncated, info = env.step(a)
 
         # trace rewards and add transition to replay buffer
-        tracer.add(s, a, r, done)
+        tracer.add(s, a, r, done or truncated)
         while tracer:
             buffer.add(tracer.pop())
 

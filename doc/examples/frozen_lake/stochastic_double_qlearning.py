@@ -48,7 +48,7 @@ for ep in range(500):
             r = -0.01
 
         # update
-        tracer.add(s, a, r, done)
+        tracer.add(s, a, r, done or truncated)
         while tracer:
             transition_batch = tracer.pop()
             qlearning.update(transition_batch)

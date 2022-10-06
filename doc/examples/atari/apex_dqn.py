@@ -67,7 +67,7 @@ class ApexWorker(coax.Worker):
 
 
 def make_env(name=None, tensorboard_dir=None):
-    env = gym.make('PongNoFrameskip-v4')  # AtariPreprocessing will do frame skipping
+    env = gym.make('PongNoFrameskip-v4', render_mode='rgb_array')  # AtariPreprocessing will do frame skipping
     env = gym.wrappers.AtariPreprocessing(env)
     env = coax.wrappers.FrameStacking(env, num_frames=3)
     env = gym.wrappers.TimeLimit(env, max_episode_steps=108000 // 3)
