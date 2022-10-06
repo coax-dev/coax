@@ -35,8 +35,8 @@ class MetaPolicyEnv(gym.Wrapper):
         self._s = None
 
     def reset(self):
-        self._s = self.env.reset()
-        return self._s
+        self._s, info = self.env.reset()
+        return self._s, info
 
     def step(self, a_meta):
         assert self.action_space.contains(a_meta), "a_meta is invalid"
@@ -48,7 +48,7 @@ class MetaPolicyEnv(gym.Wrapper):
         else:
             a, logp = pi(self._s), 0.
 
-        self._s, r, done, info = self.env.step(a)
+        self._s, r, done, truncated, info = self.env.step(a)
         info = info or {}
         info.update({'a': a, 'logp': logp})
-        return self._s, r, done, info
+        return self._s, r, done, truncated, info
