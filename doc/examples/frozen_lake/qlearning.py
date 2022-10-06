@@ -32,11 +32,11 @@ qlearning = coax.td_learning.QLearning(q, optimizer=optax.adam(0.02))
 
 # train
 for ep in range(500):
-    s = env.reset()
+    s, info = env.reset()
 
     for t in range(env.spec.max_episode_steps):
         a = pi(s)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
 
         # small incentive to keep moving
         if jnp.array_equal(s_next, s):
@@ -48,7 +48,7 @@ for ep in range(500):
             transition_batch = tracer.pop()
             qlearning.update(transition_batch)
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next
@@ -59,7 +59,7 @@ for ep in range(500):
 
 
 # run env one more time to render
-s = env.reset()
+s, info = env.reset()
 env.render()
 
 for t in range(env.spec.max_episode_steps):
@@ -73,7 +73,7 @@ for t in range(env.spec.max_episode_steps):
 
     env.render()
 
-    if done:
+    if done or truncated:
         break
 
 
