@@ -11,7 +11,7 @@ import optax
 name = 'dsac'
 
 # the Pendulum MDP
-env = gym.make('Pendulum-v1')
+env = gym.make('Pendulum-v1', render_mode='rgb_array')
 env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 
 quantile_embedding_dim = 64
@@ -98,11 +98,11 @@ soft_pg = coax.policy_objectives.SoftPG(pi, [q1_targ, q2_targ], optimizer=optax.
 
 # train
 while env.T < 1000000:
-    s = env.reset()
+    s, info = env.reset()
 
     for t in range(env.spec.max_episode_steps):
         a = pi(s)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
 
         # trace rewards and add transition to replay buffer
         tracer.add(s, a, r, done)
@@ -130,13 +130,13 @@ while env.T < 1000000:
             q1_targ.soft_update(q1, tau=0.005)
             q2_targ.soft_update(q2, tau=0.005)
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next
 
-    # generate an animated GIF to see what's going on
-    # if env.period(name='generate_gif', T_period=10000) and env.T > 5000:
-    #     T = env.T - env.T % 10000  # round to 10000s
-    #     coax.utils.generate_gif(
-    #         env=env, policy=pi, filepath=f"./data/gifs/{name}/T{T:08d}.gif")
+    generate an animated GIF to see what's going on
+    if env.period(name='generate_gif', T_period=10000) and env.T > 5000:
+        T = env.T - env.T % 10000  # round to 10000s
+        coax.utils.generate_gif(
+            env=env, policy=pi, filepath=f"./data/gifs/{name}/T{T:08d}.gif")
