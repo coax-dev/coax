@@ -19,3 +19,4 @@ example first.
     cartpole/index
     frozen_lake/index
     pendulum/index
+    dmc/index

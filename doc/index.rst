@@ -274,6 +274,7 @@ If this ain't your first rodeo, head over the examples listed :doc:`here <exampl
     examples/cartpole/index
     examples/frozen_lake/index
     examples/pendulum/index
+    examples/dmc/index
 
 
 .. toctree::

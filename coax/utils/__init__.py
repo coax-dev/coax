@@ -49,6 +49,7 @@ Object Reference
     coax.utils.jit
     coax.utils.load
     coax.utils.loads
+    coax.utils.make_dmc
     coax.utils.merge_dicts
     coax.utils.pretty_print
     coax.utils.pretty_repr
@@ -118,6 +119,7 @@ from ._misc import (
 )
 from ._segment_tree import SegmentTree, SumTree, MinTree, MaxTree
 from ._quantile_funcs import quantiles, quantiles_uniform, quantile_cos_embedding
+from ._dmc_gym import make_dmc
 
 
 __all__ = (
@@ -159,6 +161,7 @@ __all__ = (
     'jit',
     'load',
     'loads',
+    'make_dmc',
     'merge_dicts',
     'pretty_print',
     'pretty_repr',
