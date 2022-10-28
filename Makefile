@@ -27,14 +27,12 @@ intersphinx:
 	wget -O doc/_intersphinx/sklearn.inv https://scikit-learn.org/stable/objects.inv
 	wget -O doc/_intersphinx/jax.inv https://jax.readthedocs.io/en/latest/objects.inv
 	wget -O doc/_intersphinx/haiku.inv https://dm-haiku.readthedocs.io/en/latest/objects.inv
-	wget -O doc/_intersphinx/rllib.inv https://docs.ray.io/en/latest/objects.inv
 	wget -O doc/_intersphinx/spinup.inv https://spinningup.openai.com/en/latest/objects.inv
 	$(PYTHON_EXECUTABLE) -m sphinx.ext.intersphinx doc/_intersphinx/python3.inv > doc/_intersphinx/python3.txt
 	$(PYTHON_EXECUTABLE) -m sphinx.ext.intersphinx doc/_intersphinx/numpy.inv > doc/_intersphinx/numpy.txt
 	$(PYTHON_EXECUTABLE) -m sphinx.ext.intersphinx doc/_intersphinx/sklearn.inv > doc/_intersphinx/sklearn.txt
 	$(PYTHON_EXECUTABLE) -m sphinx.ext.intersphinx doc/_intersphinx/jax.inv > doc/_intersphinx/jax.txt
 	$(PYTHON_EXECUTABLE) -m sphinx.ext.intersphinx doc/_intersphinx/haiku.inv > doc/_intersphinx/haiku.txt
-	$(PYTHON_EXECUTABLE) -m sphinx.ext.intersphinx doc/_intersphinx/rllib.inv > doc/_intersphinx/rllib.txt
 	$(PYTHON_EXECUTABLE) -m sphinx.ext.intersphinx doc/_intersphinx/spinup.inv > doc/_intersphinx/spinup.txt
 
 get_pylintrc:
@@ -80,7 +78,7 @@ install_requirements: __install_requirements intersphinx
 upgrade_requirements: __upgrade_requirements install_requirements
 
 __install_requirements:
-	for r in requirements.txt requirements.dev.txt requirements.doc.txt; do $(PYTHON_EXECUTABLE) -m pip install -r $$r --use-feature=2020-resolver; done
+	for r in requirements.txt requirements.dev.txt requirements.doc.txt ; do $(PYTHON_EXECUTABLE) -m pip install -r $$r ; done
 
 __upgrade_requirements:
 	$(PYTHON_EXECUTABLE) upgrade_requirements.py
