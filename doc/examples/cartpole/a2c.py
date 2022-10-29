@@ -59,7 +59,7 @@ for ep in range(1000):
     for t in range(env.spec.max_episode_steps):
         a = pi(s)
         s_next, r, done, truncated, info = env.step(a)
-        if done and (t == env.spec.max_episode_steps - 1):
+        if truncated:
             r = 1 / (1 - tracer.gamma)
 
         tracer.add(s, a, r, done or truncated)

@@ -52,8 +52,7 @@ for ep in range(1000):
         s_next, r, done, truncated, info = env.step(a)
 
         # extend last reward as asymptotic best-case return
-        if t == env.spec.max_episode_steps - 1:
-            assert done or truncated
+        if truncated:
             r = 1 / (1 - tracer.gamma)  # gamma + gamma^2 + gamma^3 + ... = 1 / (1 - gamma)
 
         # trace rewards and add transition to replay buffer
