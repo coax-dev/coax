@@ -2655,6 +2655,7 @@ std:doc
 	about                                    About us                                : about.html
 	authors                                  <no title>                              : authors.html
 	authors_emeritus                         <no title>                              : authors_emeritus.html
+	auto_examples/applications/index         Examples based on real world datasets   : auto_examples/applications/index.html
 	auto_examples/applications/plot_cyclical_feature_engineering Time-related feature engineering        : auto_examples/applications/plot_cyclical_feature_engineering.html
 	auto_examples/applications/plot_digits_denoising Image denoising using kernel PCA        : auto_examples/applications/plot_digits_denoising.html
 	auto_examples/applications/plot_face_recognition Faces recognition example using eigenfaces and SVMs: auto_examples/applications/plot_face_recognition.html
@@ -2669,21 +2670,25 @@ std:doc
 	auto_examples/applications/sg_execution_times Computation times                       : auto_examples/applications/sg_execution_times.html
 	auto_examples/applications/svm_gui       Libsvm GUI                              : auto_examples/applications/svm_gui.html
 	auto_examples/applications/wikipedia_principal_eigenvector Wikipedia principal eigenvector         : auto_examples/applications/wikipedia_principal_eigenvector.html
+	auto_examples/bicluster/index            Biclustering                            : auto_examples/bicluster/index.html
 	auto_examples/bicluster/plot_bicluster_newsgroups Biclustering documents with the Spectral Co-clustering algorithm: auto_examples/bicluster/plot_bicluster_newsgroups.html
 	auto_examples/bicluster/plot_spectral_biclustering A demo of the Spectral Biclustering algorithm: auto_examples/bicluster/plot_spectral_biclustering.html
 	auto_examples/bicluster/plot_spectral_coclustering A demo of the Spectral Co-Clustering algorithm: auto_examples/bicluster/plot_spectral_coclustering.html
 	auto_examples/bicluster/sg_execution_times Computation times                       : auto_examples/bicluster/sg_execution_times.html
+	auto_examples/calibration/index          Calibration                             : auto_examples/calibration/index.html
 	auto_examples/calibration/plot_calibration Probability calibration of classifiers  : auto_examples/calibration/plot_calibration.html
 	auto_examples/calibration/plot_calibration_curve Probability Calibration curves          : auto_examples/calibration/plot_calibration_curve.html
 	auto_examples/calibration/plot_calibration_multiclass Probability Calibration for 3-class classification: auto_examples/calibration/plot_calibration_multiclass.html
 	auto_examples/calibration/plot_compare_calibration Comparison of Calibration of Classifiers: auto_examples/calibration/plot_compare_calibration.html
 	auto_examples/calibration/sg_execution_times Computation times                       : auto_examples/calibration/sg_execution_times.html
+	auto_examples/classification/index       Classification                          : auto_examples/classification/index.html
 	auto_examples/classification/plot_classification_probability Plot classification probability         : auto_examples/classification/plot_classification_probability.html
 	auto_examples/classification/plot_classifier_comparison Classifier comparison                   : auto_examples/classification/plot_classifier_comparison.html
 	auto_examples/classification/plot_digits_classification Recognizing hand-written digits         : auto_examples/classification/plot_digits_classification.html
 	auto_examples/classification/plot_lda    Normal, Ledoit-Wolf and OAS Linear Discriminant Analysis for classification: auto_examples/classification/plot_lda.html
 	auto_examples/classification/plot_lda_qda Linear and Quadratic Discriminant Analysis with covariance ellipsoid: auto_examples/classification/plot_lda_qda.html
 	auto_examples/classification/sg_execution_times Computation times                       : auto_examples/classification/sg_execution_times.html
+	auto_examples/cluster/index              Clustering                              : auto_examples/cluster/index.html
 	auto_examples/cluster/plot_adjusted_for_chance_measures Adjustment for chance in clustering performance evaluation: auto_examples/cluster/plot_adjusted_for_chance_measures.html
 	auto_examples/cluster/plot_affinity_propagation Demo of affinity propagation clustering algorithm: auto_examples/cluster/plot_affinity_propagation.html
 	auto_examples/cluster/plot_agglomerative_clustering Agglomerative clustering with and without structure: auto_examples/cluster/plot_agglomerative_clustering.html
@@ -2715,6 +2720,7 @@ std:doc
 	auto_examples/cluster/plot_segmentation_toy Spectral clustering for image segmentation: auto_examples/cluster/plot_segmentation_toy.html
 	auto_examples/cluster/plot_ward_structured_vs_unstructured Hierarchical clustering: structured vs unstructured ward: auto_examples/cluster/plot_ward_structured_vs_unstructured.html
 	auto_examples/cluster/sg_execution_times Computation times                       : auto_examples/cluster/sg_execution_times.html
+	auto_examples/compose/index              Pipelines and composite estimators      : auto_examples/compose/index.html
 	auto_examples/compose/plot_column_transformer Column Transformer with Heterogeneous Data Sources: auto_examples/compose/plot_column_transformer.html
 	auto_examples/compose/plot_column_transformer_mixed_types Column Transformer with Mixed Types     : auto_examples/compose/plot_column_transformer_mixed_types.html
 	auto_examples/compose/plot_compare_reduction Selecting dimensionality reduction with Pipeline and GridSearchCV: auto_examples/compose/plot_compare_reduction.html
@@ -2722,20 +2728,24 @@ std:doc
 	auto_examples/compose/plot_feature_union Concatenating multiple feature extraction methods: auto_examples/compose/plot_feature_union.html
 	auto_examples/compose/plot_transformed_target Effect of transforming the targets in regression model: auto_examples/compose/plot_transformed_target.html
 	auto_examples/compose/sg_execution_times Computation times                       : auto_examples/compose/sg_execution_times.html
+	auto_examples/covariance/index           Covariance estimation                   : auto_examples/covariance/index.html
 	auto_examples/covariance/plot_covariance_estimation Shrinkage covariance estimation: LedoitWolf vs OAS and max-likelihood: auto_examples/covariance/plot_covariance_estimation.html
 	auto_examples/covariance/plot_lw_vs_oas  Ledoit-Wolf vs OAS estimation           : auto_examples/covariance/plot_lw_vs_oas.html
 	auto_examples/covariance/plot_mahalanobis_distances Robust covariance estimation and Mahalanobis distances relevance: auto_examples/covariance/plot_mahalanobis_distances.html
 	auto_examples/covariance/plot_robust_vs_empirical_covariance Robust vs Empirical covariance estimate : auto_examples/covariance/plot_robust_vs_empirical_covariance.html
 	auto_examples/covariance/plot_sparse_cov Sparse inverse covariance estimation    : auto_examples/covariance/plot_sparse_cov.html
 	auto_examples/covariance/sg_execution_times Computation times                       : auto_examples/covariance/sg_execution_times.html
+	auto_examples/cross_decomposition/index  Cross decomposition                     : auto_examples/cross_decomposition/index.html
 	auto_examples/cross_decomposition/plot_compare_cross_decomposition Compare cross decomposition methods     : auto_examples/cross_decomposition/plot_compare_cross_decomposition.html
 	auto_examples/cross_decomposition/plot_pcr_vs_pls Principal Component Regression vs Partial Least Squares Regression: auto_examples/cross_decomposition/plot_pcr_vs_pls.html
 	auto_examples/cross_decomposition/sg_execution_times Computation times                       : auto_examples/cross_decomposition/sg_execution_times.html
+	auto_examples/datasets/index             Dataset examples                        : auto_examples/datasets/index.html
 	auto_examples/datasets/plot_digits_last_image The Digit Dataset                       : auto_examples/datasets/plot_digits_last_image.html
 	auto_examples/datasets/plot_iris_dataset The Iris Dataset                        : auto_examples/datasets/plot_iris_dataset.html
 	auto_examples/datasets/plot_random_dataset Plot randomly generated classification dataset: auto_examples/datasets/plot_random_dataset.html
 	auto_examples/datasets/plot_random_multilabel_dataset Plot randomly generated multilabel dataset: auto_examples/datasets/plot_random_multilabel_dataset.html
 	auto_examples/datasets/sg_execution_times Computation times                       : auto_examples/datasets/sg_execution_times.html
+	auto_examples/decomposition/index        Decomposition                           : auto_examples/decomposition/index.html
 	auto_examples/decomposition/plot_beta_divergence Beta-divergence loss functions          : auto_examples/decomposition/plot_beta_divergence.html
 	auto_examples/decomposition/plot_faces_decomposition Faces dataset decompositions            : auto_examples/decomposition/plot_faces_decomposition.html
 	auto_examples/decomposition/plot_ica_blind_source_separation Blind source separation using FastICA   : auto_examples/decomposition/plot_ica_blind_source_separation.html
@@ -2750,6 +2760,7 @@ std:doc
 	auto_examples/decomposition/plot_sparse_coding Sparse coding with a precomputed dictionary: auto_examples/decomposition/plot_sparse_coding.html
 	auto_examples/decomposition/plot_varimax_fa Factor Analysis (with rotation) to visualize patterns: auto_examples/decomposition/plot_varimax_fa.html
 	auto_examples/decomposition/sg_execution_times Computation times                       : auto_examples/decomposition/sg_execution_times.html
+	auto_examples/ensemble/index             Ensemble methods                        : auto_examples/ensemble/index.html
 	auto_examples/ensemble/plot_adaboost_hastie_10_2 Discrete versus Real AdaBoost           : auto_examples/ensemble/plot_adaboost_hastie_10_2.html
 	auto_examples/ensemble/plot_adaboost_multiclass Multi-class AdaBoosted Decision Trees   : auto_examples/ensemble/plot_adaboost_multiclass.html
 	auto_examples/ensemble/plot_adaboost_regression Decision Tree Regression with AdaBoost  : auto_examples/ensemble/plot_adaboost_regression.html
@@ -2775,11 +2786,13 @@ std:doc
 	auto_examples/ensemble/plot_voting_probas Plot class probabilities calculated by the VotingClassifier: auto_examples/ensemble/plot_voting_probas.html
 	auto_examples/ensemble/plot_voting_regressor Plot individual and voting regression predictions: auto_examples/ensemble/plot_voting_regressor.html
 	auto_examples/ensemble/sg_execution_times Computation times                       : auto_examples/ensemble/sg_execution_times.html
+	auto_examples/exercises/index            Tutorial exercises                      : auto_examples/exercises/index.html
 	auto_examples/exercises/plot_cv_diabetes Cross-validation on diabetes Dataset Exercise: auto_examples/exercises/plot_cv_diabetes.html
 	auto_examples/exercises/plot_cv_digits   Cross-validation on Digits Dataset Exercise: auto_examples/exercises/plot_cv_digits.html
 	auto_examples/exercises/plot_digits_classification_exercise Digits Classification Exercise          : auto_examples/exercises/plot_digits_classification_exercise.html
 	auto_examples/exercises/plot_iris_exercise SVM Exercise                            : auto_examples/exercises/plot_iris_exercise.html
 	auto_examples/exercises/sg_execution_times Computation times                       : auto_examples/exercises/sg_execution_times.html
+	auto_examples/feature_selection/index    Feature Selection                       : auto_examples/feature_selection/index.html
 	auto_examples/feature_selection/plot_f_test_vs_mi Comparison of F-test and mutual information: auto_examples/feature_selection/plot_f_test_vs_mi.html
 	auto_examples/feature_selection/plot_feature_selection Univariate Feature Selection            : auto_examples/feature_selection/plot_feature_selection.html
 	auto_examples/feature_selection/plot_feature_selection_pipeline Pipeline ANOVA SVM                      : auto_examples/feature_selection/plot_feature_selection_pipeline.html
@@ -2787,6 +2800,7 @@ std:doc
 	auto_examples/feature_selection/plot_rfe_with_cross_validation Recursive feature elimination with cross-validation: auto_examples/feature_selection/plot_rfe_with_cross_validation.html
 	auto_examples/feature_selection/plot_select_from_model_diabetes Model-based and sequential feature selection: auto_examples/feature_selection/plot_select_from_model_diabetes.html
 	auto_examples/feature_selection/sg_execution_times Computation times                       : auto_examples/feature_selection/sg_execution_times.html
+	auto_examples/gaussian_process/index     Gaussian Process for Machine Learning   : auto_examples/gaussian_process/index.html
 	auto_examples/gaussian_process/plot_compare_gpr_krr Comparison of kernel ridge and Gaussian process regression: auto_examples/gaussian_process/plot_compare_gpr_krr.html
 	auto_examples/gaussian_process/plot_gpc  Probabilistic predictions with Gaussian process classification (GPC): auto_examples/gaussian_process/plot_gpc.html
 	auto_examples/gaussian_process/plot_gpc_iris Gaussian process classification (GPC) on iris dataset: auto_examples/gaussian_process/plot_gpc_iris.html
@@ -2798,17 +2812,21 @@ std:doc
 	auto_examples/gaussian_process/plot_gpr_on_structured_data Gaussian processes on discrete data structures: auto_examples/gaussian_process/plot_gpr_on_structured_data.html
 	auto_examples/gaussian_process/plot_gpr_prior_posterior Illustration of prior and posterior Gaussian process for different kernels: auto_examples/gaussian_process/plot_gpr_prior_posterior.html
 	auto_examples/gaussian_process/sg_execution_times Computation times                       : auto_examples/gaussian_process/sg_execution_times.html
+	auto_examples/impute/index               Missing Value Imputation                : auto_examples/impute/index.html
 	auto_examples/impute/plot_iterative_imputer_variants_comparison Imputing missing values with variants of IterativeImputer: auto_examples/impute/plot_iterative_imputer_variants_comparison.html
 	auto_examples/impute/plot_missing_values Imputing missing values before building an estimator: auto_examples/impute/plot_missing_values.html
 	auto_examples/impute/sg_execution_times  Computation times                       : auto_examples/impute/sg_execution_times.html
 	auto_examples/index                      Examples                                : auto_examples/index.html
+	auto_examples/inspection/index           Inspection                              : auto_examples/inspection/index.html
 	auto_examples/inspection/plot_linear_model_coefficient_interpretation Common pitfalls in the interpretation of coefficients of linear models: auto_examples/inspection/plot_linear_model_coefficient_interpretation.html
 	auto_examples/inspection/plot_partial_dependence Partial Dependence and Individual Conditional Expectation Plots: auto_examples/inspection/plot_partial_dependence.html
 	auto_examples/inspection/plot_permutation_importance Permutation Importance vs Random Forest Feature Importance (MDI): auto_examples/inspection/plot_permutation_importance.html
 	auto_examples/inspection/plot_permutation_importance_multicollinear Permutation Importance with Multicollinear or Correlated Features: auto_examples/inspection/plot_permutation_importance_multicollinear.html
 	auto_examples/inspection/sg_execution_times Computation times                       : auto_examples/inspection/sg_execution_times.html
+	auto_examples/kernel_approximation/index Kernel Approximation                    : auto_examples/kernel_approximation/index.html
 	auto_examples/kernel_approximation/plot_scalable_poly_kernels Scalable learning with polynomial kernel approximation: auto_examples/kernel_approximation/plot_scalable_poly_kernels.html
 	auto_examples/kernel_approximation/sg_execution_times Computation times                       : auto_examples/kernel_approximation/sg_execution_times.html
+	auto_examples/linear_model/index         Generalized Linear Models               : auto_examples/linear_model/index.html
 	auto_examples/linear_model/plot_ard      Comparing Linear Bayesian Regressors    : auto_examples/linear_model/plot_ard.html
 	auto_examples/linear_model/plot_bayesian_ridge_curvefit Curve Fitting with Bayesian Ridge Regression: auto_examples/linear_model/plot_bayesian_ridge_curvefit.html
 	auto_examples/linear_model/plot_elastic_net_precomputed_gram_matrix_with_weighted_samples Fitting an Elastic Net with a precomputed Gram Matrix and Weighted Samples: auto_examples/linear_model/plot_elastic_net_precomputed_gram_matrix_with_weighted_samples.html
@@ -2850,6 +2868,7 @@ std:doc
 	auto_examples/linear_model/plot_theilsen Theil-Sen Regression                    : auto_examples/linear_model/plot_theilsen.html
 	auto_examples/linear_model/plot_tweedie_regression_insurance_claims Tweedie regression on insurance claims  : auto_examples/linear_model/plot_tweedie_regression_insurance_claims.html
 	auto_examples/linear_model/sg_execution_times Computation times                       : auto_examples/linear_model/sg_execution_times.html
+	auto_examples/manifold/index             Manifold learning                       : auto_examples/manifold/index.html
 	auto_examples/manifold/plot_compare_methods Comparison of Manifold Learning methods : auto_examples/manifold/plot_compare_methods.html
 	auto_examples/manifold/plot_lle_digits   Manifold learning on handwritten digits: Locally Linear Embedding, Isomap…: auto_examples/manifold/plot_lle_digits.html
 	auto_examples/manifold/plot_manifold_sphere Manifold Learning methods on a severed sphere: auto_examples/manifold/plot_manifold_sphere.html
@@ -2857,6 +2876,7 @@ std:doc
 	auto_examples/manifold/plot_swissroll    Swiss Roll And Swiss-Hole Reduction     : auto_examples/manifold/plot_swissroll.html
 	auto_examples/manifold/plot_t_sne_perplexity t-SNE: The effect of various perplexity values on the shape: auto_examples/manifold/plot_t_sne_perplexity.html
 	auto_examples/manifold/sg_execution_times Computation times                       : auto_examples/manifold/sg_execution_times.html
+	auto_examples/miscellaneous/index        Miscellaneous                           : auto_examples/miscellaneous/index.html
 	auto_examples/miscellaneous/plot_anomaly_comparison Comparing anomaly detection algorithms for outlier detection on toy datasets: auto_examples/miscellaneous/plot_anomaly_comparison.html
 	auto_examples/miscellaneous/plot_changed_only_pprint_parameter Compact estimator representations       : auto_examples/miscellaneous/plot_changed_only_pprint_parameter.html
 	auto_examples/miscellaneous/plot_display_object_visualization Visualizations with Display Objects     : auto_examples/miscellaneous/plot_display_object_visualization.html
@@ -2871,6 +2891,7 @@ std:doc
 	auto_examples/miscellaneous/plot_pipeline_display Displaying Pipelines                    : auto_examples/miscellaneous/plot_pipeline_display.html
 	auto_examples/miscellaneous/plot_roc_curve_visualization_api ROC Curve with Visualization API        : auto_examples/miscellaneous/plot_roc_curve_visualization_api.html
 	auto_examples/miscellaneous/sg_execution_times Computation times                       : auto_examples/miscellaneous/sg_execution_times.html
+	auto_examples/mixture/index              Gaussian Mixture Models                 : auto_examples/mixture/index.html
 	auto_examples/mixture/plot_concentration_prior Concentration Prior Type Analysis of Variation Bayesian Gaussian Mixture: auto_examples/mixture/plot_concentration_prior.html
 	auto_examples/mixture/plot_gmm           Gaussian Mixture Model Ellipsoids       : auto_examples/mixture/plot_gmm.html
 	auto_examples/mixture/plot_gmm_covariances GMM covariances                         : auto_examples/mixture/plot_gmm_covariances.html
@@ -2880,11 +2901,12 @@ std:doc
 	auto_examples/mixture/plot_gmm_sin       Gaussian Mixture Model Sine Curve       : auto_examples/mixture/plot_gmm_sin.html
 	auto_examples/mixture/sg_execution_times Computation times                       : auto_examples/mixture/sg_execution_times.html
 	auto_examples/model_selection/grid_search_text_feature_extraction Sample pipeline for text feature extraction and evaluation: auto_examples/model_selection/grid_search_text_feature_extraction.html
+	auto_examples/model_selection/index      Model Selection                         : auto_examples/model_selection/index.html
 	auto_examples/model_selection/plot_confusion_matrix Confusion matrix                        : auto_examples/model_selection/plot_confusion_matrix.html
 	auto_examples/model_selection/plot_cv_indices Visualizing cross-validation behavior in scikit-learn: auto_examples/model_selection/plot_cv_indices.html
 	auto_examples/model_selection/plot_cv_predict Plotting Cross-Validated Predictions    : auto_examples/model_selection/plot_cv_predict.html
 	auto_examples/model_selection/plot_det   Detection error tradeoff (DET) curve    : auto_examples/model_selection/plot_det.html
-	auto_examples/model_selection/plot_grid_search_digits Parameter estimation using grid search with cross-validation: auto_examples/model_selection/plot_grid_search_digits.html
+	auto_examples/model_selection/plot_grid_search_digits Custom refit strategy of a grid search with cross-validation: auto_examples/model_selection/plot_grid_search_digits.html
 	auto_examples/model_selection/plot_grid_search_refit_callable Balance model complexity and cross-validated score: auto_examples/model_selection/plot_grid_search_refit_callable.html
 	auto_examples/model_selection/plot_grid_search_stats Statistical comparison of models using grid search: auto_examples/model_selection/plot_grid_search_stats.html
 	auto_examples/model_selection/plot_learning_curve Plotting Learning Curves                : auto_examples/model_selection/plot_learning_curve.html
@@ -2901,9 +2923,11 @@ std:doc
 	auto_examples/model_selection/plot_underfitting_overfitting Underfitting vs. Overfitting            : auto_examples/model_selection/plot_underfitting_overfitting.html
 	auto_examples/model_selection/plot_validation_curve Plotting Validation Curves              : auto_examples/model_selection/plot_validation_curve.html
 	auto_examples/model_selection/sg_execution_times Computation times                       : auto_examples/model_selection/sg_execution_times.html
+	auto_examples/multioutput/index          Multioutput methods                     : auto_examples/multioutput/index.html
 	auto_examples/multioutput/plot_classifier_chain_yeast Classifier Chain                        : auto_examples/multioutput/plot_classifier_chain_yeast.html
 	auto_examples/multioutput/sg_execution_times Computation times                       : auto_examples/multioutput/sg_execution_times.html
 	auto_examples/neighbors/approximate_nearest_neighbors Approximate nearest neighbors in TSNE   : auto_examples/neighbors/approximate_nearest_neighbors.html
+	auto_examples/neighbors/index            Nearest Neighbors                       : auto_examples/neighbors/index.html
 	auto_examples/neighbors/plot_caching_nearest_neighbors Caching nearest neighbors               : auto_examples/neighbors/plot_caching_nearest_neighbors.html
 	auto_examples/neighbors/plot_classification Nearest Neighbors Classification        : auto_examples/neighbors/plot_classification.html
 	auto_examples/neighbors/plot_digits_kde_sampling Kernel Density Estimation               : auto_examples/neighbors/plot_digits_kde_sampling.html
@@ -2917,11 +2941,13 @@ std:doc
 	auto_examples/neighbors/plot_regression  Nearest Neighbors regression            : auto_examples/neighbors/plot_regression.html
 	auto_examples/neighbors/plot_species_kde Kernel Density Estimate of Species Distributions: auto_examples/neighbors/plot_species_kde.html
 	auto_examples/neighbors/sg_execution_times Computation times                       : auto_examples/neighbors/sg_execution_times.html
+	auto_examples/neural_networks/index      Neural Networks                         : auto_examples/neural_networks/index.html
 	auto_examples/neural_networks/plot_mlp_alpha Varying regularization in Multi-layer Perceptron: auto_examples/neural_networks/plot_mlp_alpha.html
 	auto_examples/neural_networks/plot_mlp_training_curves Compare Stochastic learning strategies for MLPClassifier: auto_examples/neural_networks/plot_mlp_training_curves.html
 	auto_examples/neural_networks/plot_mnist_filters Visualization of MLP weights on MNIST   : auto_examples/neural_networks/plot_mnist_filters.html
 	auto_examples/neural_networks/plot_rbm_logistic_classification Restricted Boltzmann Machine features for digit classification: auto_examples/neural_networks/plot_rbm_logistic_classification.html
 	auto_examples/neural_networks/sg_execution_times Computation times                       : auto_examples/neural_networks/sg_execution_times.html
+	auto_examples/preprocessing/index        Preprocessing                           : auto_examples/preprocessing/index.html
 	auto_examples/preprocessing/plot_all_scaling Compare the effect of different scalers on data with outliers: auto_examples/preprocessing/plot_all_scaling.html
 	auto_examples/preprocessing/plot_discretization Using KBinsDiscretizer to discretize continuous features: auto_examples/preprocessing/plot_discretization.html
 	auto_examples/preprocessing/plot_discretization_classification Feature discretization                  : auto_examples/preprocessing/plot_discretization_classification.html
@@ -2929,12 +2955,14 @@ std:doc
 	auto_examples/preprocessing/plot_map_data_to_normal Map data to a normal distribution       : auto_examples/preprocessing/plot_map_data_to_normal.html
 	auto_examples/preprocessing/plot_scaling_importance Importance of Feature Scaling           : auto_examples/preprocessing/plot_scaling_importance.html
 	auto_examples/preprocessing/sg_execution_times Computation times                       : auto_examples/preprocessing/sg_execution_times.html
+	auto_examples/release_highlights/index   Release Highlights                      : auto_examples/release_highlights/index.html
 	auto_examples/release_highlights/plot_release_highlights_0_22_0 Release Highlights for scikit-learn 0.22: auto_examples/release_highlights/plot_release_highlights_0_22_0.html
 	auto_examples/release_highlights/plot_release_highlights_0_23_0 Release Highlights for scikit-learn 0.23: auto_examples/release_highlights/plot_release_highlights_0_23_0.html
 	auto_examples/release_highlights/plot_release_highlights_0_24_0 Release Highlights for scikit-learn 0.24: auto_examples/release_highlights/plot_release_highlights_0_24_0.html
 	auto_examples/release_highlights/plot_release_highlights_1_0_0 Release Highlights for scikit-learn 1.0 : auto_examples/release_highlights/plot_release_highlights_1_0_0.html
 	auto_examples/release_highlights/plot_release_highlights_1_1_0 Release Highlights for scikit-learn 1.1 : auto_examples/release_highlights/plot_release_highlights_1_1_0.html
 	auto_examples/release_highlights/sg_execution_times Computation times                       : auto_examples/release_highlights/sg_execution_times.html
+	auto_examples/semi_supervised/index      Semi Supervised Classification          : auto_examples/semi_supervised/index.html
 	auto_examples/semi_supervised/plot_label_propagation_digits Label Propagation digits: Demonstrating performance: auto_examples/semi_supervised/plot_label_propagation_digits.html
 	auto_examples/semi_supervised/plot_label_propagation_digits_active_learning Label Propagation digits active learning: auto_examples/semi_supervised/plot_label_propagation_digits_active_learning.html
 	auto_examples/semi_supervised/plot_label_propagation_structure Label Propagation learning a complex structure: auto_examples/semi_supervised/plot_label_propagation_structure.html
@@ -2942,6 +2970,7 @@ std:doc
 	auto_examples/semi_supervised/plot_semi_supervised_newsgroups Semi-supervised Classification on a Text Dataset: auto_examples/semi_supervised/plot_semi_supervised_newsgroups.html
 	auto_examples/semi_supervised/plot_semi_supervised_versus_svm_iris Decision boundary of semi-supervised classifiers versus SVM on the Iris dataset: auto_examples/semi_supervised/plot_semi_supervised_versus_svm_iris.html
 	auto_examples/semi_supervised/sg_execution_times Computation times                       : auto_examples/semi_supervised/sg_execution_times.html
+	auto_examples/svm/index                  Support Vector Machines                 : auto_examples/svm/index.html
 	auto_examples/svm/plot_custom_kernel     SVM with custom kernel                  : auto_examples/svm/plot_custom_kernel.html
 	auto_examples/svm/plot_iris_svc          Plot different SVM classifiers in the iris dataset: auto_examples/svm/plot_iris_svc.html
 	auto_examples/svm/plot_linearsvc_support_vectors Plot the support vectors in LinearSVC   : auto_examples/svm/plot_linearsvc_support_vectors.html
@@ -2958,10 +2987,12 @@ std:doc
 	auto_examples/svm/plot_svm_tie_breaking  SVM Tie Breaking Example                : auto_examples/svm/plot_svm_tie_breaking.html
 	auto_examples/svm/plot_weighted_samples  SVM: Weighted samples                   : auto_examples/svm/plot_weighted_samples.html
 	auto_examples/svm/sg_execution_times     Computation times                       : auto_examples/svm/sg_execution_times.html
+	auto_examples/text/index                 Working with text documents             : auto_examples/text/index.html
 	auto_examples/text/plot_document_classification_20newsgroups Classification of text documents using sparse features: auto_examples/text/plot_document_classification_20newsgroups.html
 	auto_examples/text/plot_document_clustering Clustering text documents using k-means : auto_examples/text/plot_document_clustering.html
 	auto_examples/text/plot_hashing_vs_dict_vectorizer FeatureHasher and DictVectorizer Comparison: auto_examples/text/plot_hashing_vs_dict_vectorizer.html
 	auto_examples/text/sg_execution_times    Computation times                       : auto_examples/text/sg_execution_times.html
+	auto_examples/tree/index                 Decision Trees                          : auto_examples/tree/index.html
 	auto_examples/tree/plot_cost_complexity_pruning Post pruning decision trees with cost complexity pruning: auto_examples/tree/plot_cost_complexity_pruning.html
 	auto_examples/tree/plot_iris_dtc         Plot the decision surface of decision trees trained on the iris dataset: auto_examples/tree/plot_iris_dtc.html
 	auto_examples/tree/plot_tree_regression  Decision Tree Regression                : auto_examples/tree/plot_tree_regression.html
@@ -3626,7 +3657,7 @@ std:doc
 	whats_new/v0.23                          Version 0.23.2                          : whats_new/v0.23.html
 	whats_new/v0.24                          Version 0.24.2                          : whats_new/v0.24.html
 	whats_new/v1.0                           Version 1.0.2                           : whats_new/v1.0.html
-	whats_new/v1.1                           Version 1.1.1                           : whats_new/v1.1.html
+	whats_new/v1.1                           Version 1.1.3                           : whats_new/v1.1.html
 std:label
 	20newsgroups_dataset                     The 20 newsgroups text dataset          : datasets/real_world.html#newsgroups-dataset
 	about                                    About us                                : about.html#about
@@ -3653,7 +3684,7 @@ std:label
 	b2011                                    modules/clustering.html#b2011
 	backwards-compatibility                  Maintaining backwards compatibility     : developers/contributing.html#backwards-compatibility
 	bagging                                  Bagging meta-estimator                  : modules/ensemble.html#bagging
-	bakir2004                                modules/decomposition.html#bakir2004
+	bakir2003                                modules/decomposition.html#bakir2003
 	balanced_accuracy_score                  Balanced accuracy score                 : modules/model_evaluation.html#balanced-accuracy-score
 	ball_tree                                Ball Tree                               : modules/neighbors.html#ball-tree
 	bayesian_regression                      Bayesian Regression                     : modules/linear_model.html#bayesian-regression
@@ -3661,7 +3692,7 @@ std:label
 	bella2012                                modules/model_evaluation.html#bella2012
 	bernoulli_naive_bayes                    Bernoulli Naive Bayes                   : modules/naive_bayes.html#bernoulli-naive-bayes
 	bgmm                                     Variational Bayesian Gaussian Mixture   : modules/mixture.html#bgmm
-	bicluster_examples                       Biclustering                            : auto_examples/index.html#bicluster-examples
+	bicluster_examples                       Biclustering                            : auto_examples/bicluster/index.html#bicluster-examples
 	biclustering                             Biclustering                            : modules/biclustering.html#biclustering
 	biclustering_evaluation                  Biclustering evaluation                 : modules/biclustering.html#biclustering-evaluation
 	birch                                    BIRCH                                   : modules/clustering.html#birch
@@ -3676,7 +3707,7 @@ std:label
 	bug_triaging                             Bug triaging and issue curation         : developers/bug_triaging.html#bug-triaging
 	calibration                              Probability calibration                 : modules/calibration.html#calibration
 	calibration_curve                        Calibration curves                      : modules/calibration.html#calibration-curve
-	calibration_examples                     Calibration                             : auto_examples/index.html#calibration-examples
+	calibration_examples                     Calibration                             : auto_examples/calibration/index.html#calibration-examples
 	calibration_ref                          sklearn.calibration: Probability Calibration: modules/classes.html#calibration-ref
 	california_housing_dataset               California Housing dataset              : datasets/real_world.html#california-housing-dataset
 	calinski_harabasz_index                  Calinski-Harabasz Index                 : modules/clustering.html#calinski-harabasz-index
@@ -3729,16 +3760,18 @@ std:label
 	changes_1_0_2                            Version 1.0.2                           : whats_new/v1.0.html#changes-1-0-2
 	changes_1_1                              Version 1.1.0                           : whats_new/v1.1.html#changes-1-1
 	changes_1_1_1                            Version 1.1.1                           : whats_new/v1.1.html#changes-1-1-1
+	changes_1_1_2                            Version 1.1.2                           : whats_new/v1.1.html#changes-1-1-2
+	changes_1_1_3                            Version 1.1.3                           : whats_new/v1.1.html#changes-1-1-3
 	chi2_kernel                              Chi-squared kernel                      : modules/metrics.html#chi2-kernel
 	citing-scikit-learn                      Citing scikit-learn                     : about.html#citing-scikit-learn
 	classification                           Nearest Neighbors Classification        : modules/neighbors.html#classification
-	classification_examples                  Classification                          : auto_examples/index.html#classification-examples
+	classification_examples                  Classification                          : auto_examples/classification/index.html#classification-examples
 	classification_metrics                   Classification metrics                  : modules/model_evaluation.html#classification-metrics
 	classification_report                    Classification report                   : modules/model_evaluation.html#classification-report
 	classifierchain                          ClassifierChain                         : modules/multiclass.html#classifierchain
 	clf_tut                                  Classification                          : tutorial/statistical_inference/supervised_learning.html#clf-tut
 	cloning                                  Cloning                                 : developers/develop.html#cloning
-	cluster_examples                         Clustering                              : auto_examples/index.html#cluster-examples
+	cluster_examples                         Clustering                              : auto_examples/cluster/index.html#cluster-examples
 	cluster_ref                              sklearn.cluster: Clustering             : modules/classes.html#cluster-ref
 	clustering                               Clustering                              : modules/clustering.html#clustering
 	clustering_evaluation                    Clustering performance evaluation       : modules/clustering.html#clustering-evaluation
@@ -3756,7 +3789,7 @@ std:label
 	compiler_macos                           macOS                                   : developers/advanced_installation.html#compiler-macos
 	compiler_windows                         Windows                                 : developers/advanced_installation.html#compiler-windows
 	complement_naive_bayes                   Complement Naive Bayes                  : modules/naive_bayes.html#complement-naive-bayes
-	compose_examples                         Pipelines and composite estimators      : auto_examples/index.html#compose-examples
+	compose_examples                         Pipelines and composite estimators      : auto_examples/compose/index.html#compose-examples
 	compose_ref                              sklearn.compose: Composite Estimators   : modules/classes.html#compose-ref
 	composite_grid_search                    Composite estimators and parameter spaces: modules/grid_search.html#composite-grid-search
 	compressive_sensing                      modules/feature_selection.html#compressive-sensing
@@ -3768,13 +3801,13 @@ std:label
 	contributing_deprecation                 Deprecation                             : developers/contributing.html#contributing-deprecation
 	cosine_similarity                        Cosine similarity                       : modules/metrics.html#cosine-similarity
 	covariance                               Covariance estimation                   : modules/covariance.html#covariance
-	covariance_examples                      Covariance estimation                   : auto_examples/index.html#covariance-examples
+	covariance_examples                      Covariance estimation                   : auto_examples/covariance/index.html#covariance-examples
 	covariance_ref                           sklearn.covariance: Covariance Estimators: modules/classes.html#covariance-ref
 	covariation                              auto_examples/inspection/plot_linear_model_coefficient_interpretation.html#covariation
 	coverage_error                           Coverage error                          : modules/model_evaluation.html#coverage-error
 	covtype_dataset                          Forest covertypes                       : datasets/real_world.html#covtype-dataset
 	cross_decomposition                      Cross decomposition                     : modules/cross_decomposition.html#cross-decomposition
-	cross_decomposition_examples             Cross decomposition                     : auto_examples/index.html#cross-decomposition-examples
+	cross_decomposition_examples             Cross decomposition                     : auto_examples/cross_decomposition/index.html#cross-decomposition-examples
 	cross_decomposition_ref                  sklearn.cross_decomposition: Cross decomposition: modules/classes.html#cross-decomposition-ref
 	cross_validation                         Cross-validation: evaluating estimator performance: modules/cross_validation.html#cross-validation
 	curse_of_dimensionality                  The curse of dimensionality             : tutorial/statistical_inference/supervised_learning.html#curse-of-dimensionality
@@ -3785,13 +3818,13 @@ std:label
 	data-transforms                          Dataset transformations                 : data_transforms.html#data-transforms
 	data_leakage                             Data leakage                            : common_pitfalls.html#data-leakage
 	data_reduction                           Unsupervised dimensionality reduction   : modules/unsupervised_reduction.html#data-reduction
-	dataset_examples                         Dataset examples                        : auto_examples/index.html#dataset-examples
+	dataset_examples                         Dataset examples                        : auto_examples/datasets/index.html#dataset-examples
 	datasets                                 Dataset loading utilities               : datasets.html#datasets
 	datasets_ref                             sklearn.datasets: Datasets              : modules/classes.html#datasets-ref
 	davies-bouldin_index                     Davies-Bouldin Index                    : modules/clustering.html#davies-bouldin-index
 	davis2006                                modules/model_evaluation.html#davis2006
 	dbscan                                   DBSCAN                                  : modules/clustering.html#dbscan
-	decomposition_examples                   Decomposition                           : auto_examples/index.html#decomposition-examples
+	decomposition_examples                   Decomposition                           : auto_examples/decomposition/index.html#decomposition-examples
 	decomposition_ref                        sklearn.decomposition: Matrix Decomposition: modules/classes.html#decomposition-ref
 	decompositions                           Decomposing signals in components (matrix factorization problems): modules/decomposition.html#decompositions
 	density_estimation                       Density Estimation                      : modules/density.html#density-estimation
@@ -3814,7 +3847,7 @@ std:label
 	editable_mode                            Editable mode                           : developers/advanced_installation.html#editable-mode
 	elastic_net                              Elastic-Net                             : modules/linear_model.html#elastic-net
 	ensemble                                 Ensemble methods                        : modules/ensemble.html#ensemble
-	ensemble_examples                        Ensemble methods                        : auto_examples/index.html#ensemble-examples
+	ensemble_examples                        Ensemble methods                        : auto_examples/ensemble/index.html#ensemble-examples
 	ensemble_ref                             sklearn.ensemble: Ensemble Methods      : modules/classes.html#ensemble-ref
 	environment_variable                     Environment variables                   : computing/parallelism.html#environment-variable
 	estimator_tags                           Estimator Tags                          : developers/develop.html#estimator-tags
@@ -3835,7 +3868,7 @@ std:label
 	feature_extraction_ref                   sklearn.feature_extraction: Feature Extraction: modules/classes.html#feature-extraction-ref
 	feature_hashing                          Feature hashing                         : modules/feature_extraction.html#feature-hashing
 	feature_selection                        Feature selection                       : modules/feature_selection.html#feature-selection
-	feature_selection_examples               Feature Selection                       : auto_examples/index.html#feature-selection-examples
+	feature_selection_examples               Feature Selection                       : auto_examples/feature_selection/index.html#feature-selection-examples
 	feature_selection_ref                    sklearn.feature_selection: Feature Selection: modules/classes.html#feature-selection-ref
 	feature_union                            FeatureUnion: composite feature spaces  : modules/compose.html#feature-union
 	filing_bugs                              How to make a good bug report           : developers/contributing.html#filing-bugs
@@ -3851,12 +3884,12 @@ std:label
 	g2015                                    modules/partial_dependence.html#g2015
 	gaussian_naive_bayes                     Gaussian Naive Bayes                    : modules/naive_bayes.html#gaussian-naive-bayes
 	gaussian_process                         Gaussian Processes                      : modules/gaussian_process.html#gaussian-process
-	gaussian_process_examples                Gaussian Process for Machine Learning   : auto_examples/index.html#gaussian-process-examples
+	gaussian_process_examples                Gaussian Process for Machine Learning   : auto_examples/gaussian_process/index.html#gaussian-process-examples
 	gaussian_process_ref                     sklearn.gaussian_process: Gaussian Processes: modules/classes.html#gaussian-process-ref
 	gaussian_random_matrix                   Gaussian random projection              : modules/random_projection.html#gaussian-random-matrix
 	general_examples                         Examples                                : auto_examples/index.html#general-examples
 	generalized_linear_regression            Generalized Linear Regression           : modules/linear_model.html#generalized-linear-regression
-	generated_doc_ci                         Generated documentation on CircleCI     : developers/contributing.html#generated-doc-ci
+	generated_doc_ci                         Generated documentation on GitHub Actions: developers/contributing.html#generated-doc-ci
 	generating_polynomial_features           Generating polynomial features          : modules/preprocessing.html#generating-polynomial-features
 	genindex                                 Index                                   : genindex.html
 	git_repo                                 developers/advanced_installation.html#git-repo
@@ -3882,7 +3915,7 @@ std:label
 	grid_search                              Tuning the hyper-parameters of an estimator: modules/grid_search.html#grid-search
 	grid_search_tips                         Tips for parameter search               : modules/grid_search.html#grid-search-tips
 	gridsearch_scoring                       Specifying an objective metric          : modules/grid_search.html#gridsearch-scoring
-	group_cv                                 Cross-validation iterators for grouped data.: modules/cross_validation.html#group-cv
+	group_cv                                 Cross-validation iterators for grouped data: modules/cross_validation.html#group-cv
 	group_k_fold                             Group k-fold                            : modules/cross_validation.html#group-k-fold
 	group_shuffle_split                      Group Shuffle Split                     : modules/cross_validation.html#group-shuffle-split
 	guyon2015                                modules/model_evaluation.html#guyon2015
@@ -3905,12 +3938,12 @@ std:label
 	implementation_details                   Implementation details                  : modules/sgd.html#implementation-details
 	imputation                               Imputation of missing values            : modules/preprocessing.html#imputation
 	impute                                   Imputation of missing values            : modules/impute.html#impute
-	impute_examples                          Missing Value Imputation                : auto_examples/index.html#impute-examples
+	impute_examples                          Missing Value Imputation                : auto_examples/impute/index.html#impute-examples
 	impute_ref                               sklearn.impute: Impute                  : modules/classes.html#impute-ref
 	incrementalpca                           Incremental PCA                         : modules/decomposition.html#incrementalpca
 	individual_conditional                   Individual conditional expectation (ICE) plot: modules/partial_dependence.html#individual-conditional
 	inspection                               Inspection                              : inspection.html#inspection
-	inspection_examples                      Inspection                              : auto_examples/index.html#inspection-examples
+	inspection_examples                      Inspection                              : auto_examples/inspection/index.html#inspection-examples
 	inspection_ref                           sklearn.inspection: Inspection          : modules/classes.html#inspection-ref
 	install_bleeding_edge                    Building from source                    : developers/advanced_installation.html#install-bleeding-edge
 	install_by_distribution                  Third party distributions of scikit-learn: install.html#install-by-distribution
@@ -3935,13 +3968,14 @@ std:label
 	kddcup99_dataset                         Kddcup 99 dataset                       : datasets/real_world.html#kddcup99-dataset
 	kelleher2015                             modules/model_evaluation.html#kelleher2015
 	kernel_approximation                     Kernel Approximation                    : modules/kernel_approximation.html#kernel-approximation
-	kernel_approximation_examples            Kernel Approximation                    : auto_examples/index.html#kernel-approximation-examples
+	kernel_approximation_examples            Kernel Approximation                    : auto_examples/kernel_approximation/index.html#kernel-approximation-examples
 	kernel_approximation_ref                 sklearn.kernel_approximation: Kernel Approximation: modules/classes.html#kernel-approximation-ref
 	kernel_centering                         Centering kernel matrices               : modules/preprocessing.html#kernel-centering
 	kernel_density                           Kernel Density Estimation               : modules/density.html#kernel-density
 	kernel_pca                               Kernel Principal Component Analysis (kPCA): modules/decomposition.html#kernel-pca
 	kernel_ridge                             Kernel ridge regression                 : modules/kernel_ridge.html#kernel-ridge
 	kernel_ridge_ref                         sklearn.kernel_ridge: Kernel Ridge Regression: modules/classes.html#kernel-ridge-ref
+	kmeans_sparse_high_dim                   Clustering sparse data with k-means     : auto_examples/text/plot_document_clustering.html#kmeans-sparse-high-dim
 	knnimpute                                Nearest neighbors imputation            : modules/impute.html#knnimpute
 	kpca_solvers                             Choice of solver for Kernel PCA         : modules/decomposition.html#kpca-solvers
 	l1_feature_selection                     L1-based feature selection              : modules/feature_selection.html#l1-feature-selection
@@ -3968,7 +4002,7 @@ std:label
 	liblinear_differences                    modules/linear_model.html#liblinear-differences
 	libsvm_loader                            Datasets in svmlight / libsvm format    : datasets/loading_other_datasets.html#libsvm-loader
 	lightgbm                                 modules/ensemble.html#lightgbm
-	linear_examples                          Generalized Linear Models               : auto_examples/index.html#linear-examples
+	linear_examples                          Generalized Linear Models               : auto_examples/linear_model/index.html#linear-examples
 	linear_kernel                            Linear kernel                           : modules/metrics.html#linear-kernel
 	linear_model                             Linear Models                           : modules/linear_model.html#linear-model
 	linear_model_ref                         sklearn.linear_model: Linear Models     : modules/classes.html#linear-model-ref
@@ -3987,7 +4021,7 @@ std:label
 	make_column_transformer                  modules/compose.html#make-column-transformer
 	making_a_release                         Making a release                        : developers/maintainer.html#making-a-release
 	manifold                                 Manifold learning                       : modules/manifold.html#manifold
-	manifold_examples                        Manifold learning                       : auto_examples/index.html#manifold-examples
+	manifold_examples                        Manifold learning                       : auto_examples/manifold/index.html#manifold-examples
 	manifold_ref                             sklearn.manifold: Manifold Learning     : modules/classes.html#manifold-ref
 	manning2008                              modules/model_evaluation.html#manning2008
 	marginal_dependencies                    auto_examples/inspection/plot_linear_model_coefficient_interpretation.html#marginal-dependencies
@@ -4008,10 +4042,10 @@ std:label
 	minibatchnmf                             Mini-batch Non Negative Matrix Factorization: modules/decomposition.html#minibatchnmf
 	minimal_cost_complexity_pruning          Minimal Cost-Complexity Pruning         : modules/tree.html#minimal-cost-complexity-pruning
 	minimal_reproducer                       Crafting a minimal reproducer for scikit-learn: developers/minimal_reproducer.html#minimal-reproducer
-	miscellaneous_examples                   Miscellaneous                           : auto_examples/index.html#miscellaneous-examples
+	miscellaneous_examples                   Miscellaneous                           : auto_examples/miscellaneous/index.html#miscellaneous-examples
 	missing_indicator                        Marking imputed values                  : modules/impute.html#missing-indicator
 	mixture                                  Gaussian mixture models                 : modules/mixture.html#mixture
-	mixture_examples                         Gaussian Mixture Models                 : auto_examples/index.html#mixture-examples
+	mixture_examples                         Gaussian Mixture Models                 : auto_examples/mixture/index.html#mixture-examples
 	mixture_ref                              sklearn.mixture: Gaussian Mixture Models: modules/classes.html#mixture-ref
 	ml_map                                   tutorial/machine_learning_map/index.html#ml-map
 	mlp_tips                                 Tips on Practical Use                   : modules/neural_networks_supervised.html#mlp-tips
@@ -4019,7 +4053,7 @@ std:label
 	model_persistence                        Model persistence                       : model_persistence.html#model-persistence
 	model_selection                          Model selection and evaluation          : model_selection.html#model-selection
 	model_selection_changes                  Model Selection Enhancements and API Changes: whats_new/v0.18.html#model-selection-changes
-	model_selection_examples                 Model Selection                         : auto_examples/index.html#model-selection-examples
+	model_selection_examples                 Model Selection                         : auto_examples/model_selection/index.html#model-selection-examples
 	model_selection_tut                      Model selection: choosing estimators and their parameters: tutorial/statistical_inference/model_selection.html#model-selection-tut
 	modelselection_ref                       sklearn.model_selection: Model Selection: modules/classes.html#modelselection-ref
 	modindex                                 Module Index                            : py-modindex.html
@@ -4042,7 +4076,7 @@ std:label
 	multimetric_grid_search                  Specifying multiple metrics for evaluation: modules/grid_search.html#multimetric-grid-search
 	multimetric_scoring                      Using multiple metric evaluation        : modules/model_evaluation.html#multimetric-scoring
 	multinomial_naive_bayes                  Multinomial Naive Bayes                 : modules/naive_bayes.html#multinomial-naive-bayes
-	multioutput_examples                     Multioutput methods                     : auto_examples/index.html#multioutput-examples
+	multioutput_examples                     Multioutput methods                     : auto_examples/multioutput/index.html#multioutput-examples
 	multioutput_ref                          sklearn.multioutput: Multioutput regression and classification: modules/classes.html#multioutput-ref
 	multioutput_regression                   Multioutput regression                  : modules/multiclass.html#multioutput-regression
 	multioutputclassfier                     MultiOutputClassifier                   : modules/multiclass.html#multioutputclassfier
@@ -4058,10 +4092,10 @@ std:label
 	ndcg                                     Normalized Discounted Cumulative Gain   : modules/model_evaluation.html#ndcg
 	nearest_centroid_classifier              Nearest Centroid Classifier             : modules/neighbors.html#nearest-centroid-classifier
 	neighbors                                Nearest Neighbors                       : modules/neighbors.html#neighbors
-	neighbors_examples                       Nearest Neighbors                       : auto_examples/index.html#neighbors-examples
+	neighbors_examples                       Nearest Neighbors                       : auto_examples/neighbors/index.html#neighbors-examples
 	neighbors_ref                            sklearn.neighbors: Nearest Neighbors    : modules/classes.html#neighbors-ref
 	neighbors_transformer                    Nearest Neighbors Transformer           : modules/neighbors.html#neighbors-transformer
-	neural_network_examples                  Neural Networks                         : auto_examples/index.html#neural-network-examples
+	neural_network_examples                  Neural Networks                         : auto_examples/neural_networks/index.html#neural-network-examples
 	neural_network_ref                       sklearn.neural_network: Neural network models: modules/classes.html#neural-network-ref
 	neural_networks_supervised               Neural network models (supervised)      : modules/neural_networks_supervised.html#neural-networks-supervised
 	neural_networks_unsupervised             Neural network models (unsupervised)    : modules/neural_networks_unsupervised.html#neural-networks-unsupervised
@@ -4118,7 +4152,7 @@ std:label
 	preprocessing_binarization               Feature binarization                    : modules/preprocessing.html#preprocessing-binarization
 	preprocessing_categorical_features       Encoding categorical features           : modules/preprocessing.html#preprocessing-categorical-features
 	preprocessing_discretization             Discretization                          : modules/preprocessing.html#preprocessing-discretization
-	preprocessing_examples                   Preprocessing                           : auto_examples/index.html#preprocessing-examples
+	preprocessing_examples                   Preprocessing                           : auto_examples/preprocessing/index.html#preprocessing-examples
 	preprocessing_normalization              Normalization                           : modules/preprocessing.html#preprocessing-normalization
 	preprocessing_ref                        sklearn.preprocessing: Preprocessing and Normalization: modules/classes.html#preprocessing-ref
 	preprocessing_scaler                     Standardization, or mean removal and variance scaling: modules/preprocessing.html#preprocessing-scaler
@@ -4268,6 +4302,7 @@ std:label
 	r95f74c4622c1-1                          modules/generated/sklearn.gaussian_process.kernels.DotProduct.html#r95f74c4622c1-1
 	r9709ce4a60d3-1                          modules/generated/sklearn.svm.NuSVC.html#r9709ce4a60d3-1
 	r9709ce4a60d3-2                          modules/generated/sklearn.svm.NuSVC.html#r9709ce4a60d3-2
+	r9ca8fd06d29a-1                          modules/generated/sklearn.metrics.cluster.pair_confusion_matrix.html#r9ca8fd06d29a-1
 	r9e856ff29ebd-1                          modules/generated/sklearn.metrics.d2_pinball_score.html#r9e856ff29ebd-1
 	r9e856ff29ebd-2                          modules/generated/sklearn.metrics.d2_pinball_score.html#r9e856ff29ebd-2
 	r9f63e655f7bd-butlerdavies               modules/generated/sklearn.covariance.MinCovDet.html#r9f63e655f7bd-butlerdavies
@@ -4340,7 +4375,7 @@ std:label
 	re4616ef910fb-1                          modules/generated/sklearn.linear_model.HuberRegressor.html#re4616ef910fb-1
 	re4616ef910fb-2                          modules/generated/sklearn.linear_model.HuberRegressor.html#re4616ef910fb-2
 	real_world_datasets                      Real world datasets                     : datasets/real_world.html#real-world-datasets
-	realworld_examples                       Examples based on real world datasets   : auto_examples/index.html#realworld-examples
+	realworld_examples                       Examples based on real world datasets   : auto_examples/applications/index.html#realworld-examples
 	rebabcb825af5-1                          modules/generated/sklearn.metrics.adjusted_mutual_info_score.html#rebabcb825af5-1
 	rebabcb825af5-2                          modules/generated/sklearn.metrics.adjusted_mutual_info_score.html#rebabcb825af5-2
 	rec2f484fdebe-1                          modules/generated/sklearn.datasets.load_boston.html#rec2f484fdebe-1
@@ -4355,7 +4390,7 @@ std:label
 	regressorchain                           RegressorChain                          : modules/multiclass.html#regressorchain
 	related_projects                         Related Projects                        : related_projects.html#related-projects
 	release_checklist                        Release checklist                       : developers/maintainer.html#release-checklist
-	release_highlights_examples              Release Highlights                      : auto_examples/index.html#release-highlights-examples
+	release_highlights_examples              Release Highlights                      : auto_examples/release_highlights/index.html#release-highlights-examples
 	repeated_k_fold                          Repeated K-Fold                         : modules/cross_validation.html#repeated-k-fold
 	results                                  Original data                           : auto_examples/preprocessing/plot_all_scaling.html#results
 	rf1152dff401e-1                          modules/generated/sklearn.metrics.silhouette_samples.html#rf1152dff401e-1
@@ -4401,7 +4436,7 @@ std:label
 	selectiveness                            Why are you so selective on what algorithms you include in scikit-learn?: faq.html#selectiveness
 	self_training                            Self Training                           : modules/semi_supervised.html#self-training
 	semi_supervised                          Semi-supervised learning                : modules/semi_supervised.html#semi-supervised
-	semi_supervised_examples                 Semi Supervised Classification          : auto_examples/index.html#semi-supervised-examples
+	semi_supervised_examples                 Semi Supervised Classification          : auto_examples/semi_supervised/index.html#semi-supervised-examples
 	semi_supervised_ref                      sklearn.semi_supervised: Semi-Supervised Learning: modules/classes.html#semi-supervised-ref
 	sequential_feature_selection             Sequential Feature Selection            : modules/feature_selection.html#sequential-feature-selection
 	sfs                                      modules/feature_selection.html#sfs
@@ -4429,8 +4464,7 @@ std:label
 	spectral_clustering_graph                Spectral Clustering Graphs              : modules/clustering.html#spectral-clustering-graph
 	spectral_coclustering                    Spectral Co-Clustering                  : modules/biclustering.html#spectral-coclustering
 	spectral_embedding                       Spectral Embedding                      : modules/manifold.html#spectral-embedding
-	sphx_glr_auto_examples                   Examples                                : auto_examples/index.html#sphx-glr-auto-examples
-	sphx_glr_auto_examples_applications      Examples based on real world datasets   : auto_examples/index.html#sphx-glr-auto-examples-applications
+	sphx_glr_auto_examples_applications      Examples based on real world datasets   : auto_examples/applications/index.html#sphx-glr-auto-examples-applications
 	sphx_glr_auto_examples_applications_plot_cyclical_feature_engineering.py Time-related feature engineering        : auto_examples/applications/plot_cyclical_feature_engineering.html#sphx-glr-auto-examples-applications-plot-cyclical-feature-engineering-py
 	sphx_glr_auto_examples_applications_plot_digits_denoising.py Image denoising using kernel PCA        : auto_examples/applications/plot_digits_denoising.html#sphx-glr-auto-examples-applications-plot-digits-denoising-py
 	sphx_glr_auto_examples_applications_plot_face_recognition.py Faces recognition example using eigenfaces and SVMs: auto_examples/applications/plot_face_recognition.html#sphx-glr-auto-examples-applications-plot-face-recognition-py
@@ -4445,25 +4479,25 @@ std:label
 	sphx_glr_auto_examples_applications_sg_execution_times Computation times                       : auto_examples/applications/sg_execution_times.html#sphx-glr-auto-examples-applications-sg-execution-times
 	sphx_glr_auto_examples_applications_svm_gui.py Libsvm GUI                              : auto_examples/applications/svm_gui.html#sphx-glr-auto-examples-applications-svm-gui-py
 	sphx_glr_auto_examples_applications_wikipedia_principal_eigenvector.py Wikipedia principal eigenvector         : auto_examples/applications/wikipedia_principal_eigenvector.html#sphx-glr-auto-examples-applications-wikipedia-principal-eigenvector-py
-	sphx_glr_auto_examples_bicluster         Biclustering                            : auto_examples/index.html#sphx-glr-auto-examples-bicluster
+	sphx_glr_auto_examples_bicluster         Biclustering                            : auto_examples/bicluster/index.html#sphx-glr-auto-examples-bicluster
 	sphx_glr_auto_examples_bicluster_plot_bicluster_newsgroups.py Biclustering documents with the Spectral Co-clustering algorithm: auto_examples/bicluster/plot_bicluster_newsgroups.html#sphx-glr-auto-examples-bicluster-plot-bicluster-newsgroups-py
 	sphx_glr_auto_examples_bicluster_plot_spectral_biclustering.py A demo of the Spectral Biclustering algorithm: auto_examples/bicluster/plot_spectral_biclustering.html#sphx-glr-auto-examples-bicluster-plot-spectral-biclustering-py
 	sphx_glr_auto_examples_bicluster_plot_spectral_coclustering.py A demo of the Spectral Co-Clustering algorithm: auto_examples/bicluster/plot_spectral_coclustering.html#sphx-glr-auto-examples-bicluster-plot-spectral-coclustering-py
 	sphx_glr_auto_examples_bicluster_sg_execution_times Computation times                       : auto_examples/bicluster/sg_execution_times.html#sphx-glr-auto-examples-bicluster-sg-execution-times
-	sphx_glr_auto_examples_calibration       Calibration                             : auto_examples/index.html#sphx-glr-auto-examples-calibration
+	sphx_glr_auto_examples_calibration       Calibration                             : auto_examples/calibration/index.html#sphx-glr-auto-examples-calibration
 	sphx_glr_auto_examples_calibration_plot_calibration.py Probability calibration of classifiers  : auto_examples/calibration/plot_calibration.html#sphx-glr-auto-examples-calibration-plot-calibration-py
 	sphx_glr_auto_examples_calibration_plot_calibration_curve.py Probability Calibration curves          : auto_examples/calibration/plot_calibration_curve.html#sphx-glr-auto-examples-calibration-plot-calibration-curve-py
 	sphx_glr_auto_examples_calibration_plot_calibration_multiclass.py Probability Calibration for 3-class classification: auto_examples/calibration/plot_calibration_multiclass.html#sphx-glr-auto-examples-calibration-plot-calibration-multiclass-py
 	sphx_glr_auto_examples_calibration_plot_compare_calibration.py Comparison of Calibration of Classifiers: auto_examples/calibration/plot_compare_calibration.html#sphx-glr-auto-examples-calibration-plot-compare-calibration-py
 	sphx_glr_auto_examples_calibration_sg_execution_times Computation times                       : auto_examples/calibration/sg_execution_times.html#sphx-glr-auto-examples-calibration-sg-execution-times
-	sphx_glr_auto_examples_classification    Classification                          : auto_examples/index.html#sphx-glr-auto-examples-classification
+	sphx_glr_auto_examples_classification    Classification                          : auto_examples/classification/index.html#sphx-glr-auto-examples-classification
 	sphx_glr_auto_examples_classification_plot_classification_probability.py Plot classification probability         : auto_examples/classification/plot_classification_probability.html#sphx-glr-auto-examples-classification-plot-classification-probability-py
 	sphx_glr_auto_examples_classification_plot_classifier_comparison.py Classifier comparison                   : auto_examples/classification/plot_classifier_comparison.html#sphx-glr-auto-examples-classification-plot-classifier-comparison-py
 	sphx_glr_auto_examples_classification_plot_digits_classification.py Recognizing hand-written digits         : auto_examples/classification/plot_digits_classification.html#sphx-glr-auto-examples-classification-plot-digits-classification-py
 	sphx_glr_auto_examples_classification_plot_lda.py Normal, Ledoit-Wolf and OAS Linear Discriminant Analysis for classification: auto_examples/classification/plot_lda.html#sphx-glr-auto-examples-classification-plot-lda-py
 	sphx_glr_auto_examples_classification_plot_lda_qda.py Linear and Quadratic Discriminant Analysis with covariance ellipsoid: auto_examples/classification/plot_lda_qda.html#sphx-glr-auto-examples-classification-plot-lda-qda-py
 	sphx_glr_auto_examples_classification_sg_execution_times Computation times                       : auto_examples/classification/sg_execution_times.html#sphx-glr-auto-examples-classification-sg-execution-times
-	sphx_glr_auto_examples_cluster           Clustering                              : auto_examples/index.html#sphx-glr-auto-examples-cluster
+	sphx_glr_auto_examples_cluster           Clustering                              : auto_examples/cluster/index.html#sphx-glr-auto-examples-cluster
 	sphx_glr_auto_examples_cluster_plot_adjusted_for_chance_measures.py Adjustment for chance in clustering performance evaluation: auto_examples/cluster/plot_adjusted_for_chance_measures.html#sphx-glr-auto-examples-cluster-plot-adjusted-for-chance-measures-py
 	sphx_glr_auto_examples_cluster_plot_affinity_propagation.py Demo of affinity propagation clustering algorithm: auto_examples/cluster/plot_affinity_propagation.html#sphx-glr-auto-examples-cluster-plot-affinity-propagation-py
 	sphx_glr_auto_examples_cluster_plot_agglomerative_clustering.py Agglomerative clustering with and without structure: auto_examples/cluster/plot_agglomerative_clustering.html#sphx-glr-auto-examples-cluster-plot-agglomerative-clustering-py
@@ -4495,7 +4529,7 @@ std:label
 	sphx_glr_auto_examples_cluster_plot_segmentation_toy.py Spectral clustering for image segmentation: auto_examples/cluster/plot_segmentation_toy.html#sphx-glr-auto-examples-cluster-plot-segmentation-toy-py
 	sphx_glr_auto_examples_cluster_plot_ward_structured_vs_unstructured.py Hierarchical clustering: structured vs unstructured ward: auto_examples/cluster/plot_ward_structured_vs_unstructured.html#sphx-glr-auto-examples-cluster-plot-ward-structured-vs-unstructured-py
 	sphx_glr_auto_examples_cluster_sg_execution_times Computation times                       : auto_examples/cluster/sg_execution_times.html#sphx-glr-auto-examples-cluster-sg-execution-times
-	sphx_glr_auto_examples_compose           Pipelines and composite estimators      : auto_examples/index.html#sphx-glr-auto-examples-compose
+	sphx_glr_auto_examples_compose           Pipelines and composite estimators      : auto_examples/compose/index.html#sphx-glr-auto-examples-compose
 	sphx_glr_auto_examples_compose_plot_column_transformer.py Column Transformer with Heterogeneous Data Sources: auto_examples/compose/plot_column_transformer.html#sphx-glr-auto-examples-compose-plot-column-transformer-py
 	sphx_glr_auto_examples_compose_plot_column_transformer_mixed_types.py Column Transformer with Mixed Types     : auto_examples/compose/plot_column_transformer_mixed_types.html#sphx-glr-auto-examples-compose-plot-column-transformer-mixed-types-py
 	sphx_glr_auto_examples_compose_plot_compare_reduction.py Selecting dimensionality reduction with Pipeline and GridSearchCV: auto_examples/compose/plot_compare_reduction.html#sphx-glr-auto-examples-compose-plot-compare-reduction-py
@@ -4503,24 +4537,24 @@ std:label
 	sphx_glr_auto_examples_compose_plot_feature_union.py Concatenating multiple feature extraction methods: auto_examples/compose/plot_feature_union.html#sphx-glr-auto-examples-compose-plot-feature-union-py
 	sphx_glr_auto_examples_compose_plot_transformed_target.py Effect of transforming the targets in regression model: auto_examples/compose/plot_transformed_target.html#sphx-glr-auto-examples-compose-plot-transformed-target-py
 	sphx_glr_auto_examples_compose_sg_execution_times Computation times                       : auto_examples/compose/sg_execution_times.html#sphx-glr-auto-examples-compose-sg-execution-times
-	sphx_glr_auto_examples_covariance        Covariance estimation                   : auto_examples/index.html#sphx-glr-auto-examples-covariance
+	sphx_glr_auto_examples_covariance        Covariance estimation                   : auto_examples/covariance/index.html#sphx-glr-auto-examples-covariance
 	sphx_glr_auto_examples_covariance_plot_covariance_estimation.py Shrinkage covariance estimation: LedoitWolf vs OAS and max-likelihood: auto_examples/covariance/plot_covariance_estimation.html#sphx-glr-auto-examples-covariance-plot-covariance-estimation-py
 	sphx_glr_auto_examples_covariance_plot_lw_vs_oas.py Ledoit-Wolf vs OAS estimation           : auto_examples/covariance/plot_lw_vs_oas.html#sphx-glr-auto-examples-covariance-plot-lw-vs-oas-py
 	sphx_glr_auto_examples_covariance_plot_mahalanobis_distances.py Robust covariance estimation and Mahalanobis distances relevance: auto_examples/covariance/plot_mahalanobis_distances.html#sphx-glr-auto-examples-covariance-plot-mahalanobis-distances-py
 	sphx_glr_auto_examples_covariance_plot_robust_vs_empirical_covariance.py Robust vs Empirical covariance estimate : auto_examples/covariance/plot_robust_vs_empirical_covariance.html#sphx-glr-auto-examples-covariance-plot-robust-vs-empirical-covariance-py
 	sphx_glr_auto_examples_covariance_plot_sparse_cov.py Sparse inverse covariance estimation    : auto_examples/covariance/plot_sparse_cov.html#sphx-glr-auto-examples-covariance-plot-sparse-cov-py
 	sphx_glr_auto_examples_covariance_sg_execution_times Computation times                       : auto_examples/covariance/sg_execution_times.html#sphx-glr-auto-examples-covariance-sg-execution-times
-	sphx_glr_auto_examples_cross_decomposition Cross decomposition                     : auto_examples/index.html#sphx-glr-auto-examples-cross-decomposition
+	sphx_glr_auto_examples_cross_decomposition Cross decomposition                     : auto_examples/cross_decomposition/index.html#sphx-glr-auto-examples-cross-decomposition
 	sphx_glr_auto_examples_cross_decomposition_plot_compare_cross_decomposition.py Compare cross decomposition methods     : auto_examples/cross_decomposition/plot_compare_cross_decomposition.html#sphx-glr-auto-examples-cross-decomposition-plot-compare-cross-decomposition-py
 	sphx_glr_auto_examples_cross_decomposition_plot_pcr_vs_pls.py Principal Component Regression vs Partial Least Squares Regression: auto_examples/cross_decomposition/plot_pcr_vs_pls.html#sphx-glr-auto-examples-cross-decomposition-plot-pcr-vs-pls-py
 	sphx_glr_auto_examples_cross_decomposition_sg_execution_times Computation times                       : auto_examples/cross_decomposition/sg_execution_times.html#sphx-glr-auto-examples-cross-decomposition-sg-execution-times
-	sphx_glr_auto_examples_datasets          Dataset examples                        : auto_examples/index.html#sphx-glr-auto-examples-datasets
+	sphx_glr_auto_examples_datasets          Dataset examples                        : auto_examples/datasets/index.html#sphx-glr-auto-examples-datasets
 	sphx_glr_auto_examples_datasets_plot_digits_last_image.py The Digit Dataset                       : auto_examples/datasets/plot_digits_last_image.html#sphx-glr-auto-examples-datasets-plot-digits-last-image-py
 	sphx_glr_auto_examples_datasets_plot_iris_dataset.py The Iris Dataset                        : auto_examples/datasets/plot_iris_dataset.html#sphx-glr-auto-examples-datasets-plot-iris-dataset-py
 	sphx_glr_auto_examples_datasets_plot_random_dataset.py Plot randomly generated classification dataset: auto_examples/datasets/plot_random_dataset.html#sphx-glr-auto-examples-datasets-plot-random-dataset-py
 	sphx_glr_auto_examples_datasets_plot_random_multilabel_dataset.py Plot randomly generated multilabel dataset: auto_examples/datasets/plot_random_multilabel_dataset.html#sphx-glr-auto-examples-datasets-plot-random-multilabel-dataset-py
 	sphx_glr_auto_examples_datasets_sg_execution_times Computation times                       : auto_examples/datasets/sg_execution_times.html#sphx-glr-auto-examples-datasets-sg-execution-times
-	sphx_glr_auto_examples_decomposition     Decomposition                           : auto_examples/index.html#sphx-glr-auto-examples-decomposition
+	sphx_glr_auto_examples_decomposition     Decomposition                           : auto_examples/decomposition/index.html#sphx-glr-auto-examples-decomposition
 	sphx_glr_auto_examples_decomposition_plot_beta_divergence.py Beta-divergence loss functions          : auto_examples/decomposition/plot_beta_divergence.html#sphx-glr-auto-examples-decomposition-plot-beta-divergence-py
 	sphx_glr_auto_examples_decomposition_plot_faces_decomposition.py Faces dataset decompositions            : auto_examples/decomposition/plot_faces_decomposition.html#sphx-glr-auto-examples-decomposition-plot-faces-decomposition-py
 	sphx_glr_auto_examples_decomposition_plot_ica_blind_source_separation.py Blind source separation using FastICA   : auto_examples/decomposition/plot_ica_blind_source_separation.html#sphx-glr-auto-examples-decomposition-plot-ica-blind-source-separation-py
@@ -4535,7 +4569,7 @@ std:label
 	sphx_glr_auto_examples_decomposition_plot_sparse_coding.py Sparse coding with a precomputed dictionary: auto_examples/decomposition/plot_sparse_coding.html#sphx-glr-auto-examples-decomposition-plot-sparse-coding-py
 	sphx_glr_auto_examples_decomposition_plot_varimax_fa.py Factor Analysis (with rotation) to visualize patterns: auto_examples/decomposition/plot_varimax_fa.html#sphx-glr-auto-examples-decomposition-plot-varimax-fa-py
 	sphx_glr_auto_examples_decomposition_sg_execution_times Computation times                       : auto_examples/decomposition/sg_execution_times.html#sphx-glr-auto-examples-decomposition-sg-execution-times
-	sphx_glr_auto_examples_ensemble          Ensemble methods                        : auto_examples/index.html#sphx-glr-auto-examples-ensemble
+	sphx_glr_auto_examples_ensemble          Ensemble methods                        : auto_examples/ensemble/index.html#sphx-glr-auto-examples-ensemble
 	sphx_glr_auto_examples_ensemble_plot_adaboost_hastie_10_2.py Discrete versus Real AdaBoost           : auto_examples/ensemble/plot_adaboost_hastie_10_2.html#sphx-glr-auto-examples-ensemble-plot-adaboost-hastie-10-2-py
 	sphx_glr_auto_examples_ensemble_plot_adaboost_multiclass.py Multi-class AdaBoosted Decision Trees   : auto_examples/ensemble/plot_adaboost_multiclass.html#sphx-glr-auto-examples-ensemble-plot-adaboost-multiclass-py
 	sphx_glr_auto_examples_ensemble_plot_adaboost_regression.py Decision Tree Regression with AdaBoost  : auto_examples/ensemble/plot_adaboost_regression.html#sphx-glr-auto-examples-ensemble-plot-adaboost-regression-py
@@ -4561,13 +4595,13 @@ std:label
 	sphx_glr_auto_examples_ensemble_plot_voting_probas.py Plot class probabilities calculated by the VotingClassifier: auto_examples/ensemble/plot_voting_probas.html#sphx-glr-auto-examples-ensemble-plot-voting-probas-py
 	sphx_glr_auto_examples_ensemble_plot_voting_regressor.py Plot individual and voting regression predictions: auto_examples/ensemble/plot_voting_regressor.html#sphx-glr-auto-examples-ensemble-plot-voting-regressor-py
 	sphx_glr_auto_examples_ensemble_sg_execution_times Computation times                       : auto_examples/ensemble/sg_execution_times.html#sphx-glr-auto-examples-ensemble-sg-execution-times
-	sphx_glr_auto_examples_exercises         Tutorial exercises                      : auto_examples/index.html#sphx-glr-auto-examples-exercises
+	sphx_glr_auto_examples_exercises         Tutorial exercises                      : auto_examples/exercises/index.html#sphx-glr-auto-examples-exercises
 	sphx_glr_auto_examples_exercises_plot_cv_diabetes.py Cross-validation on diabetes Dataset Exercise: auto_examples/exercises/plot_cv_diabetes.html#sphx-glr-auto-examples-exercises-plot-cv-diabetes-py
 	sphx_glr_auto_examples_exercises_plot_cv_digits.py Cross-validation on Digits Dataset Exercise: auto_examples/exercises/plot_cv_digits.html#sphx-glr-auto-examples-exercises-plot-cv-digits-py
 	sphx_glr_auto_examples_exercises_plot_digits_classification_exercise.py Digits Classification Exercise          : auto_examples/exercises/plot_digits_classification_exercise.html#sphx-glr-auto-examples-exercises-plot-digits-classification-exercise-py
 	sphx_glr_auto_examples_exercises_plot_iris_exercise.py SVM Exercise                            : auto_examples/exercises/plot_iris_exercise.html#sphx-glr-auto-examples-exercises-plot-iris-exercise-py
 	sphx_glr_auto_examples_exercises_sg_execution_times Computation times                       : auto_examples/exercises/sg_execution_times.html#sphx-glr-auto-examples-exercises-sg-execution-times
-	sphx_glr_auto_examples_feature_selection Feature Selection                       : auto_examples/index.html#sphx-glr-auto-examples-feature-selection
+	sphx_glr_auto_examples_feature_selection Feature Selection                       : auto_examples/feature_selection/index.html#sphx-glr-auto-examples-feature-selection
 	sphx_glr_auto_examples_feature_selection_plot_f_test_vs_mi.py Comparison of F-test and mutual information: auto_examples/feature_selection/plot_f_test_vs_mi.html#sphx-glr-auto-examples-feature-selection-plot-f-test-vs-mi-py
 	sphx_glr_auto_examples_feature_selection_plot_feature_selection.py Univariate Feature Selection            : auto_examples/feature_selection/plot_feature_selection.html#sphx-glr-auto-examples-feature-selection-plot-feature-selection-py
 	sphx_glr_auto_examples_feature_selection_plot_feature_selection_pipeline.py Pipeline ANOVA SVM                      : auto_examples/feature_selection/plot_feature_selection_pipeline.html#sphx-glr-auto-examples-feature-selection-plot-feature-selection-pipeline-py
@@ -4575,7 +4609,7 @@ std:label
 	sphx_glr_auto_examples_feature_selection_plot_rfe_with_cross_validation.py Recursive feature elimination with cross-validation: auto_examples/feature_selection/plot_rfe_with_cross_validation.html#sphx-glr-auto-examples-feature-selection-plot-rfe-with-cross-validation-py
 	sphx_glr_auto_examples_feature_selection_plot_select_from_model_diabetes.py Model-based and sequential feature selection: auto_examples/feature_selection/plot_select_from_model_diabetes.html#sphx-glr-auto-examples-feature-selection-plot-select-from-model-diabetes-py
 	sphx_glr_auto_examples_feature_selection_sg_execution_times Computation times                       : auto_examples/feature_selection/sg_execution_times.html#sphx-glr-auto-examples-feature-selection-sg-execution-times
-	sphx_glr_auto_examples_gaussian_process  Gaussian Process for Machine Learning   : auto_examples/index.html#sphx-glr-auto-examples-gaussian-process
+	sphx_glr_auto_examples_gaussian_process  Gaussian Process for Machine Learning   : auto_examples/gaussian_process/index.html#sphx-glr-auto-examples-gaussian-process
 	sphx_glr_auto_examples_gaussian_process_plot_compare_gpr_krr.py Comparison of kernel ridge and Gaussian process regression: auto_examples/gaussian_process/plot_compare_gpr_krr.html#sphx-glr-auto-examples-gaussian-process-plot-compare-gpr-krr-py
 	sphx_glr_auto_examples_gaussian_process_plot_gpc.py Probabilistic predictions with Gaussian process classification (GPC): auto_examples/gaussian_process/plot_gpc.html#sphx-glr-auto-examples-gaussian-process-plot-gpc-py
 	sphx_glr_auto_examples_gaussian_process_plot_gpc_iris.py Gaussian process classification (GPC) on iris dataset: auto_examples/gaussian_process/plot_gpc_iris.html#sphx-glr-auto-examples-gaussian-process-plot-gpc-iris-py
@@ -4587,20 +4621,20 @@ std:label
 	sphx_glr_auto_examples_gaussian_process_plot_gpr_on_structured_data.py Gaussian processes on discrete data structures: auto_examples/gaussian_process/plot_gpr_on_structured_data.html#sphx-glr-auto-examples-gaussian-process-plot-gpr-on-structured-data-py
 	sphx_glr_auto_examples_gaussian_process_plot_gpr_prior_posterior.py Illustration of prior and posterior Gaussian process for different kernels: auto_examples/gaussian_process/plot_gpr_prior_posterior.html#sphx-glr-auto-examples-gaussian-process-plot-gpr-prior-posterior-py
 	sphx_glr_auto_examples_gaussian_process_sg_execution_times Computation times                       : auto_examples/gaussian_process/sg_execution_times.html#sphx-glr-auto-examples-gaussian-process-sg-execution-times
-	sphx_glr_auto_examples_impute            Missing Value Imputation                : auto_examples/index.html#sphx-glr-auto-examples-impute
+	sphx_glr_auto_examples_impute            Missing Value Imputation                : auto_examples/impute/index.html#sphx-glr-auto-examples-impute
 	sphx_glr_auto_examples_impute_plot_iterative_imputer_variants_comparison.py Imputing missing values with variants of IterativeImputer: auto_examples/impute/plot_iterative_imputer_variants_comparison.html#sphx-glr-auto-examples-impute-plot-iterative-imputer-variants-comparison-py
 	sphx_glr_auto_examples_impute_plot_missing_values.py Imputing missing values before building an estimator: auto_examples/impute/plot_missing_values.html#sphx-glr-auto-examples-impute-plot-missing-values-py
 	sphx_glr_auto_examples_impute_sg_execution_times Computation times                       : auto_examples/impute/sg_execution_times.html#sphx-glr-auto-examples-impute-sg-execution-times
-	sphx_glr_auto_examples_inspection        Inspection                              : auto_examples/index.html#sphx-glr-auto-examples-inspection
+	sphx_glr_auto_examples_inspection        Inspection                              : auto_examples/inspection/index.html#sphx-glr-auto-examples-inspection
 	sphx_glr_auto_examples_inspection_plot_linear_model_coefficient_interpretation.py Common pitfalls in the interpretation of coefficients of linear models: auto_examples/inspection/plot_linear_model_coefficient_interpretation.html#sphx-glr-auto-examples-inspection-plot-linear-model-coefficient-interpretation-py
 	sphx_glr_auto_examples_inspection_plot_partial_dependence.py Partial Dependence and Individual Conditional Expectation Plots: auto_examples/inspection/plot_partial_dependence.html#sphx-glr-auto-examples-inspection-plot-partial-dependence-py
 	sphx_glr_auto_examples_inspection_plot_permutation_importance.py Permutation Importance vs Random Forest Feature Importance (MDI): auto_examples/inspection/plot_permutation_importance.html#sphx-glr-auto-examples-inspection-plot-permutation-importance-py
 	sphx_glr_auto_examples_inspection_plot_permutation_importance_multicollinear.py Permutation Importance with Multicollinear or Correlated Features: auto_examples/inspection/plot_permutation_importance_multicollinear.html#sphx-glr-auto-examples-inspection-plot-permutation-importance-multicollinear-py
 	sphx_glr_auto_examples_inspection_sg_execution_times Computation times                       : auto_examples/inspection/sg_execution_times.html#sphx-glr-auto-examples-inspection-sg-execution-times
-	sphx_glr_auto_examples_kernel_approximation Kernel Approximation                    : auto_examples/index.html#sphx-glr-auto-examples-kernel-approximation
+	sphx_glr_auto_examples_kernel_approximation Kernel Approximation                    : auto_examples/kernel_approximation/index.html#sphx-glr-auto-examples-kernel-approximation
 	sphx_glr_auto_examples_kernel_approximation_plot_scalable_poly_kernels.py Scalable learning with polynomial kernel approximation: auto_examples/kernel_approximation/plot_scalable_poly_kernels.html#sphx-glr-auto-examples-kernel-approximation-plot-scalable-poly-kernels-py
 	sphx_glr_auto_examples_kernel_approximation_sg_execution_times Computation times                       : auto_examples/kernel_approximation/sg_execution_times.html#sphx-glr-auto-examples-kernel-approximation-sg-execution-times
-	sphx_glr_auto_examples_linear_model      Generalized Linear Models               : auto_examples/index.html#sphx-glr-auto-examples-linear-model
+	sphx_glr_auto_examples_linear_model      Generalized Linear Models               : auto_examples/linear_model/index.html#sphx-glr-auto-examples-linear-model
 	sphx_glr_auto_examples_linear_model_plot_ard.py Comparing Linear Bayesian Regressors    : auto_examples/linear_model/plot_ard.html#sphx-glr-auto-examples-linear-model-plot-ard-py
 	sphx_glr_auto_examples_linear_model_plot_bayesian_ridge_curvefit.py Curve Fitting with Bayesian Ridge Regression: auto_examples/linear_model/plot_bayesian_ridge_curvefit.html#sphx-glr-auto-examples-linear-model-plot-bayesian-ridge-curvefit-py
 	sphx_glr_auto_examples_linear_model_plot_elastic_net_precomputed_gram_matrix_with_weighted_samples.py Fitting an Elastic Net with a precomputed Gram Matrix and Weighted Samples: auto_examples/linear_model/plot_elastic_net_precomputed_gram_matrix_with_weighted_samples.html#sphx-glr-auto-examples-linear-model-plot-elastic-net-precomputed-gram-matrix-with-weighted-samples-py
@@ -4642,7 +4676,7 @@ std:label
 	sphx_glr_auto_examples_linear_model_plot_theilsen.py Theil-Sen Regression                    : auto_examples/linear_model/plot_theilsen.html#sphx-glr-auto-examples-linear-model-plot-theilsen-py
 	sphx_glr_auto_examples_linear_model_plot_tweedie_regression_insurance_claims.py Tweedie regression on insurance claims  : auto_examples/linear_model/plot_tweedie_regression_insurance_claims.html#sphx-glr-auto-examples-linear-model-plot-tweedie-regression-insurance-claims-py
 	sphx_glr_auto_examples_linear_model_sg_execution_times Computation times                       : auto_examples/linear_model/sg_execution_times.html#sphx-glr-auto-examples-linear-model-sg-execution-times
-	sphx_glr_auto_examples_manifold          Manifold learning                       : auto_examples/index.html#sphx-glr-auto-examples-manifold
+	sphx_glr_auto_examples_manifold          Manifold learning                       : auto_examples/manifold/index.html#sphx-glr-auto-examples-manifold
 	sphx_glr_auto_examples_manifold_plot_compare_methods.py Comparison of Manifold Learning methods : auto_examples/manifold/plot_compare_methods.html#sphx-glr-auto-examples-manifold-plot-compare-methods-py
 	sphx_glr_auto_examples_manifold_plot_lle_digits.py Manifold learning on handwritten digits: Locally Linear Embedding, Isomap…: auto_examples/manifold/plot_lle_digits.html#sphx-glr-auto-examples-manifold-plot-lle-digits-py
 	sphx_glr_auto_examples_manifold_plot_manifold_sphere.py Manifold Learning methods on a severed sphere: auto_examples/manifold/plot_manifold_sphere.html#sphx-glr-auto-examples-manifold-plot-manifold-sphere-py
@@ -4650,7 +4684,7 @@ std:label
 	sphx_glr_auto_examples_manifold_plot_swissroll.py Swiss Roll And Swiss-Hole Reduction     : auto_examples/manifold/plot_swissroll.html#sphx-glr-auto-examples-manifold-plot-swissroll-py
 	sphx_glr_auto_examples_manifold_plot_t_sne_perplexity.py t-SNE: The effect of various perplexity values on the shape: auto_examples/manifold/plot_t_sne_perplexity.html#sphx-glr-auto-examples-manifold-plot-t-sne-perplexity-py
 	sphx_glr_auto_examples_manifold_sg_execution_times Computation times                       : auto_examples/manifold/sg_execution_times.html#sphx-glr-auto-examples-manifold-sg-execution-times
-	sphx_glr_auto_examples_miscellaneous     Miscellaneous                           : auto_examples/index.html#sphx-glr-auto-examples-miscellaneous
+	sphx_glr_auto_examples_miscellaneous     Miscellaneous                           : auto_examples/miscellaneous/index.html#sphx-glr-auto-examples-miscellaneous
 	sphx_glr_auto_examples_miscellaneous_plot_anomaly_comparison.py Comparing anomaly detection algorithms for outlier detection on toy datasets: auto_examples/miscellaneous/plot_anomaly_comparison.html#sphx-glr-auto-examples-miscellaneous-plot-anomaly-comparison-py
 	sphx_glr_auto_examples_miscellaneous_plot_changed_only_pprint_parameter.py Compact estimator representations       : auto_examples/miscellaneous/plot_changed_only_pprint_parameter.html#sphx-glr-auto-examples-miscellaneous-plot-changed-only-pprint-parameter-py
 	sphx_glr_auto_examples_miscellaneous_plot_display_object_visualization.py Visualizations with Display Objects     : auto_examples/miscellaneous/plot_display_object_visualization.html#sphx-glr-auto-examples-miscellaneous-plot-display-object-visualization-py
@@ -4665,7 +4699,7 @@ std:label
 	sphx_glr_auto_examples_miscellaneous_plot_pipeline_display.py Displaying Pipelines                    : auto_examples/miscellaneous/plot_pipeline_display.html#sphx-glr-auto-examples-miscellaneous-plot-pipeline-display-py
 	sphx_glr_auto_examples_miscellaneous_plot_roc_curve_visualization_api.py ROC Curve with Visualization API        : auto_examples/miscellaneous/plot_roc_curve_visualization_api.html#sphx-glr-auto-examples-miscellaneous-plot-roc-curve-visualization-api-py
 	sphx_glr_auto_examples_miscellaneous_sg_execution_times Computation times                       : auto_examples/miscellaneous/sg_execution_times.html#sphx-glr-auto-examples-miscellaneous-sg-execution-times
-	sphx_glr_auto_examples_mixture           Gaussian Mixture Models                 : auto_examples/index.html#sphx-glr-auto-examples-mixture
+	sphx_glr_auto_examples_mixture           Gaussian Mixture Models                 : auto_examples/mixture/index.html#sphx-glr-auto-examples-mixture
 	sphx_glr_auto_examples_mixture_plot_concentration_prior.py Concentration Prior Type Analysis of Variation Bayesian Gaussian Mixture: auto_examples/mixture/plot_concentration_prior.html#sphx-glr-auto-examples-mixture-plot-concentration-prior-py
 	sphx_glr_auto_examples_mixture_plot_gmm.py Gaussian Mixture Model Ellipsoids       : auto_examples/mixture/plot_gmm.html#sphx-glr-auto-examples-mixture-plot-gmm-py
 	sphx_glr_auto_examples_mixture_plot_gmm_covariances.py GMM covariances                         : auto_examples/mixture/plot_gmm_covariances.html#sphx-glr-auto-examples-mixture-plot-gmm-covariances-py
@@ -4674,13 +4708,13 @@ std:label
 	sphx_glr_auto_examples_mixture_plot_gmm_selection.py Gaussian Mixture Model Selection        : auto_examples/mixture/plot_gmm_selection.html#sphx-glr-auto-examples-mixture-plot-gmm-selection-py
 	sphx_glr_auto_examples_mixture_plot_gmm_sin.py Gaussian Mixture Model Sine Curve       : auto_examples/mixture/plot_gmm_sin.html#sphx-glr-auto-examples-mixture-plot-gmm-sin-py
 	sphx_glr_auto_examples_mixture_sg_execution_times Computation times                       : auto_examples/mixture/sg_execution_times.html#sphx-glr-auto-examples-mixture-sg-execution-times
-	sphx_glr_auto_examples_model_selection   Model Selection                         : auto_examples/index.html#sphx-glr-auto-examples-model-selection
+	sphx_glr_auto_examples_model_selection   Model Selection                         : auto_examples/model_selection/index.html#sphx-glr-auto-examples-model-selection
 	sphx_glr_auto_examples_model_selection_grid_search_text_feature_extraction.py Sample pipeline for text feature extraction and evaluation: auto_examples/model_selection/grid_search_text_feature_extraction.html#sphx-glr-auto-examples-model-selection-grid-search-text-feature-extraction-py
 	sphx_glr_auto_examples_model_selection_plot_confusion_matrix.py Confusion matrix                        : auto_examples/model_selection/plot_confusion_matrix.html#sphx-glr-auto-examples-model-selection-plot-confusion-matrix-py
 	sphx_glr_auto_examples_model_selection_plot_cv_indices.py Visualizing cross-validation behavior in scikit-learn: auto_examples/model_selection/plot_cv_indices.html#sphx-glr-auto-examples-model-selection-plot-cv-indices-py
 	sphx_glr_auto_examples_model_selection_plot_cv_predict.py Plotting Cross-Validated Predictions    : auto_examples/model_selection/plot_cv_predict.html#sphx-glr-auto-examples-model-selection-plot-cv-predict-py
 	sphx_glr_auto_examples_model_selection_plot_det.py Detection error tradeoff (DET) curve    : auto_examples/model_selection/plot_det.html#sphx-glr-auto-examples-model-selection-plot-det-py
-	sphx_glr_auto_examples_model_selection_plot_grid_search_digits.py Parameter estimation using grid search with cross-validation: auto_examples/model_selection/plot_grid_search_digits.html#sphx-glr-auto-examples-model-selection-plot-grid-search-digits-py
+	sphx_glr_auto_examples_model_selection_plot_grid_search_digits.py Custom refit strategy of a grid search with cross-validation: auto_examples/model_selection/plot_grid_search_digits.html#sphx-glr-auto-examples-model-selection-plot-grid-search-digits-py
 	sphx_glr_auto_examples_model_selection_plot_grid_search_refit_callable.py Balance model complexity and cross-validated score: auto_examples/model_selection/plot_grid_search_refit_callable.html#sphx-glr-auto-examples-model-selection-plot-grid-search-refit-callable-py
 	sphx_glr_auto_examples_model_selection_plot_grid_search_stats.py Statistical comparison of models using grid search: auto_examples/model_selection/plot_grid_search_stats.html#sphx-glr-auto-examples-model-selection-plot-grid-search-stats-py
 	sphx_glr_auto_examples_model_selection_plot_learning_curve.py Plotting Learning Curves                : auto_examples/model_selection/plot_learning_curve.html#sphx-glr-auto-examples-model-selection-plot-learning-curve-py
@@ -4697,10 +4731,10 @@ std:label
 	sphx_glr_auto_examples_model_selection_plot_underfitting_overfitting.py Underfitting vs. Overfitting            : auto_examples/model_selection/plot_underfitting_overfitting.html#sphx-glr-auto-examples-model-selection-plot-underfitting-overfitting-py
 	sphx_glr_auto_examples_model_selection_plot_validation_curve.py Plotting Validation Curves              : auto_examples/model_selection/plot_validation_curve.html#sphx-glr-auto-examples-model-selection-plot-validation-curve-py
 	sphx_glr_auto_examples_model_selection_sg_execution_times Computation times                       : auto_examples/model_selection/sg_execution_times.html#sphx-glr-auto-examples-model-selection-sg-execution-times
-	sphx_glr_auto_examples_multioutput       Multioutput methods                     : auto_examples/index.html#sphx-glr-auto-examples-multioutput
+	sphx_glr_auto_examples_multioutput       Multioutput methods                     : auto_examples/multioutput/index.html#sphx-glr-auto-examples-multioutput
 	sphx_glr_auto_examples_multioutput_plot_classifier_chain_yeast.py Classifier Chain                        : auto_examples/multioutput/plot_classifier_chain_yeast.html#sphx-glr-auto-examples-multioutput-plot-classifier-chain-yeast-py
 	sphx_glr_auto_examples_multioutput_sg_execution_times Computation times                       : auto_examples/multioutput/sg_execution_times.html#sphx-glr-auto-examples-multioutput-sg-execution-times
-	sphx_glr_auto_examples_neighbors         Nearest Neighbors                       : auto_examples/index.html#sphx-glr-auto-examples-neighbors
+	sphx_glr_auto_examples_neighbors         Nearest Neighbors                       : auto_examples/neighbors/index.html#sphx-glr-auto-examples-neighbors
 	sphx_glr_auto_examples_neighbors_approximate_nearest_neighbors.py Approximate nearest neighbors in TSNE   : auto_examples/neighbors/approximate_nearest_neighbors.html#sphx-glr-auto-examples-neighbors-approximate-nearest-neighbors-py
 	sphx_glr_auto_examples_neighbors_plot_caching_nearest_neighbors.py Caching nearest neighbors               : auto_examples/neighbors/plot_caching_nearest_neighbors.html#sphx-glr-auto-examples-neighbors-plot-caching-nearest-neighbors-py
 	sphx_glr_auto_examples_neighbors_plot_classification.py Nearest Neighbors Classification        : auto_examples/neighbors/plot_classification.html#sphx-glr-auto-examples-neighbors-plot-classification-py
@@ -4715,13 +4749,13 @@ std:label
 	sphx_glr_auto_examples_neighbors_plot_regression.py Nearest Neighbors regression            : auto_examples/neighbors/plot_regression.html#sphx-glr-auto-examples-neighbors-plot-regression-py
 	sphx_glr_auto_examples_neighbors_plot_species_kde.py Kernel Density Estimate of Species Distributions: auto_examples/neighbors/plot_species_kde.html#sphx-glr-auto-examples-neighbors-plot-species-kde-py
 	sphx_glr_auto_examples_neighbors_sg_execution_times Computation times                       : auto_examples/neighbors/sg_execution_times.html#sphx-glr-auto-examples-neighbors-sg-execution-times
-	sphx_glr_auto_examples_neural_networks   Neural Networks                         : auto_examples/index.html#sphx-glr-auto-examples-neural-networks
+	sphx_glr_auto_examples_neural_networks   Neural Networks                         : auto_examples/neural_networks/index.html#sphx-glr-auto-examples-neural-networks
 	sphx_glr_auto_examples_neural_networks_plot_mlp_alpha.py Varying regularization in Multi-layer Perceptron: auto_examples/neural_networks/plot_mlp_alpha.html#sphx-glr-auto-examples-neural-networks-plot-mlp-alpha-py
 	sphx_glr_auto_examples_neural_networks_plot_mlp_training_curves.py Compare Stochastic learning strategies for MLPClassifier: auto_examples/neural_networks/plot_mlp_training_curves.html#sphx-glr-auto-examples-neural-networks-plot-mlp-training-curves-py
 	sphx_glr_auto_examples_neural_networks_plot_mnist_filters.py Visualization of MLP weights on MNIST   : auto_examples/neural_networks/plot_mnist_filters.html#sphx-glr-auto-examples-neural-networks-plot-mnist-filters-py
 	sphx_glr_auto_examples_neural_networks_plot_rbm_logistic_classification.py Restricted Boltzmann Machine features for digit classification: auto_examples/neural_networks/plot_rbm_logistic_classification.html#sphx-glr-auto-examples-neural-networks-plot-rbm-logistic-classification-py
 	sphx_glr_auto_examples_neural_networks_sg_execution_times Computation times                       : auto_examples/neural_networks/sg_execution_times.html#sphx-glr-auto-examples-neural-networks-sg-execution-times
-	sphx_glr_auto_examples_preprocessing     Preprocessing                           : auto_examples/index.html#sphx-glr-auto-examples-preprocessing
+	sphx_glr_auto_examples_preprocessing     Preprocessing                           : auto_examples/preprocessing/index.html#sphx-glr-auto-examples-preprocessing
 	sphx_glr_auto_examples_preprocessing_plot_all_scaling.py Compare the effect of different scalers on data with outliers: auto_examples/preprocessing/plot_all_scaling.html#sphx-glr-auto-examples-preprocessing-plot-all-scaling-py
 	sphx_glr_auto_examples_preprocessing_plot_discretization.py Using KBinsDiscretizer to discretize continuous features: auto_examples/preprocessing/plot_discretization.html#sphx-glr-auto-examples-preprocessing-plot-discretization-py
 	sphx_glr_auto_examples_preprocessing_plot_discretization_classification.py Feature discretization                  : auto_examples/preprocessing/plot_discretization_classification.html#sphx-glr-auto-examples-preprocessing-plot-discretization-classification-py
@@ -4729,14 +4763,14 @@ std:label
 	sphx_glr_auto_examples_preprocessing_plot_map_data_to_normal.py Map data to a normal distribution       : auto_examples/preprocessing/plot_map_data_to_normal.html#sphx-glr-auto-examples-preprocessing-plot-map-data-to-normal-py
 	sphx_glr_auto_examples_preprocessing_plot_scaling_importance.py Importance of Feature Scaling           : auto_examples/preprocessing/plot_scaling_importance.html#sphx-glr-auto-examples-preprocessing-plot-scaling-importance-py
 	sphx_glr_auto_examples_preprocessing_sg_execution_times Computation times                       : auto_examples/preprocessing/sg_execution_times.html#sphx-glr-auto-examples-preprocessing-sg-execution-times
-	sphx_glr_auto_examples_release_highlights Release Highlights                      : auto_examples/index.html#sphx-glr-auto-examples-release-highlights
+	sphx_glr_auto_examples_release_highlights Release Highlights                      : auto_examples/release_highlights/index.html#sphx-glr-auto-examples-release-highlights
 	sphx_glr_auto_examples_release_highlights_plot_release_highlights_0_22_0.py Release Highlights for scikit-learn 0.22: auto_examples/release_highlights/plot_release_highlights_0_22_0.html#sphx-glr-auto-examples-release-highlights-plot-release-highlights-0-22-0-py
 	sphx_glr_auto_examples_release_highlights_plot_release_highlights_0_23_0.py Release Highlights for scikit-learn 0.23: auto_examples/release_highlights/plot_release_highlights_0_23_0.html#sphx-glr-auto-examples-release-highlights-plot-release-highlights-0-23-0-py
 	sphx_glr_auto_examples_release_highlights_plot_release_highlights_0_24_0.py Release Highlights for scikit-learn 0.24: auto_examples/release_highlights/plot_release_highlights_0_24_0.html#sphx-glr-auto-examples-release-highlights-plot-release-highlights-0-24-0-py
 	sphx_glr_auto_examples_release_highlights_plot_release_highlights_1_0_0.py Release Highlights for scikit-learn 1.0 : auto_examples/release_highlights/plot_release_highlights_1_0_0.html#sphx-glr-auto-examples-release-highlights-plot-release-highlights-1-0-0-py
 	sphx_glr_auto_examples_release_highlights_plot_release_highlights_1_1_0.py Release Highlights for scikit-learn 1.1 : auto_examples/release_highlights/plot_release_highlights_1_1_0.html#sphx-glr-auto-examples-release-highlights-plot-release-highlights-1-1-0-py
 	sphx_glr_auto_examples_release_highlights_sg_execution_times Computation times                       : auto_examples/release_highlights/sg_execution_times.html#sphx-glr-auto-examples-release-highlights-sg-execution-times
-	sphx_glr_auto_examples_semi_supervised   Semi Supervised Classification          : auto_examples/index.html#sphx-glr-auto-examples-semi-supervised
+	sphx_glr_auto_examples_semi_supervised   Semi Supervised Classification          : auto_examples/semi_supervised/index.html#sphx-glr-auto-examples-semi-supervised
 	sphx_glr_auto_examples_semi_supervised_plot_label_propagation_digits.py Label Propagation digits: Demonstrating performance: auto_examples/semi_supervised/plot_label_propagation_digits.html#sphx-glr-auto-examples-semi-supervised-plot-label-propagation-digits-py
 	sphx_glr_auto_examples_semi_supervised_plot_label_propagation_digits_active_learning.py Label Propagation digits active learning: auto_examples/semi_supervised/plot_label_propagation_digits_active_learning.html#sphx-glr-auto-examples-semi-supervised-plot-label-propagation-digits-active-learning-py
 	sphx_glr_auto_examples_semi_supervised_plot_label_propagation_structure.py Label Propagation learning a complex structure: auto_examples/semi_supervised/plot_label_propagation_structure.html#sphx-glr-auto-examples-semi-supervised-plot-label-propagation-structure-py
@@ -4744,7 +4778,7 @@ std:label
 	sphx_glr_auto_examples_semi_supervised_plot_semi_supervised_newsgroups.py Semi-supervised Classification on a Text Dataset: auto_examples/semi_supervised/plot_semi_supervised_newsgroups.html#sphx-glr-auto-examples-semi-supervised-plot-semi-supervised-newsgroups-py
 	sphx_glr_auto_examples_semi_supervised_plot_semi_supervised_versus_svm_iris.py Decision boundary of semi-supervised classifiers versus SVM on the Iris dataset: auto_examples/semi_supervised/plot_semi_supervised_versus_svm_iris.html#sphx-glr-auto-examples-semi-supervised-plot-semi-supervised-versus-svm-iris-py
 	sphx_glr_auto_examples_semi_supervised_sg_execution_times Computation times                       : auto_examples/semi_supervised/sg_execution_times.html#sphx-glr-auto-examples-semi-supervised-sg-execution-times
-	sphx_glr_auto_examples_svm               Support Vector Machines                 : auto_examples/index.html#sphx-glr-auto-examples-svm
+	sphx_glr_auto_examples_svm               Support Vector Machines                 : auto_examples/svm/index.html#sphx-glr-auto-examples-svm
 	sphx_glr_auto_examples_svm_plot_custom_kernel.py SVM with custom kernel                  : auto_examples/svm/plot_custom_kernel.html#sphx-glr-auto-examples-svm-plot-custom-kernel-py
 	sphx_glr_auto_examples_svm_plot_iris_svc.py Plot different SVM classifiers in the iris dataset: auto_examples/svm/plot_iris_svc.html#sphx-glr-auto-examples-svm-plot-iris-svc-py
 	sphx_glr_auto_examples_svm_plot_linearsvc_support_vectors.py Plot the support vectors in LinearSVC   : auto_examples/svm/plot_linearsvc_support_vectors.html#sphx-glr-auto-examples-svm-plot-linearsvc-support-vectors-py
@@ -4761,12 +4795,12 @@ std:label
 	sphx_glr_auto_examples_svm_plot_svm_tie_breaking.py SVM Tie Breaking Example                : auto_examples/svm/plot_svm_tie_breaking.html#sphx-glr-auto-examples-svm-plot-svm-tie-breaking-py
 	sphx_glr_auto_examples_svm_plot_weighted_samples.py SVM: Weighted samples                   : auto_examples/svm/plot_weighted_samples.html#sphx-glr-auto-examples-svm-plot-weighted-samples-py
 	sphx_glr_auto_examples_svm_sg_execution_times Computation times                       : auto_examples/svm/sg_execution_times.html#sphx-glr-auto-examples-svm-sg-execution-times
-	sphx_glr_auto_examples_text              Working with text documents             : auto_examples/index.html#sphx-glr-auto-examples-text
+	sphx_glr_auto_examples_text              Working with text documents             : auto_examples/text/index.html#sphx-glr-auto-examples-text
 	sphx_glr_auto_examples_text_plot_document_classification_20newsgroups.py Classification of text documents using sparse features: auto_examples/text/plot_document_classification_20newsgroups.html#sphx-glr-auto-examples-text-plot-document-classification-20newsgroups-py
 	sphx_glr_auto_examples_text_plot_document_clustering.py Clustering text documents using k-means : auto_examples/text/plot_document_clustering.html#sphx-glr-auto-examples-text-plot-document-clustering-py
 	sphx_glr_auto_examples_text_plot_hashing_vs_dict_vectorizer.py FeatureHasher and DictVectorizer Comparison: auto_examples/text/plot_hashing_vs_dict_vectorizer.html#sphx-glr-auto-examples-text-plot-hashing-vs-dict-vectorizer-py
 	sphx_glr_auto_examples_text_sg_execution_times Computation times                       : auto_examples/text/sg_execution_times.html#sphx-glr-auto-examples-text-sg-execution-times
-	sphx_glr_auto_examples_tree              Decision Trees                          : auto_examples/index.html#sphx-glr-auto-examples-tree
+	sphx_glr_auto_examples_tree              Decision Trees                          : auto_examples/tree/index.html#sphx-glr-auto-examples-tree
 	sphx_glr_auto_examples_tree_plot_cost_complexity_pruning.py Post pruning decision trees with cost complexity pruning: auto_examples/tree/plot_cost_complexity_pruning.html#sphx-glr-auto-examples-tree-plot-cost-complexity-pruning-py
 	sphx_glr_auto_examples_tree_plot_iris_dtc.py Plot the decision surface of decision trees trained on the iris dataset: auto_examples/tree/plot_iris_dtc.html#sphx-glr-auto-examples-tree-plot-iris-dtc-py
 	sphx_glr_auto_examples_tree_plot_tree_regression.py Decision Tree Regression                : auto_examples/tree/plot_tree_regression.html#sphx-glr-auto-examples-tree-plot-tree-regression-py
@@ -5070,7 +5104,7 @@ std:label
 	supervised_learning_tut                  Supervised learning: predicting an output variable from high-dimensional observations: tutorial/statistical_inference/supervised_learning.html#supervised-learning-tut
 	svm                                      Support Vector Machines                 : modules/svm.html#svm
 	svm_classification                       Classification                          : modules/svm.html#svm-classification
-	svm_examples                             Support Vector Machines                 : auto_examples/index.html#svm-examples
+	svm_examples                             Support Vector Machines                 : auto_examples/svm/index.html#svm-examples
 	svm_implementation_details               Implementation details                  : modules/svm.html#svm-implementation-details
 	svm_kernels                              Kernel functions                        : modules/svm.html#svm-kernels
 	svm_mathematical_formulation             Mathematical formulation                : modules/svm.html#svm-mathematical-formulation
@@ -5085,7 +5119,7 @@ std:label
 	testimonials                             Who is using scikit-learn?              : testimonials/testimonials.html#testimonials
 	testing_coverage                         Testing and improving test coverage     : developers/contributing.html#testing-coverage
 	text_data_tutorial                       Working With Text Data                  : tutorial/text_analytics/working_with_text_data.html#text-data-tutorial
-	text_examples                            Working with text documents             : auto_examples/index.html#text-examples
+	text_examples                            Working with text documents             : auto_examples/text/index.html#text-examples
 	text_feature_extraction                  Text feature extraction                 : modules/feature_extraction.html#text-feature-extraction
 	text_feature_extraction_ref              From text                               : modules/classes.html#text-feature-extraction-ref
 	tfidf                                    Tf–idf term weighting                   : modules/feature_extraction.html#tfidf
@@ -5100,7 +5134,7 @@ std:label
 	tree_algorithms                          Tree algorithms: ID3, C4.5, C5.0 and CART: modules/tree.html#tree-algorithms
 	tree_classification                      Classification                          : modules/tree.html#tree-classification
 	tree_complexity                          Complexity                              : modules/tree.html#tree-complexity
-	tree_examples                            Decision Trees                          : auto_examples/index.html#tree-examples
+	tree_examples                            Decision Trees                          : auto_examples/tree/index.html#tree-examples
 	tree_mathematical_formulation            Mathematical formulation                : modules/tree.html#tree-mathematical-formulation
 	tree_multioutput                         Multi-output problems                   : modules/tree.html#tree-multioutput
 	tree_ref                                 sklearn.tree: Decision Trees            : modules/classes.html#tree-ref
