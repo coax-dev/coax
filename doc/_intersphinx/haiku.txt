@@ -107,6 +107,89 @@ py:class
 	haiku.Transformed                        api.html#haiku.Transformed
 	haiku.TransformedWithState               api.html#haiku.TransformedWithState
 	haiku.VanillaRNN                         api.html#haiku.VanillaRNN
+	haiku._src.attention.MultiHeadAttention  api.html#haiku.MultiHeadAttention
+	haiku._src.base.GetterContext            api.html#haiku.GetterContext
+	haiku._src.base.PRNGSequence             api.html#haiku.PRNGSequence
+	haiku._src.base.SetterContext            api.html#haiku.SetterContext
+	haiku._src.basic.BatchApply              api.html#haiku.BatchApply
+	haiku._src.basic.Linear                  api.html#haiku.Linear
+	haiku._src.basic.Sequential              api.html#haiku.Sequential
+	haiku._src.batch_norm.BatchNorm          api.html#haiku.BatchNorm
+	haiku._src.bias.Bias                     api.html#haiku.Bias
+	haiku._src.conv.Conv1D                   api.html#haiku.Conv1D
+	haiku._src.conv.Conv1DTranspose          api.html#haiku.Conv1DTranspose
+	haiku._src.conv.Conv2D                   api.html#haiku.Conv2D
+	haiku._src.conv.Conv2DTranspose          api.html#haiku.Conv2DTranspose
+	haiku._src.conv.Conv3D                   api.html#haiku.Conv3D
+	haiku._src.conv.Conv3DTranspose          api.html#haiku.Conv3DTranspose
+	haiku._src.conv.ConvND                   api.html#haiku.ConvND
+	haiku._src.conv.ConvNDTranspose          api.html#haiku.ConvNDTranspose
+	haiku._src.deferred.Deferred             api.html#haiku.Deferred
+	haiku._src.depthwise_conv.DepthwiseConv1D api.html#haiku.DepthwiseConv1D
+	haiku._src.depthwise_conv.DepthwiseConv2D api.html#haiku.DepthwiseConv2D
+	haiku._src.depthwise_conv.DepthwiseConv3D api.html#haiku.DepthwiseConv3D
+	haiku._src.depthwise_conv.SeparableDepthwiseConv2D api.html#haiku.SeparableDepthwiseConv2D
+	haiku._src.embed.Embed                   api.html#haiku.Embed
+	haiku._src.embed.EmbedLookupStyle        api.html#haiku.EmbedLookupStyle
+	haiku._src.group_norm.GroupNorm          api.html#haiku.GroupNorm
+	haiku._src.initializers.Constant         api.html#haiku.initializers.Constant
+	haiku._src.initializers.Identity         api.html#haiku.initializers.Identity
+	haiku._src.initializers.Orthogonal       api.html#haiku.initializers.Orthogonal
+	haiku._src.initializers.RandomNormal     api.html#haiku.initializers.RandomNormal
+	haiku._src.initializers.RandomUniform    api.html#haiku.initializers.RandomUniform
+	haiku._src.initializers.TruncatedNormal  api.html#haiku.initializers.TruncatedNormal
+	haiku._src.initializers.UniformScaling   api.html#haiku.initializers.UniformScaling
+	haiku._src.initializers.VarianceScaling  api.html#haiku.initializers.VarianceScaling
+	haiku._src.jaxpr_info.Expression         api.html#haiku.experimental.jaxpr_info.Expression
+	haiku._src.jaxpr_info.Module             api.html#haiku.experimental.jaxpr_info.Module
+	haiku._src.layer_norm.InstanceNorm       api.html#haiku.InstanceNorm
+	haiku._src.layer_norm.LayerNorm          api.html#haiku.LayerNorm
+	haiku._src.lift.LiftWithStateUpdater     api.html#haiku.experimental.LiftWithStateUpdater
+	haiku._src.module.MethodContext          api.html#haiku.MethodContext
+	haiku._src.module.Module                 api.html#haiku.Module
+	haiku._src.moving_averages.EMAParamsTree api.html#haiku.EMAParamsTree
+	haiku._src.moving_averages.ExponentialMovingAverage api.html#haiku.ExponentialMovingAverage
+	haiku._src.multi_transform.MultiTransformed api.html#haiku.MultiTransformed
+	haiku._src.multi_transform.MultiTransformedWithState api.html#haiku.MultiTransformedWithState
+	haiku._src.nets.mlp.MLP                  api.html#haiku.nets.MLP
+	haiku._src.nets.mobilenetv1.MobileNetV1  api.html#haiku.nets.MobileNetV1
+	haiku._src.nets.resnet.BlockGroup        api.html#haiku.nets.ResNet.BlockGroup
+	haiku._src.nets.resnet.BlockV1           api.html#haiku.nets.ResNet.BlockV1
+	haiku._src.nets.resnet.BlockV2           api.html#haiku.nets.ResNet.BlockV2
+	haiku._src.nets.resnet.ResNet            api.html#haiku.nets.ResNet
+	haiku._src.nets.resnet.ResNet101         api.html#haiku.nets.ResNet101
+	haiku._src.nets.resnet.ResNet152         api.html#haiku.nets.ResNet152
+	haiku._src.nets.resnet.ResNet18          api.html#haiku.nets.ResNet18
+	haiku._src.nets.resnet.ResNet200         api.html#haiku.nets.ResNet200
+	haiku._src.nets.resnet.ResNet34          api.html#haiku.nets.ResNet34
+	haiku._src.nets.resnet.ResNet50          api.html#haiku.nets.ResNet50
+	haiku._src.nets.vqvae.VectorQuantizer    api.html#haiku.nets.VectorQuantizer
+	haiku._src.nets.vqvae.VectorQuantizerEMA api.html#haiku.nets.VectorQuantizerEMA
+	haiku._src.pool.AvgPool                  api.html#haiku.AvgPool
+	haiku._src.pool.MaxPool                  api.html#haiku.MaxPool
+	haiku._src.recurrent.Conv1DLSTM          api.html#haiku.Conv1DLSTM
+	haiku._src.recurrent.Conv2DLSTM          api.html#haiku.Conv2DLSTM
+	haiku._src.recurrent.Conv3DLSTM          api.html#haiku.Conv3DLSTM
+	haiku._src.recurrent.DeepRNN             api.html#haiku.DeepRNN
+	haiku._src.recurrent.GRU                 api.html#haiku.GRU
+	haiku._src.recurrent.IdentityCore        api.html#haiku.IdentityCore
+	haiku._src.recurrent.LSTM                api.html#haiku.LSTM
+	haiku._src.recurrent.LSTMState           api.html#haiku.LSTMState
+	haiku._src.recurrent.RNNCore             api.html#haiku.RNNCore
+	haiku._src.recurrent.ResetCore           api.html#haiku.ResetCore
+	haiku._src.recurrent.VanillaRNN          api.html#haiku.VanillaRNN
+	haiku._src.reshape.Flatten               api.html#haiku.Flatten
+	haiku._src.reshape.Reshape               api.html#haiku.Reshape
+	haiku._src.rms_norm.RMSNorm              api.html#haiku.RMSNorm
+	haiku._src.spectral_norm.SNParamsTree    api.html#haiku.SNParamsTree
+	haiku._src.spectral_norm.SpectralNorm    api.html#haiku.SpectralNorm
+	haiku._src.summarise.ArraySpec           api.html#haiku.experimental.ArraySpec
+	haiku._src.summarise.MethodInvocation    api.html#haiku.experimental.MethodInvocation
+	haiku._src.summarise.ModuleDetails       api.html#haiku.experimental.ModuleDetails
+	haiku._src.transform.Transformed         api.html#haiku.Transformed
+	haiku._src.transform.TransformedWithState api.html#haiku.TransformedWithState
+	haiku._src.typing.ModuleProtocol         api.html#haiku.ModuleProtocol
+	haiku._src.typing.SupportsCall           api.html#haiku.SupportsCall
 	haiku.experimental.ArraySpec             api.html#haiku.experimental.ArraySpec
 	haiku.experimental.LiftWithStateUpdater  api.html#haiku.experimental.LiftWithStateUpdater
 	haiku.experimental.MethodInvocation      api.html#haiku.experimental.MethodInvocation
@@ -165,6 +248,7 @@ py:function
 	haiku.experimental.current_name          api.html#haiku.experimental.current_name
 	haiku.experimental.eval_summary          api.html#haiku.experimental.eval_summary
 	haiku.experimental.fast_eval_shape       api.html#haiku.experimental.fast_eval_shape
+	haiku.experimental.force_name            api.html#haiku.experimental.force_name
 	haiku.experimental.jaxpr_info.as_html    api.html#haiku.experimental.jaxpr_info.as_html
 	haiku.experimental.jaxpr_info.as_html_page api.html#haiku.experimental.jaxpr_info.as_html_page
 	haiku.experimental.jaxpr_info.css        api.html#haiku.experimental.jaxpr_info.css
@@ -179,6 +263,7 @@ py:function
 	haiku.experimental.named_call            api.html#haiku.experimental.named_call
 	haiku.experimental.optimize_rng_use      api.html#haiku.experimental.optimize_rng_use
 	haiku.experimental.profiler_name_scopes  api.html#haiku.experimental.profiler_name_scopes
+	haiku.experimental.rng_reserve_size      api.html#haiku.experimental.rng_reserve_size
 	haiku.experimental.tabulate              api.html#haiku.experimental.tabulate
 	haiku.experimental.to_dot                api.html#haiku.experimental.to_dot
 	haiku.experimental.transparent_lift      api.html#haiku.experimental.transparent_lift
@@ -257,7 +342,6 @@ py:method
 	haiku.Deferred.__delattr__               api.html#haiku.Deferred.__delattr__
 	haiku.Deferred.__init__                  api.html#haiku.Deferred.__init__
 	haiku.Deferred.__setattr__               api.html#haiku.Deferred.__setattr__
-	haiku.Deferred.target                    api.html#haiku.Deferred.target
 	haiku.DepthwiseConv1D.__init__           api.html#haiku.DepthwiseConv1D.__init__
 	haiku.DepthwiseConv2D.__init__           api.html#haiku.DepthwiseConv2D.__init__
 	haiku.DepthwiseConv3D.__init__           api.html#haiku.DepthwiseConv3D.__init__
@@ -316,6 +400,21 @@ py:method
 	haiku.VanillaRNN.__call__                api.html#haiku.VanillaRNN.__call__
 	haiku.VanillaRNN.__init__                api.html#haiku.VanillaRNN.__init__
 	haiku.VanillaRNN.initial_state           api.html#haiku.VanillaRNN.initial_state
+	haiku.experimental.ArraySpec.__delattr__ api.html#haiku.experimental.ArraySpec.__delattr__
+	haiku.experimental.ArraySpec.__eq__      api.html#haiku.experimental.ArraySpec.__eq__
+	haiku.experimental.ArraySpec.__hash__    api.html#haiku.experimental.ArraySpec.__hash__
+	haiku.experimental.ArraySpec.__init__    api.html#haiku.experimental.ArraySpec.__init__
+	haiku.experimental.ArraySpec.__setattr__ api.html#haiku.experimental.ArraySpec.__setattr__
+	haiku.experimental.MethodInvocation.__delattr__ api.html#haiku.experimental.MethodInvocation.__delattr__
+	haiku.experimental.MethodInvocation.__eq__ api.html#haiku.experimental.MethodInvocation.__eq__
+	haiku.experimental.MethodInvocation.__hash__ api.html#haiku.experimental.MethodInvocation.__hash__
+	haiku.experimental.MethodInvocation.__init__ api.html#haiku.experimental.MethodInvocation.__init__
+	haiku.experimental.MethodInvocation.__setattr__ api.html#haiku.experimental.MethodInvocation.__setattr__
+	haiku.experimental.ModuleDetails.__delattr__ api.html#haiku.experimental.ModuleDetails.__delattr__
+	haiku.experimental.ModuleDetails.__eq__  api.html#haiku.experimental.ModuleDetails.__eq__
+	haiku.experimental.ModuleDetails.__hash__ api.html#haiku.experimental.ModuleDetails.__hash__
+	haiku.experimental.ModuleDetails.__init__ api.html#haiku.experimental.ModuleDetails.__init__
+	haiku.experimental.ModuleDetails.__setattr__ api.html#haiku.experimental.ModuleDetails.__setattr__
 	haiku.initializers.Constant.__call__     api.html#haiku.initializers.Constant.__call__
 	haiku.initializers.Constant.__init__     api.html#haiku.initializers.Constant.__init__
 	haiku.initializers.Identity.__call__     api.html#haiku.initializers.Identity.__call__
@@ -368,8 +467,10 @@ py:module
 	haiku.nets                               api.html#module-haiku.nets
 	haiku.pad                                api.html#module-haiku.pad
 	haiku.testing                            api.html#module-haiku.testing
+py:property
+	haiku.Deferred.target                    api.html#haiku.Deferred.target
 std:doc
-	api                                      Haiku Fundamentals                      : api.html
+	api                                      Haiku API reference                     : api.html
 	index                                    Haiku Documentation                     : index.html
 	notebooks/basics                         Haiku Basics                            : notebooks/basics.html
 	notebooks/build_your_own_haiku           Build your own Haiku                    : notebooks/build_your_own_haiku.html
@@ -379,7 +480,7 @@ std:doc
 	notebooks/transforms                     Limitations of Nesting JAX Functions and Haiku Modules: notebooks/transforms.html
 	notebooks/visualization                  Visualization                           : notebooks/visualization.html
 std:label
-	/api.rst                                 Haiku Fundamentals                      : api.html
+	/api.rst                                 Haiku API reference                     : api.html
 	/api.rst#abstract-to-dot                 abstract_to_dot                         : api.html#abstract-to-dot
 	/api.rst#arrayspec                       ArraySpec                               : api.html#arrayspec
 	/api.rst#as-html                         as_html                                 : api.html#as-html
@@ -441,6 +542,7 @@ std:label
 	/api.rst#fast-eval-shape                 fast_eval_shape                         : api.html#fast-eval-shape
 	/api.rst#filter                          filter                                  : api.html#filter
 	/api.rst#flatten                         Flatten                                 : api.html#flatten
+	/api.rst#force-name                      force_name                              : api.html#force-name
 	/api.rst#fori-loop                       fori_loop                               : api.html#fori-loop
 	/api.rst#format-module                   format_module                           : api.html#format-module
 	/api.rst#full                            full                                    : api.html#full
@@ -454,6 +556,7 @@ std:label
 	/api.rst#graphviz-visualisation          Graphviz Visualisation                  : api.html#graphviz-visualisation
 	/api.rst#groupnorm                       GroupNorm                               : api.html#groupnorm
 	/api.rst#gru                             GRU                                     : api.html#gru
+	/api.rst#haiku-api-reference             Haiku API reference                     : api.html#haiku-api-reference
 	/api.rst#haiku-fundamentals              Haiku Fundamentals                      : api.html#haiku-fundamentals
 	/api.rst#haiku-transforms                Haiku Transforms                        : api.html#haiku-transforms
 	/api.rst#haiku.avg_pool                  haiku.avg_pool                          : api.html#haiku.avg_pool
@@ -541,6 +644,11 @@ std:label
 	/api.rst#haiku.expand_apply              haiku.expand_apply                      : api.html#haiku.expand_apply
 	/api.rst#haiku.experimental.abstract_to_dot haiku.experimental.abstract_to_dot      : api.html#haiku.experimental.abstract_to_dot
 	/api.rst#haiku.experimental.arrayspec    haiku.experimental.ArraySpec            : api.html#haiku.experimental.ArraySpec
+	/api.rst#haiku.experimental.arrayspec.__delattr__ haiku.experimental.ArraySpec.__delattr__: api.html#haiku.experimental.ArraySpec.__delattr__
+	/api.rst#haiku.experimental.arrayspec.__eq__ haiku.experimental.ArraySpec.__eq__     : api.html#haiku.experimental.ArraySpec.__eq__
+	/api.rst#haiku.experimental.arrayspec.__hash__ haiku.experimental.ArraySpec.__hash__   : api.html#haiku.experimental.ArraySpec.__hash__
+	/api.rst#haiku.experimental.arrayspec.__init__ haiku.experimental.ArraySpec.__init__   : api.html#haiku.experimental.ArraySpec.__init__
+	/api.rst#haiku.experimental.arrayspec.__setattr__ haiku.experimental.ArraySpec.__setattr__: api.html#haiku.experimental.ArraySpec.__setattr__
 	/api.rst#haiku.experimental.arrayspec.dtype haiku.experimental.ArraySpec.dtype      : api.html#haiku.experimental.ArraySpec.dtype
 	/api.rst#haiku.experimental.arrayspec.shape haiku.experimental.ArraySpec.shape      : api.html#haiku.experimental.ArraySpec.shape
 	/api.rst#haiku.experimental.check_jax_usage haiku.experimental.check_jax_usage      : api.html#haiku.experimental.check_jax_usage
@@ -548,6 +656,7 @@ std:label
 	/api.rst#haiku.experimental.do_not_store haiku.experimental.DO_NOT_STORE         : api.html#haiku.experimental.DO_NOT_STORE
 	/api.rst#haiku.experimental.eval_summary haiku.experimental.eval_summary         : api.html#haiku.experimental.eval_summary
 	/api.rst#haiku.experimental.fast_eval_shape haiku.experimental.fast_eval_shape      : api.html#haiku.experimental.fast_eval_shape
+	/api.rst#haiku.experimental.force_name   haiku.experimental.force_name           : api.html#haiku.experimental.force_name
 	/api.rst#haiku.experimental.jaxpr_info.as_html haiku.experimental.jaxpr_info.as_html   : api.html#haiku.experimental.jaxpr_info.as_html
 	/api.rst#haiku.experimental.jaxpr_info.as_html_page haiku.experimental.jaxpr_info.as_html_page: api.html#haiku.experimental.jaxpr_info.as_html_page
 	/api.rst#haiku.experimental.jaxpr_info.css haiku.experimental.jaxpr_info.css       : api.html#haiku.experimental.jaxpr_info.css
@@ -560,6 +669,11 @@ std:label
 	/api.rst#haiku.experimental.lift_with_state haiku.experimental.lift_with_state      : api.html#haiku.experimental.lift_with_state
 	/api.rst#haiku.experimental.liftwithstateupdater haiku.experimental.LiftWithStateUpdater : api.html#haiku.experimental.LiftWithStateUpdater
 	/api.rst#haiku.experimental.methodinvocation haiku.experimental.MethodInvocation     : api.html#haiku.experimental.MethodInvocation
+	/api.rst#haiku.experimental.methodinvocation.__delattr__ haiku.experimental.MethodInvocation.__delattr__: api.html#haiku.experimental.MethodInvocation.__delattr__
+	/api.rst#haiku.experimental.methodinvocation.__eq__ haiku.experimental.MethodInvocation.__eq__: api.html#haiku.experimental.MethodInvocation.__eq__
+	/api.rst#haiku.experimental.methodinvocation.__hash__ haiku.experimental.MethodInvocation.__hash__: api.html#haiku.experimental.MethodInvocation.__hash__
+	/api.rst#haiku.experimental.methodinvocation.__init__ haiku.experimental.MethodInvocation.__init__: api.html#haiku.experimental.MethodInvocation.__init__
+	/api.rst#haiku.experimental.methodinvocation.__setattr__ haiku.experimental.MethodInvocation.__setattr__: api.html#haiku.experimental.MethodInvocation.__setattr__
 	/api.rst#haiku.experimental.methodinvocation.args_spec haiku.experimental.MethodInvocation.args_spec: api.html#haiku.experimental.MethodInvocation.args_spec
 	/api.rst#haiku.experimental.methodinvocation.call_stack haiku.experimental.MethodInvocation.call_stack: api.html#haiku.experimental.MethodInvocation.call_stack
 	/api.rst#haiku.experimental.methodinvocation.context haiku.experimental.MethodInvocation.context: api.html#haiku.experimental.MethodInvocation.context
@@ -568,6 +682,11 @@ std:label
 	/api.rst#haiku.experimental.methodinvocation.output_spec haiku.experimental.MethodInvocation.output_spec: api.html#haiku.experimental.MethodInvocation.output_spec
 	/api.rst#haiku.experimental.module_auto_repr haiku.experimental.module_auto_repr     : api.html#haiku.experimental.module_auto_repr
 	/api.rst#haiku.experimental.moduledetails haiku.experimental.ModuleDetails        : api.html#haiku.experimental.ModuleDetails
+	/api.rst#haiku.experimental.moduledetails.__delattr__ haiku.experimental.ModuleDetails.__delattr__: api.html#haiku.experimental.ModuleDetails.__delattr__
+	/api.rst#haiku.experimental.moduledetails.__eq__ haiku.experimental.ModuleDetails.__eq__ : api.html#haiku.experimental.ModuleDetails.__eq__
+	/api.rst#haiku.experimental.moduledetails.__hash__ haiku.experimental.ModuleDetails.__hash__: api.html#haiku.experimental.ModuleDetails.__hash__
+	/api.rst#haiku.experimental.moduledetails.__init__ haiku.experimental.ModuleDetails.__init__: api.html#haiku.experimental.ModuleDetails.__init__
+	/api.rst#haiku.experimental.moduledetails.__setattr__ haiku.experimental.ModuleDetails.__setattr__: api.html#haiku.experimental.ModuleDetails.__setattr__
 	/api.rst#haiku.experimental.moduledetails.method_name haiku.experimental.ModuleDetails.method_name: api.html#haiku.experimental.ModuleDetails.method_name
 	/api.rst#haiku.experimental.moduledetails.module haiku.experimental.ModuleDetails.module : api.html#haiku.experimental.ModuleDetails.module
 	/api.rst#haiku.experimental.moduledetails.params haiku.experimental.ModuleDetails.params : api.html#haiku.experimental.ModuleDetails.params
@@ -577,6 +696,7 @@ std:label
 	/api.rst#haiku.experimental.named_call   haiku.experimental.named_call           : api.html#haiku.experimental.named_call
 	/api.rst#haiku.experimental.optimize_rng_use haiku.experimental.optimize_rng_use     : api.html#haiku.experimental.optimize_rng_use
 	/api.rst#haiku.experimental.profiler_name_scopes haiku.experimental.profiler_name_scopes : api.html#haiku.experimental.profiler_name_scopes
+	/api.rst#haiku.experimental.rng_reserve_size haiku.experimental.rng_reserve_size     : api.html#haiku.experimental.rng_reserve_size
 	/api.rst#haiku.experimental.tabulate     haiku.experimental.tabulate             : api.html#haiku.experimental.tabulate
 	/api.rst#haiku.experimental.to_dot       haiku.experimental.to_dot               : api.html#haiku.experimental.to_dot
 	/api.rst#haiku.experimental.transparent_lift haiku.experimental.transparent_lift     : api.html#haiku.experimental.transparent_lift
@@ -903,6 +1023,7 @@ std:label
 	/api.rst#resnet50                        ResNet50                                : api.html#resnet50
 	/api.rst#reverse-causal                  reverse_causal                          : api.html#reverse-causal
 	/api.rst#rmsnorm                         RMSNorm                                 : api.html#rmsnorm
+	/api.rst#rng-reserve-size                rng_reserve_size                        : api.html#rng-reserve-size
 	/api.rst#rnncore                         RNNCore                                 : api.html#rnncore
 	/api.rst#running-init                    running_init                            : api.html#running-init
 	/api.rst#same                            same                                    : api.html#same
@@ -966,7 +1087,7 @@ std:label
 	/notebooks/basics.ipynb#a-first-example-with-hk.transform A first example with hk.transform       : notebooks/basics.html#A-first-example-with-hk.transform
 	/notebooks/basics.ipynb#built-in-haiku-nets-and-nested-modules Built-in Haiku nets and nested modules  : notebooks/basics.html#Built-in-Haiku-nets-and-nested-modules
 	/notebooks/basics.ipynb#haiku-basics     Haiku Basics                            : notebooks/basics.html#Haiku-Basics
-	/notebooks/basics.ipynb#rng-keys-with-hk.next_rng_key() Rng Keys with hk.next_rng_key()         : notebooks/basics.html#Rng-Keys-with-hk.next_rng_key()
+	/notebooks/basics.ipynb#rng-keys-with-hk.next_rng_key() RNG Keys with hk.next_rng_key()         : notebooks/basics.html#RNG-Keys-with-hk.next_rng_key()
 	/notebooks/basics.ipynb#stateful-inference-in-haiku Stateful Inference in Haiku             : notebooks/basics.html#Stateful-Inference-in-Haiku
 	/notebooks/build_your_own_haiku.ipynb    Build your own Haiku                    : notebooks/build_your_own_haiku.html
 	/notebooks/build_your_own_haiku.ipynb#adding-initialization Adding initialization                   : notebooks/build_your_own_haiku.html#Adding-initialization

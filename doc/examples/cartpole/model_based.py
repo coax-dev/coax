@@ -10,7 +10,7 @@ from coax.value_losses import mse
 name = 'model_based'
 
 # the cart-pole MDP
-env = gym.make('CartPole-v0')
+env = gym.make('CartPole-v0', render_mode='rgb_array')
 env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 
 
@@ -52,21 +52,21 @@ model_updater = coax.model_updaters.ModelUpdater(p, optimizer=sgd)
 
 
 while env.T < 100000:
-    s = env.reset()
+    s, info = env.reset()
     env.render()
 
     for t in range(env.spec.max_episode_steps):
         a = pi(s)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
         env.render()
 
-        tracer.add(s, a, r, done)
+        tracer.add(s, a, r, done or truncated)
         while tracer:
             transition_batch = tracer.pop()
             env.record_metrics(simple_td.update(transition_batch))
             env.record_metrics(model_updater.update(transition_batch))
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next

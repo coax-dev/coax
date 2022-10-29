@@ -37,7 +37,7 @@ class TestRandomPolicy(TestCase):
         s = self.env.reset()
         for t in range(self.env.spec.max_episode_steps):
             a = pi(s)
-            s, r, done, info = self.env.step(a)
+            s, r, done, truncated, info = self.env.step(a)
             if done:
                 break
 
@@ -46,7 +46,7 @@ class TestRandomPolicy(TestCase):
         s = self.env.reset()
         for t in range(self.env.spec.max_episode_steps):
             a = pi.mode(s)
-            s, r, done, info = self.env.step(a)
+            s, r, done, truncated, info = self.env.step(a)
             if done:
                 break
 

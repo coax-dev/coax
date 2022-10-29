@@ -40,11 +40,11 @@ cache = coax.reward_tracing.NStep(n=1, gamma=0.9)
 
 for ep in range(100):
     pi.epsilon = ...  # exploration schedule
-    s = env.reset()
+    s, info = env.reset()
 
     for t in range(env.spec.max_episode_steps):
         a = pi(s)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
 
         # add transition to cache
         cache.add(s, a, r, done)
@@ -55,7 +55,7 @@ for ep in range(100):
             metrics = qlearning.update(transition_batch)
             env.record_metrics(metrics)
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next

@@ -42,9 +42,9 @@ class BoxActionsToReals(gym.Wrapper, AddOrigToInfoDictMixin):
     def step(self, a):
         assert self.action_space.contains(a)
         self._a_orig = self._compactify(a)
-        s_next, r, done, info = super().step(self._a_orig)
+        s_next, r, done, truncated, info = super().step(self._a_orig)
         self._add_a_orig_to_info_dict(info)
-        return s_next, r, done, info
+        return s_next, r, done, truncated, info
 
     def _compactify(self, action):
         hi, lo = self.env.action_space.high, self.env.action_space.low
@@ -83,9 +83,9 @@ class BoxActionsToDiscrete(gym.Wrapper, AddOrigToInfoDictMixin):
     def step(self, a):
         assert self.action_space.contains(a)
         self._a_orig = self._discrete_to_box(a)
-        s_next, r, done, info = super().step(self._a_orig)
+        s_next, r, done, truncated, info = super().step(self._a_orig)
         self._add_a_orig_to_info_dict(info)
-        return s_next, r, done, info
+        return s_next, r, done, truncated, info
 
     def _discrete_to_box(self, a_discrete):
         hi, lo = self.env.action_space.high, self.env.action_space.low

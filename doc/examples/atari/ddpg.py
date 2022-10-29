@@ -17,9 +17,10 @@ from optax import adam
 name = 'ddpg'
 
 # env with preprocessing
-env = gym.make('PongNoFrameskip-v4')
+env = gym.make('PongNoFrameskip-v4', render_mode='rgb_array')
 env = gym.wrappers.AtariPreprocessing(env)
 env = coax.wrappers.FrameStacking(env, num_frames=3)
+env = gym.wrappers.TimeLimit(env, max_episode_steps=108000 // 3)
 env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 
 
@@ -74,11 +75,11 @@ buffer = coax.experience_replay.SimpleReplayBuffer(capacity=1000000)
 
 
 while env.T < 3000000:
-    s = env.reset()
+    s, info = env.reset()
 
     for t in range(env.spec.max_episode_steps):
         a, logp = pi(s, return_logp=True)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
 
         # trace rewards and add transition to replay buffer
         tracer.add(s, a, r, done, logp)
@@ -95,7 +96,7 @@ while env.T < 3000000:
             pi_targ.soft_update(pi, tau=1)
             q_targ.soft_update(q, tau=1)
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next

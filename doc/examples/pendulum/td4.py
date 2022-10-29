@@ -11,7 +11,7 @@ import optax
 name = 'td3'
 
 # the Pendulum MDP
-env = gym.make('Pendulum-v1')
+env = gym.make('Pendulum-v1', render_mode='rgb_array')
 env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 quantile_embedding_dim = 64
 layer_size = 256
@@ -89,11 +89,11 @@ determ_pg = coax.policy_objectives.DeterministicPG(pi, q1_targ, optimizer=optax.
 
 # train
 while env.T < 1000000:
-    s = env.reset()
+    s, info = env.reset()
 
     for t in range(env.spec.max_episode_steps):
         a = pi.mode(s)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
 
         # trace rewards and add transition to replay buffer
         tracer.add(s, a, r, done)
@@ -122,7 +122,7 @@ while env.T < 1000000:
             q2_targ.soft_update(q2, tau=0.001)
             pi_targ.soft_update(pi, tau=0.001)
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next

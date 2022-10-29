@@ -11,7 +11,7 @@ import optax
 name = 'ddpg'
 
 # the Pendulum MDP
-env = gym.make('Pendulum-v0')
+env = gym.make('Pendulum-v1', render_mode='rgb_array')
 env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 
 
@@ -65,13 +65,13 @@ noise = coax.utils.OrnsteinUhlenbeckNoise(mu=0., sigma=0.2, theta=0.15)
 
 # train
 while env.T < 1000000:
-    s = env.reset()
+    s, info = env.reset()
     noise.reset()
     noise.sigma *= 0.99  # slowly decrease noise scale
 
     for t in range(env.spec.max_episode_steps):
         a = noise(pi(s))
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
 
         # trace rewards and add transition to replay buffer
         tracer.add(s, a, r, done)
@@ -91,7 +91,7 @@ while env.T < 1000000:
             q_targ.soft_update(q, tau=0.001)
             pi_targ.soft_update(pi, tau=0.001)
 
-        if done:
+        if done or truncated:
             break
 
         s = s_next
