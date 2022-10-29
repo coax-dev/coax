@@ -181,7 +181,7 @@ we have our policy, we can start doing episode roll-outs:
 
 .. code:: python
 
-    s = env.reset()
+    s, info = env.reset()
 
     for t in range(env.spec.max_episode_steps):
         a = pi(s)
@@ -213,7 +213,7 @@ how this works in practice.
 
     for ep in range(500):
         pi.epsilon *= 0.99  # reduce exploration over time
-        s = env.reset()
+        s, info = env.reset()
 
         for t in range(env.spec.max_episode_steps):
             a = pi(s)
