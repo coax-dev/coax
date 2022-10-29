@@ -30,7 +30,7 @@ Once ``jax`` and ``jaxlib`` are installed, you can install **coax** simple by ru
 Or, alternatively, to install **coax** from the latest branch on github:
 
 .. code::
-    
+
     $ pip install git+https://github.com/coax-dev/coax.git@main
 
 
@@ -185,7 +185,7 @@ we have our policy, we can start doing episode roll-outs:
 
     for t in range(env.spec.max_episode_steps):
         a = pi(s)
-        s_next, r, done, info = env.step(a)
+        s_next, r, done, truncated, info = env.step(a)
 
         # this is where we should update our q-function
         ...
@@ -217,15 +217,15 @@ how this works in practice.
 
         for t in range(env.spec.max_episode_steps):
             a = pi(s)
-            s_next, r, done, info = env.step(a)
+            s_next, r, done, truncated, info = env.step(a)
 
             # trace and update
-            tracer.add(s, a, r, done)
+            tracer.add(s, a, r, done or truncated)
             while tracer:
                 transition_batch = tracer.pop()
                 qlearning.update(transition_batch)
 
-            if done:
+            if done or truncated:
                 break
 
             s = s_next
