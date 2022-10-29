@@ -65,7 +65,7 @@ def func_quantile_type1(S, A, is_training):
     encoder = hk.Sequential((
         hk.Flatten(), hk.Linear(8), jax.nn.relu
     ))
-    quantile_fractions = quantiles(batch_size=jax.tree_leaves(S)[0].shape[0],
+    quantile_fractions = quantiles(batch_size=jax.tree_util.tree_leaves(S)[0].shape[0],
                                    num_quantiles=num_bins)
     X = jax.vmap(jnp.kron)(S, A)
     x = encoder(X)
@@ -81,7 +81,7 @@ def func_quantile_type2(S, is_training):
         hk.Flatten(), hk.Linear(8), jax.nn.relu
     ))
     quantile_fractions = quantiles_uniform(rng=hk.next_rng_key(),
-                                           batch_size=jax.tree_leaves(S)[0].shape[0],
+                                           batch_size=jax.tree_util.tree_leaves(S)[0].shape[0],
                                            num_quantiles=num_bins)
     x = encoder(S)
     quantile_x = quantile_net(x, quantile_fractions=quantile_fractions)

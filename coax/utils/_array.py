@@ -229,7 +229,7 @@ def check_preprocessors(space, *preprocessors, num_samples=20, random_seed=None)
             y0 = p0(next(rngs), x)
             for p in ps:
                 y = p(next(rngs), x)
-                if jax.tree_structure(y) != jax.tree_structure(y0):
+                if jax.tree_util.tree_structure(y) != jax.tree_util.tree_structure(y0):
                     return False
                 try:
                     jax.tree_map(test_leaves, y, y0)
@@ -960,7 +960,7 @@ def tree_ravel(pytree):
         A single flat array.
 
     """
-    return jnp.concatenate([jnp.ravel(leaf) for leaf in jax.tree_leaves(pytree)])
+    return jnp.concatenate([jnp.ravel(leaf) for leaf in jax.tree_util.tree_leaves(pytree)])
 
 
 def tree_sample(pytree, rng, n=1, replace=False, axis=0, p=None):
@@ -1113,7 +1113,7 @@ def unvectorize(f, in_axes=0, out_axes=0):
 
 def _check_leaf_batch_size(pytree):
     """ some boilerplate to extract the batch size with some consistency checks """
-    leaf, *leaves = jax.tree_leaves(pytree)
+    leaf, *leaves = jax.tree_util.tree_leaves(pytree)
     if not isinstance(leaf, (onp.ndarray, jnp.ndarray)) and leaf.ndim >= 1:
         raise TypeError(f"all leaves must be arrays; got type: {type(leaf)}")
     if leaf.ndim < 1:

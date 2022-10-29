@@ -330,7 +330,7 @@ class TestCase(unittest.TestCase):
         margin = margin or self.margin
         reldiff = jax.tree_map(
             lambda a, b: abs(2 * (a - b) / (a + b + 1e-16)), x, y)
-        maxdiff = max(jnp.max(d) for d in jax.tree_leaves(reldiff))
+        maxdiff = max(jnp.max(d) for d in jax.tree_util.tree_leaves(reldiff))
         assert float(maxdiff) > margin
 
     def assertArraySubdtypeFloat(self, arr):

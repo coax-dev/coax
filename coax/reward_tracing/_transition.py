@@ -232,7 +232,7 @@ class TransitionBatch(CopyMixin):
         return (type(self) is type(other)) and all(
             onp.allclose(a, b) if isinstance(a, (onp.ndarray, jnp.ndarray))
             else (a is b if a is None else a == b)
-            for a, b in zip(jax.tree_leaves(self), jax.tree_leaves(other)))
+            for a, b in zip(jax.tree_util.tree_leaves(self), jax.tree_util.tree_leaves(other)))
 
 
 def _single_to_batch(pytree):

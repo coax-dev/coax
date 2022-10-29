@@ -185,8 +185,8 @@ class BaseStochasticFuncType2(BaseFunc, StochasticFuncType2Mixin):
         )
 
     def _check_output(self, actual, expected):
-        expected_leaves, expected_structure = jax.tree_flatten(expected)
-        actual_leaves, actual_structure = jax.tree_flatten(actual)
+        expected_leaves, expected_structure = jax.tree_util.tree_flatten(expected)
+        actual_leaves, actual_structure = jax.tree_util.tree_flatten(actual)
         assert all(isinstance(x, jnp.ndarray) for x in expected_leaves), "bad example_data"
 
         if actual_structure != expected_structure:

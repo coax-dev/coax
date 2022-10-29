@@ -122,7 +122,7 @@ class BaseFunc(ABC, RandomStateMixin, CopyMixin):
 
     @params.setter
     def params(self, new_params):
-        if jax.tree_structure(new_params) != jax.tree_structure(self._params):
+        if jax.tree_util.tree_structure(new_params) != jax.tree_util.tree_structure(self._params):
             raise TypeError("new params must have the same structure as old params")
         self._params = new_params
 
@@ -147,7 +147,9 @@ class BaseFunc(ABC, RandomStateMixin, CopyMixin):
 
     @function_state.setter
     def function_state(self, new_function_state):
-        if jax.tree_structure(new_function_state) != jax.tree_structure(self._function_state):
+        new_tree_structure = jax.tree_util.tree_structure(new_function_state)
+        tree_structure = jax.tree_util.tree_structure(self._function_state)
+        if new_tree_structure != tree_structure:
             raise TypeError("new function_state must have the same structure as old function_state")
         self._function_state = new_function_state
 

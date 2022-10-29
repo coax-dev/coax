@@ -43,6 +43,7 @@ class SuccessorStateQ:
         The discount factor for future rewards :math:`\gamma\in[0,1]`.
 
     """
+
     def __init__(self, v, p, r, gamma=0.9):
         # some explicit type checks
         if not is_vfunction(v):
@@ -143,7 +144,8 @@ class SuccessorStateQ:
                 assert Q_sa.ndim == 1, f"bad shape: {Q_sa.shape}"
 
                 new_state = hk.data_structures.to_immutable_dict(new_state)
-                assert jax.tree_structure(new_state) == jax.tree_structure(state)
+                assert jax.tree_util.tree_structure(
+                    new_state) == jax.tree_util.tree_structure(state)
 
                 return Q_sa, new_state
 
@@ -203,7 +205,8 @@ class SuccessorStateQ:
                 assert Q_s.shape[1] == self.action_space.n, f"bad shape: {Q_s.shape}"
 
                 new_state = hk.data_structures.to_immutable_dict(new_state)
-                assert jax.tree_structure(new_state) == jax.tree_structure(state)
+                assert jax.tree_util.tree_structure(
+                    new_state) == jax.tree_util.tree_structure(state)
 
                 return Q_s, new_state
 

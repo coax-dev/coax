@@ -85,7 +85,7 @@ class BaseTDLearning(ABC, RandomStateMixin):
 
         """
         grads, function_state, metrics, td_error = self.grads_and_metrics(transition_batch)
-        if any(jnp.any(jnp.isnan(g)) for g in jax.tree_leaves(grads)):
+        if any(jnp.any(jnp.isnan(g)) for g in jax.tree_util.tree_leaves(grads)):
             raise RuntimeError(f"found nan's in grads: {grads}")
         self.apply_grads(grads, function_state)
         return (metrics, td_error) if return_td_error else metrics
@@ -186,8 +186,9 @@ class BaseTDLearning(ABC, RandomStateMixin):
 
     @optimizer.setter
     def optimizer(self, new_optimizer):
-        new_optimizer_state_structure = jax.tree_structure(new_optimizer.init(self._f.params))
-        if new_optimizer_state_structure != jax.tree_structure(self.optimizer_state):
+        new_optimizer_state_structure = jax.tree_util.tree_structure(
+            new_optimizer.init(self._f.params))
+        if new_optimizer_state_structure != jax.tree_util.tree_structure(self.optimizer_state):
             raise AttributeError("cannot set optimizer attr: mismatch in optimizer_state structure")
         self._optimizer = new_optimizer
 
@@ -197,7 +198,9 @@ class BaseTDLearning(ABC, RandomStateMixin):
 
     @optimizer_state.setter
     def optimizer_state(self, new_optimizer_state):
-        if jax.tree_structure(new_optimizer_state) != jax.tree_structure(self.optimizer_state):
+        tree_structure = jax.tree_util.tree_structure(self.optimizer_state)
+        new_tree_structure = jax.tree_util.tree_structure(new_optimizer_state)
+        if new_tree_structure != tree_structure:
             raise AttributeError("cannot set optimizer_state attr: mismatch in tree structure")
         self._optimizer_state = new_optimizer_state
 

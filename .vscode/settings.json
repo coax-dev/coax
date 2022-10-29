@@ -8,8 +8,8 @@
         "coax"
     ],
     "python.testing.unittestEnabled": false,
-    "python.testing.nosetestsEnabled": false,
     "python.testing.pytestEnabled": true,
     "python.linting.enabled": true,
     "python.linting.flake8Enabled": true,
+    "python.formatting.provider": "autopep8"
 }
