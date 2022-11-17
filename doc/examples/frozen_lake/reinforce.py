@@ -69,7 +69,7 @@ for t in range(env.spec.max_episode_steps):
         print("  π({:s}|s) = {:.3f}".format('LDRU'[i], p))
 
     a = pi.mode(s)
-    s, r, done, info = env.step(a)
+    s, r, done, truncated, info = env.step(a)
 
     env.render()
 

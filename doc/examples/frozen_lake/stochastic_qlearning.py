@@ -83,7 +83,7 @@ for t in range(env.spec.max_episode_steps):
     plt.show()
 
     a = pi.mode(s)
-    s, r, done, info = env.step(a)
+    s, r, done, truncated, info = env.step(a)
 
     env.render()
 
