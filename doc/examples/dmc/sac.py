@@ -21,8 +21,8 @@ env = coax.wrappers.TrainMonitor(env, name=name)
 
 def func_pi(S, is_training):
     seq = hk.Sequential((
-        hk.Linear(256), hk.LayerNorm(-1, create_scale=True, create_offset=True), jax.nn.tanh,
-        hk.Linear(256), jax.nn.relu,
+        hk.Linear(1024), hk.LayerNorm(-1, create_scale=True, create_offset=True), jax.nn.tanh,
+        hk.Linear(1024), jax.nn.relu,
         hk.Linear(onp.prod(env.action_space.shape) * 2),
         hk.Reshape((*env.action_space.shape, 2)),
     ))
@@ -33,8 +33,8 @@ def func_pi(S, is_training):
 
 def func_q(S, A, is_training):
     seq = hk.Sequential((
-        hk.Linear(256), hk.LayerNorm(-1, create_scale=True, create_offset=True), jax.nn.tanh,
-        hk.Linear(256), jax.nn.relu,
+        hk.Linear(1024), hk.LayerNorm(-1, create_scale=True, create_offset=True), jax.nn.tanh,
+        hk.Linear(1024), jax.nn.relu,
         hk.Linear(1), jnp.ravel
     ))
     X = jnp.concatenate((S, A), axis=-1)
