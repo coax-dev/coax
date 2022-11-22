@@ -16,7 +16,7 @@ name = 'sac'
 
 # the dm_control MDP
 env = make_dmc("walker", "walk")
-env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
+env = coax.wrappers.TrainMonitor(env, name=name)
 
 
 def func_pi(S, is_training):
@@ -42,10 +42,9 @@ def func_q(S, A, is_training):
 
 
 # main function approximators
-pi = coax.Policy(func_pi, env, proba_dist=coax.proba_dists.NormalDist(
+pi = coax.Policy(func_pi, env, proba_dist=coax.proba_dists.SquashedNormalDist(
     env.action_space,
     clip_logvar=(-10.0, 4.0),
-    squash=True,
 ))
 q1 = coax.Q(func_q, env, action_preprocessor=pi.proba_dist.preprocess_variate)
 q2 = coax.Q(func_q, env, action_preprocessor=pi.proba_dist.preprocess_variate)

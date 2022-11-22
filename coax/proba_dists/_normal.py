@@ -52,19 +52,12 @@ class NormalDist(BaseProbaDist):
 
         The range of values to allow for the log-variance of the distribution.
 
-    squash : boolean, optional
-
-        Whether to limit the range of values by squashing the distribution instead of
-        clipping the values. This can be useful when the distribution parametrizes a policy for
-        continuous control problems.
-
     """
 
     def __init__(self, space,
                  clip_box=(-256., 256.),
                  clip_reals=(-30., 30.),
-                 clip_logvar=(-20., 20.),
-                 squash=False):
+                 clip_logvar=(-20., 20.)):
         if not isinstance(space, Box):
             raise TypeError(f"{self.__class__.__name__} can only be defined over Box spaces")
 
@@ -73,9 +66,6 @@ class NormalDist(BaseProbaDist):
         self.clip_box = clip_box
         self.clip_reals = clip_reals
         self.clip_logvar = clip_logvar
-        self.squash = squash
-        self._scale = (space.high - space.low) / 2.0
-        self._offset = (space.high + space.low) / 2.0
 
         self._low = onp.maximum(onp.expand_dims(self.space.low, axis=0), self.clip_box[0])
         self._high = onp.minimum(onp.expand_dims(self.space.high, axis=0), self.clip_box[1])
@@ -107,16 +97,11 @@ class NormalDist(BaseProbaDist):
         def sample(dist_params, rng):
             mu = check_shape(dist_params['mu'], name='mu', flatten=True)
             logvar = check_shape(dist_params['logvar'], name='logvar', flatten=True)
-
             X = mu + jnp.exp(logvar / 2) * jax.random.normal(rng, mu.shape)
-            if self.squash:
-                X = jnp.tanh(X) * self._scale + self._offset
             return X.reshape(-1, *self.space.shape)
 
         def mean(dist_params):
             mu = check_shape(dist_params['mu'], name='mu', flatten=False)
-            if self.squash:
-                mu = mu * self._scale + self._offset
             return mu
 
         def mode(dist_params):
@@ -127,15 +112,10 @@ class NormalDist(BaseProbaDist):
             mu = check_shape(dist_params['mu'], name='mu', flatten=True)
             logvar = check_shape(dist_params['logvar'], name='logvar', flatten=True)
 
-            if self.squash:
-                X = jnp.arctanh(X)
             n = logvar.shape[-1]
             logdetvar = jnp.sum(logvar, axis=-1)  # log(det(M)) = tr(log(M))
             quadratic = jnp.einsum('ij,ij->i', jnp.square(X - mu), jnp.exp(-logvar))
             logp = -0.5 * (n * log_2pi + logdetvar + quadratic)
-            if self.squash:
-                # correction due to squashing
-                logp -= jnp.sum(2 * (jnp.log(2) - X - jnp.log(1 + jnp.exp(-2 * X))), axis=-1)
             return logp
 
         def entropy(dist_params):
@@ -204,17 +184,15 @@ class NormalDist(BaseProbaDist):
     def preprocess_variate(self, rng, X):
         X = jnp.asarray(X, dtype=self.space.dtype)                     # ensure ndarray
         X = jnp.reshape(X, (-1, *self.space.shape))                    # ensure batch axis
-        if not self.squash:
-            X = jnp.clip(X, self._low, self._high)                         # clip to be safe
-            X = clipped_logit((X - self._low) / (self._high - self._low))  # closed intervals->reals
+        X = jnp.clip(X, self._low, self._high)                         # clip to be safe
+        X = clipped_logit((X - self._low) / (self._high - self._low))  # closed intervals->reals
         return X
 
     def postprocess_variate(self, rng, X, index=0, batch_mode=False):
         X = jnp.asarray(X, dtype=self.space.dtype)                    # ensure ndarray
         X = jnp.reshape(X, (-1, *self.space.shape))                   # ensure correct shape
-        if not self.squash:
-            X = jnp.clip(X, *self.clip_reals)                             # clip for stability
-            X = self._low + (self._high - self._low) * jax.nn.sigmoid(X)  # reals->closed interval
+        X = jnp.clip(X, *self.clip_reals)                             # clip for stability
+        X = self._low + (self._high - self._low) * jax.nn.sigmoid(X)  # reals->closed interval
         return X if batch_mode else onp.asanyarray(X[index])
 
     @property

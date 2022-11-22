@@ -7,6 +7,7 @@ r"""
     coax.proba_dists.NormalDist
     coax.proba_dists.DiscretizedIntervalDist
     coax.proba_dists.EmpiricalQuantileDist
+    coax.proba_dists.SquashedNormalDist
 
 -----
 
@@ -24,6 +25,7 @@ Object Reference
 .. autoclass:: coax.proba_dists.NormalDist
 .. autoclass:: coax.proba_dists.DiscretizedIntervalDist
 .. autoclass:: coax.proba_dists.EmpiricalQuantileDist
+.. autoclass:: coax.proba_dists.SquashedNormalDist
 
 
 """
@@ -33,6 +35,7 @@ from ._categorical import CategoricalDist
 from ._normal import NormalDist
 from ._discretized_interval import DiscretizedIntervalDist
 from ._empirical_quantile import EmpiricalQuantileDist
+from ._squashed_normal import SquashedNormalDist
 
 
 __all__ = (
@@ -40,5 +43,6 @@ __all__ = (
     'CategoricalDist',
     'NormalDist',
     'DiscretizedIntervalDist',
-    'EmpiricalQuantileDist'
+    'EmpiricalQuantileDist',
+    'SquashedNormalDist',
 )
