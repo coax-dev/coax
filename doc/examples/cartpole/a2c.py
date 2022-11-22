@@ -59,8 +59,10 @@ for ep in range(1000):
     for t in range(env.spec.max_episode_steps):
         a = pi(s)
         s_next, r, done, truncated, info = env.step(a)
+
+        # extend last reward as asymptotic best-case return
         if truncated:
-            r = 1 / (1 - tracer.gamma)
+            r = 1 / (1 - tracer.gamma)  # gamma + gamma^2 + gamma^3 + ... = 1 / (1 - gamma)
 
         tracer.add(s, a, r, done or truncated)
         while tracer:
