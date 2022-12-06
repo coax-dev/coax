@@ -12,9 +12,21 @@ If you need any of the features from the pre-release version listed under "Upcom
 Upcoming
 --------
 
-- Fix affine transform for composite distributions.
+- ...
+
+
+v0.1.12
+-------
+
+- Add DeepMind Control Suite example (`#29 <https://github.com/coax-dev/coax/pull/29>`_); see :doc:`/examples/dmc/sac`.
 - Add :func:`coax.utils.sync_shared_params` utility; example in :doc:`A2C stub </examples/stubs/a2c>`.
-- Bug fix: set logging level on ``TrainMonitor.logger`` itself.
+- Improved performance for replay buffer (`#25 <https://github.com/coax-dev/coax/pull/25>`_)
+- Bug fix: random_seed in _prioritized (`#24 <https://github.com/coax-dev/coax/pull/24>`_)
+- Update to new Jax API (`#27 <https://github.com/coax-dev/coax/pull/27>`_)
+- Add Update to ``gym==0.26.x`` (`#28 <https://github.com/coax-dev/coax/pull/28>`_).
+- Bug fix: set logging level on ``TrainMonitor.logger`` itself (`550a965 <https://github.com/coax-dev/coax/commit/550a965d17002bf552ab2fbea49801c65b322c7b>_`).
+- Bug fix: fix affine transform for composite distributions (`48ca9ce <https://github.com/coax-dev/coax/commit/48ca9ced42123e906969076dff88540b98e6d0bb>_`)
+- Bug fix: `#33 <https://github.com/coax-dev/coax/issues/33>`_
 
 
 v0.1.11
