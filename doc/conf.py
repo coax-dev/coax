@@ -134,6 +134,7 @@ html_theme_options = {
 }
 
 # get google analytics tracking id from: https://analytics.google.com
+# update the tracking id here: https://readthedocs.org/dashboard/coax/advanced/
 # add GA_TRACKING_ID env var to: https://readthedocs.org/dashboard/coax/environmentvariables/
 # format: GA4_TRACKING_ID=G-XXXXXXXXXX (or legacy tracking id: GA_TRACKING_ID=UA-XXXXXXX-1)
 if os.environ.get('GA4_TRACKING_ID', '').startswith('G-'):
