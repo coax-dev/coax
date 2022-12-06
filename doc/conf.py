@@ -135,8 +135,11 @@ html_theme_options = {
 
 # get google analytics tracking id from: https://analytics.google.com
 # add GA_TRACKING_ID env var to: https://readthedocs.org/dashboard/coax/environmentvariables/
-# format: GA_TRACKING_ID=UA-XXXXXXX-1
-if os.environ.get('GA_TRACKING_ID', '').startswith('UA-'):
+# format: GA4_TRACKING_ID=G-XXXXXXXXXX (or legacy tracking id: GA_TRACKING_ID=UA-XXXXXXX-1)
+if os.environ.get('GA4_TRACKING_ID', '').startswith('G-'):
+    html_theme_options['analytics_id'] = os.environ['GA4_TRACKING_ID']
+    logger.info("added Google Analytics tracking ID to html_theme_options")
+elif os.environ.get('GA_TRACKING_ID', '').startswith('UA-'):
     html_theme_options['analytics_id'] = os.environ['GA_TRACKING_ID']
     logger.info("added Google Analytics tracking ID to html_theme_options")
 
