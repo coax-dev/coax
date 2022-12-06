@@ -5,10 +5,6 @@ Utilities
 
 This is a collection of utility (helper) functions used throughout the package.
 
-
-Object Reference
-----------------
-
 .. autosummary::
     :nosignatures:
 
@@ -65,6 +61,62 @@ Object Reference
     coax.utils.tree_ravel
     coax.utils.unvectorize
 
+
+Object Reference
+----------------
+
+.. autoclass:: coax.utils.OrnsteinUhlenbeckNoise
+.. autoclass:: coax.utils.StepwiseLinearFunction
+.. autoclass:: coax.utils.SegmentTree
+.. autoclass:: coax.utils.SumTree
+.. autoclass:: coax.utils.MinTree
+.. autoclass:: coax.utils.MaxTree
+.. autofunction:: coax.utils.argmax
+.. autofunction:: coax.utils.argmin
+.. autofunction:: coax.utils.batch_to_single
+.. autofunction:: coax.utils.check_array
+.. autofunction:: coax.utils.check_preprocessors
+.. autofunction:: coax.utils.clipped_logit
+.. autofunction:: coax.utils.default_preprocessor
+.. autofunction:: coax.utils.diff_transform
+.. autofunction:: coax.utils.diff_transform_matrix
+.. autofunction:: coax.utils.docstring
+.. autofunction:: coax.utils.double_relu
+.. autofunction:: coax.utils.dump
+.. autofunction:: coax.utils.dumps
+.. autofunction:: coax.utils.enable_logging
+.. autofunction:: coax.utils.generate_gif
+.. autofunction:: coax.utils.get_env_attr
+.. autofunction:: coax.utils.get_grads_diagnostics
+.. autofunction:: coax.utils.get_magnitude_quantiles
+.. autofunction:: coax.utils.get_transition_batch
+.. autofunction:: coax.utils.has_env_attr
+.. autofunction:: coax.utils.idx
+.. autofunction:: coax.utils.is_policy
+.. autofunction:: coax.utils.is_qfunction
+.. autofunction:: coax.utils.is_reward_function
+.. autofunction:: coax.utils.is_stochastic
+.. autofunction:: coax.utils.is_transition_model
+.. autofunction:: coax.utils.is_vfunction
+.. autofunction:: coax.utils.isscalar
+.. autofunction:: coax.utils.jit
+.. autofunction:: coax.utils.load
+.. autofunction:: coax.utils.loads
+.. autofunction:: coax.utils.make_dmc
+.. autofunction:: coax.utils.merge_dicts
+.. autofunction:: coax.utils.pretty_print
+.. autofunction:: coax.utils.pretty_repr
+.. autofunction:: coax.utils.quantiles
+.. autofunction:: coax.utils.quantiles_uniform
+.. autofunction:: coax.utils.quantile_cos_embedding
+.. autofunction:: coax.utils.reload_recursive
+.. autofunction:: coax.utils.render_episode
+.. autofunction:: coax.utils.safe_sample
+.. autofunction:: coax.utils.single_to_batch
+.. autofunction:: coax.utils.stack_trees
+.. autofunction:: coax.utils.sync_shared_params
+.. autofunction:: coax.utils.tree_ravel
+.. autofunction:: coax.utils.unvectorize
 
 """
 

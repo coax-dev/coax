@@ -277,6 +277,7 @@ c:function
 	PyFloat_Unpack2                          c-api/float.html#c.PyFloat_Unpack2
 	PyFloat_Unpack4                          c-api/float.html#c.PyFloat_Unpack4
 	PyFloat_Unpack8                          c-api/float.html#c.PyFloat_Unpack8
+	PyFrame_Check                            c-api/frame.html#c.PyFrame_Check
 	PyFrame_GetBack                          c-api/frame.html#c.PyFrame_GetBack
 	PyFrame_GetBuiltins                      c-api/frame.html#c.PyFrame_GetBuiltins
 	PyFrame_GetCode                          c-api/frame.html#c.PyFrame_GetCode
@@ -1510,6 +1511,7 @@ c:functionParam
 	PyFloat_Unpack4.p                        c-api/float.html#c.PyFloat_Unpack4
 	PyFloat_Unpack8.le                       c-api/float.html#c.PyFloat_Unpack8
 	PyFloat_Unpack8.p                        c-api/float.html#c.PyFloat_Unpack8
+	PyFrame_Check.obj                        c-api/frame.html#c.PyFrame_Check
 	PyFrame_GetBack.frame                    c-api/frame.html#c.PyFrame_GetBack
 	PyFrame_GetBuiltins.frame                c-api/frame.html#c.PyFrame_GetBuiltins
 	PyFrame_GetCode.frame                    c-api/frame.html#c.PyFrame_GetCode
@@ -2850,6 +2852,7 @@ c:member
 	PyDateTime_TimeZone_UTC                  c-api/datetime.html#c.PyDateTime_TimeZone_UTC
 	PyDict_Type                              c-api/dict.html#c.PyDict_Type
 	PyFloat_Type                             c-api/float.html#c.PyFloat_Type
+	PyFrame_Type                             c-api/frame.html#c.PyFrame_Type
 	PyFrozenSet_Type                         c-api/set.html#c.PyFrozenSet_Type
 	PyFunction_Type                          c-api/function.html#c.PyFunction_Type
 	PyGen_Type                               c-api/gen.html#c.PyGen_Type
@@ -3857,6 +3860,7 @@ py:attribute
 	sqlite3.Cursor.connection                library/sqlite3.html#sqlite3.Cursor.connection
 	sqlite3.Cursor.description               library/sqlite3.html#sqlite3.Cursor.description
 	sqlite3.Cursor.lastrowid                 library/sqlite3.html#sqlite3.Cursor.lastrowid
+	sqlite3.Cursor.row_factory               library/sqlite3.html#sqlite3.Cursor.row_factory
 	sqlite3.Cursor.rowcount                  library/sqlite3.html#sqlite3.Cursor.rowcount
 	sqlite3.Error.sqlite_errorcode           library/sqlite3.html#sqlite3.Error.sqlite_errorcode
 	sqlite3.Error.sqlite_errorname           library/sqlite3.html#sqlite3.Error.sqlite_errorname
@@ -13347,6 +13351,7 @@ std:label
 	action                                   library/argparse.html#action
 	advanced-debugging                       Advanced Debugger Support               : c-api/init.html#advanced-debugging
 	allocating-objects                       Allocating Objects on the Heap          : c-api/allocation.html#allocating-objects
+	allocator-domains                        c-api/memory.html#id1
 	allos                                    Generic Operating System Services       : library/allos.html#allos
 	allow_abbrev                             library/argparse.html#allow-abbrev
 	and                                      Boolean operations                      : reference/expressions.html#and
@@ -13363,6 +13368,7 @@ std:label
 	api-reference                            API Reference                           : distutils/apiref.html#api-reference
 	api-types                                Types                                   : c-api/intro.html#api-types
 	apiabiversion                            API and ABI Versioning                  : c-api/apiabiversion.html#apiabiversion
+	applications                             Applications                            : library/struct.html#applications
 	arbitrary-object-messages                Using arbitrary objects as messages     : howto/logging.html#arbitrary-object-messages
 	archiving                                Data Compression and Archiving          : library/archiving.html#archiving
 	archiving-operations                     Archiving operations                    : library/shutil.html#archiving-operations
@@ -13617,6 +13623,7 @@ std:label
 	ctypes-calling-functions                 Calling functions                       : library/ctypes.html#ctypes-calling-functions
 	ctypes-calling-functions-continued       Calling functions, continued            : library/ctypes.html#ctypes-calling-functions-continued
 	ctypes-calling-functions-with-own-custom-data-types Calling functions with your own custom data types: library/ctypes.html#ctypes-calling-functions-with-own-custom-data-types
+	ctypes-calling-variadic-functions        Calling varadic functions               : library/ctypes.html#ctypes-calling-variadic-functions
 	ctypes-ctypes-reference                  ctypes reference                        : library/ctypes.html#ctypes-ctypes-reference
 	ctypes-ctypes-tutorial                   ctypes tutorial                         : library/ctypes.html#ctypes-ctypes-tutorial
 	ctypes-data-types                        Data types                              : library/ctypes.html#ctypes-data-types
@@ -13806,8 +13813,8 @@ std:label
 	entry-points                             Entry points                            : library/importlib.metadata.html#entry-points
 	enum-advanced-tutorial                   Programmatic access to enumeration members and their attributes: howto/enum.html#enum-advanced-tutorial
 	enum-basic-tutorial                      howto/enum.html#enum-basic-tutorial
-	enum-class-differences                   How are Enums different?                : howto/enum.html#enum-class-differences
-	enum-cookbook                            howto/enum.html#enum-cookbook
+	enum-class-differences                   How are Enums and Flags different?      : howto/enum.html#enum-class-differences
+	enum-cookbook                            Enum Cookbook                           : howto/enum.html#enum-cookbook
 	enum-time-period                         TimePeriod                              : howto/enum.html#enum-time-period
 	enumtype-examples                        Subclassing EnumType                    : howto/enum.html#enumtype-examples
 	epoch                                    library/time.html#epoch
@@ -13973,6 +13980,7 @@ std:label
 	implementing-the-arithmetic-operations   Implementing the arithmetic operations  : library/numbers.html#implementing-the-arithmetic-operations
 	implicit-joining                         Implicit line joining                   : reference/lexical_analysis.html#implicit-joining
 	import                                   The import statement                    : reference/simple_stmts.html#import
+	import-distribution-package-mapping      Mapping import to distribution packages : library/importlib.metadata.html#import-distribution-package-mapping
 	import-dunder-main                       Special considerations for __main__     : reference/import.html#import-dunder-main
 	import-mod-attrs                         Import-related module attributes        : reference/import.html#import-mod-attrs
 	importing                                Importing Modules                       : c-api/import.html#importing
@@ -14290,6 +14298,7 @@ std:label
 	otherlicenses                            Licenses and Acknowledgements for Incorporated Software: license.html#otherlicenses
 	otherobjects                             Function Objects                        : c-api/concrete.html#otherobjects
 	ownershiprules                           Ownership Rules                         : extending/extending.html#ownershiprules
+	package-distributions                    Mapping import to distribution packages : library/importlib.metadata.html#package-distributions
 	package-index                            The Python Package Index (PyPI)         : distutils/packageindex.html#package-index
 	package-path-rules                       module.__path__                         : reference/import.html#package-path-rules
 	parenthesized                            Parenthesized forms                     : reference/expressions.html#parenthesized
@@ -14417,6 +14426,7 @@ std:label
 	raise                                    The raise statement                     : reference/simple_stmts.html#raise
 	random-examples                          Examples                                : library/random.html#random-examples
 	rawconfigparser-objects                  RawConfigParser Objects                 : library/configparser.html#rawconfigparser-objects
+	re-conditional-expression                library/re.html#re-conditional-expression
 	re-examples                              Regular Expression Examples             : library/re.html#re-examples
 	re-objects                               Regular Expression Objects              : library/re.html#re-objects
 	re-syntax                                Regular Expression Syntax               : library/re.html#re-syntax
@@ -14540,6 +14550,7 @@ std:label
 	sqlite3-default-converters               Default adapters and converters         : library/sqlite3.html#sqlite3-default-converters
 	sqlite3-exceptions                       Exceptions                              : library/sqlite3.html#sqlite3-exceptions
 	sqlite3-explanation                      Explanation                             : library/sqlite3.html#sqlite3-explanation
+	sqlite3-howto-row-factory                How to create and use row factories     : library/sqlite3.html#sqlite3-howto-row-factory
 	sqlite3-howtos                           How-to guides                           : library/sqlite3.html#sqlite3-howtos
 	sqlite3-intro                            library/sqlite3.html#sqlite3-intro
 	sqlite3-module-constants                 Module constants                        : library/sqlite3.html#sqlite3-module-constants
@@ -14580,7 +14591,9 @@ std:label
 	struct-alignment                         Byte Order, Size, and Alignment         : library/struct.html#struct-alignment
 	struct-examples                          Examples                                : library/struct.html#struct-examples
 	struct-format-strings                    Format Strings                          : library/struct.html#struct-format-strings
+	struct-native-formats                    Native Formats                          : library/struct.html#struct-native-formats
 	struct-objects                           Classes                                 : library/struct.html#struct-objects
+	struct-standard-formats                  Standard Formats                        : library/struct.html#struct-standard-formats
 	sub-interpreter-support                  Sub-interpreter support                 : c-api/init.html#sub-interpreter-support
 	sub-slots                                c-api/typeobj.html#sub-slots
 	subclassing-reprs                        Subclassing Repr Objects                : library/reprlib.html#subclassing-reprs
