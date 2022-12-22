@@ -475,7 +475,8 @@ def generate_gif(env, filepath, policy=None, resize_to=None, duration=50, max_ep
     s, info = env.reset()
 
     # check if render_mode is set to 'rbg_array'
-    assert isinstance(env.render(), onp.ndarray), "env.render_mode must be set to 'rgb_array'"
+    if not (env.render_mode == 'rgb_array' or isinstance(env.render(), onp.ndarray)):
+        raise RuntimeError("Cannot generate GIF if env.render_mode != 'rgb_array'.")
 
     # collect frames
     frames = []
