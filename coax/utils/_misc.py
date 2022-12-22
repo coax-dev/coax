@@ -472,11 +472,14 @@ def generate_gif(env, filepath, policy=None, resize_to=None, duration=50, max_ep
     if isinstance(env, TrainMonitor):
         env = env.env  # unwrap to strip off TrainMonitor
 
-    assert env.render_mode == 'rgb_array', "env.render_mode must be 'rgb_array'"
+    s, info = env.reset()
+
+    # check if render_mode is set to 'rbg_array'
+    if not (env.render_mode == 'rgb_array' or isinstance(env.render(), onp.ndarray)):
+        raise RuntimeError("Cannot generate GIF if env.render_mode != 'rgb_array'.")
 
     # collect frames
     frames = []
-    s, info = env.reset()
     for t in range(max_episode_steps):
         a = env.action_space.sample() if policy is None else policy(s)
         s_next, r, done, truncated, info = env.step(a)
