@@ -5,7 +5,7 @@ os.environ.setdefault('JAX_PLATFORM_NAME', 'gpu')     # tell JAX to use GPU
 os.environ['XLA_PYTHON_CLIENT_MEM_FRACTION'] = '0.1'  # don't use all gpu mem
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'              # tell XLA to be quiet
 
-import gym
+import gymnasium
 import jax
 import coax
 import haiku as hk
@@ -17,10 +17,10 @@ from optax import adam
 name = 'dqn'
 
 # env with preprocessing
-env = gym.make('PongNoFrameskip-v4', render_mode='rgb_array')  # AtariPreprocessing will do frame skipping
-env = gym.wrappers.AtariPreprocessing(env)
+env = gymnasium.make('PongNoFrameskip-v4', render_mode='rgb_array')  # AtariPreprocessing will do frame skipping
+env = gymnasium.wrappers.AtariPreprocessing(env)
 env = coax.wrappers.FrameStacking(env, num_frames=3)
-env = gym.wrappers.TimeLimit(env, max_episode_steps=108000 // 3)
+env = gymnasium.wrappers.TimeLimit(env, max_episode_steps=108000 // 3)
 env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 
 

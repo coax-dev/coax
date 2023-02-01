@@ -1,7 +1,7 @@
 Cartpole
 ========
 
-In these notebooks we solve the `CartPole <https://gym.openai.com/envs/CartPole-v0/>`_ environment.
+In these notebooks we solve the `CartPole <https://gymnasium.farama.org/environments/classic_control/cart_pole/>`_ environment.
 
 
 .. toctree::

@@ -5,7 +5,7 @@ import jax
 import jax.numpy as jnp
 import numpy as onp
 import haiku as hk
-from gym.spaces import Space
+from gymnasium.spaces import Space
 
 from ..utils import safe_sample, default_preprocessor
 from ..value_transforms import ValueTransform
@@ -29,9 +29,10 @@ class V(BaseFunc):
         A Haiku-style function that specifies the forward pass. The function signature must be the
         same as the example below.
 
-    env : gym.Env
+    env : gymnasium.Env
 
-        The gym-style environment. This is used to validate the input/output structure of ``func``.
+        The gymnasium-style environment. This is used to validate the input/output structure of
+        ``func``.
 
     observation_preprocessor : function, optional
 
@@ -111,7 +112,7 @@ class V(BaseFunc):
 
         if not isinstance(env.observation_space, Space):
             raise TypeError(
-                "env.observation_space must be derived from gym.Space, "
+                "env.observation_space must be derived from gymnasium.Space, "
                 f"got: {type(env.observation_space)}")
 
         if observation_preprocessor is None:

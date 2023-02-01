@@ -1,7 +1,7 @@
 Cartpole with Model-Based agent
 ===============================
 
-In this notebook we solve the `CartPole-v0 <https://gym.openai.com/envs/CartPole-v0/>`_ environment
+In this notebook we solve the `CartPole-v0 <https://gymnasium.farama.org/environments/classic_control/cart_pole/>`_ environment
 using a model-based agent, which uses a function approximator for a value function :math:`v(s)` as
 well as a dynamics model :math:`p(s'|s,a)`. Since the CartPole observation space covers the full
 phase space of the dynamics, this agent is able to learn the task *within the first episode*.

@@ -3,7 +3,7 @@ from typing import Any, Tuple, NamedTuple
 
 import jax
 import haiku as hk
-from gym.spaces import Space
+from gymnasium.spaces import Space
 
 from ..typing import Batch, Observation, Action
 from ..utils import pretty_repr, jit
@@ -58,13 +58,14 @@ class BaseFunc(ABC, RandomStateMixin, CopyMixin):
 
         if not isinstance(observation_space, Space):
             raise TypeError(
-                f"observation_space must be derived from gym.Space, got: {type(observation_space)}")
+                "observation_space must be derived from gymnasium.Space, "
+                f"got: {type(observation_space)}")
         self.observation_space = observation_space
 
         if action_space is not None:
             if not isinstance(action_space, Space):
                 raise TypeError(
-                    f"action_space must be derived from gym.Space, got: {type(action_space)}")
+                    f"action_space must be derived from gymnasium.Space, got: {type(action_space)}")
             self.action_space = action_space
 
         self.random_seed = random_seed  # also initializes self.rng via RandomStateMixin

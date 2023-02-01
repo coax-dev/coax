@@ -23,7 +23,7 @@ define :doc:`value functions <value_functions>` and :doc:`policies <policies>`. 
 may be represented either by a *deterministic* or a *stochastic* function approximator. In the
 stochastic case, the forward-pass function returns distribution parameters :math:`\varphi` that
 depend on the input state-action pair, i.e. :math:`\varphi_\theta(s,a)`. A common case is where the
-observation space is a :class:`Box <gym.spaces.Box>`, which means that the distribution parameters
+observation space is a :class:`Box <gymnasium.spaces.Box>`, which means that the distribution parameters
 are the parameters of a Gaussian distribution, :math:`\varphi_\theta(s,a)=(\mu_\theta(s,a),
 \Sigma_\theta(s,a))`.
 
@@ -40,9 +40,9 @@ Let's create some example data.
 .. code:: python
 
     import coax
-    import gym
+    import gymnasium
 
-    env = gym.make('CartPole-v0')
+    env = gymnasium.make('CartPole-v0')
     data = coax.TransitionModel.example_data(env)
 
     print(data.type1)

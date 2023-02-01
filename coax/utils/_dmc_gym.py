@@ -4,8 +4,8 @@
 import numpy as onp
 from dm_control import suite
 from dm_env import specs
-from gym import spaces, Env
-from gym.envs.registration import register, make, registry
+from gymnasium import spaces, Env
+from gymnasium.envs.registration import register, make, registry
 
 
 def make_dmc(domain, task, seed=0, max_episode_steps=1000, height=84, width=84, camera_id=0):
@@ -31,7 +31,7 @@ def make_dmc(domain, task, seed=0, max_episode_steps=1000, height=84, width=84, 
 
     Returns
     -------
-    env : gym.Env
+    env : gymnasium.Env
         Gym environment.
     """
     env_id = f"{domain}_{task}-v1"
@@ -103,7 +103,7 @@ def extract_min_max(s):
 
 def spec_to_box(*spec, dtype):
     r"""
-    Convert dm_env.specs.ArraySpec to gym.spaces.Box.
+    Convert dm_env.specs.ArraySpec to gymnasium.spaces.Box.
     """
     mins, maxs = [], []
     for s in spec:

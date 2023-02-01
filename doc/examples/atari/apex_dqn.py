@@ -4,7 +4,7 @@ os.environ['JAX_PLATFORM_NAME'] = 'cpu'
 # os.environ['JAX_PLATFORM_NAME'] = 'gpu'
 # os.environ['XLA_PYTHON_CLIENT_MEM_FRACTION'] = '0.1'  # don't use all gpu mem
 
-import gym
+import gymnasium
 import ray
 import jax
 import jax.numpy as jnp
@@ -67,10 +67,10 @@ class ApexWorker(coax.Worker):
 
 
 def make_env(name=None, tensorboard_dir=None):
-    env = gym.make('PongNoFrameskip-v4', render_mode='rgb_array')  # AtariPreprocessing will do frame skipping
-    env = gym.wrappers.AtariPreprocessing(env)
+    env = gymnasium.make('PongNoFrameskip-v4', render_mode='rgb_array')  # AtariPreprocessing will do frame skipping
+    env = gymnasium.wrappers.AtariPreprocessing(env)
     env = coax.wrappers.FrameStacking(env, num_frames=3)
-    env = gym.wrappers.TimeLimit(env, max_episode_steps=108000 // 3)
+    env = gymnasium.wrappers.TimeLimit(env, max_episode_steps=108000 // 3)
     env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=tensorboard_dir)
     env.spec.reward_threshold = 19.
     return env

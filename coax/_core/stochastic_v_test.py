@@ -4,7 +4,7 @@ from collections import namedtuple
 import jax
 import jax.numpy as jnp
 import haiku as hk
-from gym.spaces import Discrete, Box
+from gymnasium.spaces import Discrete, Box
 
 from .._base.test_case import TestCase
 from ..utils import safe_sample

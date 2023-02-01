@@ -5,7 +5,7 @@ from contextlib import AbstractContextManager
 from resource import getrusage, RUSAGE_SELF
 from functools import partial
 
-import gym
+import gymnasium
 import jax
 import jax.numpy as jnp
 import numpy as onp
@@ -26,9 +26,9 @@ MockEnv = namedtuple('MockEnv', (
 
 
 def DiscreteEnv(random_seed):
-    action_space = gym.spaces.Discrete(3)
+    action_space = gymnasium.spaces.Discrete(3)
     action_space.seed(13 * random_seed)
-    observation_space = gym.spaces.Box(
+    observation_space = gymnasium.spaces.Box(
         low=onp.float32(0), high=onp.float32(1), shape=(17, 19))
     observation_space.seed(11 * random_seed)
     reward_range = (-1., 1.)
@@ -51,7 +51,7 @@ def DiscreteEnv(random_seed):
 
 def BoxEnv(random_seed):
     env = DiscreteEnv(random_seed)._asdict()
-    env['action_space'] = gym.spaces.Box(
+    env['action_space'] = gymnasium.spaces.Box(
         low=onp.float32(0), high=onp.float32(1), shape=(3, 5))
     env['action_space'].seed(7 * random_seed)
     return MockEnv(**env)

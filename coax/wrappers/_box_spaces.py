@@ -1,4 +1,4 @@
-import gym
+import gymnasium
 import numpy as onp
 from scipy.special import expit as sigmoid
 
@@ -11,11 +11,11 @@ __all__ = (
 )
 
 
-class BoxActionsToReals(gym.Wrapper, AddOrigToInfoDictMixin):
+class BoxActionsToReals(gymnasium.Wrapper, AddOrigToInfoDictMixin):
     r"""
 
-    This wrapper decompactifies a :class:`Box <gym.spaces.Box>` action space to the reals. This is
-    required in order to be able to use a Gaussian policy.
+    This wrapper decompactifies a :class:`Box <gymnasium.spaces.Box>` action space to the reals.
+    This is required in order to be able to use a Gaussian policy.
 
     In practice, the wrapped environment expects the input action
     :math:`a_\text{real}\in\mathbb{R}^n` and then it compactifies it back to a Box of the right
@@ -31,11 +31,11 @@ class BoxActionsToReals(gym.Wrapper, AddOrigToInfoDictMixin):
     """
     def __init__(self, env):
         super().__init__(env)
-        if not isinstance(self.action_space, gym.spaces.Box):
+        if not isinstance(self.action_space, gymnasium.spaces.Box):
             raise NotImplementedError("BoxActionsToReals is only implemented for Box action spaces")
 
         shape_flat = onp.prod(self.env.action_space.shape),
-        self.action_space = gym.spaces.Box(
+        self.action_space = gymnasium.spaces.Box(
             low=onp.full(shape_flat, -1e15, self.env.action_space.dtype),
             high=onp.full(shape_flat, 1e15, self.env.action_space.dtype))
 
@@ -53,12 +53,12 @@ class BoxActionsToReals(gym.Wrapper, AddOrigToInfoDictMixin):
         return lo + (hi - lo) * sigmoid(action)
 
 
-class BoxActionsToDiscrete(gym.Wrapper, AddOrigToInfoDictMixin):
+class BoxActionsToDiscrete(gymnasium.Wrapper, AddOrigToInfoDictMixin):
     r"""
 
-    This wrapper splits a :class:`Box <gym.spaces.Box>` action space into bins. The resulting action
-    space is either :class:`Discrete <gym.spaces.Discrete>` or :class:`MultiDiscrete
-    <gym.spaces.MultiDiscrete>`, depending on the shape of the original action space.
+    This wrapper splits a :class:`Box <gymnasium.spaces.Box>` action space into bins. The resulting
+    action space is either :class:`Discrete <gymnasium.spaces.Discrete>` or :class:`MultiDiscrete
+    <gymnasium.spaces.MultiDiscrete>`, depending on the shape of the original action space.
 
     Parameters
     ----------
@@ -74,7 +74,7 @@ class BoxActionsToDiscrete(gym.Wrapper, AddOrigToInfoDictMixin):
     """
     def __init__(self, env, num_bins, random_seed=None):
         super().__init__(env)
-        if not isinstance(self.action_space, gym.spaces.Box):
+        if not isinstance(self.action_space, gymnasium.spaces.Box):
             raise NotImplementedError(
                 "BoxActionsToDiscrete is only implemented for Box action spaces")
         self._rnd = onp.random.RandomState(random_seed)
@@ -108,6 +108,6 @@ class BoxActionsToDiscrete(gym.Wrapper, AddOrigToInfoDictMixin):
             raise TypeError("num_bins must an int or tuple of ints")
 
         if self._size == 1:
-            self.action_space = gym.spaces.Discrete(self._nvec[0])
+            self.action_space = gymnasium.spaces.Discrete(self._nvec[0])
         else:
-            self.action_space = gym.spaces.MultiDiscrete(self._nvec)
+            self.action_space = gymnasium.spaces.MultiDiscrete(self._nvec)

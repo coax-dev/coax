@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-import gym
+import gymnasium
 import jax
 
 from ..utils import batch_to_single
@@ -27,13 +27,13 @@ class BaseProbaDist(ABC):
     )
 
     def __init__(self, space):
-        if not isinstance(space, gym.Space):
-            raise TypeError("space must be derived from gym.Space")
+        if not isinstance(space, gymnasium.Space):
+            raise TypeError("space must be derived from gymnasium.Space")
         self._space = space
 
     @property
     def space(self):
-        r""" The gym-style space that specifies the domain of the distribution. """
+        r""" The gymnasium-style space that specifies the domain of the distribution. """
         return self._space
 
     @property
@@ -267,7 +267,7 @@ class BaseProbaDist(ABC):
         The post-processor specific to variates drawn from this ditribution.
 
         This method provides the interface between differentiable, batched variates, i.e. outputs
-        of :func:`sample` and :func:`mode` and the provided gym space.
+        of :func:`sample` and :func:`mode` and the provided gymnasium space.
 
         Parameters
         ----------
@@ -294,7 +294,7 @@ class BaseProbaDist(ABC):
         x or X : clean variate
 
             A single clean variate or a batch thereof (if ``batch_mode=True``). A variate is called
-            **clean** if it is an instance of the gym-style :attr:`space`, i.e. it satisfies
+            **clean** if it is an instance of the gymnasium-style :attr:`space`, i.e. it satisfies
             :code:`x in self.space`.
 
         """
@@ -315,7 +315,7 @@ class BaseProbaDist(ABC):
 
         X : clean variates
 
-            A batch of clean variates, i.e. instances of the gym-style :attr:`space`.
+            A batch of clean variates, i.e. instances of the gymnasium-style :attr:`space`.
 
         Returns
         -------

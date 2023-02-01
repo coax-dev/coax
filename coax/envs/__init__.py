@@ -9,8 +9,8 @@ Environments
 
 ----
 
-This is a collection of environments currently not included in `OpenAI Gym
-<https://gym.openai.com/>`_.
+This is a collection of environments currently not included in
+`Gymnasium <https://gymnasium.farama.org/>`_.
 
 
 Object Reference

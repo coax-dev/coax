@@ -14,7 +14,7 @@ from collections import deque
 from functools import partial
 from copy import deepcopy
 
-import gym
+import gymnasium
 import numpy as onp
 import jax
 import jax.numpy as jnp
@@ -65,7 +65,7 @@ coax.utils.enable_logging(experiment_id)
 
 
 # the MDP
-env = gym.make('Pendulum-v1', render_mode='rgb_array')
+env = gymnasium.make('Pendulum-v1', render_mode='rgb_array')
 env = coax.wrappers.BoxActionsToReals(env)
 env = coax.wrappers.TrainMonitor(env, tensorboard_dir)
 

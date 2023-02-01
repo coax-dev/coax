@@ -2,7 +2,7 @@ FrozenLake with REINFORCE
 =========================
 
 In this notebook we solve a non-slippery version of the `FrozenLake-v0
-<https://gym.openai.com/envs/FrozenLake-v0/>`_ environment using the
+<https://gymnasium.farama.org/environments/toy_text/frozen_lake/>`_ environment using the
 REINFORCE algorithm.
 
 We'll use a linear function approximator for our policy :math:`\pi_\theta(a|s)`

@@ -1,7 +1,7 @@
 Atari 2600: Pong with DDPG
 ==========================
 
-In this notebook we solve the `Pong <https://gym.openai.com/envs/Pong-v0/>`_ environment using
+In this notebook we solve the `Pong <https://gymnasium.farama.org/environments/atari/pong/>`_ environment using
 :doc:`DDPG </examples/stubs/ddpg>`. We'll use a convolutional neural net (without pooling) as our
 function approximator for the policy and q-function.
 

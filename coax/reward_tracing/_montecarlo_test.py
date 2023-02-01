@@ -1,7 +1,7 @@
 from itertools import islice
 
 import pytest
-import gym
+import gymnasium
 import jax.numpy as jnp
 from numpy.testing import assert_array_almost_equal
 
@@ -11,7 +11,7 @@ from ._montecarlo import MonteCarlo
 
 
 class MockEnv:
-    action_space = gym.spaces.Discrete(10)
+    action_space = gymnasium.spaces.Discrete(10)
 
 
 class TestMonteCarlo:

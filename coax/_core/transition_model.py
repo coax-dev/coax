@@ -5,7 +5,7 @@ import jax
 import jax.numpy as jnp
 import numpy as onp
 import haiku as hk
-from gym.spaces import Space, Discrete
+from gymnasium.spaces import Space, Discrete
 
 from ..utils import safe_sample, batch_to_single, default_preprocessor
 from ..proba_dists import ProbaDist
@@ -29,9 +29,10 @@ class TransitionModel(BaseFunc):
         A Haiku-style function that specifies the forward pass. The function signature must be the
         same as the example below.
 
-    env : gym.Env
+    env : gymnasium.Env
 
-        The gym-style environment. This is used to validate the input/output structure of ``func``.
+        The gymnasium-style environment. This is used to validate the input/output structure of
+        ``func``.
 
     observation_preprocessor : function, optional
 
@@ -209,7 +210,7 @@ class TransitionModel(BaseFunc):
             s       &\mapsto s'(s,.)    &\qquad (\text{modeltype} &= 2)
 
         Note that modeltype=2 is only well-defined if the action space is :class:`Discrete
-        <gym.spaces.Discrete>`. Namely, :math:`n` is the number of discrete actions.
+        <gymnasium.spaces.Discrete>`. Namely, :math:`n` is the number of discrete actions.
 
         """
         return self._modeltype
@@ -221,12 +222,13 @@ class TransitionModel(BaseFunc):
 
         if not isinstance(env.observation_space, Space):
             raise TypeError(
-                "env.observation_space must be derived from gym.Space, "
+                "env.observation_space must be derived from gymnasium.Space, "
                 f"got: {type(env.observation_space)}")
 
         if not isinstance(env.action_space, Space):
             raise TypeError(
-                f"env.action_space must be derived from gym.Space, got: {type(env.action_space)}")
+                "env.action_space must be derived from gymnasium.Space, "
+                f"got: {type(env.action_space)}")
 
         if observation_preprocessor is None:
             observation_preprocessor = ProbaDist(env.observation_space).preprocess_variate

@@ -1,7 +1,7 @@
 Cartpole with Advantage Actor-Critic (A2C)
 ==========================================
 
-In this notebook we solve the `CartPole-v0 <https://gym.openai.com/envs/CartPole-v0/>`_ environment
+In this notebook we solve the `CartPole-v0 <https://gymnasium.farama.org/environments/classic_control/cart_pole/>`_ environment
 using a simple TD actor-critic, also known as an advantage actor-critic (A2C). Our function
 approximator is a simple multi-layer perceptron with one hidden layer.
 

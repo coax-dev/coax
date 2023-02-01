@@ -1,6 +1,6 @@
 from copy import deepcopy
 
-import gym
+import gymnasium
 import pytest
 import numpy as onp
 
@@ -11,7 +11,7 @@ from ._prioritized import PrioritizedReplayBuffer
 
 @pytest.mark.parametrize('n', [2, 4])  # 2 * batch_size < capacity, 4 * batch_size > capacity
 def test_consistency(n):
-    env = gym.make('FrozenLakeNonSlippery-v0')
+    env = gymnasium.make('FrozenLakeNonSlippery-v0')
     buffer1 = SimpleReplayBuffer(capacity=100)
     buffer2 = PrioritizedReplayBuffer(capacity=100)
 
@@ -33,7 +33,7 @@ def test_consistency(n):
 
 
 def test_sample():
-    env = gym.make('FrozenLakeNonSlippery-v0')
+    env = gymnasium.make('FrozenLakeNonSlippery-v0')
     buffer1 = SimpleReplayBuffer(capacity=100, random_seed=13)
     buffer2 = PrioritizedReplayBuffer(capacity=100, random_seed=13)
 
@@ -48,7 +48,7 @@ def test_sample():
 
 
 def test_alpha():
-    env = gym.make('FrozenLakeNonSlippery-v0')
+    env = gymnasium.make('FrozenLakeNonSlippery-v0')
     buffer = PrioritizedReplayBuffer(capacity=100, random_seed=13, alpha=0.8)
 
     for i in range(4):
@@ -80,7 +80,7 @@ def test_alpha():
 
 
 def test_update():
-    env = gym.make('FrozenLakeNonSlippery-v0')
+    env = gymnasium.make('FrozenLakeNonSlippery-v0')
     buffer = PrioritizedReplayBuffer(capacity=100, random_seed=13, alpha=0.8)
 
     for i in range(buffer.capacity):

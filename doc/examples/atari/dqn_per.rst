@@ -1,7 +1,7 @@
 Atari 2600: Pong with DQN & Prioritized Experience Replay
 =========================================================
 
-In this notebook we solve the `Pong <https://gym.openai.com/envs/Pong-v0/>`_ environment using a
+In this notebook we solve the `Pong <https://gymnasium.farama.org/environments/atari/pong/>`_ environment using a
 version of a :doc:`DQN </examples/stubs/dqn>` agent, trained using a :class:`PrioritizedReplayBuffer
 <coax.experience_replay.PrioritizedReplayBuffer>` instead of the standard :class:`SimpleReplayBuffer
 <coax.experience_replay.SimpleReplayBuffer>`.

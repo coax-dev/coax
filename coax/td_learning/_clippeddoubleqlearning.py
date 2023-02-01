@@ -4,7 +4,7 @@ import jax
 import jax.numpy as jnp
 import haiku as hk
 import chex
-from gym.spaces import Discrete
+from gymnasium.spaces import Discrete
 
 from ..proba_dists import DiscretizedIntervalDist, EmpiricalQuantileDist
 from ..utils import (get_grads_diagnostics, is_policy, is_qfunction,

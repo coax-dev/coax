@@ -2,7 +2,7 @@ FrozenLake with TD3
 ===================
 
 In this notebook we solve a non-slippery version of the `FrozenLake-v0
-<https://gym.openai.com/envs/FrozenLake-v0/>`_ environment using a :doc:`TD3 </examples/stubs/td3>`
+<https://gymnasium.farama.org/environments/toy_text/frozen_lake/>`_ environment using a :doc:`TD3 </examples/stubs/td3>`
 agent.
 
 We'll use a linear function approximator for our policy :math:`\pi_\theta(a|s)` and our state-action

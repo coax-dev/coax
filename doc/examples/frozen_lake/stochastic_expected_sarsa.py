@@ -1,5 +1,5 @@
 import coax
-import gym
+import gymnasium
 import jax
 import jax.numpy as jnp
 import haiku as hk
@@ -8,7 +8,7 @@ from matplotlib import pyplot as plt
 
 
 # the MDP
-env = gym.make('FrozenLakeNonSlippery-v0')
+env = gymnasium.make('FrozenLakeNonSlippery-v0')
 env = coax.wrappers.TrainMonitor(env)
 
 

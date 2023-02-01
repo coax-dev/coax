@@ -1,4 +1,4 @@
-import gym
+import gymnasium
 import jax
 import jax.numpy as jnp
 import haiku as hk
@@ -8,14 +8,14 @@ from ._normal import NormalDist
 from ._categorical import CategoricalDist
 from ._composite import ProbaDist, StructureType
 
-discrete = gym.spaces.Discrete(7)
-box = gym.spaces.Box(low=0, high=1, shape=(3, 5))
-multidiscrete = gym.spaces.MultiDiscrete([11, 13, 17])
-multibinary = gym.spaces.MultiBinary(17)
-tuple_flat = gym.spaces.Tuple((discrete, box))
-dict_flat = gym.spaces.Dict({'d': discrete, 'b': box})
-tuple_nested = gym.spaces.Tuple((discrete, box, multidiscrete, tuple_flat, dict_flat))
-dict_nested = gym.spaces.Dict(
+discrete = gymnasium.spaces.Discrete(7)
+box = gymnasium.spaces.Box(low=0, high=1, shape=(3, 5))
+multidiscrete = gymnasium.spaces.MultiDiscrete([11, 13, 17])
+multibinary = gymnasium.spaces.MultiBinary(17)
+tuple_flat = gymnasium.spaces.Tuple((discrete, box))
+dict_flat = gymnasium.spaces.Dict({'d': discrete, 'b': box})
+tuple_nested = gymnasium.spaces.Tuple((discrete, box, multidiscrete, tuple_flat, dict_flat))
+dict_nested = gymnasium.spaces.Dict(
     {'d': discrete, 'b': box, 'm': multidiscrete, 't': tuple_flat, 'n': dict_flat})
 
 
@@ -180,9 +180,9 @@ class TestProbaDist(TestCase):
         self.assertArrayShape(mode['n']['b'], (1, *box.shape))
 
     def test_aggregated_quantities(self):
-        space = gym.spaces.Dict({
-            'foo': gym.spaces.Box(low=0, high=1, shape=(2, 7)),
-            'bar': gym.spaces.MultiDiscrete([3, 5]),
+        space = gymnasium.spaces.Dict({
+            'foo': gymnasium.spaces.Box(low=0, high=1, shape=(2, 7)),
+            'bar': gymnasium.spaces.MultiDiscrete([3, 5]),
         })
         dist = ProbaDist(space)
         params_p = {
@@ -226,9 +226,9 @@ class TestProbaDist(TestCase):
         self.assertArrayAlmostEqual(kl_divergence, kl_div_from_ce)
 
     def test_prepostprocess_variate(self):
-        space = gym.spaces.Dict({
-            'box': gym.spaces.Box(low=0, high=1, shape=(2, 7)),
-            'multidiscrete': gym.spaces.MultiDiscrete([3, 5]),
+        space = gymnasium.spaces.Dict({
+            'box': gymnasium.spaces.Box(low=0, high=1, shape=(2, 7)),
+            'multidiscrete': gymnasium.spaces.MultiDiscrete([3, 5]),
         })
         dist = ProbaDist(space)
         dist_params = {

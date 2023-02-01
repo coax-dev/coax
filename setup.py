@@ -49,7 +49,7 @@ version_spec = get_version_spec()
 setup_kwargs = {
     'name': 'coax',
     'version': version_spec.version,
-    'description': "Plug-n-play reinforcement learning with OpenAI Gym and JAX",
+    'description': "Plug-n-play reinforcement learning with Gymnasium and JAX",
     'long_description': get_long_description(),
     'author': 'Kristian Holsheimer',
     'author_email': 'kristian.holsheimer@gmail.com',

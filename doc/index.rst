@@ -1,7 +1,7 @@
 coax
 ====
 
-*Plug-n-play Reinforcement Learning in Python with OpenAI Gym and JAX*
+*Plug-n-play Reinforcement Learning in Python with Gymnasium and JAX*
 
 
 .. image:: /_static/img/cartpole.gif
@@ -9,8 +9,8 @@ coax
     :align: center
 
 
-Coax is a modular Reinforcement Learning (RL) python package for solving OpenAI Gym environments
-with JAX-based function approximators.
+Coax is a modular Reinforcement Learning (RL) python package for solving Gymnasium
+(formerly OpenAI Gym) environments with JAX-based function approximators.
 
 
 Install
@@ -113,11 +113,11 @@ function:
 
 .. code:: python
 
-    import gym
+    import gymnasium
     import coax
     import haiku as hk
 
-    env = gym.make('FrozenLakeNonSlippery-v0')
+    env = gymnasium.make('FrozenLakeNonSlippery-v0')
     env = coax.wrappers.TrainMonitor(env)
 
     def func(S, is_training):

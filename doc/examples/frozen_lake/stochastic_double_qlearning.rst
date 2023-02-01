@@ -2,7 +2,7 @@ FrozenLake with Stochastic Double Q-Learning
 ============================================
 
 In this notebook we solve a non-slippery version of the `FrozenLake-v0
-<https://gym.openai.com/envs/FrozenLake-v0/>`_ environment using value-based control with double
+<https://gymnasium.farama.org/environments/toy_text/frozen_lake/>`_ environment using value-based control with double
 q-learning bootstrap targets.
 
 Instead of learning a point estimate for the expected return, we learn the **distribution** over all

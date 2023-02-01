@@ -1,4 +1,4 @@
-import gym
+import gymnasium
 import jax
 import haiku as hk
 
@@ -16,7 +16,7 @@ class TestNormalDist(TestCase):
         del self.rngs
 
     def test_kl_divergence(self):
-        dist = NormalDist(gym.spaces.Box(low=0, high=1, shape=(7,)))
+        dist = NormalDist(gymnasium.spaces.Box(low=0, high=1, shape=(7,)))
         params_p = {
             'mu': jax.random.normal(next(self.rngs), shape=(3, 7)),
             'logvar': jax.random.normal(next(self.rngs), shape=(3, 7))}
@@ -35,7 +35,7 @@ class TestNormalDist(TestCase):
             r"will be clipped to Box\(low=.*, high=.*\)"
         )
         with self.assertWarnsRegex(UserWarning, msg):
-            dist = NormalDist(gym.spaces.Box(low=-1000, high=10000000, shape=(1,)))
+            dist = NormalDist(gymnasium.spaces.Box(low=-1000, high=10000000, shape=(1,)))
 
         self.assertGreater(dist._low[0, 0], dist.space.low[0])
         self.assertLess(dist._high[0, 0], dist.space.high[0])

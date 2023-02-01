@@ -3,7 +3,7 @@ import warnings
 import jax
 import jax.numpy as jnp
 import numpy as onp
-from gym.spaces import Box
+from gymnasium.spaces import Box
 
 from ..utils import clipped_logit, jit
 from ._base import BaseProbaDist
@@ -30,9 +30,9 @@ class NormalDist(BaseProbaDist):
 
     Parameters
     ----------
-    space : gym.spaces.Box
+    space : gymnasium.spaces.Box
 
-        The gym-style space that specifies the domain of the distribution.
+        The gymnasium-style space that specifies the domain of the distribution.
 
     clip_box : pair of floats, optional
 

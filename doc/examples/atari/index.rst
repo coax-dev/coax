@@ -1,7 +1,7 @@
 Pong (Atari)
 ============
 
-These notebooks solve the `Pong <https://gym.openai.com/envs/Pong-v0/>`_
+These notebooks solve the `Pong <https://gymnasium.farama.org/environments/atari/pong/>`_
 environment.
 
 

@@ -2,7 +2,7 @@ import jax
 import jax.numpy as jnp
 import numpy as onp
 import chex
-from gym.spaces import Box, Discrete
+from gymnasium.spaces import Box, Discrete
 
 from ..utils import isscalar, jit
 from ._categorical import CategoricalDist
@@ -35,10 +35,10 @@ class DiscretizedIntervalDist(CategoricalDist):
 
     Parameters
     ----------
-    space : gym.spaces.Box
+    space : gymnasium.spaces.Box
 
-        The gym-style space that specifies the domain of the distribution. The shape of the Box must
-        have :code:`prod(shape) == 1`, i.e. a single interval.
+        The gymnasium-style space that specifies the domain of the distribution. The shape of the
+        Box must have :code:`prod(shape) == 1`, i.e. a single interval.
 
     num_bins : int, optional
 

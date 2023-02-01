@@ -1,9 +1,9 @@
 from collections import deque
 
-import gym
+import gymnasium
 
 
-class FrameStacking(gym.Wrapper):
+class FrameStacking(gymnasium.Wrapper):
     r"""
 
     Wrapper that does frame stacking (see `DQN paper
@@ -13,19 +13,19 @@ class FrameStacking(gym.Wrapper):
     stacking itself. Instead, it just returns a tuple of frames (untouched), which may be stacked
     downstream.
 
-    The benefit of this implementation is two-fold. First, it respects the :mod:`gym.spaces` API,
-    where each observation is truly an element of the observation space (this is not true of the gym
-    implementation, which uses a custom data class to maintain its minimal memory footprint).
-    Second, this implementation is compatibility with the :mod:`jax.tree_util` module, which means
-    that we can feed it into jit-compiled functions directly.
+    The benefit of this implementation is two-fold. First, it respects the :mod:`gymnasium.spaces`
+    API, where each observation is truly an element of the observation space (this is not true of
+    the gymnasium implementation, which uses a custom data class to maintain its minimal memory
+    footprint). Second, this implementation is compatibility with the :mod:`jax.tree_util` module,
+    which means that we can feed it into jit-compiled functions directly.
 
     Example
     -------
 
     .. code::
 
-        import gym
-        env = gym.make('PongNoFrameskip-v0')
+        import gymnasium
+        env = gymnasium.make('PongNoFrameskip-v0')
         print(env.observation_space)  # Box(210, 160, 3)
 
         env = FrameStacking(env, num_frames=2)
@@ -33,7 +33,7 @@ class FrameStacking(gym.Wrapper):
 
     Parameters
     ----------
-    env : gym-style environment
+    env : gymnasium-style environment
 
         The original environment to be wrapped.
 
@@ -47,7 +47,7 @@ class FrameStacking(gym.Wrapper):
             raise TypeError(f"num_frames must be a positive int, got: {num_frames}")
 
         super().__init__(env)
-        self.observation_space = gym.spaces.Tuple((self.env.observation_space,) * num_frames)
+        self.observation_space = gymnasium.spaces.Tuple((self.env.observation_space,) * num_frames)
         self._frames = deque(maxlen=num_frames)
 
     def step(self, action):

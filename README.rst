@@ -4,8 +4,8 @@
 coax
 ====
 
-Plug-n-Play Reinforcement Learning in Python with `OpenAI Gym <https://gym.openai.com>`_ and
-`JAX <https://jax.readthedocs.io>`_
+Plug-n-Play Reinforcement Learning in Python with `Gymnasium <https://gymnasium.farama.org>`_
+(formerly OpenAI Gym) and `JAX <https://jax.readthedocs.io>`_
 
 |readthedocs|
 

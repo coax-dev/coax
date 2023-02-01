@@ -23,7 +23,7 @@ how to use a policy in a simple episode roll-out.
 
 .. code:: python
 
-    env = gym.make(...)
+    env = gymnasium.make(...)
 
     s = env.reset()
     for t in range(max_episode_steps):
@@ -105,13 +105,13 @@ Now that we've discussed value-based policies, let's start our discussion of par
 
 **Discrete actions**
 
-A common action space is :class:`Discrete <gym.spaces.Discrete>`. As an example, we'll take the
+A common action space is :class:`Discrete <gymnasium.spaces.Discrete>`. As an example, we'll take the
 **CartPole** environment. To get started, let's generate some example data so that we know the
 correct input/output format for our forward-pass function.
 
 .. code:: python
 
-    env = gym.make('CartPole-v0')
+    env = gymnasium.make('CartPole-v0')
 
     data = coax.Policy.example_data(env)
 
@@ -214,8 +214,8 @@ some example data using the :func:`coax.Policy.example_data` helper (see example
 
 **Composite actions**
 
-The **coax** package supports all action spaces that are supported by the `gym.spaces
-<https://gym.openai.com/docs/#spaces>`_ API.
+The **coax** package supports all action spaces that are supported by the `gymnasium.spaces
+<https://gymnasium.farama.org/api/spaces/>`_ API.
 
 To illustrate the flexibility of the **coax** framework, here's an example of a composite action
 space:
@@ -223,7 +223,7 @@ space:
 .. code:: python
 
     from collections import namedtuple
-    from gym.spaces import Dict, Tuple, Box, Discrete, MultiDiscrete
+    from gymnasium.spaces import Dict, Tuple, Box, Discrete, MultiDiscrete
 
     DummyEnv = namedtuple('DummyEnv', ('observation_space', 'action_space'))
     env = DummyEnv(

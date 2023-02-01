@@ -1,6 +1,6 @@
 from functools import partial
 
-import gym
+import gymnasium
 import jax
 import haiku as hk
 import numpy as onp
@@ -9,7 +9,7 @@ from .._base.test_case import TestCase
 from .random_policy import RandomPolicy
 
 
-env = gym.make('FrozenLakeNonSlippery-v0')
+env = gymnasium.make('FrozenLakeNonSlippery-v0')
 
 
 def func_type2(S, is_training):
@@ -27,7 +27,7 @@ def func_type2(S, is_training):
 
 class TestRandomPolicy(TestCase):
     def setUp(self):
-        self.env = gym.make('FrozenLakeNonSlippery-v0')
+        self.env = gymnasium.make('FrozenLakeNonSlippery-v0')
 
     def tearDown(self):
         del self.env
