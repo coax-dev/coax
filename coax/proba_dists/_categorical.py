@@ -1,6 +1,6 @@
 import jax
 import jax.numpy as jnp
-from gym.spaces import Discrete
+from gymnasium.spaces import Discrete
 
 from ..utils import argmax, jit
 from ._base import BaseProbaDist
@@ -33,9 +33,9 @@ class CategoricalDist(BaseProbaDist):
 
     Parameters
     ----------
-    space : gym.spaces.Discrete
+    space : gymnasium.spaces.Discrete
 
-        The gym-style space that specifies the domain of the distribution.
+        The gymnasium-style space that specifies the domain of the distribution.
 
     gumbel_softmax_tau : positive float, optional
 

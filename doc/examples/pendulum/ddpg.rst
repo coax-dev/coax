@@ -1,7 +1,7 @@
 Pendulum with DDPG
 ==================
 
-In this notebook we solve the `Pendulum <https://gym.openai.com/envs/Pendulum-v0/>`_ environment
+In this notebook we solve the `Pendulum <https://gymnasium.farama.org/environments/classic_control/pendulum/>`_ environment
 using :doc:`DDPG </examples/stubs/ddpg>`. We'll use a simple multi-layer percentron for our function
 approximator for the policy and q-function.
 

@@ -1,11 +1,3 @@
-r"""
-
-This module was copied from the `OpenAI Baseline <https://github.com/openai/baselines>`_ project. It
-contains the data structures needed for efficient sampling and updating in `Prioritized Experience
-Replay <https://arxiv.org/abs/1511.05952>`_.
-
-"""
-
 import pytest
 import numpy as onp
 import pandas as pd

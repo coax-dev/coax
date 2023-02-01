@@ -1,7 +1,7 @@
 import chex
 import jax
 import jax.numpy as jnp
-from gym.spaces import Box
+from gymnasium.spaces import Box
 
 from ..utils import jit, isscalar
 from ._base import BaseProbaDist

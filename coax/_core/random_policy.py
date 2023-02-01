@@ -1,4 +1,4 @@
-import gym
+import gymnasium
 import jax.numpy as jnp
 import numpy as onp
 
@@ -18,9 +18,9 @@ class RandomPolicy:
 
     Parameters
     ----------
-    env : gym.Env
+    env : gymnasium.Env
 
-        The gym-style environment. This is only used to get the :code:`env.action_space`.
+        The gymnasium-style environment. This is only used to get the :code:`env.action_space`.
 
     random_seed : int, optional
 
@@ -28,8 +28,9 @@ class RandomPolicy:
 
     """
     def __init__(self, env, random_seed=None):
-        if not isinstance(env.action_space, gym.Space):
-            raise TypeError(f"env.action_space must be a gym.Space, got: {type(env.action_space)}")
+        if not isinstance(env.action_space, gymnasium.Space):
+            raise TypeError(
+                f"env.action_space must be a gymnasium.Space, got: {type(env.action_space)}")
         self.action_space = env.action_space
         self.action_space.seed(random_seed)
         self.random_seed = random_seed
@@ -40,11 +41,11 @@ class RandomPolicy:
         if not return_logp:
             return a
 
-        if isinstance(self.action_space, gym.spaces.Discrete):
+        if isinstance(self.action_space, gymnasium.spaces.Discrete):
             logp = -onp.log(self.num_actions)
             return a, logp
 
-        if isinstance(self.action_space, gym.spaces.Box):
+        if isinstance(self.action_space, gymnasium.spaces.Box):
             sizes = self.action_space.high - self.action_space.low
             logp = -onp.sum(onp.log(sizes))  # log(prod(1/sizes))
             return a, logp
@@ -60,10 +61,10 @@ class RandomPolicy:
 
     @docstring(Policy.dist_params)
     def dist_params(self, s):
-        if isinstance(self.action_space, gym.spaces.Discrete):
+        if isinstance(self.action_space, gymnasium.spaces.Discrete):
             return {'logits': jnp.zeros(self.action_space.n)}
 
-        if isinstance(self.action_space, gym.spaces.Box):
+        if isinstance(self.action_space, gymnasium.spaces.Box):
             return {
                 'mu': jnp.zeros(self.action_space.shape),
                 'logvar': 15 * jnp.ones(self.action_space.shape)}

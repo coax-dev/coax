@@ -13,10 +13,9 @@ Wrappers
 
 ----
 
-OpenAI gym provides a nice modular interface to extend existing environments
-using `environment wrappers
-<https://github.com/openai/gym/tree/master/gym/wrappers>`_. Here we list some
-wrappers that are used throughout the **coax** package.
+Gymnasium provides a nice modular interface to extend existing using
+`environment wrappers <https://gymnasium.farama.org/api/wrappers/>`_.
+Here we list some wrappers that are used throughout the **coax** package.
 
 The most notable wrapper that you'll probably want to use is
 :class:`coax.wrappers.TrainMonitor`. It wraps the environment in a way that we

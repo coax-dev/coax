@@ -1,5 +1,5 @@
-from gym import Env
-from gym.spaces import Discrete, MultiDiscrete
+from gymnasium import Env
+from gymnasium.spaces import Discrete, MultiDiscrete
 import numpy as np
 
 from .._base.errors import UnavailableActionError, EpisodeDoneError
@@ -17,7 +17,7 @@ class ConnectFourEnv(Env):
 
     Attributes
     ----------
-    action_space : gym.spaces.Discrete(7)
+    action_space : gymnasium.spaces.Discrete(7)
         The action space.
 
     observation_space : MultiDiscrete(nvec)
@@ -130,7 +130,7 @@ class ConnectFourEnv(Env):
     def step(self, a):
         r"""
         Take one step in the MDP, following the single-player convention from
-        gym.
+        gymnasium.
 
         Parameters
         ----------

@@ -1,7 +1,7 @@
 Atari 2600: Pong with PPO
 =========================
 
-In this notebook we solve the `Pong <https://gym.openai.com/envs/Pong-v0/>`_ environment using a TD
+In this notebook we solve the `Pong <https://gymnasium.farama.org/environments/atari/pong/>`_ environment using a TD
 actor-critic algorithm with :class:`PPO <coax.policy_objectives.PPOClip>` policy updates.
 
 We use convolutional neural nets (without pooling) as our function approximator for the state value

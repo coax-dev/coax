@@ -1,7 +1,7 @@
 Cartpole with DQN
 =================
 
-In this notebook we solve the `CartPole <https://gym.openai.com/envs/CartPole-v0/>`_ environment
+In this notebook we solve the `CartPole <https://gymnasium.farama.org/environments/classic_control/cart_pole/>`_ environment
 using a simple :doc:`DQN </examples/stubs/dqn>` agent. Our function approximator is a multi-layer perceptron with one
 hidden layer.
 

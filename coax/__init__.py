@@ -1,5 +1,15 @@
 __version__ = '0.1.12'
 
+# fall back to legacy gym if gymnasium is unavailable
+try:
+    import gymnasium as _gymnasium
+except ImportError:
+    import sys
+    import warnings
+    warnings.warn("Cannot import 'gymnasium'; attempting to fall back to legacy 'gym'.")
+    import gym as _gymnasium
+    sys.modules['gymnasium'] = _gymnasium
+    del sys, warnings  # Keep namespace clean.
 
 # expose specific classes and functions
 from ._core.v import V
@@ -71,26 +81,24 @@ __all__ = (
 # register envs
 # -----------------------------------------------------------------------------
 
-import gym
+if 'ConnectFour-v0' in _gymnasium.envs.registry:
+    del _gymnasium.envs.registry['ConnectFour-v0']
 
-if 'ConnectFour-v0' in gym.envs.registry:
-    del gym.envs.registry['ConnectFour-v0']
-
-gym.envs.register(
+_gymnasium.envs.register(
     id='ConnectFour-v0',
     entry_point='coax.envs:ConnectFourEnv',
 )
 
 
-if 'FrozenLakeNonSlippery-v0' in gym.envs.registry:
-    del gym.envs.registry['FrozenLakeNonSlippery-v0']
+if 'FrozenLakeNonSlippery-v0' in _gymnasium.envs.registry:
+    del _gymnasium.envs.registry['FrozenLakeNonSlippery-v0']
 
-gym.envs.register(
+_gymnasium.envs.register(
     id='FrozenLakeNonSlippery-v0',
-    entry_point='gym.envs.toy_text:FrozenLakeEnv',
+    entry_point='gymnasium.envs.toy_text:FrozenLakeEnv',
     kwargs={'map_name': '4x4', 'is_slippery': False},
     max_episode_steps=20,
     reward_threshold=0.99,
 )
 
-del gym
+del _gymnasium  # Keep namespace clean.

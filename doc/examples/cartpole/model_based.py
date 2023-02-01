@@ -1,5 +1,5 @@
 import coax
-import gym
+import gymnasium
 import jax.numpy as jnp
 import haiku as hk
 import optax
@@ -10,7 +10,7 @@ from coax.value_losses import mse
 name = 'model_based'
 
 # the cart-pole MDP
-env = gym.make('CartPole-v0', render_mode='rgb_array')
+env = gymnasium.make('CartPole-v0', render_mode='rgb_array')
 env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 
 

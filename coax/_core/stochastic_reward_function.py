@@ -17,9 +17,10 @@ class StochasticRewardFunction(StochasticQ):
 
         A Haiku-style function that specifies the forward pass.
 
-    env : gym.Env
+    env : gymnasium.Env
 
-        The gym-style environment. This is used to validate the input/output structure of ``func``.
+        The gymnasium-style environment. This is used to validate the input/output structure of
+        ``func``.
 
     value_range : tuple of floats, optional
 

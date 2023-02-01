@@ -1,4 +1,4 @@
-import gym
+import gymnasium
 import coax
 import optax
 import haiku as hk
@@ -7,7 +7,7 @@ import jax.numpy as jnp
 
 
 # pick environment
-env = gym.make(...)
+env = gymnasium.make(...)
 env = coax.wrappers.TrainMonitor(env)
 
 # choose iqn hyperparameters

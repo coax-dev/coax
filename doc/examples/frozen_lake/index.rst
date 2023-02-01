@@ -2,7 +2,7 @@ FrozenLake
 ==========
 
 In these notebooks we solve a *non-slippery* version of the
-`FrozenLake <https://gym.openai.com/envs/FrozenLake-v0/>`_ environment.
+`FrozenLake <https://gymnasium.farama.org/environments/toy_text/frozen_lake/>`_ environment.
 
 This is a very simple task, which is primarily used as a unit test for implementating new components
 to the **coax** package.

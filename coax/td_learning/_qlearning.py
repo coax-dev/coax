@@ -2,7 +2,7 @@ import warnings
 
 import haiku as hk
 import chex
-from gym.spaces import Discrete
+from gymnasium.spaces import Discrete
 
 from ..utils import is_stochastic
 from ._base import BaseTDLearningQWithTargetPolicy

@@ -5,7 +5,7 @@ import jax
 import jax.numpy as jnp
 import numpy as onp
 import haiku as hk
-from gym.spaces import Space
+from gymnasium.spaces import Space
 
 from ..utils import safe_sample, batch_to_single, jit
 from .base_func import BaseFunc, ExampleData, Inputs, ArgsType2
@@ -142,11 +142,12 @@ class BaseStochasticFuncType2(BaseFunc, StochasticFuncType2Mixin):
 
         if not isinstance(env.observation_space, Space):
             raise TypeError(
-                "env.observation_space must be derived from gym.Space, "
+                "env.observation_space must be derived from gymnasium.Space, "
                 f"got: {type(env.observation_space)}")
         if not isinstance(env.action_space, Space):
             raise TypeError(
-                f"env.action_space must be derived from gym.Space, got: {type(env.action_space)}")
+                "env.action_space must be derived from gymnasium.Space, "
+                f"got: {type(env.action_space)}")
 
         # these must be provided
         assert observation_preprocessor is not None

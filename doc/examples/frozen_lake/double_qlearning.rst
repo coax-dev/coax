@@ -2,7 +2,7 @@ FrozenLake with Double Q-Learning
 =================================
 
 In this notebook we solve a non-slippery version of the `FrozenLake-v0
-<https://gym.openai.com/envs/FrozenLake-v0/>`_ environment using value-based control with double
+<https://gymnasium.farama.org/environments/toy_text/frozen_lake/>`_ environment using value-based control with double
 q-learning bootstrap targets.
 
 We'll use a linear function approximator for our state-action value function :math:`q_\theta(s,a)`.

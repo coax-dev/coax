@@ -2,7 +2,7 @@ FrozenLake with PPO
 ===================
 
 In this notebook we solve a non-slippery version of the `FrozenLake-v0
-<https://gym.openai.com/envs/FrozenLake-v0/>`_ environment using the TD actor critic algorithm with
+<https://gymnasium.farama.org/environments/toy_text/frozen_lake/>`_ environment using the TD actor critic algorithm with
 :class:`PPO <coax.policy_objectives.PPOClip>` policy updates.
 
 We'll use a linear function approximator for our policy :math:`\pi_\theta(a|s)` and our state value

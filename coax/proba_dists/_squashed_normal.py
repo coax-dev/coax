@@ -22,9 +22,9 @@ class SquashedNormalDist(BaseProbaDist):
 
     Parameters
     ----------
-    space : gym.spaces.Box
+    space : gymnasium.spaces.Box
 
-        The gym-style space that specifies the domain of the distribution.
+        The gymnasium-style space that specifies the domain of the distribution.
 
     clip_logvar : pair of floats, optional
 

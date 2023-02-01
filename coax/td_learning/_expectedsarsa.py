@@ -1,4 +1,4 @@
-import gym
+import gymnasium
 import jax
 import haiku as hk
 
@@ -83,7 +83,7 @@ class ExpectedSarsa(BaseTDLearningQWithTargetPolicy):
             self, q, pi_targ, q_targ=None, optimizer=None,
             loss_function=None, policy_regularizer=None):
 
-        if not isinstance(q.action_space, gym.spaces.Discrete):
+        if not isinstance(q.action_space, gymnasium.spaces.Discrete):
             raise NotImplementedError(
                 f"{self.__class__.__name__} class is only implemented for discrete actions spaces")
         if pi_targ is None:

@@ -1,4 +1,4 @@
-import gym
+import gymnasium
 import jax
 import jax.numpy as jnp
 import numpy as onp
@@ -48,7 +48,8 @@ class TestArrayUtils(TestCase):
         self.assertArrayAlmostEqual(argmax(next(rngs), mat), [1, 1, 3])
 
     def test_check_preprocessors(self):
-        box = gym.spaces.Box(low=onp.finfo('float32').min, high=onp.finfo('float32').max, shape=[7])
+        box = gymnasium.spaces.Box(
+            low=onp.finfo('float32').min, high=onp.finfo('float32').max, shape=[7])
         p0 = NormalDist(box).preprocess_variate
         p1 = default_preprocessor(box)
 
@@ -69,12 +70,12 @@ class TestArrayUtils(TestCase):
     def test_default_preprocessor(self):
         rngs = PRNGSequence(13)
 
-        box = gym.spaces.Box(low=0, high=1, shape=(2, 3))
-        dsc = gym.spaces.Discrete(7)
-        mbn = gym.spaces.MultiBinary(11)
-        mds = gym.spaces.MultiDiscrete(nvec=[3, 5])
-        tup = gym.spaces.Tuple((box, dsc, mbn, mds))
-        dct = gym.spaces.Dict({'box': box, 'dsc': dsc, 'mbn': mbn, 'mds': mds})
+        box = gymnasium.spaces.Box(low=0, high=1, shape=(2, 3))
+        dsc = gymnasium.spaces.Discrete(7)
+        mbn = gymnasium.spaces.MultiBinary(11)
+        mds = gymnasium.spaces.MultiDiscrete(nvec=[3, 5])
+        tup = gymnasium.spaces.Tuple((box, dsc, mbn, mds))
+        dct = gymnasium.spaces.Dict({'box': box, 'dsc': dsc, 'mbn': mbn, 'mds': mds})
 
         self.assertArrayShape(default_preprocessor(box)(next(rngs), box.sample()), (1, 2, 3))
         self.assertArrayShape(default_preprocessor(dsc)(next(rngs), dsc.sample()), (1, 7))

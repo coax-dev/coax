@@ -323,9 +323,9 @@ def render_episode(env, policy=None, step_delay_ms=0):
 
     Parameters
     ----------
-    env : gym environment
+    env : gymnasium environment
 
-        A gym environment.
+        A gymnasium environment.
 
     policy : callable, optional
 
@@ -366,7 +366,7 @@ def has_env_attr(env, attr, max_depth=100):
 
     Parameters
     ----------
-    env : gym environment
+    env : gymnasium environment
 
         A potentially wrapped environment.
 
@@ -401,7 +401,7 @@ def get_env_attr(env, attr, default='__ERROR__', max_depth=100):
 
     Parameters
     ----------
-    env : gym environment
+    env : gymnasium environment
 
         A potentially wrapped environment.
 
@@ -434,7 +434,7 @@ def generate_gif(env, filepath, policy=None, resize_to=None, duration=50, max_ep
 
     Parameters
     ----------
-    env : gym environment
+    env : gymnasium environment
 
         The environment to record from.
 

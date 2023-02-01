@@ -1,7 +1,7 @@
 import haiku as hk
 import jax
 import jax.numpy as jnp
-from gym.spaces import Discrete
+from gymnasium.spaces import Discrete
 
 from ..utils import (batch_to_single, is_stochastic, single_to_batch,
                      stack_trees)

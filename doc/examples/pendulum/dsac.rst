@@ -1,7 +1,7 @@
 Pendulum with DSAC
 ==================
 
-In this notebook we solve the `Pendulum <https://gym.openai.com/envs/Pendulum-v0/>`_ environment
+In this notebook we solve the `Pendulum <https://gymnasium.farama.org/environments/classic_control/pendulum/>`_ environment
 using `DSAC`, the distributional variant of `SAC`. We follow the `implementation https://arxiv.org/abs/2004.14547>`
 by using quantile regression to approximate the q function.
 

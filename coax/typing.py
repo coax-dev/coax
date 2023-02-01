@@ -12,7 +12,7 @@ __all__ = (
 Batch = Sequence                            # annotate batched quantities
 Observation = TypeVar('Observation')        # a state observation
 Action = TypeVar('Action')                  # an action
-SpaceElement = Union[Observation, Action]   # element of a gym-style space
+SpaceElement = Union[Observation, Action]   # element of a gymnasium-style space
 LogPropensity = TypeVar('LogPropensity')    # an action
 
 

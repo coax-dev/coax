@@ -1,7 +1,7 @@
 Pendulum with TD4
 ==================
 
-In this notebook we solve the `Pendulum <https://gym.openai.com/envs/Pendulum-v0/>`_ environment
+In this notebook we solve the `Pendulum <https://gymnasium.farama.org/environments/classic_control/pendulum/>`_ environment
 using TD4 which is the distributional variant of :doc:`TD3 </examples/stubs/td3>`. We estimate the q function using quantile
 regression as in :doc:`IQN </examples/stubs/iqn>`.
 

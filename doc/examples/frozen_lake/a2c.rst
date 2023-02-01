@@ -2,7 +2,7 @@ FrozenLake with A2C
 ===================
 
 In this notebook we solve a non-slippery version of the `FrozenLake-v0
-<https://gym.openai.com/envs/FrozenLake-v0/>`_ environment using the TD actor critic algorithm with
+<https://gymnasium.farama.org/environments/toy_text/frozen_lake/>`_ environment using the TD actor critic algorithm with
 vanilla policy gradient updates. This algorithm is known as the Advantage Actor Critic, abbreviated
 A2C.
 

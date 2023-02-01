@@ -18,9 +18,10 @@ class RewardFunction(Q):
         A Haiku-style function that specifies the forward pass. The function signature must be the
         same as the example below.
 
-    env : gym.Env
+    env : gymnasium.Env
 
-        The gym-style environment. This is used to validate the input/output structure of ``func``.
+        The gymnasium-style environment. This is used to validate the input/output structure of
+        ``func``.
 
     observation_preprocessor : function, optional
 

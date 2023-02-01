@@ -1,6 +1,6 @@
 import haiku as hk
 from jax.scipy.special import logsumexp
-from gym.spaces import Discrete
+from gymnasium.spaces import Discrete
 
 from ..utils import is_stochastic
 from ._base import BaseTDLearningQ

@@ -1,4 +1,4 @@
-import gym
+import gymnasium
 import jax
 import jax.numpy as jnp
 import coax
@@ -11,7 +11,7 @@ import optax
 name = 'ppo'
 
 # the Pendulum MDP
-env = gym.make('Pendulum-v1', render_mode='rgb_array')
+env = gymnasium.make('Pendulum-v1', render_mode='rgb_array')
 env = coax.wrappers.TrainMonitor(env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 
 

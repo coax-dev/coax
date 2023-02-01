@@ -1,7 +1,7 @@
 Atari 2600: Pong with DQN
 =========================
 
-In this notebook we solve the `Pong <https://gym.openai.com/envs/Pong-v0/>`_ environment using the
+In this notebook we solve the `Pong <https://gymnasium.farama.org/environments/atari/pong/>`_ environment using the
 classic :doc:`DQN </examples/stubs/dqn>` agent. We'll use a convolutional neural net (without
 pooling) as our function approximator for the q-function.
 

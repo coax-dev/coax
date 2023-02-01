@@ -1,5 +1,5 @@
 import coax
-import gym
+import gymnasium
 import haiku as hk
 import jax
 import jax.numpy as jnp
@@ -10,7 +10,7 @@ from optax import adam
 # the name of this script
 name = 'iqn'
 # the cart-pole MDP
-env = gym.make('CartPole-v0', render_mode='rgb_array')
+env = gymnasium.make('CartPole-v0', render_mode='rgb_array')
 env = coax.wrappers.TrainMonitor(
     env, name=name, tensorboard_dir=f"./data/tensorboard/{name}")
 quantile_embedding_dim = 64

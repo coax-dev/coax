@@ -9,8 +9,8 @@ from typing import Mapping
 import numpy as np
 import lz4.frame
 import cloudpickle as pickle
-from gym import Wrapper
-from gym.spaces import Discrete
+from gymnasium import Wrapper
+from gymnasium.spaces import Discrete
 from tensorboardX import SummaryWriter
 
 from .._base.mixins import LoggerMixin
@@ -64,9 +64,9 @@ class TrainMonitor(Wrapper, LoggerMixin):
 
     Parameters
     ----------
-    env : gym environment
+    env : gymnasium environment
 
-        A gym environment.
+        A gymnasium environment.
 
     tensorboard_dir : str, optional
 

@@ -1,4 +1,4 @@
-import gym
+import gymnasium
 import jax
 import jax.numpy as jnp
 import haiku as hk
@@ -23,7 +23,7 @@ class BaseValueBasedPolicy(StochasticFuncType2Mixin):
         if not is_qfunction(q):
             raise TypeError(f"q must be a q-function, got: {type(q)}")
 
-        if not isinstance(q.action_space, gym.spaces.Discrete):
+        if not isinstance(q.action_space, gymnasium.spaces.Discrete):
             raise TypeError(f"{self.__class__.__name__} is only well-defined for Discrete actions")
 
         self.q = q

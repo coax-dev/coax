@@ -1,7 +1,7 @@
 from functools import partial
 from collections import namedtuple
 
-import gym
+import gymnasium
 import jax
 import jax.numpy as jnp
 import numpy as onp
@@ -12,8 +12,8 @@ from ..utils import safe_sample
 from .transition_model import TransitionModel
 
 
-discrete = gym.spaces.Discrete(7)
-boxspace = gym.spaces.Box(low=0, high=1, shape=(3, 5))
+discrete = gymnasium.spaces.Discrete(7)
+boxspace = gymnasium.spaces.Box(low=0, high=1, shape=(3, 5))
 
 Env = namedtuple('Env', ('observation_space', 'action_space'))
 

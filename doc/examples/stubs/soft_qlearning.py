@@ -1,4 +1,4 @@
-import gym
+import gymnasium
 import coax
 import haiku as hk
 import jax
@@ -7,7 +7,7 @@ from optax import adam
 
 
 # pick environment
-env = gym.make(...)
+env = gymnasium.make(...)
 env = coax.wrappers.TrainMonitor(env)
 
 

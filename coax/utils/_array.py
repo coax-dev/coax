@@ -3,7 +3,7 @@ from collections import Counter
 from functools import partial
 
 import chex
-import gym
+import gymnasium
 import jax
 import jax.numpy as jnp
 import numpy as onp
@@ -193,7 +193,7 @@ def check_preprocessors(space, *preprocessors, num_samples=20, random_seed=None)
 
     Parameters
     ----------
-    space : gym.Space
+    space : gymnasium.Space
 
         The domain of the prepocessors.
 
@@ -308,7 +308,7 @@ def default_preprocessor(space):
 
     Parameters
     ----------
-    space : gym.Space
+    space : gymnasium.Space
 
         The domain of the prepocessor.
 
@@ -320,46 +320,46 @@ def default_preprocessor(space):
         <coax.proba_dists.NormalDist.preprocess_variate>` for an example.
 
     """
-    if not isinstance(space, gym.Space):
-        raise TypeError(f"space must a gym.Space, got: {type(space)}")
+    if not isinstance(space, gymnasium.Space):
+        raise TypeError(f"space must a gymnasium.Space, got: {type(space)}")
 
-    if isinstance(space, gym.spaces.Discrete):
+    if isinstance(space, gymnasium.spaces.Discrete):
         def func(rng, X):
             X = jnp.asarray(X)
             X = jax.nn.one_hot(X, space.n)     # one-hot encoding
             X = jnp.reshape(X, (-1, space.n))  # ensure batch axis
             return X
 
-    elif isinstance(space, gym.spaces.Box):
+    elif isinstance(space, gymnasium.spaces.Box):
         def func(rng, X):
             X = jnp.asarray(X, dtype=space.dtype)   # ensure ndarray
             X = jnp.reshape(X, (-1, *space.shape))  # ensure batch axis
             X = jnp.clip(X, space.low, space.high)  # clip to be safe
             return X
 
-    elif isinstance(space, gym.spaces.MultiDiscrete):
+    elif isinstance(space, gymnasium.spaces.MultiDiscrete):
         def func(rng, X):
             rngs = jax.random.split(rng, len(space.nvec))
             chex.assert_rank(X, {1, 2})
             if X.ndim == 1:
                 X = jnp.expand_dims(X, axis=0)
             return [
-                default_preprocessor(gym.spaces.Discrete(n))(rng, X[:, i])
+                default_preprocessor(gymnasium.spaces.Discrete(n))(rng, X[:, i])
                 for i, (n, rng) in enumerate(zip(space.nvec, rngs))]
 
-    elif isinstance(space, gym.spaces.MultiBinary):
+    elif isinstance(space, gymnasium.spaces.MultiBinary):
         def func(rng, X):
             X = jnp.asarray(X, dtype=jnp.float32)  # ensure ndarray
             X = jnp.reshape(X, (-1, space.n))      # ensure batch axis
             return X
 
-    elif isinstance(space, gym.spaces.Tuple):
+    elif isinstance(space, gymnasium.spaces.Tuple):
         def func(rng, X):
             rngs = hk.PRNGSequence(rng)
             return tuple(
                 default_preprocessor(sp)(next(rngs), X[i]) for i, sp in enumerate(space.spaces))
 
-    elif isinstance(space, gym.spaces.Dict):
+    elif isinstance(space, gymnasium.spaces.Dict):
         def func(rng, X):
             rngs = hk.PRNGSequence(rng)
             return {k: default_preprocessor(sp)(next(rngs), X[k]) for k, sp in space.spaces.items()}
@@ -592,9 +592,9 @@ def get_transition_batch(env, batch_size=1, gamma=0.9, random_seed=None):
 
     Parameters
     ----------
-    env : gym environment
+    env : gymnasium environment
 
-        A gym-style environment.
+        A gymnasium-style environment.
 
     batch_size : positive int, optional
 
@@ -793,25 +793,25 @@ class StepwiseLinearFunction:
 
 
 def _safe_sample(space, rnd):
-    if isinstance(space, gym.spaces.Discrete):
+    if isinstance(space, gymnasium.spaces.Discrete):
         return rnd.randint(space.n)
 
-    if isinstance(space, gym.spaces.MultiDiscrete):
+    if isinstance(space, gymnasium.spaces.MultiDiscrete):
         return onp.asarray([rnd.randint(n) for n in space.nvec])
 
-    if isinstance(space, gym.spaces.MultiBinary):
+    if isinstance(space, gymnasium.spaces.MultiBinary):
         return rnd.randint(2, size=space.n)
 
-    if isinstance(space, gym.spaces.Box):
+    if isinstance(space, gymnasium.spaces.Box):
         low = onp.clip(space.low, -1e9, 1e9)
         high = onp.clip(space.high, -1e9, 1e9)
         x = low + rnd.rand(*space.shape) * (high - low)
         return onp.sign(x) * onp.log(1. + onp.abs(x))  # log transform to avoid very large numbers
 
-    if isinstance(space, gym.spaces.Tuple):
+    if isinstance(space, gymnasium.spaces.Tuple):
         return tuple(_safe_sample(sp, rnd) for sp in space.spaces)
 
-    if isinstance(space, gym.spaces.Dict):
+    if isinstance(space, gymnasium.spaces.Dict):
         return {k: _safe_sample(space.spaces[k], rnd) for k in sorted(space.spaces)}
 
     # fallback for non-supported spaces
@@ -821,13 +821,13 @@ def _safe_sample(space, rnd):
 def safe_sample(space, seed=None):
     r"""
 
-    Safely sample from a gym-style space.
+    Safely sample from a gymnasium-style space.
 
     Parameters
     ----------
-    space : gym.Space
+    space : gymnasium.Space
 
-        A gym-style space.
+        A gymnasium-style space.
 
     seed : int, optional
 
@@ -840,8 +840,8 @@ def safe_sample(space, seed=None):
         An single sample from of the given ``space``.
 
     """
-    if not isinstance(space, gym.Space):
-        raise TypeError("space must be derived from gym.Space")
+    if not isinstance(space, gymnasium.Space):
+        raise TypeError("space must be derived from gymnasium.Space")
 
     rnd = seed if isinstance(seed, onp.random.RandomState) else onp.random.RandomState(seed)
     return _safe_sample(space, rnd)

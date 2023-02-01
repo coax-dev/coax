@@ -45,9 +45,9 @@ creating some example data, which allows us inspect the correct input/output for
 .. code:: python
 
     import coax
-    import gym
+    import gymnasium
 
-    env = gym.make('CartPole-v0')
+    env = gymnasium.make('CartPole-v0')
     data = coax.V.example_data(env)
 
     print(data)
@@ -93,9 +93,9 @@ create some example data again.
 .. code:: python
 
     import coax
-    import gym
+    import gymnasium
 
-    env = gym.make('CartPole-v0')
+    env = gymnasium.make('CartPole-v0')
     data = coax.Q.example_data(env)
 
     print(data.type1)
