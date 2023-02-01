@@ -18,7 +18,7 @@ Upcoming
 v0.1.13
 -------
 
-- Switch from legacy ``gym`` to ``gymnasium`` (`#21 <https://github.com/coax-dev/coax/issues/21>`_)
+- Switch from legacy ``gym`` to ``gymnasium`` (`#40 <https://github.com/coax-dev/coax/issues/40>`_)
 - Upgrade dependencies.
  
 
