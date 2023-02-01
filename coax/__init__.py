@@ -1,4 +1,4 @@
-__version__ = '0.1.12'
+__version__ = '0.1.13'
 
 # fall back to legacy gym if gymnasium is unavailable
 try:
@@ -7,7 +7,7 @@ except ImportError:
     import sys
     import warnings
     warnings.warn("Cannot import 'gymnasium'; attempting to fall back to legacy 'gym'.")
-    import gym as _gymnasium
+    import gym as _gymnasium  # Don't catch ImportError here; we need gymnasium or gym.
     sys.modules['gymnasium'] = _gymnasium
     del sys, warnings  # Keep namespace clean.
 
