@@ -21,6 +21,7 @@ py:attribute
 	jax.numpy.csingle                        _autosummary/jax.numpy.csingle.html#jax.numpy.csingle
 	jax.numpy.double                         _autosummary/jax.numpy.double.html#jax.numpy.double
 	jax.numpy.finfo.bits                     _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.bits
+	jax.numpy.finfo.dtype                    _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.dtype
 	jax.numpy.finfo.eps                      _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.eps
 	jax.numpy.finfo.epsneg                   _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.epsneg
 	jax.numpy.finfo.iexp                     _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.iexp
@@ -40,6 +41,7 @@ py:attribute
 	jax.numpy.finfo.tiny                     _autosummary/jax.numpy.finfo.html#jax.numpy.finfo.tiny
 	jax.numpy.float_                         _autosummary/jax.numpy.float_.html#jax.numpy.float_
 	jax.numpy.iinfo.bits                     _autosummary/jax.numpy.iinfo.html#jax.numpy.iinfo.bits
+	jax.numpy.iinfo.dtype                    _autosummary/jax.numpy.iinfo.html#jax.numpy.iinfo.dtype
 	jax.numpy.iinfo.max                      _autosummary/jax.numpy.iinfo.html#jax.numpy.iinfo.max
 	jax.numpy.iinfo.min                      _autosummary/jax.numpy.iinfo.html#jax.numpy.iinfo.min
 	jax.numpy.int_                           _autosummary/jax.numpy.int_.html#jax.numpy.int_
@@ -48,6 +50,8 @@ py:attribute
 	jax.numpy.uint                           _autosummary/jax.numpy.uint.html#jax.numpy.uint
 py:class
 	jax._src.checkify.Error                  _autosummary/jax.experimental.checkify.Error.html#jax.experimental.checkify.Error
+	jax._src.core.ClosedJaxpr                _autosummary/jax.core.ClosedJaxpr.html#jax.core.ClosedJaxpr
+	jax._src.core.Jaxpr                      _autosummary/jax.core.Jaxpr.html#jax.core.Jaxpr
 	jax._src.custom_derivatives.custom_jvp   _autosummary/jax.custom_jvp.html#jax.custom_jvp
 	jax._src.custom_derivatives.custom_vjp   _autosummary/jax.custom_vjp.html#jax.custom_vjp
 	jax._src.dtypes.finfo                    _autosummary/jax.numpy.finfo.html#jax.numpy.finfo
@@ -88,7 +92,17 @@ py:class
 	jax.experimental.global_device_array.Shard jax.experimental.global_device_array.html#jax.experimental.global_device_array.Shard
 	jax.experimental.maps.Mesh               _autosummary/jax.experimental.maps.Mesh.html#jax.experimental.maps.Mesh
 	jax.experimental.sparse.BCOO             _autosummary/jax.experimental.sparse.BCOO.html#jax.experimental.sparse.BCOO
+	jax.experimental.sparse.BCSR             _autosummary/jax.experimental.sparse.BCSR.html#jax.experimental.sparse.BCSR
+	jax.experimental.sparse.COO              _autosummary/jax.experimental.sparse.COO.html#jax.experimental.sparse.COO
+	jax.experimental.sparse.CSC              _autosummary/jax.experimental.sparse.CSC.html#jax.experimental.sparse.CSC
+	jax.experimental.sparse.CSR              _autosummary/jax.experimental.sparse.CSR.html#jax.experimental.sparse.CSR
+	jax.experimental.sparse.JAXSparse        _autosummary/jax.experimental.sparse.JAXSparse.html#jax.experimental.sparse.JAXSparse
+	jax.experimental.sparse._base.JAXSparse  _autosummary/jax.experimental.sparse.JAXSparse.html#jax.experimental.sparse.JAXSparse
 	jax.experimental.sparse.bcoo.BCOO        _autosummary/jax.experimental.sparse.BCOO.html#jax.experimental.sparse.BCOO
+	jax.experimental.sparse.bcsr.BCSR        _autosummary/jax.experimental.sparse.BCSR.html#jax.experimental.sparse.BCSR
+	jax.experimental.sparse.coo.COO          _autosummary/jax.experimental.sparse.COO.html#jax.experimental.sparse.COO
+	jax.experimental.sparse.csr.CSC          _autosummary/jax.experimental.sparse.CSC.html#jax.experimental.sparse.CSC
+	jax.experimental.sparse.csr.CSR          _autosummary/jax.experimental.sparse.CSR.html#jax.experimental.sparse.CSR
 	jax.image.ResizeMethod                   jax.image.html#jax.image.ResizeMethod
 	jax.interpreters.pxla.Mesh               _autosummary/jax.experimental.maps.Mesh.html#jax.experimental.maps.Mesh
 	jax.lax.ConvDimensionNumbers             jax.lax.html#jax.lax.ConvDimensionNumbers
@@ -143,7 +157,6 @@ py:class
 	jaxlib.xla_extension.NamedSharding       jax.sharding.html#jax.sharding.NamedSharding
 	jaxlib.xla_extension.Sharding            jax.sharding.html#jax.sharding.Sharding
 	jaxlib.xla_extension.SingleDeviceSharding jax.sharding.html#jax.sharding.SingleDeviceSharding
-	jaxlib.xla_extension.TpuDevice           _autosummary/jaxlib.xla_extension.TpuDevice.html#jaxlib.xla_extension.TpuDevice
 	jaxlib.xla_extension.XLACompatibleSharding jax.sharding.html#jax.sharding.XLACompatibleSharding
 	numpy.character                          _autosummary/jax.numpy.character.html#jax.numpy.character
 	numpy.complexfloating                    _autosummary/jax.numpy.complexfloating.html#jax.numpy.complexfloating
@@ -264,6 +277,7 @@ py:function
 	jax.experimental.checkify.check          _autosummary/jax.experimental.checkify.check.html#jax.experimental.checkify.check
 	jax.experimental.checkify.check_error    _autosummary/jax.experimental.checkify.check_error.html#jax.experimental.checkify.check_error
 	jax.experimental.checkify.checkify       _autosummary/jax.experimental.checkify.checkify.html#jax.experimental.checkify.checkify
+	jax.experimental.custom_partitioning.custom_partitioning jax.experimental.custom_partitioning.html#jax.experimental.custom_partitioning.custom_partitioning
 	jax.experimental.disable_x64             _autosummary/jax.experimental.disable_x64.html#jax.experimental.disable_x64
 	jax.experimental.enable_x64              _autosummary/jax.experimental.enable_x64.html#jax.experimental.enable_x64
 	jax.experimental.host_callback.barrier_wait _autosummary/jax.experimental.host_callback.barrier_wait.html#jax.experimental.host_callback.barrier_wait
@@ -277,17 +291,40 @@ py:function
 	jax.experimental.sparse.bcoo_concatenate _autosummary/jax.experimental.sparse.bcoo_concatenate.html#jax.experimental.sparse.bcoo_concatenate
 	jax.experimental.sparse.bcoo_dot_general _autosummary/jax.experimental.sparse.bcoo_dot_general.html#jax.experimental.sparse.bcoo_dot_general
 	jax.experimental.sparse.bcoo_dot_general_sampled _autosummary/jax.experimental.sparse.bcoo_dot_general_sampled.html#jax.experimental.sparse.bcoo_dot_general_sampled
+	jax.experimental.sparse.bcoo_dynamic_slice _autosummary/jax.experimental.sparse.bcoo_dynamic_slice.html#jax.experimental.sparse.bcoo_dynamic_slice
 	jax.experimental.sparse.bcoo_extract     _autosummary/jax.experimental.sparse.bcoo_extract.html#jax.experimental.sparse.bcoo_extract
 	jax.experimental.sparse.bcoo_fromdense   _autosummary/jax.experimental.sparse.bcoo_fromdense.html#jax.experimental.sparse.bcoo_fromdense
+	jax.experimental.sparse.bcoo_gather      _autosummary/jax.experimental.sparse.bcoo_gather.html#jax.experimental.sparse.bcoo_gather
 	jax.experimental.sparse.bcoo_multiply_dense _autosummary/jax.experimental.sparse.bcoo_multiply_dense.html#jax.experimental.sparse.bcoo_multiply_dense
 	jax.experimental.sparse.bcoo_multiply_sparse _autosummary/jax.experimental.sparse.bcoo_multiply_sparse.html#jax.experimental.sparse.bcoo_multiply_sparse
 	jax.experimental.sparse.bcoo_reduce_sum  _autosummary/jax.experimental.sparse.bcoo_reduce_sum.html#jax.experimental.sparse.bcoo_reduce_sum
 	jax.experimental.sparse.bcoo_reshape     _autosummary/jax.experimental.sparse.bcoo_reshape.html#jax.experimental.sparse.bcoo_reshape
+	jax.experimental.sparse.bcoo_slice       _autosummary/jax.experimental.sparse.bcoo_slice.html#jax.experimental.sparse.bcoo_slice
 	jax.experimental.sparse.bcoo_sort_indices _autosummary/jax.experimental.sparse.bcoo_sort_indices.html#jax.experimental.sparse.bcoo_sort_indices
+	jax.experimental.sparse.bcoo_squeeze     _autosummary/jax.experimental.sparse.bcoo_squeeze.html#jax.experimental.sparse.bcoo_squeeze
 	jax.experimental.sparse.bcoo_sum_duplicates _autosummary/jax.experimental.sparse.bcoo_sum_duplicates.html#jax.experimental.sparse.bcoo_sum_duplicates
 	jax.experimental.sparse.bcoo_todense     _autosummary/jax.experimental.sparse.bcoo_todense.html#jax.experimental.sparse.bcoo_todense
 	jax.experimental.sparse.bcoo_transpose   _autosummary/jax.experimental.sparse.bcoo_transpose.html#jax.experimental.sparse.bcoo_transpose
+	jax.experimental.sparse.bcoo_update_layout _autosummary/jax.experimental.sparse.bcoo_update_layout.html#jax.experimental.sparse.bcoo_update_layout
+	jax.experimental.sparse.bcsr_dot_general _autosummary/jax.experimental.sparse.bcsr_dot_general.html#jax.experimental.sparse.bcsr_dot_general
+	jax.experimental.sparse.bcsr_extract     _autosummary/jax.experimental.sparse.bcsr_extract.html#jax.experimental.sparse.bcsr_extract
+	jax.experimental.sparse.bcsr_fromdense   _autosummary/jax.experimental.sparse.bcsr_fromdense.html#jax.experimental.sparse.bcsr_fromdense
+	jax.experimental.sparse.bcsr_todense     _autosummary/jax.experimental.sparse.bcsr_todense.html#jax.experimental.sparse.bcsr_todense
+	jax.experimental.sparse.coo_fromdense    _autosummary/jax.experimental.sparse.coo_fromdense.html#jax.experimental.sparse.coo_fromdense
+	jax.experimental.sparse.coo_matmat       _autosummary/jax.experimental.sparse.coo_matmat.html#jax.experimental.sparse.coo_matmat
+	jax.experimental.sparse.coo_matvec       _autosummary/jax.experimental.sparse.coo_matvec.html#jax.experimental.sparse.coo_matvec
+	jax.experimental.sparse.coo_todense      _autosummary/jax.experimental.sparse.coo_todense.html#jax.experimental.sparse.coo_todense
+	jax.experimental.sparse.csr_fromdense    _autosummary/jax.experimental.sparse.csr_fromdense.html#jax.experimental.sparse.csr_fromdense
+	jax.experimental.sparse.csr_matmat       _autosummary/jax.experimental.sparse.csr_matmat.html#jax.experimental.sparse.csr_matmat
+	jax.experimental.sparse.csr_matvec       _autosummary/jax.experimental.sparse.csr_matvec.html#jax.experimental.sparse.csr_matvec
+	jax.experimental.sparse.csr_todense      _autosummary/jax.experimental.sparse.csr_todense.html#jax.experimental.sparse.csr_todense
+	jax.experimental.sparse.empty            _autosummary/jax.experimental.sparse.empty.html#jax.experimental.sparse.empty
+	jax.experimental.sparse.eye              _autosummary/jax.experimental.sparse.eye.html#jax.experimental.sparse.eye
+	jax.experimental.sparse.grad             _autosummary/jax.experimental.sparse.grad.html#jax.experimental.sparse.grad
+	jax.experimental.sparse.random_bcoo      _autosummary/jax.experimental.sparse.random_bcoo.html#jax.experimental.sparse.random_bcoo
 	jax.experimental.sparse.sparsify         _autosummary/jax.experimental.sparse.sparsify.html#jax.experimental.sparse.sparsify
+	jax.experimental.sparse.todense          _autosummary/jax.experimental.sparse.todense.html#jax.experimental.sparse.todense
+	jax.experimental.sparse.value_and_grad   _autosummary/jax.experimental.sparse.value_and_grad.html#jax.experimental.sparse.value_and_grad
 	jax.flatten_util.ravel_pytree            _autosummary/jax.flatten_util.ravel_pytree.html#jax.flatten_util.ravel_pytree
 	jax.grad                                 _autosummary/jax.grad.html#jax.grad
 	jax.hessian                              _autosummary/jax.hessian.html#jax.hessian
@@ -454,11 +491,8 @@ py:function
 	jax.lax.transpose                        _autosummary/jax.lax.transpose.html#jax.lax.transpose
 	jax.lax.while_loop                       _autosummary/jax.lax.while_loop.html#jax.lax.while_loop
 	jax.lib.xla_bridge.default_backend       _autosummary/jax.lib.xla_bridge.default_backend.html#jax.lib.xla_bridge.default_backend
-	jax.lib.xla_bridge.device_count          _autosummary/jax.lib.xla_bridge.device_count.html#jax.lib.xla_bridge.device_count
 	jax.lib.xla_bridge.get_backend           _autosummary/jax.lib.xla_bridge.get_backend.html#jax.lib.xla_bridge.get_backend
 	jax.lib.xla_bridge.get_compile_options   _autosummary/jax.lib.xla_bridge.get_compile_options.html#jax.lib.xla_bridge.get_compile_options
-	jax.lib.xla_bridge.local_device_count    _autosummary/jax.lib.xla_bridge.local_device_count.html#jax.lib.xla_bridge.local_device_count
-	jax.lib.xla_bridge.process_index         _autosummary/jax.lib.xla_bridge.process_index.html#jax.lib.xla_bridge.process_index
 	jax.linear_transpose                     _autosummary/jax.linear_transpose.html#jax.linear_transpose
 	jax.linearize                            _autosummary/jax.linearize.html#jax.linearize
 	jax.local_device_count                   _autosummary/jax.local_device_count.html#jax.local_device_count
@@ -759,6 +793,7 @@ py:function
 	jax.numpy.outer                          _autosummary/jax.numpy.outer.html#jax.numpy.outer
 	jax.numpy.packbits                       _autosummary/jax.numpy.packbits.html#jax.numpy.packbits
 	jax.numpy.pad                            _autosummary/jax.numpy.pad.html#jax.numpy.pad
+	jax.numpy.partition                      _autosummary/jax.numpy.partition.html#jax.numpy.partition
 	jax.numpy.percentile                     _autosummary/jax.numpy.percentile.html#jax.numpy.percentile
 	jax.numpy.piecewise                      _autosummary/jax.numpy.piecewise.html#jax.numpy.piecewise
 	jax.numpy.place                          _autosummary/jax.numpy.place.html#jax.numpy.place
@@ -925,7 +960,6 @@ py:function
 	jax.scipy.linalg.lu_factor               _autosummary/jax.scipy.linalg.lu_factor.html#jax.scipy.linalg.lu_factor
 	jax.scipy.linalg.lu_solve                _autosummary/jax.scipy.linalg.lu_solve.html#jax.scipy.linalg.lu_solve
 	jax.scipy.linalg.polar                   _autosummary/jax.scipy.linalg.polar.html#jax.scipy.linalg.polar
-	jax.scipy.linalg.polar_unitary           _autosummary/jax.scipy.linalg.polar_unitary.html#jax.scipy.linalg.polar_unitary
 	jax.scipy.linalg.qr                      _autosummary/jax.scipy.linalg.qr.html#jax.scipy.linalg.qr
 	jax.scipy.linalg.rsf2csf                 _autosummary/jax.scipy.linalg.rsf2csf.html#jax.scipy.linalg.rsf2csf
 	jax.scipy.linalg.schur                   _autosummary/jax.scipy.linalg.schur.html#jax.scipy.linalg.schur
@@ -933,6 +967,7 @@ py:function
 	jax.scipy.linalg.solve_triangular        _autosummary/jax.scipy.linalg.solve_triangular.html#jax.scipy.linalg.solve_triangular
 	jax.scipy.linalg.sqrtm                   _autosummary/jax.scipy.linalg.sqrtm.html#jax.scipy.linalg.sqrtm
 	jax.scipy.linalg.svd                     _autosummary/jax.scipy.linalg.svd.html#jax.scipy.linalg.svd
+	jax.scipy.linalg.toeplitz                _autosummary/jax.scipy.linalg.toeplitz.html#jax.scipy.linalg.toeplitz
 	jax.scipy.linalg.tril                    _autosummary/jax.scipy.linalg.tril.html#jax.scipy.linalg.tril
 	jax.scipy.linalg.triu                    _autosummary/jax.scipy.linalg.triu.html#jax.scipy.linalg.triu
 	jax.scipy.ndimage.map_coordinates        _autosummary/jax.scipy.ndimage.map_coordinates.html#jax.scipy.ndimage.map_coordinates
@@ -975,8 +1010,10 @@ py:function
 	jax.scipy.special.xlog1py                _autosummary/jax.scipy.special.xlog1py.html#jax.scipy.special.xlog1py
 	jax.scipy.special.xlogy                  _autosummary/jax.scipy.special.xlogy.html#jax.scipy.special.xlogy
 	jax.scipy.special.zeta                   _autosummary/jax.scipy.special.zeta.html#jax.scipy.special.zeta
+	jax.scipy.stats.bernoulli.cdf            _autosummary/jax.scipy.stats.bernoulli.cdf.html#jax.scipy.stats.bernoulli.cdf
 	jax.scipy.stats.bernoulli.logpmf         _autosummary/jax.scipy.stats.bernoulli.logpmf.html#jax.scipy.stats.bernoulli.logpmf
 	jax.scipy.stats.bernoulli.pmf            _autosummary/jax.scipy.stats.bernoulli.pmf.html#jax.scipy.stats.bernoulli.pmf
+	jax.scipy.stats.bernoulli.ppf            _autosummary/jax.scipy.stats.bernoulli.ppf.html#jax.scipy.stats.bernoulli.ppf
 	jax.scipy.stats.beta.logpdf              _autosummary/jax.scipy.stats.beta.logpdf.html#jax.scipy.stats.beta.logpdf
 	jax.scipy.stats.beta.pdf                 _autosummary/jax.scipy.stats.beta.pdf.html#jax.scipy.stats.beta.pdf
 	jax.scipy.stats.betabinom.logpmf         _autosummary/jax.scipy.stats.betabinom.logpmf.html#jax.scipy.stats.betabinom.logpmf
@@ -1027,6 +1064,8 @@ py:function
 	jax.scipy.stats.truncnorm.sf             _autosummary/jax.scipy.stats.truncnorm.sf.html#jax.scipy.stats.truncnorm.sf
 	jax.scipy.stats.uniform.logpdf           _autosummary/jax.scipy.stats.uniform.logpdf.html#jax.scipy.stats.uniform.logpdf
 	jax.scipy.stats.uniform.pdf              _autosummary/jax.scipy.stats.uniform.pdf.html#jax.scipy.stats.uniform.pdf
+	jax.scipy.stats.vonmises.logpdf          _autosummary/jax.scipy.stats.vonmises.logpdf.html#jax.scipy.stats.vonmises.logpdf
+	jax.scipy.stats.vonmises.pdf             _autosummary/jax.scipy.stats.vonmises.pdf.html#jax.scipy.stats.vonmises.pdf
 	jax.transfer_guard                       _autosummary/jax.transfer_guard.html#jax.transfer_guard
 	jax.tree_util.all_leaves                 _autosummary/jax.tree_util.all_leaves.html#jax.tree_util.all_leaves
 	jax.tree_util.build_tree                 _autosummary/jax.tree_util.build_tree.html#jax.tree_util.build_tree
@@ -1058,6 +1097,11 @@ py:method
 	jax.experimental.global_device_array.GlobalDeviceArray.from_callback jax.experimental.global_device_array.html#jax.experimental.global_device_array.GlobalDeviceArray.from_callback
 	jax.experimental.maps.Mesh.__init__      _autosummary/jax.experimental.maps.Mesh.html#jax.experimental.maps.Mesh.__init__
 	jax.experimental.sparse.BCOO.__init__    _autosummary/jax.experimental.sparse.BCOO.html#jax.experimental.sparse.BCOO.__init__
+	jax.experimental.sparse.BCSR.__init__    _autosummary/jax.experimental.sparse.BCSR.html#jax.experimental.sparse.BCSR.__init__
+	jax.experimental.sparse.COO.__init__     _autosummary/jax.experimental.sparse.COO.html#jax.experimental.sparse.COO.__init__
+	jax.experimental.sparse.CSC.__init__     _autosummary/jax.experimental.sparse.CSC.html#jax.experimental.sparse.CSC.__init__
+	jax.experimental.sparse.CSR.__init__     _autosummary/jax.experimental.sparse.CSR.html#jax.experimental.sparse.CSR.__init__
+	jax.experimental.sparse.JAXSparse.__init__ _autosummary/jax.experimental.sparse.JAXSparse.html#jax.experimental.sparse.JAXSparse.__init__
 	jax.numpy.bool_.__init__                 _autosummary/jax.numpy.bool_.html#jax.numpy.bool_.__init__
 	jax.numpy.character.__init__             _autosummary/jax.numpy.character.html#jax.numpy.character.__init__
 	jax.numpy.complex128.__init__            _autosummary/jax.numpy.complex128.html#jax.numpy.complex128.__init__
@@ -1099,9 +1143,11 @@ py:method
 	jax.scipy.stats.gaussian_kde.resample    _autosummary/jax.scipy.stats.gaussian_kde.resample.html#jax.scipy.stats.gaussian_kde.resample
 	jax.sharding.Sharding.addressable_devices_indices_map jax.sharding.html#jax.sharding.Sharding.addressable_devices_indices_map
 	jax.sharding.Sharding.devices_indices_map jax.sharding.html#jax.sharding.Sharding.devices_indices_map
+	jax.sharding.Sharding.is_equivalent_to   jax.sharding.html#jax.sharding.Sharding.is_equivalent_to
 	jax.sharding.Sharding.shard_shape        jax.sharding.html#jax.sharding.Sharding.shard_shape
 	jax.sharding.SingleDeviceSharding.devices_indices_map jax.sharding.html#jax.sharding.SingleDeviceSharding.devices_indices_map
 	jax.sharding.XLACompatibleSharding.devices_indices_map jax.sharding.html#jax.sharding.XLACompatibleSharding.devices_indices_map
+	jax.sharding.XLACompatibleSharding.is_equivalent_to jax.sharding.html#jax.sharding.XLACompatibleSharding.is_equivalent_to
 	jax.sharding.XLACompatibleSharding.shard_shape jax.sharding.html#jax.sharding.XLACompatibleSharding.shard_shape
 	jax.stages.Compiled.__call__             jax.stages.html#jax.stages.Compiled.__call__
 	jax.stages.Compiled.as_text              jax.stages.html#jax.stages.Compiled.as_text
@@ -1122,7 +1168,6 @@ py:method
 	jaxlib.xla_extension.DeviceArray.argpartition jax.numpy.html#jaxlib.xla_extension.DeviceArray.argpartition
 	jaxlib.xla_extension.DeviceArray.argsort jax.numpy.html#jaxlib.xla_extension.DeviceArray.argsort
 	jaxlib.xla_extension.DeviceArray.astype  jax.numpy.html#jaxlib.xla_extension.DeviceArray.astype
-	jaxlib.xla_extension.DeviceArray.block_host_until_ready jax.numpy.html#jaxlib.xla_extension.DeviceArray.block_host_until_ready
 	jaxlib.xla_extension.DeviceArray.block_until_ready jax.numpy.html#jaxlib.xla_extension.DeviceArray.block_until_ready
 	jaxlib.xla_extension.DeviceArray.broadcast jax.numpy.html#jaxlib.xla_extension.DeviceArray.broadcast
 	jaxlib.xla_extension.DeviceArray.broadcast_in_dim jax.numpy.html#jaxlib.xla_extension.DeviceArray.broadcast_in_dim
@@ -1168,7 +1213,6 @@ py:method
 	jaxlib.xla_extension.DeviceArray.var     jax.numpy.html#jaxlib.xla_extension.DeviceArray.var
 	jaxlib.xla_extension.DeviceArray.xla_dynamic_shape jax.numpy.html#jaxlib.xla_extension.DeviceArray.xla_dynamic_shape
 	jaxlib.xla_extension.DeviceArray.xla_shape jax.numpy.html#jaxlib.xla_extension.DeviceArray.xla_shape
-	jaxlib.xla_extension.TpuDevice.__init__  _autosummary/jaxlib.xla_extension.TpuDevice.html#jaxlib.xla_extension.TpuDevice.__init__
 py:module
 	jax.core                                 jax_internal_api.html#module-jax.core
 	jax.debug                                jax.debug.html#module-jax.debug
@@ -1178,6 +1222,7 @@ py:module
 	jax.example_libraries.optimizers         jax.example_libraries.optimizers.html#module-jax.example_libraries.optimizers
 	jax.example_libraries.stax               jax.example_libraries.stax.html#module-jax.example_libraries.stax
 	jax.experimental.checkify                jax.experimental.checkify.html#module-jax.experimental.checkify
+	jax.experimental.custom_partitioning     jax.experimental.custom_partitioning.html#module-jax.experimental.custom_partitioning
 	jax.experimental.global_device_array     jax.experimental.global_device_array.html#module-jax.experimental.global_device_array
 	jax.experimental.host_callback           jax.experimental.host_callback.html#module-jax.experimental.host_callback
 	jax.experimental.jet                     jax.experimental.jet.html#module-jax.experimental.jet
@@ -1223,6 +1268,7 @@ py:module
 	jax.scipy.stats.t                        jax.scipy.html#module-jax.scipy.stats.t
 	jax.scipy.stats.truncnorm                jax.scipy.html#module-jax.scipy.stats.truncnorm
 	jax.scipy.stats.uniform                  jax.scipy.html#module-jax.scipy.stats.uniform
+	jax.scipy.stats.vonmises                 jax.scipy.html#module-jax.scipy.stats.vonmises
 	jax.sharding                             jax.sharding.html#module-jax.sharding
 	jax.stages                               jax.stages.html#module-jax.stages
 	jax.tree_util                            jax.tree_util.html#module-jax.tree_util
@@ -1240,6 +1286,7 @@ py:property
 	jaxlib.xla_extension.DeviceArray.imag    jax.numpy.html#jaxlib.xla_extension.DeviceArray.imag
 	jaxlib.xla_extension.DeviceArray.real    jax.numpy.html#jaxlib.xla_extension.DeviceArray.real
 std:doc
+	Custom_Operation_for_GPUs                Custom operations for GPUs with C++ and CUDA: Custom_Operation_for_GPUs.html
 	_autosummary/jax.block_until_ready       jax.block_until_ready                   : _autosummary/jax.block_until_ready.html
 	_autosummary/jax.check_tracer_leaks      jax.check_tracer_leaks                  : _autosummary/jax.check_tracer_leaks.html
 	_autosummary/jax.checking_leaks          jax.checking_leaks                      : _autosummary/jax.checking_leaks.html
@@ -1300,21 +1347,49 @@ std:doc
 	_autosummary/jax.experimental.maps.Mesh  jax.experimental.maps.Mesh              : _autosummary/jax.experimental.maps.Mesh.html
 	_autosummary/jax.experimental.maps.xmap  jax.experimental.maps.xmap              : _autosummary/jax.experimental.maps.xmap.html
 	_autosummary/jax.experimental.sparse.BCOO jax.experimental.sparse.BCOO            : _autosummary/jax.experimental.sparse.BCOO.html
+	_autosummary/jax.experimental.sparse.BCSR jax.experimental.sparse.BCSR            : _autosummary/jax.experimental.sparse.BCSR.html
+	_autosummary/jax.experimental.sparse.COO jax.experimental.sparse.COO             : _autosummary/jax.experimental.sparse.COO.html
+	_autosummary/jax.experimental.sparse.CSC jax.experimental.sparse.CSC             : _autosummary/jax.experimental.sparse.CSC.html
+	_autosummary/jax.experimental.sparse.CSR jax.experimental.sparse.CSR             : _autosummary/jax.experimental.sparse.CSR.html
+	_autosummary/jax.experimental.sparse.JAXSparse jax.experimental.sparse.JAXSparse       : _autosummary/jax.experimental.sparse.JAXSparse.html
 	_autosummary/jax.experimental.sparse.bcoo_broadcast_in_dim jax.experimental.sparse.bcoo_broadcast_in_dim: _autosummary/jax.experimental.sparse.bcoo_broadcast_in_dim.html
 	_autosummary/jax.experimental.sparse.bcoo_concatenate jax.experimental.sparse.bcoo_concatenate: _autosummary/jax.experimental.sparse.bcoo_concatenate.html
 	_autosummary/jax.experimental.sparse.bcoo_dot_general jax.experimental.sparse.bcoo_dot_general: _autosummary/jax.experimental.sparse.bcoo_dot_general.html
 	_autosummary/jax.experimental.sparse.bcoo_dot_general_sampled jax.experimental.sparse.bcoo_dot_general_sampled: _autosummary/jax.experimental.sparse.bcoo_dot_general_sampled.html
+	_autosummary/jax.experimental.sparse.bcoo_dynamic_slice jax.experimental.sparse.bcoo_dynamic_slice: _autosummary/jax.experimental.sparse.bcoo_dynamic_slice.html
 	_autosummary/jax.experimental.sparse.bcoo_extract jax.experimental.sparse.bcoo_extract    : _autosummary/jax.experimental.sparse.bcoo_extract.html
 	_autosummary/jax.experimental.sparse.bcoo_fromdense jax.experimental.sparse.bcoo_fromdense  : _autosummary/jax.experimental.sparse.bcoo_fromdense.html
+	_autosummary/jax.experimental.sparse.bcoo_gather jax.experimental.sparse.bcoo_gather     : _autosummary/jax.experimental.sparse.bcoo_gather.html
 	_autosummary/jax.experimental.sparse.bcoo_multiply_dense jax.experimental.sparse.bcoo_multiply_dense: _autosummary/jax.experimental.sparse.bcoo_multiply_dense.html
 	_autosummary/jax.experimental.sparse.bcoo_multiply_sparse jax.experimental.sparse.bcoo_multiply_sparse: _autosummary/jax.experimental.sparse.bcoo_multiply_sparse.html
 	_autosummary/jax.experimental.sparse.bcoo_reduce_sum jax.experimental.sparse.bcoo_reduce_sum : _autosummary/jax.experimental.sparse.bcoo_reduce_sum.html
 	_autosummary/jax.experimental.sparse.bcoo_reshape jax.experimental.sparse.bcoo_reshape    : _autosummary/jax.experimental.sparse.bcoo_reshape.html
+	_autosummary/jax.experimental.sparse.bcoo_slice jax.experimental.sparse.bcoo_slice      : _autosummary/jax.experimental.sparse.bcoo_slice.html
 	_autosummary/jax.experimental.sparse.bcoo_sort_indices jax.experimental.sparse.bcoo_sort_indices: _autosummary/jax.experimental.sparse.bcoo_sort_indices.html
+	_autosummary/jax.experimental.sparse.bcoo_squeeze jax.experimental.sparse.bcoo_squeeze    : _autosummary/jax.experimental.sparse.bcoo_squeeze.html
 	_autosummary/jax.experimental.sparse.bcoo_sum_duplicates jax.experimental.sparse.bcoo_sum_duplicates: _autosummary/jax.experimental.sparse.bcoo_sum_duplicates.html
 	_autosummary/jax.experimental.sparse.bcoo_todense jax.experimental.sparse.bcoo_todense    : _autosummary/jax.experimental.sparse.bcoo_todense.html
 	_autosummary/jax.experimental.sparse.bcoo_transpose jax.experimental.sparse.bcoo_transpose  : _autosummary/jax.experimental.sparse.bcoo_transpose.html
+	_autosummary/jax.experimental.sparse.bcoo_update_layout jax.experimental.sparse.bcoo_update_layout: _autosummary/jax.experimental.sparse.bcoo_update_layout.html
+	_autosummary/jax.experimental.sparse.bcsr_dot_general jax.experimental.sparse.bcsr_dot_general: _autosummary/jax.experimental.sparse.bcsr_dot_general.html
+	_autosummary/jax.experimental.sparse.bcsr_extract jax.experimental.sparse.bcsr_extract    : _autosummary/jax.experimental.sparse.bcsr_extract.html
+	_autosummary/jax.experimental.sparse.bcsr_fromdense jax.experimental.sparse.bcsr_fromdense  : _autosummary/jax.experimental.sparse.bcsr_fromdense.html
+	_autosummary/jax.experimental.sparse.bcsr_todense jax.experimental.sparse.bcsr_todense    : _autosummary/jax.experimental.sparse.bcsr_todense.html
+	_autosummary/jax.experimental.sparse.coo_fromdense jax.experimental.sparse.coo_fromdense   : _autosummary/jax.experimental.sparse.coo_fromdense.html
+	_autosummary/jax.experimental.sparse.coo_matmat jax.experimental.sparse.coo_matmat      : _autosummary/jax.experimental.sparse.coo_matmat.html
+	_autosummary/jax.experimental.sparse.coo_matvec jax.experimental.sparse.coo_matvec      : _autosummary/jax.experimental.sparse.coo_matvec.html
+	_autosummary/jax.experimental.sparse.coo_todense jax.experimental.sparse.coo_todense     : _autosummary/jax.experimental.sparse.coo_todense.html
+	_autosummary/jax.experimental.sparse.csr_fromdense jax.experimental.sparse.csr_fromdense   : _autosummary/jax.experimental.sparse.csr_fromdense.html
+	_autosummary/jax.experimental.sparse.csr_matmat jax.experimental.sparse.csr_matmat      : _autosummary/jax.experimental.sparse.csr_matmat.html
+	_autosummary/jax.experimental.sparse.csr_matvec jax.experimental.sparse.csr_matvec      : _autosummary/jax.experimental.sparse.csr_matvec.html
+	_autosummary/jax.experimental.sparse.csr_todense jax.experimental.sparse.csr_todense     : _autosummary/jax.experimental.sparse.csr_todense.html
+	_autosummary/jax.experimental.sparse.empty jax.experimental.sparse.empty           : _autosummary/jax.experimental.sparse.empty.html
+	_autosummary/jax.experimental.sparse.eye jax.experimental.sparse.eye             : _autosummary/jax.experimental.sparse.eye.html
+	_autosummary/jax.experimental.sparse.grad jax.experimental.sparse.grad            : _autosummary/jax.experimental.sparse.grad.html
+	_autosummary/jax.experimental.sparse.random_bcoo jax.experimental.sparse.random_bcoo     : _autosummary/jax.experimental.sparse.random_bcoo.html
 	_autosummary/jax.experimental.sparse.sparsify jax.experimental.sparse.sparsify        : _autosummary/jax.experimental.sparse.sparsify.html
+	_autosummary/jax.experimental.sparse.todense jax.experimental.sparse.todense         : _autosummary/jax.experimental.sparse.todense.html
+	_autosummary/jax.experimental.sparse.value_and_grad jax.experimental.sparse.value_and_grad  : _autosummary/jax.experimental.sparse.value_and_grad.html
 	_autosummary/jax.flatten_util.ravel_pytree jax.flatten_util.ravel_pytree           : _autosummary/jax.flatten_util.ravel_pytree.html
 	_autosummary/jax.grad                    jax.grad                                : _autosummary/jax.grad.html
 	_autosummary/jax.hessian                 jax.hessian                             : _autosummary/jax.hessian.html
@@ -1481,11 +1556,8 @@ std:doc
 	_autosummary/jax.lax.transpose           jax.lax.transpose                       : _autosummary/jax.lax.transpose.html
 	_autosummary/jax.lax.while_loop          jax.lax.while_loop                      : _autosummary/jax.lax.while_loop.html
 	_autosummary/jax.lib.xla_bridge.default_backend jax.lib.xla_bridge.default_backend      : _autosummary/jax.lib.xla_bridge.default_backend.html
-	_autosummary/jax.lib.xla_bridge.device_count jax.lib.xla_bridge.device_count         : _autosummary/jax.lib.xla_bridge.device_count.html
 	_autosummary/jax.lib.xla_bridge.get_backend jax.lib.xla_bridge.get_backend          : _autosummary/jax.lib.xla_bridge.get_backend.html
 	_autosummary/jax.lib.xla_bridge.get_compile_options jax.lib.xla_bridge.get_compile_options  : _autosummary/jax.lib.xla_bridge.get_compile_options.html
-	_autosummary/jax.lib.xla_bridge.local_device_count jax.lib.xla_bridge.local_device_count   : _autosummary/jax.lib.xla_bridge.local_device_count.html
-	_autosummary/jax.lib.xla_bridge.process_index jax.lib.xla_bridge.process_index        : _autosummary/jax.lib.xla_bridge.process_index.html
 	_autosummary/jax.linear_transpose        jax.linear_transpose                    : _autosummary/jax.linear_transpose.html
 	_autosummary/jax.linearize               jax.linearize                           : _autosummary/jax.linearize.html
 	_autosummary/jax.local_device_count      jax.local_device_count                  : _autosummary/jax.local_device_count.html
@@ -1827,6 +1899,7 @@ std:doc
 	_autosummary/jax.numpy.outer             jax.numpy.outer                         : _autosummary/jax.numpy.outer.html
 	_autosummary/jax.numpy.packbits          jax.numpy.packbits                      : _autosummary/jax.numpy.packbits.html
 	_autosummary/jax.numpy.pad               jax.numpy.pad                           : _autosummary/jax.numpy.pad.html
+	_autosummary/jax.numpy.partition         jax.numpy.partition                     : _autosummary/jax.numpy.partition.html
 	_autosummary/jax.numpy.percentile        jax.numpy.percentile                    : _autosummary/jax.numpy.percentile.html
 	_autosummary/jax.numpy.piecewise         jax.numpy.piecewise                     : _autosummary/jax.numpy.piecewise.html
 	_autosummary/jax.numpy.place             jax.numpy.place                         : _autosummary/jax.numpy.place.html
@@ -2006,7 +2079,6 @@ std:doc
 	_autosummary/jax.scipy.linalg.lu_factor  jax.scipy.linalg.lu_factor              : _autosummary/jax.scipy.linalg.lu_factor.html
 	_autosummary/jax.scipy.linalg.lu_solve   jax.scipy.linalg.lu_solve               : _autosummary/jax.scipy.linalg.lu_solve.html
 	_autosummary/jax.scipy.linalg.polar      jax.scipy.linalg.polar                  : _autosummary/jax.scipy.linalg.polar.html
-	_autosummary/jax.scipy.linalg.polar_unitary jax.scipy.linalg.polar_unitary          : _autosummary/jax.scipy.linalg.polar_unitary.html
 	_autosummary/jax.scipy.linalg.qr         jax.scipy.linalg.qr                     : _autosummary/jax.scipy.linalg.qr.html
 	_autosummary/jax.scipy.linalg.rsf2csf    jax.scipy.linalg.rsf2csf                : _autosummary/jax.scipy.linalg.rsf2csf.html
 	_autosummary/jax.scipy.linalg.schur      jax.scipy.linalg.schur                  : _autosummary/jax.scipy.linalg.schur.html
@@ -2014,6 +2086,7 @@ std:doc
 	_autosummary/jax.scipy.linalg.solve_triangular jax.scipy.linalg.solve_triangular       : _autosummary/jax.scipy.linalg.solve_triangular.html
 	_autosummary/jax.scipy.linalg.sqrtm      jax.scipy.linalg.sqrtm                  : _autosummary/jax.scipy.linalg.sqrtm.html
 	_autosummary/jax.scipy.linalg.svd        jax.scipy.linalg.svd                    : _autosummary/jax.scipy.linalg.svd.html
+	_autosummary/jax.scipy.linalg.toeplitz   jax.scipy.linalg.toeplitz               : _autosummary/jax.scipy.linalg.toeplitz.html
 	_autosummary/jax.scipy.linalg.tril       jax.scipy.linalg.tril                   : _autosummary/jax.scipy.linalg.tril.html
 	_autosummary/jax.scipy.linalg.triu       jax.scipy.linalg.triu                   : _autosummary/jax.scipy.linalg.triu.html
 	_autosummary/jax.scipy.ndimage.map_coordinates jax.scipy.ndimage.map_coordinates       : _autosummary/jax.scipy.ndimage.map_coordinates.html
@@ -2061,8 +2134,10 @@ std:doc
 	_autosummary/jax.scipy.special.xlog1py   jax.scipy.special.xlog1py               : _autosummary/jax.scipy.special.xlog1py.html
 	_autosummary/jax.scipy.special.xlogy     jax.scipy.special.xlogy                 : _autosummary/jax.scipy.special.xlogy.html
 	_autosummary/jax.scipy.special.zeta      jax.scipy.special.zeta                  : _autosummary/jax.scipy.special.zeta.html
+	_autosummary/jax.scipy.stats.bernoulli.cdf jax.scipy.stats.bernoulli.cdf           : _autosummary/jax.scipy.stats.bernoulli.cdf.html
 	_autosummary/jax.scipy.stats.bernoulli.logpmf jax.scipy.stats.bernoulli.logpmf        : _autosummary/jax.scipy.stats.bernoulli.logpmf.html
 	_autosummary/jax.scipy.stats.bernoulli.pmf jax.scipy.stats.bernoulli.pmf           : _autosummary/jax.scipy.stats.bernoulli.pmf.html
+	_autosummary/jax.scipy.stats.bernoulli.ppf jax.scipy.stats.bernoulli.ppf           : _autosummary/jax.scipy.stats.bernoulli.ppf.html
 	_autosummary/jax.scipy.stats.beta.logpdf jax.scipy.stats.beta.logpdf             : _autosummary/jax.scipy.stats.beta.logpdf.html
 	_autosummary/jax.scipy.stats.beta.pdf    jax.scipy.stats.beta.pdf                : _autosummary/jax.scipy.stats.beta.pdf.html
 	_autosummary/jax.scipy.stats.betabinom.logpmf jax.scipy.stats.betabinom.logpmf        : _autosummary/jax.scipy.stats.betabinom.logpmf.html
@@ -2121,6 +2196,8 @@ std:doc
 	_autosummary/jax.scipy.stats.truncnorm.sf jax.scipy.stats.truncnorm.sf            : _autosummary/jax.scipy.stats.truncnorm.sf.html
 	_autosummary/jax.scipy.stats.uniform.logpdf jax.scipy.stats.uniform.logpdf          : _autosummary/jax.scipy.stats.uniform.logpdf.html
 	_autosummary/jax.scipy.stats.uniform.pdf jax.scipy.stats.uniform.pdf             : _autosummary/jax.scipy.stats.uniform.pdf.html
+	_autosummary/jax.scipy.stats.vonmises.logpdf jax.scipy.stats.vonmises.logpdf         : _autosummary/jax.scipy.stats.vonmises.logpdf.html
+	_autosummary/jax.scipy.stats.vonmises.pdf jax.scipy.stats.vonmises.pdf            : _autosummary/jax.scipy.stats.vonmises.pdf.html
 	_autosummary/jax.transfer_guard          jax.transfer_guard                      : _autosummary/jax.transfer_guard.html
 	_autosummary/jax.tree_util.Partial       jax.tree_util.Partial                   : _autosummary/jax.tree_util.Partial.html
 	_autosummary/jax.tree_util.all_leaves    jax.tree_util.all_leaves                : _autosummary/jax.tree_util.all_leaves.html
@@ -2143,14 +2220,16 @@ std:doc
 	_autosummary/jax.vmap                    jax.vmap                                : _autosummary/jax.vmap.html
 	_autosummary/jax.xla_computation         jax.xla_computation                     : _autosummary/jax.xla_computation.html
 	_autosummary/jaxlib.xla_extension.Device jaxlib.xla_extension.Device             : _autosummary/jaxlib.xla_extension.Device.html
-	_autosummary/jaxlib.xla_extension.TpuDevice jaxlib.xla_extension.TpuDevice          : _autosummary/jaxlib.xla_extension.TpuDevice.html
+	advanced_guide                           Advanced Tutorials                      : advanced_guide.html
 	aot                                      Ahead-of-time lowering and compilation  : aot.html
 	api_compatibility                        API compatibility                       : api_compatibility.html
 	async_dispatch                           Asynchronous dispatch                   : async_dispatch.html
 	autodidax                                Autodidax: JAX core from scratch        : autodidax.html
+	beginner_guide                           Getting Started with JAX                : beginner_guide.html
 	changelog                                Change log                              : changelog.html
 	concurrency                              Concurrency                             : concurrency.html
 	contributing                             Contributing to JAX                     : contributing.html
+	contributor_guide                        Developer Documentation                 : contributor_guide.html
 	debugging/checkify_guide                 The checkify transformation             : debugging/checkify_guide.html
 	debugging/flags                          JAX debugging flags                     : debugging/flags.html
 	debugging/index                          Runtime value debugging in JAX          : debugging/index.html
@@ -2162,7 +2241,7 @@ std:doc
 	faq                                      JAX Frequently Asked Questions (FAQ)    : faq.html
 	glossary                                 JAX Glossary of Terms                   : glossary.html
 	gpu_memory_allocation                    GPU memory allocation                   : gpu_memory_allocation.html
-	index                                    JAX reference documentation             : index.html
+	index                                    JAX: High-Performance Array Computing   : index.html
 	installation                             Installing JAX                          : installation.html
 	jax                                      Public API: jax package                 : jax.html
 	jax-101/01-jax-basics                    JAX As Accelerated NumPy                : jax-101/01-jax-basics.html
@@ -2173,37 +2252,36 @@ std:doc
 	jax-101/05.1-pytrees                     Working with Pytrees                    : jax-101/05.1-pytrees.html
 	jax-101/06-parallelism                   Parallel Evaluation in JAX              : jax-101/06-parallelism.html
 	jax-101/07-state                         Stateful Computations in JAX            : jax-101/07-state.html
-	jax-101/08-pjit                          Introduction to pjit                    : jax-101/08-pjit.html
 	jax-101/index                            Tutorial: JAX 101                       : jax-101/index.html
-	jax.config                               JAX configuration                       : jax.config.html
-	jax.debug                                jax.debug package                       : jax.debug.html
+	jax.debug                                jax.debug module                        : jax.debug.html
 	jax.distributed                          jax.distributed module                  : jax.distributed.html
 	jax.dlpack                               jax.dlpack module                       : jax.dlpack.html
-	jax.example_libraries                    jax.example_libraries package           : jax.example_libraries.html
+	jax.example_libraries                    jax.example_libraries module            : jax.example_libraries.html
 	jax.example_libraries.optimizers         jax.example_libraries.optimizers module : jax.example_libraries.optimizers.html
 	jax.example_libraries.stax               jax.example_libraries.stax module       : jax.example_libraries.stax.html
-	jax.experimental                         jax.experimental package                : jax.experimental.html
+	jax.experimental                         jax.experimental module                 : jax.experimental.html
 	jax.experimental.checkify                jax.experimental.checkify module        : jax.experimental.checkify.html
+	jax.experimental.custom_partitioning     jax.experimental.custom_partitioning module: jax.experimental.custom_partitioning.html
 	jax.experimental.global_device_array     jax.experimental.global_device_array module: jax.experimental.global_device_array.html
 	jax.experimental.host_callback           jax.experimental.host_callback module   : jax.experimental.host_callback.html
 	jax.experimental.jet                     jax.experimental.jet module             : jax.experimental.jet.html
 	jax.experimental.maps                    jax.experimental.maps module            : jax.experimental.maps.html
 	jax.experimental.pjit                    jax.experimental.pjit module            : jax.experimental.pjit.html
 	jax.experimental.sparse                  jax.experimental.sparse module          : jax.experimental.sparse.html
-	jax.flatten_util                         jax.flatten_util package                : jax.flatten_util.html
-	jax.image                                jax.image package                       : jax.image.html
-	jax.lax                                  jax.lax package                         : jax.lax.html
-	jax.lib                                  jax.lib package                         : jax.lib.html
-	jax.nn                                   jax.nn package                          : jax.nn.html
-	jax.nn.initializers                      jax.nn.initializers package             : jax.nn.initializers.html
-	jax.numpy                                jax.numpy package                       : jax.numpy.html
-	jax.ops                                  jax.ops package                         : jax.ops.html
+	jax.flatten_util                         jax.flatten_util module                 : jax.flatten_util.html
+	jax.image                                jax.image module                        : jax.image.html
+	jax.lax                                  jax.lax module                          : jax.lax.html
+	jax.lib                                  jax.lib module                          : jax.lib.html
+	jax.nn                                   jax.nn module                           : jax.nn.html
+	jax.nn.initializers                      jax.nn.initializers module              : jax.nn.initializers.html
+	jax.numpy                                jax.numpy module                        : jax.numpy.html
+	jax.ops                                  jax.ops module                          : jax.ops.html
 	jax.profiler                             jax.profiler module                     : jax.profiler.html
-	jax.random                               jax.random package                      : jax.random.html
-	jax.scipy                                jax.scipy package                       : jax.scipy.html
-	jax.sharding                             jax.sharding package                    : jax.sharding.html
-	jax.stages                               jax.stages package                      : jax.stages.html
-	jax.tree_util                            jax.tree_util package                   : jax.tree_util.html
+	jax.random                               jax.random module                       : jax.random.html
+	jax.scipy                                jax.scipy module                        : jax.scipy.html
+	jax.sharding                             jax.sharding module                     : jax.sharding.html
+	jax.stages                               jax.stages module                       : jax.stages.html
+	jax.tree_util                            jax.tree_util module                    : jax.tree_util.html
 	jax_array_migration                      jax.Array migration                     : jax_array_migration.html
 	jax_internal_api                         Internal APIs                           : jax_internal_api.html
 	jaxpr                                    Understanding Jaxprs                    : jaxpr.html
@@ -2220,23 +2298,46 @@ std:doc
 	multi_process                            Using JAX in multi-host and multi-process environments: multi_process.html
 	notebooks/Common_Gotchas_in_JAX          🔪 JAX - The Sharp Bits 🔪                : notebooks/Common_Gotchas_in_JAX.html
 	notebooks/Custom_derivative_rules_for_Python_code Custom derivative rules for JAX-transformable Python functions: notebooks/Custom_derivative_rules_for_Python_code.html
+	notebooks/Distributed_arrays_and_automatic_parallelization Distributed arrays and automatic parallelization: notebooks/Distributed_arrays_and_automatic_parallelization.html
 	notebooks/How_JAX_primitives_work        How JAX primitives work                 : notebooks/How_JAX_primitives_work.html
 	notebooks/Neural_Network_and_Data_Loading Training a Simple Neural Network, with PyTorch Data Loading: notebooks/Neural_Network_and_Data_Loading.html
-	notebooks/Parallelism_with_JAX           Parallelism with JAX                    : notebooks/Parallelism_with_JAX.html
 	notebooks/Writing_custom_interpreters_in_Jax Writing custom Jaxpr interpreters in JAX: notebooks/Writing_custom_interpreters_in_Jax.html
 	notebooks/autodiff_cookbook              The Autodiff Cookbook                   : notebooks/autodiff_cookbook.html
-	notebooks/convolutions                   Convolutions in JAX                     : notebooks/convolutions.html
+	notebooks/convolutions                   Generalized Convolutions in JAX         : notebooks/convolutions.html
+	notebooks/external_callbacks             External Callbacks in JAX               : notebooks/external_callbacks.html
 	notebooks/neural_network_with_tfds_data  Training a Simple Neural Network, with tensorflow/datasets Data Loading: notebooks/neural_network_with_tfds_data.html
 	notebooks/quickstart                     JAX Quickstart                          : notebooks/quickstart.html
 	notebooks/thinking_in_jax                How to Think in JAX                     : notebooks/thinking_in_jax.html
-	notebooks/vmapped_log_probs              Autobatching log-densities example      : notebooks/vmapped_log_probs.html
-	notebooks/xmap_tutorial                  Named axes and easy-to-revise parallelism: notebooks/xmap_tutorial.html
+	notebooks/vmapped_log_probs              Autobatching for Bayesian Inference     : notebooks/vmapped_log_probs.html
+	notebooks/xmap_tutorial                  Named axes and easy-to-revise parallelism with xmap: notebooks/xmap_tutorial.html
+	notes                                    Notes                                   : notes.html
 	profiling                                Profiling JAX programs                  : profiling.html
 	pytrees                                  Pytrees                                 : pytrees.html
 	rank_promotion_warning                   Rank promotion warning                  : rank_promotion_warning.html
 	transfer_guard                           Transfer guard                          : transfer_guard.html
 	type_promotion                           Type promotion semantics                : type_promotion.html
+	user_guides                              User Guides                             : user_guides.html
 std:label
+	Custom_Operation_for_GPUs.md#abstract-evaluation Abstract evaluation                     : Custom_Operation_for_GPUs.html#abstract-evaluation
+	Custom_Operation_for_GPUs.md#add-rms-normalization-to-jax-as-custom-call Add RMS normalization to JAX as custom call: Custom_Operation_for_GPUs.html#add-rms-normalization-to-jax-as-custom-call
+	Custom_Operation_for_GPUs.md#appendix    Appendix                                : Custom_Operation_for_GPUs.html#appendix
+	Custom_Operation_for_GPUs.md#build-gpu_ops-extension-module Build gpu_ops extension module          : Custom_Operation_for_GPUs.html#build-gpu-ops-extension-module
+	Custom_Operation_for_GPUs.md#create-primitives Create primitives                       : Custom_Operation_for_GPUs.html#create-primitives
+	Custom_Operation_for_GPUs.md#custom-operations-for-gpus-with-c-and-cuda Custom operations for GPUs with C++ and CUDA: Custom_Operation_for_GPUs.html#custom-operations-for-gpus-with-c-and-cuda
+	Custom_Operation_for_GPUs.md#differentiation-rule Differentiation rule                    : Custom_Operation_for_GPUs.html#differentiation-rule
+	Custom_Operation_for_GPUs.md#gpu_ops-code-listing gpu_ops code listing                    : Custom_Operation_for_GPUs.html#gpu-ops-code-listing
+	Custom_Operation_for_GPUs.md#lets-put-it-together Let's put it together                   : Custom_Operation_for_GPUs.html#let-s-put-it-together
+	Custom_Operation_for_GPUs.md#lets-test-it Let's test it                           : Custom_Operation_for_GPUs.html#let-s-test-it
+	Custom_Operation_for_GPUs.md#lets-test-it-again Let's test it again                     : Custom_Operation_for_GPUs.html#let-s-test-it-again
+	Custom_Operation_for_GPUs.md#lets-test-it-on-multiple-devices Let's test it on multiple devices       : Custom_Operation_for_GPUs.html#let-s-test-it-on-multiple-devices
+	Custom_Operation_for_GPUs.md#lowering-to-mlir-custom-call Lowering to MLIR custom call            : Custom_Operation_for_GPUs.html#lowering-to-mlir-custom-call
+	Custom_Operation_for_GPUs.md#rms-normalization RMS normalization                       : Custom_Operation_for_GPUs.html#rms-normalization
+	Custom_Operation_for_GPUs.md#test-forward-function Test forward function                   : Custom_Operation_for_GPUs.html#test-forward-function
+	Custom_Operation_for_GPUs.md#test-the-backward-function Test the backward function              : Custom_Operation_for_GPUs.html#test-the-backward-function
+	Custom_Operation_for_GPUs.md#test-the-backward-function-1 Test the backward function              : Custom_Operation_for_GPUs.html#id2
+	Custom_Operation_for_GPUs.md#test-the-forward-function Test the forward function               : Custom_Operation_for_GPUs.html#test-the-forward-function
+	Custom_Operation_for_GPUs.md#test-the-forward-function-1 Test the forward function               : Custom_Operation_for_GPUs.html#id1
+	advanced_guide                           Advanced Tutorials                      : advanced_guide.html#advanced-guide
 	aot.md#ahead-of-time-lowering-and-compilation Ahead-of-time lowering and compilation  : aot.html#ahead-of-time-lowering-and-compilation
 	aot.md#aot-compiled-functions-cannot-be-transformed AOT-compiled functions cannot be transformed: aot.html#aot-compiled-functions-cannot-be-transformed
 	aot.md#debug-information-and-analyses-when-available Debug information and analyses, when available: aot.html#debug-information-and-analyses-when-available
@@ -2264,6 +2365,7 @@ std:label
 	autodidax.ipynb#pytrees-and-flattening-user-functions-inputs-and-outputs Pytrees and flattening user functions' inputs and outputs: autodidax.html#pytrees-and-flattening-user-functions-inputs-and-outputs
 	autodidax.ipynb#vectorized-batching-with-vmap Vectorized batching with vmap           : autodidax.html#vectorized-batching-with-vmap
 	autodidax.ipynb#vjp-and-grad             vjp and grad                            : autodidax.html#vjp-and-grad
+	beginner-guide                           Getting Started with JAX                : beginner_guide.html#beginner-guide
 	ble1990                                  _autosummary/jax.lax.associative_scan.html#ble1990
 	boost                                    _autosummary/jax.scipy.special.gammaincc.html#boost
 	changelog.md#change-log                  Change log                              : changelog.html#change-log
@@ -2341,7 +2443,10 @@ std:label
 	changelog.md#jax-037-april-15-2022       jax 0.3.7 (April 15, 2022)              : changelog.html#jax-0-3-7-april-15-2022
 	changelog.md#jax-038-april-29-2022       jax 0.3.8 (April 29 2022)               : changelog.html#jax-0-3-8-april-29-2022
 	changelog.md#jax-039-may-2-2022          jax 0.3.9 (May 2, 2022)                 : changelog.html#jax-0-3-9-may-2-2022
-	changelog.md#jax-040                     jax 0.4.0                               : changelog.html#jax-0-4-0
+	changelog.md#jax-040-dec-12-2022         jax 0.4.0 (Dec 12, 2022)                : changelog.html#jax-0-4-0-dec-12-2022
+	changelog.md#jax-041-dec-13-2022         jax 0.4.1 (Dec 13, 2022)                : changelog.html#jax-0-4-1-dec-13-2022
+	changelog.md#jax-042-jan-24-2023         jax 0.4.2 (Jan 24, 2023)                : changelog.html#jax-0-4-2-jan-24-2023
+	changelog.md#jax-043                     jax 0.4.3                               : changelog.html#jax-0-4-3
 	changelog.md#jaxlib-0138-january-29-2020 jaxlib 0.1.38 (January 29, 2020)        : changelog.html#jaxlib-0-1-38-january-29-2020
 	changelog.md#jaxlib-0139-february-11-2020 jaxlib 0.1.39 (February 11, 2020)       : changelog.html#jaxlib-0-1-39-february-11-2020
 	changelog.md#jaxlib-0140-march-4-2020    jaxlib 0.1.40 (March 4, 2020)           : changelog.html#jaxlib-0-1-40-march-4-2020
@@ -2389,8 +2494,10 @@ std:label
 	changelog.md#jaxlib-0325-nov-15-2022     jaxlib 0.3.25 (Nov 15, 2022)            : changelog.html#jaxlib-0-3-25-nov-15-2022
 	changelog.md#jaxlib-035-april-7-2022     jaxlib 0.3.5 (April 7, 2022)            : changelog.html#jaxlib-0-3-5-april-7-2022
 	changelog.md#jaxlib-037-april-15-2022    jaxlib 0.3.7 (April 15, 2022)           : changelog.html#jaxlib-0-3-7-april-15-2022
-	changelog.md#jaxlib-040                  jaxlib 0.4.0                            : changelog.html#jaxlib-0-4-0
-	changelog.md#next-jax                    Next jax                                : changelog.html#next-jax
+	changelog.md#jaxlib-040-dec-12-2022      jaxlib 0.4.0 (Dec 12, 2022)             : changelog.html#jaxlib-0-4-0-dec-12-2022
+	changelog.md#jaxlib-041-dec-13-2022      jaxlib 0.4.1 (Dec 13, 2022)             : changelog.html#jaxlib-0-4-1-dec-13-2022
+	changelog.md#jaxlib-042-jan-24-2023      jaxlib 0.4.2 (Jan 24, 2023)             : changelog.html#jaxlib-0-4-2-jan-24-2023
+	changelog.md#jaxlib-043                  jaxlib 0.4.3                            : changelog.html#jaxlib-0-4-3
 	changelog.md#notable-bug-fixes           Notable bug fixes                       : changelog.html#notable-bug-fixes
 	contributing.md#contributing-code-using-pull-requests Contributing code using pull requests   : contributing.html#contributing-code-using-pull-requests
 	contributing.md#contributing-to-jax      Contributing to JAX                     : contributing.html#contributing-to-jax
@@ -2401,10 +2508,12 @@ std:label
 	contributing.md#restricted-test-suite    Restricted test suite                   : contributing.html#restricted-test-suite
 	contributing.md#single-change-commits-and-pull-requests Single-change commits and pull requests : contributing.html#single-change-commits-and-pull-requests
 	contributing.md#ways-to-contribute       Ways to contribute                      : contributing.html#ways-to-contribute
+	contributor-guide                        Developer Documentation                 : contributor_guide.html#contributor-guide
 	ct                                       _autosummary/jax.numpy.fft.fft.html#ct
 	debugging/checkify_guide.md#checkify-under-jax-transformations checkify under JAX transformations.     : debugging/checkify_guide.html#checkify-under-jax-transformations
 	debugging/checkify_guide.md#functionalizing-checks Functionalizing checks                  : debugging/checkify_guide.html#functionalizing-checks
 	debugging/checkify_guide.md#grad         grad                                    : debugging/checkify_guide.html#grad
+	debugging/checkify_guide.md#jit          jit                                     : debugging/checkify_guide.html#jit
 	debugging/checkify_guide.md#limitations  Limitations                             : debugging/checkify_guide.html#limitations
 	debugging/checkify_guide.md#pjit         pjit                                    : debugging/checkify_guide.html#pjit
 	debugging/checkify_guide.md#strengths    Strengths                               : debugging/checkify_guide.html#strengths
@@ -2436,23 +2545,19 @@ std:label
 	debugging/print_breakpoint.md#usage      Usage                                   : debugging/print_breakpoint.html#usage
 	debugging/print_breakpoint.md#why-debug-print Why "debug" print?                      : debugging/print_breakpoint.html#why-debug-print
 	deprecation.md#python-and-numpy-version-support-policy Python and NumPy version support policy : deprecation.html#python-and-numpy-version-support-policy
+	developer.md#additional-notes-for-building-a-rocm-jaxlib-for-amd-gpus Additional notes for building a ROCM jaxlib for AMD GPUs: developer.html#additional-notes-for-building-a-rocm-jaxlib-for-amd-gpus
 	developer.md#additional-notes-for-building-jaxlib-from-source-on-windows Additional Notes for Building jaxlib from source on Windows: developer.html#additional-notes-for-building-jaxlib-from-source-on-windows
 	developer.md#building-from-source        Building from source                    : developer.html#building-from-source
 	developer.md#building-jaxlib-from-source Building jaxlib from source             : developer.html#building-jaxlib-from-source
 	developer.md#building-jaxlib-from-source-with-a-modified-tensorflow-repository Building jaxlib from source with a modified TensorFlow repository.: developer.html#building-jaxlib-from-source-with-a-modified-tensorflow-repository
 	developer.md#building-or-installing-jaxlib Building or installing jaxlib           : developer.html#building-or-installing-jaxlib
 	developer.md#controlling-test-behavior   Controlling test behavior               : developer.html#controlling-test-behavior
-	developer.md#creating-new-notebooks      Creating new notebooks                  : developer.html#creating-new-notebooks
 	developer.md#doctests                    Doctests                                : developer.html#doctests
 	developer.md#documentation-building-on-readthedocsio Documentation building on readthedocs.io: developer.html#documentation-building-on-readthedocs-io
-	developer.md#editing-ipynb               Editing ipynb                           : developer.html#editing-ipynb
-	developer.md#editing-md                  Editing md                              : developer.html#editing-md
 	developer.md#installing-jax              Installing jax                          : developer.html#installing-jax
 	developer.md#installing-jaxlib-with-pip  Installing jaxlib with pip              : developer.html#installing-jaxlib-with-pip
 	developer.md#linting                     Linting                                 : developer.html#linting
-	developer.md#notebooks-within-the-sphinx-build Notebooks within the sphinx build       : developer.html#notebooks-within-the-sphinx-build
 	developer.md#running-the-tests           Running the tests                       : developer.html#running-the-tests
-	developer.md#syncing-notebooks           Syncing notebooks                       : developer.html#syncing-notebooks
 	developer.md#type-checking               Type checking                           : developer.html#type-checking
 	developer.md#update-documentation        Update documentation                    : developer.html#update-documentation
 	developer.md#update-notebooks            Update notebooks                        : developer.html#id1
@@ -2474,6 +2579,7 @@ std:label
 	faq-slow-compile                         jit decorated function is very slow to compile: faq.html#faq-slow-compile
 	genindex                                 Index                                   : genindex.html
 	jacobian-vector-product                  Jacobian-Vector products (JVPs, aka forward-mode autodiff): notebooks/autodiff_cookbook.html#jacobian-vector-product
+	jax-101                                  Tutorial: JAX 101                       : jax-101/index.html#jax-101
 	jax-101/01-jax-basics.ipynb#auxiliary-data Auxiliary data                          : jax-101/01-jax-basics.html#auxiliary-data
 	jax-101/01-jax-basics.ipynb#differences-from-numpy Differences from NumPy                  : jax-101/01-jax-basics.html#differences-from-numpy
 	jax-101/01-jax-basics.ipynb#getting-started-with-jax-numpy Getting started with JAX numpy          : jax-101/01-jax-basics.html#getting-started-with-jax-numpy
@@ -2526,27 +2632,6 @@ std:label
 	jax-101/07-state.ipynb#stateful-computations-in-jax Stateful Computations in JAX            : jax-101/07-state.html#stateful-computations-in-jax
 	jax-101/07-state.ipynb#taking-it-further Taking it further                       : jax-101/07-state.html#taking-it-further
 	jax-101/07-state.ipynb#the-solution-explicit-state The solution: explicit state            : jax-101/07-state.html#the-solution-explicit-state
-	jax-101/08-pjit.md#--partitionspecnone-x - PartitionSpec(None, 'x')              : jax-101/08-pjit.html#partitionspec-none-x
-	jax-101/08-pjit.md#--partitionspecnone-y - PartitionSpec(None, 'y')              : jax-101/08-pjit.html#partitionspec-none-y
-	jax-101/08-pjit.md#--partitionspecx-none - PartitionSpec('x', None)              : jax-101/08-pjit.html#partitionspec-x-none
-	jax-101/08-pjit.md#--partitionspecx-y-none - PartitionSpec((“x”, “y”), None)       : jax-101/08-pjit.html#partitionspec-x-y-none
-	jax-101/08-pjit.md#--partitionspecy-none - PartitionSpec('y', None)              : jax-101/08-pjit.html#partitionspec-y-none
-	jax-101/08-pjit.md#background            Background                              : jax-101/08-pjit.html#background
-	jax-101/08-pjit.md#how-it-works          How it works:                           : jax-101/08-pjit.html#how-it-works
-	jax-101/08-pjit.md#in_axis_resources--out_axis_resources in_axis_resources & out_axis_resources  : jax-101/08-pjit.html#in-axis-resources-out-axis-resources
-	jax-101/08-pjit.md#in_axis_resources--out_axis_resources-1 in_axis_resources & out_axis_resources  : jax-101/08-pjit.html#id4
-	jax-101/08-pjit.md#input-data            Input Data                              : jax-101/08-pjit.html#input-data
-	jax-101/08-pjit.md#input-data-1          Input data                              : jax-101/08-pjit.html#id3
-	jax-101/08-pjit.md#introduction-to-pjit  Introduction to pjit                    : jax-101/08-pjit.html#introduction-to-pjit
-	jax-101/08-pjit.md#mesh                  Mesh                                    : jax-101/08-pjit.html#mesh
-	jax-101/08-pjit.md#mesh-1                Mesh                                    : jax-101/08-pjit.html#id2
-	jax-101/08-pjit.md#more-information-on-partitionspec More information on PartitionSpec:      : jax-101/08-pjit.html#more-information-on-partitionspec
-	jax-101/08-pjit.md#multiple-host-example Multiple Host Example                   : jax-101/08-pjit.html#multiple-host-example
-	jax-101/08-pjit.md#putting-everything-together Putting everything together             : jax-101/08-pjit.html#putting-everything-together
-	jax-101/08-pjit.md#putting-everything-together-1 Putting everything together             : jax-101/08-pjit.html#id5
-	jax-101/08-pjit.md#setup                 Setup                                   : jax-101/08-pjit.html#setup
-	jax-101/08-pjit.md#setup-1               Setup                                   : jax-101/08-pjit.html#id1
-	jax-101/08-pjit.md#single-host-example   Single Host Example                     : jax-101/08-pjit.html#single-host-example
 	jax-array-migration                      jax.Array migration                     : jax_array_migration.html#jax-array-migration
 	jax-errors                               JAX Errors                              : errors.html#jax-errors
 	jax-grad                                 Automatic differentiation               : jax.html#jax-grad
@@ -2681,6 +2766,7 @@ std:label
 	multiple_installs                        Multiple TensorBoard installs           : profiling.html#multiple-installs
 	notebooks/Common_Gotchas_in_JAX.ipynb#-control-flow 🔪 Control Flow                          : notebooks/Common_Gotchas_in_JAX.html#control-flow
 	notebooks/Common_Gotchas_in_JAX.ipynb#-double-64bit-precision 🔪 Double (64bit) precision              : notebooks/Common_Gotchas_in_JAX.html#double-64bit-precision
+	notebooks/Common_Gotchas_in_JAX.ipynb#-dynamic-shapes 🔪 Dynamic Shapes                        : notebooks/Common_Gotchas_in_JAX.html#dynamic-shapes
 	notebooks/Common_Gotchas_in_JAX.ipynb#-in-place-updates 🔪 In-Place Updates                      : notebooks/Common_Gotchas_in_JAX.html#in-place-updates
 	notebooks/Common_Gotchas_in_JAX.ipynb#-jax---the-sharp-bits- 🔪 JAX - The Sharp Bits 🔪                : notebooks/Common_Gotchas_in_JAX.html#jax-the-sharp-bits
 	notebooks/Common_Gotchas_in_JAX.ipynb#-miscellaneous-divergences-from-numpy 🔪 Miscellaneous Divergences from NumPy  : notebooks/Common_Gotchas_in_JAX.html#miscellaneous-divergences-from-numpy
@@ -2715,6 +2801,19 @@ std:label
 	notebooks/Custom_derivative_rules_for_Python_code.ipynb#use-jaxcustom_jvp-to-define-forward-mode-and-indirectly-reverse-mode-rules Use jax.custom_jvp to define forward-mode (and, indirectly, reverse-mode) rules: notebooks/Custom_derivative_rules_for_Python_code.html#use-jax-custom-jvp-to-define-forward-mode-and-indirectly-reverse-mode-rules
 	notebooks/Custom_derivative_rules_for_Python_code.ipynb#use-jaxcustom_vjp-to-define-custom-reverse-mode-only-rules Use jax.custom_vjp to define custom reverse-mode-only rules: notebooks/Custom_derivative_rules_for_Python_code.html#use-jax-custom-vjp-to-define-custom-reverse-mode-only-rules
 	notebooks/Custom_derivative_rules_for_Python_code.ipynb#working-with-list--tuple--dict-containers-and-other-pytrees Working with list / tuple / dict containers (and other pytrees): notebooks/Custom_derivative_rules_for_Python_code.html#working-with-list-tuple-dict-containers-and-other-pytrees
+	notebooks/Distributed_arrays_and_automatic_parallelization.ipynb#4-way-batch-data-parallelism-and-2-way-model-tensor-parallelism 4-way batch data parallelism and 2-way model tensor parallelism: notebooks/Distributed_arrays_and_automatic_parallelization.html#way-batch-data-parallelism-and-2-way-model-tensor-parallelism
+	notebooks/Distributed_arrays_and_automatic_parallelization.ipynb#8-way-batch-data-parallelism 8-way batch data parallelism            : notebooks/Distributed_arrays_and_automatic_parallelization.html#way-batch-data-parallelism
+	notebooks/Distributed_arrays_and_automatic_parallelization.ipynb#computation-follows-data-sharding-and-is-automatically-parallelized Computation follows data sharding and is automatically parallelized: notebooks/Distributed_arrays_and_automatic_parallelization.html#computation-follows-data-sharding-and-is-automatically-parallelized
+	notebooks/Distributed_arrays_and_automatic_parallelization.ipynb#constraining-shardings-of-intermediates-in-jitted-code Constraining shardings of intermediates in jitted code: notebooks/Distributed_arrays_and_automatic_parallelization.html#constraining-shardings-of-intermediates-in-jitted-code
+	notebooks/Distributed_arrays_and_automatic_parallelization.ipynb#distributed-arrays-and-automatic-parallelization Distributed arrays and automatic parallelization: notebooks/Distributed_arrays_and_automatic_parallelization.html#distributed-arrays-and-automatic-parallelization
+	notebooks/Distributed_arrays_and_automatic_parallelization.ipynb#examples-neural-networks Examples: neural networks               : notebooks/Distributed_arrays_and_automatic_parallelization.html#examples-neural-networks
+	notebooks/Distributed_arrays_and_automatic_parallelization.ipynb#generating-random-numbers Generating random numbers               : notebooks/Distributed_arrays_and_automatic_parallelization.html#generating-random-numbers
+	notebooks/Distributed_arrays_and_automatic_parallelization.ipynb#intro-and-a-quick-example Intro and a quick example               : notebooks/Distributed_arrays_and_automatic_parallelization.html#intro-and-a-quick-example
+	notebooks/Distributed_arrays_and_automatic_parallelization.ipynb#namedsharding-gives-a-way-to-express-shardings-with-names NamedSharding gives a way to express shardings with names: notebooks/Distributed_arrays_and_automatic_parallelization.html#namedsharding-gives-a-way-to-express-shardings-with-names
+	notebooks/Distributed_arrays_and_automatic_parallelization.ipynb#sharding-basics-and-the-positionalsharding-subclass Sharding basics, and the PositionalSharding subclass: notebooks/Distributed_arrays_and_automatic_parallelization.html#sharding-basics-and-the-positionalsharding-subclass
+	notebooks/Distributed_arrays_and_automatic_parallelization.ipynb#sharding-describes-how-array-values-are-laid-out-in-memory-across-devices Sharding describes how array values are laid out in memory across devices: notebooks/Distributed_arrays_and_automatic_parallelization.html#sharding-describes-how-array-values-are-laid-out-in-memory-across-devices
+	notebooks/Distributed_arrays_and_automatic_parallelization.ipynb#sharp-bits Sharp bits                              : notebooks/Distributed_arrays_and_automatic_parallelization.html#sharp-bits
+	notebooks/Distributed_arrays_and_automatic_parallelization.ipynb#when-explicit-shardings-disagree-jax-errors When explicit shardings disagree, JAX errors: notebooks/Distributed_arrays_and_automatic_parallelization.html#when-explicit-shardings-disagree-jax-errors
 	notebooks/How_JAX_primitives_work.ipynb#batching Batching                                : notebooks/How_JAX_primitives_work.html#batching
 	notebooks/How_JAX_primitives_work.ipynb#defining-new-jax-primitives Defining new JAX primitives             : notebooks/How_JAX_primitives_work.html#defining-new-jax-primitives
 	notebooks/How_JAX_primitives_work.ipynb#forward-differentiation Forward differentiation                 : notebooks/How_JAX_primitives_work.html#forward-differentiation
@@ -2729,18 +2828,6 @@ std:label
 	notebooks/Neural_Network_and_Data_Loading.ipynb#training-a-simple-neural-network-with-pytorch-data-loading Training a Simple Neural Network, with PyTorch Data Loading: notebooks/Neural_Network_and_Data_Loading.html#training-a-simple-neural-network-with-pytorch-data-loading
 	notebooks/Neural_Network_and_Data_Loading.ipynb#training-loop Training Loop                           : notebooks/Neural_Network_and_Data_Loading.html#training-loop
 	notebooks/Neural_Network_and_Data_Loading.ipynb#utility-and-loss-functions Utility and loss functions              : notebooks/Neural_Network_and_Data_Loading.html#utility-and-loss-functions
-	notebooks/Parallelism_with_JAX.ipynb#4-way-batch-data-parallelism-and-2-way-model-tensor-parallelism 4-way batch data parallelism and 2-way model tensor parallelism: notebooks/Parallelism_with_JAX.html#way-batch-data-parallelism-and-2-way-model-tensor-parallelism
-	notebooks/Parallelism_with_JAX.ipynb#8-way-batch-data-parallelism 8-way batch data parallelism            : notebooks/Parallelism_with_JAX.html#way-batch-data-parallelism
-	notebooks/Parallelism_with_JAX.ipynb#computation-follows-data-sharding-and-is-automatically-parallelized Computation follows data sharding and is automatically parallelized: notebooks/Parallelism_with_JAX.html#computation-follows-data-sharding-and-is-automatically-parallelized
-	notebooks/Parallelism_with_JAX.ipynb#constraining-shardings-of-intermediates-in-jitted-code Constraining shardings of intermediates in jitted code: notebooks/Parallelism_with_JAX.html#constraining-shardings-of-intermediates-in-jitted-code
-	notebooks/Parallelism_with_JAX.ipynb#examples-neural-networks Examples: neural networks               : notebooks/Parallelism_with_JAX.html#examples-neural-networks
-	notebooks/Parallelism_with_JAX.ipynb#generating-random-numbers Generating random numbers               : notebooks/Parallelism_with_JAX.html#generating-random-numbers
-	notebooks/Parallelism_with_JAX.ipynb#namedsharding-gives-a-way-to-express-shardings-with-names NamedSharding gives a way to express shardings with names: notebooks/Parallelism_with_JAX.html#namedsharding-gives-a-way-to-express-shardings-with-names
-	notebooks/Parallelism_with_JAX.ipynb#parallelism-with-jax Parallelism with JAX                    : notebooks/Parallelism_with_JAX.html#parallelism-with-jax
-	notebooks/Parallelism_with_JAX.ipynb#sharding-basics-and-the-positionalsharding-subclass Sharding basics, and the PositionalSharding subclass: notebooks/Parallelism_with_JAX.html#sharding-basics-and-the-positionalsharding-subclass
-	notebooks/Parallelism_with_JAX.ipynb#sharding-describes-how-array-values-are-laid-out-in-memory-across-devices Sharding describes how array values are laid out in memory across devices: notebooks/Parallelism_with_JAX.html#sharding-describes-how-array-values-are-laid-out-in-memory-across-devices
-	notebooks/Parallelism_with_JAX.ipynb#sharp-bits Sharp bits                              : notebooks/Parallelism_with_JAX.html#sharp-bits
-	notebooks/Parallelism_with_JAX.ipynb#when-explicit-shardings-disagree-jax-errors When explicit shardings disagree, JAX errors: notebooks/Parallelism_with_JAX.html#when-explicit-shardings-disagree-jax-errors
 	notebooks/Writing_custom_interpreters_in_Jax.ipynb#1-tracing-a-function 1. Tracing a function                   : notebooks/Writing_custom_interpreters_in_Jax.html#tracing-a-function
 	notebooks/Writing_custom_interpreters_in_Jax.ipynb#2-evaluating-a-jaxpr 2. Evaluating a Jaxpr                   : notebooks/Writing_custom_interpreters_in_Jax.html#evaluating-a-jaxpr
 	notebooks/Writing_custom_interpreters_in_Jax.ipynb#custom-inverse-jaxpr-interpreter Custom inverse Jaxpr interpreter        : notebooks/Writing_custom_interpreters_in_Jax.html#custom-inverse-jaxpr-interpreter
@@ -2772,10 +2859,12 @@ std:label
 	notebooks/convolutions.ipynb#3d-convolutions 3D Convolutions                         : notebooks/convolutions.html#id1
 	notebooks/convolutions.ipynb#basic-n-dimensional-convolution Basic N-dimensional Convolution         : notebooks/convolutions.html#basic-n-dimensional-convolution
 	notebooks/convolutions.ipynb#basic-one-dimensional-convolution Basic One-dimensional Convolution       : notebooks/convolutions.html#basic-one-dimensional-convolution
-	notebooks/convolutions.ipynb#convolutions-in-jax Convolutions in JAX                     : notebooks/convolutions.html#convolutions-in-jax
 	notebooks/convolutions.ipynb#dimension-numbers-define-dimensional-layout-for-conv_general_dilated Dimension Numbers define dimensional layout for conv_general_dilated: notebooks/convolutions.html#dimension-numbers-define-dimensional-layout-for-conv-general-dilated
 	notebooks/convolutions.ipynb#general-convolutions General Convolutions                    : notebooks/convolutions.html#general-convolutions
+	notebooks/convolutions.ipynb#generalized-convolutions-in-jax Generalized Convolutions in JAX         : notebooks/convolutions.html#generalized-convolutions-in-jax
 	notebooks/convolutions.ipynb#laxconv-and-laxconv_with_general_padding lax.conv and lax.conv_with_general_padding: notebooks/convolutions.html#lax-conv-and-lax-conv-with-general-padding
+	notebooks/external_callbacks.ipynb#example-pure_callback-with-custom_jvp Example: pure_callback with custom_jvp  : notebooks/external_callbacks.html#example-pure-callback-with-custom-jvp
+	notebooks/external_callbacks.ipynb#external-callbacks-in-jax External Callbacks in JAX               : notebooks/external_callbacks.html#external-callbacks-in-jax
 	notebooks/neural_network_with_tfds_data.ipynb#auto-batching-predictions Auto-batching predictions               : notebooks/neural_network_with_tfds_data.html#auto-batching-predictions
 	notebooks/neural_network_with_tfds_data.ipynb#data-loading-with-tensorflowdatasets Data Loading with tensorflow/datasets   : notebooks/neural_network_with_tfds_data.html#data-loading-with-tensorflow-datasets
 	notebooks/neural_network_with_tfds_data.ipynb#hyperparameters Hyperparameters                         : notebooks/neural_network_with_tfds_data.html#hyperparameters
@@ -2794,7 +2883,7 @@ std:label
 	notebooks/thinking_in_jax.ipynb#static-vs-traced-operations Static vs Traced Operations             : notebooks/thinking_in_jax.html#static-vs-traced-operations
 	notebooks/thinking_in_jax.ipynb#to-jit-or-not-to-jit To JIT or not to JIT                    : notebooks/thinking_in_jax.html#to-jit-or-not-to-jit
 	notebooks/vmapped_log_probs.ipynb#autobatched-with-vmap Autobatched with vmap                   : notebooks/vmapped_log_probs.html#autobatched-with-vmap
-	notebooks/vmapped_log_probs.ipynb#autobatching-log-densities-example Autobatching log-densities example      : notebooks/vmapped_log_probs.html#autobatching-log-densities-example
+	notebooks/vmapped_log_probs.ipynb#autobatching-for-bayesian-inference Autobatching for Bayesian Inference     : notebooks/vmapped_log_probs.html#autobatching-for-bayesian-inference
 	notebooks/vmapped_log_probs.ipynb#define-the-elbo-and-its-gradient Define the ELBO and its gradient        : notebooks/vmapped_log_probs.html#define-the-elbo-and-its-gradient
 	notebooks/vmapped_log_probs.ipynb#display-the-results Display the results                     : notebooks/vmapped_log_probs.html#display-the-results
 	notebooks/vmapped_log_probs.ipynb#generate-a-fake-binary-classification-dataset Generate a fake binary classification dataset: notebooks/vmapped_log_probs.html#generate-a-fake-binary-classification-dataset
@@ -2812,7 +2901,7 @@ std:label
 	notebooks/xmap_tutorial.ipynb#interactions-with-positional-axes Interactions with positional axes       : notebooks/xmap_tutorial.html#interactions-with-positional-axes
 	notebooks/xmap_tutorial.ipynb#introducing-and-eliminating-named-axes Introducing and eliminating named axes  : notebooks/xmap_tutorial.html#introducing-and-eliminating-named-axes
 	notebooks/xmap_tutorial.ipynb#is-my-data-replicated-or-partitioned-where-is-it Is my data replicated? Or partitioned? Where is it?: notebooks/xmap_tutorial.html#is-my-data-replicated-or-partitioned-where-is-it
-	notebooks/xmap_tutorial.ipynb#named-axes-and-easy-to-revise-parallelism Named axes and easy-to-revise parallelism: notebooks/xmap_tutorial.html#named-axes-and-easy-to-revise-parallelism
+	notebooks/xmap_tutorial.ipynb#named-axes-and-easy-to-revise-parallelism-with-xmap Named axes and easy-to-revise parallelism with xmap: notebooks/xmap_tutorial.html#named-axes-and-easy-to-revise-parallelism-with-xmap
 	notebooks/xmap_tutorial.ipynb#named-axis-propagation Named axis propagation                  : notebooks/xmap_tutorial.html#named-axis-propagation
 	notebooks/xmap_tutorial.ipynb#parallelism-support Parallelism support                     : notebooks/xmap_tutorial.html#parallelism-support
 	notebooks/xmap_tutorial.ipynb#porting-positional-code-to-named-code Porting positional code to named code   : notebooks/xmap_tutorial.html#porting-positional-code-to-named-code
@@ -2820,6 +2909,7 @@ std:label
 	notebooks/xmap_tutorial.ipynb#reductions Reductions                              : notebooks/xmap_tutorial.html#reductions
 	notebooks/xmap_tutorial.ipynb#tensors-with-named-axes Tensors with named axes                 : notebooks/xmap_tutorial.html#tensors-with-named-axes
 	notebooks/xmap_tutorial.ipynb#why-axis_resources-and-not-a-more-direct-mapping-to-hardware Why axis_resources and not a more direct mapping to hardware?: notebooks/xmap_tutorial.html#why-axis-resources-and-not-a-more-direct-mapping-to-hardware
+	notes                                    Notes                                   : notes.html#notes
 	pr-checklist                             JAX pull request checklist              : contributing.html#pr-checklist
 	profiling.md#adding-custom-trace-events  Adding custom trace events              : profiling.html#adding-custom-trace-events
 	profiling.md#installation                Installation                            : profiling.html#installation
@@ -2850,6 +2940,7 @@ std:label
 	type-promotion                           Type promotion semantics                : type_promotion.html#type-promotion
 	understanding-jaxprs                     Understanding Jaxprs                    : jaxpr.html#understanding-jaxprs
 	update-notebooks                         Update notebooks                        : developer.html#update-notebooks
+	user-guides                              User Guides                             : user_guides.html#user-guides
 	vector-jacobian-product                  Vector-Jacobian products (VJPs, aka reverse-mode autodiff): notebooks/autodiff_cookbook.html#vector-jacobian-product
 	version-support-policy                   Python and NumPy version support policy : deprecation.html#version-support-policy
 	weak-types                               Weakly-typed values in JAX              : type_promotion.html#weak-types

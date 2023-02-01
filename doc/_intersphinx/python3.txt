@@ -2863,6 +2863,10 @@ c:member
 	PyMappingMethods.mp_ass_subscript        c-api/typeobj.html#c.PyMappingMethods.mp_ass_subscript
 	PyMappingMethods.mp_length               c-api/typeobj.html#c.PyMappingMethods.mp_length
 	PyMappingMethods.mp_subscript            c-api/typeobj.html#c.PyMappingMethods.mp_subscript
+	PyMethodDef.ml_doc                       c-api/structures.html#c.PyMethodDef.ml_doc
+	PyMethodDef.ml_flags                     c-api/structures.html#c.PyMethodDef.ml_flags
+	PyMethodDef.ml_meth                      c-api/structures.html#c.PyMethodDef.ml_meth
+	PyMethodDef.ml_name                      c-api/structures.html#c.PyMethodDef.ml_name
 	PyMethod_Type                            c-api/method.html#c.PyMethod_Type
 	PyModuleDef.m_base                       c-api/module.html#c.PyModuleDef.m_base
 	PyModuleDef.m_clear                      c-api/module.html#c.PyModuleDef.m_clear
@@ -3747,6 +3751,16 @@ py:attribute
 	ossaudiodev.oss_audio_device.closed      library/ossaudiodev.html#ossaudiodev.oss_audio_device.closed
 	ossaudiodev.oss_audio_device.mode        library/ossaudiodev.html#ossaudiodev.oss_audio_device.mode
 	ossaudiodev.oss_audio_device.name        library/ossaudiodev.html#ossaudiodev.oss_audio_device.name
+	pathlib.PurePath.anchor                  library/pathlib.html#pathlib.PurePath.anchor
+	pathlib.PurePath.drive                   library/pathlib.html#pathlib.PurePath.drive
+	pathlib.PurePath.name                    library/pathlib.html#pathlib.PurePath.name
+	pathlib.PurePath.parent                  library/pathlib.html#pathlib.PurePath.parent
+	pathlib.PurePath.parents                 library/pathlib.html#pathlib.PurePath.parents
+	pathlib.PurePath.parts                   library/pathlib.html#pathlib.PurePath.parts
+	pathlib.PurePath.root                    library/pathlib.html#pathlib.PurePath.root
+	pathlib.PurePath.stem                    library/pathlib.html#pathlib.PurePath.stem
+	pathlib.PurePath.suffix                  library/pathlib.html#pathlib.PurePath.suffix
+	pathlib.PurePath.suffixes                library/pathlib.html#pathlib.PurePath.suffixes
 	pickle.Pickler.dispatch_table            library/pickle.html#pickle.Pickler.dispatch_table
 	pickle.Pickler.fast                      library/pickle.html#pickle.Pickler.fast
 	py_compile.PycInvalidationMode.CHECKED_HASH library/py_compile.html#py_compile.PycInvalidationMode.CHECKED_HASH
@@ -5710,16 +5724,6 @@ py:data
 	os.supports_fd                           library/os.html#os.supports_fd
 	os.supports_follow_symlinks              library/os.html#os.supports_follow_symlinks
 	os.sysconf_names                         library/os.html#os.sysconf_names
-	pathlib.PurePath.anchor                  library/pathlib.html#pathlib.PurePath.anchor
-	pathlib.PurePath.drive                   library/pathlib.html#pathlib.PurePath.drive
-	pathlib.PurePath.name                    library/pathlib.html#pathlib.PurePath.name
-	pathlib.PurePath.parent                  library/pathlib.html#pathlib.PurePath.parent
-	pathlib.PurePath.parents                 library/pathlib.html#pathlib.PurePath.parents
-	pathlib.PurePath.parts                   library/pathlib.html#pathlib.PurePath.parts
-	pathlib.PurePath.root                    library/pathlib.html#pathlib.PurePath.root
-	pathlib.PurePath.stem                    library/pathlib.html#pathlib.PurePath.stem
-	pathlib.PurePath.suffix                  library/pathlib.html#pathlib.PurePath.suffix
-	pathlib.PurePath.suffixes                library/pathlib.html#pathlib.PurePath.suffixes
 	pickle.DEFAULT_PROTOCOL                  library/pickle.html#pickle.DEFAULT_PROTOCOL
 	pickle.HIGHEST_PROTOCOL                  library/pickle.html#pickle.HIGHEST_PROTOCOL
 	plistlib.FMT_BINARY                      library/plistlib.html#plistlib.FMT_BINARY
@@ -13499,7 +13503,7 @@ std:label
 	bpo-36817-whatsnew                       f-strings support = for self-documenting expressions and debugging: whatsnew/3.8.html#bpo-36817-whatsnew
 	break                                    The break statement                     : reference/simple_stmts.html#break
 	browser-controllers                      Browser Controller Objects              : library/webbrowser.html#browser-controllers
-	bsd0                                     ZERO-CLAUSE BSD LICENSE FOR CODE IN THE PYTHON 3.11.0 DOCUMENTATION: license.html#bsd0
+	bsd0                                     ZERO-CLAUSE BSD LICENSE FOR CODE IN THE PYTHON 3.11.1 DOCUMENTATION: license.html#bsd0
 	buffer-request-types                     Buffer request types                    : c-api/buffer.html#buffer-request-types
 	buffer-structs                           Buffer Object Structures                : c-api/typeobj.html#buffer-structs
 	buffer-structure                         Buffer structure                        : c-api/buffer.html#buffer-structure
@@ -13522,6 +13526,7 @@ std:label
 	bytesobjects                             Bytes Objects                           : c-api/bytes.html#bytesobjects
 	bz2-usage-examples                       Examples of usage                       : library/bz2.html#bz2-usage-examples
 	c-api-index                              Python/C API Reference Manual           : c-api/index.html#c-api-index
+	c-arg-borrowed-buffer                    c-api/arg.html#c-arg-borrowed-buffer
 	c-preinit                                Preinitialize Python with PyPreConfig   : c-api/init_config.html#c-preinit
 	c-wrapper-software                       Writing C is hard; are there any alternatives?: faq/extending.html#c-wrapper-software
 	c99                                      library/sys.html#c99
@@ -13854,7 +13859,9 @@ std:label
 	faq-index                                Python Frequently Asked Questions       : faq/index.html#faq-index
 	faq-multidimensional-list                How do I create a multidimensional list?: faq/programming.html#faq-multidimensional-list
 	faq-positional-only-arguments            What does the slash(/) in the parameter list of a function mean?: faq/programming.html#faq-positional-only-arguments
+	faq-programming-raw-string-backslash     Can I end a raw string with an odd number of backslashes?: faq/programming.html#faq-programming-raw-string-backslash
 	faq-run-program-under-windows            How do I run a Python program under Windows?: faq/windows.html#faq-run-program-under-windows
+	faq-unboundlocalerror                    Why am I getting an UnboundLocalError when the variable has a value?: faq/programming.html#faq-unboundlocalerror
 	fault-objects                            Fault Objects                           : library/xmlrpc.client.html#fault-objects
 	faulthandler-fd                          Issue with file descriptors             : library/faulthandler.html#faulthandler-fd
 	fd_inheritance                           Inheritance of File Descriptors         : library/os.html#fd-inheritance
@@ -13935,6 +13942,7 @@ std:label
 	handle-object                            Registry Handle Objects                 : library/winreg.html#handle-object
 	handler                                  Handler Objects                         : library/logging.html#handler
 	handler-basic                            Handlers                                : howto/logging.html#handler-basic
+	handler-config-dict-order                Handler configuration order             : library/logging.config.html#handler-config-dict-order
 	handlers-and-exceptions                  Note on Signal Handlers and Exceptions  : library/signal.html#handlers-and-exceptions
 	hash-algorithms                          Hash algorithms                         : library/hashlib.html#hash-algorithms
 	hashlib-usedforsecurity                  library/hashlib.html#hashlib-usedforsecurity
@@ -14068,6 +14076,7 @@ std:label
 	lambdas                                  Lambdas                                 : reference/expressions.html#lambdas
 	language                                 Python Language Services                : library/language.html#language
 	launcher                                 Python Launcher for Windows             : using/windows.html#launcher
+	launcher-ini                             Customization via INI files             : using/windows.html#launcher-ini
 	layout                                   Layouts                                 : library/tkinter.ttk.html#layouts
 	legacy-unit-tests                        Re-using old test code                  : library/unittest.html#legacy-unit-tests
 	levels                                   Logging Levels                          : library/logging.html#levels
@@ -14397,7 +14406,7 @@ std:label
 	proxy-basic-auth-handler                 ProxyBasicAuthHandler Objects           : library/urllib.request.html#proxy-basic-auth-handler
 	proxy-digest-auth-handler                ProxyDigestAuthHandler Objects          : library/urllib.request.html#proxy-digest-auth-handler
 	proxy-handler                            ProxyHandler Objects                    : library/urllib.request.html#proxy-handler
-	psf-license                              PSF LICENSE AGREEMENT FOR PYTHON 3.11.0 : license.html#psf-license
+	psf-license                              PSF LICENSE AGREEMENT FOR PYTHON 3.11.1 : license.html#psf-license
 	publishing-python-packages               Reading the Python Packaging User Guide : distributing/index.html#publishing-python-packages
 	pure-embedding                           Pure Embedding                          : extending/embedding.html#pure-embedding
 	pure-mod                                 Pure Python distribution (by module)    : distutils/examples.html#pure-mod
@@ -15388,10 +15397,13 @@ std:token
 	doctest:directive_option_name            library/doctest.html#grammar-token-doctest-directive_option_name
 	doctest:directive_options                library/doctest.html#grammar-token-doctest-directive_options
 	doctest:on_or_off                        library/doctest.html#grammar-token-doctest-on_or_off
+	float:digitpart                          library/functions.html#grammar-token-float-digitpart
+	float:exponent                           library/functions.html#grammar-token-float-exponent
+	float:floatnumber                        library/functions.html#grammar-token-float-floatnumber
+	float:floatvalue                         library/functions.html#grammar-token-float-floatvalue
 	float:infinity                           library/functions.html#grammar-token-float-infinity
 	float:nan                                library/functions.html#grammar-token-float-nan
-	float:numeric_string                     library/functions.html#grammar-token-float-numeric_string
-	float:numeric_value                      library/functions.html#grammar-token-float-numeric_value
+	float:number                             library/functions.html#grammar-token-float-number
 	float:sign                               library/functions.html#grammar-token-float-sign
 	format-spec:align                        library/string.html#grammar-token-format-spec-align
 	format-spec:fill                         library/string.html#grammar-token-format-spec-fill
