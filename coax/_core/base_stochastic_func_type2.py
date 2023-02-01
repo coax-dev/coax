@@ -22,9 +22,9 @@ class StochasticFuncType2Mixin:
 
     An mix-in class for stochastic functions that take *only states* as input:
 
-    - Policy
-    - StochasticV
-    - StateDensity
+    * Policy
+    * StochasticV
+    * StateDensity
 
     """
     def __call__(self, s, return_logp=False):
@@ -116,9 +116,9 @@ class BaseStochasticFuncType2(BaseFunc, StochasticFuncType2Mixin):
 
     An abstract base class for stochastic function that take *only states* as input:
 
-    - Policy
-    - StochasticV
-    - StateDensity
+    * Policy
+    * StochasticV
+    * StateDensity
 
     """
     def __init__(

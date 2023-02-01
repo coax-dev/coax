@@ -21,9 +21,9 @@ class BaseStochasticFuncType1(BaseFunc):
 
     An abstract base class for stochastic functions that take *state-action pairs* as input:
 
-    - StochasticQ
-    - StochasticTransitionModel
-    - StochasticRewardFunction
+    * StochasticQ
+    * StochasticTransitionModel
+    * StochasticRewardFunction
 
     """
     def __init__(
